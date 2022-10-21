@@ -94,6 +94,17 @@ class TranslationController {
     }
   }
 
+  getBibleSelectBlock(tabIndex) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+
+    if (currentVerseListMenu != null) {
+      var bibleSelectBlock = currentVerseListMenu.find('.bible-select-block');
+      return bibleSelectBlock;
+    } else {
+      return null;
+    }
+  }
+
   async addLanguageGroupsToBibleSelectMenu(tabIndex, localModules=undefined) {
     var bibleSelect = this.getBibleSelect(tabIndex);
     if (bibleSelect == null) {
@@ -112,12 +123,19 @@ class TranslationController {
 
   updateUiBasedOnNumberOfTranslations(tabIndex, count) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    if (bibleSelect == null) {
+    var bibleSelectBlock = this.getBibleSelectBlock(tabIndex);
+
+    if (bibleSelect == null || bibleSelectBlock == null) {
       return;
     }
 
     if (count == 0) {
-      bibleSelect.attr('disabled','disabled');
+      if (platformHelper.isMobile()) {
+        bibleSelectBlock.addClass('hidden');
+      } else {
+        bibleSelect.attr('disabled','disabled');
+      }
+
       $('.book-select-button').addClass('ui-state-disabled');
       $('.tag-select-button').addClass('ui-state-disabled');
       $('.module-search-button').addClass('ui-state-disabled');
@@ -126,7 +144,12 @@ class TranslationController {
       // FIXME: This needs to be adjusted based on the new menu
       currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
     } else {
-      $('.bible-select').removeAttr('disabled');
+      if (platformHelper.isMobile()) {
+        bibleSelectBlock.removeClass('hidden');
+      } else {
+        $('.bible-select').removeAttr('disabled');
+      }
+
       $('.book-select-button').removeClass('ui-state-disabled');
       $('.module-search-button').removeClass('ui-state-disabled');
 
@@ -164,7 +187,12 @@ class TranslationController {
     for (var translation of translations) {
       var currentTranslationEl = document.createElement('option');
       currentTranslationEl.value = translation.name;
-      currentTranslationEl.innerText = translation.description;
+
+      if (platformHelper.isMobile()) {
+        currentTranslationEl.innerText = translation.name;
+      } else {
+        currentTranslationEl.innerText = translation.description;
+      }
 
       if (currentBibleTranslationId == translation.name) {
         currentTranslationEl.selected = "selected";
@@ -232,6 +260,7 @@ class TranslationController {
     }
 
     bibleSelect.selectmenu({
+      width: platformHelper.isMobile() ? 110 : undefined,
       change: () => {
         if (!app_controller.tab_controller.isCurrentTabEmpty() && app_controller.tab_controller.getTab().getTextType() != 'search_results') {
           uiHelper.showTextLoadingIndicator();

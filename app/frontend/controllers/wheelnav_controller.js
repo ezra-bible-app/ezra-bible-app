@@ -29,13 +29,15 @@ var currentWheelNavElement = null;
 var currentSvgMenu = null;
 
 module.exports.init = function() {
-  eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
-    if (isFullScreen) {
-      this.bindEvents();
-    } else {
-      this.unbindAndClose();
-    }
-  });
+  if (!platformHelper.isMobile()) {
+    eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
+      if (isFullScreen) {
+        this.bindEvents();
+      } else {
+        this.unbindAndClose();
+      }
+    });
+  }
 };
 
 module.exports.bindEvents = function() {

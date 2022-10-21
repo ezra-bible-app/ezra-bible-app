@@ -44,6 +44,10 @@ class TextController {
   }
 
   async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined) {
+    if (platformHelper.isCordova()) {
+      uiHelper.showTextLoadingIndicator();
+    }
+
     app_controller.book_selection_menu.hideBookMenu();
     await waitUntilIdle();
 
@@ -86,6 +90,10 @@ class TextController {
   }
 
   async prepareForNewText(resetView, isSearch = false, tabIndex = undefined) {
+    if (platformHelper.isCordova() && (tabIndex == 0 || tabIndex == undefined)) {
+      uiHelper.showTextLoadingIndicator();
+    }
+
     if (!isSearch) {
       app_controller.module_search_controller.cancelAnyModuleSearch();
     }
@@ -113,10 +121,6 @@ class TextController {
     if (textType == 'book' && currentTab != null && currentTab.isBookUnchanged()) {
       // Do not reset verse list view if the book has not changed.
       resetView = false;
-
-      if (platformHelper.isCordova() && (tabIndex == 0 || tabIndex == undefined)) {
-        uiHelper.showTextLoadingIndicator();
-      }
     }
 
     if (resetView && (tabIndex == 0 || tabIndex == undefined)) {
@@ -324,6 +328,7 @@ class TextController {
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
     var bookIntroduction = null;
     var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentBibleTranslationId, bookShortTitle, false);
+    var bookChapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, bookShortTitle);
 
     if (startVerseNumber == 1) { // Only load book introduction if starting with verse 1
       try {
@@ -360,7 +365,9 @@ class TextController {
         renderBibleBookHeaders: false,
         // only render chapter headers with the full book requested
         renderChapterHeaders: isInstantLoadingBook && !bookHasHeaders,
+        renderChapterNavigationLinks: !isInstantLoadingBook,
         renderBookNotes: (startVerseNumber == 1),
+        bookChapterCount: bookChapterCount,
         bookIntroduction: bookIntroduction,
         bookNotes: bookNotes,
         bibleBooks: [bibleBook],
@@ -474,7 +481,6 @@ class TextController {
     if (render_type == "html") {
 
       await this.getVersesAsHtml(current_tab_id,
-                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -542,7 +548,6 @@ class TextController {
     if (render_type == "html") {
 
       await this.getVersesAsHtml(current_tab_id,
-                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -595,7 +600,6 @@ class TextController {
     if (render_type == "html") {
 
       await this.getVersesAsHtml(current_tab_id,
-                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -623,7 +627,6 @@ class TextController {
   }
 
   async getVersesAsHtml(current_tab_id,
-                        tabIndex, // TODO: Remove this parameter, because it is not used!
                         bibleBooks,
                         bookNames,
                         bibleBookStats,
@@ -647,6 +650,7 @@ class TextController {
       versification: versification,
       verseListId: current_tab_id,
       renderBibleBookHeaders: renderBibleBookHeaders,
+      renderChapterNavigationLinks: false,
       renderVerseMetaInfo: renderVerseMetaInfo,
       bibleBooks: bibleBooks,
       bookNames: bookNames,

@@ -130,6 +130,7 @@
     "sword-path": "cale modul SWORD",
     "chromium-version": "versiune Chromium",
     "database-path": "cale Bază de date",
+    "database-size": "Mărime Bază de date",
     "config-file-path": "cale Configurare",
     "module-name": "Nume",
     "module-version": "Versiune",
@@ -156,6 +157,7 @@
     "next": "Înainte",
     "previous": "Înapoi",
     "finish": "Finalizare",
+    "back": "Înapoi",
     "save": "Salvare",
     "cancel": "Anulare",
     "rename": "Redenumește",
@@ -329,7 +331,8 @@
     "open-chapters-large-books": "Deschide cărțile mari per capitol",
     "open-chapters-all-books": "Deschide toate cărțile per capitol",
     "copy": "Copiază",
-    "edit-note": "Editează nota"
+    "edit-note": "Editează nota",
+    "delete-note": "Șterge nota"
   },
   "dictionary-panel": {
     "greek-dict": "Dicționar grec",
@@ -384,5 +387,34 @@
     "init-user-interface": "Inițializare interfața utilizator",
     "loading-settings": "Se încarcă setările",
     "waiting-app-ready": "În așteptare ca aplicație să fie pregătită"
+  },
+  "dropbox": {
+    "database-dropbox-sync": "Sincronizarea bazei de date din Dropbox",
+    "setup-db-sync": "Configurează sincronizarea cu Dropbox",
+    "dropbox-sync-explanation-part1": "Sincronizarea cu Dropbox poate fi folosită pentru a îți sincroniza baza de date  Ezra&nbsp;Bible&nbsp;App cu mai multe dispozitive pe care le deții.",
+    "dropbox-sync-explanation-part2": "Baza de date va fi sincronizată cu la evenimentele următoare:",
+    "dropbox-sync-explanation-part3a": "După conectarea contului Dropbox pentru prima dată.",
+    "dropbox-sync-explanation-part3b": "La pornirea aplicației sau la reluare.",
+    "dropbox-sync-explanation-part3c": "Când este închisă sau pe pauză.",
+    "dropbox-sync-explanation-part3d": "După modificări (dacă au fost configurate).",
+    "dropbox-sync-explanation-part3e": "După pornirea rețelei WiFi (doar Android, pe baza opțiunilor din sistem).",
+    "dropbox-sync-explanation-part4": "Pentru a începe să folosești sincronizarea Dropbox, trebuie să îți conectezi mai întâi contul Dropbox cu Ezra Bible App.",
+    "link-dropbox-account": "Conecteză-ți contul Dropbox",
+    "reset-dropbox-account-link": "Resetează conectarea.",
+    "dropbox-link-status": "Status conectare Dropbox",
+    "dropbox-link-status-not-linked": "Neconectat",
+    "dropbox-link-status-linked": "Conectat",
+    "dropbox-link-status-linking-failed": "Conectare eșuată!",
+    "only-sync-on-wifi": "Sincronizare doar prin WiFi",
+    "sync-after-changes": "Sincronizează bază de date după modificări",
+    "dropbox-sync-folder": "Folder-ul de sincronizarea Dropbox",
+    "dropbox-sync-info": "Info sincronizre Dropbox",
+    "last-dropbox-sync-time": "Ultima sincronizare",
+    "last-dropbox-sync-result": "Rezultat ultima sincronizare",
+    "last-dropbox-download-time": "Ultima descărcare",
+    "last-dropbox-upload-time": "Ultima încărcare",
+    "sync-msg-title": "Sincronizare Dropbox",
+    "sync-success-msg": "Baza de date a fost sincronizată cu Dropbox cu succes ({{date}}).",
+    "sync-failed-msg": "Nu s-a putut sincroniza baza de date cu Dropbox ({{date}})."
   }
 }

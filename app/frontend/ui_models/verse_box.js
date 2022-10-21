@@ -175,9 +175,20 @@ class VerseBox {
     return $(this.verseBoxElement).find('.tag-info').attr('title').split(', ');
   }
 
-  updateVisibleTags(tag_title_array=undefined, newTagTitle=undefined, newTagId=undefined) {
+  async updateVisibleTags(tag_title_array=undefined) {
     if (this.verseBoxElement == null) {
       return;
+    }
+
+    let tagGroupFilterOption = app_controller.optionsMenu._tagGroupFilterOption;
+    let tagGroupId = tags_controller.currentTagGroupId;
+    let filterTags = true;
+    let tagGroupMemberIds = [];
+
+    if (tagGroupId == null || tagGroupId < 0 || !tagGroupFilterOption.isChecked) {
+      filterTags = false;
+    } else {
+      tagGroupMemberIds = await tags_controller.getTagGroupMemberIds(tagGroupId);
     }
 
     var tag_box = $(this.verseBoxElement).find('.tag-box');
@@ -187,13 +198,16 @@ class VerseBox {
       tag_title_array = this.getTagTitleArray();
     }
 
-    for (var i = 0; i < tag_title_array.length; i++) {
-      var current_tag_title = tag_title_array[i];
-      if (current_tag_title != newTagTitle) {
-        newTagId = undefined;
+    for (let i = 0; i < tag_title_array.length; i++) {
+      let current_tag_title = tag_title_array[i];
+      let current_tag = await tags_controller.tag_store.getTagByTitle(current_tag_title);
+      let visible = true;
+
+      if (filterTags && !tagGroupMemberIds.includes(current_tag.id)) {
+        visible = false;
       }
 
-      var tag_html = this.htmlForVisibleTag(current_tag_title, newTagId);
+      let tag_html = this.htmlForVisibleTag(current_tag_title, current_tag.id, visible);
       tag_box.append(tag_html);
     }
 
@@ -205,8 +219,9 @@ class VerseBox {
     }
   }
 
-  htmlForVisibleTag(tag_title, newTagId) {
-    let tagHtml = `<div class='tag' title='${i18n.t('bible-browser.tag-hint')}'`;
+  htmlForVisibleTag(tag_title, newTagId, visible=true) {
+    let cssClass = visible ? 'tag' : 'tag hidden';
+    let tagHtml = `<div class='${cssClass}' title='${i18n.t('bible-browser.tag-hint')}'`;
 
     if (newTagId !== undefined) {
       tagHtml += ` tag-id='${newTagId}'`;
@@ -230,7 +245,7 @@ class VerseBox {
 
     if (updated) {
       this.updateTagDataContainer(tag_id, tag_title, action);
-      this.updateVisibleTags(new_tag_info_title_array, tag_title, tag_id);
+      this.updateVisibleTags(new_tag_info_title_array);
     }
   }
 

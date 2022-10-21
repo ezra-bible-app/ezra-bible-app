@@ -50,7 +50,7 @@ class TextSizeSettings {
 
   async init(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find(this.openMenuButton).bind('click', (e) => {
+    currentVerseListMenu.find(this.openMenuButton).unbind('click').bind('click', (e) => {
       e.stopPropagation();
       if (this.menuIsOpened) {
         this.hideTextSizeMenu();

@@ -140,6 +140,7 @@
     "sword-path": "Chemin du module SWORD",
     "chromium-version": "Version Chromium",
     "database-path": "Chemin de la base de données",
+    "database-size": "Taille de la base de données",
     "config-file-path": "Chemin de configuration",
     "module-name": "Nom",
     "module-version": "Version",
@@ -166,6 +167,7 @@
     "next": "Suivant",
     "previous": "Précédent",
     "finish": "Terminé",
+    "back": "Retour",
     "save": "Enregistrer",
     "cancel": "Annuler",
     "rename": "Renommer",
@@ -339,7 +341,8 @@
     "open-chapters-large-books": "Ouvrir les gros livres par chapitre",
     "open-chapters-all-books": "Ouvrir tous les livres par chapitre",
     "copy": "Copier",
-    "edit-note": "Modifier la note"
+    "edit-note": "Modifier la note",
+    "delete-note": "Supprimer la note"
   },
   "dictionary-panel": {
     "greek-dict": "Dictionnaire grec",
@@ -394,5 +397,34 @@
     "init-user-interface": "Initialisation de l’interface utilisateur",
     "loading-settings": "Chargement des paramètres",
     "waiting-app-ready": "En attente de la préparation de l’application"
+  },
+  "dropbox": {
+    "database-dropbox-sync": "Synchroniser la base de données avec Dropbox",
+    "setup-db-sync": "Configurer la synchronisation Dropbox",
+    "dropbox-sync-explanation-part1": "La synchronisation Dropbox peut être utilisée pour synchroniser votre base de données d'Ezra&nbsp;Bible&nbsp;App sur plusieurs appareils.",
+    "dropbox-sync-explanation-part2": "La base de données sera synchronisée dans les événements suivants :",
+    "dropbox-sync-explanation-part3a": "Après avoir lié le compte Dropbox pour la première fois.",
+    "dropbox-sync-explanation-part3b": "Au démarrage de l'application ou lors de sa reprise.",
+    "dropbox-sync-explanation-part3c": "Lorsqu'il est fermé ou mis en pause.",
+    "dropbox-sync-explanation-part3d": "Après les modifications (si configurées).",
+    "dropbox-sync-explanation-part3e": "Après avoir activé le Wi-Fi (uniquement sur Android, en fonction de l'option).",
+    "dropbox-sync-explanation-part4": "Pour commencer à utiliser la synchronisation Dropbox, vous devez d'abord lier votre compte Dropbox avec Ezra Bible App.",
+    "link-dropbox-account": "Lier un compte Dropbox",
+    "reset-dropbox-account-link": "Réinitialiser le lien",
+    "dropbox-link-status": "État du lien Dropbox",
+    "dropbox-link-status-not-linked": "Non lié",
+    "dropbox-link-status-linked": "Lié",
+    "dropbox-link-status-linking-failed": "Échec de la liaison !",
+    "only-sync-on-wifi": "Synchroniser uniquement sur WiFi",
+    "sync-after-changes": "Synchroniser la base de données après les modifications",
+    "dropbox-sync-folder": "Dossier de synchronisation Dropbox",
+    "dropbox-sync-info": "Informations de synchronisation Dropbox",
+    "last-dropbox-sync-time": "Dernière synchronisation",
+    "last-dropbox-sync-result": "Résultat de la dernière synchronisation",
+    "last-dropbox-download-time": "Dernier téléchargement",
+    "last-dropbox-upload-time": "Dernier mise en ligne",
+    "sync-msg-title": "Synchronisation Dropbox",
+    "sync-success-msg": "Base de données synchronisée avec succès avec Dropbox ({{date}}).",
+    "sync-failed-msg": "La synchronisation de la base de données avec Dropbox a réussi ({{date}})."
   }
 }

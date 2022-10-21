@@ -130,6 +130,7 @@
     "sword-path": "Ruta del módulo SWORD",
     "chromium-version": "Versión de Chromium",
     "database-path": "Ruta al directorio de la base de datos",
+    "database-size": "Database size",
     "config-file-path": "Ruta al directorio de configuración",
     "module-name": "Nombre",
     "module-version": "Versión",
@@ -156,6 +157,7 @@
     "next": "Siguiente",
     "previous": "Anterior",
     "finish": "Finalizar",
+    "back": "Back",
     "save": "Guardar",
     "cancel": "Cancelar",
     "rename": "Renombrar",
@@ -329,7 +331,8 @@
     "open-chapters-large-books": "Abrir libros largos capítulo a capítulo",
     "open-chapters-all-books": "Abrir todos los libros capítulo a capítulo",
     "copy": "Copiar",
-    "edit-note": "Editar nota"
+    "edit-note": "Editar nota",
+    "delete-note": "Delete note"
   },
   "dictionary-panel": {
     "greek-dict": "Diccionario Griego",
@@ -384,5 +387,34 @@
     "init-user-interface": "Iniciando interfaz de usuario",
     "loading-settings": "Cargando ajustes",
     "waiting-app-ready": "Espere a que la app esté lista"
+  },
+  "dropbox": {
+    "database-dropbox-sync": "Database Dropbox sync",
+    "setup-db-sync": "Setup Dropbox synchronization",
+    "dropbox-sync-explanation-part1": "The Dropbox synchronization can be used to synchronize your Ezra&nbsp;Bible&nbsp;App database across multiple devices.",
+    "dropbox-sync-explanation-part2": "The database will be synchronized in the following events:",
+    "dropbox-sync-explanation-part3a": "After linking the Dropbox account for the first time.",
+    "dropbox-sync-explanation-part3b": "At application start or when resumed.",
+    "dropbox-sync-explanation-part3c": "When closed or paused.",
+    "dropbox-sync-explanation-part3d": "After changes (if configured).",
+    "dropbox-sync-explanation-part3e": "After turning on WiFi (only Android, based on option).",
+    "dropbox-sync-explanation-part4": "To start using the Dropbox sync you need to first link your Dropbox account with Ezra Bible App.",
+    "link-dropbox-account": "Link Dropbox account",
+    "reset-dropbox-account-link": "Reset link",
+    "dropbox-link-status": "Dropbox link status",
+    "dropbox-link-status-not-linked": "Not linked",
+    "dropbox-link-status-linked": "Linked",
+    "dropbox-link-status-linking-failed": "Linking failed!",
+    "only-sync-on-wifi": "Only sync on WiFi",
+    "sync-after-changes": "Sync database after changes",
+    "dropbox-sync-folder": "Dropbox sync folder",
+    "dropbox-sync-info": "Dropbox synchronization info",
+    "last-dropbox-sync-time": "Last sync",
+    "last-dropbox-sync-result": "Last sync result",
+    "last-dropbox-download-time": "Last download",
+    "last-dropbox-upload-time": "Last upload",
+    "sync-msg-title": "Dropbox sync",
+    "sync-success-msg": "Successfully synchronized database with Dropbox ({{date}}).",
+    "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}})."
   }
 }

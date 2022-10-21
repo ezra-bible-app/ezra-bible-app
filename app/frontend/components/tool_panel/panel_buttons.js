@@ -18,6 +18,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
+const PlatformHelper = require('../../../lib/platform_helper.js');
 
 const SETTINGS_KEY = "activeToolPanel";
 
@@ -35,6 +36,7 @@ const template = html`
       flex-direction: column;
       align-items: flex-start;
       margin-inline-end: 0.5em;
+      margin-left: 0.2em;
     }
     
     ::slotted(button) {
@@ -52,7 +54,8 @@ const template = html`
       cursor: pointer;
     }
 
-    @media screen and (max-aspect-ratio: 15/10) {
+    /* PORTRAIT */
+    @media screen and (max-aspect-ratio: 13/10) {
       #panel-switches {
         height: var(--button-size);
         width: 100%;
@@ -97,19 +100,26 @@ class PanelButtons extends HTMLElement {
     this._activePanel = null;
     this.panelEvents = {};
     this._disabledPanels = new Set();
+
+    this._platformHelper = new PlatformHelper();
   }
 
   async connectedCallback() {
     this.toolPanelElement = document.querySelector('#tool-panel');
-    this._activePanel = await ipcSettings.get(SETTINGS_KEY, null);
+    let activePanelSetting = await ipcSettings.get(SETTINGS_KEY, null);
+
+    if (typeof(activePanelSetting) == 'string') {
+      this._activePanel = await ipcSettings.get(SETTINGS_KEY, null);
+    }
 
     const slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
     slottedElements.forEach(el => this._initButton(el));
 
-    if (this._activePanel) {
-      await this._togglePanel(this._activePanel, true);
-    } else {
+    if (!this._activePanel || this._platformHelper.isMobile()) {
+      this._activePanel = "";
       this.toolPanelElement.classList.add('hidden');
+    } else {
+      await this._togglePanel(this._activePanel, true);
     }
     
   }

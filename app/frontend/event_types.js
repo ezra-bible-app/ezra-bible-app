@@ -39,13 +39,16 @@
  * @typedef { "on-locale-changed" } I18nEvents
  */
 /**
- * @typedef { "on-startup-completed" | "on-theme-changed" | "on-fullscreen-changed" | "on-button-clicked" | "on-body-clicked" } AppEvents
+ * @typedef { "on-startup-completed" | "on-theme-changed" | "on-fullscreen-changed" | "on-button-clicked" | "on-body-clicked" | "on-db-refresh" } AppEvents
  */
 /**
  * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" | "on-compare-panel-switched" } PanelEvents
  */
 /**
  * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" | "on-latest-tag-changed" } TagEvents
+ */
+/**
+ * @typedef { "on-note-created" | "on-note-deleted" } NoteEvents
  */
 /**
  * @typedef { "on-tag-group-list-activated" | "on-tag-selection-menu-group-list-activated" | "on-tag-selection-menu-group-selected" | "on-tag-group-selected" | "on-tag-group-creation" | "on-tag-group-created" | "on-tag-group-members-changed" | "on-tag-group-renamed" | "on-tag-group-deleted" | "on-tag-group-filter-enabled" | "on-tag-group-filter-disabled" } TagGroupEvents
@@ -56,5 +59,5 @@
 
 
 /**
- * @typedef { BibleTextEvents | TabEvents | TabSearchEvents | ModuleAssistantEvents | RepoUpdateEvents | I18nEvents | AppEvents | PanelEvents | TagEvents | TagGroupEvents | ModuleSearchEvents } EzraEvent
+ * @typedef { BibleTextEvents | TabEvents | TabSearchEvents | ModuleAssistantEvents | RepoUpdateEvents | I18nEvents | AppEvents | PanelEvents | TagEvents | TagGroupEvents | NoteEvents | ModuleSearchEvents } EzraEvent
  */

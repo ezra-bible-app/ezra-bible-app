@@ -24,7 +24,8 @@
   overflow: hidden;
 }
 
-@media screen and (min-aspect-ratio: 15/10) {
+/* LANDSCAPE */
+@media screen and (min-aspect-ratio: 13/10) {
   .Android #tool-panel #tag-list-stats {
     display: none;
   }
@@ -41,7 +42,8 @@
 }
 
 
-@media screen and (max-aspect-ratio: 15/10) {
+/* PORTRAIT */
+@media screen and (max-aspect-ratio: 13/10) {
   #tool-panel {
     height: 13em !important;
     width: 100% !important;
@@ -85,7 +87,7 @@
 }
 
 /* LANDSCAPE */
-@media screen and (min-aspect-ratio: 15/10) {
+@media screen and (min-aspect-ratio: 13/10) {
   #tool-panel {
     height: 100% !important;
   }
@@ -141,7 +143,8 @@
   transition-delay: 0.5s;
 }
 
-@media screen and (max-aspect-ratio: 15/10) {
+/* PORTRAIT */
+@media screen and (max-aspect-ratio: 13/10) {
   #tool-panel .ui-resizable-n {
     display: block;
   }
@@ -178,7 +181,8 @@
   padding: 0.5em 0.2em 0;
 }
 
-@media screen and (max-aspect-ratio: 15/10) {
+/* PORTRAIT */
+@media screen and (max-aspect-ratio: 13/10) {
   .ui-tabs .ui-tabs-panel {
     padding-left: 0;
   }
@@ -470,12 +474,6 @@ input.tag-cb {
 
 .is-global {
   display: none;
-}
-
-.selection-box {
-  display: inline-block;
-  margin: 0.1em 0.1em 0.3em 0.5em;
-  width: 18em;
 }
 
 table.tag-statistics {

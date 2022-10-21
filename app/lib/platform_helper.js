@@ -137,6 +137,11 @@ class PlatformHelper {
     return false;
   }
 
+  isMobile() {
+    const MAX_MOBILE_PIXELS = 450;
+    return window.innerWidth <= MAX_MOBILE_PIXELS || window.innerHeight <= MAX_MOBILE_PIXELS;
+  }
+
   addPlatformCssClass(element=undefined) {
     if (element === undefined) {
       element = document.body;
@@ -265,9 +270,7 @@ class PlatformHelper {
       let userDataDir = "";
 
       if (androidVersion !== undefined && androidVersion >= 11) {
-        let oldUserDataDir = cordova.app.datadir() + '/ezra_storage';
-
-        userDataDir = getOldPath ? oldUserDataDir : '/sdcard/Documents/ezra';
+        userDataDir = cordova.app.datadir() + '/ezra';
       } else {
         const appId = getOldPath ? 'de.ezraproject.cordova' : 'net.ezrabibleapp.cordova';
         // TODO adapt this for ios later

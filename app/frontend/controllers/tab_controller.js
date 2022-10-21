@@ -97,6 +97,16 @@ class TabController {
     eventController.subscribe('on-tag-renamed', ({ tagId, oldTitle, newTitle }) => {
       this.updateTabTitleAfterTagRenaming(oldTitle, newTitle);
     });
+
+    eventController.subscribe('on-bible-text-loaded', () => {
+      let bibleTranslationId = this.getTab().getBibleTranslationId();
+      this.setCurrentBibleTranslationId(bibleTranslationId);
+    });
+
+    eventController.subscribe('on-db-refresh', async () => {
+      verseListController.resetVerseListView();
+      await this.loadTabConfiguration(true);
+    });
   }
 
   initFirstTab() {
@@ -179,10 +189,15 @@ class TabController {
   }
 
   async loadMetaTabsFromSettings() {
-    var savedMetaTabs = await cacheController.getCachedItem('tabConfiguration', [], false);
-    var loadedTabCount = 0;
+    let savedMetaTabs = await cacheController.getCachedItem('tabConfiguration', [], false);
+    let loadedTabCount = 0;
+    let tabCount = savedMetaTabs.length;
 
-    for (var i = 0; i < savedMetaTabs.length; i++) {
+    if (platformHelper.isMobile()) {
+      tabCount = 1;
+    }
+
+    for (let i = 0; i < tabCount; i++) {
       var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i], i);
 
       if (!currentMetaTab.isValid()) {
@@ -204,7 +219,7 @@ class TabController {
 
       var tabTitle = currentMetaTab.getTitle();
       this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), loadedTabCount);
-      eventController.publish('on-tab-added', i);
+      await eventController.publishAsync('on-tab-added', i);
       loadedTabCount += 1;
     }
 
@@ -215,9 +230,10 @@ class TabController {
     return loadedTabCount;
   }
 
-  async populateFromMetaTabs() {
-    var cacheOutdated = await cacheController.isCacheOutdated();
-    var cacheInvalid = await cacheController.isCacheInvalid();
+  async populateFromMetaTabs(force=false) {
+    let cacheOutdated = await cacheController.isCacheOutdated();
+    let cacheInvalid = await cacheController.isCacheInvalid();
+    let tabCount = this.metaTabs.length;
 
     if (cacheOutdated) {
       console.log("Tab content cache is outdated. Database has been updated in the meantime!");
@@ -227,22 +243,26 @@ class TabController {
       console.log("Cache is invalid. New app version?");
     }
 
-    for (var i = 0; i < this.metaTabs.length; i++) {
-      var currentMetaTab = this.metaTabs[i];
+    if (platformHelper.isMobile()) {
+      tabCount = 1;
+    }
 
-      if (cacheOutdated || cacheInvalid) {
+    for (let i = 0; i < tabCount; i++) {
+      let currentMetaTab = this.metaTabs[i];
+
+      if (cacheOutdated || cacheInvalid || force) {
         currentMetaTab.cachedText = null;
         currentMetaTab.cachedReferenceVerse = null;
       }
 
-      var isSearch = (currentMetaTab.textType == 'search_results');
+      let isSearch = (currentMetaTab.textType == 'search_results');
       await app_controller.text_controller.prepareForNewText(true, isSearch, i);
 
       if (currentMetaTab.textType == 'search_results') {
 
         await app_controller.module_search_controller.populateSearchMenu(i);
 
-        var searchResultBookId = -1; // all books requested
+        let searchResultBookId = -1; // all books requested
         if (app_controller.module_search_controller.searchResultsExceedPerformanceLimit(i)) {
           searchResultBookId = 0; // no books requested - only list headers at first
         }
@@ -276,7 +296,7 @@ class TabController {
     }
   }
 
-  async loadTabConfiguration() {
+  async loadTabConfiguration(force=false) {
     var bibleTranslationSettingAvailable = await ipcSettings.has('bibleTranslation');
 
     if (bibleTranslationSettingAvailable) {
@@ -291,7 +311,7 @@ class TabController {
       loadedTabCount = await this.loadMetaTabsFromSettings();
 
       if (loadedTabCount > 0) {
-        await this.populateFromMetaTabs();
+        await this.populateFromMetaTabs(force);
       } else {
         verseListController.hideVerseListLoadingIndicator();
         uiHelper.hideTextLoadingIndicator();
@@ -614,7 +634,11 @@ class TabController {
   }
 
   resetCurrentTabTitle() {
-    this.setTabTitle(this.defaultLabel);
+    if (platformHelper.isMobile()) {
+      this.setTabTitle('');
+    } else {
+      this.setTabTitle(this.defaultLabel);
+    }
   }
 
   setTabTitle(title, bibleTranslationId = undefined, index = undefined) {
@@ -634,6 +658,9 @@ class TabController {
     if (tabTitle != currentTitle) {
       link.html(tabTitle);
     }
+
+    var currentTabTitleLabel = tabsElement.find('.current-tab-title-label');
+    currentTabTitleLabel.html(title);
   }
 
   getTabTitle() {

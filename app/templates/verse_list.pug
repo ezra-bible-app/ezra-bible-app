@@ -85,6 +85,29 @@ each bibleBook in bibleBooks
         h2.chapter-header
           span(i18n=chapterText) #{i18n.t(chapterText)}
           | &nbsp;#{verse.chapter}
+      
+    if verse_count == 1 && renderChapterNavigationLinks == true
+      - previous_chapter = verse.chapter - 1
+      div.chapter-nav
+        - previous_chapter_nav_class = 'chapter-nav'
+        if verse.chapter == 1
+          - previous_chapter_nav_class = 'chapter-nav invisible'
+
+        a(class=previous_chapter_nav_class, href='javascript:;', chapter=previous_chapter)
+          i(class="fa-solid fa-angles-left")
+
+        a(class='chapter-nav-dialog', href='javascript:;')
+          span(style='padding-left: 0.5em; text-transform: uppercase;', i18n=chapterText) #{i18n.t(chapterText)}
+          span(style='padding-right: 0.5em;') &nbsp;#{verse.chapter}
+
+        - next_chapter_nav_class = 'chapter-nav'
+        if verse.chapter == bookChapterCount
+          - next_chapter_nav_class = 'chapter-nav invisible'
+
+        - next_chapter = verse.chapter + 1
+        a(class=next_chapter_nav_class, href='javascript:;', chapter=next_chapter)
+          i(class="fa-solid fa-angles-right")
+
 
     - old_chapter = verse.chapter
     
@@ -174,6 +197,14 @@ each bibleBook in bibleBooks
               span &nbsp;|&nbsp;
               a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
             div(class='verse-notes-timestamp') !{verseNoteUpdate}
+
+    if verse_count == verses.length && renderChapterNavigationLinks == true && verse.chapter < bookChapterCount
+      - next_chapter = verse.chapter + 1
+      - next_chapter_text = i18n.t('bible-browser.chapter') + ' ' + next_chapter
+      div.chapter-nav
+        a(class='chapter-nav', href='javascript:;', chapter=next_chapter)
+          i(class="fa-solid fa-angles-right")
+          span(style='padding-left: 0.5em;') #{next_chapter_text}
 
   if verse_count == 0 && renderBibleBookHeaders == true
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)

@@ -130,6 +130,7 @@
     "sword-path": "Cesta k modulu SWORD",
     "chromium-version": "Verzia Chromium",
     "database-path": "Cesta k databáze",
+    "database-size": "Veľkosť databázy",
     "config-file-path": "Cesta ku konfigurácii",
     "module-name": "Meno",
     "module-version": "Verzia",
@@ -156,6 +157,7 @@
     "next": "Ďalej",
     "previous": "Späť",
     "finish": "Hotovo",
+    "back": "Späť",
     "save": "Uložiť",
     "cancel": "Zrušiť",
     "rename": "Premenovať",
@@ -329,7 +331,8 @@
     "open-chapters-large-books": "Otvárajte veľké knihy po kapitolách",
     "open-chapters-all-books": "Otvorte všetky knihy po kapitolách",
     "copy": "Kopírovať",
-    "edit-note": "Upraviť poznámku"
+    "edit-note": "Upraviť poznámku",
+    "delete-note": "Vymazať poznámku"
   },
   "dictionary-panel": {
     "greek-dict": "Grécky slovník",
@@ -384,5 +387,34 @@
     "init-user-interface": "Inicializujem užívateľské prostredie",
     "loading-settings": "Nahrávam nastavenia",
     "waiting-app-ready": "Čaká sa na spustenie aplikácie"
+  },
+  "dropbox": {
+    "database-dropbox-sync": "Synchronizácia databázy s Dropboxom",
+    "setup-db-sync": "Nastaviť Dropbox synchornizáciu",
+    "dropbox-sync-explanation-part1": "Synchronizácia Dropbox sa dá použiť na synchronizáciu databázy aplikácie Ezra Bible na viacerých zariadeniach.",
+    "dropbox-sync-explanation-part2": "Databáza bude synchronizovaná v nasledujúcich udalostiach:",
+    "dropbox-sync-explanation-part3a": "Po prvom prepojení účtu Dropbox.",
+    "dropbox-sync-explanation-part3b": "Pri spustení aplikácie alebo pri jej obnovení.",
+    "dropbox-sync-explanation-part3c": "Pri zatvorení alebo pozastavení.",
+    "dropbox-sync-explanation-part3d": "Po zmenách (ak je nakonfigurovaný).",
+    "dropbox-sync-explanation-part3e": "Po zapnutí WiFi (iba Android, podľa možnosti).",
+    "dropbox-sync-explanation-part4": "Ak chcete začať používať synchronizáciu Dropbox, musíte najprv prepojiť svoj účet Dropbox s aplikáciou Ezra Bible.",
+    "link-dropbox-account": "Linka na Dropbox účet",
+    "reset-dropbox-account-link": "Reset prepojenia",
+    "dropbox-link-status": "Stav Dropbox prepojenia",
+    "dropbox-link-status-not-linked": "Neprepojené",
+    "dropbox-link-status-linked": "Prepojené",
+    "dropbox-link-status-linking-failed": "Prepojenie zlyhalo",
+    "only-sync-on-wifi": "Synchronizácia len cez WiFi",
+    "sync-after-changes": "Synchronizovať databázu po zmenách",
+    "dropbox-sync-folder": "Synchronizačný priečinok Dropbox",
+    "dropbox-sync-info": "Informácie o synchronizácii Dropboxu",
+    "last-dropbox-sync-time": "Posledná synchronizácia",
+    "last-dropbox-sync-result": "Výsledok poslednej synchronizácie",
+    "last-dropbox-download-time": "Posledné stiahnutie",
+    "last-dropbox-upload-time": "Posledné nahranie",
+    "sync-msg-title": "Synchronizácia Dropboxu",
+    "sync-success-msg": "Databáza bola úspešne synchronizovaná s Dropboxom ({{date}}).",
+    "sync-failed-msg": "Synchronizácia databázy s Dropboxom zlyhala ({{date}})."
   }
 }

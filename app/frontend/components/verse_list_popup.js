@@ -43,12 +43,16 @@ class VerseListPopup {
   }
 
   initVerseListPopup() {
-    $('#verse-list-popup').dialog({
-      width: 700,
-      position: [200,200],
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    });
+    var width = 700;
+    var height = null;
+    var position = [200, 200];
+    var draggable = true;
+
+    let dialogOptions = uiHelper.getDialogOptions(width, height, position, draggable);
+    dialogOptions.autoOpen = false;
+    dialogOptions.dialogClass = 'ezra-dialog verse-list-popup';
+
+    $('#verse-list-popup').dialog(dialogOptions);
 
     var currentBookFilter = "";
     currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.3em;'></input>" + 
@@ -327,14 +331,19 @@ class VerseListPopup {
       await this.loadXrefs(event.target, currentTabId, currentTabIndex);
     }
 
-    var width = uiHelper.getMaxDialogWidth();
-    var box_position = this.getOverlayVerseBoxPosition(verse_box);
+    var dialogOptions = {
+      // Truncate the popup title of tagged verse lists to 15 characters on mobile screens
+      // and show an ellipsis after the cut off string (...)
+      title: platformHelper.isMobile() && referenceType == "TAGGED_VERSES" ? 
+        this.currentPopupTitle.replace(/(.{15})..+/, "$1&hellip;") : this.currentPopupTitle
+    };
 
-    $('#verse-list-popup').dialog({
-      width: width,
-      position: [box_position.left, box_position.top],
-      title: this.currentPopupTitle
-    });
+    if (!platformHelper.isMobile()) {
+      dialogOptions.width = uiHelper.getMaxDialogWidth();
+      dialogOptions.position = this.getOverlayVerseBoxPosition(verse_box);
+    }
+
+    $('#verse-list-popup').dialog(dialogOptions);
 
     this.toggleBookFilter(referenceType);
 
@@ -400,7 +409,7 @@ class VerseListPopup {
   renderVerseListInPopup(htmlVerses, verseCount) {
     $('#verse-list-popup-loading-indicator').hide();
 
-    if (getPlatform().isFullScreen()) {
+    if (getPlatform().isFullScreen() || platformHelper.isMobile()) {
       this.disableNewTabButton();
     } else {
       this.enableNewTabButton();

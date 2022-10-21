@@ -47,6 +47,8 @@ class CordovaPlatform {
       // Enable to test Sentry in debug version
       // isDebug = false;
 
+      window.open = cordova.InAppBrowser.open;
+
       if (!isDebug) {
         var version = await cordova.getAppVersion.getVersionNumber();
         console.log("Configuring Sentry (WebView) with app version: " + version);
@@ -119,7 +121,6 @@ class CordovaPlatform {
   onPermissionGranted() {
     console.log("Permission to access storage has been GRANTED!");
     this.getPermissionBox().dialog('close');
-    uiHelper.showGlobalLoadingIndicator();
     this.initPersistenceAndStart();
   }
 
@@ -233,14 +234,11 @@ class CordovaPlatform {
 
     var welcomeTitle = i18n.t("cordova.welcome-to-ezra-bible-app");
 
-    this.getPermissionBox().dialog({
-      title: welcomeTitle,
-      width: 400,
-      autoOpen: true,
-      dialogClass: 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize',
-      modal: true,
-      resizable: false
-    });
+    let dialogOptions = uiHelper.getDialogOptions(400, null, false, null);
+    dialogOptions.title = welcomeTitle;
+    dialogOptions.dialogClass = 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize';
+
+    this.getPermissionBox().dialog(dialogOptions);
   }
 
   isAndroidWithScopedStorage() {
@@ -270,19 +268,29 @@ class CordovaPlatform {
       window.ipcI18n = new IpcI18n();
       await i18nController.initI18N();
 
-      this.hasPermission().then((result) => {
-        if (result == true) {
-          this.initPersistenceAndStart();
-        } else {
-          this.showPermissionInfo();
-        }
-      }, () => {
-        console.log("Failed to check existing permissions ...");
-      });
+      const androidVersion = this.getAndroidVersion();
+
+      if (androidVersion >= 11) {
+        // On Android 11 we start directly without asking for storage permissions, we because we store everything internally
+        this.initPersistenceAndStart();
+      } else {
+        // On Android < 11 we first need to check storage permissions, because we are using the external storage (/sdcard).
+        this.hasPermission().then((result) => {
+          if (result == true) {
+            this.initPersistenceAndStart();
+          } else {
+            this.showPermissionInfo();
+          }
+        }, () => {
+          console.log("Failed to check existing permissions ...");
+        });
+      }
     });
   }
 
   async initPersistenceAndStart() {
+    uiHelper.showGlobalLoadingIndicator();
+
     const androidVersion = this.getAndroidVersion();
     window.ipcGeneral = new IpcGeneral();
 
@@ -290,7 +298,7 @@ class CordovaPlatform {
     await ipcGeneral.initPersistentIpc(androidVersion);
 
     uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
-    await ipcGeneral.initDatabase(androidVersion);
+    await ipcGeneral.initDatabase(androidVersion, navigator.connection.type);
 
     await startup.initApplication();
   }

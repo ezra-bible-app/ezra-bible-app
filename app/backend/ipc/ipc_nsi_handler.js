@@ -277,7 +277,23 @@ class IpcNsiHandler {
         newSectionHeader['subType'] = header._attrs.subtype;
         newSectionHeader['chapter'] = header._attrs.chapter;
         newSectionHeader['verseNr'] = header._attrs.verse;
-        newSectionHeader['content'] = header.firstChild._rawText;
+
+        let content = "";
+
+        // You may expect that a header only has one child node (the text). But there are modules like the NET Bible
+        // where the header actually contains several child nodes and some of them are Strongs elements.
+        // Therefore, we have to go through individually and also differentiate between text nodes and other types of nodes.
+        for (let i = 0; i < header.childNodes.length; i++) {
+          let currentNode = header.childNodes[i];
+
+          if (currentNode.nodeType == HTMLParser.NodeType.TEXT_NODE) {
+            content += currentNode._rawText;
+          } else {
+            content += currentNode.firstChild._rawText;
+          }
+        }
+
+        newSectionHeader['content'] = content;
 
         sectionHeaders.push(newSectionHeader);
       });

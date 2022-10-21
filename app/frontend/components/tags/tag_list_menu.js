@@ -32,6 +32,8 @@ const template = html`
 <link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
 
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
 #tag-list-menu.box-style {
@@ -46,6 +48,19 @@ const template = html`
   padding-bottom: 0.7em;
   user-select: none;
   box-sizing: border-box;
+  height: 3em;
+}
+
+#tag-list-menu-navigation {
+  display: flex;
+  align-items: center;
+  float: left;
+}
+
+#tag-group-nav-arrow {
+  display: inline-block;
+  margin-left: 0.3em;
+  margin-right: 0.3em;
 }
 
 .darkmode--activated #tag-list-menu {
@@ -92,15 +107,18 @@ const template = html`
   float: right;
   margin-left: 1em;
   margin-right: 0.5em;
-  padding: 0.4em;
+  padding: 0.2em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
   cursor: pointer;
   display: flex;
   align-items: center;
+  font-size: 1em;
 }
 
 .Android #new-standard-tag-button {
-  height: 24px;
-  font-size: 1.1em;
+  height: unset !important;
+  font-size: 0.9em;
 }
 
 #tag-list-menu:not(.with-buttons) .add-element-button {
@@ -109,13 +127,19 @@ const template = html`
 </style>
 
 <div id="tag-list-menu">
-  <a id="tag-group-list-link" href="" i18n="tags.tag-groups"></a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label" i18n="tags.all-tags"></span>
+  <div id="tag-list-menu-navigation">
+    <a id="tag-group-list-link" href="" i18n="tags.tag-groups"></a>
+    <div id="tag-group-nav-arrow">
+      <i class="fa-solid fa-angle-right"></i>
+    </div> 
+    <span id="tag-group-label" i18n="tags.all-tags"></span>
+  </div>
 
   <button id="add-tag-group-button" i18n="tags.add-tag-group" class="add-element-button fg-button ui-state-default ui-corner-all"></button>
 
-  <button id="new-standard-tag-button" i18n="[title]tags.new-tag" class="add-element-button button-small fg-button ui-state-default ui-corner-all">
+  <div id="new-standard-tag-button" i18n="[title]tags.new-tag" class="add-element-button button-small">
     <i class="fas fa-plus fa-xs"></i>&nbsp;<i class="fas fa-tag fa-sm"></i>
-  </button>
+  </div>
 </div>
 `;
 
@@ -189,15 +213,19 @@ class TagListMenu extends HTMLElement {
 
     this.localize();
 
-    this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', function() {
-      tags_controller.handleNewTagButtonClick($(this));
+    this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', async function(event) {
+      setTimeout(() => { tags_controller.handleNewTagButtonClick(event); }, 100);
     });
 
     this.uiHelper.configureButtonStyles(this.shadowRoot.getElementById('tag-list-menu'));
   }
 
   localize() {
-    $(this.shadowRoot.getElementById('tag-list-menu')).localize();
+    try {
+      $(this.shadowRoot.getElementById('tag-list-menu')).localize();
+    } catch (e) {
+      console.warn("Could not localize tag-list-menu!");
+    }
   }
 
   onTagGroupListLinkClicked() {
@@ -230,8 +258,19 @@ class TagListMenu extends HTMLElement {
       document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
       const $dialogBox = $('#add-tag-group-dialog');
       
-      const width = 400;
-      const height = 200;
+      var width = 400;
+      var height = 200;
+      var draggable = true;
+      var position = [55, 120];
+
+      let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
+      dialogOptions.title = i18n.t('tags.add-tag-group');
+      dialogOptions.dialogClass = 'ezra-dialog';
+      dialogOptions.close = () => {
+        $dialogBox.dialog('destroy');
+        $dialogBox.remove();
+        resolve();
+      };
 
       let createTagGroup = () => {
         let tagGroupTitle = document.getElementById('tag-group-title-value').value;
@@ -239,12 +278,13 @@ class TagListMenu extends HTMLElement {
         $dialogBox.dialog('close');
       };
 
-      var buttons = {};
-      buttons[i18n.t('general.cancel')] = function() {
+      dialogOptions.buttons = {};
+
+      dialogOptions.buttons[i18n.t('general.cancel')] = function() {
         $dialogBox.dialog('close');
       };
 
-      buttons[i18n.t('tags.create-tag-group')] = {
+      dialogOptions.buttons[i18n.t('tags.create-tag-group')] = {
         id: 'create-tag-group-button',
         text: i18n.t('tags.create-tag-group'),
         click: () => {
@@ -260,22 +300,11 @@ class TagListMenu extends HTMLElement {
         }
       });
 
-      $dialogBox.dialog({
-        width,
-        height,
-        position: [80, 120],
-        title: i18n.t('tags.add-tag-group'),
-        resizable: false,
-        dialogClass: 'ezra-dialog',
-        buttons: buttons,
-        close() {
-          $dialogBox.dialog('destroy');
-          $dialogBox.remove();
-          resolve();
-        }
-      });
+      $dialogBox.dialog(dialogOptions);
 
       tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
+
+      document.getElementById('tag-group-title-value').focus();
     });
   }
 

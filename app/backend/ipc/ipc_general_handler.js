@@ -18,6 +18,10 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
+let expressApp = null;
+let expressServer = null;
+
+global.connectionType = undefined;
 
 class IpcGeneralHandler {
   constructor() {
@@ -32,10 +36,15 @@ class IpcGeneralHandler {
         return global.main.initPersistentIpc(androidVersion);
       });
 
-      this._ipcMain.add('general_initDatabase', async(androidVersion=undefined) => {
-        return global.main.initDatabase(androidVersion);
+      this._ipcMain.add('general_initDatabase', async(androidVersion=undefined, connectionType=undefined) => {
+        global.connectionType = connectionType;
+        return global.main.initDatabase(androidVersion, connectionType);
       });
     }
+
+    this._ipcMain.add('general_setConnectionType', async (connectionType) => {
+      global.connectionType = connectionType;
+    });
 
     this._ipcMain.add('general_getMajorOsVersion', async () => {
       var releaseVersion = require('os').release();
@@ -115,6 +124,34 @@ class IpcGeneralHandler {
       }
 
       return bookNames;
+    });
+
+    this._ipcMain.add('general_startDropboxAuthServer', async() => {
+      console.log('Starting express server, listening on port 9999');
+
+      const express = require('express');
+      expressApp = express();
+
+      expressApp.get('/dropbox_auth', function(req, res){
+        let url = req.url;
+        //console.log('Got request at ' + url);
+
+        // Send a script that closes the window immediately
+        res.send('<html><head><script type="text/javascript">window.close();</script></head><body></body></html>');
+
+        global.mainWindow.webContents.send('dropbox-auth-callback', url);
+        expressServer.close();
+        expressServer = null;
+      });
+
+      expressServer = expressApp.listen(9999);
+    });
+
+    this._ipcMain.add('general_stopDropboxAuthServer', async() => {
+      if (expressServer != null) {
+        expressServer.close();
+        expressServer = null;
+      }
     });
 
     this._ipcMain.add('general_getIpcCallStats', async() => {

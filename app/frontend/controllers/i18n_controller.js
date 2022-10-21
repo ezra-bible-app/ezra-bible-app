@@ -125,8 +125,12 @@ module.exports.initLocale = async function() {
   if (await ipcSettings.has(SETTINGS_KEY)) {
     let locale = await ipcSettings.get(SETTINGS_KEY, locales.fallback);
 
-    console.log(`Using locale ${locale}`);
-    await i18n.changeLanguage(locale);
+    if (typeof(locale) == 'string') {
+      console.log(`Using locale ${locale}`);
+      await i18n.changeLanguage(locale);
+    } else {
+      console.log(`Invalid locale of type ${typeof(locale)}`);
+    }
   }
 
   // We need to save some locale strings separately, so that they are accessible at startup before i18next is available

@@ -65,19 +65,29 @@
       </div>
     </div><!-- verse-list-menu-line -->
 
-    <div class="verse-list-menu-line">
+    <div id="bible-select-title-line" class="verse-list-menu-line">
       <div class="bible-select-block">
         <select name="bible-select" class="bible-select">
         </select>
       </div>
+
+      <!-- Only visible on mobile version -->
+      <div class="current-tab-title-label">
+      </div>
+
+      <div id="mobile-loader" class="loader text-loader hidden">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
     </div> <!-- verse-list-menu-line -->
 
-    <div class="verse-list-menu-line">
+    <div id="last-verse-list-menu-line" class="verse-list-menu-line">
       <div class="selection-box">
         <span class="bold" i18n="bible-browser.selection"></span> <div class="selected-verses"></div>
       </div>
 
-      <div class="loader text-loader">
+      <div id="desktop-loader" class="loader text-loader hidden">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>

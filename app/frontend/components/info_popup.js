@@ -69,14 +69,14 @@ class InfoPopup {
 
     this.initAppInfoBoxDone = true;
 
-    var width = uiHelper.getMaxDialogWidth();
-
     $('#info-popup').dialog({
-      width: width,
-      height: 550,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     });
+  }
+
+  getFormattedTimestamp(timestamp) {
+    return timestamp.toLocaleDateString() + ' / ' + timestamp.toLocaleTimeString();
   }
 
   async showAppInfo() {
@@ -104,8 +104,37 @@ class InfoPopup {
     const swordVersion = await ipcNsi.getSwordVersion();
     const chromiumVersion = window.getChromiumVersion();
     const databasePath = await ipcDb.getDatabasePath();
+    const databaseSize = await ipcDb.getDatabaseSize() + ' MB';
     const configFilePath = await ipcSettings.getConfigFilePath();
     const swordPath = await ipcNsi.getSwordPath();
+
+    let lastDropboxSyncTime = '--';
+    if (await ipcSettings.has('lastDropboxSyncTime')) {
+      lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
+      lastDropboxSyncTime = this.getFormattedTimestamp(lastDropboxSyncTime);
+    }
+
+    let lastDropboxDownloadTime = '--';
+    if (await ipcSettings.has('lastDropboxDownloadTime')) {
+      let rawDropboxDownloadTime = await ipcSettings.get('lastDropboxDownloadTime', '--');
+
+      if (rawDropboxDownloadTime != '--' && rawDropboxDownloadTime != '') {
+        lastDropboxDownloadTime = new Date(rawDropboxDownloadTime);
+        lastDropboxDownloadTime = this.getFormattedTimestamp(lastDropboxDownloadTime);
+      }
+    }
+
+    let lastDropboxUploadTime = '--';
+    if (await ipcSettings.has('lastDropboxUploadTime')) {
+      let rawDropboxUploadTime = await ipcSettings.get('lastDropboxUploadTime', '--');
+
+      if (rawDropboxUploadTime != '--' && rawDropboxUploadTime != '') {
+        lastDropboxUploadTime = new Date(rawDropboxUploadTime);
+        lastDropboxUploadTime = this.getFormattedTimestamp(lastDropboxUploadTime);
+      }
+    }
+
+    const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '--');
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
@@ -127,14 +156,14 @@ class InfoPopup {
         <li><a href='#app-info-tabs-1'>${i18n.t('general.sword-module-description')}</a></li>
         <li><a href='#app-info-tabs-2'>${i18n.t('general.sword-module-details')}</a></li>
         <li><a href='#app-info-tabs-3'>${i18n.t('general.application-info')}</a></li>
-        <li><a href='#app-info-tabs-4'>${i18n.t('shortcuts.tab-title')}</a></li>
+        <li id='app-info-tabs-4-nav'><a href='#app-info-tabs-4'>${i18n.t('shortcuts.tab-title')}</a></li>
       </ul>
 
       <div id='app-info-tabs-1' class='info-tabs scrollable'>
         ${moduleDescription}
       </div>
       
-      <div id='app-info-tabs-2' class='info-tabs scrollable'>
+      <div id='app-info-tabs-2' class='info-tabs scrollable' style='padding-top: 1em !important;'>
         ${moduleInfo}
       </div>
 
@@ -166,8 +195,17 @@ class InfoPopup {
           <tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>
           <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
           <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
+          <tr><td>${i18n.t("general.database-size")}:</td><td>${databaseSize}</td></tr>
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
           <tr><td>${i18n.t("general.sword-path")}:</td><td>${swordPath}</td></tr>
+        </table>
+
+        <h2>${i18n.t("dropbox.dropbox-sync-info")}</h2>
+        <table>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-sync-time")}:</td><td>${lastDropboxSyncTime}</td></tr>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-sync-result")}:</td><td>${lastDropboxSyncResult}</td></tr>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-download-time")}:</td><td>${lastDropboxDownloadTime}</td></tr>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-upload-time")}:</td><td>${lastDropboxUploadTime}</td></tr>
         </table>
 
         <div id="info-popup-export">
@@ -216,16 +254,17 @@ class InfoPopup {
       </div>
     </div>`;
 
-    const width = uiHelper.getMaxDialogWidth();
-    const offsetLeft = ($(window).width() - width) / 2;
+    var dialogWidth = uiHelper.getMaxDialogWidth();
+    var dialogHeight = 550;
+    var draggable = true;
 
-    $('#info-popup').dialog({
-      width: width,
-      title: i18n.t('general.module-application-info'),
-      position: [offsetLeft, 120],
-      resizable: false
-    });
+    var offsetLeft = ($(window).width() - dialogWidth) / 2;
+    var position = [offsetLeft, 120];
 
+    let dialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    dialogOptions.title = i18n.t('general.module-application-info');
+
+    $('#info-popup').dialog(dialogOptions);
     $('#info-popup-content').empty();
     $('#info-popup-content').html(appInfo.innerHTML);
     $('#app-info-tabs').tabs({ heightStyle: "fill" });

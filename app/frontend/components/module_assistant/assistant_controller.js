@@ -95,8 +95,13 @@ module.exports.remove = (key, value) => {
 
 async function restoreSelected(key) {
   key = `selected${key}`;
-  state[key] = new Set(await ipcSettings.get(key, []));
+  let ipcSettingsValue = await ipcSettings.get(key, []);
+
+  if (Array.isArray(ipcSettingsValue)) {
+    state[key] = new Set(ipcSettingsValue);
+  }
 }
+
 async function saveSelected(key) {
   key = `selected${key}`;
   await ipcSettings.set(key, [...state[key]]);

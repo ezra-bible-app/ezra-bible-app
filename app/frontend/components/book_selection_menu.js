@@ -47,6 +47,10 @@ class BookSelectionMenu {
       await this.localizeBookSelectionMenu();
     }
 
+    document.getElementById('bookMenuBackButton').addEventListener('click', () => {
+      setTimeout(() => { this.hideBookMenu(); }, 100);
+    });
+
     this.initLinks();
     this.subscribeForEvents();
     this.init_completed = true;
@@ -172,7 +176,7 @@ class BookSelectionMenu {
     }
   }
 
-  async selectBibleBook(bookCode, bookTitle, referenceBookTitle) {
+  async selectBibleBook(bookCode, bookTitle, referenceBookTitle, currentChapter=null) {
     this.currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     if (this.currentBibleTranslationId == null || this.currentBibleTranslationId == undefined) {
       return;
@@ -190,7 +194,7 @@ class BookSelectionMenu {
     const selectChapterBeforeLoading = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
     const bookChapterCount = await ipcNsi.getBookChapterCount(this.currentBibleTranslationId, bookCode);
 
-    if (selectChapterBeforeLoading.isChecked && bookChapterCount > 1) {
+    if ((selectChapterBeforeLoading.isChecked || currentChapter != null) && bookChapterCount > 1) {
       //console.log(`Showing chapter list for ${bookTitle} ` +
       //            `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
       
@@ -201,7 +205,7 @@ class BookSelectionMenu {
       this.currentBookTitle = bookTitle;
       this.currentReferenceBookTitle = referenceBookTitle;
 
-      await this.loadChapterList(bookChapterCount);
+      await this.loadChapterList(bookChapterCount, currentChapter);
 
     } else { // Load directly without first showing chapter list
 
@@ -215,7 +219,7 @@ class BookSelectionMenu {
     }
   }
 
-  async loadChapterList(bookChapterCount) {
+  async loadChapterList(bookChapterCount, currentChapter=null) {
     var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
     menuChapterList.innerHTML = `
       <h2>${this.currentBookTitle}</h2>
@@ -228,6 +232,11 @@ class BookSelectionMenu {
       let newLink = document.createElement('a');
       newLink.href = c;
       newLink.innerText = c;
+
+      if (currentChapter != null && c == currentChapter) {
+        newLink.setAttribute('class', 'current-chapter');
+      }
+      
       chapters.appendChild(newLink);
 
       newLink.addEventListener('click', async (event) => {
@@ -248,6 +257,8 @@ class BookSelectionMenu {
 
   hideBookMenu() {
     if (this.book_menu_is_opened) {
+      document.getElementById('app-container').classList.remove('fullscreen-menu');
+
       var bookMenu = document.querySelector('#app-container #book-selection-menu');
       bookMenu.style.display = 'none';
       bookMenu.classList.remove('select-chapter');
@@ -275,11 +286,24 @@ class BookSelectionMenu {
       var book_button = currentVerseListMenu.find('.book-select-button');
       var menu = $('#app-container').find('#book-selection-menu');
 
+      document.getElementById('app-container').classList.add('fullscreen-menu');
+
       uiHelper.showButtonMenu(book_button, menu);
 
       this.book_menu_is_opened = true;
-      event.stopPropagation();
+
+      if (event != null) {
+        event.stopPropagation();
+      }
     }
+  }
+
+  async openBookChapterList(bookCode, currentChapter) {
+    let bookLongTitle = await ipcDb.getBookLongTitle(bookCode);
+    let bookTitleTranslation = await ipcDb.getBookTitleTranslation(bookCode);
+
+    this.handleBookMenuClick();
+    await this.selectBibleBook(bookCode, bookTitleTranslation, bookLongTitle, currentChapter);
   }
 
   highlightCurrentlySelectedBookInMenu(tabIndex=undefined) {

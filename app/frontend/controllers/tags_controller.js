@@ -83,6 +83,16 @@ class TagsController {
   }
 
   subscribeEvents() {
+    eventController.subscribe('on-tag-panel-switched', async (isOpen) => {
+      if (isOpen) {
+        await this.updateTagsView(undefined, !this.initialRenderingDone);
+      } else if (platformHelper.isCordova() || platformHelper.isMobile()) {
+        // Reset tag list on mobile when switching off the tag panel
+        this.initialRenderingDone = false;
+        document.getElementById('tags-content-global').innerHTML = "";
+      }
+    });
+
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
@@ -90,7 +100,9 @@ class TagsController {
         // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
         this.verses_were_selected_before = true;
 
-        await this.updateTagsView(tabIndex, !this.initialRenderingDone);
+        if (this.tagPanelIsActive()) {
+          await this.updateTagsView(tabIndex, !this.initialRenderingDone);
+        }
 
         if (currentTab.addedInteractively) {
           this.resetActivePanelToTagPanel(tabIndex);
@@ -156,6 +168,18 @@ class TagsController {
       await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
       this.hideTagListLoadingIndicator();
     });
+
+    eventController.subscribe('on-db-refresh', async () => {
+      const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      document.getElementById('tags-content-global').innerHTML = "";
+      await this.updateTagsView(currentTabIndex, true);
+    });
+  }
+
+  tagPanelIsActive() {
+    let tagPanelButton = document.getElementById('tag-panel-button');
+    let isActive = tagPanelButton.classList.contains('active');
+    return isActive;
   }
 
   resetActivePanelToTagPanel(tabIndex) {
@@ -187,18 +211,20 @@ class TagsController {
 
     this.newTagDialogInitDone = true;
 
-    var new_standard_tag_dlg_options = {
-      title: i18n.t("tags.new-tag"),
-      width: 450,
-      position: [55,180],
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    };
-  
+    var dialogWidth = 450;
+    var dialogHeight = 400;
+    var draggable = true;
+    var position = [55, 120];
+
+    let new_standard_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    new_standard_tag_dlg_options.title = i18n.t("tags.new-tag");
+    new_standard_tag_dlg_options.autoOpen = false;  
     new_standard_tag_dlg_options.buttons = {};
+
     new_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-      $(this).dialog("close");
+      setTimeout(() => { $(this).dialog("close"); }, 100);
     };
+
     new_standard_tag_dlg_options.buttons[i18n.t("tags.create-tag")] = {
       id: 'create-tag-button',
       text: i18n.t("tags.create-tag"),
@@ -263,14 +289,14 @@ class TagsController {
 
     this.addTagsToGroupDialogInitDone = true;
 
-    var addTagsToGroupDialogOptions = {
-      title: i18n.t("tags.add-tags-to-group"),
-      width: 450,
-      height: 500,
-      position: [55,180],
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    };
+    var dialogWidth = 450;
+    var dialogHeight = 500;
+    var draggable = true;
+    var position = [55, 120];
+
+    let addTagsToGroupDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    addTagsToGroupDialogOptions.title = i18n.t("tags.add-tags-to-group");
+    addTagsToGroupDialogOptions.autoOpen = false;
   
     addTagsToGroupDialogOptions.buttons = {};
     addTagsToGroupDialogOptions.buttons[i18n.t("general.cancel")] = function() {
@@ -293,7 +319,7 @@ class TagsController {
   async addTagsToGroup(tagGroupId, tagList) {
     for (let i = 0; i < tagList.length; i++) {
       let tagId = tagList[i];
-      let tag = this.tag_store.getTag(tagId);
+      let tag = await this.tag_store.getTag(tagId);
 
       let result = await ipcDb.updateTag(tagId, tag.title, [ tagGroupId ], []);
 
@@ -350,17 +376,18 @@ class TagsController {
 
     this.deleteTagConfirmationDialogInitDone = true;
 
-    var delete_tag_confirmation_dlg_options = {
-      title: i18n.t("tags.delete-tag"),
-      width: 300,
-      position: [55,180],
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    };
+    var dialogWidth = 300;
+    var dialogHeight = null;
+    var draggable = true;
+    var position = [55, 120];
+
+    let delete_tag_confirmation_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    delete_tag_confirmation_dlg_options.title = i18n.t("tags.delete-tag");
+    delete_tag_confirmation_dlg_options.autoOpen = false;
   
     delete_tag_confirmation_dlg_options.buttons = {};
     delete_tag_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-      $(this).dialog("close");
+      setTimeout(() => { $(this).dialog("close"); }, 100);
     };
     delete_tag_confirmation_dlg_options.buttons[i18n.t("tags.delete-tag")] = function() {
       tags_controller.deleteTagAfterConfirmation();
@@ -386,13 +413,9 @@ class TagsController {
 
     this.removeTagAssignmentConfirmationDialogInitDone = true;
 
-    var remove_tag_assignment_confirmation_dlg_options = {
-      title: i18n.t("tags.remove-tag-assignment"),
-      width: 360,
-      position: [55,250],
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    };
+    let remove_tag_assignment_confirmation_dlg_options = uiHelper.getDialogOptions(360, null, true, [55, 120]);
+    remove_tag_assignment_confirmation_dlg_options.autoOpen = false;
+    remove_tag_assignment_confirmation_dlg_options.title = i18n.t("tags.remove-tag-assignment");
   
     remove_tag_assignment_confirmation_dlg_options.buttons = {};
     remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
@@ -423,18 +446,20 @@ class TagsController {
 
     this.editTagDialogInitDone = true;
 
-    var edit_tag_dlg_options = {
-      title: i18n.t("tags.edit-tag"),
-      width: 450,
-      height: 400,
-      position: [55,200],
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    };
+    var dialogWidth = 450;
+    var dialogHeight = 400;
+    var draggable = true;
+    var position = [55, 120];
+
+    let edit_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    edit_tag_dlg_options.title = i18n.t("tags.edit-tag");
+    edit_tag_dlg_options.autoOpen = false;
+
     edit_tag_dlg_options.buttons = {};
     edit_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-      $(this).dialog("close");
+      setTimeout(() => { $(this).dialog("close"); }, 100);
     };
+
     edit_tag_dlg_options.buttons[i18n.t("general.save")] = {
       id: 'edit-tag-button',
       text: i18n.t("general.save"),
@@ -442,6 +467,7 @@ class TagsController {
         tags_controller.closeDialogAndUpdateTag();
       }
     };
+
     $('#edit-tag-dialog').dialog(edit_tag_dlg_options);
   
     // Handle the enter key in the tag title field and rename the tag when it is pressed
@@ -489,12 +515,6 @@ class TagsController {
     }
 
     if (newTitle != oldTitle) {
-      tags_controller.updateTagInView(tags_controller.edit_tag_id, newTitle);
-      tags_controller.updateTagTitlesInVerseList(tags_controller.edit_tag_id, isGlobal, newTitle);
-
-      tags_controller.sortTagLists();
-      await tags_controller.updateTagsViewAfterVerseSelection(true);
-
       await eventController.publishAsync(
         'on-tag-renamed',
         {
@@ -503,6 +523,12 @@ class TagsController {
           newTitle: newTitle
         }
       );
+
+      tags_controller.updateTagInView(tags_controller.edit_tag_id, newTitle);
+      tags_controller.updateTagTitlesInVerseList(tags_controller.edit_tag_id, isGlobal, newTitle);
+
+      tags_controller.sortTagLists();
+      await tags_controller.updateTagsViewAfterVerseSelection(true);
     }
 
     if (addTagGroups.length > 0 || removeTagGroups.length > 0) {
@@ -586,37 +612,43 @@ class TagsController {
     uiHelper.hideTextLoadingIndicator();
   }
 
-  async handleNewTagButtonClick(button) {
-    if ($(button).hasClass('ui-state-disabled')) {
+  async handleNewTagButtonClick(event) {
+    if (event.target.classList.contains('ui-state-disabled')) {
       return;
     }
 
     eventController.publish('on-button-clicked');
     tags_controller.initNewTagDialog();
 
-    let addExistingTagsLink = document.getElementById('add-existing-tags-to-tag-group-link').parentNode;
+    const tagInput = document.getElementById('new-standard-tag-title-input');
+    tagInput.value = '';
+    var $dialogContainer = $('#new-standard-tag-dialog');
+    $dialogContainer.dialog('open');
 
-    const $tagInput = $('#new-standard-tag-title-input');
-    $tagInput.val(''); 
+    await waitUntilIdle();
+    tagInput.focus();
+    await waitUntilIdle();
 
     let allTagGroups = await ipcDb.getAllTagGroups();
     let tagGroupAssignmentSection = document.getElementById('tag-group-assignment-section');
+    let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
+    tagGroupAssignment.tagGroupManager._addList = [];
 
     if (allTagGroups.length == 0) {
       tagGroupAssignmentSection.style.display = 'none';
     } else {
       tagGroupAssignmentSection.style.removeProperty('display');
 
-      let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
       await tagGroupAssignment.tagGroupManager.refreshItemList();
-      tagGroupAssignment.tagGroupManager._addList = [];
 
       if (this.tagGroupUsed()) {
         tagGroupAssignment.tagGroupManager.enableElementById(this.currentTagGroupId);
+        tagGroupAssignment.tagGroupManager._addList = [ this.currentTagGroupId ];
       }
     }
 
     this.updateButtonStateBasedOnTagTitleValidation('', 'create-tag-button');
+    let addExistingTagsLink = document.getElementById('add-existing-tags-to-tag-group-link').parentNode;
 
     if (this.tagGroupUsed()) {
       let remainingTagCount = await this.updateAddTagToGroupTagList();
@@ -629,9 +661,6 @@ class TagsController {
     } else {
       addExistingTagsLink.style.display = 'none';
     }
-
-    $('#new-standard-tag-dialog').dialog('open');
-    $tagInput.focus();
   }
 
   handleDeleteTagButtonClick(event) {
@@ -1186,7 +1215,7 @@ class TagsController {
     //console.timeEnd("renderTags");
   }
 
-  handleEditTagClick(event) {
+  async handleEditTagClick(event) {
     eventController.publish('on-button-clicked');
     tags_controller.initEditTagDialog();
 
@@ -1202,14 +1231,19 @@ class TagsController {
 
     $tagInput.val(cb_label);
 
+    $('#edit-tag-dialog').dialog('open');
+
     var tagGroupAssignment = document.getElementById('tag-group-assignment');
+    await tagGroupAssignment.tagGroupManager.refreshItemList();
+
     tagGroupAssignment.tagid = tags_controller.edit_tag_id;
     tagGroupAssignment.onChange = () => {
       this.handleEditTagChange();
     };
 
-    $('#edit-tag-dialog').dialog('open');
-    $('#rename-tag-title-input').focus();
+    if (!platformHelper.isMobile()) {
+      $('#rename-tag-title-input').focus();
+    }
   }
 
   handleEditTagChange() {
@@ -1261,13 +1295,17 @@ class TagsController {
     tags_box.addEventListener('click', async function(event) {
       // Use event delegation, so that we do not have to add an event listener to each element.
 
+      const CLICK_TIMEOUT = 100;
+
       if (event.target.matches('.delete-icon') || event.target.matches('.delete-button')) {
-        tags_controller.handleDeleteTagButtonClick(event);
+        setTimeout(() => { tags_controller.handleDeleteTagButtonClick(event); }, CLICK_TIMEOUT);
       } else if (event.target.matches('.edit-icon') || event.target.matches('.edit-button')) {
-        tags_controller.handleEditTagClick(event);
+        setTimeout(() => { tags_controller.handleEditTagClick(event); }, CLICK_TIMEOUT);
       } else if (event.target.matches('.tag-button')) {
+        await waitUntilIdle();
         await tags_controller.handleTagCbClick(event);
       } else if (event.target.matches('.cb-label')) {
+        await waitUntilIdle();
         await tags_controller.handleTagLabelClick(event);
       } else {
         return;
@@ -1289,7 +1327,7 @@ class TagsController {
 
       var current_verse_box = new VerseBox(current_tag_data.closest('.verse-box')[0]);
       current_verse_box.updateTagTooltip();
-      current_verse_box.updateVisibleTags(undefined, tag_id, title);
+      current_verse_box.updateVisibleTags();
     }
   }
 
@@ -1471,7 +1509,9 @@ class TagsController {
 
       var currentTabBook = currentTab.getBook();
       var currentTabContentId = currentTab.getContentId();
-      this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
+      await this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
+
+      this.hideTagListLoadingIndicator();
     }
 
     await this.updateTagUiBasedOnTagAvailability(tagCount);

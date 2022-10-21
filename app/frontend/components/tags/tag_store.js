@@ -123,6 +123,19 @@ class TagStore {
     return null;
   }
 
+  async getTagByTitle(tagTitle) {
+    var tagList = await this.getTagList();
+
+    for (let i = 0; i < tagList.length; i++) {
+      let currentTag = tagList[i];
+      if (currentTag.title == tagTitle) {
+        return currentTag;
+      }
+    }
+
+    return null;
+  }
+
   async getBibleBookDbId(bookShortTitle) {
     var bibleBook = await ipcDb.getBibleBook(bookShortTitle);
     

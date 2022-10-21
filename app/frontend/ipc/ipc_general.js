@@ -33,11 +33,16 @@ class IpcGeneral {
     return result;
   }
 
-  async initDatabase(androidVersion=undefined) {
+  async initDatabase(androidVersion=undefined, connectionType=undefined) {
     var timeoutMs = 15000;
     console.time('initDatabase');
-    var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs, androidVersion);
+    var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs, androidVersion, connectionType);
     console.timeEnd('initDatabase');
+    return result;
+  }
+
+  async setConnectionType(connectionType) {
+    var result = await this._ipcRenderer.call('general_setConnectionType', connectionType);
     return result;
   }
 
@@ -71,6 +76,14 @@ class IpcGeneral {
    */
   async getIpcCallStats() {
     return await this._ipcRenderer.call('general_getIpcCallStats');
+  }
+
+  async startDropboxAuthServer() {
+    return await this._ipcRenderer.call('general_startDropboxAuthServer');
+  }
+
+  async stopDropboxAuthServer() {
+    return await this._ipcRenderer.call('general_stopDropboxAuthServer');
   }
 
   /**

@@ -20,6 +20,8 @@ const VerseBox = require('../ui_models/verse_box.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 const wheelnavController = require('../controllers/wheelnav_controller.js');
 const eventController = require('../controllers/event_controller.js');
+const PlatformHelper = require('../../lib/platform_helper.js');
+const Hammer = require('../../../lib/hammerjs/hammer.js');
 
 /**
  * This controller provides an API for the verse list as well as event handlers for clicks within the verse list.
@@ -30,9 +32,15 @@ const eventController = require('../controllers/event_controller.js');
 module.exports.init = function init() {
   eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
 
-  eventController.subscribe('on-bible-text-loaded', (tabIndex) => { 
+  eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
+    this.addVerseListClasses(tabIndex);
     this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
+
+    let platformHelper = new PlatformHelper();
+    if (platformHelper.isCordova()) {
+      this.initSwipeEvents(tabIndex);
+    }
   });
 
   eventController.subscribe('on-tag-group-filter-enabled', async () => {
@@ -272,11 +280,95 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
 
   verseList.find('.verse-box').bind('mouseover', (e) => { onVerseBoxMouseOver(e); });
 
+  verseList.find('a.chapter-nav').bind('mousedown', async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const chapter = parseInt(event.target.closest('a').getAttribute('chapter'));
+    await app_controller.navigation_pane.goToChapter(chapter);
+  });
+
+  verseList.find('a.chapter-nav-dialog').bind('mousedown', async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const currentTab = app_controller.tab_controller.getTab();
+    const currentBook = currentTab.getBook();
+    const currentChapter = currentTab.getChapter();
+
+    app_controller.book_selection_menu.openBookChapterList(currentBook, currentChapter);
+  });
+
   if (getPlatform().isFullScreen()) {
     wheelnavController.bindEvents();
   }
 };
-  
+
+module.exports.initSwipeEvents = async function(tabIndex) {
+  let verseList = this.getCurrentVerseList(tabIndex);
+
+  let currentTab = app_controller.tab_controller.getTab(tabIndex);
+  const currentTranslationId = currentTab.getBibleTranslationId();
+  const currentBook = currentTab.getBook();
+  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentBook);
+
+  if (!isInstantLoadingBook) {
+    let hammerTime = new Hammer(verseList[0], {
+      recognizers: [
+        [Hammer.Swipe,{ direction: Hammer.DIRECTION_HORIZONTAL }],
+      ]
+    });
+
+    hammerTime.on('swiperight', () => {
+      this.goToPreviousChapter();
+    });
+
+    hammerTime.on('swipeleft', () => { 
+      this.goToNextChapter();
+    });
+  }
+};
+
+module.exports.getCurrentChapter = function() {
+  let verseList = this.getCurrentVerseList();
+  let firstVerseBox = new VerseBox(verseList[0].querySelector('.verse-box'));
+  return firstVerseBox.getChapter();
+};
+
+module.exports.goToPreviousChapter = async function() {
+  let currentChapter = this.getCurrentChapter();
+
+  if (currentChapter > 1) {
+    let previousChapter = currentChapter - 1;
+    await app_controller.navigation_pane.goToChapter(previousChapter);
+  }
+};
+
+module.exports.goToNextChapter = async function() {
+  let currentTab = app_controller.tab_controller.getTab();
+  const currentTranslationId = currentTab.getBibleTranslationId();
+  const currentBook = currentTab.getBook();
+  const maxChapters = await ipcNsi.getBookChapterCount(currentTranslationId, currentBook);
+
+  let currentChapter = this.getCurrentChapter();
+
+  if (currentChapter < maxChapters) {
+    let nextChapter = currentChapter + 1;
+    await app_controller.navigation_pane.goToChapter(nextChapter);
+  }
+};
+
+module.exports.addVerseListClasses = async function(tabIndex=undefined) {
+  let currentTab = app_controller.tab_controller.getTab(tabIndex);
+  const currentTranslationId = currentTab.getBibleTranslationId();
+  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
+  let currentVerseList = this.getCurrentVerseList(tabIndex);
+
+  if (!isInstantLoadingBook && currentVerseList[0] != null) {
+    currentVerseList.addClass('verse-list-without-chapter-titles');
+  }
+};
+
 module.exports.bindXrefEvents = function(tabIndex=undefined) {
   var verseList = this.getCurrentVerseList(tabIndex);
   var xref_markers = verseList.find('.sword-xref-marker');
@@ -357,11 +449,15 @@ module.exports.onAllTranslationsRemoved = function() {
   $('.book-select-value').text(i18n.t("menu.book"));
 };
 
-module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefined) {
+module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefined, rootElement=undefined) {
   let tagGroupFilterOption = app_controller.optionsMenu._tagGroupFilterOption;
-
   let verseList = this.getCurrentVerseList(tabIndex)[0];
-  let allTagElements = verseList.querySelectorAll('.tag');
+
+  if (rootElement === undefined) {
+    rootElement = verseList;
+  }
+
+  let allTagElements = rootElement.querySelectorAll('.tag');
 
   if (tagGroupId == null || tagGroupId < 0 || !tagGroupFilterOption.isChecked) {
     // Show all tags
@@ -371,12 +467,7 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
 
   } else {
     // Show tags filtered by current tag group
-    let tagGroupMembers = await tags_controller.getTagGroupMembers(tagGroupId);
-    let tagGroupMemberIds = [];
-
-    tagGroupMembers.forEach((member) => {
-      tagGroupMemberIds.push(member.id);
-    });
+    let tagGroupMemberIds = await tags_controller.getTagGroupMemberIds(tagGroupId);
 
     allTagElements.forEach((tagElement) => {
       let currentTagId = parseInt(tagElement.getAttribute('tag-id'));

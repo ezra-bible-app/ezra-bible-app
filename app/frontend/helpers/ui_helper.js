@@ -142,12 +142,12 @@ class UiHelper {
 
   showTextLoadingIndicator(tabIndex=undefined) {
     var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
-    textLoadingIndicator.show();
+    textLoadingIndicator.removeClass('hidden');
   }
 
   hideTextLoadingIndicator(tabIndex=undefined) {
     var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
-    textLoadingIndicator.hide();
+    textLoadingIndicator.addClass('hidden');
   }
 
   showButtonMenu($button, $menu) {
@@ -179,6 +179,32 @@ class UiHelper {
   disableButton(button) {
     button.classList.add('ui-state-disabled');
     button.setAttribute('disabled', true);
+  }
+
+  getDialogOptions(width, height, draggable, position, resizable=false) {
+    if (platformHelper.isMobile()) {
+      width = $(window).width() - 10;
+      height = $(window).height() - 85;
+      draggable = false;
+      position = [0, 0];
+    }
+
+    let dialogOptions = {
+      width: width,
+      draggable: draggable,
+      resizable: resizable,
+      dialogClass: 'ezra-dialog'
+    };
+
+    if (position != null) {
+      dialogOptions.position = position;
+    }
+
+    if (height != null) {
+      dialogOptions.height = height;
+    }
+
+    return dialogOptions;
   }
 }
 

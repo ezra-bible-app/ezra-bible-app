@@ -29,7 +29,7 @@ const template = html`
       right: 0;
       bottom: auto;
       width: 1em;
-      margin-right: 1.3em;
+      margin-right: 1.8em;
       padding: 3px;
       fill: #5f5f5f;
       display: inline-block;
@@ -146,8 +146,15 @@ function hasNativeEmoji() {
 async function initPicker(locale=i18nController.getLocale()) {
   await sleep(3000); // delay init as emoji picker is not a priority
   await waitUntilIdle();
+  var emojiHelper = null;
 
-  const emojiHelper = require('../helpers/emoji_helper.js');
+  try {
+    emojiHelper = require('../helpers/emoji_helper.js');
+  } catch (e) {
+    console.warn("Could not initialize emoji picker!");
+    return;
+  }
+
   const EmojiButton = emojiHelper.getEmojiButtonLib();
 
   // FIXME: get data from state instead of config option

@@ -34,7 +34,7 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+global.mainWindow = null;
 let mainWindowState;
 
 if (process.platform === 'win32') {
@@ -61,11 +61,18 @@ if (!isDev) {
   };
 }
 
-require('electron-debug')({
-  isEnabled: true,
-  showDevTools: false,
-  devToolsMode: 'bottom'
-});
+try {
+  // Loading electron-debug in a try/catch block, because we have observed failures related to this step
+  // If it fails ... startup is broken. Why it failed? Unclear!
+
+  require('electron-debug')({
+    isEnabled: true,
+    showDevTools: false,
+    devToolsMode: 'bottom'
+  });
+} catch (e) {
+  console.log('Could not load electron-debug');
+}
 
 function shouldUseDarkMode() {
   var useDarkMode = false;
@@ -100,7 +107,7 @@ function updateMenu(labels=undefined) {
   Menu.setApplicationMenu(menu);
 }
 
-async function createWindow () {
+async function createWindow(firstStart=true) {
   const path = require('path');
   const url = require('url');
 
@@ -108,7 +115,7 @@ async function createWindow () {
 
   var preloadScript = '';
   if (!isDev) {
-    preloadScript = path.join(__dirname, 'app/frontend/helpers/sentry.js')
+    preloadScript = path.join(__dirname, 'app/frontend/helpers/sentry.js');
   }
 
   const windowStateKeeper = require('electron-window-state');
@@ -128,7 +135,7 @@ async function createWindow () {
       // Register listeners on the window, so we can update the state
       // automatically (the listeners will be removed when the window is closed)
       // and restore the maximized or full screen state
-      mainWindowState.manage(mainWindow);
+      mainWindowState.manage(global.mainWindow);
     });
 
     ipcMain.on('log', async (event, message) => {
@@ -137,7 +144,7 @@ async function createWindow () {
 
     // eslint-disable-next-line no-unused-vars
     ipcMain.handle('initIpc', async (event, arg) => {
-      await global.ipc.init(isDev, mainWindow);
+      await global.ipc.init(isDev, global.mainWindow);
     });
 
     // eslint-disable-next-line no-unused-vars
@@ -158,7 +165,7 @@ async function createWindow () {
   }
 
   // Create the browser window.
-  mainWindow = new BrowserWindow({
+  global.mainWindow = new BrowserWindow({
     x: mainWindowState.x,
     y: mainWindowState.y,
     width: mainWindowState.width,
@@ -177,8 +184,11 @@ async function createWindow () {
     backgroundColor: bgColor
   });
 
-  require('@electron/remote/main').initialize();
-  require("@electron/remote/main").enable(mainWindow.webContents);
+  if (firstStart) { // electron remote can only be initialized once, on macOS this function may run multiple times
+    require('@electron/remote/main').initialize();
+  }
+
+  require("@electron/remote/main").enable(global.mainWindow.webContents);
  
   // The default menu will be created automatically if the app does not set one.
   // It contains standard items such as File, Edit, View, Window and Help.
@@ -190,26 +200,26 @@ async function createWindow () {
   }
 
   // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
+  global.mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
     slashes: true
   }));
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
+  global.mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    mainWindow = null;
+    global.mainWindow = null;
   });
 
-  mainWindow.on('enter-full-screen', function () {
-    mainWindow.webContents.send('fullscreen-changed');
+  global.mainWindow.on('enter-full-screen', function () {
+    global.mainWindow.webContents.send('fullscreen-changed');
   });
 
-  mainWindow.on('leave-full-screen', function () {
-    mainWindow.webContents.send('fullscreen-changed');
+  global.mainWindow.on('leave-full-screen', function () {
+    global.mainWindow.webContents.send('fullscreen-changed');
   });
 }
 
@@ -220,8 +230,19 @@ app.on('ready', async () => {
   await createWindow();
 });
 
+let exitComplete = false;
+
+app.on('before-quit', async (event) => {
+  if (!exitComplete) {
+    event.preventDefault();
+    await global.ipc.closeDatabase();
+    exitComplete = true;
+    app.quit();
+  }
+});
+
 // Quit when all windows are closed.
-app.on('window-all-closed', function () {
+app.on('window-all-closed', async function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
@@ -232,7 +253,7 @@ app.on('window-all-closed', function () {
 app.on('activate', async () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    await createWindow();
+  if (global.mainWindow === null) {
+    await createWindow(false);
   }
 });

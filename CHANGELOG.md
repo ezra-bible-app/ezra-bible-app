@@ -1,6 +1,118 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.8.0 - 2022-10-21]
+
+### Features
+
+* Dropbox Sync functionality. ([#753][i753])
+
+### Enhancements
+
+* Show chapter selection dialog when clicking on the text "chapter" in the chapter navigation. ([#744][i744])
+* Clicking a verse a second time should remove it from the selection. ([#702][i702])
+* Verse context menu: Add option to delete verse note. ([#743][i743])
+
+### Fixes
+
+* Headers in navigation are not shown correctly for some modules (like engNET2016eb). ([#776][i776])
+* Lower button bar cut off on some Android devices (< 11). ([#769][i769])
+* Issue with KJVA and verse comparison. ([#734][i734])
+* Connectivity issue not detected when installing modules, installation finishes without error message. ([#751][i751])
+* New tag is not getting added to currently selected tag group. ([#742][i742])
+* Android: Last word/phrase of editor text cut off when saving note. ([#741][i741])
+* Assign last tag button still showing tag after the last tag was deleted. ([#740][i740])
+* Verse context menu still opening when button is disabled. ([#739][i739])
+* Newly assigned tag labels disappeared in text after renaming a tag. ([#738][i738])
+
+### Enablers
+
+* Support Fedora 35/36/37. ([#765][i765])
+
+[i776]: https://github.com/ezra-bible-app/ezra-bible-app/issues/776
+[i769]: https://github.com/ezra-bible-app/ezra-bible-app/issues/769
+[i734]: https://github.com/ezra-bible-app/ezra-bible-app/issues/734
+[i753]: https://github.com/ezra-bible-app/ezra-bible-app/issues/753
+[i765]: https://github.com/ezra-bible-app/ezra-bible-app/issues/765
+[i744]: https://github.com/ezra-bible-app/ezra-bible-app/issues/744
+[i751]: https://github.com/ezra-bible-app/ezra-bible-app/issues/751
+[i702]: https://github.com/ezra-bible-app/ezra-bible-app/issues/702
+[i743]: https://github.com/ezra-bible-app/ezra-bible-app/issues/743
+[i742]: https://github.com/ezra-bible-app/ezra-bible-app/issues/742
+[i741]: https://github.com/ezra-bible-app/ezra-bible-app/issues/741
+[i740]: https://github.com/ezra-bible-app/ezra-bible-app/issues/740
+[i739]: https://github.com/ezra-bible-app/ezra-bible-app/issues/739
+[i738]: https://github.com/ezra-bible-app/ezra-bible-app/issues/738
+
+## [1.7.1 - 2022-08-28]
+
+This is a bugfix release primarily addressing issues on Android.
+
+## [1.7.0 - 2022-08-21]
+
+This release adds support for Android mobile devices.
+
+### Enhancements
+
+* Exclude currently opened Bible translation in compare translations function. ([#681][i681])
+* Only activate mouseover/longpress dictionary look-up when dictionary panel is open. ([#680][i680])
+* Navigate chapters by swiping left/right. ([#730][i730])
+
+### Fixes
+
+* Fixed bug: Tag title was getting erased when adding a tag to tag group. ([#688][i688])
+* Fixed storage/permission issues on Android 11. ([#704][i704])
+* Fixed bug: Tag group filter was not considered when updating visible tags of a verse after assignment changes. ([#678][i678])
+
+### Enablers
+
+* Optimized layout & style for mobile screens. ([#669][i669])
+* Added support for Ubuntu 22.04. ([#684][i684])
+
+[i669]: https://github.com/ezra-bible-app/ezra-bible-app/issues/669
+[i678]: https://github.com/ezra-bible-app/ezra-bible-app/issues/678
+[i680]: https://github.com/ezra-bible-app/ezra-bible-app/issues/680
+[i681]: https://github.com/ezra-bible-app/ezra-bible-app/issues/681
+[i684]: https://github.com/ezra-bible-app/ezra-bible-app/issues/684
+[i688]: https://github.com/ezra-bible-app/ezra-bible-app/issues/688
+[i704]: https://github.com/ezra-bible-app/ezra-bible-app/issues/704
+[i730]: https://github.com/ezra-bible-app/ezra-bible-app/issues/730
+
+## [1.6.0 - 2022-04-23]
+
+### Features
+
+* Tags can now be categorized / grouped in tag groups. ([#641][i641])
+
+### Enhancements
+
+* Chapter navigation: Highlight chapters that contain tagged verses. ([#650][i650])
+* Select complete existing filter text when clicking into tag list filter input field. ([#599][i599])
+* Adapt dictionary info box help text for Android / touch screen. ([#623][i623])
+* Add links to the Ezra Bible App website / repository. ([#627][i627])
+
+### Fixes
+
+* Fixed performance issues when loading large books. ([#659][i659])
+* Fixed bug: Tab title was getting too long when selecting many tags. ([#648][i648])
+* Fixed bug: File name of exported file was getting too long when selecting many tags. ([#649][i649])
+* Fixed bug: Inaccurate search results when limiting search scope. ([#666][i666])
+
+### Enablers
+
+* Upgraded Electron to version 17.1.0. ([#638][i638])
+
+[i599]: https://github.com/ezra-bible-app/ezra-bible-app/issues/599
+[i623]: https://github.com/ezra-bible-app/ezra-bible-app/issues/623
+[i627]: https://github.com/ezra-bible-app/ezra-bible-app/issues/627
+[i638]: https://github.com/ezra-bible-app/ezra-bible-app/issues/638
+[i641]: https://github.com/ezra-bible-app/ezra-bible-app/pull/641
+[i648]: https://github.com/ezra-bible-app/ezra-bible-app/issues/648
+[i649]: https://github.com/ezra-bible-app/ezra-bible-app/issues/649
+[i650]: https://github.com/ezra-bible-app/ezra-bible-app/issues/650
+[i659]: https://github.com/ezra-bible-app/ezra-bible-app/issues/659
+[i666]: https://github.com/ezra-bible-app/ezra-bible-app/issues/666
+
 ## [1.5.0 - 2022-02-26]
 
 ### Features

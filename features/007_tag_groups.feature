@@ -22,6 +22,7 @@ Feature: Tag groups
   I can use Tag groups to organize tags in different topical areas.
 
   @cleanup-after-scenario
+  @tag-groups
   Scenario: Creating a tag group
     Given I create the tag "Test"
     And I go to the list of tag groups
@@ -36,6 +37,7 @@ Feature: Tag groups
     Then the tag group "New tag group" is listed in the tag group list
   
   @cleanup-after-scenario 
+  @tag-groups
   Scenario: Deleting a tag group
     Given I create the tag "Test"
     And I go to the list of tag groups
@@ -46,6 +48,7 @@ Feature: Tag groups
     Then there are 0 tag groups in the database
   
   @cleanup-after-scenario
+  @tag-groups
   Scenario: Renaming a tag group
     Given I go to the list of tag groups
     And I create a tag group "New tag group"
@@ -53,6 +56,7 @@ Feature: Tag groups
     Then the tag group "Newer tag group" is existing in the database
   
   @cleanup-after-scenario 
+  @tag-groups
   Scenario: Adding existing tags to a tag group
     Given I create the tag "Test1"
     And I create the tag "Test2"
@@ -72,6 +76,7 @@ Feature: Tag groups
       | Test2 |
     
   @cleanup-after-scenario 
+  @tag-groups
   Scenario: Bible browser can filter tags for selected tag group
     Given I open the book selection menu
     And I select the book Ephesians

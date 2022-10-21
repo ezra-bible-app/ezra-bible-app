@@ -35,8 +35,9 @@ class AssignLastTagButton {
     });
 
     eventController.subscribe('on-tab-added', () => {
+      // FIXME
       // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
-      this.onLatestUsedTagChanged(undefined, undefined);
+      // this.onLatestUsedTagChanged(undefined, undefined);
     });
 
     eventController.subscribe('on-locale-changed', async () => {
@@ -44,6 +45,10 @@ class AssignLastTagButton {
     });
 
     eventController.subscribe('on-tag-renamed', async () => {
+      await this.onLatestUsedTagChanged(undefined, false);
+    });
+
+    eventController.subscribe('on-tag-deleted', async () => {
       await this.onLatestUsedTagChanged(undefined, false);
     });
 
@@ -73,6 +78,15 @@ class AssignLastTagButton {
     if (!this._button[0].classList.contains('ui-state-disabled')) {
       await tags_controller.assignLastTag();
     }
+  }
+
+  resetLabel() {
+    var label = i18n.t('tags-toolbar.assign-last-tag');
+    var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
+    assignLastTagButton.forEach((el) => {
+      el.innerText = label;
+      el.classList.add('ui-state-disabled');
+    });
   }
 
   async updateLabel(tagTitle=undefined) {
@@ -119,6 +133,8 @@ class AssignLastTagButton {
       // Resize the verse list in case the tag label change had an impact on the
       // verse list menu (number of lines changed).
       await waitUntilIdle();
+    } else {
+      this.resetLabel();
     }
   }
 

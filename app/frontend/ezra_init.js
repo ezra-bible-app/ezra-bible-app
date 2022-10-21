@@ -72,7 +72,7 @@ window.addEventListener('load', function() {
 
   } else {
 
-    console.error("FATAL: Unknown platform");
+    console.error("FATAL: Unsupported platform");
     window.startup.initApplication();
   }
 });

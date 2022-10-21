@@ -181,6 +181,9 @@ class DictionaryController {
 
       if (platformHelper.isCordova()) {
         longpressController.subscribe(wElement, (el) => {
+          if (!this._isDictionaryOpen) {
+            return;
+          }
 
           // TODO: Remove the previous strong's highlighting
           let currentVerseText = el.closest('.verse-text');

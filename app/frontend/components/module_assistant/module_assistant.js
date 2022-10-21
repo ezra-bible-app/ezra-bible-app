@@ -180,7 +180,8 @@ class ModuleAssistant extends HTMLElement{
       dialogWidth = 1100;
     }
 
-    const dialogHeight = $(window).height() * 0.75;
+    var dialogHeight = $(window).height() * 0.75;
+    var draggable = true;
 
     this._assistantAdd.hide();
     this._assistantRemove.hide();
@@ -200,13 +201,12 @@ class ModuleAssistant extends HTMLElement{
 
     assistantHelper.localizeContainer(document.querySelector('#module-settings-assistant-init'), moduleType);
 
-    $('#module-settings-assistant').dialog({
-      modal: true,
-      title: assistantHelper.localizeText("module-assistant.header", moduleType),
-      dialogClass: 'ezra-dialog module-assistant-dialog',
-      width: dialogWidth,
-      height: dialogHeight,
-    });
+    let moduleSettingsDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, null);
+    moduleSettingsDialogOptions.modal = true;
+    moduleSettingsDialogOptions.title = assistantHelper.localizeText("module-assistant.header", moduleType);
+    moduleSettingsDialogOptions.dialogClass = 'ezra-dialog module-assistant-dialog';
+
+    $('#module-settings-assistant').dialog(moduleSettingsDialogOptions);
 
     assistantHelper.unlockDialog();
   }

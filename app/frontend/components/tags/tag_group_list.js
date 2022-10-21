@@ -30,6 +30,7 @@ const template = html`
 
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
 :host {
@@ -307,16 +308,21 @@ class TagGroupList extends HTMLElement {
       const $dialogBox = $('#rename-tag-group-dialog');
       $dialogBox.localize();
       
-      const width = 400;
-      const height = 200;
+      var width = 400;
+      var height = 200;
+      var position = [55, 120];
+      var draggable = true;
 
-      var buttons = {};
+      let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
+      dialogOptions.title = i18n.t('tags.rename-tag-group');
+      dialogOptions.buttons = {};
+      dialogOptions.dialogClass = 'ezra-dialog';
 
-      buttons[i18n.t('general.cancel')] = function() {
+      dialogOptions.buttons[i18n.t('general.cancel')] = function() {
         $(this).dialog('close');
       };
 
-      buttons[i18n.t('general.save')] = {
+      dialogOptions.buttons[i18n.t('general.save')] = {
         text: i18n.t('general.save'),
         id: 'edit-tag-group-save-button',
         click: () => {
@@ -324,7 +330,12 @@ class TagGroupList extends HTMLElement {
         }
       };
 
-      const title = i18n.t('tags.rename-tag-group');
+      dialogOptions.close = () => {
+        $dialogBox.dialog('destroy');
+        $dialogBox.remove();
+        resolve();
+      };
+
       document.getElementById('rename-tag-group-title-input').value = tagGroup.title;
       
       document.getElementById('rename-tag-group-title-input').addEventListener('keyup', async (event) => {
@@ -335,22 +346,11 @@ class TagGroupList extends HTMLElement {
         }
       });
     
-      $dialogBox.dialog({
-        width,
-        height,
-        position: [60,180],
-        title: title,
-        resizable: false,
-        dialogClass: 'ezra-dialog',
-        buttons: buttons,
-        close() {
-          $dialogBox.dialog('destroy');
-          $dialogBox.remove();
-          resolve();
-        }
-      });
+      $dialogBox.dialog(dialogOptions);
 
       tagGroupValidator.validateNewTagGroupTitle('rename-tag-group-title-input', 'edit-tag-group-save-button');
+
+      document.getElementById('rename-tag-group-title-input').focus();
     });
   }
 
@@ -393,14 +393,21 @@ class TagGroupList extends HTMLElement {
       const $dialogBox = $('#delete-tag-group-confirmation-dialog');
       $dialogBox.localize();
       
-      const width = 400;
-      const height = 200;
+      var width = 400;
+      var height = 200;
+      var position = [55, 120];
+      var draggable = true;
 
-      var buttons = {};
-      buttons[i18n.t('general.cancel')] = function() {
+      let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
+      dialogOptions.title = i18n.t('tags.delete-tag-group');
+      dialogOptions.dialogClass = 'ezra-dialog';
+      dialogOptions.buttons = {};
+
+      dialogOptions.buttons[i18n.t('general.cancel')] = function() {
         $(this).dialog('close');
       };
-      buttons[i18n.t('tags.delete-tag-group')] = {
+
+      dialogOptions.buttons[i18n.t('tags.delete-tag-group')] = {
         id: 'delete-tag-group-button',
         text: i18n.t('tags.delete-tag-group'),
         click: () => {
@@ -409,22 +416,13 @@ class TagGroupList extends HTMLElement {
         }
       };
 
-      const title = i18n.t('tags.delete-tag-group');
-    
-      $dialogBox.dialog({
-        width,
-        height,
-        position: [60,180],
-        title: title,
-        resizable: false,
-        dialogClass: 'ezra-dialog',
-        buttons: buttons,
-        close() {
-          $dialogBox.dialog('destroy');
-          $dialogBox.remove();
-          resolve();
-        }
-      });
+      dialogOptions.close = () => {
+        $dialogBox.dialog('destroy');
+        $dialogBox.remove();
+        resolve();
+      };
+
+      $dialogBox.dialog(dialogOptions);
     });
   }
 

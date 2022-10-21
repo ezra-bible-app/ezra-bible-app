@@ -11,10 +11,10 @@
   -->
 
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval'
-                 data: gap: https://ssl.gstatic.com https://api.github.com https://sentry.io ;
+                 data: gap: https://ssl.gstatic.com https://api.github.com https://sentry.io https://api.dropboxapi.com ;
                  style-src 'self' 'unsafe-eval' 'unsafe-inline' data:;
                  media-src *;
-                 img-src *;
+                 img-src * data:;
                  script-src 'self' 'unsafe-eval' 'unsafe-inline';">
 
   <meta name="format-detection" content="telephone=no">
@@ -41,6 +41,9 @@
   <!-- RADIAL MENU STYLES -->
   <link href="css/wheelnav.css" media="screen" rel="stylesheet" type="text/css" />
 
+  <!-- IZITOAST STYLES -->
+  <link href="node_modules/izitoast/dist/css/iziToast.min.css" media="screen" rel="stylesheet" type="text/css" />
+
   <!-- CUSTOM STYLES -->
   <link href="css/loader.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
@@ -59,6 +62,9 @@
 
   <!-- RADIAL MENU JS FILES -->
   <script src="lib/radial-menu/RadialMenu.js" type="text/javascript"></script>
+
+  <!-- IZITOAST JS FILES -->
+  <script src="node_modules/izitoast/dist/js/iziToast.js" type="text/javascript"></script>
 
   <!-- PLATFORM INIT -->
   <script src="app/frontend/platform_init.js" type="text/javascript"></script>
@@ -96,7 +102,7 @@
 
         <div id="tag-selection-menu" class="verse-selection-menu"></div>
         <div id="module-search-menu" class="module-search-menu"></div>
-        <div id="display-options-menu" class="display-options-menu"></div>
+        <div id="display-options-menu" class="display-options-menu mobile-scrollable"></div>
 
         <verse-context-menu id="verse-context-menu"></verse-context-menu>
         <module-assistant></module-assistant>
@@ -115,7 +121,7 @@
       </main>
 
       <panel-buttons id="panel-buttons">
-        <button event="on-tag-panel-switched" i18n="[title]bible-browser.show-tag-list" rel="tag-panel" default="true">
+        <button id="tag-panel-button" event="on-tag-panel-switched" i18n="[title]bible-browser.show-tag-list" rel="tag-panel" default="true">
           <i class="fa fa-tags"></i>
         </button>
         <button event="on-tag-statistics-panel-switched" i18n="[title]tag-statistics-panel.default-header" rel="tag-statistics-panel" default="false">

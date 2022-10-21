@@ -117,8 +117,8 @@
     "module-sync-header": "Установка дополнительных модулей"
   },
   "general": {
-    "about-ezra-bible-app": "About Ezra Bible App",
-    "general-app-info": "General information about Ezra Bible App can be found on the website.<br>Technical information about the development of Ezra Bible App can be found on GitHub.",
+    "about-ezra-bible-app": "О Ezra Bible App",
+    "general-app-info": "Общая информация о Ezra Bible App находится на сайте приложения.<br>Техническую информацию о разроботке Ezra Bible App можно найти на GitHub.",
     "chapter-verse-separator": ":",
     "module-application-info": "Информация о модуле и приложении",
     "application-info": "Информация о приложении",
@@ -132,6 +132,7 @@
     "sword-path": "Путь к модулю SWORD",
     "chromium-version": "Версия Chromium",
     "database-path": "Расположение базы данных",
+    "database-size": "Размер базы данных",
     "config-file-path": "Расположение файла конфигурации",
     "module-name": "Название",
     "module-version": "Версия",
@@ -158,6 +159,7 @@
     "next": "Далее",
     "previous": "Назад",
     "finish": "Готово",
+    "back": "Вернуться",
     "save": "Сохранить",
     "cancel": "Отменить",
     "rename": "Переименовать",
@@ -188,7 +190,7 @@
     "export-user-data-hint": "Эта функция экспортирует все данные пользователя (метки, заметки) вместе с ссылками стихов в файл CSV.",
     "installed": "Установленно",
     "not-installed": "Не установленно",
-    "and-more": "and more"
+    "and-more": "и более"
   },
   "help": {
     "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
@@ -254,7 +256,7 @@
     "delete-tag-constantly": "Окончательно удалить эту метку",
     "none-selected": "-",
     "rename-tag": "Переименовать метку",
-    "edit-tag": "Edit tag",
+    "edit-tag": "Редактировать метку",
     "title": "Заголовок",
     "stats-used": "использовано",
     "stats-total": "всего",
@@ -268,16 +270,16 @@
     "tag-count-selected_many": "{{count}} меток выбранно",
     "select-all-tags": "Выбрать все",
     "deselect-all-tags": "Убрать выделение",
-    "add-tag-group": "Add tag group",
-    "create-tag-group": "Create tag group",
-    "rename-tag-group": "Rename tag group",
-    "delete-tag-group": "Delete tag group",
-    "tag-group": "Tag group",
-    "tag-groups": "Tag groups",
-    "add-existing-tags-to-current-tag-group": "Add existing tags to current tag group",
-    "add-tags-to-group": "Add tags to group",
-    "delete-tag-from-group-explanation": "The tag <i>{{tag}}</i> will be deleted from the group <i>{{group}}</i>. To permanently delete the tag, click the checkbox below.",
-    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?"
+    "add-tag-group": "Добавить группу меток",
+    "create-tag-group": "Создать группу меток",
+    "rename-tag-group": "Переименовать группу меток",
+    "delete-tag-group": "Удалить группу меток",
+    "tag-group": "Группа меток",
+    "tag-groups": "Группы меток",
+    "add-existing-tags-to-current-tag-group": "Добавить существующие метки к текущей группе",
+    "add-tags-to-group": "Добавить метки к группе",
+    "delete-tag-from-group-explanation": "Метка <i>{{tag}}</i> будет удалена из группы <i>{{group}}</i>. Чтобы окончательно удалить метку, поставьте галоку ниже.",
+    "really-delete-tag-group": "Вы действительно хотите удалить группу меток<br/><i>{{tagGroupTitle}}</i>?"
   },
   "bible-browser": {
     "chapter": "Глава",
@@ -314,7 +316,7 @@
     "open-verse-lists-in-new-tab": "Списки стихов в новой вкладке",
     "show-notes-tags-indicators": "Иконки заметок/меток",
     "show-tags": "Метки",
-    "use-tag-group-filter": "Use tag group filter",
+    "use-tag-group-filter": "Использовать фильтр груп меток",
     "show-notes": "Заметки",
     "limit-notes-display-size": "Ограничить высоту заметок",
     "use-tags-column": "Метки в отдельном столбце",
@@ -332,7 +334,8 @@
     "open-chapters-large-books": "Открывать по главам большие книги",
     "open-chapters-all-books": "Открывать по главам все книги",
     "copy": "Скопировать",
-    "edit-note": "Редактировать заметку"
+    "edit-note": "Редактировать заметку",
+    "delete-note": "Удалить заметку"
   },
   "dictionary-panel": {
     "greek-dict": "Словарь греческого языка",
@@ -342,7 +345,7 @@
     "help-instruction-part1": "Убедитесь, что установленны словари Стронга (иврита и греческого). Статус: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Откройте перевод с номерами Стронга.",
     "help-instruction-part3": "Удерживая клавишу SHIFT, наводите указатель мыши на отдельные слова и фразы, чтобы увидеть соответсвующую статью из словаря.",
-    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
+    "help-instruction-part3-cordova": "Удерживайте касание на отдельных словах или фразах пока не увидите соответсвующую статью из словаря.",
     "find-all-событий": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"
@@ -387,5 +390,34 @@
     "init-user-interface": "Инициализация интерфейса",
     "loading-settings": "Загрузка настроек",
     "waiting-app-ready": "Ожидание готовности приложения"
+  },
+  "dropbox": {
+    "database-dropbox-sync": "Синхронизация базы данных через Dropbox",
+    "setup-db-sync": "Настройка Dropbox синхронизации",
+    "dropbox-sync-explanation-part1": "С помощью Dropbox синхронизации можно синхронизировать вашу базу данных Ezra&nbsp;Bible&nbsp;App на разных устройствах.",
+    "dropbox-sync-explanation-part2": "База данных будет синхронизированна в следующих случаях:",
+    "dropbox-sync-explanation-part3a": "После привязки аккаунта Dropbox первый раз.",
+    "dropbox-sync-explanation-part3b": "При запуске или востановлении приложения.",
+    "dropbox-sync-explanation-part3c": "Когда закрыто или остановленно.",
+    "dropbox-sync-explanation-part3d": "После изменений (если настроенно).",
+    "dropbox-sync-explanation-part3e": "После включения WiFi (только на Android, согласно настройке).",
+    "dropbox-sync-explanation-part4": "Чтобы начать использовать синхронизацию Dropbox вам надо связать ваш Dropbox аккаунт с Ezra Bible App.",
+    "link-dropbox-account": "Привязка аккаунта Dropbox",
+    "reset-dropbox-account-link": "Сбросить привязку",
+    "dropbox-link-status": "Статус привязки Dropbox",
+    "dropbox-link-status-not-linked": "Не связанно",
+    "dropbox-link-status-linked": "Связанно",
+    "dropbox-link-status-linking-failed": "Привязка не удалась!",
+    "only-sync-on-wifi": "Синхронизация только по WiFi",
+    "sync-after-changes": "Синхронизировать базу данных после изменений",
+    "dropbox-sync-folder": "Папка в Dropbox",
+    "dropbox-sync-info": "Информация о синхронизации Dropbox",
+    "last-dropbox-sync-time": "Синхронизированно",
+    "last-dropbox-sync-result": "Результат последней синхронизации",
+    "last-dropbox-download-time": "Последнее скачивание",
+    "last-dropbox-upload-time": "Последняя загрузка",
+    "sync-msg-title": "Синхронизация Dropbox",
+    "sync-success-msg": "Синхронизация базы данных с Dropbox успешна ({{date}}).",
+    "sync-failed-msg": "Не удалось синхронизировать базу данных с Dropbox ({{date}})."
   }
 }

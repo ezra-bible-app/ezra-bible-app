@@ -97,6 +97,32 @@ button {
   font: caption;
 }
 
+.button {
+  font-size: 1em;
+  display: inline-block;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--border-color);
+  background-color: var(--background-color);
+  color: black;
+  padding: 0.5em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+.darkmode--activated .button {
+  color: #aaa;
+}
+.button:hover:not(.disabled) {
+  color: white;
+  background-color: var(--accent-color);
+  border-color: var(--highlight-border-color);
+}
+.button.disabled {
+  color: var(--disabled-button-color);
+  border-color: var(--disabled-button-color);
+  background-color: transparent;
+  opacity: 0.8;
+}
+
 :focus {
   outline: none;
 }
@@ -219,6 +245,11 @@ h2:nth-of-type(1) {
   padding-bottom: 1em;
 }
 
+.verse-list-frame.no-chapter-nav {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+
 #app-container.fullscreen .verse-list-frame {
   margin-right: 0.2em;
 }
@@ -257,6 +288,35 @@ h2:nth-of-type(1) {
 
 .verse-list .help-text {
   margin: 1.5em;
+}
+
+div.chapter-nav {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+a.chapter-nav:link,
+a.chapter-nav:visited {
+  text-decoration: none;
+  color: var(--accent-color);
+  margin: 1em;
+}
+
+.Android a.chapter-nav:link,
+.Android a.chapter-nav:visited {
+  text-decoration: underline;
+}
+
+a.chapter-nav:hover {
+  text-decoration: underline;
+}
+
+.darkmode--activated a.chapter-nav:link,
+.darkmode--activated a.chapter-nav:visited {
+  color: var(--accent-color-darkmode);
 }
 
 .verse-box {
@@ -373,8 +433,56 @@ h2:nth-of-type(1) {
 
 #verse-list-popup,
 #book-tag-statistics-box,
-#info-popup {
+#info-popup,
+#db-sync-box {
   display: none;
+}
+
+#db-sync-box-content {
+  display: flex;
+  flex-direction: column;
+}
+
+#db-sync-box-content *:not(li) {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.5em;
+}
+
+#db-sync-box-content label,
+#db-sync-box-content span {
+  width: 14em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-radius: 4px;
+}
+
+#db-sync-box-content input {
+  margin-left: 0.5em;
+}
+
+#dropbox-link-status {
+  width: fit-content !important;
+  margin-left: 0.5em;
+  background-color: lightyellow;
+  border: 1px solid lightgray;
+  color: black;
+}
+
+#dropbox-link-status.success {
+  background-color: lightgreen;
+}
+
+#dropbox-link-status.failed {
+  background-color: lightsalmon;
+}
+
+#only-sync-on-wifi-option {
+  display: none !important;
+}
+
+.Android #only-sync-on-wifi-option {
+  display: flex !important;
 }
 
 #verse-list-popup-verse-list {
@@ -395,6 +503,10 @@ h2:nth-of-type(1) {
   width: 600px;
   height: 400px;
   overflow: inherit;
+}
+
+#app-info-tabs {
+  height: calc(100% - 1em);
 }
 
 .verse-list-without-tags .tag-box,
@@ -453,6 +565,7 @@ h2:nth-of-type(1) {
 #search-scope,
 #search-scope option,
 .ui-dialog #bible-sync-box,
+.ui-dialog #db-sync-box,
 .ui-dialog #new-release-info-box,
 .ui-widget:not(.ezra-dialog),
 .ui-widget:not(.ezra-dialog) .ui-widget,
@@ -468,6 +581,10 @@ h2:nth-of-type(1) {
 #display-options-menu,
 #verse-context-menu {
   font-size: 0.9em;
+}
+
+.backButtonNavigation {
+  display: none;
 }
 
 #main-content,
@@ -565,7 +682,8 @@ h2:nth-of-type(1) {
   grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
 }
 
-@media screen and (min-aspect-ratio: 15/10) {
+/* LANDSCAPE */
+@media screen and (min-aspect-ratio: 13/10) {
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
     height: 89vh;
   }
@@ -577,7 +695,8 @@ h2:nth-of-type(1) {
   }
 }
 
-@media screen and (max-aspect-ratio: 15/10) {
+/* PORTRAIT */
+@media screen and (max-aspect-ratio: 13/10) {
   #app-container {
     grid-template-areas: 
       "content"
@@ -589,18 +708,26 @@ h2:nth-of-type(1) {
   }
 
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
-    height: 90.5vh;
+    height: 89vh;
   }
 
   @media (min-height: 650px) {
     .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
-      height: 93.5vh;
+      height: 91vh;
+    }
+
+    .Android:not(.keyboard-shown) #app-container.fullscreen {
+      height: 97vh;
     }
   }
 
   @media (min-height: 1200px) {
     .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
       height: 95vh;
+    }
+
+    .Android:not(.keyboard-shown) #app-container.fullscreen {
+      height: 98vh;
     }
   }
 }
@@ -719,6 +846,12 @@ main.content {
   flex-wrap: wrap;
   align-content: flex-start;
   max-inline-size: 35em;
+}
+
+#book-selection-menu a.current-chapter {
+  background: var(--highlight-bg);
+  border: var(--highlight-border) !important;
+  border-radius: 4px;
 }
 
 .Android #book-selection-menu-chapter-list #chapter-list-chapters {
@@ -1100,7 +1233,8 @@ li.book-unavailable a:focus,
 }
 
 #show-translation-settings-button,
-#show-dict-settings-button {
+#show-dict-settings-button,
+#setup-db-sync-button {
   padding: 0.5em;
   display: block;
   width: 100%;
@@ -1198,6 +1332,10 @@ li.book-unavailable a:focus,
   font-size: 1.2em;
 }
 
+.verse-list-book.verse-list-without-chapter-titles .sword-chapter-title {
+  display: none;
+}
+
 .chapter-header {
   display: none;
 }
@@ -1254,6 +1392,10 @@ li.book-unavailable a:focus,
   display: none !important;
 }
 
+.invisible {
+  visibility: hidden !important;
+}
+
 .bible-select-block {
   margin-right: 0.5em;
   margin-bottom: 0.5em;
@@ -1264,6 +1406,16 @@ li.book-unavailable a:focus,
 .bible-select-block select {
   width: 19em;
   display: none;
+}
+
+.current-tab-title-label {
+  display: none;
+}
+
+.selection-box {
+  display: inline-block;
+  margin: 0.1em 0.1em 0.3em 0.5em;
+  width: 18em;
 }
 
 #tag-selection-menu {
@@ -1338,7 +1490,8 @@ li.book-unavailable a:focus,
 .tab-search-input,
 .tab-search-type,
 #search-type,
-#search-scope {
+#search-scope,
+#dropbox-sync-folder {
   border: 1px solid lightgray;
   border-radius: 4px;
 }
@@ -1449,7 +1602,8 @@ li.book-unavailable a:focus,
   z-index: 10;
   flex-flow: row wrap;
 }
-.verse-list-frame-no-chapter-nav + .tab-search {
+
+.verse-list-frame.no-chapter-nav + .tab-search {
   border-bottom-left-radius: 4px;
 }
 
@@ -1558,6 +1712,11 @@ tr.compare-translation-row:nth-child(odd) {
 
 .compare-translation-row .verse-content-td {
   padding: 0.5em;
+}
+
+/* This is a workaround for markup issues, see https://github.com/ezra-bible-app/ezra-bible-app/issues/734 */
+.compare-translation-row .verse-content-td .sword-milestone {
+  display: unset !important;
 }
 
 #strongs-box {
@@ -1740,7 +1899,7 @@ tr.compare-translation-row:nth-child(odd) {
 }
 
 .info-tabs {
-  height: 430px;
+  height: calc(100% - 5em);
   overflow-y: scroll;
 }
 
@@ -1773,6 +1932,10 @@ code {
   position: fixed;
   right: 0;
   margin-right: 1.5em;
+}
+
+#mobile-loader {
+  display: none;
 }
 
 .darkmode--activated p,

@@ -1,3 +1,10 @@
+<div class="backButtonNavigation" style="margin-left: 1em; margin-top: 0.5em; margin-bottom: 0.5em;">
+  <button id="displayOptionsBackButton" class="button">
+    <i class="fas fa-angles-left"></i>
+    <span i18n="general.back"></span>
+  </button>
+</div>
+
 <div class="options-group" style="float: left;">
   <div class="options-header" i18n="bible-browser.module-configuration"></div>
 
@@ -9,15 +16,20 @@
     <button id="show-dict-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="tags-toolbar.configure-dicts"></button>
   </div>
 
+  <div class="options-header" i18n="dropbox.database-dropbox-sync"></div>
+  <div class="switch-box">
+    <button id="setup-db-sync-button" class="fg-button ui-corner-all ui-state-default" i18n="dropbox.setup-db-sync"></button>
+  </div>
+
   <locale-switch id="localeSwitchOption" settingsKey="appLocale" label="general.app-language"></locale-switch>
 </div>
 
 <div class="options-group">
   <div class="options-header" i18n="bible-browser.bible-browser-layout"></div>
 
-  <config-option id="useTagsColumnOption" settingsKey="useTagsColumn" label="bible-browser.use-tags-column" checkedByDefault="false"></config-option>
-  <config-option id="showBookChapterNavigationOption" settingsKey="showBookChapterNavigation" label="bible-browser.show-book-chapter-navigation" checkedByDefault="true"></config-option>
+  <config-option id="showBookChapterNavigationOption" settingsKey="showBookChapterNavigation" label="bible-browser.show-book-chapter-navigation" checkedByDefault="false"></config-option>
   <config-option id="showHeaderNavigationOption" settingsKey="showHeaderNavigation" label="bible-browser.show-header-navigation" checkedByDefault="false"></config-option>
+  <config-option id="useTagsColumnOption" settingsKey="useTagsColumn" label="bible-browser.use-tags-column" checkedByDefault="false"></config-option>
   <config-option id="showTabSearchOption" settingsKey="showTabSearch" label="bible-browser.show-tab-search" checkedByDefault="false"></config-option>
 </div>
 

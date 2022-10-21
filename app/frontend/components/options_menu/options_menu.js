@@ -22,6 +22,7 @@ const i18nController = require('../../controllers/i18n_controller.js');
 const eventController = require('../../controllers/event_controller.js');
 const referenceVerseController = require('../../controllers/reference_verse_controller.js');
 const verseListController = require('../../controllers/verse_list_controller.js');
+const dbSyncController = require('../../controllers/db_sync_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -55,21 +56,37 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
-    var openVerseListsInNewTabByDefault = false;
+    $('#setup-db-sync-button').bind('click', async () => {
+      this.hideDisplayMenu();
+      await dbSyncController.showDbSyncConfigDialog();
+    });
 
-    if (this.platformHelper.isCordova()) {
+    $('#displayOptionsBackButton').bind('click', () => {
+      setTimeout(() => { this.hideDisplayMenu(); }, 100);
+    });
+
+    var openVerseListsInNewTabByDefault = false;
+    var bookChapterNavDefault = true;
+    var userDataIndicatorDefault = true;
+
+    if (this.platformHelper.isCordova() && !this.platformHelper.isMobile()) {
       openVerseListsInNewTabByDefault = true;
+    }
+
+    if (this.platformHelper.isMobile()) {
+      bookChapterNavDefault = false;
+      userDataIndicatorDefault = false;
     }
 
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
-    this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); });
+    this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, bookChapterNavDefault);
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
     this._verseListNewTabOption = this.initConfigOption('openVerseListsInNewTabOption', () => {}, openVerseListsInNewTabByDefault);
-    this._userDataIndicatorOption = this.initConfigOption('showUserDataIndicatorOption', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, true);
+    this._userDataIndicatorOption = this.initConfigOption('showUserDataIndicatorOption', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, userDataIndicatorDefault);
     this._tagsOption = this.initConfigOption('showTagsOption', () => { this.showOrHideVerseTagsBasedOnOption(); });
     this._tagGroupFilterOption = this.initConfigOption('useTagGroupFilterOption', () => { this.applyTagGroupFilterBasedOnOption(); });
     this._tagsColumnOption = this.initConfigOption('useTagsColumnOption', () => { this.changeTagsLayoutBasedOnOption(); });
@@ -156,7 +173,7 @@ class OptionsMenu {
 
   initCurrentOptionsMenu(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
+    currentVerseListMenu.find('.display-options-button').unbind('click').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
   initConfigOption(configOptionId, eventHandler, checkedByDefault=false) {
@@ -179,6 +196,8 @@ class OptionsMenu {
 
   hideDisplayMenu() {
     if (this.menuIsOpened) {
+      document.getElementById('app-container').classList.remove('fullscreen-menu');
+
       $('#app-container').find('#display-options-menu').hide();
       this.menuIsOpened = false;
 
@@ -196,6 +215,8 @@ class OptionsMenu {
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
       var menu = $('#app-container').find('#display-options-menu');
+
+      document.getElementById('app-container').classList.add('fullscreen-menu');
       
       uiHelper.showButtonMenu(display_options_button, menu);
 

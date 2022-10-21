@@ -29,6 +29,7 @@ const template = html`
 
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
 #tag-group-assignment-list-content {
@@ -107,11 +108,20 @@ class TagGroupAssignmentList extends HTMLElement {
     }
 
     this._contentDiv = this.shadowRoot.getElementById('tag-group-assignment-list-content');
+    platformHelper.addPlatformCssClass(this._contentDiv);
     this._tagGroupManager.setContentDiv(this._contentDiv);
 
-    (async () => {
-      await this._tagGroupManager.populateItemList();
-    })();
+    // cordova-plugin-ionic-keyboard event binding
+    // eslint-disable-next-line no-unused-vars
+    window.addEventListener('keyboardDidShow', (event) => {
+      this._contentDiv.classList.add('keyboard-shown');
+    });
+
+    // cordova-plugin-ionic-keyboard event binding
+    // eslint-disable-next-line no-unused-vars
+    window.addEventListener('keyboardDidHide', (event) => {
+      this._contentDiv.classList.remove('keyboard-shown');
+    });
 
     if (this.getAttribute('onChange') != null) {
       this._onChangeHandler = this.getAttribute('onChange');
