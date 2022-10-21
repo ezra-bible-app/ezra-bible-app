@@ -1,6 +1,49 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.8.0 - 2022-10-21]
+
+### Features
+
+* Dropbox Sync functionality. ([#753][i753])
+
+### Enhancements
+
+* Show chapter selection dialog when clicking on the text "chapter" in the chapter navigation. ([#744][i744])
+* Clicking a verse a second time should remove it from the selection. ([#702][i702])
+* Verse context menu: Add option to delete verse note. ([#743][i743])
+
+### Fixes
+
+* Headers in navigation are not shown correctly for some modules (like engNET2016eb). ([#776][i776])
+* Lower button bar cut off on some Android devices (< 11). ([#769][i769])
+* Issue with KJVA and verse comparison. ([#734][i734])
+* Connectivity issue not detected when installing modules, installation finishes without error message. ([#751][i751])
+* New tag is not getting added to currently selected tag group. ([#742][i742])
+* Android: Last word/phrase of editor text cut off when saving note. ([#741][i741])
+* Assign last tag button still showing tag after the last tag was deleted. ([#740][i740])
+* Verse context menu still opening when button is disabled. ([#739][i739])
+* Newly assigned tag labels disappeared in text after renaming a tag. ([#738][i738])
+
+### Enablers
+
+* Support Fedora 35/36/37. ([#765][i765])
+
+[i776]: https://github.com/ezra-bible-app/ezra-bible-app/issues/776
+[i769]: https://github.com/ezra-bible-app/ezra-bible-app/issues/769
+[i734]: https://github.com/ezra-bible-app/ezra-bible-app/issues/734
+[i753]: https://github.com/ezra-bible-app/ezra-bible-app/issues/753
+[i765]: https://github.com/ezra-bible-app/ezra-bible-app/issues/765
+[i744]: https://github.com/ezra-bible-app/ezra-bible-app/issues/744
+[i751]: https://github.com/ezra-bible-app/ezra-bible-app/issues/751
+[i702]: https://github.com/ezra-bible-app/ezra-bible-app/issues/702
+[i743]: https://github.com/ezra-bible-app/ezra-bible-app/issues/743
+[i742]: https://github.com/ezra-bible-app/ezra-bible-app/issues/742
+[i741]: https://github.com/ezra-bible-app/ezra-bible-app/issues/741
+[i740]: https://github.com/ezra-bible-app/ezra-bible-app/issues/740
+[i739]: https://github.com/ezra-bible-app/ezra-bible-app/issues/739
+[i738]: https://github.com/ezra-bible-app/ezra-bible-app/issues/738
+
 ## [1.7.1 - 2022-08-28]
 
 This is a bugfix release primarily addressing issues on Android.
