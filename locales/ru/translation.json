@@ -407,7 +407,7 @@
     "dropbox-link-status": "Статус привязки Dropbox",
     "dropbox-link-status-not-linked": "Не связанно",
     "dropbox-link-status-linked": "Связанно",
-    "dropbox-link-status-linking-failed": "Привязка не успешна!",
+    "dropbox-link-status-linking-failed": "Привязка не удалась!",
     "only-sync-on-wifi": "Синхронизация только по WiFi",
     "sync-after-changes": "Синхронизировать базу данных после изменений",
     "dropbox-sync-folder": "Папка в Dropbox",
