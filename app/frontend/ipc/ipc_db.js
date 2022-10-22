@@ -101,7 +101,7 @@ class IpcDb {
     var debug = false;
     var useCache = false;
 
-    if (app_controller === undefined || app_controller && !app_controller.isStartupCompleted()) {
+    if (app_controller === undefined || app_controller && !app_controller.isStartupCompleted() && !onlyStats) {
       useCache = true;
     }
 
