@@ -24,6 +24,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Assign last tag button still showing tag after the last tag was deleted. ([#740][i740])
 * Verse context menu still opening when button is disabled. ([#739][i739])
 * Newly assigned tag labels disappeared in text after renaming a tag. ([#738][i738])
+* Tag statistics not correctly updated on startup when loading from previous session. ([#785][i785])
 
 ### Enablers
 
@@ -43,6 +44,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i740]: https://github.com/ezra-bible-app/ezra-bible-app/issues/740
 [i739]: https://github.com/ezra-bible-app/ezra-bible-app/issues/739
 [i738]: https://github.com/ezra-bible-app/ezra-bible-app/issues/738
+[i785]: https://github.com/ezra-bible-app/ezra-bible-app/issues/785
 
 ## [1.7.1 - 2022-08-28]
 
