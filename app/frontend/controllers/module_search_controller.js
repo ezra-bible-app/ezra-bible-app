@@ -418,7 +418,7 @@ class ModuleSearchController {
       try {
         Sentry.addBreadcrumb({category: "app",
                               message: `Performing module search in ${currentBibleTranslationId}`,
-                              level: Sentry.Severity.Info});
+                              level: "info"});
 
         var searchResults = await ipcNsi.getModuleSearchResults(
           (progress) => {

@@ -80,7 +80,7 @@ class StepRemove extends HTMLElement {
     Sentry.addBreadcrumb({
       category: "app",
       message: `Removing module ${moduleCode}`,
-      level: Sentry.Severity.Info
+      level: "info"
     });
 
     await ipcNsi.uninstallModule(moduleCode);
