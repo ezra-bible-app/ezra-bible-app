@@ -201,14 +201,17 @@ class VerseBox {
     for (let i = 0; i < tag_title_array.length; i++) {
       let current_tag_title = tag_title_array[i];
       let current_tag = await tags_controller.tag_store.getTagByTitle(current_tag_title);
-      let visible = true;
 
-      if (filterTags && !tagGroupMemberIds.includes(current_tag.id)) {
-        visible = false;
+      if (current_tag != null) {
+        let visible = true;
+
+        if (filterTags && !tagGroupMemberIds.includes(current_tag.id)) {
+          visible = false;
+        }
+
+        let tag_html = this.htmlForVisibleTag(current_tag_title, current_tag.id, visible);
+        tag_box.append(tag_html);
       }
-
-      let tag_html = this.htmlForVisibleTag(current_tag_title, current_tag.id, visible);
-      tag_box.append(tag_html);
     }
 
     if (tag_title_array.length > 0) {
