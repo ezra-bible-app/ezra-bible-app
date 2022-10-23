@@ -234,7 +234,7 @@ class Startup {
       window.Sentry = {
         addBreadcrumb: function () { },
         Severity: {
-          Info: undefined
+          Info: ''
         }
       };
     }
