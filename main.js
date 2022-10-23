@@ -56,7 +56,7 @@ if (!isDev) {
     addBreadcrumb: function() {},
     captureMessage: function() {},
     Severity: {
-      Info: undefined
+      Info: ''
     }
   };
 }
