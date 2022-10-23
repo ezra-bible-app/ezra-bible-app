@@ -851,14 +851,14 @@ class TabController {
         case 'tagged_verses': {
           let localizedReference = null;
           if (currentMetaTab.getReferenceVerseElementId() != null) {
-            localizedReference = await app_controller.getLocalizedReferenceVerse(i);
+            localizedReference = await referenceVerseController.getLocalizedReferenceVerse(i);
           }
           this.setCurrentTagTitleList(currentMetaTab.tagTitleList, localizedReference, i);
         }
           break;
 
         case 'xrefs': {
-          const localizedReference = await app_controller.getLocalizedReferenceVerse(i);
+          const localizedReference = await referenceVerseController.getLocalizedReferenceVerse(i);
           const tabTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
           this.setCurrentTabXrefTitle(tabTitle, i);
         }
