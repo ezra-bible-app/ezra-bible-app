@@ -53,7 +53,7 @@ class CordovaPlatform {
         var version = await cordova.getAppVersion.getVersionNumber();
         console.log("Configuring Sentry (WebView) with app version: " + version);
 
-        window.Sentry = require('@sentry/browser/dist');
+        window.Sentry = require('@sentry/browser/cjs');
 
         Sentry.init({
           dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
