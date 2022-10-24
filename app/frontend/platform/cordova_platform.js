@@ -53,12 +53,21 @@ class CordovaPlatform {
         var version = await cordova.getAppVersion.getVersionNumber();
         console.log("Configuring Sentry (WebView) with app version: " + version);
 
-        window.Sentry = require('@sentry/browser/cjs');
+        try {
+          // Loading Sentry in a try/catch block, because we have observed failures related to this step.
+          // If it fails ... startup is broken. Why did it fail previously? After a sentry upgrade the
+          // path to the sources had changed and the require statement did not work anymore.
 
-        Sentry.init({
-          dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
-          release: version
-        });
+          window.Sentry = require('@sentry/browser/cjs');
+
+          Sentry.init({
+            dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
+            release: version
+          });
+        } catch (error) {
+          console.error('Sentry initialization failed with an error!');
+          console.log(error);
+        }
       }
 
       // cordova-plugin-ionic-keyboard event binding
@@ -271,7 +280,7 @@ class CordovaPlatform {
       const androidVersion = this.getAndroidVersion();
 
       if (androidVersion >= 11) {
-        // On Android 11 we start directly without asking for storage permissions, we because we store everything internally
+        // On Android 11 we start directly without asking for storage permissions, because we store everything internally
         this.initPersistenceAndStart();
       } else {
         // On Android < 11 we first need to check storage permissions, because we are using the external storage (/sdcard).
