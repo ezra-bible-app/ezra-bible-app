@@ -72,7 +72,8 @@ class DictionaryInfoBox {
     }
 
     this.dictionaryInfoBoxPanel.find('div').empty();
-    this.dictionaryInfoBoxHeader.html(i18n.t("dictionary-panel.default-header", { interpolation: {escapeValue: false} }));
+    this.dictionaryInfoBoxHeader[0].innerHTML = i18n.t("dictionary-panel.default-header",
+                                                    { interpolation: {escapeValue: false} });
 
     let helpInstructionPart1 = i18n.t("dictionary-panel.help-instruction-part1", {
       install_status_class: dictionaryInstallStatusClass,
@@ -98,8 +99,8 @@ class DictionaryInfoBox {
       </ol>
     `;
 
-    this.dictionaryInfoBoxHelp.html(helpInstruction.innerHTML);
-    this.dictionaryInfoBoxHelp.show();
+    this.dictionaryInfoBoxHelp[0].innerHTML = helpInstruction.innerHTML;
+    this.dictionaryInfoBoxHelp[0].style.display = 'block';
   }
 
   async updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {

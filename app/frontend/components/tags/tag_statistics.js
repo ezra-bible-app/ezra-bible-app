@@ -246,7 +246,7 @@ class TagStatistics {
     var allTags = currentVerseList.querySelectorAll('.tag');
 
     allTags.forEach((tag) => {
-      let tagTitle = tag.innerText;
+      let tagTitle = tag.textContent;
 
       if (this._frequentTagsList.includes(tagTitle)) {
         tag.classList.add('tag-highly-frequent');
