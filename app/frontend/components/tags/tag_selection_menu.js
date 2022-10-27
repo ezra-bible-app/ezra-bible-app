@@ -60,11 +60,6 @@ class TagSelectionMenu {
   }
 
   subscribeAppEvents() {
-    /* FIXME: Remove this if it is not needed! */
-    eventController.subscribe('on-tab-selected', async (tabIndex) => {
-      //await this.updateTagSelectionMenu(tabIndex);
-    });
-
     eventController.subscribe('on-tab-added', (tabIndex) => {
       this.initForTab(tabIndex);
     });
@@ -475,13 +470,15 @@ class TagSelectionMenu {
   }
 
   // eslint-disable-next-line no-unused-vars
-  async updateTagSelectionMenu(tabIndex) {
+  async updateTagSelectionMenu() {
     if (!this.tag_menu_populated) {
       await this.requestTagsForMenu();
     }
 
     var taglist_container = this.getTagListContainer();
     this.updateCheckedTags(taglist_container);
+    
+    this.applyCurrentFilters();
     this.handleTagSelection();
   }
 
