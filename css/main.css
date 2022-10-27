@@ -93,6 +93,10 @@ body {
   mix-blend-mode: unset !important;
 }
 
+.darkmode-background {
+  background: unset !important;
+}
+
 button {
   font: caption;
 }
