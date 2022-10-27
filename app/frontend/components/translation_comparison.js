@@ -83,13 +83,18 @@ class TranslationComparison {
   async getCompareTranslationContent() {
     var tab = app_controller.tab_controller.getTab();
     if (tab == null) {
-      return;
+      return -1;
     }
 
     var sourceTranslationId = tab.getBibleTranslationId();
     var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     var compareTranslationContent = "<table style='width: 100%;'>";
     var allTranslations = await ipcNsi.getAllLocalModules();
+
+    if (allTranslations.length < 2) {
+      // Do not perform the comparison if there are less than two translations available
+      return -1;
+    }
 
     if (selectedVerseBoxes.length > 0) {
       for (let i = 0; i < allTranslations.length; i++) {
@@ -202,6 +207,10 @@ class TranslationComparison {
 
     if (platformHelper.isCordova()) {
       this.hideLoadingIndicator();
+    }
+
+    if (compareTranslationContent === -1) {
+      return;
     }
 
     this.getBoxContent().innerHTML = compareTranslationContent;
