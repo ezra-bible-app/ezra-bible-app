@@ -354,7 +354,7 @@
   "compare-panel": {
     "default-header": "<b>Porovnanie prekladov</b>",
     "show-parallel-translations": "Porovnanie prekladov",
-    "help-instruction": "Na porovnanie prekladov si vyberiete jeden verš alebo skupinu veršov.<br><br> V tejto oblasti sa potom automaticky zobrazia vybrané verše zo všetkých dostupných prekladov.",
+    "help-instruction": "Na porovnanie prekladov si vyberiete jeden verš alebo skupinu veršov.<br><br> V tejto oblasti sa potom automaticky zobrazia vybrané verše zo všetkých dostupných prekladov.<br><br> You need to have at least two translations installed for this functionality to work.",
     "compare": "Porovnať"
   },
   "emoji": {

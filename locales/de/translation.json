@@ -346,7 +346,7 @@
   "compare-panel": {
     "default-header": "<b>Übersetzungen vergleichen</b>",
     "show-parallel-translations": "Übersetzungen vergleichen",
-    "help-instruction": "Um Übersetzungen zu vergleichen wählen Sie einen Vers oder eine Gruppe von Versen aus.<br><br> Dieser Bereich wird dann automatisch die Liste der gewählten Verse aus allen verfügbaren Übersetzungen anzeigen.",
+    "help-instruction": "Um Übersetzungen zu vergleichen wählen Sie einen Vers oder eine Gruppe von Versen aus.<br><br> Dieser Bereich wird dann automatisch die Liste der gewählten Verse aus allen verfügbaren Übersetzungen anzeigen.<br><br> You need to have at least two translations installed for this functionality to work.",
     "compare": "Vergleichen"
   },
   "emoji": {

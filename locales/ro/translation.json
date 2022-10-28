@@ -354,7 +354,7 @@
   "compare-panel": {
     "default-header": "<b>Compară traducerile</b>",
     "show-parallel-translations": "Compară traducerile",
-    "help-instruction": "Pentru a compara traducerile, selectează un verset sau un grup de versete.<br><br> Această zonă va lista automat versetele selectate din toate traducerile disponibile.",
+    "help-instruction": "Pentru a compara traducerile, selectează un verset sau un grup de versete.<br><br> Această zonă va lista automat versetele selectate din toate traducerile disponibile.<br><br> You need to have at least two translations installed for this functionality to work.",
     "compare": "Compară"
   },
   "emoji": {

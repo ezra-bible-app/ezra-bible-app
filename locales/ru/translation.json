@@ -357,7 +357,7 @@
   "compare-panel": {
     "default-header": "<b>Сравнить переводы</b>",
     "show-parallel-translations": "Сравнить переводы",
-    "help-instruction": "Чтобы сравнить переводы Библии, выберите один или несколько стихов.<br><br> Эта область автоматически отобразит выбранные стихи из всех установленных переводов.",
+    "help-instruction": "Чтобы сравнить переводы Библии, выберите один или несколько стихов.<br><br> Эта область автоматически отобразит выбранные стихи из всех установленных переводов.<br><br> You need to have at least two translations installed for this functionality to work.",
     "compare": "Сравнить"
   },
   "emoji": {

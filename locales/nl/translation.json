@@ -356,7 +356,7 @@
   "compare-panel": {
     "default-header": "<b>Vertalingen vergelijken</b>",
     "show-parallel-translations": "Vertalingen vergelijken",
-    "help-instruction": "Om vertalingen te vergelijken, selecteert u één vers of een groep verzen.<br><br> Dit gebied toont dan automatisch de geselecteerde verzen van alle beschikbare vertalingen.",
+    "help-instruction": "Om vertalingen te vergelijken, selecteert u één vers of een groep verzen.<br><br> Dit gebied toont dan automatisch de geselecteerde verzen van alle beschikbare vertalingen.<br><br> You need to have at least two translations installed for this functionality to work.",
     "compare": "Vergelijken"
   },
   "emoji": {

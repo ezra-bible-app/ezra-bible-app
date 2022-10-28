@@ -354,7 +354,7 @@
   "compare-panel": {
     "default-header": "<b>Comparar traducciones</b>",
     "show-parallel-translations": "Comparar traducciones",
-    "help-instruction": "Para comparar traducciones, usted debe seleccionar un versículo o un grupo de versículos.<br><br> La traducción en las diferentes versiones disponibles aparecerá aquí automáticamente.",
+    "help-instruction": "Para comparar traducciones, usted debe seleccionar un versículo o un grupo de versículos.<br><br> La traducción en las diferentes versiones disponibles aparecerá aquí automáticamente.<br><br> You need to have at least two translations installed for this functionality to work.",
     "compare": "Comparar"
   },
   "emoji": {
