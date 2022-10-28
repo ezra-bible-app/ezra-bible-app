@@ -236,10 +236,11 @@ async function handleDropboxConfigurationSave() {
     dbSyncDropboxRefreshToken = null;
     dbSyncDropboxLinkStatus = null;
 
-    await ipcSettings.set(DROPBOX_LAST_SYNC_RESULT_KEY, '');
-    await ipcSettings.set(DROPBOX_LAST_SYNC_TIME_KEY, '');
-    await ipcSettings.set(DROPBOX_LAST_DOWNLOAD_TIME_KEY, '');
-    await ipcSettings.set(DROPBOX_LAST_UPLOAD_TIME_KEY, '');
+    await ipcSettings.delete(DROPBOX_LAST_SYNC_RESULT_KEY);
+    await ipcSettings.delete(DROPBOX_LAST_SYNC_TIME_KEY);
+    await ipcSettings.delete(DROPBOX_LAST_DOWNLOAD_TIME_KEY);
+    await ipcSettings.delete(DROPBOX_LAST_UPLOAD_TIME_KEY);
+
     await ipcSettings.set(DROPBOX_FIRST_SYNC_DONE_KEY, false);
   }
 
