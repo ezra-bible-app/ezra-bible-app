@@ -70,8 +70,6 @@ module.exports.showModuleUpdateDialog = async function() {
 
     setTimeout(() => {
       ipcNsi.getUpdatedRepoModules().then((updatedModules) => {
-        console.log(`Got ${updatedModules.length} updated modules!`);
-
         let moduleUpdateList = document.getElementById('module-update-list-tbody');
 
         updatedModules.forEach(async (module) => {
