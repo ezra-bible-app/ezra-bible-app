@@ -90,6 +90,11 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getUpdatedRepoModules() {
+    var returnValue = this._ipcRenderer.call('nsi_getUpdatedRepoModules');
+    return returnValue;
+  }
+
   async getAllLocalModules(moduleType='BIBLE') {
     var returnValue = this._ipcRenderer.call('nsi_getAllLocalModules', moduleType);
     return returnValue;
