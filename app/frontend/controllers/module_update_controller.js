@@ -28,7 +28,8 @@ module.exports.showModuleUpdateDialog = async function() {
         <thead>
           <tr>
             <th i18n="general.module-name" style="text-align: left;"></th>
-            <th i18n="general.module-version" style="text-align: left;"></th>
+            <th i18n="general.module-old-version" style="text-align: left; width: 8em;"></th>
+            <th i18n="general.module-new-version" style="text-align: left; width: 8em;"></th>
           </tr>
         </thead>
         <tbody id="module-update-list-tbody">
@@ -45,7 +46,7 @@ module.exports.showModuleUpdateDialog = async function() {
     $dialogBox.localize();
 
     var confirmed = false;
-    const width = 640;
+    const width = 720;
     const height = 480;
     const offsetLeft = ($(window).width() - width)/2;
 
@@ -73,18 +74,23 @@ module.exports.showModuleUpdateDialog = async function() {
 
         let moduleUpdateList = document.getElementById('module-update-list-tbody');
 
-        updatedModules.forEach((module) => {
+        updatedModules.forEach(async (module) => {
           let moduleRow = document.createElement('tr');
 
           let nameCell = document.createElement('td');
           nameCell.style.paddingRight = '1em';
           nameCell.innerText = module.description;
+
+          let oldVersionCell = document.createElement('td');
+          let localModule = await ipcNsi.getLocalModule(module.name);
+          oldVersionCell.innerText = localModule.version;
           
-          let versionCell = document.createElement('td');
-          versionCell.innerText = module.version;
+          let newVersionCell = document.createElement('td');
+          newVersionCell.innerText = module.version;
 
           moduleRow.appendChild(nameCell);
-          moduleRow.appendChild(versionCell);
+          moduleRow.appendChild(oldVersionCell);
+          moduleRow.appendChild(newVersionCell);
           moduleUpdateList.appendChild(moduleRow);
         });
 
