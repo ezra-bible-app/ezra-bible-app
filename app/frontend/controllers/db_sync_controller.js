@@ -265,16 +265,19 @@ async function handleDropboxConfigurationSave() {
 
 function updateDropboxLinkStatusLabel(resetLink=false) {
   if (dbSyncDropboxLinkStatus == 'LINKED' && !resetLink) {
+    $('#dropbox-link-status').attr('i18n', 'dropbox.dropbox-link-status-linked');
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-linked'));
     $('#dropbox-link-status').addClass('success');
     $('#dropbox-link-status').removeClass('failed');
 
   } else if (dbSyncDropboxLinkStatus == 'FAILED' && !resetLink) {
+    $('#dropbox-link-status').attr('i18n', 'dropbox.dropbox-link-status-linking-failed');
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-linking-failed'));
     $('#dropbox-link-status').addClass('failed');
     $('#dropbox-link-status').removeClass('success');
 
   } else if (dbSyncDropboxLinkStatus === null || resetLink) {
+    $('#dropbox-link-status').attr('i18n', 'dropbox.dropbox-link-status-not-linked');
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-not-linked'));
     $('#dropbox-link-status').removeClass('success');
     $('#dropbox-link-status').removeClass('failed');
