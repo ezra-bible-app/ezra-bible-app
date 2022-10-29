@@ -22,8 +22,9 @@ module.exports.showModuleUpdateDialog = async function() {
   const dialogBoxTemplate = html`
   <div id="module-update-dialog">
     <div id="module-update-dialog-content" style="padding-top: 0.5em">
-      <p i18n="general.module-update-header"></p>
-      <table>
+      <p style="float: left;" i18n="general.module-update-header"></p>
+      <loading-indicator id="module-update-loading-indicator" style="float: right;"></loading-indicator>
+      <table id="module-update-list" style="clear: both; display: none;">
         <thead>
           <tr>
             <th i18n="general.module-name" style="text-align: left;"></th>
@@ -86,6 +87,9 @@ module.exports.showModuleUpdateDialog = async function() {
           moduleRow.appendChild(versionCell);
           moduleUpdateList.appendChild(moduleRow);
         });
+
+        document.getElementById('module-update-list').style.display = 'unset';
+        document.getElementById('module-update-loading-indicator').style.display = 'none';
       });
     }, 100);
   });
