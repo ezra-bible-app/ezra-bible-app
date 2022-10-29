@@ -23,6 +23,7 @@ const eventController = require('../../controllers/event_controller.js');
 const referenceVerseController = require('../../controllers/reference_verse_controller.js');
 const verseListController = require('../../controllers/verse_list_controller.js');
 const dbSyncController = require('../../controllers/db_sync_controller.js');
+const moduleUpdateController = require('../../controllers/module_update_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -54,6 +55,11 @@ class OptionsMenu {
   
     $('#show-dict-settings-button').bind('click', function() {
       app_controller.openModuleSettingsAssistant('DICT'); 
+    });
+
+    $('#show-module-update-button').bind('click', async () => {
+      this.hideDisplayMenu();
+      await moduleUpdateController.showModuleUpdateDialog();
     });
 
     $('#setup-db-sync-button').bind('click', async () => {

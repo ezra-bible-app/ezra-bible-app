@@ -1238,7 +1238,8 @@ li.book-unavailable a:focus,
 
 #show-translation-settings-button,
 #show-dict-settings-button,
-#setup-db-sync-button {
+#setup-db-sync-button,
+#show-module-update-button {
   padding: 0.5em;
   display: block;
   width: 100%;
