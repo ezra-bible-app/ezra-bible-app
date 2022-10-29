@@ -46,8 +46,8 @@ module.exports.showModuleUpdateDialog = async function() {
     $dialogBox.localize();
 
     var confirmed = false;
-    const width = 720;
-    const height = 480;
+    const width = 800;
+    const height = 600;
     const offsetLeft = ($(window).width() - width)/2;
 
     let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
@@ -55,15 +55,24 @@ module.exports.showModuleUpdateDialog = async function() {
     dialogOptions.title = i18n.t('general.update-modules');
     dialogOptions.draggable = true;
     dialogOptions.buttons = {};
+
     dialogOptions.close = () => {
       $dialogBox.dialog('destroy');
       $dialogBox.remove();
       resolve(confirmed);
     };
 
-    dialogOptions.buttons[i18n.t('general.ok')] = function() {
+    dialogOptions.buttons[i18n.t('general.update')] = function() {
       confirmed = true;
-      $(this).dialog('close');
+      $dialogBox.dialog('destroy');
+      $dialogBox.remove();
+      resolve(confirmed);
+    };
+
+    dialogOptions.buttons[i18n.t('general.cancel')] = function() {
+      $dialogBox.dialog('destroy');
+      $dialogBox.remove();
+      resolve(confirmed);
     };
   
     $dialogBox.dialog(dialogOptions);
@@ -92,7 +101,7 @@ module.exports.showModuleUpdateDialog = async function() {
           moduleUpdateList.appendChild(moduleRow);
         });
 
-        document.getElementById('module-update-list').style.display = 'unset';
+        document.getElementById('module-update-list').style.display = 'block';
         document.getElementById('module-update-loading-indicator').style.display = 'none';
       });
     }, 100);
