@@ -28,7 +28,7 @@ module.exports.showModuleUpdateDialog = async function() {
         <thead>
           <tr>
             <th i18n="general.module-name" style="text-align: left;"></th>
-            <th i18n="general.module-old-version" style="text-align: left; width: 8em;"></th>
+            <th i18n="general.module-current-version" style="text-align: left; width: 8em;"></th>
             <th i18n="general.module-new-version" style="text-align: left; width: 8em;"></th>
           </tr>
         </thead>
