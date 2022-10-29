@@ -134,7 +134,7 @@
     "config-file-path": "Configuration path",
     "module-name": "Name",
     "module-version": "Version",
-    "module-old-version": "Old version",
+    "module-current-version": "Current version",
     "module-new-version": "New version",
     "module-language": "Language",
     "module-license": "License",
