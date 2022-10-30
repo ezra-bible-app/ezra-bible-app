@@ -136,6 +136,8 @@
     "config-file-path": "Расположение файла конфигурации",
     "module-name": "Название",
     "module-version": "Версия",
+    "module-current-version": "Current version",
+    "module-new-version": "New version",
     "module-language": "Язык",
     "module-license": "Лицензия",
     "module-strongs": "Номера Стронга",
@@ -151,6 +153,7 @@
     "module-redletter": "Слова Иисуса - красным",
     "module-size": "Размер",
     "module-location": "Местоположение",
+    "update-modules": "Update modules",
     "yes": "Да",
     "no": "Нет",
     "ok": "Хорошо",
@@ -164,6 +167,7 @@
     "cancel": "Отменить",
     "rename": "Переименовать",
     "loading": "Загрузка",
+    "update": "Update",
     "new-release-available-title": "Доступна новая версия!",
     "new-release-available-body": "Возможна загрузка новой версии Ezra Bible App!",
     "latest-version": "Последняя версия",
@@ -190,7 +194,9 @@
     "export-user-data-hint": "Эта функция экспортирует все данные пользователя (метки, заметки) вместе с ссылками стихов в файл CSV.",
     "installed": "Установленно",
     "not-installed": "Не установленно",
-    "and-more": "и более"
+    "and-more": "и более",
+    "module-updates-available": "There are updates available for the modules listed below.",
+    "modules-up-to-date": "All installed modules are up to date!"
   },
   "help": {
     "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",

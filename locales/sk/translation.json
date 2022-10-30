@@ -134,6 +134,8 @@
     "config-file-path": "Cesta ku konfigurácii",
     "module-name": "Meno",
     "module-version": "Verzia",
+    "module-current-version": "Current version",
+    "module-new-version": "New version",
     "module-language": "Jazyk",
     "module-license": "Licencia",
     "module-strongs": "Strongy",
@@ -149,6 +151,7 @@
     "module-redletter": "Red letter words",
     "module-size": "Veľkosť",
     "module-location": "Umiestnenie",
+    "update-modules": "Update modules",
     "yes": "Áno",
     "no": "Nie",
     "ok": "Ok",
@@ -162,6 +165,7 @@
     "cancel": "Zrušiť",
     "rename": "Premenovať",
     "loading": "Nahrávam",
+    "update": "Update",
     "new-release-available-title": "Je k dispozícií nová verzia!",
     "new-release-available-body": "Je k dispozícií nová verzia projektu Ezra!",
     "latest-version": "Najnovšia verzia",
@@ -188,7 +192,9 @@
     "export-user-data-hint": "Táto funkcia exportuje všetky používateľské dáta (tagy, poznámky) spolu s ich odkazmi na verše do súboru CSV.",
     "installed": "Nainštalované",
     "not-installed": "Nenainštalované",
-    "and-more": "a viac"
+    "and-more": "a viac",
+    "module-updates-available": "There are updates available for the modules listed below.",
+    "modules-up-to-date": "All installed modules are up to date!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",

@@ -130,6 +130,8 @@
     "config-file-path": "Konfigurationspfad",
     "module-name": "Name",
     "module-version": "Version",
+    "module-current-version": "Current version",
+    "module-new-version": "New version",
     "module-language": "Sprache",
     "module-license": "Lizenz",
     "module-strongs": "Strong's",
@@ -141,6 +143,7 @@
     "module-redletter": "Jesu Worte in rot",
     "module-size": "Größe",
     "module-location": "Verzeichnis",
+    "update-modules": "Update modules",
     "yes": "Ja",
     "no": "Nein",
     "ok": "Ok",
@@ -154,6 +157,7 @@
     "cancel": "Abbrechen",
     "rename": "Umbenennen",
     "loading": "Lade",
+    "update": "Update",
     "new-release-available-title": "Neues Release verfügbar!",
     "new-release-available-body": "Ein neues Release von Ezra Bible App ist verfügbar!",
     "latest-version": "Neueste Version",
@@ -180,7 +184,9 @@
     "export-user-data-hint": "Diese Funktion exportiert alle Benutzerdaten (Tags, Notizen) zusammen mit den Versangaben in eine CSV Datei.",
     "installed": "Installiert",
     "not-installed": "Nicht installiert",
-    "and-more": "und weitere"
+    "and-more": "und weitere",
+    "module-updates-available": "There are updates available for the modules listed below.",
+    "modules-up-to-date": "All installed modules are up to date!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",

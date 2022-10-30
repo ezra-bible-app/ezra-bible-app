@@ -134,6 +134,8 @@
     "config-file-path": "Ruta al directorio de configuración",
     "module-name": "Nombre",
     "module-version": "Versión",
+    "module-current-version": "Current version",
+    "module-new-version": "New version",
     "module-language": "Idioma",
     "module-license": "Licencia",
     "module-strongs": "Strongs",
@@ -149,6 +151,7 @@
     "module-redletter": "Palabras con letras de color rojo",
     "module-size": "Tamaño",
     "module-location": "Localización",
+    "update-modules": "Update modules",
     "yes": "Si",
     "no": "No",
     "ok": "Aceptar",
@@ -162,6 +165,7 @@
     "cancel": "Cancelar",
     "rename": "Renombrar",
     "loading": "Cargando",
+    "update": "Update",
     "new-release-available-title": "Nueva versión disponible!",
     "new-release-available-body": "Una nueva versión de Ezra Bible App está disponible!",
     "latest-version": "Última versión",
@@ -188,7 +192,9 @@
     "export-user-data-hint": "Esta función exporta todos los datos del usuario (etiquetas, notas), así como las referencias bíblicas a un archivo CSV",
     "installed": "Instalado",
     "not-installed": "No instalado",
-    "and-more": "y otras"
+    "and-more": "y otras",
+    "module-updates-available": "There are updates available for the modules listed below.",
+    "modules-up-to-date": "All installed modules are up to date!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar a trabajar con las etiquetas, debe crear la primera pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y agreguelos a la etiqueta que acaba de crear.",

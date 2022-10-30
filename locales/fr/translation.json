@@ -144,6 +144,8 @@
     "config-file-path": "Chemin de configuration",
     "module-name": "Nom",
     "module-version": "Version",
+    "module-current-version": "Current version",
+    "module-new-version": "New version",
     "module-language": "Langue",
     "module-license": "Licence",
     "module-strongs": "Strong",
@@ -159,6 +161,7 @@
     "module-redletter": "Mot en rouge",
     "module-size": "Taille",
     "module-location": "Place",
+    "update-modules": "Update modules",
     "yes": "Oui",
     "no": "Non",
     "ok": "Ok",
@@ -172,6 +175,7 @@
     "cancel": "Annuler",
     "rename": "Renommer",
     "loading": "Chargement en cours",
+    "update": "Update",
     "new-release-available-title": "Nouvelle version disponible !",
     "new-release-available-body": "Une nouvelle version d’Ezra Bible App est disponible !",
     "latest-version": "Dernière version",
@@ -198,7 +202,9 @@
     "export-user-data-hint": "Cette fonction exporte toutes les données utilisateur (étiquettes, notes) ainsi que leurs références de verset dans un fichier CSV.",
     "installed": "Installé",
     "not-installed": "Pas installé",
-    "and-more": "et plus"
+    "and-more": "et plus",
+    "module-updates-available": "There are updates available for the modules listed below.",
+    "modules-up-to-date": "All installed modules are up to date!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",
