@@ -24,9 +24,6 @@ var moduleUpdateInitiated = false;
 var moduleUpdateCompleted = false;
 
 module.exports.init = function() {
-  //eventController.subscribe('on-repo-update-started', () => this.prepareProgressBar());
-  //eventController.subscribe('on-repo-update-progress', progress => this.handleUpdateProgress(progress));
-
   eventController.subscribe('on-repo-update-started', () => {
     disableDialogButtons();
     repoUpdateInProgress = true;
@@ -91,7 +88,11 @@ module.exports.showModuleUpdateDialog = async function() {
       resolve(confirmed);
     };
 
-    dialogOptions.buttons[i18n.t('general.update')] = function() {
+    dialogOptions.buttons[i18n.t('general.update')] = function(event) {
+      if (event.target.contains('ui-state-disabled')) {
+        return;
+      }
+
       performModuleUpdate();
       confirmed = true;
     };
@@ -116,6 +117,7 @@ module.exports.showModuleUpdateDialog = async function() {
 
 function clearUpdatedModuleList() {
   document.getElementById('module-update-header').style.display = 'none';
+  document.getElementById('module-update-header-up-to-date').style.display = 'none';
   document.getElementById('module-update-list').style.display = 'none';
 
   let moduleUpdateList = document.getElementById('module-update-list-tbody');
@@ -130,8 +132,10 @@ function refreshUpdatedModuleList() {
       let moduleUpdateList = document.getElementById('module-update-list-tbody');
 
       if (updatedModules.length == 0) {
+
         document.getElementById('module-update-header').style.display = 'none';
         document.getElementById('module-update-header-up-to-date').style.display = 'block';
+
       } else {
         document.getElementById('module-update-header-up-to-date').style.display = 'none';
 
@@ -172,6 +176,10 @@ function refreshUpdatedModuleList() {
       document.getElementById('module-update-loading-indicator').style.display = 'none';
 
       enableDialogButtons();
+
+      if (updatedModules.length == 0) {
+        disableUpdateButton();
+      }
     });
   }, 100);
 }
@@ -224,8 +232,21 @@ function enableFinishButton() {
 
 function enableDialogCloseButton() {
   let moduleUpdateDialog = document.querySelector('.module-update-dialog');
-  let dialogCloseButton = moduleUpdateDialog.querySelector('.ui-dialog-titlebar-close');
-  dialogCloseButton.style.removeProperty('display');
+
+  if (moduleUpdateDialog != null) {
+    let dialogCloseButton = moduleUpdateDialog.querySelector('.ui-dialog-titlebar-close');
+    dialogCloseButton.style.removeProperty('display');
+  }
+}
+
+function disableUpdateButton() {
+  let moduleUpdateDialog = document.querySelector('.module-update-dialog');
+
+  if (moduleUpdateDialog != null) {
+    let dialogButtons = moduleUpdateDialog.querySelector('.ui-dialog-buttonset').querySelectorAll('button');
+    let updateButton = dialogButtons[0];
+    updateButton.classList.add('ui-state-disabled');
+  }
 }
 
 async function performModuleUpdate() {
