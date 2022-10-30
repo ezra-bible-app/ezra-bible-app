@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../controllers/event_controller.js');
-const { html, sleep } = require('../helpers/ezra_helper.js');
+const { html } = require('../helpers/ezra_helper.js');
 
 var repoUpdateInProgress = false;
 var moduleUpdateInitiated = false;
@@ -30,7 +30,7 @@ module.exports.init = function() {
     clearUpdatedModuleList();
   });
 
-  eventController.subscribe('on-repo-update-completed', (status) => {
+  eventController.subscribe('on-repo-update-completed', () => {
     refreshUpdatedModuleList();
     repoUpdateInProgress = false;
   });
@@ -271,7 +271,6 @@ async function performModuleUpdate() {
 
     loadingIndicator.style.display = 'block';
 
-    //await sleep(1000);
     await ipcNsi.installModule(moduleCode);
 
     if (previousLoadingIndicator != null) {
