@@ -89,7 +89,7 @@ module.exports.showModuleUpdateDialog = async function() {
     };
 
     dialogOptions.buttons[i18n.t('general.update')] = function(event) {
-      if (event.target.contains('ui-state-disabled')) {
+      if (event.target.classList.contains('ui-state-disabled')) {
         return;
       }
 
