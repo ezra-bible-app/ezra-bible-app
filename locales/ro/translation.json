@@ -134,6 +134,8 @@
     "config-file-path": "cale Configurare",
     "module-name": "Nume",
     "module-version": "Versiune",
+    "module-current-version": "Current version",
+    "module-new-version": "New version",
     "module-language": "Limbă",
     "module-license": "Licență",
     "module-strongs": "Concordanță (Strong's)",
@@ -149,6 +151,7 @@
     "module-redletter": "Cuvinte roșii",
     "module-size": "Dimensiune",
     "module-location": "Locație",
+    "update-modules": "Update modules",
     "yes": "Da",
     "no": "Nu",
     "ok": "Ok",
@@ -162,6 +165,7 @@
     "cancel": "Anulare",
     "rename": "Redenumește",
     "loading": "Se încarcă",
+    "update": "Update",
     "new-release-available-title": "Versiune nouă disponibilă!",
     "new-release-available-body": "O versiune nouă pentru Ezra Bible App este disponibilă!",
     "latest-version": "Versiune recentă",
@@ -188,7 +192,9 @@
     "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
     "installed": "Instalat",
     "not-installed": "Nu este instalat",
-    "and-more": "și mai multe"
+    "and-more": "și mai multe",
+    "module-updates-available": "There are updates available for the modules listed below.",
+    "modules-up-to-date": "All installed modules are up to date!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, creează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă click sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",

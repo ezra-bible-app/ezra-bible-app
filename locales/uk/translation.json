@@ -134,6 +134,8 @@
     "config-file-path": "Розташування налаштувань",
     "module-name": "Ім'я",
     "module-version": "Версія",
+    "module-current-version": "Current version",
+    "module-new-version": "New version",
     "module-language": "Мова",
     "module-license": "Ліцензія",
     "module-strongs": "Числа Стронга",
@@ -149,6 +151,7 @@
     "module-redletter": "Слова Ісуса - червоним",
     "module-size": "Розмір",
     "module-location": "Розташування",
+    "update-modules": "Update modules",
     "yes": "Так",
     "no": "Ні",
     "ok": "Гаразд",
@@ -162,6 +165,7 @@
     "cancel": "Скасувати",
     "rename": "Перейменувати",
     "loading": "Завантаження",
+    "update": "Update",
     "new-release-available-title": "Новий випуск доступний!",
     "new-release-available-body": "Доступний новий випуск Біблійного застосунку Єздри!",
     "latest-version": "Остання версія",
@@ -188,7 +192,9 @@
     "export-user-data-hint": "Цей засіб вивозить всі користувацькі дані (міти, нотатки) разом із посиланнями віршів до файлу CSV.",
     "installed": "Встановленно",
     "not-installed": "Не встановленно",
-    "and-more": "та більше"
+    "and-more": "та більше",
+    "module-updates-available": "There are updates available for the modules listed below.",
+    "modules-up-to-date": "All installed modules are up to date!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Щоб розпочати роботу з мітами, створіть свою першу міту, натиснувши кнопку <i>Нова&nbsp;міта</i>. <br/><br/>Після цього ви можете переглядати текст Біблії, клацати або перетягувати вірші, щоб призначати щойно створену міту.",
