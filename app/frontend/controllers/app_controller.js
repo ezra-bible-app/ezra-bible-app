@@ -41,13 +41,14 @@ const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
 const TextSizeSettings = require("../components/text_size_settings.js");
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
-const verseListController = require('../controllers/verse_list_controller.js');
-const referenceVerseController = require('../controllers/reference_verse_controller.js');
+const verseListController = require('./verse_list_controller.js');
+const referenceVerseController = require('./reference_verse_controller.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
-const eventController = require('../controllers/event_controller.js');
-const wheelnavController = require('../controllers/wheelnav_controller.js');
-const fullscreenController = require('../controllers/fullscreen_controller.js');
+const eventController = require('./event_controller.js');
+const wheelnavController = require('./wheelnav_controller.js');
+const fullscreenController = require('./fullscreen_controller.js');
 const cacheController = require('./cache_controller.js');
+const moduleUpdateController = require('./module_update_controller.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -122,6 +123,7 @@ class AppController {
     fullscreenController.init();
     wheelnavController.init();
     verseListController.init();
+    moduleUpdateController.init();
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
