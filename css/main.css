@@ -1778,6 +1778,7 @@ tr.compare-translation-row:nth-child(odd) {
   font-weight: bold;
   text-shadow: 1px 1px 0 #fff;
   transform: translateX(-50%);
+  width: fit-content;
 }
 
 .darkmode--activated .progress-label {
