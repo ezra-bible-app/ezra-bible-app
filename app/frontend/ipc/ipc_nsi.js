@@ -91,8 +91,19 @@ class IpcNsi {
   }
 
   async getUpdatedRepoModules() {
-    var returnValue = this._ipcRenderer.call('nsi_getUpdatedRepoModules');
-    return returnValue;
+    let repoNames = await this.getRepoNames();
+    let updatedModules = [];
+
+    for (let i = 0; i < repoNames.length; i++) {
+      if (repoNames[i] == "CrossWire Beta") {
+        continue;
+      }
+
+      let currentRepoUpdatedModules = await this._ipcRenderer.call('nsi_getUpdatedRepoModules', repoNames[i]);
+      updatedModules.push(...currentRepoUpdatedModules);
+    }
+
+    return updatedModules;
   }
 
   async getAllLocalModules(moduleType='BIBLE') {
