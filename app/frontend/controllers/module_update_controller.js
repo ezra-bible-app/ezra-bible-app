@@ -19,6 +19,12 @@
 const eventController = require('../controllers/event_controller.js');
 const { html } = require('../helpers/ezra_helper.js');
 
+/**
+ * This controller manages the update of SWORD modules. 
+ * @module moduleUpdateController
+ * @category Controller
+ */
+
 var repoUpdateInProgress = false;
 var moduleUpdateInitiated = false;
 var moduleUpdateCompleted = false;
