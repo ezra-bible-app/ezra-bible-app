@@ -134,10 +134,6 @@ class IpcNsiHandler {
       return this._nsi.getAllLocalModules(moduleType);
     });
 
-    this._ipcMain.add('nsi_getUpdatedRepoModules', (repositoryName='all', includeBeta=false) => {
-      return this._nsi.getUpdatedRepoModules(repositoryName, false)
-    });
-
     this._ipcMain.add('nsi_getAllLanguageModuleCount', (selectedRepos, languageCodeArray, moduleType='BIBLE') => {
       var allLanguageModuleCount = {};
 

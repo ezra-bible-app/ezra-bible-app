@@ -134,7 +134,7 @@ function refreshUpdatedModuleList() {
   document.getElementById('module-update-loading-indicator').style.display = 'block';
 
   setTimeout(() => {
-    ipcNsi.getUpdatedRepoModules().then((updatedModules) => {
+    ipcNsi.getUpdatedModules().then((updatedModules) => {
       let moduleUpdateList = document.getElementById('module-update-list-tbody');
 
       if (updatedModules.length == 0) {

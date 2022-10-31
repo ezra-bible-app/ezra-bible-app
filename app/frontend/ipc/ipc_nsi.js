@@ -90,17 +90,19 @@ class IpcNsi {
     return returnValue;
   }
 
-  async getUpdatedRepoModules() {
-    let repoNames = await this.getRepoNames();
+  async getUpdatedModules() {
+    let allLocalBibleModules = await ipcNsi.getAllLocalModules('BIBLE');
+    let allLocalDictModules = await ipcNsi.getAllLocalModules('DICT');
+    let allLocalModules = [...allLocalBibleModules, ...allLocalDictModules];
     let updatedModules = [];
 
-    for (let i = 0; i < repoNames.length; i++) {
-      if (repoNames[i] == "CrossWire Beta") {
-        continue;
-      }
+    for (let i = 0; i < allLocalModules.length; i++) {
+      let module = allLocalModules[i];
+      let remoteModule = await ipcNsi.getRepoModule(module.name);
 
-      let currentRepoUpdatedModules = await this._ipcRenderer.call('nsi_getUpdatedRepoModules', repoNames[i]);
-      updatedModules.push(...currentRepoUpdatedModules);
+      if (remoteModule.version !== undefined && module.version != remoteModule.version) {
+        updatedModules.push(remoteModule);
+      }
     }
 
     return updatedModules;
