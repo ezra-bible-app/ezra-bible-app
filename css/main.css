@@ -23,6 +23,9 @@
   --background-color-darker: #e6e9eb;
   --widget-bg-color: #eeeeee;
   --text-color: #362b36;
+
+  --highlight-object-color: #AFCDFF;
+  --highlight-object-color-dark: #00396a;
   
   --border-color: #dddddd;
   --border-radius: 6px;
@@ -615,13 +618,13 @@ a.chapter-nav:hover {
 .ui-selecting {
   border: 0;
   background: none;
-  background-color: #AFCDFF;
+  background-color: var(--highlight-object-color);
   border-radius: 4px;
 }
 
 .darkmode--activated .ui-selected,
 .darkmode--activated .ui-selecting {
-  background-color: #00396a;
+  background-color: var(--highlight-object-color-dark);
 }
 
 .ui-state-hover {

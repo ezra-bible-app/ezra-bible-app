@@ -25,7 +25,7 @@ const eventController = require('./event_controller.js');
  * processes the change.
  * 
  * Like all other controllers it is only initialized once. It is accessible at the
- * global object `app_controller.theme_controller`.
+ * global object `theme_controller`.
  * 
  * @category Controller
  */

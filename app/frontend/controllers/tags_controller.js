@@ -1087,7 +1087,9 @@ class TagsController {
       let current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
 
       let verseBoxObj = new VerseBox(current_verse_box);
-      verseBoxObj.changeVerseListTagInfo(tag_id, tag_title, action);
+      let highlight = (action == "assign");
+
+      verseBoxObj.changeVerseListTagInfo(tag_id, tag_title, action, highlight);
     }
 
     for (let i = 0; i < selected_verses.length; i++) {

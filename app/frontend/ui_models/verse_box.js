@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const Verse = require('./verse.js');
 
 class VerseBox {
@@ -222,6 +223,16 @@ class VerseBox {
     }
   }
 
+  async highlightTag(tagId) {
+    let color = 'var(--highlight-object-color)';
+    
+    if (await theme_controller.isNightModeUsed()) {
+      color = 'var(--highlight-object-color-dark)';
+    }
+
+    $(this.verseBoxElement).find(`.tag[tag-id='${tagId}']`).effect("highlight", {color: color}, 3000);
+  }
+
   htmlForVisibleTag(tag_title, newTagId, visible=true) {
     let cssClass = visible ? 'tag' : 'tag hidden';
     let tagHtml = `<div class='${cssClass}' title='${i18n.t('bible-browser.tag-hint')}'`;
@@ -235,7 +246,7 @@ class VerseBox {
     return tagHtml;
   }
 
-  changeVerseListTagInfo(tag_id, tag_title, action) {
+  async changeVerseListTagInfo(tag_id, tag_title, action, highlight=false) {
     if (this.verseBoxElement == null) {
       return;
     }
@@ -249,6 +260,11 @@ class VerseBox {
     if (updated) {
       this.updateTagDataContainer(tag_id, tag_title, action);
       this.updateVisibleTags(new_tag_info_title_array);
+
+      if (highlight) {
+        await waitUntilIdle();
+        await this.highlightTag(tag_id);
+      }
     }
   }
 
