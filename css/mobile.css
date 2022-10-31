@@ -76,9 +76,25 @@ Librem 5/Pinephone etc.
     margin-left: unset;
   }
 
+  .verse-reference {
+    margin-left: unset !important;
+    flex-direction: column; /* This ensures that the verse reference and the notes/tags indicators are shown above each other */
+    padding-right: 0.2em;
+  }
+
+  .tag-info {
+    display: none; /* The tag info is not needed on mobile! */
+  }
+
+  .notes-info {
+    font-size: 125%;
+  }
+
   .verse-reference-content {
     width: unset;
     min-width: 2.5em;
+    margin-bottom: 0.1em;
+    order: -1; /* Make sure that the verse reference itself comes first (compared to notes/tags indicators) */
   }
 
   #app-container.fullscreen .verse-reference-content {
