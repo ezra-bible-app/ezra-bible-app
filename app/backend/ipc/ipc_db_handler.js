@@ -36,9 +36,9 @@ class IpcDbHandler {
   }
 
   hasValidDropboxConfig() {
-
     return this._config !== undefined &&
            this._config.has('dropboxToken') &&
+           this._config.get('dropboxToken') != null &&
            this._config.get('dropboxToken') != "" &&
            !this._config.has('customDatabaseDir');
   }
