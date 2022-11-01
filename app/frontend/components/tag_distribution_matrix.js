@@ -137,7 +137,7 @@ class TagDistributionMatrix extends HTMLElement {
   }
 
   getTagOccurrencesPerBook(tagId) {
-    let books = {};
+    let tagOccurrences = {};
     let tagElements = $(this._input).find(`.tag[tag-id=${tagId}]`);
 
     for (let i = 0; i < tagElements.length; i++) {
@@ -145,14 +145,14 @@ class TagDistributionMatrix extends HTMLElement {
       let verseBox = tagElement.closest('.verse-box');
       let book = verseBox[0].getAttribute('verse-bible-book-short');
 
-      if (book in books) {
-        books[book] += 1;
+      if (book in tagOccurrences) {
+        tagOccurrences[book] += 1;
       } else {
-        books[book] = 1;
+        tagOccurrences[book] = 1;
       }
     }
 
-    return books;
+    return tagOccurrences;
   }
 }
 
