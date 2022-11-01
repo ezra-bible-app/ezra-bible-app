@@ -120,7 +120,7 @@ class TagDistributionMatrix extends HTMLElement {
       tagTitleCell.innerText = currentTag.title;
       currentTagRow.appendChild(tagTitleCell);
 
-      let currentTagBookList = this.getTagBookList(tagId);
+      let currentTagBookList = this.getTagOccurrencesPerBook(tagId);
 
       actualBooks.forEach((book) => {
         let bookCell = document.createElement('td');
@@ -136,7 +136,7 @@ class TagDistributionMatrix extends HTMLElement {
     }
   }
 
-  getTagBookList(tagId) {
+  getTagOccurrencesPerBook(tagId) {
     let books = {};
     let tagElements = $(this._input).find(`.tag[tag-id=${tagId}]`);
 
