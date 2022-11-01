@@ -88,6 +88,7 @@ class OptionsMenu {
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
+    this._paragraphsOption = this.initConfigOption('showParagraphsOption', () => { this.showOrHideParagraphsBasedOnOption(); });
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, bookChapterNavDefault);
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
@@ -332,6 +333,24 @@ class OptionsMenu {
     }
   }
 
+  showOrHideParagraphsBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+    var tagBoxVerseList = $('#verse-list-popup-verse-list');
+
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._paragraphsOption.isChecked) {
+        currentReferenceVerse.addClass('verse-list-with-paragraphs');
+        currentVerseList.addClass('verse-list-with-paragraphs');
+        tagBoxVerseList.addClass('verse-list-with-paragraphs');
+      } else {
+        currentReferenceVerse.removeClass('verse-list-with-paragraphs');
+        currentVerseList.removeClass('verse-list-with-paragraphs');
+        tagBoxVerseList.removeClass('verse-list-with-paragraphs');
+      }
+    }
+  }
+
   showOrHideBookChapterNavigationBasedOnOption(tabIndex=undefined) {
     if (this._bookChapterNavOption.isChecked) {
       app_controller.navigation_pane.show(tabIndex);
@@ -469,6 +488,7 @@ class OptionsMenu {
     this.showOrHideTabSearchFormBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
+    this.showOrHideParagraphsBasedOnOption(tabIndex);
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.applyTagGroupFilterBasedOnOption();

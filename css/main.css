@@ -1700,6 +1700,11 @@ body:not(.darkmode--activated) .tab-search-occurances {
   display: none;
 }
 
+.verse-list.verse-list-with-paragraphs .sword-paragraph-end {
+  margin-bottom: 4em;
+  display: block !important;
+}
+
 /* This element only occurs in the NA28 sword module */
 s {
   text-decoration: none;
