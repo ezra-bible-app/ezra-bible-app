@@ -22,7 +22,7 @@ Furthermore, the following components are used (among others):
 To test Ezra Bible App, the following frameworks are used:
 * [Cucumber.js](https://github.com/cucumber/cucumber-js)
 * [Chai](https://www.chaijs.com/)
-* [Spectron](https://www.electronjs.org/spectron)
+* [Spectron](https://github.com/electron-userland/spectron)
 * [Jest](https://jestjs.io)
 
 To package Ezra Bible App, the following components are used:
