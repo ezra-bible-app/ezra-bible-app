@@ -70,12 +70,24 @@ class TagDistributionMatrix extends HTMLElement {
   }
 
   connectedCallback() {
-    //this.innerHTML = template.innerHTML;
   }
 
   set input(value) {
     this._input = value;
-    this.refresh();
+
+    if (this._input == '') {
+      this.reset();
+    } else {
+      this.refresh();
+    }
+  }
+
+  reset() {
+    let headerRow = this._shadowRoot.getElementById('header-row');
+    headerRow.innerHTML = '';
+
+    const matrixTBody = this._shadowRoot.getElementById('matrix-tbody');
+    matrixTBody.innerHTML = '';
   }
 
   async refresh(tabIndex=undefined) {
@@ -109,7 +121,6 @@ class TagDistributionMatrix extends HTMLElement {
       currentTagRow.appendChild(tagTitleCell);
 
       let currentTagBookList = this.getTagBookList(tagId);
-      //console.log(currentTagBookList);
 
       actualBooks.forEach((book) => {
         let bookCell = document.createElement('td');
@@ -123,8 +134,6 @@ class TagDistributionMatrix extends HTMLElement {
 
       matrixTBody.appendChild(currentTagRow);
     }
-
-    //console.log(bookList);
   }
 
   getTagBookList(tagId) {
