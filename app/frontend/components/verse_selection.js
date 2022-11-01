@@ -516,14 +516,19 @@ class VerseSelection {
     var selectedText = "";
     const selectionHasMultipleVerses = selectedVerseBoxes.length > 1;
 
+    const paragraphsOption = app_controller.optionsMenu._paragraphsOption;
+
     for (let i = 0; i < selectedVerseBoxes.length; i++) {
       let currentVerseBox = $(selectedVerseBoxes[i]);
       let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
       let currentVerseNr = verseReferenceContent.split(separator)[1];
-      
       let currentText = currentVerseBox.find('.verse-text').clone();
-      let paragraphBreaks = this.getLineBreak() + this.getLineBreak() + this.getLineBreak() + this.getLineBreak();
-      currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
+
+      if (paragraphsOption.isChecked) {
+        let paragraphBreaks = this.getLineBreak() + this.getLineBreak() + this.getLineBreak() + this.getLineBreak();
+        currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
+      }
+
       currentText.find('.sword-markup').remove();
 
       if (selectionHasMultipleVerses) {
