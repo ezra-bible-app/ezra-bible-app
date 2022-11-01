@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { html } = require('../helpers/ezra_helper.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 const template = html`
 <style>
@@ -25,28 +26,32 @@ const template = html`
   }
 
   td {
-    white-space: nowrap;
-    font-size: 80%;
     text-align: right;
   }
 
   table, th, td {
-    border: 1px solid black;
+    border: 1px solid gray;
+    padding: 0.3em;
+    width: 3em;
+  }
+
+  td.tag-title {
+    text-align: left;
+    width: 15em;
   }
 
   #header-row th {
     transform: rotate(270deg);
-    font-size: 70%;
+    font-size: 80%;
     font-weight: normal;
-    height: 4em;
+    height: 5em;
     padding: 0;
   }
 </style>
 
-<table style="border-spacing: 0; border-collapse: collapse;">
+<table style="margin-left: 1em; margin-top: 1em; margin-bottom: 1em; border-spacing: 0; border-collapse: collapse;">
   <thead>
     <tr id="header-row">
-      <th></th>
     </tr>
   </thead>
   <tbody id="matrix-tbody">
@@ -74,21 +79,24 @@ class TagDistributionMatrix extends HTMLElement {
   }
 
   async refresh(tabIndex=undefined) {
-    console.log(this._input);
-
-    const currentTranslation = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
-    const bookList = await ipcNsi.getBookList(currentTranslation);
     const tagIdList = app_controller.tab_controller.getTab(tabIndex).getTagIdList().split(',');
+    const bibleBookStats = verseListController.getBibleBookStatsFromVerseList(tabIndex);
+    const actualBooks = Object.keys(bibleBookStats);
 
     let headerRow = this._shadowRoot.getElementById('header-row');
+    headerRow.innerHTML = '';
+    let firstHeader = document.createElement('th');
+    firstHeader.style.width = '15em';
+    headerRow.appendChild(firstHeader);
     
-    bookList.forEach((book) => {
+    actualBooks.forEach((book) => {
       let bookHeader = document.createElement('th');
       bookHeader.innerText = book;
       headerRow.appendChild(bookHeader);
     });
 
     const matrixTBody = this._shadowRoot.getElementById('matrix-tbody');
+    matrixTBody.innerHTML = '';
 
     for (let i = 0; i < tagIdList.length; i++) {
       let tagId = tagIdList[i];
@@ -96,13 +104,14 @@ class TagDistributionMatrix extends HTMLElement {
       let currentTagRow = document.createElement('tr');
       let currentTag = await tags_controller.tag_store.getTag(tagId);
       let tagTitleCell = document.createElement('td');
+      tagTitleCell.classList.add('tag-title');
       tagTitleCell.innerText = currentTag.title;
       currentTagRow.appendChild(tagTitleCell);
 
       let currentTagBookList = this.getTagBookList(tagId);
-      console.log(currentTagBookList);
+      //console.log(currentTagBookList);
 
-      bookList.forEach((book) => {
+      actualBooks.forEach((book) => {
         let bookCell = document.createElement('td');
 
         if (book in currentTagBookList) {
