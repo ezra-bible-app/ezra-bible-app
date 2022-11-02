@@ -45,6 +45,7 @@ const template = html`
   td:not(.tag-title) {
     color: black;
     font-weight: bold;
+    font-size: 80%;
   }
 
   td.tag-title {
@@ -55,7 +56,7 @@ const template = html`
   #header-row th {
     transform: rotate(315deg);
     font-size: 80%;
-    font-weight: normal;
+    font-weight: bold;
     height: 5em;
     padding: 0;
   }
