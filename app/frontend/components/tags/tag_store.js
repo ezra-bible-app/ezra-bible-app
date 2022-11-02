@@ -170,6 +170,18 @@ class TagStore {
   }
 
   async updateTagCount(tagId, bookList, count=1, increment=true) {
+    // Update tag count in tag list
+    let tagObject = await this.getTag(tagId);
+
+    if (increment) {
+      tagObject.globalAssignmentCount += count;
+    } else {
+      if (tagObject.globalAssignmentCount > 0) {
+        tagObject.globalAssignmentCount -= count;
+      }
+    }
+
+    // Update tag count in book tag statistics
     var firstKey = Object.keys(this.bookTagStatistics)[0];
     if (firstKey === undefined) {
       return;
@@ -180,7 +192,9 @@ class TagStore {
     if (increment) {
       globalAssignmentCount += count;
     } else {
-      globalAssignmentCount -= count;
+      if (globalAssignmentCount > 0) {
+        globalAssignmentCount -= count;
+      }
     }
 
     bookList.forEach(async (book) => {
@@ -194,7 +208,9 @@ class TagStore {
             if (increment) {
               tagStats[tagId].bookAssignmentCount += count;
             } else {
-              tagStats[tagId].bookAssignmentCount -= count;
+              if (tagStats[tagId].bookAssignmentCount > 0) {
+                tagStats[tagId].bookAssignmentCount -= count;
+              }
             }
           }
         }
