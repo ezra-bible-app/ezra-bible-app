@@ -32,7 +32,11 @@ const template = html`
   table, th, td {
     border: 1px solid gray;
     padding: 0.3em;
-    width: 3em;
+    width: 3.5em;
+  }
+
+  #matrix-tbody tr:nth-child(odd) {
+    background-color: var(--background-color-darker)
   }
 
   td.tag-title {
@@ -41,7 +45,7 @@ const template = html`
   }
 
   #header-row th {
-    transform: rotate(270deg);
+    transform: rotate(315deg);
     font-size: 80%;
     font-weight: normal;
     height: 5em;
