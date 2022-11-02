@@ -18,6 +18,7 @@
 
 const Darkmode = require('darkmode-js');
 const eventController = require('./event_controller.js');
+const UiHelper = require('../helpers/ui_helper.js');
 
 /**
  * The ThemeController contains functions for switching between the standard (light theme)
@@ -32,6 +33,7 @@ const eventController = require('./event_controller.js');
 class ThemeController {
   constructor() {
     this.darkMode = null;
+    this.uiHelper = new UiHelper();
   }
 
   async initNightMode() {
@@ -87,21 +89,13 @@ class ThemeController {
   }
 
   switchToDarkTheme() {
-    this.switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
+    this.uiHelper.switchToTheme(document, 'css/jquery-ui/dark-hive/jquery-ui.css');
     eventController.publish('on-theme-changed', 'dark');
   }
   
   switchToRegularTheme() {
-    this.switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
+    this.uiHelper.switchToTheme(document, 'css/jquery-ui/cupertino/jquery-ui.css');
     eventController.publish('on-theme-changed', 'regular');
-  }
-  
-  switchToTheme(theme) {
-    var currentTheme = document.getElementById("theme-css").href;
-  
-    if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
-      document.getElementById("theme-css").href = theme;
-    }
   }
 
   async useNightModeBasedOnOption(force=false) {

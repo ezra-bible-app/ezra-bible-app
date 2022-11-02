@@ -206,6 +206,25 @@ class UiHelper {
 
     return dialogOptions;
   }
+
+  switchToDarkTheme(docObject, mainElementId) {
+    this.switchToTheme(docObject, 'css/jquery-ui/dark-hive/jquery-ui.css');
+    docObject.getElementById(mainElementId).classList.add('darkmode--activated');
+  }
+  
+  switchToRegularTheme(docObject, mainElementId) {
+    this.switchToTheme(docObject, 'css/jquery-ui/cupertino/jquery-ui.css');
+    docObject.getElementById(mainElementId).classList.remove('darkmode--activated');
+  }
+
+  switchToTheme(docObject, theme) {
+    var currentTheme = docObject.getElementById("theme-css").href;
+  
+    if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
+      docObject.getElementById("theme-css").href = theme;
+    }
+  }
+
 }
 
 module.exports = UiHelper;
