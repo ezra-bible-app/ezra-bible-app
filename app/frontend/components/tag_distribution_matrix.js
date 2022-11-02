@@ -29,6 +29,7 @@ const template = html`
 <style>
   table {
     table-layout: fixed;
+    border-collapse: collapse;
   }
 
   td {
@@ -41,8 +42,9 @@ const template = html`
     width: 3.5em;
   }
 
-  #matrix-tbody tr:nth-child(odd) {
-    background-color: var(--background-color-darker)
+  td:not(.tag-title) {
+    color: black;
+    font-weight: bold;
   }
 
   td.tag-title {
@@ -93,6 +95,15 @@ class TagDistributionMatrix extends HTMLElement {
     eventController.subscribe('on-locale-changed', () => {
       this.localize();
     });
+
+    // Generated here: https://www.learnui.design/tools/data-color-picker.html#single
+    this.colorRange = [
+      '#dadada',
+      '#b4c1ce',
+      '#8ca8c2',
+      '#6190b6',
+      '#2779aa'
+    ];
   }
 
   localize() {
@@ -163,6 +174,21 @@ class TagDistributionMatrix extends HTMLElement {
 
     const matrixTBody = this.shadowRoot.getElementById('matrix-tbody');
     matrixTBody.innerHTML = '';
+    let tagOccurrences = {};
+    let maxValue = 0;
+
+    for (let i = 0; i < tagIdList.length; i++) {
+      let tagId = tagIdList[i];
+      let currentTagBookList = this.getTagOccurrencesPerBook(tagId);
+      tagOccurrences[tagId] = currentTagBookList;
+
+      let currentValues = Object.values(currentTagBookList);
+      let currentMaxValue = Math.max(...currentValues);
+      
+      if (currentMaxValue > maxValue) {
+        maxValue = currentMaxValue;
+      }
+    }
 
     for (let i = 0; i < tagIdList.length; i++) {
       let tagId = tagIdList[i];
@@ -174,13 +200,14 @@ class TagDistributionMatrix extends HTMLElement {
       tagTitleCell.innerText = currentTag.title;
       currentTagRow.appendChild(tagTitleCell);
 
-      let currentTagBookList = this.getTagOccurrencesPerBook(tagId);
+      let currentTagBookList = tagOccurrences[tagId];
 
       actualBooks.forEach((book) => {
         let bookCell = document.createElement('td');
 
         if (book in currentTagBookList) {
           bookCell.innerText = currentTagBookList[book];
+          bookCell.style.backgroundColor = this.getColorForNumber(currentTagBookList[book], maxValue);
         }
 
         currentTagRow.appendChild(bookCell);
@@ -192,6 +219,25 @@ class TagDistributionMatrix extends HTMLElement {
     if (platformHelper.isElectron()) {
       this.shadowRoot.getElementById('copy-table-to-clipboard').style.removeProperty('display');
     }
+  }
+
+  getColorForNumber(value, maxValue) {
+    let percentage = (parseInt(value) / maxValue) * 100;
+    let index = 0;
+    
+    if (percentage >= 0 && percentage <= 20) {
+      index = 0;
+    } else if (percentage > 20 && percentage <= 40) {
+      index = 1;
+    } else if (percentage > 40 && percentage <= 60) {
+      index = 2;
+    } else if (percentage > 60 && percentage <= 80) {
+      index = 3;
+    } else if (percentage > 80 && percentage <= 100) {
+      index = 4;
+    }
+
+    return this.colorRange[index];
   }
 
   getTagOccurrencesPerBook(tagId) {
