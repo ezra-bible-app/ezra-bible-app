@@ -109,7 +109,7 @@ module.exports.showSyncResultMessage = async function() {
 
   const lastDropboxSyncResult = await ipcSettings.get(DROPBOX_LAST_SYNC_RESULT_KEY, '');
 
-  if (lastDropboxSyncResult != "") {
+  if (lastDropboxSyncResult != null && lastDropboxSyncResult != "" && lastDropboxSyncResult != "NONE") {
     let msgPosition = 'bottomRight';
 
     if (platformHelper.isCordova()) {
