@@ -67,6 +67,7 @@ class ItemListManager {
     this._removeList = [];
 
     this._showItemCount = false;
+    this._filterString = null;
   }
 
   reset() {
@@ -126,6 +127,11 @@ class ItemListManager {
     }
   }
 
+  async applyFilter(filterString) {
+    this._filterString = filterString;
+    await this.refreshItemList();
+  }
+
   async refreshItemList() {
     await this.populateItemList(true);
   }
@@ -142,7 +148,13 @@ class ItemListManager {
     const items = await this.getItems(force);
 
     items.forEach((item) => {
-      this.addItemElement(item);
+      if (this._filterString != null && this._filterString != "") {
+        if (item.title.indexOf(this._filterString) != -1) {
+          this.addItemElement(item);
+        }
+      } else {
+        this.addItemElement(item);
+      }
     });
 
     this.populated = true;

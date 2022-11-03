@@ -212,7 +212,7 @@ class TagsController {
     this.newTagDialogInitDone = true;
 
     var dialogWidth = 450;
-    var dialogHeight = 400;
+    var dialogHeight = 420;
     var draggable = true;
     var position = [55, 120];
 
@@ -240,6 +240,9 @@ class TagsController {
       const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
       addTagsToGroupTagList.tagManager.reset();
       addTagsToGroupTagList.style.display = 'none';
+      addTagsToGroupTagList.filter = '';
+      const addTagsToGroupFilterInput = document.getElementById('add-tags-to-group-filter-input');
+      addTagsToGroupFilterInput.value = '';
       await waitUntilIdle();
 
       $('#new-standard-tag-dialog').dialog("close");
@@ -312,6 +315,12 @@ class TagsController {
         tags_controller.addTagsToGroup(tags_controller.currentTagGroupId, addTagsToGroupTagList.addList);
       }
     };
+
+    document.getElementById('add-tags-to-group-filter-input').addEventListener('keyup', () => {
+      let currentFilterString = document.getElementById('add-tags-to-group-filter-input').value;
+      const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+      addTagsToGroupTagList.filter = currentFilterString;
+    });
 
     $('#add-tags-to-group-dialog').dialog(addTagsToGroupDialogOptions);
   }
