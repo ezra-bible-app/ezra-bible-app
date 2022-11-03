@@ -212,7 +212,7 @@ class TagsController {
     this.newTagDialogInitDone = true;
 
     var dialogWidth = 450;
-    var dialogHeight = 400;
+    var dialogHeight = 420;
     var draggable = true;
     var position = [55, 120];
 
