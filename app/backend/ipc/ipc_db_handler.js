@@ -67,7 +67,7 @@ class IpcDbHandler {
 
     if (this.hasValidDropboxConfig()) {
       // We run this operation asynchronously, so that startup is not blocked in case of issues (like if there is no internet connection)
-      this.syncDatabaseWithDropbox(connectionType, true);
+      this.syncDatabaseWithDropbox(connectionType);
     }
 
     global.models = require('../database/models')(this.dbDir);
