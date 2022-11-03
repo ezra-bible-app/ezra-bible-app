@@ -1880,6 +1880,7 @@ tr.compare-translation-row:nth-child(odd) {
 .ui-selectmenu-menu ul::-webkit-scrollbar,
 .ui-widget-content::-webkit-scrollbar {
   width: 0.5em;
+  height: 0.5em;
   border-width: 1px;
   border-radius: var(--border-radius);
 }
