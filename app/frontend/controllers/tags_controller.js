@@ -243,6 +243,12 @@ class TagsController {
       addTagsToGroupTagList.filter = '';
       const addTagsToGroupFilterInput = document.getElementById('add-tags-to-group-filter-input');
       addTagsToGroupFilterInput.value = '';
+
+      let tagList = await this.tag_store.getTagList();
+      let tagIdList = await this.getTagGroupMemberIds(this.currentTagGroupId, tagList);
+      addTagsToGroupTagList.tagManager.setExcludeItems(tagIdList);
+      addTagsToGroupTagList.tagManager.excludeItems();
+
       await waitUntilIdle();
 
       $('#new-standard-tag-dialog').dialog("close");
@@ -276,10 +282,12 @@ class TagsController {
 
   async updateAddTagToGroupTagList() {
     const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+    addTagsToGroupTagList.tagManager.setFilter('');
     await addTagsToGroupTagList.tagManager.refreshItemList();
     let tagList = await this.tag_store.getTagList();
     let tagIdList = await this.getTagGroupMemberIds(this.currentTagGroupId, tagList);
-    addTagsToGroupTagList.tagManager.removeItems(tagIdList);
+    addTagsToGroupTagList.tagManager.setExcludeItems(tagIdList);
+    addTagsToGroupTagList.tagManager.excludeItems();
 
     let tagCount = addTagsToGroupTagList.tagManager.getAllItemElements().length;
     return tagCount;
