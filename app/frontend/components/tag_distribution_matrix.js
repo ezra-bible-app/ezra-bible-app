@@ -60,6 +60,33 @@ const template = html`
     height: 5em;
     padding: 0;
   }
+
+  /* Mobile styles */
+  @media screen and (max-width: 450px), (max-height: 450px) {
+    #tag-distribution-matrix {
+      font-size: 70% !important;
+    }
+
+    #tag-distribution-matrix th.first-header,
+    #tag-distribution-matrix td.tag-title {
+      width: 12em !important;
+      padding-left: 0.2em !important;
+    }
+
+    #tag-distribution-matrix table,
+    #tag-distribution-matrix th,
+    #tag-distribution-matrix td {
+      padding-left: unset !important;
+      padding-right: 0.1em;
+      padding-top: 0.1em;
+      padding-bottom: 0.1em;
+    }
+
+    #tag-distribution-matrix #header-row th {
+      transform: rotate(270deg);
+      width: 3em;
+    }
+  }
 </style>
 
 <div id="tag-distribution-matrix" style="margin-bottom: 1em;">
@@ -164,6 +191,7 @@ class TagDistributionMatrix extends HTMLElement {
     let headerRow = this.shadowRoot.getElementById('header-row');
     headerRow.innerHTML = '';
     let firstHeader = document.createElement('th');
+    firstHeader.classList.add('first-header');
     firstHeader.style.width = '15em';
     headerRow.appendChild(firstHeader);
     
