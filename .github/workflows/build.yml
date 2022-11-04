@@ -170,7 +170,7 @@ jobs:
         # because for some reason electron-installer-redhat is not properly
         # working on Fedora 33!
         - name: Fix permissions
-          run: chown -R 1001:1001 $GITHUB_WORKSPACE
+          run: sudo chown -R 1001:1001 $GITHUB_WORKSPACE
         - name: Create package
           run: npm install electron-installer-redhat && npm run rpm_fedora
         - name: Rename package
