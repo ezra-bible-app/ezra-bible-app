@@ -69,7 +69,7 @@ class VerseSelection {
 
     verseList.selectable({
       filter: '.verse-text',
-      cancel: '.verse-reference-content, .sword-xref-marker, .verse-notes, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
+      cancel: '.verse-reference-content, .sword-xref-marker, .verse-notes, .tag-box, .tag, .load-book-results, .select-all-search-results-button, tag-distribution-matrix',
 
       // eslint-disable-next-line no-unused-vars
       start: (event, ui) => {

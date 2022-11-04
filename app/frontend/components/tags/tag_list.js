@@ -31,7 +31,7 @@ const template = html`
   box-sizing: border-box;
   border: 1px solid #dddddd;
   overflow-y: scroll;
-  height: 89%;
+  height: 80%;
 }
 
 .tag-item {
