@@ -193,6 +193,8 @@ jobs:
         # Create package and rename package are separate steps for Fedora 35,
         # because for some reason electron-installer-redhat is not properly
         # working on Fedora 35!
+        - name: Fix permissions
+          run: sudo chown -R 1001:1001 $GITHUB_WORKSPACE
         - name: Create package
           run: npm install electron-installer-redhat && npm run rpm_fedora35
         - name: Rename package
