@@ -38,7 +38,9 @@
   --highlight-color: var(--accent-color);
 
   --checkmark-success-color: LimeGreen;
-  
+
+  --button-color: #777;
+  --button-color-dark: #aaa;
   --disabled-button-color: #bbbbbb;
 }
 
@@ -1491,7 +1493,6 @@ li.book-unavailable a:focus,
 
 #tag-selection-filter-input,
 #module-search-input,
-#tags-search-input,
 #new-standard-tag-title-input,
 #rename-tag-title-input,
 #rename-tag-group-title-input,

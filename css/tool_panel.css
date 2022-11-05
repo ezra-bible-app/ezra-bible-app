@@ -303,7 +303,6 @@ tr.td-underline td {
 #tags-search-input {
   margin: 0;
   float: right;
-  width: 9em;
 }
 
 #tag-filter-menu {
@@ -414,13 +413,13 @@ input.tag-cb {
   margin-right: 0.5em;
   font-size: 0.7em;
   cursor: pointer;
-  color: #777;
+  color: var(--button-color);
   border: 1px solid #8e8e8e;
   border-radius: calc(var(--border-radius) - 2px);
   background-color: var(--background-color);
 }
 .darkmode--activated .button-small {
-  color: #aaa;
+  color: var(--button-color-dark);
 }
 .button-small.active, 
 .button-small.button-small:hover:not(.disabled):not(.no-hl) {

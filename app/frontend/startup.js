@@ -97,6 +97,7 @@ class Startup {
     require('./components/module_assistant/module_assistant.js');
     require('./components/verse_context_menu.js');
     require('./components/tag_distribution_matrix.js');
+    require('./components/text_field.js');
   }
 
   loadHTML() {
