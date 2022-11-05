@@ -28,21 +28,30 @@ const template = html`
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
+  :host {
+    display: inline-block;
+  }
+
+  #text-field {
+    width: 120%;
+  }
+
   #input {
     border: 1px solid lightgray;
     border-radius: 4px;
     padding-right: 1.8em;
+    width: 65%;
   }
 
   #delete-button {
-    position: absolute;
-    right: 12px;
-    top: 11px;
+    position: relative;
+    right: 25px;
     color: var(--button-color);
   }
 
   #delete-button:hover {
     color: var(--accent-color);
+    cursor: pointer;
   }
 
 </style>
