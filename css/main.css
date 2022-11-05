@@ -1491,7 +1491,6 @@ li.book-unavailable a:focus,
   visibility: hidden;
 }
 
-#tag-selection-filter-input,
 #module-search-input,
 #new-standard-tag-title-input,
 #rename-tag-title-input,
@@ -1507,7 +1506,7 @@ li.book-unavailable a:focus,
 }
 
 #tag-selection-filter-input {
-  width: 16em;
+  width: 20em;
 }
 
 #module-search-input {
