@@ -25,7 +25,7 @@ Given('I enter the term {string}', async function (searchTerm) {
   var moduleSearchMenu = await spectronHelper.getWebClient().$('#module-search-menu');
   var moduleSearchInput = await moduleSearchMenu.$('#module-search-input');
 
-  await moduleSearchInput.setValue(searchTerm);
+  await moduleSearchInput.addValue(searchTerm);
 });
 
 When('I perform the search', {timeout: 50 * 1000}, async function () {
