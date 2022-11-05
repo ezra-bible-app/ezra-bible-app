@@ -62,6 +62,10 @@ const template = html`
 </div>
 `;
 
+/**
+ * The TextField component <text-field></text-field> is a more fancy version of the standard html input element.
+ * It adds some styling as well as a delete button that can be used to delete the content of the text field.
+ */
 class TextField extends HTMLElement {
   constructor() {
     super();
