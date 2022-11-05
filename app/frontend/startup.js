@@ -85,11 +85,7 @@ class Startup {
     }
   }
 
-  loadHTML() {
-    if (!this._platformHelper.isElectron()) {
-      window.Buffer = require('buffer/').Buffer;
-    }
-
+  loadWebComponents() {
     require('./components/tool_panel/panel_buttons.js');
     require('./components/tags/tag_list_menu.js');
     require('./components/tags/tag_group_list.js');
@@ -101,6 +97,14 @@ class Startup {
     require('./components/module_assistant/module_assistant.js');
     require('./components/verse_context_menu.js');
     require('./components/tag_distribution_matrix.js');
+  }
+
+  loadHTML() {
+    if (!this._platformHelper.isElectron()) {
+      window.Buffer = require('buffer/').Buffer;
+    }
+
+    this.loadWebComponents();
 
     const fs = require('fs');
 
