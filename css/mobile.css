@@ -499,6 +499,10 @@ Librem 5/Pinephone etc.
     display: none !important;
   }
 
+  #tags-search-input {
+    margin-right: -1.5em !important;
+  }
+
   #tags-content-global {
     font-size: 0.9em;
     height: calc(100% - 6.5em) !important;
