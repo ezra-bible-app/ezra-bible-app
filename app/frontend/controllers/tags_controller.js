@@ -174,6 +174,11 @@ class TagsController {
       document.getElementById('tags-content-global').innerHTML = "";
       await this.updateTagsView(currentTabIndex, true);
     });
+
+    eventController.subscribe('on-body-clicked', () => {
+      const tagsSearchInput = document.getElementById('tags-search-input');
+      tagsSearchInput.blur();
+    });
   }
 
   tagPanelIsActive() {
