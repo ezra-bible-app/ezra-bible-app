@@ -318,8 +318,6 @@ class TagListMenu extends HTMLElement {
       if (this._addElementButtons) {
         this.showAddTagButton();
       }
-    } else {
-      console.warn("TagGroupSelection.selectTagGroup / Received null");
     }
   }
 

@@ -45,7 +45,7 @@ class TagStatistics {
       let tagStatisticsPanelHeader = document.getElementById('tag-statistics-panel-header');
       let header = i18n.t('tag-statistics-panel.default-header');
 
-      if (tagGroup.id > 0) {
+      if (tagGroup != null && tagGroup != undefined && tagGroup.id > 0) {
         let localizedTagGroup = i18n.t('tags.tag-group');
 
         header += ' &mdash; ' + localizedTagGroup + ': ' + tagGroup.title;
