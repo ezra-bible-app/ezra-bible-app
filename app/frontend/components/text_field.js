@@ -33,7 +33,7 @@ const template = html`
   }
 
   #text-field {
-    width: 120%;
+    width: 115%;
   }
 
   #input {
