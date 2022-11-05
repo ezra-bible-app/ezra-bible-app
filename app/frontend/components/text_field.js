@@ -75,6 +75,7 @@ class TextField extends HTMLElement {
     this.deleteButton.addEventListener('click', () => {
       this.input.value = '';
       this.dispatchEvent(new KeyboardEvent('keyup'));
+      this.input.focus();
     });
   }
 
