@@ -1495,6 +1495,7 @@ li.book-unavailable a:focus,
 #new-standard-tag-title-input,
 #rename-tag-title-input,
 #rename-tag-group-title-input,
+#add-tags-to-group-filter-input,
 .tab-search-input,
 .tab-search-type,
 #search-type,
@@ -1880,6 +1881,7 @@ tr.compare-translation-row:nth-child(odd) {
 .ui-selectmenu-menu ul::-webkit-scrollbar,
 .ui-widget-content::-webkit-scrollbar {
   width: 0.5em;
+  height: 0.5em;
   border-width: 1px;
   border-radius: var(--border-radius);
 }

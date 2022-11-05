@@ -205,9 +205,9 @@ class TagListMenu extends HTMLElement {
 
     eventController.subscribe('on-theme-changed', (theme) => {
       if (theme == 'dark') {
-        this.switchToDarkTheme();
+        this.uiHelper.switchToDarkTheme(this.shadowRoot, 'tag-list-menu');
       } else {
-        this.switchToRegularTheme();
+        this.uiHelper.switchToRegularTheme(this.shadowRoot, 'tag-list-menu');
       }
     });
 
@@ -367,24 +367,6 @@ class TagListMenu extends HTMLElement {
 
   getAddTagGroupButton() {
     return this.shadowRoot.getElementById('add-tag-group-button');
-  }
-
-  switchToDarkTheme() {
-    this.switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
-    this.shadowRoot.getElementById('tag-list-menu').classList.add('darkmode--activated');
-  }
-  
-  switchToRegularTheme() {
-    this.switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
-    this.shadowRoot.getElementById('tag-list-menu').classList.remove('darkmode--activated');
-  }
-  
-  switchToTheme(theme) {
-    var currentTheme = this.shadowRoot.getElementById("theme-css").href;
-  
-    if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
-      this.shadowRoot.getElementById("theme-css").href = theme;
-    }
   }
 }
 

@@ -67,11 +67,14 @@ class ItemListManager {
     this._removeList = [];
 
     this._showItemCount = false;
+    this._filterString = null;
+    this._excludeItemIds = [];
   }
 
   reset() {
     this._addList = [];
     this._removeList = [];
+    this._excludeItemIds = [];
   }
 
   setContentDiv(contentDiv) {
@@ -126,6 +129,15 @@ class ItemListManager {
     }
   }
 
+  setFilter(filterString) {
+    this._filterString = filterString;
+  }
+
+  async applyFilter(filterString) {
+    this._filterString = filterString;
+    await this.refreshItemList();
+  }
+
   async refreshItemList() {
     await this.populateItemList(true);
   }
@@ -142,8 +154,16 @@ class ItemListManager {
     const items = await this.getItems(force);
 
     items.forEach((item) => {
-      this.addItemElement(item);
+      if (this._filterString != null && this._filterString != "") {
+        if (item.title.toLowerCase().indexOf(this._filterString.toLowerCase()) != -1) {
+          this.addItemElement(item);
+        }
+      } else {
+        this.addItemElement(item);
+      }
     });
+
+    this.removeItems(this._excludeItemIds);
 
     this.populated = true;
   }
@@ -357,6 +377,14 @@ class ItemListManager {
 
   getAllItemElements() {
     return this.getContentDiv().querySelectorAll('.' + this._cssClass);
+  }
+
+  setExcludeItems(itemIds) {
+    this._excludeItemIds = itemIds;
+  }
+
+  excludeItems() {
+    this.removeItems(this._excludeItemIds);
   }
 
   removeItems(existingItemIds) {

@@ -31,7 +31,7 @@ const template = html`
   box-sizing: border-box;
   border: 1px solid #dddddd;
   overflow-y: scroll;
-  height: 98%;
+  height: 80%;
 }
 
 .tag-item {
@@ -116,6 +116,11 @@ class TagList extends HTMLElement {
 
   get tagManager() {
     return this._tagManager;
+  }
+
+  set filter(value) {
+    this._filter = value;
+    this._tagManager.applyFilter(this._filter);
   }
 
   getContentDiv() {

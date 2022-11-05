@@ -29,8 +29,10 @@ class IpcDbHandler {
     this._ipcMain = new IpcMain();
     this.platformHelper = new PlatformHelper();
     this.dbDir = null;
+    // eslint-disable-next-line no-undef
     this._config = ipc.ipcSettingsHandler.getConfig();
     this._dropboxSyncTimeout = null;
+    this._dropboxSyncInProgress = false;
 
     this.initIpcInterface();
   }
@@ -64,7 +66,8 @@ class IpcDbHandler {
     await dbHelper.initDatabase(this.dbDir, androidVersion);
 
     if (this.hasValidDropboxConfig()) {
-      await this.syncDatabaseWithDropbox(connectionType);
+      // We run this operation asynchronously, so that startup is not blocked in case of issues (like if there is no internet connection)
+      this.syncDatabaseWithDropbox(connectionType);
     }
 
     global.models = require('../database/models')(this.dbDir);
@@ -87,6 +90,12 @@ class IpcDbHandler {
     if (dropboxRefreshToken == "" || dropboxRefreshToken == null) {
       return;
     }
+
+    if (this._dropboxSyncInProgress) {
+      return;
+    }
+
+    this._dropboxSyncInProgress = true;
 
     console.log('Synchronizing database with Dropbox!');
 
@@ -149,12 +158,15 @@ class IpcDbHandler {
       }
     } else {
       console.warn('Dropbox could not be authenticated!');
+      lastDropboxSyncResult = 'FAILED';
     }
 
     this._config.set('lastDropboxSyncResult', lastDropboxSyncResult);
     this._config.set('lastDropboxSyncTime', new Date());
 
-    if (notifyFrontend) {
+    this._dropboxSyncInProgress = false;
+
+    if (notifyFrontend && lastDropboxSyncResult != null) {
       if (this.platformHelper.isElectron()) {
         global.mainWindow.webContents.send('dropbox-synced');
       } else if (this.platformHelper.isCordova()) {

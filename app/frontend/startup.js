@@ -100,6 +100,7 @@ class Startup {
     require('./components/options_menu/locale_switch.js');
     require('./components/module_assistant/module_assistant.js');
     require('./components/verse_context_menu.js');
+    require('./components/tag_distribution_matrix.js');
 
     const fs = require('fs');
 
