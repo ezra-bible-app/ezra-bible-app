@@ -82,12 +82,16 @@ class TextField extends HTMLElement {
   connectedCallback() {
   }
 
+  set value(value) {
+    this.input.value = value;
+  }
+
   get value() {
-    return this.shadowRoot.getElementById('input').value;
+    return this.input.value;
   }
   
   select() {
-    this.shadowRoot.getElementById('input').select();
+    this.input.select();
   }
 }
 
