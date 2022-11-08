@@ -17,3 +17,4 @@ updates:
       - dependency-name: "sequelize"
       - dependency-name: "sequelize-cli"
       - dependency-name: "sqlite3"
+      - dependency-name: "electron-winstaller"
