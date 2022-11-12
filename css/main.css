@@ -803,6 +803,10 @@ main.content {
   width: 20em;
 }
 
+#bookLoadingModeOption-button {
+  height: fit-content;
+}
+
 .selection-menu-footer {
   clear: both;
   margin: 0;
