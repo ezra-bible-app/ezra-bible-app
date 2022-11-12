@@ -244,6 +244,8 @@ class AppController {
         tags_controller.showTagListLoadingIndicator();
       }
 
+      await this.tab_controller.loadTabConfiguration();
+
       if (await ipcSettings.has('lastUsedTagGroupId')) {
         tags_controller.currentTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
         const tagGroupList = document.getElementById('tag-panel-tag-group-list');
@@ -251,7 +253,6 @@ class AppController {
         eventController.publishAsync('on-tag-group-selected', tagGroup);
       }
 
-      await this.tab_controller.loadTabConfiguration();
       await this.translation_controller.loadSettings();
     } catch (e) {
       console.trace("Failed to load settings ... got exception.", e);
