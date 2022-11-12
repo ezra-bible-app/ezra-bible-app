@@ -42,17 +42,29 @@ class TagStatistics {
     });
 
     eventController.subscribe('on-tag-group-selected', (tagGroup) => {
-      let tagStatisticsPanelHeader = document.getElementById('tag-statistics-panel-header');
-      let header = i18n.t('tag-statistics-panel.default-header');
-
-      if (tagGroup != null && tagGroup != undefined && tagGroup.id > 0) {
-        let localizedTagGroup = i18n.t('tags.tag-group');
-
-        header += ' &mdash; ' + localizedTagGroup + ': ' + tagGroup.title;
-      }
-
-      tagStatisticsPanelHeader.innerHTML = header;
+      this.updatePanelHeader(tagGroup);
     });
+
+    eventController.subscribe('on-locale-changed', () => {
+      let currentTagGroup = tags_controller.getCurrentTagGroup();
+
+      if (currentTagGroup != null) {
+        this.updatePanelHeader(currentTagGroup);
+      }
+    });
+  }
+
+  updatePanelHeader(tagGroup) {
+    let tagStatisticsPanelHeader = document.getElementById('tag-statistics-panel-header');
+    let header = i18n.t('tag-statistics-panel.default-header');
+
+    if (tagGroup != null && tagGroup != undefined && tagGroup.id > 0) {
+      let localizedTagGroup = i18n.t('tags.tag-group');
+
+      header += ' &mdash; ' + localizedTagGroup + ': ' + tagGroup.title;
+    }
+
+    tagStatisticsPanelHeader.innerHTML = header;
   }
 
   clearTagStatisticsPanel(tabIndex) {

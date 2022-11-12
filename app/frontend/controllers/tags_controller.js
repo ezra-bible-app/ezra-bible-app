@@ -187,6 +187,19 @@ class TagsController {
     return isActive;
   }
 
+  getCurrentTagGroup() {
+    let currentTagGroup = null;
+
+    if (tags_controller.currentTagGroupId != null) {
+      currentTagGroup = {
+        title: tags_controller.currentTagGroupTitle,
+        id: tags_controller.currentTagGroupId
+      };
+    }
+
+    return currentTagGroup;
+  }
+
   resetActivePanelToTagPanel(tabIndex) {
     var panelButtons = document.getElementById('panel-buttons');
     var tab = app_controller.tab_controller.getTab(tabIndex);
