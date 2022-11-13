@@ -169,11 +169,6 @@ class AssistantStepsAddModules extends HTMLElement {
   async _stepsFinished() {
     $('#module-settings-assistant').dialog('close');
     assistantController.init('installedModules', await app_controller.translation_controller.getInstalledModules());
-
-    if (assistantController.get('moduleType') == 'BIBLE') {
-      await app_controller.translation_controller.initTranslationsMenu();
-      await tags_controller.updateTagUiBasedOnTagAvailability();
-    }
   }
 
   _setupSteps(container) {

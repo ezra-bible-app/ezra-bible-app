@@ -46,8 +46,11 @@ class TranslationController {
       await this.initTranslationsMenu(-1, tabIndex);
     });
 
-    // eslint-disable-next-line no-unused-vars
-    eventController.subscribe('on-translation-removed', async (translationId) => {
+    eventController.subscribe('on-translation-added', async () => {
+      await this.initTranslationsMenu();
+    });
+
+    eventController.subscribe('on-translation-removed', async () => {
       $("select#bible-select").empty();
       await this.initTranslationsMenu();
     });
