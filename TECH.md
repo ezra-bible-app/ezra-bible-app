@@ -18,6 +18,7 @@ Furthermore, the following components are used (among others):
 * [browserify](http://browserify.org/) for minifying the JavaScript code
 * [fontawesome](https://fontawesome.com/) for the icon set
 * [fuse.js](https://fusejs.io) for fuzzy (approximate) search algorithm
+* [Dropbox SDK](https://github.com/dropbox/dropbox-sdk-js) for linking Ezra Bible App with Dropbox and synchronizing the database file
 
 To test Ezra Bible App, the following frameworks are used:
 * [Cucumber.js](https://github.com/cucumber/cucumber-js)
