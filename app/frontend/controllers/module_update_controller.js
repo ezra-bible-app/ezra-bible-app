@@ -277,6 +277,10 @@ async function performModuleUpdate() {
 
     loadingIndicator.style.display = 'block';
 
+    // Installation on top of an existing installation is buggy!
+    // Therefore, the explicit uninstall step is quite important!
+    await ipcNsi.uninstallModule(moduleCode);
+
     await ipcNsi.installModule(moduleCode);
 
     if (previousLoadingIndicator != null) {
