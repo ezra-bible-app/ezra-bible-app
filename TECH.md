@@ -15,7 +15,7 @@ Furthermore, the following components are used (among others):
 * [docxjs](https://github.com/dolanmiu/docx) for exporting tagged verse lists to Word documents
 * [SpinKit](https://github.com/tobiasahlin/SpinKit) for CSS-animated loading spinners
 * [I18next](https://www.i18next.com/) for internationalization
-* [browserify](http://browserify.org/) for minifying the JavaScript code
+* [browserify](http://browserify.org/) for bundling the JavaScript code for the Cordova app
 * [fontawesome](https://fontawesome.com/) for the icon set
 * [fuse.js](https://fusejs.io) for fuzzy (approximate) search algorithm
 * [Dropbox SDK](https://github.com/dropbox/dropbox-sdk-js) for linking Ezra Bible App with Dropbox and synchronizing the database file
