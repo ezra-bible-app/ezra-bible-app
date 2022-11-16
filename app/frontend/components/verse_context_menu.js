@@ -103,9 +103,15 @@ class VerseContextMenu extends HTMLElement {
 
       const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
       const firstVerseBox = selectedVerseBoxes[0];
-      const notesInfo = firstVerseBox.querySelector('.notes-info');
-      if (notesInfo.classList.contains('visible')) {
-        this.enableDeleteNoteButton();
+
+      if (firstVerseBox != null) {
+        const notesInfo = firstVerseBox.querySelector('.notes-info');
+        
+        if (notesInfo.classList.contains('visible')) {
+          this.enableDeleteNoteButton();
+        } else {
+          this.disableDeleteNoteButton();
+        }
       } else {
         this.disableDeleteNoteButton();
       }
