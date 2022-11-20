@@ -1703,6 +1703,18 @@ body:not(.darkmode--activated) .tab-search-occurances {
   display: none;
 }
 
+.sword-quote-jesus {
+  display: unset;
+}
+
+.verse-list.verse-list-with-red-letters .sword-quote-jesus {
+  color: firebrick;
+}
+
+.darkmode--activated .verse-list.verse-list-with-red-letters .sword-quote-jesus {
+  color: salmon;
+}
+
 .verse-list.verse-list-with-paragraphs .sword-paragraph-end {
   margin-bottom: 4em;
   display: block !important;
