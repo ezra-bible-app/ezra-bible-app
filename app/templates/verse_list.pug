@@ -91,14 +91,14 @@ each bibleBook in bibleBooks
       div.chapter-nav
         - previous_chapter_nav_class = 'chapter-nav'
         if verse.chapter == 1
-          - previous_chapter_nav_class = 'chapter-nav invisible'
+          - previous_chapter_nav_class = 'chapter-nav disabled'
 
         a(class=previous_chapter_nav_class, href='javascript:;', chapter=previous_chapter)
           i(class="fa-solid fa-angles-left")
 
         a(class='chapter-nav-dialog', href='javascript:;')
-          span(style='padding-left: 0.5em; text-transform: uppercase;', i18n=chapterText) #{i18n.t(chapterText)}
-          span(style='padding-right: 0.5em;') &nbsp;#{verse.chapter}
+          span(class='chapter-label-left' style='text-transform: uppercase;', i18n=chapterText) #{i18n.t(chapterText)}
+          span(class='chapter-label-right') &nbsp;#{verse.chapter}
 
         - next_chapter_nav_class = 'chapter-nav'
         if verse.chapter == bookChapterCount

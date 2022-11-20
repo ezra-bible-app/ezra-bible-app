@@ -253,6 +253,20 @@ Librem 5/Pinephone etc.
 
   .chapter-nav {
     font-size: unset !important;
+    text-align: center;
+  }
+
+  a.chapter-nav:link,
+  a.chapter-nav:visited {
+    margin: 1em;
+  }
+
+  .chapter-label-left {
+    margin-left: 0.5em;
+  }
+
+  .chapter-label-right {
+    margin-right: 0.5em;
   }
 
   #module-settings-assistant {

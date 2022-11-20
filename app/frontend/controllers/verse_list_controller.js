@@ -290,6 +290,10 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
     event.preventDefault();
     event.stopPropagation();
 
+    if (event.target.closest('a').classList.contains('disabled')) {
+      return;
+    }
+
     const chapter = parseInt(event.target.closest('a').getAttribute('chapter'));
     await app_controller.navigation_pane.goToChapter(chapter);
   });
