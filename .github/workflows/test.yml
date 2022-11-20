@@ -33,15 +33,16 @@ jobs:
         - run: npm install
         
         - name: Compile templates
-          run: npm run compile-pug
-        
-        # - name: Bundle JS
-          # run: npm run bundle
+          run: npm run compile-pug 
 
         - name: Run test
-          run: npm run headless-test
           env:
             JOBS: MAX
+          uses: nick-fields/retry@v2
+          with:
+            timeout_minutes: 7
+            max_attempts: 2
+            command: npm run headless-test
 
         - name: Archive screenshot (in case of an error)
           uses: actions/upload-artifact@v2
