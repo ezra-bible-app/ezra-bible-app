@@ -32,8 +32,10 @@ jobs:
           with:
             node-version: '14'
 
-        - name: Install dependencies and build native modules
+        - name: Install apt dependencies
           run: sudo apt update && sudo apt install -y libcurl4-gnutls-dev xvfb
+        
+        - name: Install node dependencies and build native modules
           run: npm install
         
         - name: Compile templates
