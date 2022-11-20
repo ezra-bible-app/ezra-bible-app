@@ -785,6 +785,9 @@ class TextController {
         let verseList = verseListController.getCurrentVerseList(tabIndex)[0];
         let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
         tagDistributionMatrix.input = verseList;
+
+        let tagDistributionMatrixWrapper = verseListFrame.find('.tag-distribution-matrix-wrapper')[0];
+        tagDistributionMatrixWrapper.style.removeProperty('display');
       }
 
     } else {
@@ -792,6 +795,9 @@ class TextController {
       let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
       let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
       tagDistributionMatrix.input = '';
+
+      let tagDistributionMatrixWrapper = verseListFrame.find('.tag-distribution-matrix-wrapper')[0];
+      tagDistributionMatrixWrapper.style.display = 'none';
     }
 
     if (isCache || listType == 'book' && !append) {
