@@ -33,7 +33,7 @@ module.exports.init = function init() {
   eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
 
   eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
-    this.addVerseListClasses(tabIndex);
+    this.updateVerseListClasses(tabIndex);
     this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
 
@@ -368,7 +368,7 @@ module.exports.goToNextChapter = async function() {
   }
 };
 
-module.exports.addVerseListClasses = async function(tabIndex=undefined) {
+module.exports.updateVerseListClasses = async function(tabIndex=undefined) {
   let currentTab = app_controller.tab_controller.getTab(tabIndex);
   const currentTranslationId = currentTab.getBibleTranslationId();
   const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
@@ -376,6 +376,8 @@ module.exports.addVerseListClasses = async function(tabIndex=undefined) {
 
   if (!isInstantLoadingBook && currentVerseList[0] != null) {
     currentVerseList.addClass('verse-list-without-chapter-titles');
+  } else {
+    currentVerseList.removeClass('verse-list-without-chapter-titles');
   }
 };
 
