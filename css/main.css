@@ -404,6 +404,7 @@ a.chapter-nav:hover {
 
 .tag-box {
   line-height: 150%;
+  max-width: 60ch;
   /* padding: 0.1em; */
 }
 
@@ -548,12 +549,14 @@ a.chapter-nav:hover {
   display: flex;
   flex-direction: row-reverse;
   flex: 1 1;
+  justify-content: flex-end;
 }
 
 .verse-text {
   padding: 0.05em;
   position: relative;
   line-height: 1.5em;
+  max-width: 60ch;
   flex: 1 1;
 }
 
