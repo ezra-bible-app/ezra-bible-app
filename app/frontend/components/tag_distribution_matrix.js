@@ -184,7 +184,13 @@ class TagDistributionMatrix extends HTMLElement {
   }
 
   async refresh(tabIndex=undefined) {
-    const tagIdList = app_controller.tab_controller.getTab(tabIndex).getTagIdList().split(',');
+    const tagIdListString = app_controller.tab_controller.getTab(tabIndex).getTagIdList();
+
+    if (tagIdListString == null || tagIdListString == "") {
+      return;
+    }
+
+    const tagIdList = tagIdListString.split(',');
     const bibleBookStats = verseListController.getBibleBookStatsFromVerseList(tabIndex);
     const actualBooks = Object.keys(bibleBookStats);
 
