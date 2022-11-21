@@ -229,13 +229,20 @@ class VerseListPopup {
   }
 
   async initCurrentXrefs(clickedElement) {
+    const swordNote = clickedElement.closest('.sword-note');
+    if (swordNote == null) {
+      return;
+    }
+
     this.currentPopupTitle = await this.getPopupTitle(clickedElement, "XREFS");
-    var swordNote = $(clickedElement).closest('.sword-note');
     this.currentReferenceVerseBox = $(clickedElement).closest('.verse-box');
     this.currentXrefs = [];
+    let references = swordNote.querySelectorAll('reference');
 
-    swordNote.find('reference').each(async (index, element) => {
-      var osisRef = $(element).attr('osisref');
+    for (let i = 0; i < references.length; i++) {
+      let currentReference = references[i];
+
+      var osisRef = currentReference.getAttribute('osisref');
 
       if (osisRef != null) {
         if (osisRef.indexOf('-') != -1) {
@@ -252,7 +259,7 @@ class VerseListPopup {
           this.currentXrefs.push(osisRef);
         }
       }
-    });
+    }
   }
 
   async loadXrefs(clickedElement, currentTabId, currentTabIndex) {
