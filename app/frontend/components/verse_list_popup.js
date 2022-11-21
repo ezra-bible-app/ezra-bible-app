@@ -43,10 +43,10 @@ class VerseListPopup {
   }
 
   initVerseListPopup() {
-    var width = 700;
-    var height = null;
-    var position = [200, 200];
-    var draggable = true;
+    let width = 700;
+    let height = null;
+    let position = [200, 200];
+    let draggable = true;
 
     let dialogOptions = uiHelper.getDialogOptions(width, height, position, draggable);
     dialogOptions.autoOpen = false;
@@ -54,7 +54,7 @@ class VerseListPopup {
 
     $('#verse-list-popup').dialog(dialogOptions);
 
-    var currentBookFilter = "";
+    let currentBookFilter = "";
     currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.3em;'></input>" + 
                         `<label id='only-currentbook-tagged-verses-label' for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>` +
                         "<span id='current-book-tagged-verses-count'></span>";
@@ -93,12 +93,12 @@ class VerseListPopup {
   }
 
   getCurrentTextType() {
-    var currentTextType = app_controller.tab_controller.getTab().getTextType();
+    let currentTextType = app_controller.tab_controller.getTab().getTextType();
     return currentTextType;
   }
 
   getCurrentBook() {
-    var currentBook = app_controller.tab_controller.getTab().getBook();
+    let currentBook = app_controller.tab_controller.getTab().getBook();
     return currentBook;
   }
 
@@ -107,9 +107,9 @@ class VerseListPopup {
     var allVerses = document.getElementById('verse-list-popup-verse-list').querySelectorAll('.verse-box');
     var currentBookVerseCount = 0;
 
-    for (var i = 0;  i < allVerses.length; i++) {
-      var currentVerseBox = allVerses[i];
-      var currentVerseBoxBook = new VerseBox(currentVerseBox).getBibleBookShortTitle();
+    for (let i = 0;  i < allVerses.length; i++) {
+      let currentVerseBox = allVerses[i];
+      let currentVerseBoxBook = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
       if (currentVerseBoxBook == currentBook) {
         currentBookVerseCount++;
@@ -188,9 +188,9 @@ class VerseListPopup {
     var tag_id = null;
 
     var tag_info_list = verseBox.find('.tag-global');
-    for (var i = 0; i < tag_info_list.length; i++) {
-      var current_tag_info = $(tag_info_list[i]);
-      var current_tag_title = current_tag_info.find('.tag-title').text();
+    for (let i = 0; i < tag_info_list.length; i++) {
+      let current_tag_info = $(tag_info_list[i]);
+      let current_tag_title = current_tag_info.find('.tag-title').text();
 
       if (current_tag_title == selectedTag) {
         tag_id = current_tag_info.find('.tag-id').text();
@@ -212,7 +212,7 @@ class VerseListPopup {
     this.initCurrentTag(clickedElement);
 
     if (this.getCurrentTextType() == 'book') {
-      var bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
+      let bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
       bookTaggedVersesCountLabel.empty();
     }
 
@@ -242,13 +242,13 @@ class VerseListPopup {
     for (let i = 0; i < references.length; i++) {
       let currentReference = references[i];
 
-      var osisRef = currentReference.getAttribute('osisref');
+      let osisRef = currentReference.getAttribute('osisref');
 
       if (osisRef != null) {
         if (osisRef.indexOf('-') != -1) {
           // We have gotten a range (like Gal.1.15-Gal.1.16)
           // We need to first turn into a list of individual references using node-sword-interface
-          var referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
+          let referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
 
           referenceList.forEach((ref) => {
             this.currentXrefs.push(ref);
@@ -303,7 +303,7 @@ class VerseListPopup {
 
     if (referenceType == "TAGGED_VERSES") {
 
-      var selectedTag = this.getSelectedTagFromClickedElement(clickedElement);
+      let selectedTag = this.getSelectedTagFromClickedElement(clickedElement);
       popupTitle = verseListTitleHelper.getTaggedVerseListTitle(localizedReference, selectedTag);
 
     } else if (referenceType == "XREFS") {
@@ -439,8 +439,8 @@ class VerseListPopup {
     $('#verse-list-popup-verse-list').html(htmlVerses);
 
     if (this.getCurrentTextType() == 'book') {
-      var currentBookVerseCount = this.getNumberOfVersesForCurrentBook();
-      var bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
+      let currentBookVerseCount = this.getNumberOfVersesForCurrentBook();
+      let bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
       bookTaggedVersesCountLabel.text(` (${currentBookVerseCount})`);
     }
 
