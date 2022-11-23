@@ -18,6 +18,7 @@ Furthermore, the following components are used (among others):
 * [browserify](http://browserify.org/) for bundling the JavaScript code for the Cordova app
 * [fontawesome](https://fontawesome.com/) for the icon set
 * [fuse.js](https://fusejs.io) for fuzzy (approximate) search algorithm
+* [Hammer.JS](https://hammerjs.github.io) for detecting swipe gestures on mobile
 * [Dropbox SDK](https://github.com/dropbox/dropbox-sdk-js) for linking Ezra Bible App with Dropbox and synchronizing the database file
 
 To test Ezra Bible App, the following frameworks are used:
