@@ -205,6 +205,30 @@ jobs:
             name: ezra-bible-app_fedora35_latest
             path: ezra-bible-app_latest.rpm
 
+    build-fedora37:
+        name: Build Fedora 37 package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_fedora37
+          env:
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        # Create package and rename package are separate steps for Fedora 35,
+        # because for some reason electron-installer-redhat is not properly
+        # working on Fedora 35!
+        - name: Fix permissions
+          run: sudo chown -R 1001:1001 $GITHUB_WORKSPACE
+        - name: Create package
+          run: npm install electron-installer-redhat && npm run rpm_fedora37
+        - name: Rename package
+          run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
+        - name: Upload rpm file
+          uses: actions/upload-artifact@v1.0.0
+          with:
+            name: ezra-bible-app_fedora37_latest
+            path: ezra-bible-app_latest.rpm
+
     build-centos8:
         name: Build CentOS 8 package
         runs-on: ubuntu-latest
@@ -243,7 +267,7 @@ jobs:
                build-ubuntu-2004, build-ubuntu-2204,
                build-mint18, build-buster,
                build-bullseye, build-fedora31,
-               build-fedora33, build-fedora35,
+               build-fedora33, build-fedora35, build-fedora37,
                build-centos8, build-opensuse-leap ]
 
       steps:
@@ -297,6 +321,11 @@ jobs:
         with:
           name: ezra-bible-app_fedora35_latest
 
+      - name: Download fedora37 package
+        uses: actions/download-artifact@v1.0.0
+        with:
+          name: ezra-bible-app_fedora37_latest
+
       - name: Download centos8 package
         uses: actions/download-artifact@v1.0.0
         with:
@@ -323,6 +352,7 @@ jobs:
           mv ezra-bible-app_opensuse_leap_15.2_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap_15.2-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora33_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora33-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora35_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora35-${GITHUB_REF##*/}.rpm
+          mv ezra-bible-app_fedora37_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora37-${GITHUB_REF##*/}.rpm
 
       - name: Publish artifacts
         uses: softprops/action-gh-release@v1
