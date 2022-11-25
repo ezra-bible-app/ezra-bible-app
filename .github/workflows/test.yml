@@ -22,7 +22,7 @@ jobs:
     e2e-test:
         name: Run Cucumber tests
         runs-on: ubuntu-20.04
-        timeout-minutes: 10
+        timeout-minutes: 12
         env:
           JOBS: MAX
 
