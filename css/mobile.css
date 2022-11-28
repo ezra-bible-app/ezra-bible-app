@@ -608,6 +608,6 @@ Librem 5/Pinephone etc.
   }
 
   #panel-switches {
-    justify-content: center;
+    justify-content: center !important;
   }
 }

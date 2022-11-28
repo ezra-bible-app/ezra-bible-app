@@ -23,66 +23,68 @@ const PlatformHelper = require('../../../lib/platform_helper.js');
 const SETTINGS_KEY = "activeToolPanel";
 
 const template = html`
-   <style>
-     :host {
-        height: 100%;
-     }
+  <link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
+
+  <style>
+    :host {
+       height: 100%;
+    }
+    #panel-switches {
+     --icon-size: 1em; 
+     --button-size: calc(var(--icon-size) + 1em);
+     height: 100%;
+     width: var(--button-size);
+     display: flex;
+     flex-direction: column;
+     align-items: flex-start;
+     margin-inline-end: 0.5em;
+     margin-left: 0.2em;
+   }
+   
+   ::slotted(button) {
+     font-size: var(--icon-size) !important; /* There is an issue with ::slotted specificity: https://github.com/w3c/csswg-drafts/issues/6466 */
+     display: block !important;  /* The unslotted buttons were hidden by default, because they already existed in the DOM before the Android permissions dialogue is shown. */
+
+     color: #8e8e8e;
+     width: var(--button-size);
+     height: var(--button-size);
+     background: none;
+     padding: 0;
+     border: 1px solid #8e8e8e;
+     border-radius: var(--border-radius);
+     margin-block-end: 0.5em;
+     cursor: pointer;
+   }
+
+   /* PORTRAIT */
+   @media screen and (max-aspect-ratio: 13/10) {
      #panel-switches {
-      --icon-size: 1em; 
-      --button-size: calc(var(--icon-size) + 1em);
-      height: 100%;
-      width: var(--button-size);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-inline-end: 0.5em;
-      margin-left: 0.2em;
-    }
-    
-    ::slotted(button) {
-      font-size: var(--icon-size) !important; /* There is an issue with ::slotted specificity: https://github.com/w3c/csswg-drafts/issues/6466 */
-      display: block !important;  /* The unslotted buttons were hidden by default, because they already existed in the DOM before the Android permissions dialogue is shown. */
+       height: var(--button-size);
+       width: 100%;
+       flex-direction: row;
+       margin-block-start: 0.5em;
+       margin-inline-end: 0;
+     }
+     ::slotted(button) {
+       margin-inline-end: 0.5em;
+       margin-block-end: 0;
+     }
+   }
 
-      color: #8e8e8e;
-      width: var(--button-size);
-      height: var(--button-size);
-      background: none;
-      padding: 0;
-      border: 1px solid #8e8e8e;
-      border-radius: var(--border-radius);
-      margin-block-end: 0.5em;
-      cursor: pointer;
-    }
+   ::slotted(button.active),
+   ::slotted(button:hover)  {
+     color: white;
+     border-color: var(--highlight-border-color);
+     background: var(--accent-color);
+   }
 
-    /* PORTRAIT */
-    @media screen and (max-aspect-ratio: 13/10) {
-      #panel-switches {
-        height: var(--button-size);
-        width: 100%;
-        flex-direction: row;
-        margin-block-start: 0.5em;
-        margin-inline-end: 0;
-      }
-      ::slotted(button) {
-        margin-inline-end: 0.5em;
-        margin-block-end: 0;
-      }
-    }
-
-    ::slotted(button.active),
-    ::slotted(button:hover)  {
-      color: white;
-      border-color: var(--highlight-border-color);
-      background: var(--accent-color);
-    }
-
-    ::slotted(button:disabled) {
-      color: var(--disabled-button-color);
-      border-color: var(--disabled-button-color);
-      background-color: transparent;
-      opacity: 0.8;
-    }
-   </style>
+   ::slotted(button:disabled) {
+     color: var(--disabled-button-color);
+     border-color: var(--disabled-button-color);
+     background-color: transparent;
+     opacity: 0.8;
+   }
+  </style>
     
    <nav id="panel-switches">
      <slot></slot>
