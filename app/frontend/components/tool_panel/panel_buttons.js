@@ -78,6 +78,12 @@ const template = html`
      background: var(--accent-color);
    }
 
+   ::slotted(button.no-hover) {
+     color: #8e8e8e;
+     border: 1px solid #8e8e8e;
+     background: unset;
+   }
+
    ::slotted(button:disabled) {
      color: var(--disabled-button-color);
      border-color: var(--disabled-button-color);
@@ -184,9 +190,17 @@ class PanelButtons extends HTMLElement {
     }  
 
     if (setActive) {
+      if (this._platformHelper.isCordova()) {
+        buttonElement.classList.remove('no-hover');
+      }
+
       buttonElement.classList.add('active');
       panelElement.classList.add('active');
     } else {
+      if (this._platformHelper.isCordova()) {
+        buttonElement.classList.add('no-hover');
+      }
+
       buttonElement.classList.remove('active');
       panelElement.classList.remove('active');
     }
