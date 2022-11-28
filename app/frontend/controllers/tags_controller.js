@@ -167,10 +167,12 @@ class TagsController {
       document.getElementById('tags-content-global').style.display = '';
       document.getElementById('tag-list-stats').style.visibility = 'visible';
 
-      this.showTagListLoadingIndicator();
-      await waitUntilIdle();
-      await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
-      this.hideTagListLoadingIndicator();
+      if (this.isTagPanelActive()) {
+        this.showTagListLoadingIndicator();
+        await waitUntilIdle();
+        await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
+        this.hideTagListLoadingIndicator();
+      }
     });
 
     eventController.subscribe('on-db-refresh', async () => {
@@ -202,6 +204,11 @@ class TagsController {
     }
 
     return currentTagGroup;
+  }
+
+  isTagPanelActive() {
+    const panelButtons = document.getElementById('panel-buttons');
+    return panelButtons.activePanel != "" && panelButtons.activePanel == 'tag-panel';
   }
 
   resetActivePanelToTagPanel(tabIndex) {
