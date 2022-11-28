@@ -606,4 +606,8 @@ Librem 5/Pinephone etc.
     margin-bottom: 0.1em;
     order: -1; /* Make sure that the verse reference itself comes first (compared to notes/tags indicators) */
   }
+
+  #panel-switches {
+    justify-content: center;
+  }
 }
