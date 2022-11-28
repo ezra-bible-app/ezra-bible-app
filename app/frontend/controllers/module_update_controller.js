@@ -56,7 +56,7 @@ module.exports.showModuleUpdateDialog = async function() {
       <table id="module-update-list" style="clear: both; display: none;">
         <thead>
           <tr>
-            <th i18n="general.module-name" style="text-align: left;"></th>
+            <th i18n="general.module-name" style="text-align: left; min-width: 13em"></th>
             <th i18n="general.module-current-version" style="text-align: left; width: 8em;"></th>
             <th i18n="general.module-new-version" style="text-align: left; width: 8em;"></th>
             <th style="width: 5em;"></th>
