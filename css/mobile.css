@@ -471,6 +471,7 @@ Librem 5/Pinephone etc.
     display: none;
   }
 
+  /* Hide these options on mobile, because they do not make sense on a small screen! */
   #showBookChapterNavigationOption,
   #showHeaderNavigationOption,
   #bookLoadingModeOption-button,
