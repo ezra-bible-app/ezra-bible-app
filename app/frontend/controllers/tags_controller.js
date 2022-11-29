@@ -316,7 +316,7 @@ class TagsController {
     addTagsToGroupTagList.tagManager.setFilter('');
     await addTagsToGroupTagList.tagManager.refreshItemList();
     let tagList = await this.tag_store.getTagList();
-    let tagIdList = await this.getTagGroupMemberIds(this.currentTagGroupId, tagList);
+    let tagIdList = await this.tag_store.getTagGroupMemberIds(this.currentTagGroupId, tagList);
     addTagsToGroupTagList.tagManager.setExcludeItems(tagIdList);
     addTagsToGroupTagList.tagManager.excludeItems();
 
@@ -1193,13 +1193,6 @@ class TagsController {
     } else {
       app_controller.tag_statistics.highlightFrequentlyUsedTags();
     }
-  }
-
-  async getTagGroupMemberIds(tagGroupId, tagList=null) {
-    tagList = await this.tag_store.getTagGroupMembers(tagGroupId, tagList);
-    var tagIdList = [];
-    tagList.forEach((tag) => { tagIdList.push(tag.id); });
-    return tagIdList;
   }
 
   async renderTags(tag_list, tag_statistics, is_book=false) {

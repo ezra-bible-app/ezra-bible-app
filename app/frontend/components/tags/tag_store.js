@@ -165,6 +165,13 @@ class TagStore {
     return tagGroupMembers;
   }
 
+  async getTagGroupMemberIds(tagGroupId, tagList=null) {
+    tagList = await this.getTagGroupMembers(tagGroupId, tagList);
+    var tagIdList = [];
+    tagList.forEach((tag) => { tagIdList.push(tag.id); });
+    return tagIdList;
+  }
+
   async getBookTagStatistics(book, forceRefresh=false) {
     if (book === undefined) {
       book = app_controller.tab_controller.getTab().getBook();
