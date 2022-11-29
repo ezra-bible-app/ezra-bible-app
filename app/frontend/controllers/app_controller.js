@@ -402,7 +402,7 @@ class AppController {
     currentTab.setTagIdList(tagIdList);
     var localizedVerseReference = null;
 
-    if (referenceVerseBox != null) {
+    if (referenceVerseBox != null && referenceVerseBox.length != 0) {
       localizedVerseReference = await this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
       var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
       currentTab.setReferenceVerseElementId(verseReferenceId);
@@ -456,7 +456,9 @@ class AppController {
     var currentTabId = this.tab_controller.getSelectedTabId();
     var currentVerseList = verseListController.getCurrentVerseList();
 
-    currentTab.tab_search.setVerseList(currentVerseList);
+    if (currentTab.tab_search != null) {
+      currentTab.tab_search.setVerseList(currentVerseList);
+    }
 
     if (currentTagIdList != "") {
       // Only reset the view if the current text type has changed

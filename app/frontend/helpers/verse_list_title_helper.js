@@ -23,7 +23,7 @@
  */
 
 module.exports.getTaggedVerseListTitle = function(localizedReference, tagTitle) {
-  localizedReference = localizedReference != null ? localizedReference + ' &ndash; ' : '';
+  localizedReference = localizedReference != null && localizedReference != '' ? localizedReference + ' &ndash; ' : '';
   var title = '';
 
   if (platformHelper.isMobile()) {
