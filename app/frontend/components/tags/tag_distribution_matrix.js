@@ -16,10 +16,10 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html, getPlatform } = require('../helpers/ezra_helper.js');
-const verseListController = require('../controllers/verse_list_controller.js');
-const eventController = require('../controllers/event_controller.js');
-const UiHelper = require('../helpers/ui_helper.js');
+const { html, getPlatform } = require('../../helpers/ezra_helper.js');
+const verseListController = require('../../controllers/verse_list_controller.js');
+const eventController = require('../../controllers/event_controller.js');
+const UiHelper = require('../../helpers/ui_helper.js');
 
 const template = html`
 
