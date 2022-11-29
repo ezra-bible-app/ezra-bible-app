@@ -238,7 +238,7 @@ class TagStatistics {
 
       currentRowHTML = currentRowHTML + `
         <tr>
-          <td style='width: 22em;'><a class='tagLink' href=''>${tag_title}</a></td>
+          <td style='width: 22em;'><a class='tagLink' title='${i18n.t('bible-browser.tag-hint')}' href=''>${tag_title}</a></td>
           <td>${taggedVerseCount}</td>
           <td>${taggedVersePercent}</td>
         </tr>
