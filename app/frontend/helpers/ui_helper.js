@@ -186,7 +186,16 @@ class UiHelper {
 
     if (platformHelper.isMobile()) {
       width = $(window).width();
-      height = $(window).height() - 85;
+
+      if (platformHelper.isCordova()) {
+        // eslint-disable-next-line no-undef
+        if (Keyboard.isVisible) {
+          height = $(window).height();
+        }
+      } else {
+        height = $(window).height() - 80;
+      }
+
       draggable = false;
       modal = true;
       position = [0, 0];
