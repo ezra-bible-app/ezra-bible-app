@@ -400,7 +400,8 @@ class TagsController {
   }
 
   async updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId) {
-    var tagExisting = await this.tagExists(tagTitle);
+    tagTitle = tagTitle.trim();
+    const tagExisting = await this.tag_store.tagExists(tagTitle);
     let tagButton = document.getElementById(buttonId);
 
     if (tagExisting || tagTitle == "") {
@@ -410,11 +411,6 @@ class TagsController {
     }
 
     return tagExisting;
-  }
-
-  async tagExists(tagTitle) {
-    tagTitle = tagTitle.trim();
-    return await this.tag_store.tagExists(tagTitle);
   }
 
   initDeleteTagConfirmationDialog(force=false) {
