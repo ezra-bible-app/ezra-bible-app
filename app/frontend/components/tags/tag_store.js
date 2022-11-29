@@ -147,6 +147,24 @@ class TagStore {
     return bibleBookId;
   }
 
+  async getTagGroupMembers(tagGroupId, tagList=null) {
+    if (tagList == null) {
+      tagList = await this.getTagList();
+    }
+
+    let tagGroupMembers = [];
+
+    for (let i = 0; i < tagList.length; i++) {
+      let currentTag = tagList[i];
+
+      if (currentTag.tagGroupList != null && currentTag.tagGroupList.includes(tagGroupId.toString())) {
+        tagGroupMembers.push(currentTag);
+      }
+    }
+
+    return tagGroupMembers;
+  }
+
   async getBookTagStatistics(book, forceRefresh=false) {
     if (book === undefined) {
       book = app_controller.tab_controller.getTab().getBook();

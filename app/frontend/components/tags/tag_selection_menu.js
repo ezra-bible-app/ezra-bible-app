@@ -235,7 +235,7 @@ class TagSelectionMenu {
     var tags = await tags_controller.getTagList(forceRefresh);
 
     if (tagGroupId != null && tagGroupId > 0) {
-      tags = await tags_controller.getTagGroupMembers(tagGroupId, tags);
+      tags = await tags_controller.tag_store.getTagGroupMembers(tagGroupId, tags);
     }
 
     this.renderTagsInMenu(tags);

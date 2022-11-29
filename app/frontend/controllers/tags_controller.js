@@ -1181,7 +1181,7 @@ class TagsController {
     if (contentId != this.lastContentId || forceRefresh) {
       var tagList = await this.tag_store.getTagList(forceRefresh);
       if (tagGroupId != null && tagGroupId > 0) {
-        tagList = await this.getTagGroupMembers(tagGroupId, tagList);
+        tagList = await this.tag_store.getTagGroupMembers(tagGroupId, tagList);
       }
 
       var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
@@ -1195,26 +1195,8 @@ class TagsController {
     }
   }
 
-  async getTagGroupMembers(tagGroupId, tagList=null) {
-    if (tagList == null) {
-      tagList = await this.tag_store.getTagList();
-    }
-
-    let tagGroupMembers = [];
-
-    for (let i = 0; i < tagList.length; i++) {
-      let currentTag = tagList[i];
-
-      if (currentTag.tagGroupList != null && currentTag.tagGroupList.includes(tagGroupId.toString())) {
-        tagGroupMembers.push(currentTag);
-      }
-    }
-
-    return tagGroupMembers;
-  }
-
   async getTagGroupMemberIds(tagGroupId, tagList=null) {
-    tagList = await this.getTagGroupMembers(tagGroupId, tagList);
+    tagList = await this.tag_store.getTagGroupMembers(tagGroupId, tagList);
     var tagIdList = [];
     tagList.forEach((tag) => { tagIdList.push(tag.id); });
     return tagIdList;
