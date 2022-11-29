@@ -193,7 +193,7 @@ class UiHelper {
           height = $(window).height();
         }
       } else {
-        height = $(window).height() - 80;
+        height = $(window).height() - 85;
       }
 
       draggable = false;
