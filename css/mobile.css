@@ -391,6 +391,7 @@ Librem 5/Pinephone etc.
 
   #verse-list-popup-verse-list {
     height: unset !important;
+    overflow-y: unset !important;
   }
 
   #tag-selection-menu, #module-search-menu {
