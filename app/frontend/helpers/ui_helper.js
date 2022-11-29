@@ -183,7 +183,7 @@ class UiHelper {
 
   getDialogOptions(width, height, draggable, position, resizable=false) {
     if (platformHelper.isMobile()) {
-      width = $(window).width() - 10;
+      width = $(window).width();
       height = $(window).height() - 85;
       draggable = false;
       position = [0, 0];
@@ -234,14 +234,15 @@ class UiHelper {
 
     if (dialogElements != null) {
       let dialog = dialogElements[0];
-
       let closeIcon = dialog.querySelector('.ui-icon-closethick');
 
-      let newIcon = document.createElement('i');
-      newIcon.setAttribute('class', 'fa-solid fa-rectangle-xmark close-dialog-icon');
-      newIcon.setAttribute('style', 'font-size: 150%; color: darkslategray; position: relative; right: 10px; bottom: 1px');
+      if (closeIcon != null) {
+        let newIcon = document.createElement('i');
+        newIcon.setAttribute('class', 'fa-solid fa-rectangle-xmark close-dialog-icon');
+        newIcon.setAttribute('style', 'font-size: 150%; color: darkslategray; position: relative; right: 10px; bottom: 1px');
 
-      closeIcon.replaceWith(newIcon);
+        closeIcon.replaceWith(newIcon);
+      }
     }
   }
 }
