@@ -309,7 +309,8 @@ Librem 5/Pinephone etc.
   }
 
   .wizard.vertical > .content {
-    width: 95%;
+    width: 97%;
+    margin: 0 !important;
   }
 
   #module-info {
