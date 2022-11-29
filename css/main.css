@@ -1754,7 +1754,8 @@ tr.compare-translation-row:nth-child(odd) {
 }
 
 /* This is a workaround for markup issues, see https://github.com/ezra-bible-app/ezra-bible-app/issues/734 */
-.compare-translation-row .verse-content-td .sword-milestone {
+.compare-translation-row .verse-content-td .sword-milestone,
+.compare-translation-row .verse-content-td .sword-quote {
   display: unset !important;
 }
 
