@@ -479,7 +479,7 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
 
   } else {
     // Show tags filtered by current tag group
-    let tagGroupMemberIds = await tags_controller.getTagGroupMemberIds(tagGroupId);
+    let tagGroupMemberIds = await tags_controller.tag_store.getTagGroupMemberIds(tagGroupId);
 
     allTagElements.forEach((tagElement) => {
       let currentTagId = parseInt(tagElement.getAttribute('tag-id'));

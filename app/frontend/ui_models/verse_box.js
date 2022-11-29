@@ -189,7 +189,7 @@ class VerseBox {
     if (tagGroupId == null || tagGroupId < 0 || !tagGroupFilterOption.isChecked) {
       filterTags = false;
     } else {
-      tagGroupMemberIds = await tags_controller.getTagGroupMemberIds(tagGroupId);
+      tagGroupMemberIds = await tags_controller.tag_store.getTagGroupMemberIds(tagGroupId);
     }
 
     var tag_box = $(this.verseBoxElement).find('.tag-box');
