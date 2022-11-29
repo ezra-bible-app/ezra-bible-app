@@ -43,19 +43,20 @@ class VerseListPopup {
   }
 
   initVerseListPopup() {
-    let width = 700;
+    let width = 500;
     let height = null;
     let position = [200, 200];
     let draggable = true;
 
-    let dialogOptions = uiHelper.getDialogOptions(width, height, position, draggable);
+    let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
     dialogOptions.autoOpen = false;
     dialogOptions.dialogClass = 'ezra-dialog verse-list-popup';
 
     $('#verse-list-popup').dialog(dialogOptions);
 
     let currentBookFilter = "";
-    currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.3em;'></input>" + 
+
+    currentBookFilter = `<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.3em;'></input>` + 
                         `<label id='only-currentbook-tagged-verses-label' for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>` +
                         "<span id='current-book-tagged-verses-count'></span>";
     
@@ -184,32 +185,16 @@ class VerseListPopup {
     return selected_tag;
   }
 
-  getTagIdFromVerseBox(verseBox, selectedTag) {
-    var tag_id = null;
-
-    var tag_info_list = verseBox.find('.tag-global');
-    for (let i = 0; i < tag_info_list.length; i++) {
-      let current_tag_info = $(tag_info_list[i]);
-      let current_tag_title = current_tag_info.find('.tag-title').text();
-
-      if (current_tag_title == selectedTag) {
-        tag_id = current_tag_info.find('.tag-id').text();
-        break;
-      }
-    }
-
-    return tag_id;
-  }
-
-  initCurrentTag(clickedElement) {
-    var selected_tag = this.getSelectedTagFromClickedElement(clickedElement);
+  async initCurrentTag(clickedElement) {
+    const selectedTag = this.getSelectedTagFromClickedElement(clickedElement);
     this.currentReferenceVerseBox = $(clickedElement).closest('.verse-box');
-    this.currentTagId = this.getTagIdFromVerseBox(this.currentReferenceVerseBox, selected_tag);
-    this.currentTagTitle = this.getSelectedTagFromClickedElement(clickedElement);
+    const tagObject = await tags_controller.tag_store.getTagByTitle(selectedTag);
+    this.currentTagId = `${tagObject.id}`;
+    this.currentTagTitle = selectedTag;
   }
 
-  loadTaggedVerses(clickedElement, currentTabId, currentTabIndex) {
-    this.initCurrentTag(clickedElement);
+  async loadTaggedVerses(clickedElement, currentTabId, currentTabIndex, onlyCurrentBook=false) {
+    await this.initCurrentTag(clickedElement);
 
     if (this.getCurrentTextType() == 'book') {
       let bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
@@ -221,7 +206,13 @@ class VerseListPopup {
         currentTabIndex,
         currentTabId,
         this.currentTagId,
-        (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
+        (htmlVerses, verseCount) => { 
+          this.renderVerseListInPopup(htmlVerses, verseCount); 
+
+          if (onlyCurrentBook) {
+            this.handleCurrentBookFilterClick();
+          }
+        },
         'html',
         false
       );
@@ -297,9 +288,13 @@ class VerseListPopup {
   }
 
   async getPopupTitle(clickedElement, referenceType) {
-    var popupTitle = "";
-    var verseBox = $(clickedElement).closest('.verse-box');
-    var localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox[0]);
+    var popupTitle = '';
+    var localizedReference = '';
+    const verseBox = $(clickedElement).closest('.verse-box');
+
+    if (verseBox.length != 0) {
+      localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox[0]);
+    }
 
     if (referenceType == "TAGGED_VERSES") {
 
@@ -318,7 +313,7 @@ class VerseListPopup {
    * @param event The click event
    * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS")
    */
-  async openVerseListPopup(event, referenceType) {
+  async openVerseListPopup(event, referenceType, onlyCurrentBook=false) {
     if (!this.dialogInitDone) {
       this.dialogInitDone = true;
 
@@ -333,7 +328,7 @@ class VerseListPopup {
     var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
 
     if (referenceType == "TAGGED_VERSES") {
-      this.loadTaggedVerses(event.target, currentTabId, currentTabIndex);
+      await this.loadTaggedVerses(event.target, currentTabId, currentTabIndex, onlyCurrentBook);
     } else if (referenceType == "XREFS") {
       await this.loadXrefs(event.target, currentTabId, currentTabIndex);
     }
@@ -347,7 +342,10 @@ class VerseListPopup {
 
     if (!platformHelper.isMobile()) {
       dialogOptions.width = uiHelper.getMaxDialogWidth();
-      dialogOptions.position = this.getOverlayVerseBoxPosition(verse_box);
+
+      if (verse_box.length != 0) {
+        dialogOptions.position = this.getOverlayVerseBoxPosition(verse_box);
+      }
     }
 
     $('#verse-list-popup').dialog(dialogOptions);
@@ -361,6 +359,11 @@ class VerseListPopup {
     $('#verse-list-popup-loading-indicator').find('.loader').show();
     $('#verse-list-popup-loading-indicator').show();
     $('#verse-list-popup').dialog("open");
+
+    if (onlyCurrentBook) {
+      let onlyCurrentBookCheckbox = document.getElementById('only-currentbook-tagged-verses');
+      onlyCurrentBookCheckbox.checked = true;
+    }
   }
 
   getOverlayVerseBoxPosition(verse_box) {

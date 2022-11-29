@@ -236,7 +236,14 @@ class TagStatistics {
         currentRowHTML += `<tr><td style='font-weight: bold; font-style: italic; padding-top: 1em;' colspan='3'>${i18n.t('tags.less-frequently-used')}</td></tr>`;
       }
 
-      currentRowHTML = currentRowHTML + `<tr><td style="width: 22em;">${tag_title}</td><td>${taggedVerseCount}</td><td>${taggedVersePercent}</td></tr>`;
+      currentRowHTML = currentRowHTML + `
+        <tr>
+          <td style='width: 22em;'><a class='tagLink' href=''>${tag_title}</a></td>
+          <td>${taggedVerseCount}</td>
+          <td>${taggedVersePercent}</td>
+        </tr>
+      `;
+
       tagStatisticsHTML += currentRowHTML;
       
       wasMoreFrequent = taggedVersePercent >= MIN_CLUSTER_PERCENT && clusters.includes(taggedVersePercent);
@@ -250,7 +257,20 @@ class TagStatistics {
 
     bookTagStatisticsBoxContent.innerHTML = tagStatisticsHTML;
 
+    this.bindEvents();
     this.highlightFrequentlyUsedTags();
+  }
+
+  bindEvents() {
+    const bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
+    let tagLinks = bookTagStatisticsBoxContent.querySelectorAll('.tagLink');
+
+    tagLinks.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        app_controller.verse_list_popup.openVerseListPopup(event, 'TAGGED_VERSES', true);
+      });
+    });
   }
 
   highlightFrequentlyUsedTags() {
