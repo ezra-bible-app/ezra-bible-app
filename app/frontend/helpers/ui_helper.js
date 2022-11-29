@@ -182,10 +182,13 @@ class UiHelper {
   }
 
   getDialogOptions(width, height, draggable, position, resizable=false) {
+    let modal = false;
+
     if (platformHelper.isMobile()) {
       width = $(window).width();
       height = $(window).height() - 85;
       draggable = false;
+      modal = true;
       position = [0, 0];
     }
 
@@ -193,6 +196,7 @@ class UiHelper {
       width: width,
       draggable: draggable,
       resizable: resizable,
+      modal: modal,
       dialogClass: 'ezra-dialog'
     };
 
@@ -234,14 +238,17 @@ class UiHelper {
 
     if (dialogElements != null) {
       let dialog = dialogElements[0];
-      let closeIcon = dialog.querySelector('.ui-icon-closethick');
 
-      if (closeIcon != null) {
-        let newIcon = document.createElement('i');
-        newIcon.setAttribute('class', 'fa-solid fa-rectangle-xmark close-dialog-icon');
-        newIcon.setAttribute('style', 'font-size: 150%; color: darkslategray; position: relative; right: 10px; bottom: 1px');
+      if (dialog != null) {
+        let closeIcon = dialog.querySelector('.ui-icon-closethick');
 
-        closeIcon.replaceWith(newIcon);
+        if (closeIcon != null) {
+          let newIcon = document.createElement('i');
+          newIcon.setAttribute('class', 'fa-solid fa-rectangle-xmark close-dialog-icon');
+          newIcon.setAttribute('style', 'font-size: 150%; color: darkslategray; position: relative; right: 10px; bottom: 1px');
+
+          closeIcon.replaceWith(newIcon);
+        }
       }
     }
   }
