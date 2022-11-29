@@ -265,7 +265,7 @@ class TagListMenu extends HTMLElement {
 
       let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
       dialogOptions.title = i18n.t('tags.add-tag-group');
-      dialogOptions.dialogClass = 'ezra-dialog';
+      dialogOptions.dialogClass = 'ezra-dialog add-tag-group-dialog';
       dialogOptions.close = () => {
         $dialogBox.dialog('destroy');
         $dialogBox.remove();
@@ -301,6 +301,7 @@ class TagListMenu extends HTMLElement {
       });
 
       $dialogBox.dialog(dialogOptions);
+      uiHelper.fixDialogCloseIconOnAndroid('add-tag-group-dialog');
 
       tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
 

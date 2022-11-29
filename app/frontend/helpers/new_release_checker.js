@@ -71,8 +71,11 @@ class NewReleaseChecker {
     var infoBox = this.getInfoBox();
 
     infoBox.dialog({
-      position: [verse_list_position.left + 150, verse_list_position.top + 30]
+      position: [verse_list_position.left + 150, verse_list_position.top + 30],
+      dialogClass: 'ezra-dialog new-release-dialog'
     });
+
+    uiHelper.fixDialogCloseIconOnAndroid('new-release-dialog');
 
     infoBox.dialog("open");
     infoBox.append('<p>' + i18n.t('general.new-release-available-body') + '</p>');
