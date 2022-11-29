@@ -1718,11 +1718,11 @@ body:not(.darkmode--activated) .tab-search-occurances {
   display: unset;
 }
 
-.verse-list.verse-list-with-red-letters .sword-quote-jesus {
+.verse-list-with-red-letters .sword-quote-jesus {
   color: firebrick;
 }
 
-.darkmode--activated .verse-list.verse-list-with-red-letters .sword-quote-jesus {
+.darkmode--activated .verse-list-with-red-letters .sword-quote-jesus {
   color: salmon;
 }
 

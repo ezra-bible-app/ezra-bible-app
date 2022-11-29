@@ -356,16 +356,19 @@ class OptionsMenu {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
+    var comparePanel = $('#compare-panel');
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._redLetterOption.isChecked) {
         currentReferenceVerse.addClass('verse-list-with-red-letters');
         currentVerseList.addClass('verse-list-with-red-letters');
         tagBoxVerseList.addClass('verse-list-with-red-letters');
+        comparePanel.addClass('verse-list-with-red-letters');
       } else {
         currentReferenceVerse.removeClass('verse-list-with-red-letters');
         currentVerseList.removeClass('verse-list-with-red-letters');
         tagBoxVerseList.removeClass('verse-list-with-red-letters');
+        comparePanel.removeClass('verse-list-with-red-letters');
       }
     }
   }
