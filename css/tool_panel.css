@@ -468,7 +468,10 @@ input.tag-cb {
 }
 
 .Android .ezra-dialog {
-  border: unset !important;
+  border-top: unset !important;
+  border-left: unset !important;
+  border-right: unset !important;
+  border-radius: unset !important;
 }
 
 #new-standard-tag-title-input,
