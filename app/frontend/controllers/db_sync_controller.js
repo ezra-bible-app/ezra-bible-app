@@ -190,6 +190,7 @@ async function initDbSync() {
 
   let dbSyncDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
   dbSyncDialogOptions.title = i18n.t("dropbox.setup-db-sync");
+  dbSyncDialogOptions.dialogClass = 'ezra-dialog db-sync-dialog';
   dbSyncDialogOptions.autoOpen = false;
   dbSyncDialogOptions.buttons = {};
 
@@ -220,6 +221,7 @@ async function initDbSync() {
   });
 
   $('#db-sync-box').dialog(dbSyncDialogOptions);
+  uiHelper.fixDialogCloseIconOnAndroid('db-sync-dialog');
 
   dbSyncInitDone = true;
 }

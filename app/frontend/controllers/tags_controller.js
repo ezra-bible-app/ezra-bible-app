@@ -255,6 +255,7 @@ class TagsController {
     var position = [55, 120];
 
     let new_standard_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    new_standard_tag_dlg_options.dialogClass = 'ezra-dialog new-tag-dialog';
     new_standard_tag_dlg_options.title = i18n.t("tags.new-tag");
     new_standard_tag_dlg_options.autoOpen = false;  
     new_standard_tag_dlg_options.buttons = {};
@@ -289,6 +290,7 @@ class TagsController {
     });
   
     $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
+    uiHelper.fixDialogCloseIconOnAndroid('new-tag-dialog');
 
     // Handle the enter key in the tag title field and create the tag when it is pressed
     $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", async (event) => {
@@ -337,6 +339,7 @@ class TagsController {
     var position = [55, 120];
 
     let addTagsToGroupDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    addTagsToGroupDialogOptions.classList = 'ezra-dialog add-tags-to-group-dialog';
     addTagsToGroupDialogOptions.title = i18n.t("tags.add-tags-to-group");
     addTagsToGroupDialogOptions.autoOpen = false;
   
@@ -362,6 +365,7 @@ class TagsController {
     });
 
     $('#add-tags-to-group-dialog').dialog(addTagsToGroupDialogOptions);
+    uiHelper.fixDialogCloseIconOnAndroid('add-tags-to-group-dialog');
   }
 
   async addTagsToGroup(tagGroupId, tagList) {
@@ -426,6 +430,7 @@ class TagsController {
     var position = [55, 120];
 
     let delete_tag_confirmation_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    delete_tag_confirmation_dlg_options.dialogClass = 'ezra-dialog delete-tag-confirmation-dialog';
     delete_tag_confirmation_dlg_options.title = i18n.t("tags.delete-tag");
     delete_tag_confirmation_dlg_options.autoOpen = false;
   
@@ -448,6 +453,7 @@ class TagsController {
     });
 
     $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
+    uiHelper.fixDialogCloseIconOnAndroid('delete-tag-confirmation-dialog');
   }
 
   initRemoveTagAssignmentConfirmationDialog(force=false) {
@@ -458,6 +464,7 @@ class TagsController {
     this.removeTagAssignmentConfirmationDialogInitDone = true;
 
     let remove_tag_assignment_confirmation_dlg_options = uiHelper.getDialogOptions(360, null, true, [55, 120]);
+    remove_tag_assignment_confirmation_dlg_options.dialogClass = 'ezra-dialog remove-tag-assignment-confirmation-dialog';
     remove_tag_assignment_confirmation_dlg_options.autoOpen = false;
     remove_tag_assignment_confirmation_dlg_options.title = i18n.t("tags.remove-tag-assignment");
   
@@ -474,6 +481,8 @@ class TagsController {
     };
 
     $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
+    uiHelper.fixDialogCloseIconOnAndroid('remove-tag-assignment-confirmation-dialog');
+
     // eslint-disable-next-line no-unused-vars
     $('#remove-tag-assignment-confirmation-dialog').bind('dialogbeforeclose', function(event) {
       if (!tags_controller.persistence_ongoing && tags_controller.remove_tag_assignment_job != null) {
@@ -496,6 +505,7 @@ class TagsController {
     var position = [55, 120];
 
     let edit_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    edit_tag_dlg_options.dialogClass = 'ezra-dialog edit-tag-dialog';
     edit_tag_dlg_options.title = i18n.t("tags.edit-tag");
     edit_tag_dlg_options.autoOpen = false;
 
@@ -513,6 +523,7 @@ class TagsController {
     };
 
     $('#edit-tag-dialog').dialog(edit_tag_dlg_options);
+    uiHelper.fixDialogCloseIconOnAndroid('edit-tag-dialog');
   
     // Handle the enter key in the tag title field and rename the tag when it is pressed
     $('#rename-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {

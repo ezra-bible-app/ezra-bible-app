@@ -316,7 +316,7 @@ class TagGroupList extends HTMLElement {
       let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
       dialogOptions.title = i18n.t('tags.rename-tag-group');
       dialogOptions.buttons = {};
-      dialogOptions.dialogClass = 'ezra-dialog';
+      dialogOptions.dialogClass = 'ezra-dialog rename-tag-group-dialog';
 
       dialogOptions.buttons[i18n.t('general.cancel')] = function() {
         $(this).dialog('close');
@@ -347,6 +347,7 @@ class TagGroupList extends HTMLElement {
       });
     
       $dialogBox.dialog(dialogOptions);
+      uiHelper.fixDialogCloseIconOnAndroid('rename-tag-group-dialog');
 
       tagGroupValidator.validateNewTagGroupTitle('rename-tag-group-title-input', 'edit-tag-group-save-button');
 
@@ -400,7 +401,7 @@ class TagGroupList extends HTMLElement {
 
       let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
       dialogOptions.title = i18n.t('tags.delete-tag-group');
-      dialogOptions.dialogClass = 'ezra-dialog';
+      dialogOptions.dialogClass = 'ezra-dialog delete-tag-group-confirmation-dialog';
       dialogOptions.buttons = {};
 
       dialogOptions.buttons[i18n.t('general.cancel')] = function() {
@@ -423,6 +424,7 @@ class TagGroupList extends HTMLElement {
       };
 
       $dialogBox.dialog(dialogOptions);
+      uiHelper.fixDialogCloseIconOnAndroid('delete-tag-group-confirmation-dialog');
     });
   }
 

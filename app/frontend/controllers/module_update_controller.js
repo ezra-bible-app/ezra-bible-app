@@ -116,6 +116,7 @@ module.exports.showModuleUpdateDialog = async function() {
     }
   
     $dialogBox.dialog(dialogOptions);
+    uiHelper.fixDialogCloseIconOnAndroid('module-update-dialog');
 
     disableDialogButtons();
   });

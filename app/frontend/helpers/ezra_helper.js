@@ -142,7 +142,7 @@ module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
     const offsetLeft = ($(window).width() - width)/2;
 
     let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
-    dialogOptions.dialogClass = 'ezra-dialog';
+    dialogOptions.dialogClass = 'ezra-dialog error-dialog';
     dialogOptions.title = dialogTitle;
     dialogOptions.buttons = {};
     dialogOptions.close = () => {
@@ -157,5 +157,6 @@ module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
     };
   
     $dialogBox.dialog(dialogOptions);
+    uiHelper.fixDialogCloseIconOnAndroid('error-dialog');
   });
 };
