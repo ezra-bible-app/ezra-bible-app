@@ -331,6 +331,14 @@ a.chapter-nav:visited {
   border: unset !important;
 }
 
+.Android .ui-dialog-titlebar-close.ui-state-active,
+.Android .ui-dialog-titlebar-close.ui-state-focus {
+  border: unset !important;
+  background: unset !important;
+  font-weight: unset !important;
+  color: unset !important;
+}
+
 .Android.darkmode--activated .close-dialog-icon {
   color: unset !important;
 }
