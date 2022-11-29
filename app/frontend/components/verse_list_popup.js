@@ -104,8 +104,14 @@ class VerseListPopup {
   }
 
   getNumberOfVersesForCurrentBook() {
-    var currentBook = this.getCurrentBook();
-    var allVerses = document.getElementById('verse-list-popup-verse-list').querySelectorAll('.verse-box');
+    const currentBook = this.getCurrentBook();
+    const verseList = document.getElementById('verse-list-popup-verse-list');
+
+    if (verseList == null) {
+      return;
+    }
+
+    var allVerses = verseList.querySelectorAll('.verse-box');
     var currentBookVerseCount = 0;
 
     for (let i = 0;  i < allVerses.length; i++) {
