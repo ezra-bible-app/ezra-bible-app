@@ -327,6 +327,14 @@ a.chapter-nav:visited {
   text-decoration: underline;
 }
 
+.Android .ui-dialog-titlebar-close.ui-state-hover {
+  border: unset !important;
+}
+
+.Android.darkmode--activated .close-dialog-icon {
+  color: unset !important;
+}
+
 a.chapter-nav:hover {
   text-decoration: underline;
 }

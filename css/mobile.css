@@ -541,7 +541,7 @@ Librem 5/Pinephone etc.
 
   /*Make dialogs not go out of screen*/
   .ui-dialog {
-    max-width: 97vw !important;
+    max-width: 99vw !important;
     max-height: 97vh !important;
   }
 

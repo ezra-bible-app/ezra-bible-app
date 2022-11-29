@@ -225,6 +225,25 @@ class UiHelper {
     }
   }
 
+  fixDialogCloseIconOnAndroid(dialogClass) {
+    if (!platformHelper.isCordova()) {
+      return;
+    }
+
+    let dialogElements = document.getElementsByClassName(dialogClass);
+
+    if (dialogElements != null) {
+      let dialog = dialogElements[0];
+
+      let closeIcon = dialog.querySelector('.ui-icon-closethick');
+
+      let newIcon = document.createElement('i');
+      newIcon.setAttribute('class', 'fa-solid fa-rectangle-xmark close-dialog-icon');
+      newIcon.setAttribute('style', 'font-size: 150%; color: darkslategray; position: relative; right: 10px; bottom: 1px');
+
+      closeIcon.replaceWith(newIcon);
+    }
+  }
 }
 
 module.exports = UiHelper;
