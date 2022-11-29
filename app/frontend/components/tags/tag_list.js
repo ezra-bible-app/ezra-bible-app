@@ -99,6 +99,12 @@ class TagList extends HTMLElement {
 
     this._contentDiv = document.getElementById('tag-list-content');
     this._tagManager.setContentDiv(this._contentDiv);
+
+    // cordova-plugin-ionic-keyboard event binding
+    // eslint-disable-next-line no-unused-vars
+    window.addEventListener('keyboardDidShow', (event) => {
+      this._contentDiv.classList.add('keyboard-shown');
+    });
   }
 
   /**
