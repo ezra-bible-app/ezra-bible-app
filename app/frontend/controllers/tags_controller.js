@@ -82,15 +82,23 @@ class TagsController {
     this.subscribeEvents();
   }
 
+  async handleTagPanelSwitched(isOpen) {
+    if (isOpen) {
+      await this.updateTagsView(undefined, !this.initialRenderingDone);
+    } else if (platformHelper.isCordova() || platformHelper.isMobile()) {
+      // Reset tag list on mobile when switching off the tag panel
+      this.initialRenderingDone = false;
+      document.getElementById('tags-content-global').innerHTML = "";
+    }
+  }
+
   subscribeEvents() {
     eventController.subscribe('on-tag-panel-switched', async (isOpen) => {
-      if (isOpen) {
-        await this.updateTagsView(undefined, !this.initialRenderingDone);
-      } else if (platformHelper.isCordova() || platformHelper.isMobile()) {
-        // Reset tag list on mobile when switching off the tag panel
-        this.initialRenderingDone = false;
-        document.getElementById('tags-content-global').innerHTML = "";
-      }
+      await this.handleTagPanelSwitched(isOpen);
+    });
+
+    eventController.subscribePrioritized('on-tag-statistics-panel-switched', async (isOpen) => {
+      await this.handleTagPanelSwitched(isOpen);
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -208,7 +216,8 @@ class TagsController {
 
   isTagPanelActive() {
     const panelButtons = document.getElementById('panel-buttons');
-    return panelButtons.activePanel != "" && panelButtons.activePanel == 'tag-panel';
+    let activePanel = panelButtons.activePanel;
+    return activePanel != '' && (activePanel == 'tag-panel' || activePanel == 'tag-statistics-panel');
   }
 
   resetActivePanelToTagPanel(tabIndex) {
