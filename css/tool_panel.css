@@ -467,6 +467,10 @@ input.tag-cb {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
+.Android .ezra-dialog {
+  border: unset !important;
+}
+
 #new-standard-tag-title-input,
 #rename-tag-title-input {
   width: 26em;

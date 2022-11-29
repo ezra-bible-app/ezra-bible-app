@@ -53,6 +53,7 @@ class VerseListPopup {
     dialogOptions.dialogClass = 'ezra-dialog verse-list-popup';
 
     $('#verse-list-popup').dialog(dialogOptions);
+    uiHelper.fixDialogCloseIconOnAndroid('verse-list-popup');
 
     let currentBookFilter = "";
 
