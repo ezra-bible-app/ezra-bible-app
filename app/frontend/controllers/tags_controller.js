@@ -339,7 +339,7 @@ class TagsController {
     var position = [55, 120];
 
     let addTagsToGroupDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
-    addTagsToGroupDialogOptions.classList = 'ezra-dialog add-tags-to-group-dialog';
+    addTagsToGroupDialogOptions.dialogClass = 'ezra-dialog add-tags-to-group-dialog';
     addTagsToGroupDialogOptions.title = i18n.t("tags.add-tags-to-group");
     addTagsToGroupDialogOptions.autoOpen = false;
   
