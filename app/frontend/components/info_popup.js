@@ -71,8 +71,10 @@ class InfoPopup {
 
     $('#info-popup').dialog({
       autoOpen: false,
-      dialogClass: 'ezra-dialog'
+      dialogClass: 'ezra-dialog app-info-popup'
     });
+
+    uiHelper.fixDialogCloseIconOnAndroid('app-info-popup');
   }
 
   getFormattedTimestamp(timestamp) {
