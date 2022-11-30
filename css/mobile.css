@@ -29,11 +29,39 @@ Librem 5/Pinephone etc.
   /*Make dialogs not go out of screen*/
   .ui-dialog {
     max-width: 100vw;
-    max-height: 100vh;
+    height: 89vh !important;
+  }
+
+  .fullscreen .ui-dialog {
+    height: 100vh !important;
+    max-height: unset !important;
+  }
+
+  .keyboard-shown .ui-dialog {
+    height: 96vh !important;
   }
 
   .ui-dialog-content {
-    max-height: calc(99vh - 60px);
+    height: 70vh !important;
+  }
+
+  .fullscreen .ui-dialog-content {
+    height: 82vh !important;
+  }
+
+  .ui-dialog-buttonpane {
+    margin: 0 !important;
+    padding: unset !important;
+    padding-right: 0.5em !important;
+    padding-bottom: 0.5em !important;
+  }
+
+  .keyboard-shown .ui-dialog-buttonpane {
+    margin-top: 0.5em !important;
+  }
+
+  .keyboard-shown .ui-dialog-content {
+    height: 60vh !important;
   }
 
   .text-loader {
@@ -136,6 +164,10 @@ Librem 5/Pinephone etc.
     top: 0 !important;
     left: 0 !important;
     padding-left: 1em;
+  }
+
+  .fullscreen #book-selection-menu {
+    height: 100%;
   }
 
   .book-list-column li {
@@ -272,6 +304,7 @@ Librem 5/Pinephone etc.
   #module-settings-assistant {
     margin: 0;
     padding: 0;
+    height: 85vh !important;
   }
 
   #module-settings-assistant > .container {
@@ -354,6 +387,7 @@ Librem 5/Pinephone etc.
 
   #info-popup.ui-dialog-content {
     padding: 0.2em !important;
+    height: 80vh !important;
   }
 
   #info-popup, #app-info-tabs .ui-tabs-nav li {
@@ -449,14 +483,18 @@ Librem 5/Pinephone etc.
     padding: 0.5em !important;
   }
 
-  #tag-group-assignment-list-content {
-    height: 22em !important;
+  #tag-group-assignment-section, #edit-tag-dialog tag-group-assignment-list {
+    height: 80%;
   }
 
-  /*#tag-group-assignment-list-content.keyboard-shown,
-  #tag-list-content.keyboard-shown {
-    height: 8em !important;
-  }*/
+  .keyboard-shown #tag-group-assignment-section,
+  .keyboard-shown #tag-list-content {
+    height: 60%;
+  }
+
+  .keyboard-shown #edit-tag-dialog tag-group-assignment-list {
+    height: 68%;
+  }
 
   /*search dropdown*/
   #module-search-menu {
@@ -551,9 +589,9 @@ Librem 5/Pinephone etc.
     max-height: 97vh !important;
   }
 
-  .keyboard-shown #new-standard-tag-dialog, .keyboard-shown #edit-tag-dialog {
+  /*.keyboard-shown #new-standard-tag-dialog, .keyboard-shown #edit-tag-dialog {
     height: unset !important;
-  }
+  }*/
 
   #new-standard-tag-dialog, #edit-tag-dialog {
     padding-top: 1em !important;
@@ -619,6 +657,16 @@ Librem 5/Pinephone etc.
   .verse-reference-content {
     margin-bottom: 0.1em;
     order: -1; /* Make sure that the verse reference itself comes first (compared to notes/tags indicators) */
+  }
+
+  .fullscreen #app-container .verse-reference-content {
+    text-decoration: unset !important;
+    cursor: unset !important;
+  }
+
+  .fullscreen #app-container .verse-list {
+    padding-top: unset !important;
+    padding-bottom: unset !important;
   }
 
   #panel-switches {
