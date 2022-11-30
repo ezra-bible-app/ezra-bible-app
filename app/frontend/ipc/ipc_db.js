@@ -113,7 +113,13 @@ class IpcDb {
         console.time('getAllTags_' + getAllTagsCounter);
       }
 
-      this._cachedTagList = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
+      var tagList = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
+      if (!useCache) {
+        return tagList;
+      } else {
+        this._cachedTagList = tagList;
+      }
+
       if (debug || this._isCordova) console.timeEnd('getAllTags_' + getAllTagsCounter);
     }
     
