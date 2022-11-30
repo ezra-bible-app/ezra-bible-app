@@ -560,6 +560,11 @@ Librem 5/Pinephone etc.
     padding-bottom: 1em !important;
   }
 
+  #add-tags-to-group-dialog {
+    padding-top: 1em !important;
+    padding-bottom: 0em !important;
+  }
+
   /* Hide regular tabs navigation */
   .ui-tabs-nav {
     display: none;

@@ -282,7 +282,19 @@ class TagsController {
 
       const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
       addTagsToGroupTagList.style.removeProperty('display');
-      await waitUntilIdle();
+
+      if (platformHelper.isCordova()) {
+        // eslint-disable-next-line no-undef
+        if (Keyboard.isVisible) {
+          // We need to remember the current window height as the keyboard is shown
+          // When closing the current dialog the keyboard will go away and in that moment of "flickering"
+          // it is hard to determine the window height right at the time when the new dialog is opened.
+          let currentWindowHeight = $(window).height();
+
+          // We slightly reduce the height of the add-tags-to-group-dialog - this is based on testing/experience.
+          $('#add-tags-to-group-dialog').dialog("option", "height", currentWindowHeight - 18);
+        }
+      }
 
       $('#new-standard-tag-dialog').dialog("close");
       $('#add-tags-to-group-dialog').dialog("open");
