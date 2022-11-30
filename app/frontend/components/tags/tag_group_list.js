@@ -35,6 +35,7 @@ const template = html`
 <style>
 :host {
   display: block;
+  height: 95%;
 }
 
 #tag-group-list-content {
