@@ -160,6 +160,10 @@ Librem 5/Pinephone etc.
   .keyboard-shown #add-tag-group-dialog, .keyboard-shown #rename-tag-group-dialog {
     height: 57vh !important;
   }
+
+  #info-popup.ui-dialog-content {
+    height: 80vh !important;
+  }
 }
 
 /* Long smartphone */
@@ -199,6 +203,10 @@ Librem 5/Pinephone etc.
 
   .keyboard-shown #add-tag-group-dialog, .keyboard-shown #rename-tag-group-dialog {
     height: 73vh !important;
+  }
+
+  #info-popup.ui-dialog-content {
+    height: 83vh !important;
   }
 }
 
@@ -450,7 +458,6 @@ Librem 5/Pinephone etc.
 
   #info-popup.ui-dialog-content {
     padding: 0.2em !important;
-    height: 80vh !important;
   }
 
   #info-popup, #app-info-tabs .ui-tabs-nav li {
