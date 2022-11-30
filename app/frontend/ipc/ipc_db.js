@@ -114,6 +114,7 @@ class IpcDb {
       }
 
       var tagList = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
+
       if (!useCache) {
         return tagList;
       } else {
