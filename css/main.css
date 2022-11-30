@@ -184,11 +184,11 @@ h2:nth-of-type(1) {
   margin-right: 4.5em;
 }
 
-#app-container.fullscreen .ui-tabs-nav {
+.fullscreen #app-container .ui-tabs-nav {
   display: none;
 }
 
-#app-container.fullscreen .ui-tabs-panel {
+.fullscreen #app-container .ui-tabs-panel {
   padding: 0;
 }
 
@@ -227,7 +227,7 @@ h2:nth-of-type(1) {
   flex-wrap: wrap;
 }
 
-#app-container.fullscreen .verse-list-menu {
+.fullscreen #app-container .verse-list-menu {
   display: none !important;
 }
 
@@ -259,7 +259,7 @@ h2:nth-of-type(1) {
   border-bottom-left-radius: var(--border-radius);
 }
 
-#app-container.fullscreen .verse-list-frame {
+.fullscreen #app-container .verse-list-frame {
   margin-right: 0.2em;
 }
 
@@ -283,7 +283,7 @@ h2:nth-of-type(1) {
   overflow-y: scroll;*/
 }
 
-#app-container.fullscreen .verse-list {
+.fullscreen #app-container .verse-list {
   /* This is to ensure that there is enough space for the radial menu in fullscreen mode
      when it is used for the first verse of the verse list.
    */
@@ -402,7 +402,7 @@ a.chapter-nav:hover {
   align-items: center;
 }
 
-#app-container.fullscreen .verse-reference-content {
+.fullscreen #app-container .verse-reference-content {
   text-decoration: underline gray;
   cursor: pointer;
 }
@@ -720,12 +720,12 @@ a.chapter-nav:hover {
 
 /* LANDSCAPE */
 @media screen and (min-aspect-ratio: 13/10) {
-  .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+  .Android:not(.keyboard-shown):not(.fullscreen) #app-container {
     height: 89vh;
   }
 
   @media (min-height: 800px) {
-    .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+    .Android:not(.keyboard-shown):not(.fullscreen) #app-container {
       height: 92vh;
     }
   }
@@ -743,32 +743,32 @@ a.chapter-nav:hover {
     grid-template-columns: unset !important;
   }
 
-  .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+  .Android:not(.keyboard-shown):not(.fullscreen) #app-container{
     height: 89vh;
   }
 
   @media (min-height: 650px) {
-    .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+    .Android:not(.keyboard-shown):not(.fullscreen) #app-container {
       height: 93vh;
     }
 
-    .Android:not(.keyboard-shown) #app-container.fullscreen {
+    .Android:not(.keyboard-shown).fullscreen #app-container {
       height: 100vh;
     }
   }
 
   @media (min-height: 1200px) {
-    .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+    .Android:not(.keyboard-shown):not(.fullscreen) #app-container {
       height: 95vh;
     }
 
-    .Android:not(.keyboard-shown) #app-container.fullscreen {
+    .Android:not(.keyboard-shown).fullscreen #app-container {
       height: 100vh;
     }
   }
 }
 
-#app-container.fullscreen {
+.fullscreen #app-container {
   padding: 0.2em;
   padding-left: 0.4em;
   padding-right: 0.5em;
