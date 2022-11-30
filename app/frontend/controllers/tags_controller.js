@@ -685,6 +685,13 @@ class TagsController {
     }
 
     eventController.publish('on-button-clicked');
+
+    if (platformHelper.isCordova()) {
+      // eslint-disable-next-line no-undef
+      Keyboard.show();
+    }
+
+    await waitUntilIdle();
     tags_controller.initNewTagDialog();
 
     const tagInput = document.getElementById('new-standard-tag-title-input');
