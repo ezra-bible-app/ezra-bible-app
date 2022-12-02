@@ -497,6 +497,21 @@ table.tag-statistics td, table.tag-statistics th {
   padding: 0.5em;
 }
 
+table.tag-statistics a:link,
+table.tag-statistics a:visited {
+  text-decoration: none;
+  color: var(--accent-color);
+}
+
+.darkmode--activated table.tag-statistics a:link,
+.darkmode--activated table.tag-statistics a:visited {
+  color: var(--accent-color-darkmode);
+}
+
+table.tag-statistics a:hover {
+  text-decoration: underline;
+}
+
 .dict-installed, .dict-not-installed {
   padding: 0.1em;
   border-radius: 3px;
