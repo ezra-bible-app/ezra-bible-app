@@ -721,7 +721,7 @@ a.chapter-nav:hover {
 /* LANDSCAPE */
 @media screen and (min-aspect-ratio: 13/10) {
   .Android:not(.keyboard-shown):not(.fullscreen) #app-container {
-    height: 89vh;
+    height: 87vh;
   }
 
   @media (min-height: 800px) {
@@ -749,7 +749,7 @@ a.chapter-nav:hover {
 
   @media (min-height: 650px) {
     .Android:not(.keyboard-shown):not(.fullscreen) #app-container {
-      height: 93vh;
+      height: 91vh;
     }
 
     .Android:not(.keyboard-shown).fullscreen #app-container {

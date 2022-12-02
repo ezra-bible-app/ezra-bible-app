@@ -43,7 +43,7 @@ Librem 5/Pinephone etc.
     padding-bottom: 0.5em !important;
   }
 
-  .keyboard-shown .ui-dialog-buttonpane {
+  body.keyboard-shown .ui-dialog-buttonpane {
     margin-top: 0.5em !important;
   }
 
@@ -123,13 +123,13 @@ Librem 5/Pinephone etc.
 }
 
 /* Long smartphone */
-@media screen and (max-width: 450px) and (max-height: 1000px) {
+@media screen and (max-width: 450px) and (max-height: 950px) {
   .ui-dialog {
-    height: 93vh !important;
+    height: 91vh !important;
   }
 
   .ui-dialog-content {
-    height: 80vh !important;
+    height: 77vh !important;
   }
 
   .fullscreen .ui-dialog-content {
@@ -146,72 +146,74 @@ Librem 5/Pinephone etc.
 }
 
 /* Long smartphone - keyboard visible */
-@media screen and (max-width: 450px) and (max-height: 580px) {
-  .keyboard-shown .ui-dialog {
+@media screen and (max-width: 450px) and (max-height: 620px) {
+  body.keyboard-shown .ui-dialog {
     height: 97vh !important;
   }
 
-  .keyboard-shown .ui-dialog-content {
+  body.keyboard-shown .ui-dialog-content {
     height: 75vh !important;
   }
 
-  .keyboard-shown #tag-group-assignment-section,
-  .keyboard-shown #tag-list-content {
+  body.keyboard-shown #tag-group-assignment-section,
+  body.keyboard-shown #tag-list-content {
     height: 74% !important;
   }
 
-  .keyboard-shown #edit-tag-dialog tag-group-assignment-list {
+  body.keyboard-shown #edit-tag-dialog tag-group-assignment-list {
     height: 79% !important;
   }
 
-  .keyboard-shown #add-tag-group-dialog, .keyboard-shown #rename-tag-group-dialog {
+  body.keyboard-shown #add-tag-group-dialog,
+  body.keyboard-shown #rename-tag-group-dialog {
     height: 73vh !important;
   }
 }
 
 /* Short smartphone */
-@media screen and (max-width: 450px) and (max-height: 800px) {
-  .ui-dialog {
+@media screen and (max-width: 450px) and (max-height: 740px) {
+  body:not(.keyboard-shown) .ui-dialog {
     height: 89vh !important;
   }
 
-  .ui-dialog-content {
+  body:not(.keyboard-shown) .ui-dialog-content {
     height: 70vh !important;
   }
 
-  .fullscreen .ui-dialog-content {
+  body:not(.keyboard-shown) .fullscreen .ui-dialog-content {
     height: 82vh !important;
   }
 
-  #tag-group-assignment-section, #edit-tag-dialog tag-group-assignment-list {
+  body:not(.keyboard-shown) #tag-group-assignment-section,
+  body:not(.keyboard-shown) #edit-tag-dialog tag-group-assignment-list {
     height: 80% !important;
   }
 
-  #info-popup.ui-dialog-content {
+  body:not(.keyboard-shown) #info-popup.ui-dialog-content {
     height: 80vh !important;
   }
 }
 
 /* Short smartphone - keyboard visible */
 @media screen and (max-width: 450px) and (max-height: 380px) {
-  .keyboard-shown .ui-dialog {
+  body.keyboard-shown .ui-dialog {
     height: 96vh !important;
   }
 
-  .keyboard-shown .ui-dialog-content {
+  body.keyboard-shown .ui-dialog-content {
     height: 60vh !important;
   }
 
-  .keyboard-shown #tag-group-assignment-section,
-  .keyboard-shown #tag-list-content {
+  body.keyboard-shown #tag-group-assignment-section,
+  body.keyboard-shown #tag-list-content {
     height: 60% !important;
   }
 
-  .keyboard-shown #edit-tag-dialog tag-group-assignment-list {
+  body.keyboard-shown #edit-tag-dialog tag-group-assignment-list {
     height: 68% !important;
   }
 
-  .keyboard-shown #add-tag-group-dialog, .keyboard-shown #rename-tag-group-dialog {
+  body.keyboard-shown #add-tag-group-dialog, .keyboard-shown #rename-tag-group-dialog {
     height: 57vh !important;
   }
 }
@@ -531,7 +533,7 @@ Librem 5/Pinephone etc.
     height: 55% !important;
   }
 
-  .keyboard-shown #tag-selection-taglist {
+  body.keyboard-shown #tag-selection-taglist {
     height: 40% !important;
   }
 
@@ -651,10 +653,6 @@ Librem 5/Pinephone etc.
     max-width: 99vw !important;
     max-height: 97vh !important;
   }
-
-  /*.keyboard-shown #new-standard-tag-dialog, .keyboard-shown #edit-tag-dialog {
-    height: unset !important;
-  }*/
 
   #new-standard-tag-dialog, #edit-tag-dialog {
     padding-top: 1em !important;
