@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../controllers/event_controller.js');
 const { html } = require('../helpers/ezra_helper.js');
 
 const template = html`
@@ -24,6 +25,9 @@ const template = html`
 <link rel="preload" href="node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2">
 <link href="node_modules/@fortawesome/fontawesome-free/css/solid.min.css" rel="stylesheet" type="text/css" />
 <link href="node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" type="text/css" />
+
+<!-- JQUERY STYLES -->
+<link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
 
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
 
@@ -84,6 +88,13 @@ class TextField extends HTMLElement {
   }
 
   connectedCallback() {
+    eventController.subscribe('on-theme-changed', (theme) => {
+      if (theme == 'dark') {
+        uiHelper.switchToDarkTheme(this.shadowRoot, 'text-field');
+      } else {
+        uiHelper.switchToRegularTheme(this.shadowRoot, 'text-field');
+      }
+    });
   }
 
   set value(value) {
