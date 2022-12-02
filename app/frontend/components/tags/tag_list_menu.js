@@ -73,8 +73,8 @@ const template = html`
   color: var(--accent-color);
 }
 
-.darkmode--activated #tag-list-menu a:link,
-.darkmode--activated #tag-list-menu a:visited {
+#tag-list-menu.darkmode--activated a:link,
+#tag-list-menu.darkmode--activated a:visited {
   color: var(--accent-color-darkmode);
 }
 

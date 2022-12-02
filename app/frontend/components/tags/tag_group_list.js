@@ -32,6 +32,8 @@ const template = html`
 <link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 
+<link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
+
 <style>
 :host {
   display: block;
@@ -93,8 +95,8 @@ const template = html`
   text-decoration: underline;
 }
 
-.darkmode--activated #tag-group-list-content a:link,
-.darkmode--activated #tag-group-list-content a:visited {
+#tag-group-list-content.darkmode--activated a:link,
+#tag-group-list-content.darkmode--activated a:visited {
   color: var(--accent-color-darkmode);
 }
 
@@ -171,6 +173,14 @@ class TagGroupList extends HTMLElement {
     }
 
     this._subscriptionDone = true;
+
+    eventController.subscribe('on-theme-changed', (theme) => {
+      if (theme == 'dark') {
+        uiHelper.switchToDarkTheme(this.shadowRoot, 'tag-group-list-content');
+      } else {
+        uiHelper.switchToRegularTheme(this.shadowRoot, 'tag-group-list-content');
+      }
+    });
 
     if (this._activationEvent != null) {
       eventController.subscribe(this._activationEvent, async () => {
