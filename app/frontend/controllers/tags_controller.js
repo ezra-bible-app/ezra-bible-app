@@ -436,7 +436,7 @@ class TagsController {
 
     this.deleteTagConfirmationDialogInitDone = true;
 
-    var dialogWidth = 300;
+    var dialogWidth = 400;
     var dialogHeight = null;
     var draggable = true;
     var position = [55, 120];
