@@ -730,3 +730,10 @@ Librem 5/Pinephone etc.
     justify-content: center !important;
   }
 }
+
+/* PORTRAIT */
+@media screen and (max-aspect-ratio: 13/10) and (max-width: 450px) {
+  #panel-switches {
+    padding-top: 0.3em;
+  }
+}
