@@ -143,6 +143,10 @@ Librem 5/Pinephone etc.
   #info-popup.ui-dialog-content {
     height: 83vh !important;
   }
+
+  .book-list-column li {
+    line-height: 2.2em !important;
+  }
 }
 
 /* Long smartphone - keyboard visible */
@@ -191,6 +195,10 @@ Librem 5/Pinephone etc.
 
   body:not(.keyboard-shown) #info-popup.ui-dialog-content {
     height: 80vh !important;
+  }
+
+  body:not(.keyboard-shown) .book-list-column li {
+    line-height: 1.9em !important;
   }
 }
 
@@ -247,10 +255,6 @@ Librem 5/Pinephone etc.
 
   .fullscreen #book-selection-menu {
     height: 100%;
-  }
-
-  .book-list-column li {
-    line-height: 1.9em !important;
   }
 
   .book-list-column li.book-selected a:link,
