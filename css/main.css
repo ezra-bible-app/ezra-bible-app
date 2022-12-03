@@ -718,19 +718,6 @@ a.chapter-nav:hover {
   grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
 }
 
-/* LANDSCAPE */
-@media screen and (min-aspect-ratio: 13/10) {
-  .Android:not(.keyboard-shown):not(.fullscreen) #app-container {
-    height: 87vh;
-  }
-
-  @media (min-height: 800px) {
-    .Android:not(.keyboard-shown):not(.fullscreen) #app-container {
-      height: 92vh;
-    }
-  }
-}
-
 /* PORTRAIT */
 @media screen and (max-aspect-ratio: 13/10) {
   #app-container {
@@ -741,30 +728,6 @@ a.chapter-nav:hover {
       "panel-buttons";
 
     grid-template-columns: unset !important;
-  }
-
-  .Android:not(.keyboard-shown):not(.fullscreen) #app-container{
-    height: 89vh;
-  }
-
-  @media (min-height: 650px) {
-    .Android:not(.keyboard-shown):not(.fullscreen) #app-container {
-      height: 91vh;
-    }
-
-    .Android:not(.keyboard-shown).fullscreen #app-container {
-      height: 100vh;
-    }
-  }
-
-  @media (min-height: 1200px) {
-    .Android:not(.keyboard-shown):not(.fullscreen) #app-container {
-      height: 95vh;
-    }
-
-    .Android:not(.keyboard-shown).fullscreen #app-container {
-      height: 100vh;
-    }
   }
 }
 
