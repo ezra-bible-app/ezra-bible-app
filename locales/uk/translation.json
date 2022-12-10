@@ -340,6 +340,8 @@
     "open-chapters-large-books": "Відкривати за розділом великі книги",
     "open-chapters-all-books": "Відкривати за розділом усі книги",
     "copy": "Зкопіювати",
+    "copy-table-to-clipboard": "Copy table to clipboard",
+    "copy-table-to-clipboard-success": "Table copied to clipboard!",
     "edit-note": "Редагувати нотатку",
     "delete-note": "Видалити нотатку"
   },

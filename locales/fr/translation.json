@@ -349,6 +349,8 @@
     "open-chapters-large-books": "Ouvrir les gros livres par chapitre",
     "open-chapters-all-books": "Ouvrir tous les livres par chapitre",
     "copy": "Copier",
+    "copy-table-to-clipboard": "Copy table to clipboard",
+    "copy-table-to-clipboard-success": "Table copied to clipboard!",
     "edit-note": "Modifier la note",
     "delete-note": "Supprimer la note"
   },

@@ -339,6 +339,8 @@
     "open-chapters-large-books": "Abrir grandes livros em modo capítulo-inteligente",
     "open-chapters-all-books": "Abrir todos os livros em modo capítulo-inteligente",
     "copy": "Copiar",
+    "copy-table-to-clipboard": "Copy table to clipboard",
+    "copy-table-to-clipboard-success": "Table copied to clipboard!",
     "edit-note": "Editar nota",
     "delete-note": "Apagar nota"
   },

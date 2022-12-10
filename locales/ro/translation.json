@@ -339,6 +339,8 @@
     "open-chapters-large-books": "Deschide cărțile mari per capitol",
     "open-chapters-all-books": "Deschide toate cărțile per capitol",
     "copy": "Copiază",
+    "copy-table-to-clipboard": "Copy table to clipboard",
+    "copy-table-to-clipboard-success": "Table copied to clipboard!",
     "edit-note": "Editează nota",
     "delete-note": "Șterge nota"
   },

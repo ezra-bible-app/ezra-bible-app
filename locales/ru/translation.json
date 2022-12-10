@@ -342,6 +342,8 @@
     "open-chapters-large-books": "Открывать по главам большие книги",
     "open-chapters-all-books": "Открывать по главам все книги",
     "copy": "Скопировать",
+    "copy-table-to-clipboard": "Copy table to clipboard",
+    "copy-table-to-clipboard-success": "Table copied to clipboard!",
     "edit-note": "Редактировать заметку",
     "delete-note": "Удалить заметку"
   },
