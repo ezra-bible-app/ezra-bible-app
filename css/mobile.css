@@ -725,3 +725,10 @@ Librem 5/Pinephone etc.
     padding-top: 0.3em;
   }
 }
+
+/* LANDSCAPE */
+@media screen and (min-aspect-ratio: 13/10) and (max-height: 450px) {
+  #app-container {
+    height: 98vh !important;
+  }
+}
