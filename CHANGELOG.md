@@ -58,6 +58,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i808]: https://github.com/ezra-bible-app/ezra-bible-app/issues/808
 [i810]: https://github.com/ezra-bible-app/ezra-bible-app/issues/810
 [i815]: https://github.com/ezra-bible-app/ezra-bible-app/issues/815
+[i817]: https://github.com/ezra-bible-app/ezra-bible-app/issues/817
 [i818]: https://github.com/ezra-bible-app/ezra-bible-app/issues/818
 [i819]: https://github.com/ezra-bible-app/ezra-bible-app/issues/819
 [i821]: https://github.com/ezra-bible-app/ezra-bible-app/issues/821
@@ -67,6 +68,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i825]: https://github.com/ezra-bible-app/ezra-bible-app/issues/825
 [i826]: https://github.com/ezra-bible-app/ezra-bible-app/issues/826
 [i830]: https://github.com/ezra-bible-app/ezra-bible-app/issues/830
+[i833]: https://github.com/ezra-bible-app/ezra-bible-app/issues/833
 
 ## [1.8.0 - 2022-10-21]
 
