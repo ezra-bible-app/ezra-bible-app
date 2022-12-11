@@ -731,4 +731,29 @@ Librem 5/Pinephone etc.
   #app-container {
     height: 98vh !important;
   }
+
+  #tag-selection-menu {
+    height: 96% !important;
+    width: 97% !important;
+  }
+
+  #tag-selection-taglist {
+    height: 36% !important;
+  }
+
+  .ui-dialog-content {
+    height: 65vh !important;
+  }
+
+  #tag-group-assignment-section, #edit-tag-dialog tag-group-assignment-list {
+    height: 68% !important;
+  }
+
+  #info-popup {
+    height: 85vh !important;
+  }
+
+  #display-options-menu.visible {
+    display: flex !important;
+  }
 }

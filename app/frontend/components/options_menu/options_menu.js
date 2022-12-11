@@ -206,7 +206,8 @@ class OptionsMenu {
     if (this.menuIsOpened) {
       document.getElementById('app-container').classList.remove('fullscreen-menu');
 
-      $('#app-container').find('#display-options-menu').hide();
+      document.getElementById('display-options-menu').style.display = 'none';
+      document.getElementById('display-options-menu').classList.remove('visible');
       this.menuIsOpened = false;
 
       var display_button = $('#app-container').find('.display-options-button');
@@ -223,6 +224,7 @@ class OptionsMenu {
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
       var menu = $('#app-container').find('#display-options-menu');
+      menu.addClass('visible');
 
       document.getElementById('app-container').classList.add('fullscreen-menu');
       
