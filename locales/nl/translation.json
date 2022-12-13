@@ -63,7 +63,7 @@
       "repo-data-last-updated": "Depotdata werd voor het laatst bijgewerkt op {{date}}.",
       "update-now": "Nu bijwerken",
       "updating-repository-data": "Bezig met het bijwerken van depotgegevens! Dit zal enkele seconden duren ...",
-      "update-failed": "Update mislukt",
+      "update-failed": "Bijwerken mislukt",
       "update-repository-data-failed": "Het bijwerken van depotgegevens is mislukt! Bent u offline?"
     },
     "step-languages": {
@@ -136,8 +136,8 @@
     "config-file-path": "Pad van configuratie",
     "module-name": "Naam",
     "module-version": "Versie",
-    "module-current-version": "Current version",
-    "module-new-version": "New version",
+    "module-current-version": "Huidige versie",
+    "module-new-version": "Nieuwe versie",
     "module-language": "Taal",
     "module-license": "Licentie",
     "module-strongs": "Strongs",
@@ -153,7 +153,7 @@
     "module-redletter": "Rode letterwoorden",
     "module-size": "Grootte",
     "module-location": "Locatie",
-    "update-modules": "Update modules",
+    "update-modules": "Modules bijwerken",
     "yes": "Ja",
     "no": "Nee",
     "ok": "Oké",
@@ -167,7 +167,7 @@
     "cancel": "Annuleren",
     "rename": "Hernoemen",
     "loading": "Laden",
-    "update": "Update",
+    "update": "Bijwerken",
     "new-release-available-title": "Nieuwe uitgave beschikbaar!",
     "new-release-available-body": "Een nieuwe uitgave van Ezra Bible App is beschikbaar!",
     "latest-version": "Nieuwste versie",
@@ -195,8 +195,8 @@
     "installed": "Geïnstalleerd",
     "not-installed": "Niet geïnstalleerd",
     "and-more": "en meer",
-    "module-updates-available": "There are updates available for the modules listed below.",
-    "modules-up-to-date": "All installed modules are up to date!"
+    "module-updates-available": "Onderstaande modules kunnen bijgewerkt worden.",
+    "modules-up-to-date": "Alle geïnstalleerde modules zijn bijgewerkt!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Om te beginnen werken met tags, maak uw eerste tag door te klikken op de knop  <i>Nieuwe&nbsp;tag</i>.<br/><br/>Daarna kunt u door de bijbeltekst bladeren, verzen aanklikken of slepen-selecteren en vervolgens de tag toewijzen die u zojuist hebt gemaakt.",
@@ -314,12 +314,12 @@
     "show-section-titles": "Toon sectietitels",
     "show-xrefs": "Toon kruisverwijzingen",
     "show-footnotes": "Toon voetnoten",
-    "show-paragraphs": "Show paragraphs",
-    "red-letters": "Highlight Jesus' words in red",
+    "show-paragraphs": "Toon alinea's",
+    "red-letters": "Markeer de woorden van Jezus met rood",
     "show-dictionary": "Toon woordenboek",
     "show-book-chapter-navigation": "Toon boek/hoofdstuk-navigatie",
     "show-header-navigation": "Toon hoofdingnavigatie",
-    "show-tab-search": "Show current tab search",
+    "show-tab-search": "Toon zoekopdracht van huidig tabblad",
     "open-verse-lists-in-new-tab": "Open verslijsten in nieuw tablad",
     "show-notes-tags-indicators": "Toon indicatoren voor notities/tags",
     "show-tags": "Toon tags",
@@ -341,8 +341,8 @@
     "open-chapters-large-books": "Open grote boeken volgens hoofdstuk",
     "open-chapters-all-books": "Open alle boeken volgens hoofdstuk",
     "copy": "Kopiëren",
-    "copy-table-to-clipboard": "Copy table to clipboard",
-    "copy-table-to-clipboard-success": "Table copied to clipboard!",
+    "copy-table-to-clipboard": "Kopieer tabel naar klembord",
+    "copy-table-to-clipboard-success": "Tabel gekopieerd naar klembord!",
     "edit-note": "Notitie aanpassen",
     "delete-note": "Notitie verwijderen"
   },
@@ -366,7 +366,7 @@
   "compare-panel": {
     "default-header": "<b>Vertalingen vergelijken</b>",
     "show-parallel-translations": "Vertalingen vergelijken",
-    "help-instruction": "Om vertalingen te vergelijken, selecteert u één vers of een groep verzen.<br><br> Dit gebied toont dan automatisch de geselecteerde verzen van alle beschikbare vertalingen.<br><br> You need to have at least two translations installed for this functionality to work.",
+    "help-instruction": "Om vertalingen te vergelijken, selecteert u één vers of een groep verzen.<br><br> Dit gebied toont dan automatisch de geselecteerde verzen van alle beschikbare vertalingen.<br><br> U moet ten minste twee vertalingen hebben geïnstalleerd om deze functionaliteit te laten werken.",
     "compare": "Vergelijken"
   },
   "emoji": {
