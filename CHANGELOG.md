@@ -6,7 +6,7 @@ All notable changes to Ezra Bible App are documented in this file.
 ### Features
 
 * Module update functionality. ([#31][i31])
-* Tagged verse list - show number of occurrences per Bible book and per tag. ([#799][i799])
+* Tagged verse list - show number of occurrences per Bible book and per tag. ([#527][i527])
 * Add option to render red letter words. ([#817][i817])
 * Add option to render paragraphs. ([#771][i771])
 
@@ -43,6 +43,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Packaging support for Fedora 37. ([#819][i819])
 
 [i31]: https://github.com/ezra-bible-app/ezra-bible-app/issues/31
+[i527]: https://github.com/ezra-bible-app/ezra-bible-app/issues/527
 [i551]: https://github.com/ezra-bible-app/ezra-bible-app/issues/551
 [i679]: https://github.com/ezra-bible-app/ezra-bible-app/issues/679
 [i749]: https://github.com/ezra-bible-app/ezra-bible-app/issues/749
@@ -51,7 +52,6 @@ All notable changes to Ezra Bible App are documented in this file.
 [i795]: https://github.com/ezra-bible-app/ezra-bible-app/issues/795
 [i796]: https://github.com/ezra-bible-app/ezra-bible-app/issues/796
 [i797]: https://github.com/ezra-bible-app/ezra-bible-app/issues/797
-[i799]: https://github.com/ezra-bible-app/ezra-bible-app/issues/799
 [i800]: https://github.com/ezra-bible-app/ezra-bible-app/issues/800
 [i801]: https://github.com/ezra-bible-app/ezra-bible-app/issues/801
 [i806]: https://github.com/ezra-bible-app/ezra-bible-app/issues/806
