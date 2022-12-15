@@ -19,7 +19,11 @@ jobs:
           run: Remove-Item -Recurse -Force docs
           shell: pwsh
         - name: Build
-          run: powershell .\build_scripts\win32\build_win32.bat
+          uses: nick-fields/retry@v2
+          with:
+            timeout_minutes: 10
+            max_attempts: 3
+            command: powershell .\build_scripts\win32\build_win32.bat
         - name: Build installer
           run: powershell .\build_scripts\win32\build_installer_win32.bat
         - name: Upload symbols
