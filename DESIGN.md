@@ -139,6 +139,7 @@ erDiagram
     Note                      o|--||    VerseReference      : has
     VerseReference            ||--|{    VerseTag            : has
     Tag                       ||--|{    VerseTag            : has
+    Tag                       }|--|{    TagGroup            : has
 </div>
 
 <script src="https://unpkg.com/mermaid@8.8.3/dist/mermaid.min.js"></script>
