@@ -102,6 +102,7 @@
     "simple-emoji-button": "^4.6.2",
     "sqlite3": "^5.0.2",
     "strongs": "^1.0.2",
+    "taffydb": "^2.7.3",
     "umzug": "^2.3.0"
   },
   "devDependencies": {
