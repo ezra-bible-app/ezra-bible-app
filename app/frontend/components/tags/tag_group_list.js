@@ -32,9 +32,12 @@ const template = html`
 <link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 
+<link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
+
 <style>
 :host {
   display: block;
+  height: 95%;
 }
 
 #tag-group-list-content {
@@ -92,8 +95,8 @@ const template = html`
   text-decoration: underline;
 }
 
-.darkmode--activated #tag-group-list-content a:link,
-.darkmode--activated #tag-group-list-content a:visited {
+#tag-group-list-content.darkmode--activated a:link,
+#tag-group-list-content.darkmode--activated a:visited {
   color: var(--accent-color-darkmode);
 }
 
@@ -170,6 +173,14 @@ class TagGroupList extends HTMLElement {
     }
 
     this._subscriptionDone = true;
+
+    eventController.subscribe('on-theme-changed', (theme) => {
+      if (theme == 'dark') {
+        uiHelper.switchToDarkTheme(this.shadowRoot, 'tag-group-list-content');
+      } else {
+        uiHelper.switchToRegularTheme(this.shadowRoot, 'tag-group-list-content');
+      }
+    });
 
     if (this._activationEvent != null) {
       eventController.subscribe(this._activationEvent, async () => {
@@ -316,7 +327,7 @@ class TagGroupList extends HTMLElement {
       let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
       dialogOptions.title = i18n.t('tags.rename-tag-group');
       dialogOptions.buttons = {};
-      dialogOptions.dialogClass = 'ezra-dialog';
+      dialogOptions.dialogClass = 'ezra-dialog rename-tag-group-dialog';
 
       dialogOptions.buttons[i18n.t('general.cancel')] = function() {
         $(this).dialog('close');
@@ -347,6 +358,7 @@ class TagGroupList extends HTMLElement {
       });
     
       $dialogBox.dialog(dialogOptions);
+      uiHelper.fixDialogCloseIconOnAndroid('rename-tag-group-dialog');
 
       tagGroupValidator.validateNewTagGroupTitle('rename-tag-group-title-input', 'edit-tag-group-save-button');
 
@@ -400,7 +412,7 @@ class TagGroupList extends HTMLElement {
 
       let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
       dialogOptions.title = i18n.t('tags.delete-tag-group');
-      dialogOptions.dialogClass = 'ezra-dialog';
+      dialogOptions.dialogClass = 'ezra-dialog delete-tag-group-confirmation-dialog';
       dialogOptions.buttons = {};
 
       dialogOptions.buttons[i18n.t('general.cancel')] = function() {
@@ -423,6 +435,7 @@ class TagGroupList extends HTMLElement {
       };
 
       $dialogBox.dialog(dialogOptions);
+      uiHelper.fixDialogCloseIconOnAndroid('delete-tag-group-confirmation-dialog');
     });
   }
 

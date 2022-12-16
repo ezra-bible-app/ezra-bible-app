@@ -30,8 +30,9 @@ const template = html`
   user-select: none;
   box-sizing: border-box;
   border: 1px solid #dddddd;
+  border-radius: 4px;
   overflow-y: scroll;
-  height: 98%;
+  height: 80%;
 }
 
 .tag-item {
@@ -98,6 +99,12 @@ class TagList extends HTMLElement {
 
     this._contentDiv = document.getElementById('tag-list-content');
     this._tagManager.setContentDiv(this._contentDiv);
+
+    // cordova-plugin-ionic-keyboard event binding
+    // eslint-disable-next-line no-unused-vars
+    window.addEventListener('keyboardDidShow', (event) => {
+      this._contentDiv.classList.add('keyboard-shown');
+    });
   }
 
   /**
@@ -116,6 +123,11 @@ class TagList extends HTMLElement {
 
   get tagManager() {
     return this._tagManager;
+  }
+
+  set filter(value) {
+    this._filter = value;
+    this._tagManager.applyFilter(this._filter);
   }
 
   getContentDiv() {

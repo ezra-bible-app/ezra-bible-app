@@ -42,17 +42,29 @@ class TagStatistics {
     });
 
     eventController.subscribe('on-tag-group-selected', (tagGroup) => {
-      let tagStatisticsPanelHeader = document.getElementById('tag-statistics-panel-header');
-      let header = i18n.t('tag-statistics-panel.default-header');
-
-      if (tagGroup.id > 0) {
-        let localizedTagGroup = i18n.t('tags.tag-group');
-
-        header += ' &mdash; ' + localizedTagGroup + ': ' + tagGroup.title;
-      }
-
-      tagStatisticsPanelHeader.innerHTML = header;
+      this.updatePanelHeader(tagGroup);
     });
+
+    eventController.subscribe('on-locale-changed', () => {
+      let currentTagGroup = tags_controller.getCurrentTagGroup();
+
+      if (currentTagGroup != null) {
+        this.updatePanelHeader(currentTagGroup);
+      }
+    });
+  }
+
+  updatePanelHeader(tagGroup) {
+    let tagStatisticsPanelHeader = document.getElementById('tag-statistics-panel-header');
+    let header = i18n.t('tag-statistics-panel.default-header');
+
+    if (tagGroup != null && tagGroup != undefined && tagGroup.id > 0) {
+      let localizedTagGroup = i18n.t('tags.tag-group');
+
+      header += ' &mdash; ' + localizedTagGroup + ': ' + tagGroup.title;
+    }
+
+    tagStatisticsPanelHeader.innerHTML = header;
   }
 
   clearTagStatisticsPanel(tabIndex) {
@@ -224,7 +236,14 @@ class TagStatistics {
         currentRowHTML += `<tr><td style='font-weight: bold; font-style: italic; padding-top: 1em;' colspan='3'>${i18n.t('tags.less-frequently-used')}</td></tr>`;
       }
 
-      currentRowHTML = currentRowHTML + `<tr><td style="width: 22em;">${tag_title}</td><td>${taggedVerseCount}</td><td>${taggedVersePercent}</td></tr>`;
+      currentRowHTML = currentRowHTML + `
+        <tr>
+          <td style='width: 22em;'><a class='tagLink' title='${i18n.t('bible-browser.tag-hint')}' href=''>${tag_title}</a></td>
+          <td>${taggedVerseCount}</td>
+          <td>${taggedVersePercent}</td>
+        </tr>
+      `;
+
       tagStatisticsHTML += currentRowHTML;
       
       wasMoreFrequent = taggedVersePercent >= MIN_CLUSTER_PERCENT && clusters.includes(taggedVersePercent);
@@ -238,7 +257,20 @@ class TagStatistics {
 
     bookTagStatisticsBoxContent.innerHTML = tagStatisticsHTML;
 
+    this.bindEvents();
     this.highlightFrequentlyUsedTags();
+  }
+
+  bindEvents() {
+    const bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
+    let tagLinks = bookTagStatisticsBoxContent.querySelectorAll('.tagLink');
+
+    tagLinks.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        app_controller.verse_list_popup.openVerseListPopup(event, 'TAGGED_VERSES', true);
+      });
+    });
   }
 
   highlightFrequentlyUsedTags() {
@@ -246,7 +278,7 @@ class TagStatistics {
     var allTags = currentVerseList.querySelectorAll('.tag');
 
     allTags.forEach((tag) => {
-      let tagTitle = tag.innerText;
+      let tagTitle = tag.textContent;
 
       if (this._frequentTagsList.includes(tagTitle)) {
         tag.classList.add('tag-highly-frequent');

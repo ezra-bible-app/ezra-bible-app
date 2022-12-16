@@ -22,7 +22,6 @@ const { sleep } = require('../helpers/ezra_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 
 const INSTANT_LOADING_CHAPTER_LIMIT = 15;
-   
 
 /**
  * The TranslationController is used to handle the bible translation menu and to
@@ -46,11 +45,31 @@ class TranslationController {
       await this.initTranslationsMenu(-1, tabIndex);
     });
 
-    // eslint-disable-next-line no-unused-vars
-    eventController.subscribe('on-translation-removed', async (translationId) => {
+    eventController.subscribe('on-translation-added', async () => {
+      await this.initTranslationsMenu();
+    });
+
+    eventController.subscribe('on-translation-removed', async () => {
       $("select#bible-select").empty();
       await this.initTranslationsMenu();
     });
+  }
+
+  sortTranslations(a,b) {
+    const isMobile = platformHelper.isMobile();
+    let aDescription = isMobile ? a.name : a.description;
+    aDescription = aDescription.toLowerCase();
+  
+    let bDescription = isMobile ? b.name : b.description;
+    bDescription = bDescription.toLowerCase();
+  
+    if (aDescription < bDescription) {
+      return -1;
+    } else if (aDescription > bDescription) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
   getTranslationCount() {
@@ -230,23 +249,11 @@ class TranslationController {
       bibleSelect.empty();
 
       var translations = await ipcNsi.getAllLocalModules('BIBLE');
+      translations.sort(this.sortTranslations);
+
       await this.addLanguageGroupsToBibleSelectMenu(tabIndex, translations);
 
       if (translations == null) translations = [];
-
-      // FIXME: Should be in function
-      translations.sort((a, b) => {
-        var aDescription = a.description;
-        var bDescription = b.description;
-
-        if (aDescription < bDescription) {
-          return -1;
-        } else if (aDescription > bDescription) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
 
       this.previousTranslationCount = this.translationCount;
       this.translationCount = translations.length;
@@ -388,19 +395,7 @@ class TranslationController {
 
   async getInstalledModules(moduleType='BIBLE') {
     var localModules = await ipcNsi.getAllLocalModules(moduleType);
-    // FIXME: Should be in function
-    localModules.sort((a, b) => {
-      var aDescription = a.description;
-      var bDescription = b.description;
-
-      if (aDescription < bDescription) {
-        return -1;
-      } else if (aDescription > bDescription) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
+    localModules.sort(this.sortTranslations);
 
     var translations = [];
 

@@ -32,6 +32,11 @@ const template = html`
 <link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
+:host {
+  display: block;
+  height: 95%;
+}
+
 #tag-group-assignment-list-content {
   display: flex;
   flex-direction: column;
@@ -43,7 +48,7 @@ const template = html`
   box-sizing: border-box;
   border: 1px solid #dddddd;
   border-radius: 4px;
-  height: 11em;
+  height: 100%;
   overflow-y: scroll;
   background-color: var(--background-color);
 }

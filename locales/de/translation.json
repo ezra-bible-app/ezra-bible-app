@@ -130,6 +130,8 @@
     "config-file-path": "Konfigurationspfad",
     "module-name": "Name",
     "module-version": "Version",
+    "module-current-version": "Aktuelle Version",
+    "module-new-version": "Neue Version",
     "module-language": "Sprache",
     "module-license": "Lizenz",
     "module-strongs": "Strong's",
@@ -141,6 +143,7 @@
     "module-redletter": "Jesu Worte in rot",
     "module-size": "Größe",
     "module-location": "Verzeichnis",
+    "update-modules": "Module aktualisieren",
     "yes": "Ja",
     "no": "Nein",
     "ok": "Ok",
@@ -154,6 +157,7 @@
     "cancel": "Abbrechen",
     "rename": "Umbenennen",
     "loading": "Lade",
+    "update": "Aktualisieren",
     "new-release-available-title": "Neues Release verfügbar!",
     "new-release-available-body": "Ein neues Release von Ezra Bible App ist verfügbar!",
     "latest-version": "Neueste Version",
@@ -180,7 +184,9 @@
     "export-user-data-hint": "Diese Funktion exportiert alle Benutzerdaten (Tags, Notizen) zusammen mit den Versangaben in eine CSV Datei.",
     "installed": "Installiert",
     "not-installed": "Nicht installiert",
-    "and-more": "und weitere"
+    "and-more": "und weitere",
+    "module-updates-available": "Es gibt Updates für die unten aufgelisteten Module.",
+    "modules-up-to-date": "Alle installierten Module sind auf dem neuesten Stand!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
@@ -298,6 +304,8 @@
     "show-section-titles": "Zeige Überschriften",
     "show-xrefs": "Zeige Parallelstellen",
     "show-footnotes": "Zeige Fußnoten",
+    "show-paragraphs": "Zeige Absätze",
+    "red-letters": "Jesu Worte in rot hervorheben",
     "show-dictionary": "Zeige Wörterbuch",
     "show-book-chapter-navigation": "Zeige Buch/Kapitelnavigation",
     "show-header-navigation": "Zeige Überschriftennavigator",
@@ -323,6 +331,8 @@
     "open-chapters-large-books": "Große Bücher kapitelweise öffnen",
     "open-chapters-all-books": "Alle Bücher kapitelweise öffnen",
     "copy": "Kopieren",
+    "copy-table-to-clipboard": "Tabelle in Zwischenablage kopieren",
+    "copy-table-to-clipboard-success": "Tabelle in Zwischenablage kopiert!",
     "edit-note": "Notiz ändern",
     "delete-note": "Notiz löschen"
   },
@@ -346,7 +356,7 @@
   "compare-panel": {
     "default-header": "<b>Übersetzungen vergleichen</b>",
     "show-parallel-translations": "Übersetzungen vergleichen",
-    "help-instruction": "Um Übersetzungen zu vergleichen wählen Sie einen Vers oder eine Gruppe von Versen aus.<br><br> Dieser Bereich wird dann automatisch die Liste der gewählten Verse aus allen verfügbaren Übersetzungen anzeigen.",
+    "help-instruction": "Um Übersetzungen zu vergleichen wählen Sie einen Vers oder eine Gruppe von Versen aus.<br><br> Dieser Bereich wird dann automatisch die Liste der gewählten Verse aus allen verfügbaren Übersetzungen anzeigen.<br><br> Sie müssen mindestens zwei Übersetzungen installieren, damit dies funktioniert.",
     "compare": "Vergleichen"
   },
   "emoji": {

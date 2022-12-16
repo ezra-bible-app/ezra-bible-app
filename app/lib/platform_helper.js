@@ -239,15 +239,26 @@ class PlatformHelper {
 
       const { app } = require('electron');
       const path = require('path');
+      let pjson = null;
 
-      const pjson = require('../../package.json');
+      try {
+        pjson = require('../../package.json');
+      } catch (error) {
+        pjson = null;
+        console.warn('Could not read package.json!');
+      }
 
       let appName = null;
       let newAppName = null;
 
-      if (this.isWin()) {
+      if (pjson == null) {
+        // This happened on Windows before (see the exception catching above!);
+        newAppName = 'ezra-bible-app';
+
+      } else if (this.isWin()) {
         // On Windows we use productName (containing spaces) for the user data path.
         newAppName = pjson.productName; 
+
       } else {
         // On other platforms we use the name attribute, which is more unix-style.
         newAppName = pjson.name;

@@ -182,10 +182,21 @@ class UiHelper {
   }
 
   getDialogOptions(width, height, draggable, position, resizable=false) {
+    let modal = false;
+
     if (platformHelper.isMobile()) {
-      width = $(window).width() - 10;
+      width = $(window).width();
       height = $(window).height() - 85;
+
+      if (platformHelper.isCordova()) {
+        // eslint-disable-next-line no-undef
+        if (Keyboard.isVisible) {
+          height = $(window).height();
+        }
+      }
+
       draggable = false;
+      modal = true;
       position = [0, 0];
     }
 
@@ -193,6 +204,7 @@ class UiHelper {
       width: width,
       draggable: draggable,
       resizable: resizable,
+      modal: modal,
       dialogClass: 'ezra-dialog'
     };
 
@@ -205,6 +217,48 @@ class UiHelper {
     }
 
     return dialogOptions;
+  }
+
+  switchToDarkTheme(docObject, mainElementId) {
+    this.switchToTheme(docObject, 'css/jquery-ui/dark-hive/jquery-ui.css');
+    docObject.getElementById(mainElementId).classList.add('darkmode--activated');
+  }
+  
+  switchToRegularTheme(docObject, mainElementId) {
+    this.switchToTheme(docObject, 'css/jquery-ui/cupertino/jquery-ui.css');
+    docObject.getElementById(mainElementId).classList.remove('darkmode--activated');
+  }
+
+  switchToTheme(docObject, theme) {
+    var currentTheme = docObject.getElementById("theme-css").href;
+  
+    if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
+      docObject.getElementById("theme-css").href = theme;
+    }
+  }
+
+  fixDialogCloseIconOnAndroid(dialogClass) {
+    if (!platformHelper.isCordova()) {
+      return;
+    }
+
+    let dialogElements = document.getElementsByClassName(dialogClass);
+
+    if (dialogElements != null) {
+      let dialog = dialogElements[0];
+
+      if (dialog != null) {
+        let closeIcon = dialog.querySelector('.ui-icon-closethick');
+
+        if (closeIcon != null) {
+          let newIcon = document.createElement('i');
+          newIcon.setAttribute('class', 'fa-solid fa-rectangle-xmark close-dialog-icon');
+          newIcon.setAttribute('style', 'font-size: 150%; color: darkslategray; position: relative; right: 10px; bottom: 1px');
+
+          closeIcon.replaceWith(newIcon);
+        }
+      }
+    }
   }
 }
 

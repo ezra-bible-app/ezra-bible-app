@@ -101,7 +101,7 @@ class IpcDb {
     var debug = false;
     var useCache = false;
 
-    if (app_controller === undefined || app_controller && !app_controller.isStartupCompleted()) {
+    if (app_controller === undefined || app_controller && !app_controller.isStartupCompleted() && !onlyStats) {
       useCache = true;
     }
 
@@ -113,7 +113,14 @@ class IpcDb {
         console.time('getAllTags_' + getAllTagsCounter);
       }
 
-      this._cachedTagList = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
+      var tagList = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
+
+      if (!useCache) {
+        return tagList;
+      } else {
+        this._cachedTagList = tagList;
+      }
+
       if (debug || this._isCordova) console.timeEnd('getAllTags_' + getAllTagsCounter);
     }
     

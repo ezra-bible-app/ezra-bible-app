@@ -144,6 +144,8 @@
     "config-file-path": "Chemin de configuration",
     "module-name": "Nom",
     "module-version": "Version",
+    "module-current-version": "Version actuelle",
+    "module-new-version": "Nouvelle version",
     "module-language": "Langue",
     "module-license": "Licence",
     "module-strongs": "Strong",
@@ -159,6 +161,7 @@
     "module-redletter": "Mot en rouge",
     "module-size": "Taille",
     "module-location": "Place",
+    "update-modules": "Mettre à jour les modules",
     "yes": "Oui",
     "no": "Non",
     "ok": "Ok",
@@ -172,6 +175,7 @@
     "cancel": "Annuler",
     "rename": "Renommer",
     "loading": "Chargement en cours",
+    "update": "Mettre à jour",
     "new-release-available-title": "Nouvelle version disponible !",
     "new-release-available-body": "Une nouvelle version d’Ezra Bible App est disponible !",
     "latest-version": "Dernière version",
@@ -198,7 +202,9 @@
     "export-user-data-hint": "Cette fonction exporte toutes les données utilisateur (étiquettes, notes) ainsi que leurs références de verset dans un fichier CSV.",
     "installed": "Installé",
     "not-installed": "Pas installé",
-    "and-more": "et plus"
+    "and-more": "et plus",
+    "module-updates-available": "Les modules listés ci-dessous ont des mises à jour.",
+    "modules-up-to-date": "Tous les modules installés sont à jour !"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",
@@ -316,6 +322,8 @@
     "show-section-titles": "Montrer les titres de sections",
     "show-xrefs": "Montrer les références croisées",
     "show-footnotes": "Afficher les notes de bas de page",
+    "show-paragraphs": "Afficher les paragraphes",
+    "red-letters": "Surligner les paroles de Jésus en rouge",
     "show-dictionary": "Afficher le dictionnaire",
     "show-book-chapter-navigation": "Afficher la navigation dans les livres / chapitres",
     "show-header-navigation": "Afficher la navigation des titres",
@@ -341,6 +349,8 @@
     "open-chapters-large-books": "Ouvrir les gros livres par chapitre",
     "open-chapters-all-books": "Ouvrir tous les livres par chapitre",
     "copy": "Copier",
+    "copy-table-to-clipboard": "Copier le tableau dans le presse-papiers",
+    "copy-table-to-clipboard-success": "Le tableau est copié dans le presse-papier !",
     "edit-note": "Modifier la note",
     "delete-note": "Supprimer la note"
   },
@@ -364,7 +374,7 @@
   "compare-panel": {
     "default-header": "<b>Comparer les traductions</b>",
     "show-parallel-translations": "Comparer les traductions",
-    "help-instruction": "Pour comparer les traductions, vous sélectionnez un verset ou un groupe de versets.<br><br> Cette zone listera alors automatiquement les versets sélectionnés parmi toutes les traductions disponibles.",
+    "help-instruction": "Pour comparer les traductions, vous sélectionnez un verset ou un groupe de versets.<br><br> Cette zone listera alors automatiquement les versets sélectionnés parmi toutes les traductions disponibles.<br><br> Vous devez installer au moins deux traductions pour cette fonctionnalité.",
     "compare": "Comparer"
   },
   "emoji": {

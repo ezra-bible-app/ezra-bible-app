@@ -109,7 +109,7 @@ module.exports.showSyncResultMessage = async function() {
 
   const lastDropboxSyncResult = await ipcSettings.get(DROPBOX_LAST_SYNC_RESULT_KEY, '');
 
-  if (lastDropboxSyncResult != "") {
+  if (lastDropboxSyncResult != null && lastDropboxSyncResult != "" && lastDropboxSyncResult != "NONE") {
     let msgPosition = 'bottomRight';
 
     if (platformHelper.isCordova()) {
@@ -190,6 +190,7 @@ async function initDbSync() {
 
   let dbSyncDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
   dbSyncDialogOptions.title = i18n.t("dropbox.setup-db-sync");
+  dbSyncDialogOptions.dialogClass = 'ezra-dialog db-sync-dialog';
   dbSyncDialogOptions.autoOpen = false;
   dbSyncDialogOptions.buttons = {};
 
@@ -220,6 +221,7 @@ async function initDbSync() {
   });
 
   $('#db-sync-box').dialog(dbSyncDialogOptions);
+  uiHelper.fixDialogCloseIconOnAndroid('db-sync-dialog');
 
   dbSyncInitDone = true;
 }
@@ -236,10 +238,11 @@ async function handleDropboxConfigurationSave() {
     dbSyncDropboxRefreshToken = null;
     dbSyncDropboxLinkStatus = null;
 
-    await ipcSettings.set(DROPBOX_LAST_SYNC_RESULT_KEY, '');
-    await ipcSettings.set(DROPBOX_LAST_SYNC_TIME_KEY, '');
-    await ipcSettings.set(DROPBOX_LAST_DOWNLOAD_TIME_KEY, '');
-    await ipcSettings.set(DROPBOX_LAST_UPLOAD_TIME_KEY, '');
+    await ipcSettings.delete(DROPBOX_LAST_SYNC_RESULT_KEY);
+    await ipcSettings.delete(DROPBOX_LAST_SYNC_TIME_KEY);
+    await ipcSettings.delete(DROPBOX_LAST_DOWNLOAD_TIME_KEY);
+    await ipcSettings.delete(DROPBOX_LAST_UPLOAD_TIME_KEY);
+
     await ipcSettings.set(DROPBOX_FIRST_SYNC_DONE_KEY, false);
   }
 
@@ -264,16 +267,19 @@ async function handleDropboxConfigurationSave() {
 
 function updateDropboxLinkStatusLabel(resetLink=false) {
   if (dbSyncDropboxLinkStatus == 'LINKED' && !resetLink) {
+    $('#dropbox-link-status').attr('i18n', 'dropbox.dropbox-link-status-linked');
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-linked'));
     $('#dropbox-link-status').addClass('success');
     $('#dropbox-link-status').removeClass('failed');
 
   } else if (dbSyncDropboxLinkStatus == 'FAILED' && !resetLink) {
+    $('#dropbox-link-status').attr('i18n', 'dropbox.dropbox-link-status-linking-failed');
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-linking-failed'));
     $('#dropbox-link-status').addClass('failed');
     $('#dropbox-link-status').removeClass('success');
 
   } else if (dbSyncDropboxLinkStatus === null || resetLink) {
+    $('#dropbox-link-status').attr('i18n', 'dropbox.dropbox-link-status-not-linked');
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-not-linked'));
     $('#dropbox-link-status').removeClass('success');
     $('#dropbox-link-status').removeClass('failed');

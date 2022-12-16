@@ -96,7 +96,7 @@ class ConfigOption extends HTMLElement {
   }
 
   _isChecked() {
-    var checkboxChecked = $(this.querySelector('.toggle-config-option-switch')).prop('checked');
+    let checkboxChecked = this.querySelector('.toggle-config-option-switch').checked;
     return checkboxChecked && this.enabled;
   }
 

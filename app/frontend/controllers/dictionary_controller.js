@@ -46,6 +46,7 @@ class DictionaryController {
     this.shiftKeyPressed = false;
     this.strongsAvailable = false;
     this._dictionaryInfoBox = new DictionaryInfoBox(this);
+    this._lastSelection = null;
 
     this.bindEvents();
     this.runAvailabilityCheck();
@@ -100,19 +101,22 @@ class DictionaryController {
     eventController.subscribe('on-dictionary-panel-switched', isOpen => {
       this._isDictionaryOpen = isOpen;
 
-      if (!isOpen) { 
+      if (isOpen) {
+        if (this._lastSelection != null) {
+          this.highlightStrongsFromSelection(this._lastSelection);
+        }
+      } else {
         this.clearInfoBox();  
         this.hideStrongsBox(true);
+        this.removeHighlight();
       }
     });
 
     if (platformHelper.isCordova()) {
-      eventController.subscribe('on-verses-selected', (selectionDetails) => {    
+      eventController.subscribe('on-verses-selected', (selectionDetails) => {
+        this._lastSelection = selectionDetails;
         this.removeHighlight();
-
-        if (selectionDetails.selectedElements.length == 1) {
-          this.highlightStrongsInVerse(selectionDetails.selectedElements[0], true);
-        }
+        this.highlightStrongsFromSelection(selectionDetails);
       });
     }
   }
@@ -366,6 +370,16 @@ class DictionaryController {
 
         await this.showStrongsInfo(strongsIds);
       }
+    }
+  }
+
+  highlightStrongsFromSelection(selectionDetails) {
+    if (selectionDetails == null || selectionDetails.selectedElements == null) {
+      return;
+    }
+    
+    if (selectionDetails.selectedElements.length == 1) {
+      this.highlightStrongsInVerse(selectionDetails.selectedElements[0], true);
     }
   }
 

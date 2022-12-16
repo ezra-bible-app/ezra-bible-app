@@ -83,7 +83,7 @@ class UnlockDialog extends HTMLElement {
     var unlockDialogOptions = {
       modal: true,
       title: i18n.t("module-assistant.unlock.enter-unlock-key", { moduleId }),
-      dialogClass: 'ezra-dialog',
+      dialogClass: 'ezra-dialog unlock-dialog',
       width: 450,
       minHeight: 200
     };
@@ -113,6 +113,8 @@ class UnlockDialog extends HTMLElement {
     };
     
     $(unlockDialog).dialog(unlockDialogOptions);
+    uiHelper.fixDialogCloseIconOnAndroid('unlock-dialog');
+
     this._unlockDialogOpened = true;
     
     inputElement.focus();

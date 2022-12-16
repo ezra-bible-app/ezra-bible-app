@@ -33,7 +33,7 @@ module.exports.init = function init() {
   eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
 
   eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
-    this.addVerseListClasses(tabIndex);
+    this.updateVerseListClasses(tabIndex);
     this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
 
@@ -52,7 +52,9 @@ module.exports.init = function init() {
   });
 
   eventController.subscribe('on-tag-group-selected', async(tagGroup) => {
-    this.applyTagGroupFilter(tagGroup.id);
+    if (tagGroup != null && tagGroup != undefined) {
+      this.applyTagGroupFilter(tagGroup.id);
+    }
   });
 
   eventController.subscribe('on-tag-group-members-changed', async() => {
@@ -227,6 +229,10 @@ module.exports.resetVerseListView = function() {
     currentVerseList.innerHTML = "";
   }
 
+  let verseListFrame = this.getCurrentVerseListFrame();
+  let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
+  tagDistributionMatrix.input = '';
+
   app_controller.docxExport.disableExportButton();
 };
 
@@ -283,6 +289,10 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
   verseList.find('a.chapter-nav').bind('mousedown', async (event) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (event.target.closest('a').classList.contains('disabled')) {
+      return;
+    }
 
     const chapter = parseInt(event.target.closest('a').getAttribute('chapter'));
     await app_controller.navigation_pane.goToChapter(chapter);
@@ -358,7 +368,7 @@ module.exports.goToNextChapter = async function() {
   }
 };
 
-module.exports.addVerseListClasses = async function(tabIndex=undefined) {
+module.exports.updateVerseListClasses = async function(tabIndex=undefined) {
   let currentTab = app_controller.tab_controller.getTab(tabIndex);
   const currentTranslationId = currentTab.getBibleTranslationId();
   const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
@@ -366,6 +376,8 @@ module.exports.addVerseListClasses = async function(tabIndex=undefined) {
 
   if (!isInstantLoadingBook && currentVerseList[0] != null) {
     currentVerseList.addClass('verse-list-without-chapter-titles');
+  } else {
+    currentVerseList.removeClass('verse-list-without-chapter-titles');
   }
 };
 
@@ -467,7 +479,7 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
 
   } else {
     // Show tags filtered by current tag group
-    let tagGroupMemberIds = await tags_controller.getTagGroupMemberIds(tagGroupId);
+    let tagGroupMemberIds = await tags_controller.tag_store.getTagGroupMemberIds(tagGroupId);
 
     allTagElements.forEach((tagElement) => {
       let currentTagId = parseInt(tagElement.getAttribute('tag-id'));

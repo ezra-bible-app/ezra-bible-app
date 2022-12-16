@@ -69,7 +69,7 @@ class VerseSelection {
 
     verseList.selectable({
       filter: '.verse-text',
-      cancel: '.verse-reference-content, .sword-xref-marker, .verse-notes, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
+      cancel: '.verse-reference-content, .sword-xref-marker, .verse-notes, .tag-box, .tag, .load-book-results, .select-all-search-results-button, tag-distribution-matrix',
 
       // eslint-disable-next-line no-unused-vars
       start: (event, ui) => {
@@ -516,26 +516,33 @@ class VerseSelection {
     var selectedText = "";
     const selectionHasMultipleVerses = selectedVerseBoxes.length > 1;
 
+    const paragraphsOption = app_controller.optionsMenu._paragraphsOption;
+
     for (let i = 0; i < selectedVerseBoxes.length; i++) {
       let currentVerseBox = $(selectedVerseBoxes[i]);
       let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
       let currentVerseNr = verseReferenceContent.split(separator)[1];
-      
       let currentText = currentVerseBox.find('.verse-text').clone();
+
+      if (paragraphsOption.isChecked) {
+        let paragraphBreaks = this.getLineBreak() + this.getLineBreak() + this.getLineBreak() + this.getLineBreak();
+        currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
+      }
+
       currentText.find('.sword-markup').remove();
 
       if (selectionHasMultipleVerses) {
         selectedText += currentVerseNr + " ";
       }
 
-      selectedText += currentText.html().replace(/&nbsp;/g, ' ').trim() + " ";
+      selectedText += currentText.html().replace(/&nbsp;/g, ' ') + " ";
     }
 
     var parser = new DOMParser();
     var htmlText = parser.parseFromString("<div>" + selectedText + "</div>", 'text/html');
 
     selectedText = htmlText.querySelector('div').innerText;
-    selectedText += " " + this.getLineBreak() + app_controller.verse_selection.getSelectedVersesLabel().text();
+    selectedText += " " + this.getLineBreak() + this.getLineBreak() + app_controller.verse_selection.getSelectedVersesLabel().text();
 
     return selectedText;
   }

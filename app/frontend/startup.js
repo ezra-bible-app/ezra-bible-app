@@ -85,21 +85,27 @@ class Startup {
     }
   }
 
-  loadHTML() {
-    if (!this._platformHelper.isElectron()) {
-      window.Buffer = require('buffer/').Buffer;
-    }
-
+  loadWebComponents() {
     require('./components/tool_panel/panel_buttons.js');
     require('./components/tags/tag_list_menu.js');
     require('./components/tags/tag_group_list.js');
     require('./components/tags/tag_group_assignment_list.js');
     require('./components/tags/tag_list.js');
+    require('./components/tags/tag_distribution_matrix.js');
     require('./components/options_menu/config_option.js');
     require('./components/options_menu/select_option.js');
     require('./components/options_menu/locale_switch.js');
     require('./components/module_assistant/module_assistant.js');
     require('./components/verse_context_menu.js');
+    require('./components/text_field.js');
+  }
+
+  loadHTML() {
+    if (!this._platformHelper.isElectron()) {
+      window.Buffer = require('buffer/').Buffer;
+    }
+
+    this.loadWebComponents();
 
     const fs = require('fs');
 
@@ -234,7 +240,7 @@ class Startup {
       window.Sentry = {
         addBreadcrumb: function () { },
         Severity: {
-          Info: undefined
+          Info: ''
         }
       };
     }

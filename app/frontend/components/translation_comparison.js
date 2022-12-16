@@ -165,6 +165,11 @@ class TranslationComparison {
       return;
     }
 
+    var allTranslations = await ipcNsi.getAllLocalModules();
+    if (allTranslations.length < 2) {
+      return;
+    }
+
     var panelHeader = document.getElementById('compare-panel-header');
     var helpBox = this.getHelpBox();
     var panelTitle = "";

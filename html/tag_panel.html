@@ -2,7 +2,7 @@
   <span id="new-standard-tag-title-label" i18n="tags.title"></span><span>: </span> <input id="new-standard-tag-title-input" type="text" maxlength="255" />
   <emoji-button-trigger></emoji-button-trigger>
 
-  <div id="tag-group-assignment-section" style="margin-top: 1em;">
+  <div id="tag-group-assignment-section" style="margin-top: 1em; height: 75%;">
     <span i18n="tags.tag-groups"></span>:
     <tag-group-assignment-list id="new-tag-dialog-tag-group-assignment"></tag-group-assignment-list>
 
@@ -12,7 +12,9 @@
   </div>
 </div>
 
-<div id="add-tags-to-group-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
+<div id="add-tags-to-group-dialog" style="display: none; padding-top: 2em;">
+  <label for="add-tags-to-group-filter-input" i18n="tags.tag-filter"></label>
+  <text-field id="add-tags-to-group-filter-input" style="width: 20em; margin-bottom: 1em;"></text-field>
   <tag-list id="add-tags-to-group-tag-list" style="display: none;"></tag-list>
 </div>
 
@@ -35,7 +37,7 @@
 
   <div style="height: 1em;"></div>
   <span i18n="tags.tag-groups"></span>:
-  <tag-group-assignment-list id="tag-group-assignment"></tag-group-assignment-list>
+  <tag-group-assignment-list id="tag-group-assignment" style="height: 75%;"></tag-group-assignment-list>
 </div>
 
 <div id="tags-content" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons" role="tablist">
@@ -46,7 +48,7 @@
       <span id="tag-list-filter-button-active">*</span>
       <span id="tag-list-stats" style="margin-left: 1em;"></span>
 
-      <input type="text" id="tags-search-input"></input>
+      <text-field id="tags-search-input"></text-field>
     </a>
   </h3>
 

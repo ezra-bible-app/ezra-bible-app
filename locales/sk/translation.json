@@ -134,6 +134,8 @@
     "config-file-path": "Cesta ku konfigurácii",
     "module-name": "Meno",
     "module-version": "Verzia",
+    "module-current-version": "Aktuálna verzia",
+    "module-new-version": "Nová verzia",
     "module-language": "Jazyk",
     "module-license": "Licencia",
     "module-strongs": "Strongy",
@@ -149,6 +151,7 @@
     "module-redletter": "Red letter words",
     "module-size": "Veľkosť",
     "module-location": "Umiestnenie",
+    "update-modules": "Aktualizácia modulov",
     "yes": "Áno",
     "no": "Nie",
     "ok": "Ok",
@@ -162,6 +165,7 @@
     "cancel": "Zrušiť",
     "rename": "Premenovať",
     "loading": "Nahrávam",
+    "update": "Aktualizácia",
     "new-release-available-title": "Je k dispozícií nová verzia!",
     "new-release-available-body": "Je k dispozícií nová verzia projektu Ezra!",
     "latest-version": "Najnovšia verzia",
@@ -188,7 +192,9 @@
     "export-user-data-hint": "Táto funkcia exportuje všetky používateľské dáta (tagy, poznámky) spolu s ich odkazmi na verše do súboru CSV.",
     "installed": "Nainštalované",
     "not-installed": "Nenainštalované",
-    "and-more": "a viac"
+    "and-more": "a viac",
+    "module-updates-available": "K dispozícii sú aktualizácie pre moduly uvedené nižšie.",
+    "modules-up-to-date": "Všetky nainštalované moduly sú aktuálne!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -306,6 +312,8 @@
     "show-section-titles": "Zobraziť názvy sekcií",
     "show-xrefs": "Zobraziť krížové odkazy",
     "show-footnotes": "Zobraziť poznámky pod čiarou",
+    "show-paragraphs": "Zobraziť odseky",
+    "red-letters": "Zvýraznite Ježišove slová červenou farbou",
     "show-dictionary": "Zobraziť slovník",
     "show-book-chapter-navigation": "Zobraziť knihu/navigácia v kapitolách",
     "show-header-navigation": "Zobraziť navigáciu v hlavičke",
@@ -331,6 +339,8 @@
     "open-chapters-large-books": "Otvárajte veľké knihy po kapitolách",
     "open-chapters-all-books": "Otvorte všetky knihy po kapitolách",
     "copy": "Kopírovať",
+    "copy-table-to-clipboard": "Skopírujte tabuľku do schránky",
+    "copy-table-to-clipboard-success": "Tabuľka bola skopírovaná do schránky!",
     "edit-note": "Upraviť poznámku",
     "delete-note": "Vymazať poznámku"
   },
@@ -354,7 +364,7 @@
   "compare-panel": {
     "default-header": "<b>Porovnanie prekladov</b>",
     "show-parallel-translations": "Porovnanie prekladov",
-    "help-instruction": "Na porovnanie prekladov si vyberiete jeden verš alebo skupinu veršov.<br><br> V tejto oblasti sa potom automaticky zobrazia vybrané verše zo všetkých dostupných prekladov.",
+    "help-instruction": "Na porovnanie prekladov si vyberiete jeden verš alebo skupinu veršov.<br><br> V tejto oblasti sa potom automaticky zobrazia vybrané verše zo všetkých dostupných prekladov.<br><br> Aby táto funkcia fungovala, musíte mať nainštalované aspoň dva preklady.",
     "compare": "Porovnať"
   },
   "emoji": {

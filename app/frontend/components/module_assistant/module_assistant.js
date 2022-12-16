@@ -100,7 +100,7 @@ section#module-settings-assistant-internet-usage {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 0;
+  padding-right: 0;
 }
 #module-settings-assistant section.scrollable {
   border-radius: 5px;
@@ -207,6 +207,7 @@ class ModuleAssistant extends HTMLElement{
     moduleSettingsDialogOptions.dialogClass = 'ezra-dialog module-assistant-dialog';
 
     $('#module-settings-assistant').dialog(moduleSettingsDialogOptions);
+    uiHelper.fixDialogCloseIconOnAndroid('module-assistant-dialog');
 
     assistantHelper.unlockDialog();
   }

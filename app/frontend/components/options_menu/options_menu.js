@@ -23,6 +23,7 @@ const eventController = require('../../controllers/event_controller.js');
 const referenceVerseController = require('../../controllers/reference_verse_controller.js');
 const verseListController = require('../../controllers/verse_list_controller.js');
 const dbSyncController = require('../../controllers/db_sync_controller.js');
+const moduleUpdateController = require('../../controllers/module_update_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -56,6 +57,11 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
+    $('#show-module-update-button').bind('click', async () => {
+      this.hideDisplayMenu();
+      await moduleUpdateController.showModuleUpdateDialog();
+    });
+
     $('#setup-db-sync-button').bind('click', async () => {
       this.hideDisplayMenu();
       await dbSyncController.showDbSyncConfigDialog();
@@ -82,6 +88,8 @@ class OptionsMenu {
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
+    this._paragraphsOption = this.initConfigOption('showParagraphsOption', () => { this.showOrHideParagraphsBasedOnOption(); });
+    this._redLetterOption = this.initConfigOption('redLetterOption', () => { this.renderRedLettersBasedOnOption(); });
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, bookChapterNavDefault);
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
@@ -198,7 +206,8 @@ class OptionsMenu {
     if (this.menuIsOpened) {
       document.getElementById('app-container').classList.remove('fullscreen-menu');
 
-      $('#app-container').find('#display-options-menu').hide();
+      document.getElementById('display-options-menu').style.display = 'none';
+      document.getElementById('display-options-menu').classList.remove('visible');
       this.menuIsOpened = false;
 
       var display_button = $('#app-container').find('.display-options-button');
@@ -215,6 +224,7 @@ class OptionsMenu {
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
       var menu = $('#app-container').find('#display-options-menu');
+      menu.addClass('visible');
 
       document.getElementById('app-container').classList.add('fullscreen-menu');
       
@@ -322,6 +332,45 @@ class OptionsMenu {
         currentReferenceVerse.addClass('verse-list-without-footnotes');
         currentVerseList.addClass('verse-list-without-footnotes');
         tagBoxVerseList.addClass('verse-list-without-footnotes');
+      }
+    }
+  }
+
+  showOrHideParagraphsBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+    var tagBoxVerseList = $('#verse-list-popup-verse-list');
+
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._paragraphsOption.isChecked) {
+        currentReferenceVerse.addClass('verse-list-with-paragraphs');
+        currentVerseList.addClass('verse-list-with-paragraphs');
+        tagBoxVerseList.addClass('verse-list-with-paragraphs');
+      } else {
+        currentReferenceVerse.removeClass('verse-list-with-paragraphs');
+        currentVerseList.removeClass('verse-list-with-paragraphs');
+        tagBoxVerseList.removeClass('verse-list-with-paragraphs');
+      }
+    }
+  }
+
+  renderRedLettersBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+    var tagBoxVerseList = $('#verse-list-popup-verse-list');
+    var comparePanel = $('#compare-panel');
+
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._redLetterOption.isChecked) {
+        currentReferenceVerse.addClass('verse-list-with-red-letters');
+        currentVerseList.addClass('verse-list-with-red-letters');
+        tagBoxVerseList.addClass('verse-list-with-red-letters');
+        comparePanel.addClass('verse-list-with-red-letters');
+      } else {
+        currentReferenceVerse.removeClass('verse-list-with-red-letters');
+        currentVerseList.removeClass('verse-list-with-red-letters');
+        tagBoxVerseList.removeClass('verse-list-with-red-letters');
+        comparePanel.removeClass('verse-list-with-red-letters');
       }
     }
   }
@@ -463,6 +512,8 @@ class OptionsMenu {
     this.showOrHideTabSearchFormBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
+    this.showOrHideParagraphsBasedOnOption(tabIndex);
+    this.renderRedLettersBasedOnOption(tabIndex);
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.applyTagGroupFilterBasedOnOption();

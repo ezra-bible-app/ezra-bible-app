@@ -1,6 +1,75 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.9.0 - 2022-12-17]
+
+### Features
+
+* Module update functionality. ([#31][i31])
+* Tagged verse list - show number of occurrences per Bible book and per tag. ([#799][i799])
+* Add option to render red letter words. ([#817][i817])
+* Add option to render paragraphs. ([#771][i771])
+
+### Enhancements
+
+* Comparison function: Don't start comparison with one translation. ([#749][i749])
+* Show note indicator icons below verse reference on mobile. ([#795][i795])
+* Highlight tag after assigning it to a verse. ([#796][i796])
+* Add existing tags to tag group dialog - add possibility to filter tag list. ([#801][i801])
+* Save selected tag group when closing app and load it when starting up. ([#679][i679])
+* Limit verse text column width. ([#815][i815])
+* Make tags in tag statistics panel clickable. ([#822][i822])
+* Align side panel buttons centrally on mobile. ([#823][i823])
+* Android: Automatically activate dictionary for selected verse when panel is enabled. ([#825][i825])
+* Add clear/delete button to text fields. ([#833][i833])
+
+### Fixes
+
+* Tag selection menu not correctly filtering recently used tags when re-opened. ([#790][i790])
+* Message for updating internet repo data wrapping in progress bar. ([#551][i551])
+* Option to adjust tag and notes text size along with bible text not stored across sessions. ([#797][i797])
+* Delayed/faulty startup when Dropbox link configured and internet down. ([#800][i800])
+* Tag statistics not loading content when book is opened from cache. ([#806][i806])
+* Text in book loading mode option cut off with longer texts (other languages than English). ([#808][i808])
+* Tag Statistics panel header not correctly updated when changing locale. ([#810][i810])
+* Cross reference verse list sorted incorrectly. ([#818][i818])
+* First opening of tag list on mobile takes longer. ([#821][i821])
+* Android: Panel buttons keep active (highlighted) even if panel is not shown. ([#824][i824])
+* List of translations (SWORD modules) wrongly sorted on mobile. ([#826][i826])
+* Android: Dialog close icons too small / not mobile-friendly. ([#830][i830])
+
+### Enablers
+
+* Packaging support for Fedora 37. ([#819][i819])
+
+[i31]: https://github.com/ezra-bible-app/ezra-bible-app/issues/31
+[i551]: https://github.com/ezra-bible-app/ezra-bible-app/issues/551
+[i679]: https://github.com/ezra-bible-app/ezra-bible-app/issues/679
+[i749]: https://github.com/ezra-bible-app/ezra-bible-app/issues/749
+[i771]: https://github.com/ezra-bible-app/ezra-bible-app/issues/771
+[i790]: https://github.com/ezra-bible-app/ezra-bible-app/issues/790
+[i795]: https://github.com/ezra-bible-app/ezra-bible-app/issues/795
+[i796]: https://github.com/ezra-bible-app/ezra-bible-app/issues/796
+[i797]: https://github.com/ezra-bible-app/ezra-bible-app/issues/797
+[i799]: https://github.com/ezra-bible-app/ezra-bible-app/issues/799
+[i800]: https://github.com/ezra-bible-app/ezra-bible-app/issues/800
+[i801]: https://github.com/ezra-bible-app/ezra-bible-app/issues/801
+[i806]: https://github.com/ezra-bible-app/ezra-bible-app/issues/806
+[i808]: https://github.com/ezra-bible-app/ezra-bible-app/issues/808
+[i810]: https://github.com/ezra-bible-app/ezra-bible-app/issues/810
+[i815]: https://github.com/ezra-bible-app/ezra-bible-app/issues/815
+[i817]: https://github.com/ezra-bible-app/ezra-bible-app/issues/817
+[i818]: https://github.com/ezra-bible-app/ezra-bible-app/issues/818
+[i819]: https://github.com/ezra-bible-app/ezra-bible-app/issues/819
+[i821]: https://github.com/ezra-bible-app/ezra-bible-app/issues/821
+[i822]: https://github.com/ezra-bible-app/ezra-bible-app/issues/822
+[i823]: https://github.com/ezra-bible-app/ezra-bible-app/issues/823
+[i824]: https://github.com/ezra-bible-app/ezra-bible-app/issues/824
+[i825]: https://github.com/ezra-bible-app/ezra-bible-app/issues/825
+[i826]: https://github.com/ezra-bible-app/ezra-bible-app/issues/826
+[i830]: https://github.com/ezra-bible-app/ezra-bible-app/issues/830
+[i833]: https://github.com/ezra-bible-app/ezra-bible-app/issues/833
+
 ## [1.8.0 - 2022-10-21]
 
 ### Features
@@ -24,6 +93,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Assign last tag button still showing tag after the last tag was deleted. ([#740][i740])
 * Verse context menu still opening when button is disabled. ([#739][i739])
 * Newly assigned tag labels disappeared in text after renaming a tag. ([#738][i738])
+* Tag statistics not correctly updated on startup when loading from previous session. ([#785][i785])
 
 ### Enablers
 
@@ -43,6 +113,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i740]: https://github.com/ezra-bible-app/ezra-bible-app/issues/740
 [i739]: https://github.com/ezra-bible-app/ezra-bible-app/issues/739
 [i738]: https://github.com/ezra-bible-app/ezra-bible-app/issues/738
+[i785]: https://github.com/ezra-bible-app/ezra-bible-app/issues/785
 
 ## [1.7.1 - 2022-08-28]
 

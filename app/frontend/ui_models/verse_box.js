@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const Verse = require('./verse.js');
 
 class VerseBox {
@@ -188,7 +189,7 @@ class VerseBox {
     if (tagGroupId == null || tagGroupId < 0 || !tagGroupFilterOption.isChecked) {
       filterTags = false;
     } else {
-      tagGroupMemberIds = await tags_controller.getTagGroupMemberIds(tagGroupId);
+      tagGroupMemberIds = await tags_controller.tag_store.getTagGroupMemberIds(tagGroupId);
     }
 
     var tag_box = $(this.verseBoxElement).find('.tag-box');
@@ -201,14 +202,17 @@ class VerseBox {
     for (let i = 0; i < tag_title_array.length; i++) {
       let current_tag_title = tag_title_array[i];
       let current_tag = await tags_controller.tag_store.getTagByTitle(current_tag_title);
-      let visible = true;
 
-      if (filterTags && !tagGroupMemberIds.includes(current_tag.id)) {
-        visible = false;
+      if (current_tag != null) {
+        let visible = true;
+
+        if (filterTags && !tagGroupMemberIds.includes(current_tag.id)) {
+          visible = false;
+        }
+
+        let tag_html = this.htmlForVisibleTag(current_tag_title, current_tag.id, visible);
+        tag_box.append(tag_html);
       }
-
-      let tag_html = this.htmlForVisibleTag(current_tag_title, current_tag.id, visible);
-      tag_box.append(tag_html);
     }
 
     if (tag_title_array.length > 0) {
@@ -217,6 +221,16 @@ class VerseBox {
         await verseListController.handleReferenceClick(event);
       });
     }
+  }
+
+  async highlightTag(tagId) {
+    let color = 'var(--highlight-object-color)';
+    
+    if (await theme_controller.isNightModeUsed()) {
+      color = 'var(--highlight-object-color-dark)';
+    }
+
+    $(this.verseBoxElement).find(`.tag[tag-id='${tagId}']`).effect("highlight", {color: color}, 3000);
   }
 
   htmlForVisibleTag(tag_title, newTagId, visible=true) {
@@ -232,7 +246,7 @@ class VerseBox {
     return tagHtml;
   }
 
-  changeVerseListTagInfo(tag_id, tag_title, action) {
+  async changeVerseListTagInfo(tag_id, tag_title, action, highlight=false) {
     if (this.verseBoxElement == null) {
       return;
     }
@@ -246,6 +260,11 @@ class VerseBox {
     if (updated) {
       this.updateTagDataContainer(tag_id, tag_title, action);
       this.updateVisibleTags(new_tag_info_title_array);
+
+      if (highlight) {
+        await waitUntilIdle();
+        await this.highlightTag(tag_id);
+      }
     }
   }
 

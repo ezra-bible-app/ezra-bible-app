@@ -82,15 +82,23 @@ class TagsController {
     this.subscribeEvents();
   }
 
+  async handleTagPanelSwitched(isOpen) {
+    if (isOpen) {
+      await this.updateTagsView(undefined, !this.initialRenderingDone);
+    } else if (platformHelper.isCordova() || platformHelper.isMobile()) {
+      // Reset tag list on mobile when switching off the tag panel
+      this.initialRenderingDone = false;
+      document.getElementById('tags-content-global').innerHTML = "";
+    }
+  }
+
   subscribeEvents() {
     eventController.subscribe('on-tag-panel-switched', async (isOpen) => {
-      if (isOpen) {
-        await this.updateTagsView(undefined, !this.initialRenderingDone);
-      } else if (platformHelper.isCordova() || platformHelper.isMobile()) {
-        // Reset tag list on mobile when switching off the tag panel
-        this.initialRenderingDone = false;
-        document.getElementById('tags-content-global').innerHTML = "";
-      }
+      await this.handleTagPanelSwitched(isOpen);
+    });
+
+    eventController.subscribePrioritized('on-tag-statistics-panel-switched', async (isOpen) => {
+      await this.handleTagPanelSwitched(isOpen);
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -132,6 +140,10 @@ class TagsController {
       this.refreshTagDialogs();
     });
 
+    eventController.subscribe('on-translation-added', async () => {
+      await this.updateTagUiBasedOnTagAvailability();
+    });
+
     eventController.subscribe('on-translation-removed', async () => {
       await this.updateTagUiBasedOnTagAvailability();
     });
@@ -163,10 +175,12 @@ class TagsController {
       document.getElementById('tags-content-global').style.display = '';
       document.getElementById('tag-list-stats').style.visibility = 'visible';
 
-      this.showTagListLoadingIndicator();
-      await waitUntilIdle();
-      await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
-      this.hideTagListLoadingIndicator();
+      if (this.isTagPanelActive()) {
+        this.showTagListLoadingIndicator();
+        await waitUntilIdle();
+        await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
+        this.hideTagListLoadingIndicator();
+      }
     });
 
     eventController.subscribe('on-db-refresh', async () => {
@@ -174,12 +188,36 @@ class TagsController {
       document.getElementById('tags-content-global').innerHTML = "";
       await this.updateTagsView(currentTabIndex, true);
     });
+
+    eventController.subscribe('on-body-clicked', () => {
+      const tagsSearchInput = document.getElementById('tags-search-input');
+      tagsSearchInput.blur();
+    });
   }
 
   tagPanelIsActive() {
     let tagPanelButton = document.getElementById('tag-panel-button');
     let isActive = tagPanelButton.classList.contains('active');
     return isActive;
+  }
+
+  getCurrentTagGroup() {
+    let currentTagGroup = null;
+
+    if (tags_controller.currentTagGroupId != null) {
+      currentTagGroup = {
+        title: tags_controller.currentTagGroupTitle,
+        id: tags_controller.currentTagGroupId
+      };
+    }
+
+    return currentTagGroup;
+  }
+
+  isTagPanelActive() {
+    const panelButtons = document.getElementById('panel-buttons');
+    let activePanel = panelButtons.activePanel;
+    return activePanel != '' && (activePanel == 'tag-panel' || activePanel == 'tag-statistics-panel');
   }
 
   resetActivePanelToTagPanel(tabIndex) {
@@ -212,11 +250,12 @@ class TagsController {
     this.newTagDialogInitDone = true;
 
     var dialogWidth = 450;
-    var dialogHeight = 400;
+    var dialogHeight = 420;
     var draggable = true;
     var position = [55, 120];
 
     let new_standard_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    new_standard_tag_dlg_options.dialogClass = 'ezra-dialog new-tag-dialog';
     new_standard_tag_dlg_options.title = i18n.t("tags.new-tag");
     new_standard_tag_dlg_options.autoOpen = false;  
     new_standard_tag_dlg_options.buttons = {};
@@ -237,19 +276,33 @@ class TagsController {
       event.preventDefault();
 
       tags_controller.initAddTagsToGroupDialog();
+
+      const addTagsToGroupFilterInput = document.getElementById('add-tags-to-group-filter-input');
+      addTagsToGroupFilterInput.value = '';
+
       const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
-      addTagsToGroupTagList.tagManager.reset();
-      addTagsToGroupTagList.style.display = 'none';
-      await waitUntilIdle();
+      addTagsToGroupTagList.style.removeProperty('display');
+
+      if (platformHelper.isCordova()) {
+        // eslint-disable-next-line no-undef
+        if (Keyboard.isVisible) {
+          // We need to remember the current window height as the keyboard is shown
+          // When closing the current dialog the keyboard will go away and in that moment of "flickering"
+          // it is hard to determine the window height right at the time when the new dialog is opened.
+          let currentWindowHeight = $(window).height();
+
+          // We slightly reduce the height of the add-tags-to-group-dialog - this is based on testing/experience.
+          $('#add-tags-to-group-dialog').dialog("option", "height", currentWindowHeight - 18);
+        }
+      }
 
       $('#new-standard-tag-dialog').dialog("close");
       $('#add-tags-to-group-dialog').dialog("open");
       await waitUntilIdle();
-
-      addTagsToGroupTagList.style.removeProperty('display');
     });
   
     $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
+    uiHelper.fixDialogCloseIconOnAndroid('new-tag-dialog');
 
     // Handle the enter key in the tag title field and create the tag when it is pressed
     $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", async (event) => {
@@ -273,10 +326,13 @@ class TagsController {
 
   async updateAddTagToGroupTagList() {
     const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+    addTagsToGroupTagList.tagManager.reset();
+    addTagsToGroupTagList.tagManager.setFilter('');
     await addTagsToGroupTagList.tagManager.refreshItemList();
     let tagList = await this.tag_store.getTagList();
-    let tagIdList = await this.getTagGroupMemberIds(this.currentTagGroupId, tagList);
-    addTagsToGroupTagList.tagManager.removeItems(tagIdList);
+    let tagIdList = await this.tag_store.getTagGroupMemberIds(this.currentTagGroupId, tagList);
+    addTagsToGroupTagList.tagManager.setExcludeItems(tagIdList);
+    addTagsToGroupTagList.tagManager.excludeItems();
 
     let tagCount = addTagsToGroupTagList.tagManager.getAllItemElements().length;
     return tagCount;
@@ -290,11 +346,12 @@ class TagsController {
     this.addTagsToGroupDialogInitDone = true;
 
     var dialogWidth = 450;
-    var dialogHeight = 500;
+    var dialogHeight = 480;
     var draggable = true;
     var position = [55, 120];
 
     let addTagsToGroupDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    addTagsToGroupDialogOptions.dialogClass = 'ezra-dialog add-tags-to-group-dialog';
     addTagsToGroupDialogOptions.title = i18n.t("tags.add-tags-to-group");
     addTagsToGroupDialogOptions.autoOpen = false;
   
@@ -313,7 +370,14 @@ class TagsController {
       }
     };
 
+    document.getElementById('add-tags-to-group-filter-input').addEventListener('keyup', () => {
+      let currentFilterString = document.getElementById('add-tags-to-group-filter-input').value;
+      const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+      addTagsToGroupTagList.filter = currentFilterString;
+    });
+
     $('#add-tags-to-group-dialog').dialog(addTagsToGroupDialogOptions);
+    uiHelper.fixDialogCloseIconOnAndroid('add-tags-to-group-dialog');
   }
 
   async addTagsToGroup(tagGroupId, tagList) {
@@ -352,7 +416,8 @@ class TagsController {
   }
 
   async updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId) {
-    var tagExisting = await this.tagExists(tagTitle);
+    tagTitle = tagTitle.trim();
+    const tagExisting = await this.tag_store.tagExists(tagTitle);
     let tagButton = document.getElementById(buttonId);
 
     if (tagExisting || tagTitle == "") {
@@ -364,11 +429,6 @@ class TagsController {
     return tagExisting;
   }
 
-  async tagExists(tagTitle) {
-    tagTitle = tagTitle.trim();
-    return await this.tag_store.tagExists(tagTitle);
-  }
-
   initDeleteTagConfirmationDialog(force=false) {
     if (!force && this.deleteTagConfirmationDialogInitDone) {
       return;
@@ -376,12 +436,13 @@ class TagsController {
 
     this.deleteTagConfirmationDialogInitDone = true;
 
-    var dialogWidth = 300;
+    var dialogWidth = 400;
     var dialogHeight = null;
     var draggable = true;
     var position = [55, 120];
 
     let delete_tag_confirmation_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    delete_tag_confirmation_dlg_options.dialogClass = 'ezra-dialog delete-tag-confirmation-dialog';
     delete_tag_confirmation_dlg_options.title = i18n.t("tags.delete-tag");
     delete_tag_confirmation_dlg_options.autoOpen = false;
   
@@ -404,6 +465,7 @@ class TagsController {
     });
 
     $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
+    uiHelper.fixDialogCloseIconOnAndroid('delete-tag-confirmation-dialog');
   }
 
   initRemoveTagAssignmentConfirmationDialog(force=false) {
@@ -414,6 +476,7 @@ class TagsController {
     this.removeTagAssignmentConfirmationDialogInitDone = true;
 
     let remove_tag_assignment_confirmation_dlg_options = uiHelper.getDialogOptions(360, null, true, [55, 120]);
+    remove_tag_assignment_confirmation_dlg_options.dialogClass = 'ezra-dialog remove-tag-assignment-confirmation-dialog';
     remove_tag_assignment_confirmation_dlg_options.autoOpen = false;
     remove_tag_assignment_confirmation_dlg_options.title = i18n.t("tags.remove-tag-assignment");
   
@@ -430,6 +493,8 @@ class TagsController {
     };
 
     $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
+    uiHelper.fixDialogCloseIconOnAndroid('remove-tag-assignment-confirmation-dialog');
+
     // eslint-disable-next-line no-unused-vars
     $('#remove-tag-assignment-confirmation-dialog').bind('dialogbeforeclose', function(event) {
       if (!tags_controller.persistence_ongoing && tags_controller.remove_tag_assignment_job != null) {
@@ -452,6 +517,7 @@ class TagsController {
     var position = [55, 120];
 
     let edit_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    edit_tag_dlg_options.dialogClass = 'ezra-dialog edit-tag-dialog';
     edit_tag_dlg_options.title = i18n.t("tags.edit-tag");
     edit_tag_dlg_options.autoOpen = false;
 
@@ -469,6 +535,7 @@ class TagsController {
     };
 
     $('#edit-tag-dialog').dialog(edit_tag_dlg_options);
+    uiHelper.fixDialogCloseIconOnAndroid('edit-tag-dialog');
   
     // Handle the enter key in the tag title field and rename the tag when it is pressed
     $('#rename-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
@@ -618,6 +685,8 @@ class TagsController {
     }
 
     eventController.publish('on-button-clicked');
+
+    await waitUntilIdle();
     tags_controller.initNewTagDialog();
 
     const tagInput = document.getElementById('new-standard-tag-title-input');
@@ -1087,7 +1156,9 @@ class TagsController {
       let current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
 
       let verseBoxObj = new VerseBox(current_verse_box);
-      verseBoxObj.changeVerseListTagInfo(tag_id, tag_title, action);
+      let highlight = (action == "assign");
+
+      verseBoxObj.changeVerseListTagInfo(tag_id, tag_title, action, highlight);
     }
 
     for (let i = 0; i < selected_verses.length; i++) {
@@ -1131,7 +1202,7 @@ class TagsController {
     if (contentId != this.lastContentId || forceRefresh) {
       var tagList = await this.tag_store.getTagList(forceRefresh);
       if (tagGroupId != null && tagGroupId > 0) {
-        tagList = await this.getTagGroupMembers(tagGroupId, tagList);
+        tagList = await this.tag_store.getTagGroupMembers(tagGroupId, tagList);
       }
 
       var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
@@ -1143,31 +1214,6 @@ class TagsController {
     } else {
       app_controller.tag_statistics.highlightFrequentlyUsedTags();
     }
-  }
-
-  async getTagGroupMembers(tagGroupId, tagList=null) {
-    if (tagList == null) {
-      tagList = await this.tag_store.getTagList();
-    }
-
-    let tagGroupMembers = [];
-
-    for (let i = 0; i < tagList.length; i++) {
-      let currentTag = tagList[i];
-
-      if (currentTag.tagGroupList != null && currentTag.tagGroupList.includes(tagGroupId.toString())) {
-        tagGroupMembers.push(currentTag);
-      }
-    }
-
-    return tagGroupMembers;
-  }
-
-  async getTagGroupMemberIds(tagGroupId, tagList=null) {
-    tagList = await this.getTagGroupMembers(tagGroupId, tagList);
-    var tagIdList = [];
-    tagList.forEach((tag) => { tagIdList.push(tag.id); });
-    return tagIdList;
   }
 
   async renderTags(tag_list, tag_statistics, is_book=false) {

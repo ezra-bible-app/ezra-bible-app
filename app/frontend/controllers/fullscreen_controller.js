@@ -67,13 +67,13 @@ function onFullscreenChanged() {
     fullScreenButton.firstElementChild.classList.add('fa-compress');
     fullScreenButton.firstElementChild.classList.remove('fa-expand');
 
-    document.getElementById('app-container').classList.add('fullscreen');    
+    document.body.classList.add('fullscreen');    
 
   } else {
     fullScreenButton.setAttribute('title', i18n.t('menu.fullscreen'));
     fullScreenButton.firstElementChild.classList.add('fa-expand');
     fullScreenButton.firstElementChild.classList.remove('fa-compress');
 
-    document.getElementById('app-container').classList.remove('fullscreen');
+    document.body.classList.remove('fullscreen');
   }
 }

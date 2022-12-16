@@ -64,6 +64,10 @@ class SwordNotes {
   }
 
   initForContainer(container) {
+    if (container == null) {
+      return;
+    }
+
     var swordNotes = container.querySelectorAll('.sword-note');
     this.initNotes(swordNotes);
   }

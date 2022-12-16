@@ -41,13 +41,14 @@ const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
 const TextSizeSettings = require("../components/text_size_settings.js");
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
-const verseListController = require('../controllers/verse_list_controller.js');
-const referenceVerseController = require('../controllers/reference_verse_controller.js');
+const verseListController = require('./verse_list_controller.js');
+const referenceVerseController = require('./reference_verse_controller.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
-const eventController = require('../controllers/event_controller.js');
-const wheelnavController = require('../controllers/wheelnav_controller.js');
-const fullscreenController = require('../controllers/fullscreen_controller.js');
+const eventController = require('./event_controller.js');
+const wheelnavController = require('./wheelnav_controller.js');
+const fullscreenController = require('./fullscreen_controller.js');
 const cacheController = require('./cache_controller.js');
+const moduleUpdateController = require('./module_update_controller.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -121,6 +122,7 @@ class AppController {
     fullscreenController.init();
     wheelnavController.init();
     verseListController.init();
+    moduleUpdateController.init();
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
@@ -157,6 +159,9 @@ class AppController {
         this.exitLog('Saving tab configuration');
         this.tab_controller.saveTabConfiguration();
       }
+
+      this.exitLog('Saving tag group id');
+      ipcSettings.set('lastUsedTagGroupId', tags_controller.currentTagGroupId);
       
       this.exitLog('Saving last locale');
       cacheController.saveLastLocale();
@@ -239,6 +244,14 @@ class AppController {
       }
 
       await this.tab_controller.loadTabConfiguration();
+
+      if (await ipcSettings.has('lastUsedTagGroupId')) {
+        tags_controller.currentTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
+        const tagGroupList = document.getElementById('tag-panel-tag-group-list');
+        const tagGroup = await tagGroupList._tagGroupManager.getItemById(tags_controller.currentTagGroupId);
+        eventController.publishAsync('on-tag-group-selected', tagGroup);
+      }
+
       await this.translation_controller.loadSettings();
     } catch (e) {
       console.trace("Failed to load settings ... got exception.", e);
@@ -283,8 +296,7 @@ class AppController {
     }
 
     Mousetrap.bind(shortCut, async () => {
-      var selectedVerseText = await this.verse_selection.getSelectedVerseText();
-      getPlatform().copyTextToClipboard(selectedVerseText);
+      await this.verse_selection.copySelectedVerseTextToClipboard();
       return false;
     });
 
@@ -389,7 +401,7 @@ class AppController {
     currentTab.setTagIdList(tagIdList);
     var localizedVerseReference = null;
 
-    if (referenceVerseBox != null) {
+    if (referenceVerseBox != null && referenceVerseBox.length != 0) {
       localizedVerseReference = await this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
       var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
       currentTab.setReferenceVerseElementId(verseReferenceId);
@@ -443,7 +455,9 @@ class AppController {
     var currentTabId = this.tab_controller.getSelectedTabId();
     var currentVerseList = verseListController.getCurrentVerseList();
 
-    currentTab.tab_search.setVerseList(currentVerseList);
+    if (currentTab.tab_search != null) {
+      currentTab.tab_search.setVerseList(currentVerseList);
+    }
 
     if (currentTagIdList != "") {
       // Only reset the view if the current text type has changed
@@ -462,7 +476,7 @@ class AppController {
       );
 
       await waitUntilIdle();
-      tags_controller.updateTagList(null, currentTab.getContentId());
+      tags_controller.updateTagList(null, tags_controller.currentTagGroupId, currentTab.getContentId());
     }
   }
 

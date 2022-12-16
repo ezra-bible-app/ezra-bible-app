@@ -82,7 +82,14 @@ class UpdateRepositories extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
     uiHelper.configureButtonStyles(this);
 
-    this.querySelector('.update-repo-data').addEventListener('click', async () => await assistantController.updateRepositories());
+    this.querySelector('.update-repo-data').addEventListener('click', async (event) => {
+      if (event.target.classList.contains('ui-state-disabled')) {
+        return;
+      }
+
+      await assistantController.updateRepositories();
+    });
+
     eventController.subscribe('on-repo-update-started', () => this.prepareProgressBar());
     eventController.subscribe('on-repo-update-progress', progress => this.handleUpdateProgress(progress));
     eventController.subscribe('on-repo-update-completed', status => this.updateDateInfo(status));

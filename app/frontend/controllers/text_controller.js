@@ -750,10 +750,10 @@ class TextController {
     target.html(htmlVerseList);
 
     if (referenceVerseHtml != null) {
-      var verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
-      var referenceVerseContainer = verseListFrame.find('.reference-verse');
+      let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
+      let referenceVerseContainer = verseListFrame.find('.reference-verse');
       referenceVerseContainer.html(referenceVerseHtml);
-      var referenceVerseBox = referenceVerseContainer.find('.verse-box');
+      let referenceVerseBox = referenceVerseContainer.find('.verse-box');
       referenceVerseController.renderReferenceVerse(referenceVerseBox, tabIndex);
       referenceVerseContainer.show();
     }
@@ -779,8 +779,25 @@ class TextController {
 
     if (renderChart && (listType == 'search_results' || listType == 'tagged_verses')) {
       await app_controller.verse_statistics_chart.repaintChart(tabIndex);
+
+      if (listType == 'tagged_verses') {
+        let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
+        let verseList = verseListController.getCurrentVerseList(tabIndex)[0];
+        let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
+        tagDistributionMatrix.input = verseList;
+
+        let tagDistributionMatrixWrapper = verseListFrame.find('.tag-distribution-matrix-wrapper')[0];
+        tagDistributionMatrixWrapper.style.removeProperty('display');
+      }
+
     } else {
       await app_controller.verse_statistics_chart.resetChart(tabIndex);
+      let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
+      let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
+      tagDistributionMatrix.input = '';
+
+      let tagDistributionMatrixWrapper = verseListFrame.find('.tag-distribution-matrix-wrapper')[0];
+      tagDistributionMatrixWrapper.style.display = 'none';
     }
 
     if (isCache || listType == 'book' && !append) {

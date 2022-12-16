@@ -90,6 +90,24 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getUpdatedModules() {
+    let allLocalBibleModules = await ipcNsi.getAllLocalModules('BIBLE');
+    let allLocalDictModules = await ipcNsi.getAllLocalModules('DICT');
+    let allLocalModules = [...allLocalBibleModules, ...allLocalDictModules];
+    let updatedModules = [];
+
+    for (let i = 0; i < allLocalModules.length; i++) {
+      let module = allLocalModules[i];
+      let remoteModule = await ipcNsi.getRepoModule(module.name);
+
+      if (remoteModule.version !== undefined && module.version != remoteModule.version) {
+        updatedModules.push(remoteModule);
+      }
+    }
+
+    return updatedModules;
+  }
+
   async getAllLocalModules(moduleType='BIBLE') {
     var returnValue = this._ipcRenderer.call('nsi_getAllLocalModules', moduleType);
     return returnValue;

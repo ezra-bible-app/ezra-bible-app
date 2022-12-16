@@ -1,4 +1,4 @@
-const { notarize } = require('electron-notarize');
+const { notarize } = require('@electron/notarize');
 
 async function notarizeApp(appOutDir, appName, appBundleId) {
   var notarized = false;
@@ -17,17 +17,17 @@ async function notarizeApp(appOutDir, appName, appBundleId) {
   }
   
   return notarized;
-};
+}
 
 async function notarizeEzra() {
-    var notarized = false;
-    notarized = await notarizeApp("release/Ezra Bible App-darwin-x64", "Ezra Bible App", "net.ezrabibleapp.electron");
+  var notarized = false;
+  notarized = await notarizeApp("release/Ezra Bible App-darwin-x64", "Ezra Bible App", "net.ezrabibleapp.electron");
     
-    if (notarized) {
-        return process.exit(0);
-    } else {
-        return process.exit(1);
-    }
+  if (notarized) {
+    return process.exit(0);
+  } else {
+    return process.exit(1);
+  }
 }
 
 notarizeEzra();

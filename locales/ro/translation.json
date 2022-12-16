@@ -134,6 +134,8 @@
     "config-file-path": "cale Configurare",
     "module-name": "Nume",
     "module-version": "Versiune",
+    "module-current-version": "Versiune actuală",
+    "module-new-version": "Versiune nouă",
     "module-language": "Limbă",
     "module-license": "Licență",
     "module-strongs": "Concordanță (Strong's)",
@@ -149,6 +151,7 @@
     "module-redletter": "Cuvinte roșii",
     "module-size": "Dimensiune",
     "module-location": "Locație",
+    "update-modules": "Actualizează module",
     "yes": "Da",
     "no": "Nu",
     "ok": "Ok",
@@ -162,6 +165,7 @@
     "cancel": "Anulare",
     "rename": "Redenumește",
     "loading": "Se încarcă",
+    "update": "Actualizează",
     "new-release-available-title": "Versiune nouă disponibilă!",
     "new-release-available-body": "O versiune nouă pentru Ezra Bible App este disponibilă!",
     "latest-version": "Versiune recentă",
@@ -188,7 +192,9 @@
     "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
     "installed": "Instalat",
     "not-installed": "Nu este instalat",
-    "and-more": "și mai multe"
+    "and-more": "și mai multe",
+    "module-updates-available": "Există actualizări disponibile pentru modulele listate mai jos.",
+    "modules-up-to-date": "Toate modulele instalate sunt actualizate la zi!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, creează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă click sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",
@@ -306,6 +312,8 @@
     "show-section-titles": "Afișează titlurile secțiunii",
     "show-xrefs": "Afișează referințe încrucișate",
     "show-footnotes": "Afișează note de subsol",
+    "show-paragraphs": "Afișează paragrafe",
+    "red-letters": "Evidențiază cuvintele lui Isus cu roșu.",
     "show-dictionary": "Afișează dicționar",
     "show-book-chapter-navigation": "Afișează navigare carte/capitol",
     "show-header-navigation": "Afișează navigare antet",
@@ -331,6 +339,8 @@
     "open-chapters-large-books": "Deschide cărțile mari per capitol",
     "open-chapters-all-books": "Deschide toate cărțile per capitol",
     "copy": "Copiază",
+    "copy-table-to-clipboard": "Copiază tabelul în clipboard",
+    "copy-table-to-clipboard-success": "Tabelul copiat în clipboard!",
     "edit-note": "Editează nota",
     "delete-note": "Șterge nota"
   },
@@ -354,7 +364,7 @@
   "compare-panel": {
     "default-header": "<b>Compară traducerile</b>",
     "show-parallel-translations": "Compară traducerile",
-    "help-instruction": "Pentru a compara traducerile, selectează un verset sau un grup de versete.<br><br> Această zonă va lista automat versetele selectate din toate traducerile disponibile.",
+    "help-instruction": "Pentru a compara traducerile, selectează un verset sau un grup de versete.<br><br> Această zonă va lista automat versetele selectate din toate traducerile disponibile.<br><br> Pentru ca această funcționalitate să funcționeze, trebuie să ai cel puțin două traduceri instalate.",
     "compare": "Compară"
   },
   "emoji": {

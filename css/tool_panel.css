@@ -51,7 +51,7 @@
     padding: 0.5em 0 0 0.2em;
   }
 
-  #app-container.fullscreen #tool-panel {
+  .fullscreen #app-container #tool-panel {
     height: 18em !important;
   }
 
@@ -60,7 +60,7 @@
       height: 18em !important;
     }
 
-    #app-container.fullscreen #tool-panel {
+    .fullscreen #app-container #tool-panel {
       height: 24.5em !important;
     }
   }
@@ -70,7 +70,7 @@
       height: 24.5em !important;
     }
 
-    #app-container.fullscreen #tool-panel {
+    .fullscreen #app-container #tool-panel {
       height: 28em !important;
     }
   }
@@ -80,7 +80,7 @@
       height: 28em !important;
     }
 
-    #app-container.fullscreen #tool-panel {
+    .fullscreen #app-container #tool-panel {
       height: 33em !important;
     }
   }
@@ -302,8 +302,8 @@ tr.td-underline td {
 
 #tags-search-input {
   margin: 0;
+  margin-right: -1em;
   float: right;
-  width: 9em;
 }
 
 #tag-filter-menu {
@@ -414,13 +414,13 @@ input.tag-cb {
   margin-right: 0.5em;
   font-size: 0.7em;
   cursor: pointer;
-  color: #777;
+  color: var(--button-color);
   border: 1px solid #8e8e8e;
   border-radius: calc(var(--border-radius) - 2px);
   background-color: var(--background-color);
 }
 .darkmode--activated .button-small {
-  color: #aaa;
+  color: var(--button-color-dark);
 }
 .button-small.active, 
 .button-small.button-small:hover:not(.disabled):not(.no-hl) {
@@ -467,6 +467,13 @@ input.tag-cb {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
+.Android .ezra-dialog {
+  border-top: unset !important;
+  border-left: unset !important;
+  border-right: unset !important;
+  border-radius: unset !important;
+}
+
 #new-standard-tag-title-input,
 #rename-tag-title-input {
   width: 26em;
@@ -488,6 +495,21 @@ table.tag-statistics tr:nth-child(even) {
 
 table.tag-statistics td, table.tag-statistics th {
   padding: 0.5em;
+}
+
+table.tag-statistics a:link,
+table.tag-statistics a:visited {
+  text-decoration: none;
+  color: var(--accent-color);
+}
+
+.darkmode--activated table.tag-statistics a:link,
+.darkmode--activated table.tag-statistics a:visited {
+  color: var(--accent-color-darkmode);
+}
+
+table.tag-statistics a:hover {
+  text-decoration: underline;
 }
 
 .dict-installed, .dict-not-installed {

@@ -71,8 +71,10 @@ class InfoPopup {
 
     $('#info-popup').dialog({
       autoOpen: false,
-      dialogClass: 'ezra-dialog'
+      dialogClass: 'ezra-dialog app-info-popup'
     });
+
+    uiHelper.fixDialogCloseIconOnAndroid('app-info-popup');
   }
 
   getFormattedTimestamp(timestamp) {
@@ -110,8 +112,12 @@ class InfoPopup {
 
     let lastDropboxSyncTime = '--';
     if (await ipcSettings.has('lastDropboxSyncTime')) {
-      lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
-      lastDropboxSyncTime = this.getFormattedTimestamp(lastDropboxSyncTime);
+      let rawTime = await ipcSettings.get('lastDropboxSyncTime');
+
+      if (rawTime != null && rawTime != "") {
+        lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
+        lastDropboxSyncTime = this.getFormattedTimestamp(lastDropboxSyncTime);
+      }
     }
 
     let lastDropboxDownloadTime = '--';

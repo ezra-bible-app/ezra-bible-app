@@ -73,8 +73,8 @@ const template = html`
   color: var(--accent-color);
 }
 
-.darkmode--activated #tag-list-menu a:link,
-.darkmode--activated #tag-list-menu a:visited {
+#tag-list-menu.darkmode--activated a:link,
+#tag-list-menu.darkmode--activated a:visited {
   color: var(--accent-color-darkmode);
 }
 
@@ -205,9 +205,9 @@ class TagListMenu extends HTMLElement {
 
     eventController.subscribe('on-theme-changed', (theme) => {
       if (theme == 'dark') {
-        this.switchToDarkTheme();
+        this.uiHelper.switchToDarkTheme(this.shadowRoot, 'tag-list-menu');
       } else {
-        this.switchToRegularTheme();
+        this.uiHelper.switchToRegularTheme(this.shadowRoot, 'tag-list-menu');
       }
     });
 
@@ -265,7 +265,7 @@ class TagListMenu extends HTMLElement {
 
       let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
       dialogOptions.title = i18n.t('tags.add-tag-group');
-      dialogOptions.dialogClass = 'ezra-dialog';
+      dialogOptions.dialogClass = 'ezra-dialog add-tag-group-dialog';
       dialogOptions.close = () => {
         $dialogBox.dialog('destroy');
         $dialogBox.remove();
@@ -301,6 +301,7 @@ class TagListMenu extends HTMLElement {
       });
 
       $dialogBox.dialog(dialogOptions);
+      uiHelper.fixDialogCloseIconOnAndroid('add-tag-group-dialog');
 
       tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
 
@@ -318,8 +319,6 @@ class TagListMenu extends HTMLElement {
       if (this._addElementButtons) {
         this.showAddTagButton();
       }
-    } else {
-      console.warn("TagGroupSelection.selectTagGroup / Received null");
     }
   }
 
@@ -367,24 +366,6 @@ class TagListMenu extends HTMLElement {
 
   getAddTagGroupButton() {
     return this.shadowRoot.getElementById('add-tag-group-button');
-  }
-
-  switchToDarkTheme() {
-    this.switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
-    this.shadowRoot.getElementById('tag-list-menu').classList.add('darkmode--activated');
-  }
-  
-  switchToRegularTheme() {
-    this.switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
-    this.shadowRoot.getElementById('tag-list-menu').classList.remove('darkmode--activated');
-  }
-  
-  switchToTheme(theme) {
-    var currentTheme = this.shadowRoot.getElementById("theme-css").href;
-  
-    if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
-      this.shadowRoot.getElementById("theme-css").href = theme;
-    }
   }
 }
 

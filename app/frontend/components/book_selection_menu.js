@@ -184,7 +184,7 @@ class BookSelectionMenu {
 
     Sentry.addBreadcrumb({category: "app",
                           message: `Selected book ${bookCode} using translation ${this.currentBibleTranslationId}`,
-                          level: Sentry.Severity.Info});
+                          level: "info"});
     
     var books = await ipcNsi.getBookList(this.currentBibleTranslationId);
     if (!books.includes(bookCode)) {
