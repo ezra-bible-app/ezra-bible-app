@@ -134,8 +134,8 @@
     "config-file-path": "Ruta al directorio de configuración",
     "module-name": "Nombre",
     "module-version": "Versión",
-    "module-current-version": "Current version",
-    "module-new-version": "New version",
+    "module-current-version": "Versión actual",
+    "module-new-version": "Nueva versión",
     "module-language": "Idioma",
     "module-license": "Licencia",
     "module-strongs": "Strongs",
@@ -151,7 +151,7 @@
     "module-redletter": "Palabras con letras de color rojo",
     "module-size": "Tamaño",
     "module-location": "Localización",
-    "update-modules": "Update modules",
+    "update-modules": "Actualizar los módulos",
     "yes": "Si",
     "no": "No",
     "ok": "Aceptar",
@@ -165,7 +165,7 @@
     "cancel": "Cancelar",
     "rename": "Renombrar",
     "loading": "Cargando",
-    "update": "Update",
+    "update": "Actualizar",
     "new-release-available-title": "Nueva versión disponible!",
     "new-release-available-body": "Una nueva versión de Ezra Bible App está disponible!",
     "latest-version": "Última versión",
@@ -193,8 +193,8 @@
     "installed": "Instalado",
     "not-installed": "No instalado",
     "and-more": "y otras",
-    "module-updates-available": "There are updates available for the modules listed below.",
-    "modules-up-to-date": "All installed modules are up to date!"
+    "module-updates-available": "Hay actualizaciones disponibles para los módulos listados debajo.",
+    "modules-up-to-date": "Todos los módulos instalados están en la última versión!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar a trabajar con las etiquetas, debe crear la primera pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y agreguelos a la etiqueta que acaba de crear.",
@@ -312,8 +312,8 @@
     "show-section-titles": "Mostrar título de secciones",
     "show-xrefs": "Mostrar referencias cruzadas",
     "show-footnotes": "Mostrar notas al pie",
-    "show-paragraphs": "Show paragraphs",
-    "red-letters": "Highlight Jesus' words in red",
+    "show-paragraphs": "Mostrar párrafos",
+    "red-letters": "Remarcar las palabras de Jesús en rojo",
     "show-dictionary": "Mostrar diccionario",
     "show-book-chapter-navigation": "Mostrar la navegación por Libro/Capítulo",
     "show-header-navigation": "Mostrar navegación por encabezado",
@@ -339,8 +339,8 @@
     "open-chapters-large-books": "Abrir libros largos capítulo a capítulo",
     "open-chapters-all-books": "Abrir todos los libros capítulo a capítulo",
     "copy": "Copiar",
-    "copy-table-to-clipboard": "Copy table to clipboard",
-    "copy-table-to-clipboard-success": "Table copied to clipboard!",
+    "copy-table-to-clipboard": "Copiar la tabla al portapapeles",
+    "copy-table-to-clipboard-success": "Tabla copiada al portapapeles!",
     "edit-note": "Editar nota",
     "delete-note": "Eliminar nota"
   },
@@ -364,7 +364,7 @@
   "compare-panel": {
     "default-header": "<b>Comparar traducciones</b>",
     "show-parallel-translations": "Comparar traducciones",
-    "help-instruction": "Para comparar traducciones, usted debe seleccionar un versículo o un grupo de versículos.<br><br> La traducción en las diferentes versiones disponibles aparecerá aquí automáticamente.<br><br> You need to have at least two translations installed for this functionality to work.",
+    "help-instruction": "Para comparar traducciones, usted debe seleccionar un versículo o un grupo de versículos.<br><br> La traducción en las diferentes versiones disponibles aparecerá aquí automáticamente.<br><br> Usted debe tener al menos dos traducciones instaladas para hacer uso de esta funcionalidad.",
     "compare": "Comparar"
   },
   "emoji": {
