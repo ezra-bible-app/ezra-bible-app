@@ -135,11 +135,11 @@ Tool panel in portrait mode will be displayed on the bottom of the screen.
 
 <div class="mermaid">
 erDiagram
-    BibleBook                 ||--|{    VerseReference      : has
+    BibleBook                 ||--o{    VerseReference      : has
     Note                      o|--||    VerseReference      : has
     VerseReference            ||--|{    VerseTag            : has
-    Tag                       ||--|{    VerseTag            : has
-    Tag                       }|--|{    TagGroup            : has
+    Tag                       ||--o{    VerseTag            : has
+    Tag                       }o--o{    TagGroup            : has
 </div>
 
 <script src="https://unpkg.com/mermaid@8.8.3/dist/mermaid.min.js"></script>
