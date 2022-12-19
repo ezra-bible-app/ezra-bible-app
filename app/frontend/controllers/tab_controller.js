@@ -727,11 +727,16 @@ class TabController {
 
   setTabSearch(searchTerm, index = undefined) {
     this.getTab(index).setSearchTerm(searchTerm);
-    var currentTranslationId = this.getTab(index).getBibleTranslationId();
+    
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
 
-    if (searchTerm != undefined && searchTerm != null) {
-      var searchTabTitle = this.getSearchTabTitle(searchTerm);
-      this.setTabTitle(searchTabTitle, currentTranslationId, index);
+    if (!showSearchResultsInPopup) {
+      var currentTranslationId = this.getTab(index).getBibleTranslationId();
+
+      if (searchTerm != undefined && searchTerm != null) {
+        var searchTabTitle = this.getSearchTabTitle(searchTerm);
+        this.setTabTitle(searchTabTitle, currentTranslationId, index);
+      }
     }
   }
 

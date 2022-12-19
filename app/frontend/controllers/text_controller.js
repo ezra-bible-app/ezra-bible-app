@@ -161,6 +161,11 @@ class TextController {
                           target=undefined) {
 
     var textType = app_controller.tab_controller.getTab(tabIndex).getTextType();
+
+    if (searchResults != null) {
+      textType = 'search_results';
+    }
+
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var buttons = currentVerseListMenu.find('.fg-button');
     buttons.removeClass('focused-button');

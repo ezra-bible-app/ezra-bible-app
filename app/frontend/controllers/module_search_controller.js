@@ -358,11 +358,16 @@ class ModuleSearchController {
 
     this.disableOtherFunctionsDuringSearch();
 
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+
     if (tabIndex === undefined) {
       var tab = app_controller.tab_controller.getTab();
       tab.setSearchOptions(this.getSearchType(), this.getSearchScope(), this.isCaseSensitive(), this.useExtendedVerseBoundaries());
-      tab.setTextType('search_results');
-      tab.setSearchCancelled(false);
+      
+      if (!showSearchResultsInPopup) {
+        tab.setTextType('search_results');
+        tab.setSearchCancelled(false);
+      }
     }
 
     await eventController.publishAsync('on-module-search-started', tabIndex);
@@ -379,8 +384,8 @@ class ModuleSearchController {
         searchScope = "BIBLE";
       }
 
-      var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
-      var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
+      const isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
+      const useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
 
       if (searchType == "strongsNumber" && event != null) {
         if (!app_controller.dictionary_controller.isValidStrongsKey(this.currentSearchTerm)) {
@@ -391,16 +396,32 @@ class ModuleSearchController {
       }
 
       app_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
-      // Set book, tagIdList and xrefs to null, since we just switched to search content
-      currentTab.setBook(null, null, null);
-      currentTab.setTagIdList("");
-      currentTab.setXrefs(null);
-      currentTab.setReferenceVerseElementId(null);
-      app_controller.tag_selection_menu.resetTagMenu();
+
+      if (!showSearchResultsInPopup) {
+        // Set book, tagIdList and xrefs to null, since we just switched to search content
+        currentTab.setBook(null, null, null);
+        currentTab.setTagIdList("");
+        currentTab.setXrefs(null);
+        currentTab.setReferenceVerseElementId(null);
+        app_controller.tag_selection_menu.resetTagMenu();
+      }
 
       this.hideSearchMenu();
 
       var searchProgressBar = verseListController.getCurrentSearchProgressBar();
+
+      if (showSearchResultsInPopup) {
+        const dialogWidth = uiHelper.getMaxDialogWidth();
+        const dialogHeight = 550;
+        const draggable = true;
+        const position = [55, 120];
+    
+        let dialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+        dialogOptions.title = `${i18n.t("bible-browser.search-result-header")} <i>${this.currentSearchTerm}</i>`;
+        
+        const $dialogBox = $('#search-results-box');
+        $dialogBox.dialog(dialogOptions);
+      }
 
       if (tabIndex == undefined || tabIndex == app_controller.tab_controller.getSelectedTabIndex()) {
         var cancelSearchButtonContainer = verseListController.getCurrentSearchCancelButtonContainer(tabIndex);
@@ -412,8 +433,12 @@ class ModuleSearchController {
         cancelSearchButtonContainer.show();
       }
 
-      // Only reset view if we got an event (in other words: not initially)
-      await app_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
+      if (showSearchResultsInPopup) {
+        $('#search-results-box-content')[0].innerHTML = '';
+      } else {
+        // Only reset view if we got an event (in other words: not initially)
+        await app_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
+      }
 
       try {
         Sentry.addBreadcrumb({category: "app",
@@ -443,8 +468,13 @@ class ModuleSearchController {
         if (this.searchResultsExceedPerformanceLimit(this.currentSearchTabIndex)) {
           searchResultBookId = 0; // no books requested - only list headers at first
         }
+
+        let target=undefined;
+        if (showSearchResultsInPopup) {
+          target = $('#search-results-box-content');
+        }
   
-        await this.renderCurrentSearchResults(searchResultBookId, this.currentSearchTabIndex);
+        await this.renderCurrentSearchResults(searchResultBookId, this.currentSearchTabIndex, target);
       } catch (error) {
         console.log(error);
         verseListController.hideVerseListLoadingIndicator();
@@ -472,10 +502,13 @@ class ModuleSearchController {
 
   async renderCurrentSearchResults(searchResultBookId=-1, tabIndex=undefined, target=undefined, cachedText=null) {
     //console.log("Rendering search results on tab " + tabIndex);
-    var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    var currentTabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
-    var currentSearchTerm = currentTab.getSearchTerm();
-    var currentSearchResults = currentTab.getSearchResults();
+
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const currentTabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
+    const currentSearchTerm = currentTab.getSearchTerm();
+    const currentSearchResults = currentTab.getSearchResults();
 
     if (currentSearchResults != null && currentSearchResults.length > 0) {
       await app_controller.text_controller.requestTextUpdate(currentTabId,
@@ -521,9 +554,11 @@ class ModuleSearchController {
 
     var moduleSearchHeader = this.getModuleSearchHeader(tabIndex);
 
-    moduleSearchHeader.html(header);
+    if (!showSearchResultsInPopup) {
+      moduleSearchHeader.html(header);
+    }
 
-    if (currentSearchResults != null && currentSearchResults.length > 0) {
+    if (!showSearchResultsInPopup && currentSearchResults != null && currentSearchResults.length > 0) {
       var selectAllSearchResultsButton = document.createElement('button');
       selectAllSearchResultsButton.setAttribute('style', 'margin: 0.5em;');
       selectAllSearchResultsButton.classList.add('select-all-search-results-button');
@@ -542,7 +577,9 @@ class ModuleSearchController {
       uiHelper.configureButtonStyles('.verse-list-header');
     }
 
-    moduleSearchHeader.show();
+    if (!showSearchResultsInPopup) {
+      moduleSearchHeader.show();
+    }
 
     this.enableOtherFunctionsAfterSearch();
   }
