@@ -785,7 +785,9 @@ main.content {
 
 #display-options-menu {
   padding-top: 0.5em;
-  width: 40em;
+  width: 41em;
+  max-height: 38em;
+  overflow-y: scroll;
 }
 
 .options-group {
