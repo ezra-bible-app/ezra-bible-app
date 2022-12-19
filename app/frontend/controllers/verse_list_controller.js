@@ -81,14 +81,30 @@ module.exports.getCurrentVerseListHeader = function(tabIndex=undefined) {
 };
 
 module.exports.getCurrentSearchProgressBar = function(tabIndex=undefined) {
-  var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-  var searchProgressBar = currentVerseListFrame.find('.search-progress-bar');
+  const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+  var parentElement = null;
+  
+  if (showSearchResultsInPopup) {
+    parentElement = $('#search-results-box');
+  } else {
+    parentElement = this.getCurrentVerseListFrame(tabIndex);
+  }
+
+  var searchProgressBar = parentElement.find('.search-progress-bar');
   return searchProgressBar;
 };
 
 module.exports.getCurrentSearchCancelButtonContainer = function(tabIndex=undefined) {
-  var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-  var searchCancelButton = currentVerseListFrame.find('.cancel-module-search-button-container');
+  const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+  var parentElement = null;
+
+  if (showSearchResultsInPopup) {
+    parentElement = $('#search-results-box');
+  } else {
+    parentElement = this.getCurrentVerseListFrame(tabIndex);
+  }
+
+  var searchCancelButton = parentElement.find('.cancel-module-search-button-container');
   return searchCancelButton;
 };
 
