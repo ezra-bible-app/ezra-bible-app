@@ -411,6 +411,8 @@ class ModuleSearchController {
       var searchProgressBar = verseListController.getCurrentSearchProgressBar();
 
       if (showSearchResultsInPopup) {
+        await waitUntilIdle();
+
         const dialogWidth = uiHelper.getMaxDialogWidth();
         const dialogHeight = 550;
         const draggable = true;
