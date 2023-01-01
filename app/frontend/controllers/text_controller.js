@@ -821,7 +821,15 @@ class TextController {
       }
 
       await waitUntilIdle();
-      await eventController.publishAsync('on-bible-text-loaded', tabIndex);
+
+      const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+
+      if (listType != 'search_results' ||
+          listType == 'search_results' && !showSearchResultsInPopup) {
+
+        await eventController.publishAsync('on-bible-text-loaded', tabIndex);
+      }
+
       uiHelper.hideTextLoadingIndicator();
     }
   }
