@@ -681,6 +681,11 @@ a.chapter-nav:hover {
   text-align: center;
 }
 
+#search-results-box .tag-info,
+#search-results-box .notes-info {
+  display: none;
+}
+
 .darkmode--activated .tag-info,
 .darkmode--activated .notes-info {
   color: #3a3a3a;
