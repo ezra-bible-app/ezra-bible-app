@@ -302,8 +302,18 @@ class ModuleSearchController {
   }
 
   getModuleSearchHeader(tabIndex=undefined) {
-    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
-    return currentVerseListFrame.find('.verse-list-header');
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+    let verseListHeader = null;
+
+    if (showSearchResultsInPopup) {
+      const $dialogBox = $('#search-results-box');
+      verseListHeader = $dialogBox.find('.verse-list-header');
+    } else {
+      const currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
+      verseListHeader = currentVerseListFrame.find('.verse-list-header');
+    }
+
+    return verseListHeader;
   }
 
   searchResultsExceedPerformanceLimit(index=undefined) {
@@ -548,17 +558,16 @@ class ModuleSearchController {
       }
     }
 
-    var header = "<h2>" + moduleSearchHeaderText + "</h2>";
+    var header = "";
+
+    header += "<h2>" + moduleSearchHeaderText + "</h2>";
 
     if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
       header += `<div style="margin-left: 0.6em; margin-top: 1em;" i18n="bible-browser.search-performance-hint">${i18n.t("bible-browser.search-performance-hint")}</div>`;
     }
 
     var moduleSearchHeader = this.getModuleSearchHeader(tabIndex);
-
-    if (!showSearchResultsInPopup) {
-      moduleSearchHeader.html(header);
-    }
+    moduleSearchHeader.html(header);
 
     if (!showSearchResultsInPopup && currentSearchResults != null && currentSearchResults.length > 0) {
       var selectAllSearchResultsButton = document.createElement('button');
@@ -579,9 +588,7 @@ class ModuleSearchController {
       uiHelper.configureButtonStyles('.verse-list-header');
     }
 
-    if (!showSearchResultsInPopup) {
-      moduleSearchHeader.show();
-    }
+    moduleSearchHeader.show();
 
     this.enableOtherFunctionsAfterSearch();
   }
