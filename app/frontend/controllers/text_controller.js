@@ -700,7 +700,11 @@ class TextController {
     }
 
     if (!initialRendering) {
-      app_controller.tab_controller.getTab().setTextType(listType);
+      const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+
+      if (listType != 'search_results' || listType == 'search_results' && !showSearchResultsInPopup) {
+        app_controller.tab_controller.getTab().setTextType(listType);
+      }
     }
 
     if (target === undefined) {
@@ -783,7 +787,7 @@ class TextController {
     }
 
     if (renderChart && (listType == 'search_results' || listType == 'tagged_verses')) {
-      await app_controller.verse_statistics_chart.repaintChart(tabIndex);
+      await app_controller.verse_statistics_chart.repaintChart(tabIndex, listType);
 
       if (listType == 'tagged_verses') {
         let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
@@ -796,7 +800,10 @@ class TextController {
       }
 
     } else {
-      await app_controller.verse_statistics_chart.resetChart(tabIndex);
+      if (listType != 'search_results' && listType != 'tagged_verses') {
+        await app_controller.verse_statistics_chart.resetChart(tabIndex);
+      }
+
       let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
       let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
       tagDistributionMatrix.input = '';
