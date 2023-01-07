@@ -372,7 +372,11 @@ class ModuleSearchController {
 
     if (tabIndex === undefined) {
       var tab = app_controller.tab_controller.getTab();
-      tab.setSearchOptions(this.getSearchType(), this.getSearchScope(), this.isCaseSensitive(), this.useExtendedVerseBoundaries());
+
+      tab.setSearchOptions(this.getSearchType(),
+                           this.getSearchScope(),
+                           this.isCaseSensitive(),
+                           this.useExtendedVerseBoundaries());
       
       if (!showSearchResultsInPopup) {
         tab.setTextType('search_results');
@@ -422,6 +426,8 @@ class ModuleSearchController {
 
       if (showSearchResultsInPopup) {
         await waitUntilIdle();
+
+        this.clearModuleSearchHeader(tabIndex);
 
         const dialogWidth = uiHelper.getMaxDialogWidth();
         const dialogHeight = 550;
