@@ -20,6 +20,8 @@ jobs:
           shell: pwsh
         - name: Build
           uses: nick-fields/retry@v2
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             timeout_minutes: 10
             max_attempts: 3
