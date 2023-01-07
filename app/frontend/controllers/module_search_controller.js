@@ -624,9 +624,18 @@ class ModuleSearchController {
   }
 
   loadBookResults(bookId) {
-    var currentTabId = app_controller.tab_controller.getSelectedTabId();
-    
-    var bookSection = $('#' + currentTabId).find('#' + currentTabId + '-book-section-' + bookId);
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+    const currentTabId = app_controller.tab_controller.getSelectedTabId();
+    let parentElement = null;
+
+    if (showSearchResultsInPopup) {
+      parentElement = $('#search-results-box');
+    } else {
+      parentElement = $('#' + currentTabId);
+    }
+
+    const bookSection = parentElement.find('#' + currentTabId + '-book-section-' + bookId);
+
     this.renderCurrentSearchResults(bookId, undefined, bookSection);
   }
 }
