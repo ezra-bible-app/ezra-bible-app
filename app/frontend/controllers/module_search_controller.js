@@ -505,7 +505,16 @@ class ModuleSearchController {
   }
 
   highlightSearchResults(searchTerm, tabIndex=undefined) {
-    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+    var currentVerseList = null;
+
+    if (showSearchResultsInPopup) {
+      const $dialogBox = $('#search-results-box');
+      currentVerseList = $dialogBox.find('#search-results-box-content');
+    } else {
+      currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+    }
+
     var verses = currentVerseList[0].querySelectorAll('.verse-text');
 
     var searchType = this.getSearchType();
