@@ -604,8 +604,14 @@ class ModuleSearchController {
     if (currentSearchResults != null && currentSearchResults.length > 0) {
       moduleSearchHeaderText = `<span i18n="bible-browser.search-result-header">${i18n.t("bible-browser.search-result-header")}</span> <i>${currentSearchTerm}</i> (${currentSearchResults.length})`;
     } else {
-      var tab = app_controller.tab_controller.getTab(tabIndex);
-      var searchCancelled = tab != null ? tab.isSearchCancelled() : this.currentSearchCancelled;
+      var searchCancelled = false;
+
+      if (showSearchResultsInPopup) {
+        searchCancelled = this.currentSearchCancelled;
+      } else {
+        const tab = app_controller.tab_controller.getTab(tabIndex);
+        searchCancelled = tab != null ? tab.isSearchCancelled() : false;
+      }
 
       if (searchCancelled) {
         moduleSearchHeaderText = `<span i18n="bible-browser.module-search-cancelled">${i18n.t("bible-browser.module-search-cancelled")} <i>${currentSearchTerm}</i>`;
