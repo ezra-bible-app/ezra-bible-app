@@ -35,6 +35,7 @@ class ModuleSearchController {
     this.search_menu_opened = false;
     this.verseSearch = new VerseSearch();
     this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
+    this.currentSearchCancelled = false;
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       await waitUntilIdle();
@@ -100,10 +101,19 @@ class ModuleSearchController {
       this.validateSearchTerm();
     });
 
-    var cancelSearchButtonContainer = verseListController.getCurrentSearchCancelButtonContainer(tabIndex);
-    var cancelSearchButton = cancelSearchButtonContainer.find('button');
+    const verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
+    const searchResultsBox = $('#search-results-box');
+    const cancelSearchButtonContainer1 = verseListFrame.find('.cancel-module-search-button-container');
+    const cancelSearchButtonContainer2 = searchResultsBox.find('.cancel-module-search-button-container');
 
-    cancelSearchButton[0].addEventListener('mousedown', async () => {
+    const cancelSearchButton1 = cancelSearchButtonContainer1.find('button');
+    const cancelSearchButton2 = cancelSearchButtonContainer2.find('button');
+
+    cancelSearchButton1[0].addEventListener('mousedown', async () => {
+      this.cancelModuleSearch();
+    });
+
+    cancelSearchButton2[0].addEventListener('mousedown', async () => {
       this.cancelModuleSearch();
     });
   }
@@ -118,6 +128,7 @@ class ModuleSearchController {
   }
 
   async cancelModuleSearch(tabIndex=undefined) {
+    this.currentSearchCancelled = true;
     this.disableCancelButton();
 
     if (tabIndex === undefined) {
@@ -237,6 +248,12 @@ class ModuleSearchController {
     this.clearModuleSearchHeader(tabIndex);
     this.hideModuleSearchHeader(tabIndex);
     app_controller.verse_statistics_chart.resetChart(tabIndex);
+    this.currentSearchCancelled = false;
+
+    var tab = app_controller.tab_controller.getTab(tabIndex);
+    if (tab != null) {
+      tab.setSearchCancelled(false);
+    }
   }
 
   clearModuleSearchHeader(tabIndex=undefined) {
@@ -586,7 +603,7 @@ class ModuleSearchController {
       moduleSearchHeaderText = `<span i18n="bible-browser.search-result-header">${i18n.t("bible-browser.search-result-header")}</span> <i>${currentSearchTerm}</i> (${currentSearchResults.length})`;
     } else {
       var tab = app_controller.tab_controller.getTab(tabIndex);
-      var searchCancelled = tab != null ? tab.isSearchCancelled() : false;
+      var searchCancelled = tab != null ? tab.isSearchCancelled() : this.currentSearchCancelled;
 
       if (searchCancelled) {
         moduleSearchHeaderText = `<span i18n="bible-browser.module-search-cancelled">${i18n.t("bible-browser.module-search-cancelled")} <i>${currentSearchTerm}</i>`;
