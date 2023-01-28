@@ -785,7 +785,7 @@ main.content {
   border-radius: var(--border-radius);
   box-shadow: 5px 5px 5px #A0A0A0;
   background-color: white;
-  z-index: 100;
+  z-index: 1000;
   display: none;
 }
 
