@@ -61,14 +61,34 @@ class ModuleSearchController {
     // Handle the click on the search button
     $('#start-module-search-button:not(.bound)').addClass('bound').bind('click', (event) => { this.startSearch(event); });
 
-    // Handle the enter key in the search field and start the search when it is pressed
-    $('#module-search-input:not(.bound)').addClass('bound').on("keypress", (event) => {
-      if (event.which == 13) {
-        this.startSearch(event);
+    let moduleSearchInput = document.getElementById('module-search-input');
+
+    if (!moduleSearchInput.classList.contains('bound')) {
+      moduleSearchInput.classList.add('bound');
+
+      if (platformHelper.isCordova()) {
+        // Handle the enter key in the search field and start the search when it is pressed
+        moduleSearchInput.addEventListener('beforeinput', (event) => {
+          const lastCharacter = event.data[event.data.length - 1];
+
+          if (lastCharacter == '\n') {
+            this.startSearch(event);
+          }
+        });
+      } else {
+        // Handle the enter key in the search field and start the search when it is pressed
+        moduleSearchInput.addEventListener('keydown', (event) => {
+          if (event.keyCode == 13) {
+            this.startSearch(event);
+          }
+        });
       }
-    }).on("keyup", () => {
-      this.validateSearchTerm();
-    });
+
+      moduleSearchInput.addEventListener('keyup', () => {
+        this.validateSearchTerm();
+      });
+    }
+
 
     var searchTypeField = document.getElementById('module-search-menu').querySelector('#search-type');
     $(searchTypeField).on("change", () => {
@@ -436,9 +456,11 @@ class ModuleSearchController {
     
         let dialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
         dialogOptions.title = `${i18n.t("bible-browser.search-result-header")} <i>${this.currentSearchTerm}</i>`;
+        dialogOptions.dialogClass = 'ezra-dialog search-results-box';
         
         const $dialogBox = $('#search-results-box');
         $dialogBox.dialog(dialogOptions);
+        uiHelper.fixDialogCloseIconOnAndroid('search-results-box');
       }
 
       if (tabIndex == undefined || tabIndex == app_controller.tab_controller.getSelectedTabIndex()) {
