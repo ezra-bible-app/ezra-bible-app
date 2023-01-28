@@ -168,7 +168,11 @@ class TextController {
 
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var buttons = currentVerseListMenu.find('.fg-button');
-    buttons.removeClass('focused-button');
+
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+    if (!showSearchResultsInPopup) {
+      buttons.removeClass('focused-button');
+    }
 
     if (cachedText != null) {
       console.log("Loading text for tab " + tabIndex + " from cache!");
@@ -248,7 +252,10 @@ class TextController {
 
     } else if (textType == 'search_results') { // Search result mode
       if (tabIndex === undefined) { $('.show-book-tag-statistics-button').addClass('ui-state-disabled'); }
-      currentVerseListMenu.find('.module-search-button').addClass('focused-button');
+
+      if (!showSearchResultsInPopup) {
+        currentVerseListMenu.find('.module-search-button').addClass('focused-button');
+      }
 
       if (cachedText != null) {
         await this.renderVerseList(cachedText, null, 'search_results', tabIndex, true, true);
