@@ -135,8 +135,10 @@ class ModuleSearchController {
       tabIndex = this.currentSearchTabIndex;
     }
 
-    var tab = app_controller.tab_controller.getTab(tabIndex);
-    if (tab != null) {
+    const tab = app_controller.tab_controller.getTab(tabIndex);
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+
+    if (tab != null && !showSearchResultsInPopup) {
       tab.setSearchCancelled(true);
     }
 
