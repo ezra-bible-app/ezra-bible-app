@@ -73,7 +73,7 @@ class DictionaryInfoBox {
 
     this.dictionaryInfoBoxPanel.find('div').empty();
     this.dictionaryInfoBoxHeader[0].innerHTML = i18n.t("dictionary-panel.default-header",
-                                                    { interpolation: {escapeValue: false} });
+                                                       { interpolation: {escapeValue: false} });
 
     let helpInstructionPart1 = i18n.t("dictionary-panel.help-instruction-part1", {
       install_status_class: dictionaryInstallStatusClass,
