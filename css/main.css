@@ -603,6 +603,7 @@ a.chapter-nav:hover {
 .ui-dialog #bible-sync-box,
 .ui-dialog #db-sync-box,
 .ui-dialog #new-release-info-box,
+.ui-dialog #search-results-box,
 .ui-widget:not(.ezra-dialog),
 .ui-widget:not(.ezra-dialog) .ui-widget,
 .ui-widget:not(.ezra-dialog) button,
@@ -678,6 +679,11 @@ a.chapter-nav:hover {
 .notes-info,
 .verse-reference-content {
   text-align: center;
+}
+
+#search-results-box .tag-info,
+#search-results-box .notes-info {
+  display: none;
 }
 
 .darkmode--activated .tag-info,
@@ -779,13 +785,15 @@ main.content {
   border-radius: var(--border-radius);
   box-shadow: 5px 5px 5px #A0A0A0;
   background-color: white;
-  z-index: 100;
+  z-index: 1000;
   display: none;
 }
 
 #display-options-menu {
   padding-top: 0.5em;
-  width: 40em;
+  width: 41em;
+  max-height: 38em;
+  overflow-y: scroll;
 }
 
 .options-group {

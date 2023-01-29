@@ -60,7 +60,11 @@ class NavigationPane {
     });*/
 
     eventController.subscribe('on-module-search-started', (tabIndex) => {
-      this.resetNavigationPane(tabIndex);
+      const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+
+      if (!showSearchResultsInPopup) {
+        this.resetNavigationPane(tabIndex);
+      }
     });
 
     let updateChapterTagIndicatorsForBookTextType = () => {

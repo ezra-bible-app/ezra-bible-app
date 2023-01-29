@@ -41,15 +41,27 @@ class VerseStatisticsChart {
     });
   }
 
+  getSearchContainer(tabIndex=undefined) {
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+    let parentElement = null;
+
+    if (showSearchResultsInPopup) {
+      parentElement = $('#search-results-box');
+    } else {
+      parentElement = verseListController.getCurrentVerseListFrame(tabIndex);
+    }
+
+    return parentElement;
+  }
+
   getVerseStatisticsChart(tabIndex=undefined) {
-    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
-    return currentVerseListFrame.find('.verse-statistics-chart');
+    let parentElement = this.getSearchContainer(tabIndex);
+    return parentElement.find('.verse-statistics-chart');
   }
 
   resetChart(tabIndex=undefined) {
-    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
-    var container = currentVerseListFrame[0].querySelector('.verse-statistics-chart-container');
-
+    let parentElement = this.getSearchContainer(tabIndex);
+    var container = parentElement[0].querySelector('.verse-statistics-chart-container');
     container.style.display = 'none';
     container.innerHTML = '';
 
@@ -58,16 +70,15 @@ class VerseStatisticsChart {
     container.appendChild(canvasElement);
   }
 
-  async repaintChart(tabIndex=undefined) {
+  async repaintChart(tabIndex=undefined, textType=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    if (!currentTab.isVerseList()) {
-      return;
-    }
-
-    var currentTextType = currentTab.getTextType();
     var bibleBookStats = null;
 
-    if (currentTextType == 'search_results') {
+    if (textType === undefined) {
+      textType = currentTab.getTextType();
+    }
+
+    if (textType == 'search_results') {
       currentTab = app_controller.tab_controller.getTab(tabIndex);
       var currentSearchResults = currentTab.getSearchResults();
       bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(currentSearchResults);

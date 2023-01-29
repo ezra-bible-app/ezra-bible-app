@@ -61,7 +61,7 @@ const template = html`
 </style>
  
 <div id="text-field">
-  <input type="text" id="input" />
+  <input type="text" id="input" inputmode="search" />
   <i id="delete-button" class="fa-solid fa-delete-left"></i>
 </div>
 `;
