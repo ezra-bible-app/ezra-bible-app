@@ -41,7 +41,7 @@ class VerseStatisticsChart {
     });
   }
 
-  getVerseStatisticsChart(tabIndex=undefined) {
+  getSearchContainer(tabIndex=undefined) {
     const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
     let parentElement = null;
 
@@ -51,19 +51,16 @@ class VerseStatisticsChart {
       parentElement = verseListController.getCurrentVerseListFrame(tabIndex);
     }
 
+    return parentElement;
+  }
+
+  getVerseStatisticsChart(tabIndex=undefined) {
+    let parentElement = this.getSearchContainer(tabIndex);
     return parentElement.find('.verse-statistics-chart');
   }
 
   resetChart(tabIndex=undefined) {
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
-    let parentElement = null;
-
-    if (showSearchResultsInPopup) {
-      parentElement = $('#search-results-box');
-    } else {
-      parentElement = verseListController.getCurrentVerseListFrame(tabIndex);
-    }
-
+    let parentElement = this.getSearchContainer(tabIndex);
     var container = parentElement[0].querySelector('.verse-statistics-chart-container');
     container.style.display = 'none';
     container.innerHTML = '';
@@ -75,10 +72,6 @@ class VerseStatisticsChart {
 
   async repaintChart(tabIndex=undefined, textType=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    /*if (!currentTab.isVerseList()) {
-      return;
-    }*/
-
     var bibleBookStats = null;
 
     if (textType === undefined) {
