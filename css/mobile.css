@@ -551,8 +551,8 @@ Librem 5/Pinephone etc.
 
   /*search dropdown*/
   #module-search-menu {
-    left: 0 !important;
-    max-width: 100vw;
+    left: 0.7em !important;
+    width: 88vw;
   }
 
   .navigation-pane.navigation-pane-books {
@@ -588,6 +588,7 @@ Librem 5/Pinephone etc.
     top: 0 !important;
     width: 100%;
     height: 100vh;
+    max-height: unset !important;
     overflow-y: auto;
     border: unset !important;
     border-radius: unset !important;

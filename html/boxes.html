@@ -88,6 +88,28 @@
   </div>
 </div>
 
+<div id="search-results-box">
+  <div class="verse-list-header">
+  </div>
+    
+  <div class='verse-statistics-chart-container'>
+    <canvas class="verse-statistics-chart">
+    </canvas>
+  </div>
+
+  <div style='display: flex; flex-direction: row;'>
+    <div class='search-progress-bar progress-bar' style="margin-top: 3em; margin-left: 2em; margin-right: 2em; width: 70%;">
+      <div class='progress-label'></div>
+    </div>
+
+    <div class="cancel-module-search-button-container" style="display: none; margin-top: 1.6em;">
+      <button class="cancel-module-search-button fg-button ui-corner-all ui-state-default"  i18n="general.cancel"></button>
+    </div>
+  </div>
+
+  <div id="search-results-box-content"></div>
+</div>
+
 <div id="tag-filter-menu">
   <input id="tag-filter-all-tags" type="radio" name="tag-filter" value="all" checked="checked"><label for="tag-filter-all-tags" i18n="tags.all-tags"></label></input><br/>
   <input id="tag-filter-assigned-tags" type="radio" name="tag-filter" value="assigned"><label for="tag-filter-assigned-tags" i18n="tags.assigned-tags"></label></input>

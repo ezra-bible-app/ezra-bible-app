@@ -161,9 +161,18 @@ class TextController {
                           target=undefined) {
 
     var textType = app_controller.tab_controller.getTab(tabIndex).getTextType();
+
+    if (searchResults != null) {
+      textType = 'search_results';
+    }
+
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var buttons = currentVerseListMenu.find('.fg-button');
-    buttons.removeClass('focused-button');
+
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+    if (!showSearchResultsInPopup) {
+      buttons.removeClass('focused-button');
+    }
 
     if (cachedText != null) {
       console.log("Loading text for tab " + tabIndex + " from cache!");
@@ -243,7 +252,10 @@ class TextController {
 
     } else if (textType == 'search_results') { // Search result mode
       if (tabIndex === undefined) { $('.show-book-tag-statistics-button').addClass('ui-state-disabled'); }
-      currentVerseListMenu.find('.module-search-button').addClass('focused-button');
+
+      if (!showSearchResultsInPopup) {
+        currentVerseListMenu.find('.module-search-button').addClass('focused-button');
+      }
 
       if (cachedText != null) {
         await this.renderVerseList(cachedText, null, 'search_results', tabIndex, true, true);
@@ -695,7 +707,11 @@ class TextController {
     }
 
     if (!initialRendering) {
-      app_controller.tab_controller.getTab().setTextType(listType);
+      const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+
+      if (listType != 'search_results' || listType == 'search_results' && !showSearchResultsInPopup) {
+        app_controller.tab_controller.getTab().setTextType(listType);
+      }
     }
 
     if (target === undefined) {
@@ -778,7 +794,7 @@ class TextController {
     }
 
     if (renderChart && (listType == 'search_results' || listType == 'tagged_verses')) {
-      await app_controller.verse_statistics_chart.repaintChart(tabIndex);
+      await app_controller.verse_statistics_chart.repaintChart(tabIndex, listType);
 
       if (listType == 'tagged_verses') {
         let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
@@ -791,7 +807,10 @@ class TextController {
       }
 
     } else {
-      await app_controller.verse_statistics_chart.resetChart(tabIndex);
+      if (listType != 'search_results' && listType != 'tagged_verses') {
+        await app_controller.verse_statistics_chart.resetChart(tabIndex);
+      }
+
       let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
       let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
       tagDistributionMatrix.input = '';
@@ -816,7 +835,15 @@ class TextController {
       }
 
       await waitUntilIdle();
-      await eventController.publishAsync('on-bible-text-loaded', tabIndex);
+
+      const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+
+      if (listType != 'search_results' ||
+          listType == 'search_results' && !showSearchResultsInPopup) {
+
+        await eventController.publishAsync('on-bible-text-loaded', tabIndex);
+      }
+
       uiHelper.hideTextLoadingIndicator();
     }
   }
