@@ -72,7 +72,7 @@
     "buffer": "^6.0.3",
     "chart.js": "^2.9.4",
     "codemirror": "^5.64.0",
-    "conf": "^7.1.2",
+    "conf": "^11.0.1",
     "crypto": "^1.0.1",
     "csv-writer": "^1.6.0",
     "darkmode-js": "^1.5.7",
