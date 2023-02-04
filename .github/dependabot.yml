@@ -19,3 +19,4 @@ updates:
       - dependency-name: "sqlite3"
       - dependency-name: "electron-winstaller"
       - dependency-name: "fs-extra"
+      - dependency-name: "conf"
