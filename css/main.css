@@ -522,6 +522,7 @@ a.chapter-nav:hover {
 #verse-list-popup-verse-list {
   padding-right: 0.2em;
   height: 350px;
+  width: unset !important;
   margin-bottom: 0.5em;
   overflow-y: scroll;
   display: none;
