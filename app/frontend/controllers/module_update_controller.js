@@ -62,30 +62,39 @@ module.exports.showModuleUpdateDialog = async function() {
         <section class="module-settings-assistant-internet-usage">
           <p i18n="[html]module-assistant.internet-usage-note"></p>
         </section>
-      </div>
 
-      <div id="module-update-step-2" style="display: none;">
-        <update-repositories></update-repositories>
-
-        <p id="module-update-header" style="margin-top: 1em; float: left;" i18n="general.module-updates-available"></p>
-        <p id="module-update-header-up-to-date" style="display: none; margin-top: 1em; float: left;" i18n="general.modules-up-to-date"></p>
-        <loading-indicator id="module-update-loading-indicator" style="display: none; float: right;"></loading-indicator>
-
-        <table id="module-update-list" style="clear: both; display: none;">
-          <thead>
-            <tr>
-              <th i18n="general.module-name" style="text-align: left; min-width: 13em"></th>
-              <th i18n="general.module-current-version" style="text-align: left; width: 8em;"></th>
-              <th i18n="general.module-new-version" style="text-align: left; width: 8em;"></th>
-              <th style="width: 5em;"></th>
-            </tr>
-          </thead>
-          <tbody id="module-update-list-tbody">
-          </tbody>
-        </table>
+        <div class="module-assistant-type-buttons">
+          <button id="update-modules-button"
+                  class="fg-button ui-corner-all ui-state-default"
+                  i18n="module-assistant.update-modules"
+                  data-i18n-options='{ "module_type" : "$t(module-assistant.module-type-generic)" }'></button>
+        </div>
       </div>
     </div>
   </div>
+  `;
+
+  const dialogBoxTemplateStep2 = html`
+    <div id="module-update-step-2">
+      <update-repositories></update-repositories>
+
+      <p id="module-update-header" style="margin-top: 1em; float: left;" i18n="general.module-updates-available"></p>
+      <p id="module-update-header-up-to-date" style="display: none; margin-top: 1em; float: left;" i18n="general.modules-up-to-date"></p>
+      <loading-indicator id="module-update-loading-indicator" style="display: none; float: right;"></loading-indicator>
+
+      <table id="module-update-list" style="clear: both; display: none;">
+        <thead>
+          <tr>
+            <th i18n="general.module-name" style="text-align: left; min-width: 13em"></th>
+            <th i18n="general.module-current-version" style="text-align: left; width: 8em;"></th>
+            <th i18n="general.module-new-version" style="text-align: left; width: 8em;"></th>
+            <th style="width: 5em;"></th>
+          </tr>
+        </thead>
+        <tbody id="module-update-list-tbody">
+        </tbody>
+      </table>
+    </div>
   `;
 
   moduleUpdateInitiated = false;
@@ -95,6 +104,8 @@ module.exports.showModuleUpdateDialog = async function() {
     document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
     const $dialogBox = $('#module-update-dialog');
     $dialogBox.localize();
+
+    uiHelper.configureButtonStyles('#module-update-step-1');
 
     var confirmed = false;
     const width = 1000;
@@ -113,31 +124,40 @@ module.exports.showModuleUpdateDialog = async function() {
       resolve(confirmed);
     };
 
-    dialogOptions.buttons[i18n.t('general.update')] = function(event) {
-      if (event.target.classList.contains('ui-state-disabled')) {
-        return;
-      }
-
-      performModuleUpdate();
-      confirmed = true;
-    };
-
-    dialogOptions.buttons[i18n.t('general.cancel')] = function() {
-      if (!moduleUpdateInitiated || moduleUpdateCompleted) {
-        $dialogBox.dialog('destroy');
-        $dialogBox.remove();
-        resolve(confirmed);
-      }
-    };
-
-    if (!repoUpdateInProgress) {
-      refreshUpdatedModuleList();
-    }
-  
     $dialogBox.dialog(dialogOptions);
     uiHelper.fixDialogCloseIconOnAndroid('module-update-dialog');
 
-    disableDialogButtons();
+    document.getElementById('update-modules-button').addEventListener('click', () => {
+      let dialogContent = document.getElementById('module-update-dialog-content');
+      dialogContent.innerHTML = dialogBoxTemplateStep2.innerHTML;
+
+      let buttons = {};
+
+      buttons[i18n.t('general.update')] = function(event) {
+        if (event.target.classList.contains('ui-state-disabled')) {
+          return;
+        }
+
+        performModuleUpdate();
+        confirmed = true;
+      };
+
+      buttons[i18n.t('general.cancel')] = function() {
+        if (!moduleUpdateInitiated || moduleUpdateCompleted) {
+          $dialogBox.dialog('destroy');
+          $dialogBox.remove();
+          resolve(confirmed);
+        }
+      };
+
+      $dialogBox.dialog("option", "buttons", buttons);
+
+      if (!repoUpdateInProgress) {
+        refreshUpdatedModuleList();
+      }
+
+      disableDialogButtons();
+    });
   });
 };
 
@@ -214,16 +234,26 @@ function disableDialogButtons() {
   let moduleUpdateDialog = document.querySelector('.module-update-dialog');
 
   if (moduleUpdateDialog != null) {
-    let dialogButtons = moduleUpdateDialog.querySelector('.ui-dialog-buttonset').querySelectorAll('button');
-    let updateButton = dialogButtons[0];
-    let cancelButton = dialogButtons[1];
+    let buttonSet = moduleUpdateDialog.querySelector('.ui-dialog-buttonset');
+
+    if (buttonSet != null) {
+      let dialogButtons = buttonSet.querySelectorAll('button');
+      let updateButton = dialogButtons[0];
+      let cancelButton = dialogButtons[1];
+      updateButton.classList.add('ui-state-disabled');
+      cancelButton.classList.add('ui-state-disabled');
+    }
+
     let dialogCloseButton = moduleUpdateDialog.querySelector('.ui-dialog-titlebar-close');
     let updateRepoDataButton = moduleUpdateDialog.querySelector('.update-repo-data');
 
-    updateButton.classList.add('ui-state-disabled');
-    cancelButton.classList.add('ui-state-disabled');
-    updateRepoDataButton.classList.add('ui-state-disabled');
-    dialogCloseButton.style.display = 'none';
+    if (updateRepoDataButton != null) {
+      updateRepoDataButton.classList.add('ui-state-disabled');
+    }
+
+    if (dialogCloseButton != null) {
+      dialogCloseButton.style.display = 'none';
+    }
   }
 }
 
