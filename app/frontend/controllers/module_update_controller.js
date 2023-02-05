@@ -107,12 +107,21 @@ module.exports.showModuleUpdateDialog = async function() {
 
     uiHelper.configureButtonStyles('#module-update-step-1');
 
-    var confirmed = false;
-    const width = 1000;
-    const height = 650;
-    const offsetLeft = ($(window).width() - width)/2;
+    const appContainerWidth = $(window).width() - 10;
+    var dialogWidth = null;
 
-    let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
+    if (appContainerWidth < 1100) {
+      dialogWidth = appContainerWidth;
+    } else {
+      dialogWidth = 1100;
+    }
+
+    var dialogHeight = $(window).height() * 0.75;
+
+    var confirmed = false;
+    const offsetLeft = ($(window).width() - dialogWidth)/2;
+
+    let dialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, false, [offsetLeft, 120]);
     dialogOptions.dialogClass = 'ezra-dialog module-update-dialog';
     dialogOptions.title = i18n.t('general.update-modules');
     dialogOptions.draggable = true;
