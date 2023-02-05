@@ -54,6 +54,7 @@
     "internet-usage-note": "<b>IMPORTANT NOTE</b><br/>If you are located in a country where Christians are persecuted,<br/>be aware that your internet provider will be able to detect<br/>that <b>you are accessing Christian resources</b>!",
     "add-modules": "Add {{module_type, accusative}}",
     "remove-modules": "Remove {{module_type, accusative}}",
+    "update-modules": "Update {{module_type, accusative}}",
     "languages": "Languages",
     "repository_singular": "Repository",
     "repository_plural": "Repositories",
