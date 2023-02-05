@@ -44,27 +44,46 @@ module.exports.init = function() {
 
 module.exports.showModuleUpdateDialog = async function() {
   const dialogBoxTemplate = html`
-  <div id="module-update-dialog">
-    <div id="module-update-dialog-content" style="padding-top: 0.5em">
 
-      <update-repositories></update-repositories>
+  <link href="css/module_settings_assistant.css" media="screen" rel="stylesheet" type="text/css" />
 
-      <p id="module-update-header" style="margin-top: 1em; float: left;" i18n="general.module-updates-available"></p>
-      <p id="module-update-header-up-to-date" style="display: none; margin-top: 1em; float: left;" i18n="general.modules-up-to-date"></p>
-      <loading-indicator id="module-update-loading-indicator" style="display: none; float: right;"></loading-indicator>
+  <div id="module-update-dialog" class="module-settings-assistant">
+    <div id="module-update-dialog-content" class="container" style="padding-top: 0.5em">
 
-      <table id="module-update-list" style="clear: both; display: none;">
-        <thead>
-          <tr>
-            <th i18n="general.module-name" style="text-align: left; min-width: 13em"></th>
-            <th i18n="general.module-current-version" style="text-align: left; width: 8em;"></th>
-            <th i18n="general.module-new-version" style="text-align: left; width: 8em;"></th>
-            <th style="width: 5em;"></th>
-          </tr>
-        </thead>
-        <tbody id="module-update-list-tbody">
-        </tbody>
-      </table>
+      <div id="module-update-step-1" class="module-settings-assistant-init">
+        <section>
+          <p i18n="[html]module-assistant.intro-text"
+             data-i18n-options='{ "module_type" : "$t(module-assistant.module-type-generic)" }'></p>
+          <p class="repository-explanation assistant-note"
+             i18n="[html]module-assistant.step-repositories.what-is-repository"
+             data-i18n-options='{ "module_type" : "$t(module-assistant.module-type-generic)" }'></p>
+        </section>
+
+        <section class="module-settings-assistant-internet-usage">
+          <p i18n="[html]module-assistant.internet-usage-note"></p>
+        </section>
+      </div>
+
+      <div id="module-update-step-2" style="display: none;">
+        <update-repositories></update-repositories>
+
+        <p id="module-update-header" style="margin-top: 1em; float: left;" i18n="general.module-updates-available"></p>
+        <p id="module-update-header-up-to-date" style="display: none; margin-top: 1em; float: left;" i18n="general.modules-up-to-date"></p>
+        <loading-indicator id="module-update-loading-indicator" style="display: none; float: right;"></loading-indicator>
+
+        <table id="module-update-list" style="clear: both; display: none;">
+          <thead>
+            <tr>
+              <th i18n="general.module-name" style="text-align: left; min-width: 13em"></th>
+              <th i18n="general.module-current-version" style="text-align: left; width: 8em;"></th>
+              <th i18n="general.module-new-version" style="text-align: left; width: 8em;"></th>
+              <th style="width: 5em;"></th>
+            </tr>
+          </thead>
+          <tbody id="module-update-list-tbody">
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   `;
@@ -78,8 +97,8 @@ module.exports.showModuleUpdateDialog = async function() {
     $dialogBox.localize();
 
     var confirmed = false;
-    const width = 800;
-    const height = 600;
+    const width = 1000;
+    const height = 650;
     const offsetLeft = ($(window).width() - width)/2;
 
     let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);

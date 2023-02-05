@@ -32,66 +32,14 @@ require('./assistant_checkbox.js');
  */
 
 const template = html`
+
+<link href="css/module_settings_assistant.css" media="screen" rel="stylesheet" type="text/css" />
+
 <style>
 #module-settings-assistant {
   user-select: none;
 }
 
-#module-settings-assistant > .container {
-  height: 100%;
-  box-sizing: border-box;
-  padding-top: 1em;
-}
-
-#module-settings-assistant-init {
-  width: 100%;
-  height: 100%;
-  min-height: inherit;
-  box-sizing: border-box;
-  display: grid;
-  place-items: center;
-  text-align: center;
-}
-
-#module-settings-assistant-init > section {
-  width: 60%;
-  padding: 2em 5em; 
-  margin: 0;
-  text-align: center;
-  font-size: 1.2em;
-  line-height: 1.5em;
-  border-radius: 5px;
-  background: var(--widget-bg-color);
-  color: var(--accent-color);
-  border: 1px solid;
-}
-#module-settings-assistant-init a {
-  color: var(--accent-color);
-}
-section#module-settings-assistant-internet-usage {
-  color: #f00a;
-}
-
-#module-settings-assistant-init > .module-assistant-type-buttons {
-  align-self: start;
-  display: grid;
-  grid-auto-flow: column;
-  gap: 5em;
-}
-
-#module-settings-assistant-init button {
-  height: 2.2em;
-  padding: 0 2em;
-}
-
-#module-settings-assistant .repository-explanation {
-  font-style: italic;
-}
-
-#module-settings-assistant .assistant-note {
-  font-size: 0.8em;
-  text-align: center;
-}
 #module-settings-assistant .error {
   color: red;
 }
@@ -113,16 +61,16 @@ section#module-settings-assistant-internet-usage {
 
 </style>
 
-<div id="module-settings-assistant" style="display: none;">
+<div id="module-settings-assistant" class="module-settings-assistant" style="display: none;">
   <div class="container">
-  <div id="module-settings-assistant-init">
+  <div id="module-settings-assistant-init" class="module-settings-assistant-init">
 
     <section id="module-settings-assistant-intro">
       <p i18n="module-assistant.intro-text"></p>
       <p class="repository-explanation assistant-note" i18n="module-assistant.step-repositories.what-is-repository"></p>
     </section>
 
-    <section id="module-settings-assistant-internet-usage">
+    <section class="module-settings-assistant-internet-usage">
       <p i18n="module-assistant.internet-usage-note"></p>
     </section>
 
