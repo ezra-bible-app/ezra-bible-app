@@ -1,0 +1,73 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+.module-settings-assistant > .container {
+  height: 100%;
+  box-sizing: border-box;
+  padding-top: 1em;
+}
+
+.module-settings-assistant-init {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.module-settings-assistant-init > section {
+  width: 60%;
+  padding: 2em 5em; 
+  margin: 0;
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 1.5em;
+  border-radius: 5px;
+  background: var(--widget-bg-color);
+  color: var(--accent-color);
+  border: 1px solid;
+}
+.module-settings-assistant-init a {
+  color: var(--accent-color);
+}
+section.module-settings-assistant-internet-usage {
+  color: #f00a;
+}
+
+.module-settings-assistant-init > .module-assistant-type-buttons {
+  align-self: start;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 5em;
+}
+
+.module-settings-assistant-init button {
+  height: 2.2em;
+  padding: 0 2em;
+}
+
+.module-settings-assistant .repository-explanation {
+  font-style: italic;
+}
+
+.module-settings-assistant .assistant-note {
+  font-size: 0.8em;
+  text-align: center;
+}
