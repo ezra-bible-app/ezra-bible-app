@@ -18,6 +18,7 @@
 
 const eventController = require('../controllers/event_controller.js');
 const { html } = require('../helpers/ezra_helper.js');
+const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
 /**
  * This controller manages the update of SWORD modules. 
@@ -353,6 +354,10 @@ async function performModuleUpdate() {
   }
 
   moduleUpdateCompleted = true;
+
+  // The sword module helper may still have a cached version of one of the upgraded modules.
+  // Therefore it is important to reset it.
+  swordModuleHelper.resetModuleCache();
 
   enableDialogCloseButton();
   enableFinishButton();
