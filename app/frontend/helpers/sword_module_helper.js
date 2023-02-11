@@ -54,6 +54,10 @@ module.exports.getSwordModule = async function(moduleId, isRemote=false) {
   return _cachedModule;
 };
 
+module.exports.resetModuleCache = function() {
+  _cachedModule = null;
+};
+
 module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
 
   const swordModule = await this.getSwordModule(moduleId, isRemote);
