@@ -95,10 +95,12 @@ class TranslationComparison {
       for (let i = 0; i < allTranslations.length; i++) {
         let currentTranslationId = allTranslations[i].name;
 
+        /*
         // Do not show the current translation in the compare translations view
         if (currentTranslationId == sourceTranslationId) {
           continue;
         }
+        */
 
         let currentTranslationName = allTranslations[i].description;
         let cssClass = '';
