@@ -382,6 +382,16 @@ a.chapter-nav:hover {
   flex: 0 0;
 }
 
+.Android .verse-reference {
+  margin-left: unset !important;
+  flex-direction: column; /* This ensures that the verse reference and the notes/tags indicators are shown above each other */
+}
+
+.Android .verse-reference-content {
+  margin-bottom: 0.1em;
+  order: -1; /* Make sure that the verse reference itself comes first (compared to notes/tags indicators) */
+}
+
 .verse-list:not(.verse-list-tags-column).verse-list-with-notes .verse-reference {
   height: 4em;
 }
@@ -675,6 +685,14 @@ a.chapter-nav:hover {
   color: #DDDDDD;
   opacity: 0.8;
   /*visibility: hidden;*/
+}
+
+.Android .notes-info {
+  font-size: 125%;
+}
+
+.Android .tag-info {
+  display: none; /* The tag info is not needed on mobile! */
 }
 
 .tag-info,
