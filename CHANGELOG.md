@@ -1,6 +1,27 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.10.0 - 2023-02-24]
+
+### Enhancements
+
+* Add option to show search results in popup. ([#853](i853))
+* Show persecution warning message also for update module dialog. ([#849](i849))
+* Hide tag indicators on Android and show large note indicator below verse references on all device classes. ([#871](i871))
+
+### Fixes
+
+* Font size setting not used in popup dialogs. ([#866](i866))
+* Module search menu does not respond to Enter button on Android. ([#852](i852))
+* App info dialog keeps cache of SWORD module even after module update. ([#869](i869))
+
+[i849]: https://github.com/ezra-bible-app/ezra-bible-app/issues/849
+[i852]: https://github.com/ezra-bible-app/ezra-bible-app/issues/852
+[i853]: https://github.com/ezra-bible-app/ezra-bible-app/issues/853
+[i866]: https://github.com/ezra-bible-app/ezra-bible-app/issues/866
+[i869]: https://github.com/ezra-bible-app/ezra-bible-app/issues/869
+[i871]: https://github.com/ezra-bible-app/ezra-bible-app/issues/871
+
 ## [1.9.0 - 2022-12-16]
 
 ### Features
