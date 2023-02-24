@@ -37,14 +37,17 @@
   "module-assistant": {
     "module-type-bible": "Bibelübersetzungen",
     "module-type-bible_accusative": "Bibelübersetzungen",
+    "module-type-bible_dative": "Bibelübersetzungen",
     "module-type-bible_singular": "Diese Übersetzung",
     "module-type-bible_singular-dative": "der Bibelübersetzung",
     "module-type-dict": "Wörterbücher",
     "module-type-dict_accusative": "Wörterbücher",
+    "module-type-dict_dative": "Wörterbüchern",
     "module-type-dict_singular": "Wörterbuch",
     "module-type-dict_singular-dative": "dem Wörterbuch",
     "module-type-generic": "Module",
     "module-type-generic_accusative": "Module",
+    "module-type-generic_dative": "Modulen",
     "header": "Konfiguriere {{module_type, title-case}}",
     "intro-text": "Ezra Bible App installiert <b>{{module_type, accusative}}</b> und benutzt dabei Ihre Internetverbindung. {{module_type, capitalize}} werden von der <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> vertrieben und werden von <a class='external' href='http://www.crosswire.org/sword'>SWORD</a> Modularchiven heruntergeladen.",
     "internet-usage-note": "<b>WICHTIGER HINWEIS</b><br/>Wenn Sie sich in einem Land befinden wo Christen verfolgt werden<br/>seien Sie sich bewusst, dass Ihr Internet Provider <br/><b>den Zugriff auf christliche Materialien erkennen kann</b>!",
@@ -77,7 +80,7 @@
     "step-repositories": {
       "select-repository": "Wählen Sie mindestens eines der folgenden SWORD Internetarchive.",
       "total-modules-repo": "Neben jedem Internetarchiv wird die Anzahl der verfügbaren {{module_type}} angezeigt.",
-      "what-is-repository": "Ein Internetarchiv ist ein Speicherplatz im Internet, der einen Satz von {{module_type}} enthält.",
+      "what-is-repository": "Ein Internetarchiv ist ein Speicherplatz im Internet, der einen Satz von {{module_type, dative}} enthält.",
       "loading-repositories": "Lade Internetarchive ...",
       "repo-recommended": "Dieses Internetarchiv ist für den Anfang gut geeignet",
       "more-repo-information-needed": "Sie benötigen weitere Informationen zu diesen Internetarchiven?<br/>Werfen Sie einen Blick auf das <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (Englisch)."
