@@ -27,4 +27,4 @@ Feature: Module search
     And I enter the term "faith"
     When I perform the search
     Then the tab title is "Search: faith [KJV]"
-    And there are 338 search results
+    And there are 324 search results
