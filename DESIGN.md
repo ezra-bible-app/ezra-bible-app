@@ -55,6 +55,7 @@ erDiagram
     HTML-Component            }|--||    DOM                       : is-part-of
     Component-or-Controller   }|--|{    HTML-Component            : modifies
     Component-or-Controller   }|--|{    JS-Event                  : handles
+    Component-or-Controller   }|--|{    Application-Event         : handles
     backend                   }|--|{    IpcNsiHandler             : contains
     backend                   }|--|{    IpcSettingsHandler        : contains
     backend                   }|--|{    IpcDbHandler              : contains
@@ -94,6 +95,7 @@ This directory contains the JavaScript source code of Ezra Bible App. It contain
 * `frontend/ipc`: IPC interface classes that allow interaction with the backend IPC Handlers.
 * `frontend/platform`: Platform-specific classes. (Currently only used for Cordova)
 * `frontend/ui_models`: Model classes for objects in the user interface. May be instantiated multiple times if there are multiple instances of a certain object in the UI.
+* `frontend/event_types.js`: Contains a list of application related events that are fired via `frontend/event_controller.js`.
 * `backend/database`: Database related source code (models, migrations).
 * `backend/ipc`: IPC handlers that give the frontend access to backend functionality.
 * `templates`: [pug](https://pugjs.org/) templates
