@@ -14,13 +14,20 @@ All notable changes to Ezra Bible App are documented in this file.
 * Font size setting not used in popup dialogs. ([#866](i866))
 * Module search menu does not respond to Enter button on Android. ([#852](i852))
 * App info dialog keeps cache of SWORD module even after module update. ([#869](i869))
+* Module search: Do not consider footnotes, headings and other markup. ([#851](i851))
+
+### Enablers
+
+* Remove libicu dependency on Linux. ([#878](i878))
 
 [i849]: https://github.com/ezra-bible-app/ezra-bible-app/issues/849
+[i851]: https://github.com/ezra-bible-app/ezra-bible-app/issues/851
 [i852]: https://github.com/ezra-bible-app/ezra-bible-app/issues/852
 [i853]: https://github.com/ezra-bible-app/ezra-bible-app/issues/853
 [i866]: https://github.com/ezra-bible-app/ezra-bible-app/issues/866
 [i869]: https://github.com/ezra-bible-app/ezra-bible-app/issues/869
 [i871]: https://github.com/ezra-bible-app/ezra-bible-app/issues/871
+[i878]: https://github.com/ezra-bible-app/ezra-bible-app/issues/878
 
 ## [1.9.0 - 2022-12-16]
 

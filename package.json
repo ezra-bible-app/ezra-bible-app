@@ -94,7 +94,7 @@
     "marked": "^4.0.8",
     "mousetrap": "^1.6.5",
     "node-html-parser": "^6.1.1",
-    "node-sword-interface": "^1.0.9",
+    "node-sword-interface": "^1.0.10",
     "pug": "^3.0.0",
     "remove-markdown": "^0.3.0",
     "sanitize-html": "^2.3.3",
