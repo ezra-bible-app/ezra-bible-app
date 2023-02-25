@@ -433,7 +433,7 @@ module.exports.handleReferenceClick = async function(event) {
 
     } else if (isTag) {
 
-      app_controller.verse_list_popup.initCurrentTag(event.target);
+      await app_controller.verse_list_popup.initCurrentTag(event.target);
 
       app_controller.openTaggedVerses(app_controller.verse_list_popup.currentTagId,
                                       app_controller.verse_list_popup.currentTagTitle,
@@ -460,7 +460,7 @@ module.exports.handleReferenceClick = async function(event) {
           !getPlatform().isFullScreen()) { // No tabs available in fullscreen!
         
         app_controller.verse_list_popup.currentReferenceType = referenceType;
-        app_controller.verse_list_popup.initCurrentTag(event.target);
+        await app_controller.verse_list_popup.initCurrentTag(event.target);
         app_controller.verse_list_popup.openVerseListInNewTab();
       } else {
         await app_controller.verse_list_popup.openVerseListPopup(event, referenceType);
