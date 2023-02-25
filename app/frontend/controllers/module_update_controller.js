@@ -126,6 +126,7 @@ module.exports.showModuleUpdateDialog = async function() {
     dialogOptions.dialogClass = 'ezra-dialog module-update-dialog';
     dialogOptions.title = i18n.t('general.update-modules');
     dialogOptions.draggable = true;
+    dialogOptions.modal = true;
     dialogOptions.buttons = {};
 
     dialogOptions.close = () => {
