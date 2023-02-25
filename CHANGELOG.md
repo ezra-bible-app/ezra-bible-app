@@ -546,7 +546,7 @@ This is a bugfix release only applicable for macOS and Android.
 [i183]: https://github.com/ezra-project/ezra-project/issues/183
 [i184]: https://github.com/ezra-project/ezra-project/issues/184
 
-### [0.17.0 - 2021-02-20]
+## [0.17.0 - 2021-02-20]
 
 ### Features
 
