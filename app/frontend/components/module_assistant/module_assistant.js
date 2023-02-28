@@ -149,7 +149,8 @@ class ModuleAssistant extends HTMLElement{
 
     assistantHelper.localizeContainer(document.querySelector('#module-settings-assistant-init'), moduleType);
 
-    let moduleSettingsDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, null);
+    let fullscreen = platformHelper.isCordova();
+    let moduleSettingsDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, null, false, fullscreen);
     moduleSettingsDialogOptions.modal = true;
     moduleSettingsDialogOptions.title = assistantHelper.localizeText("module-assistant.header", moduleType);
     moduleSettingsDialogOptions.dialogClass = 'ezra-dialog module-assistant-dialog';

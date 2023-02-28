@@ -121,8 +121,9 @@ module.exports.showModuleUpdateDialog = async function() {
 
     var confirmed = false;
     const offsetLeft = ($(window).width() - dialogWidth)/2;
+    let fullscreen = platformHelper.isCordova();
 
-    let dialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, false, [offsetLeft, 120]);
+    let dialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, false, [offsetLeft, 120], false, fullscreen);
     dialogOptions.dialogClass = 'ezra-dialog module-update-dialog';
     dialogOptions.title = i18n.t('general.update-modules');
     dialogOptions.draggable = true;

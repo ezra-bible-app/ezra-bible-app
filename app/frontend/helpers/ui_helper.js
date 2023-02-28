@@ -181,7 +181,7 @@ class UiHelper {
     button.setAttribute('disabled', true);
   }
 
-  getDialogOptions(width, height, draggable, position, resizable=false) {
+  getDialogOptions(width, height, draggable, position, resizable=false, fullscreen=false) {
     let modal = false;
 
     if (platformHelper.isMobile()) {
