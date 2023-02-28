@@ -382,21 +382,21 @@ Librem 5/Pinephone etc.
     padding-top: unset !important;
   }
 
-  #module-settings-assistant-init, #module-settings-assistant-add {
+  .module-settings-assistant-init, #module-settings-assistant-add {
     font-size: 0.85em !important;
   }
 
-  #module-settings-assistant-init button {
+  .module-settings-assistant-init button {
     height: unset !important;
     padding: 0.4em 2em !important;
   }
 
-  #module-settings-assistant-init > .module-assistant-type-buttons {
+  .module-settings-assistant-init > .module-assistant-type-buttons {
     gap: 0.5em !important;
     margin: 1em;
   }
 
-  #module-settings-assistant-init > section {
+  .module-settings-assistant-init > section {
     padding: 0.4em 2em !important;
   }
 
