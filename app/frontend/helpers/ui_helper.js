@@ -184,7 +184,7 @@ class UiHelper {
   getDialogOptions(width, height, draggable, position, resizable=false, fullscreen=false) {
     let modal = false;
 
-    if (platformHelper.isMobile()) {
+    if (platformHelper.isMobile() || fullscreen) {
       width = $(window).width();
       height = $(window).height() - 85;
 
