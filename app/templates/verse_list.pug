@@ -22,9 +22,13 @@ if bookIntroduction != null && bookIntroduction.length > 0
   div(class='book-intro') !{bookIntroduction}
 
 if renderBookNotes
+  - var bookNotesClassList = 'book-notes verse-notes ';
   - var firstBibleBookId = bibleBooks[0].shortTitle
-  - var firstVerseReferenceIdClass = 'verse-nr-0 verse-reference-id-' + firstBibleBookId.toLowerCase();
-  - var bookNotesClassList = 'book-notes verse-notes ' + firstVerseReferenceIdClass;
+
+  if firstBibleBookId != null
+    - var firstVerseReferenceIdClass = 'verse-nr-0 verse-reference-id-' + firstBibleBookId.toLowerCase();
+    - bookNotesClassList += firstVerseReferenceIdClass;
+
   - var bookNotesRaw = ''
   - var bookNotesText = ''
   - var bookNotesUpdate = ''
