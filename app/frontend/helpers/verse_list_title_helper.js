@@ -43,14 +43,16 @@ module.exports.getXrefsVerseListTitle = function(localizedReference) {
 module.exports.shortenTitleList = function(tagTitleList, lastElement='...') {
   const MAX_TAGS_IN_TITLE = 3;
 
-  var tagTitleArray = tagTitleList.split(',');
-  if (tagTitleArray.length > MAX_TAGS_IN_TITLE) {
-    while (tagTitleArray.length > MAX_TAGS_IN_TITLE) {
-      tagTitleArray.pop();
-    }
+  if (tagTitleList != null) {
+    var tagTitleArray = tagTitleList.split(',');
+    if (tagTitleArray.length > MAX_TAGS_IN_TITLE) {
+      while (tagTitleArray.length > MAX_TAGS_IN_TITLE) {
+        tagTitleArray.pop();
+      }
 
-    tagTitleArray.push(lastElement);
-    tagTitleList = tagTitleArray.join(', ');
+      tagTitleArray.push(lastElement);
+      tagTitleList = tagTitleArray.join(', ');
+    }
   }
 
   return tagTitleList;
