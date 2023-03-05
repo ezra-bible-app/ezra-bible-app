@@ -378,7 +378,8 @@
   },
   "commentary-panel": {
     "default-header": "<b>Bible commentary</b>",
-    "show-commentaries": "Show commentaries"
+    "show-commentaries": "Show commentaries",
+    "help-instruction": "To show commentary content, you select one verse.<br><br> This area will then automatically list the selected verse from all available commentaries as well as from your own notes."
   },
   "emoji": {
     "search": "Search emojis...",

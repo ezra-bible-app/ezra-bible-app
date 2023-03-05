@@ -1226,7 +1226,8 @@ li.book-unavailable a:focus,
 }
 
 #verse-list-popup-loading-indicator,
-#compare-translations-loading-indicator {
+#compare-translations-loading-indicator,
+#commentary-panel-loading-indicator {
   display: none;
   /* width: 300px; */
   height: 30px;
