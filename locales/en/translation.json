@@ -376,6 +376,10 @@
     "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.<br><br> You need to have at least two translations installed for this functionality to work.",
     "compare": "Compare"
   },
+  "commentary-panel": {
+    "default-header": "<b>Bible commentary</b>",
+    "show-commentaries": "Show commentaries"
+  },
   "emoji": {
     "search": "Search emojis...",
     "notFound": "No emojis found",
