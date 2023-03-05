@@ -57,6 +57,10 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
+    $('#show-commentary-settings-button').bind('click', function() {
+      app_controller.openModuleSettingsAssistant('COMMENTARY'); 
+    });
+
     $('#show-module-update-button').bind('click', async () => {
       this.hideDisplayMenu();
       await moduleUpdateController.showModuleUpdateDialog();

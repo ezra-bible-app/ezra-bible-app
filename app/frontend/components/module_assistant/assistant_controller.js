@@ -32,7 +32,7 @@ var state = {
 const stateSetItems = new Set(['selectedLanguages', 'selectedRepositories', 'selectedModules']);
 
 module.exports.initState = async function(moduleType) {
-  if(moduleType !== 'BIBLE' && moduleType !== 'DICT') {
+  if(moduleType !== 'BIBLE' && moduleType !== 'DICT' && moduleType !== 'COMMENTARY') {
     console.log('ERROR: addModuleAssistant.initState: unable to recognize module type', moduleType);
     return false;
   }
