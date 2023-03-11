@@ -46,18 +46,18 @@ class CommentaryPanel {
   }
 
   showLoadingIndicator() {
-    var loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
+    let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
     loadingIndicator.querySelector('.loader').style.display = 'block';
     loadingIndicator.style.display = 'block';
   }
   
   hideLoadingIndicator() {
-    var loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
+    let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
     loadingIndicator.style.display = 'none';
   }
 
   isPanelActive() {
-    var panelButtons = document.getElementById('panel-buttons');
+    let panelButtons = document.getElementById('panel-buttons');
     return panelButtons.activePanel == 'commentary-panel';
   }
 
@@ -108,7 +108,7 @@ class CommentaryPanel {
   }
 
   async performContentRefresh(selectedVerseBoxes=undefined) {
-    var commentaryContent = await this.getCommentaryContent(selectedVerseBoxes);
+    let commentaryContent = await this.getCommentaryContent(selectedVerseBoxes);
 
     if (platformHelper.isCordova()) {
       this.hideLoadingIndicator();
