@@ -167,6 +167,11 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getReferenceText(moduleCode, key) {
+    var returnValue = this._ipcRenderer.call('nsi_getReferenceText', moduleCode, key);
+    return returnValue;
+  }
+
   async getChapterText(moduleCode, bookCode, chapter) {
     var returnValue = this._ipcRenderer.call('nsi_getChapterText', moduleCode, bookCode, chapter);
     return returnValue;
