@@ -132,16 +132,12 @@ class CommentaryPanel {
 
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
+          let firstVerseBox = $(selectedVerseBoxes[0]);
+          let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
 
-          for (let j = 0; j < selectedVerseBoxes.length; j++) {
-            let currentVerseBox = $(selectedVerseBoxes[j]);
-
-            let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, currentVerseBox);
-
-            if (verseCommentary.length != 0) {
-              commentaryContent += `<h3>${currentCommentary.description}</h3>`;
-              commentaryContent += verseCommentary;
-            }
+          if (verseCommentary.length != 0) {
+            commentaryContent += `<h3>${currentCommentary.description}</h3>`;
+            commentaryContent += verseCommentary;
           }
         }
       }
