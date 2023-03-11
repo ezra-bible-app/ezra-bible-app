@@ -199,6 +199,10 @@ class IpcNsiHandler {
       return this._nsi.getRawModuleEntry(moduleCode, key);
     });
 
+    this._ipcMain.add('nsi_getReferenceText', (moduleCode, key) => {
+      return this._nsi.getReferenceText(moduleCode, key);
+    });
+
     this._ipcMain.add('nsi_getChapterText', (moduleCode, bookCode, chapter) => {
       return this._nsi.getChapterText(moduleCode, bookCode, chapter);
     });
