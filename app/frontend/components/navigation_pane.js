@@ -227,6 +227,7 @@ class NavigationPane {
       var lastHighlightedNavElementLink = $(this.allNavElementLinks[lastHighlightedNavElementIndex]);
       var highlightedNavElementLink = $(this.allNavElementLinks[navElementIndex]);
     
+      lastHighlightedNavElementLink.blur();
       lastHighlightedNavElementLink.removeClass('hl-nav-element');
       highlightedNavElementLink.addClass('hl-nav-element');
 
