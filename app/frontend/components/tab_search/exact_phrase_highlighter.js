@@ -30,16 +30,16 @@ class ExactPhraseHighlighter {
     this.splittedPhrase = this.getSplittedSearchString(searchString);
     this.nextSearchTerm = this.splittedPhrase.shift();
 
-    for (var i = 0; i < allHighlightNodes.length; i++) {
-      var currentMatchList = allHighlightNodes[i];
-      var currentNode = nodes[currentMatchList.node];
-      var currentNodeValue = currentNode.nodeValue;
+    for (let i = 0; i < allHighlightNodes.length; i++) {
+      let currentMatchList = allHighlightNodes[i];
+      let currentNode = nodes[currentMatchList.node];
+      let currentNodeValue = currentNode.nodeValue;
 
-      var highlightedNodeValue = this.getHighlightedNodeValue(currentNodeValue,
+      let highlightedNodeValue = this.getHighlightedNodeValue(currentNodeValue,
                                                               currentMatchList,
                                                               caseSensitive,
                                                               regexOptions);
-      var highlightedNode = document.createElement("span");
+      let highlightedNode = document.createElement("span");
       highlightedNode.innerHTML = highlightedNodeValue;
       currentNode.replaceWith(highlightedNode);
     }
@@ -56,11 +56,14 @@ class ExactPhraseHighlighter {
   }
 
   getSplittedSearchString(searchString) {
-    var splittedSearchString = searchString.split(" ");
-    var specialCharacters = ".,;:!?“”\"'";
+    // We cannot work with white space on either side of the search string.
+    // Therefore we first trim the search string.
+    searchString = searchString.trim();
+    let splittedSearchString = searchString.split(" ");
+    const specialCharacters = ".,;:!?“”\"'";
 
-    for (var i = 0; i < specialCharacters.length; i++) {
-      var specialChar = specialCharacters[i];
+    for (let i = 0; i < specialCharacters.length; i++) {
+      let specialChar = specialCharacters[i];
       splittedSearchString.forEach((searchTerm, i) => {
         if (searchTerm.length > 1 && searchTerm.indexOf(specialChar) != -1) {
           splittedSearchString[i] = splittedSearchString[i].replace(specialChar, "");
@@ -74,12 +77,12 @@ class ExactPhraseHighlighter {
 
   processMatch(nodeIndex, resultIndex) {
     this.foundNodeCounter += 1;
-    var expectedNewResultIndex = resultIndex + this.nextSearchTerm.length;
+    let expectedNewResultIndex = resultIndex + this.nextSearchTerm.length;
 
-    var matchExisting = false;
+    let matchExisting = false;
 
-    for (var j = 0; j < this.highlightNodes.length; j++) {
-      var currentMatch = this.highlightNodes[j];
+    for (let j = 0; j < this.highlightNodes.length; j++) {
+      let currentMatch = this.highlightNodes[j];
 
       if (currentMatch.node == nodeIndex) {
         currentMatch.matches.push({
@@ -92,7 +95,7 @@ class ExactPhraseHighlighter {
     }
 
     if (!matchExisting) {
-      var match = {
+      let match = {
         node: nodeIndex,
         matches: [{
           term: this.nextSearchTerm,
@@ -115,7 +118,9 @@ class ExactPhraseHighlighter {
     var matchExpected = false;
     var charactersLeft = currentNodeValue.length;
 
-    while (continueSearchInCurrentNode) {
+    const MAX_NODE_ITERATIONS = 20;
+
+    while (continueSearchInCurrentNode && this.currentNodeIterations < MAX_NODE_ITERATIONS) {
       // If the characters left are less then our search term we reset the search
       if (currentNodeValue != "" && charactersLeft < this.nextSearchTerm.length) {
         this.resetPhraseSearch(searchString);
@@ -128,7 +133,7 @@ class ExactPhraseHighlighter {
         matchExpected = true;
       }
 
-      var resultIndex = -1;
+      let resultIndex = -1;
 
       if (expectedNewResultIndex == -1) {
         resultIndex = currentNodeValue.indexOf(this.nextSearchTerm);
@@ -175,9 +180,9 @@ class ExactPhraseHighlighter {
   getHighlightNodes(nodes, searchString, caseSensitive) {
     var allHighlightNodes = [];
 
-    for (var i = 0; i < nodes.length; i++) {
-      var currentNode = nodes[i];
-      var currentNodeValue = currentNode.nodeValue.trim();
+    for (let i = 0; i < nodes.length; i++) {
+      let currentNode = nodes[i];
+      let currentNodeValue = currentNode.nodeValue.trim();
 
       if (!caseSensitive) {
         currentNodeValue = currentNodeValue.toLowerCase();
@@ -201,22 +206,23 @@ class ExactPhraseHighlighter {
     var highlightedNodeValue = currentNodeValue;
     var extraOffset = 0;
 
-    for (var j = 0; j < currentMatchList.matches.length; j++) {
-      var currentMatch = currentMatchList.matches[j];
-      var term = escapeRegExp(currentMatch.term);
-      var regexSearchString = new RegExp(term, regexOptions);
+    for (let j = 0; j < currentMatchList.matches.length; j++) {
+      let currentMatch = currentMatchList.matches[j];
+      let term = escapeRegExp(currentMatch.term);
+      let regexSearchString = new RegExp(term, regexOptions);
+      // eslint-disable-next-line no-unused-vars
       highlightedNodeValue = highlightedNodeValue.replace(regexSearchString, (match, offset, string) => {
-        var expectedOffset = currentMatch.index + extraOffset;
+        let expectedOffset = currentMatch.index + extraOffset;
 
         if (offset >= expectedOffset && offset <= expectedOffset + 1) {          
-          var isFirstTerm = false;
+          let isFirstTerm = false;
           if (caseSensitive) {
             isFirstTerm = (match == this.firstTerm);
           } else {
             isFirstTerm = (match.toLowerCase() == this.firstTerm.toLowerCase());
           }
 
-          var hlText = this.highlightFunction(match, isFirstTerm);
+          let hlText = this.highlightFunction(match, isFirstTerm);
           extraOffset += (hlText.length - match.length);
           return hlText;
         } else {
