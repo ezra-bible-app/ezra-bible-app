@@ -56,11 +56,14 @@ class ExactPhraseHighlighter {
   }
 
   getSplittedSearchString(searchString) {
-    var splittedSearchString = searchString.split(" ");
-    var specialCharacters = ".,;:!?“”\"'";
+    // We cannot work with white space on either side of the search string.
+    // Therefore we first trim the search string.
+    searchString = searchString.trim();
+    let splittedSearchString = searchString.split(" ");
+    const specialCharacters = ".,;:!?“”\"'";
 
-    for (var i = 0; i < specialCharacters.length; i++) {
-      var specialChar = specialCharacters[i];
+    for (let i = 0; i < specialCharacters.length; i++) {
+      let specialChar = specialCharacters[i];
       splittedSearchString.forEach((searchTerm, i) => {
         if (searchTerm.length > 1 && searchTerm.indexOf(specialChar) != -1) {
           splittedSearchString[i] = splittedSearchString[i].replace(specialChar, "");
@@ -115,7 +118,9 @@ class ExactPhraseHighlighter {
     var matchExpected = false;
     var charactersLeft = currentNodeValue.length;
 
-    while (continueSearchInCurrentNode) {
+    const MAX_NODE_ITERATIONS = 20;
+
+    while (continueSearchInCurrentNode && this.currentNodeIterations < MAX_NODE_ITERATIONS) {
       // If the characters left are less then our search term we reset the search
       if (currentNodeValue != "" && charactersLeft < this.nextSearchTerm.length) {
         this.resetPhraseSearch(searchString);
