@@ -1618,7 +1618,6 @@ li.book-unavailable a:focus,
 
 .tab-search {
   grid-area: tab-search;
-  background-color: white;
   padding: 0.5em;
   border-bottom-right-radius: var(--border-radius);
   border: 1px solid lightGrey;
