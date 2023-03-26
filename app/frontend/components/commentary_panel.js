@@ -153,7 +153,10 @@ class CommentaryPanel {
         }
 
         if (commentaryContent.length == 0) {
-          commentaryContent = i18n.t("commentary-panel.no-commentaries-available-for-this-verse");
+
+          commentaryContent = "<div style='margin-top: 0.5em;'>" + 
+                              i18n.t("commentary-panel.no-commentaries-available-for-this-verse") +
+                              "</div>";
         }
       }
     }
