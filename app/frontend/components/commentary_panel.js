@@ -70,8 +70,11 @@ class CommentaryPanel {
       return;
     }
 
+    let panelContent = document.getElementById('commentary-panel-content');
+
     let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
     if (allCommentaries.length == 0) {
+      panelContent.innerHTML = "";
       return;
     }
 
@@ -91,6 +94,7 @@ class CommentaryPanel {
     } else {
       panelTitle = i18n.t("commentary-panel.default-header");
       helpBox.classList.remove('hidden');
+      panelContent.innerHTML = "";
     }
 
     panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
@@ -146,6 +150,10 @@ class CommentaryPanel {
             commentaryContent += `<h3>${currentCommentary.description}</h3>`;
             commentaryContent += verseCommentary;
           }
+        }
+
+        if (commentaryContent.length == 0) {
+          commentaryContent = i18n.t("commentary-panel.no-commentaries-available-for-this-verse");
         }
       }
     }
