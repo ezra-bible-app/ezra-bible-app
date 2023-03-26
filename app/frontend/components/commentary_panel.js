@@ -147,9 +147,26 @@ class CommentaryPanel {
   }
 
   async getCommentaryForVerse(commentaryId, verseBox) {
+    const tab = app_controller.tab_controller.getTab();
+    if (tab == null) {
+      return;
+    }
+
+    const sourceTranslationId = tab.getBibleTranslationId();
+    // TODO: Determine targetTranslationId based on language of commentary
+    let targetTranslationId = 'KJV';
+
     let referenceVerseBox = new VerseBox(verseBox[0]);
     let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    let reference = bibleBookShortTitle + ' ' + referenceVerseBox.getChapter() + ':' + referenceVerseBox.getVerseNumber();
+    let mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceTranslationId, targetTranslationId);
+
+    let kjvVerses = await ipcNsi.getBookText(targetTranslationId,
+                                             bibleBookShortTitle,
+                                             mappedAbsoluteVerseNumber,
+                                             1);
+    let verse = kjvVerses[0];
+    let reference = bibleBookShortTitle + ' ' + verse.chapter + ':' + verse.verseNr;
+
     let commentaryEntry = await ipcNsi.getReferenceText(commentaryId, reference);
     return commentaryEntry.content;
   }
