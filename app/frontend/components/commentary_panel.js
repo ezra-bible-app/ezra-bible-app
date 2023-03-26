@@ -130,6 +130,13 @@ class CommentaryPanel {
       if (selectedVerseBoxes.length != 0) {
         let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
 
+        // Sort commentaries by description
+        allCommentaries.sort((a,b) => {
+          if (a.description < b.description) return -1;
+          if (a.description > b.description) return 1;
+          return 0;
+        });
+
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
           let firstVerseBox = $(selectedVerseBoxes[0]);
