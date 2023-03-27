@@ -270,7 +270,7 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
       'Personal'    // The Personal Commentary module is not useful in the context of Ezra Bible App.
     ];
 
-    for( const swordModule of currentRepoLangModules) {
+    for (const swordModule of currentRepoLangModules) {
 
       if (hiddenModules.includes(swordModule.name)) {
         continue;
