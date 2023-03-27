@@ -102,7 +102,7 @@
     "step-install": {
       "installing-modules": "Installing selected {{module_type, accusative}}",
       "installing": "Installing",
-      "it-takes-time-to-install": "Note that it takes some time for each {{module_type, singular-genitive}} to be downloaded and then installed.",
+      "it-takes-time-to-install": "Note that it takes some time for each {{module_type, singular}} to be downloaded and then installed.",
       "downloading": "Downloading",
       "part-of-total": "of"
     },
