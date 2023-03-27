@@ -266,7 +266,8 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
                                                                      greekStrongsFilter);
     
     const hiddenModules = [
-      'GerHfa2002' // The GerHfa2002 (Hoffnung für alle) is excluded from the list, since you cannot purchase an unlock key anymore.
+      'GerHfa2002', // The GerHfa2002 (Hoffnung für alle) is excluded from the list, since you cannot purchase an unlock key anymore.
+      'Personal'    // The Personal Commentary module is not useful in the context of Ezra Bible App.
     ];
 
     for( const swordModule of currentRepoLangModules) {
