@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "Nueva etiqueta",
-    "assign-last-tag": "Asignar a la última etiqueta",
-    "configure-translations": "Configurar traducciones",
-    "configure-dicts": "Configurar diccionarios",
-    "context": "Contexto"
-  },
   "application-menu": {
     "quit-app": "Cerrar Ezra Bible App"
   },
@@ -197,7 +190,10 @@
     "not-installed": "No instalado",
     "and-more": "y otras",
     "module-updates-available": "Hay actualizaciones disponibles para los módulos listados debajo.",
-    "modules-up-to-date": "Todos los módulos instalados están en la última versión!"
+    "modules-up-to-date": "Todos los módulos instalados están en la última versión!",
+    "configure-translations": "Configurar traducciones",
+    "configure-dicts": "Configurar diccionarios",
+    "context": "Contexto"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar a trabajar con las etiquetas, debe crear la primera pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y agreguelos a la etiqueta que acaba de crear.",
@@ -244,6 +240,7 @@
     "new-tag": "Nueva etiqueta",
     "create-tag": "Crear etiqueta",
     "delete-tag": "Borrar etiqueta",
+    "assign-last-tag": "Asignar a la última etiqueta",
     "all-tags": "Todas las etiquetas",
     "assigned-tags": "Etiquetas asignadas",
     "unassigned-tags": "Etiquetas sin asignar",

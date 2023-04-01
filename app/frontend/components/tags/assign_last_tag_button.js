@@ -81,7 +81,7 @@ class AssignLastTagButton {
   }
 
   resetLabel() {
-    var label = i18n.t('tags-toolbar.assign-last-tag');
+    var label = i18n.t('tags.assign-last-tag');
     var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
     assignLastTagButton.forEach((el) => {
       el.innerText = label;
@@ -94,7 +94,7 @@ class AssignLastTagButton {
       tagTitle = await this.getCurrentTag();
     }
 
-    var label = i18n.t('tags-toolbar.assign-last-tag') + ': ' + tagTitle;
+    var label = i18n.t('tags.assign-last-tag') + ': ' + tagTitle;
     var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
     assignLastTagButton.forEach((el) => { el.innerText = label; });
   }
