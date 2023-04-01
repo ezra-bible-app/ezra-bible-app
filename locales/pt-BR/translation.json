@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "Nova etiqueta",
-    "assign-last-tag": "Atribuir última etiqueta",
-    "configure-translations": "Configurar traduções",
-    "configure-dicts": "Configurar dicionários",
-    "context": "Contexto"
-  },
   "application-menu": {
     "quit-app": "Sair da Bíblia Esdras"
   },
@@ -197,7 +190,10 @@
     "not-installed": "Não instalado",
     "and-more": "e mais",
     "module-updates-available": "Há atualizações para os módulos listados abaixo.",
-    "modules-up-to-date": "Todos os módulos instalados estão atualizados!"
+    "modules-up-to-date": "Todos os módulos instalados estão atualizados!",
+    "configure-translations": "Configurar traduções",
+    "configure-dicts": "Configurar dicionários",
+    "context": "Contexto"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para começar a trabalhar com etiquetas, crie a primeira clicando no botão <i>Nova&nbsp;etiqueta</i>.<br/><br/>Depois disso, você pode navegar pelo texto da Bíblia e clicar, ou arrastar, e selecionar versículos - e em seguida, atribua a etiqueta que você acabou de criar.",
@@ -244,6 +240,7 @@
     "new-tag": "Nova etiqueta",
     "create-tag": "Criar etiqueta",
     "delete-tag": "Apagar etiqueta",
+    "assign-last-tag": "Atribuir última etiqueta",
     "all-tags": "Todas as etiquetas",
     "assigned-tags": "Etiquetas atribuídas",
     "unassigned-tags": "Etiquetas não atribuídas",

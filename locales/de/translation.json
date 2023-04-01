@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "Neuer Tag",
-    "assign-last-tag": "Letzten Tag zuweisen",
-    "configure-translations": "Übersetzungen konfigurieren",
-    "configure-dicts": "Wörterbücher konfigurieren",
-    "context": "Kontext"
-  },
   "application-menu": {
     "quit-app": "Ezra Bible App beenden"
   },
@@ -192,7 +185,10 @@
     "not-installed": "Nicht installiert",
     "and-more": "und weitere",
     "module-updates-available": "Es gibt Updates für die unten aufgelisteten Module.",
-    "modules-up-to-date": "Alle installierten Module sind auf dem neuesten Stand!"
+    "modules-up-to-date": "Alle installierten Module sind auf dem neuesten Stand!",
+    "configure-translations": "Übersetzungen konfigurieren",
+    "configure-dicts": "Wörterbücher konfigurieren",
+    "context": "Kontext"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
@@ -239,6 +235,7 @@
     "new-tag": "Neuer Tag",
     "create-tag": "Tag erstellen",
     "delete-tag": "Tag löschen",
+    "assign-last-tag": "Letzten Tag zuweisen",
     "all-tags": "Alle Tags",
     "assigned-tags": "Zugeordnete Tags",
     "unassigned-tags": "Nicht zugeordnete Tags",

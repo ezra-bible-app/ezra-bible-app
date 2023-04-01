@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "Новая метка",
-    "assign-last-tag": "Прикрепить метку",
-    "configure-translations": "Управлять переводами",
-    "configure-dicts": "Управлять словарями",
-    "context": "Контекст"
-  },
   "application-menu": {
     "quit-app": "Выйти из Ezra Bible App"
   },
@@ -199,7 +192,10 @@
     "not-installed": "Не установленно",
     "and-more": "и более",
     "module-updates-available": "Доступны обновления для следующих модулей.",
-    "modules-up-to-date": "Все модули обновленны!"
+    "modules-up-to-date": "Все модули обновленны!",
+    "configure-translations": "Управлять переводами",
+    "configure-dicts": "Управлять словарями",
+    "context": "Контекст"
   },
   "help": {
     "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
@@ -246,6 +242,7 @@
     "new-tag": "Новая метка",
     "create-tag": "Создать метку",
     "delete-tag": "Удалить метку",
+    "assign-last-tag": "Прикрепить метку",
     "all-tags": "Все метки",
     "assigned-tags": "Используемые метки",
     "unassigned-tags": "Неиспользуемые метки",

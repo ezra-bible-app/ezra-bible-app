@@ -1,12 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "New tag",
-    "assign-last-tag": "Assign last tag",
-    "configure-translations": "Configure translations",
-    "configure-dicts": "Configure dictionaries",
-    "configure-commentaries": "Configure commentaries",
-    "context": "Context"
-  },
   "application-menu": {
     "quit-app": "Quit Ezra Bible App"
   },
@@ -202,7 +194,11 @@
     "not-installed": "Not installed",
     "and-more": "and more",
     "module-updates-available": "There are updates available for the modules listed below.",
-    "modules-up-to-date": "All installed modules are up to date!"
+    "modules-up-to-date": "All installed modules are up to date!",
+    "configure-translations": "Configure translations",
+    "configure-dicts": "Configure dictionaries",
+    "configure-commentaries": "Configure commentaries",
+    "context": "Context"
   },
   "help": {
     "help-text-no-tags-book-opened": "To start working with tags, create your first tag by clicking on the button <i>New&nbsp;tag</i>.<br/><br/>After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.",
@@ -249,6 +245,7 @@
     "new-tag": "New tag",
     "create-tag": "Create tag",
     "delete-tag": "Delete tag",
+    "assign-last-tag": "Assign last tag",
     "all-tags": "All tags",
     "assigned-tags": "Assigned tags",
     "unassigned-tags": "Unassigned tags",

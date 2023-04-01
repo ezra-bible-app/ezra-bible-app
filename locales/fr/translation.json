@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "Nouvelle étiquette",
-    "assign-last-tag": "Assigner la dernière étiquette",
-    "configure-translations": "Configurer des traductions",
-    "configure-dicts": "Configurer des dictionnaires",
-    "context": "Contexte"
-  },
   "application-menu": {
     "quit-app": "Quitter Ezra Bible App"
   },
@@ -207,7 +200,10 @@
     "not-installed": "Pas installé",
     "and-more": "et plus",
     "module-updates-available": "Les modules listés ci-dessous ont des mises à jour.",
-    "modules-up-to-date": "Tous les modules installés sont à jour !"
+    "modules-up-to-date": "Tous les modules installés sont à jour !",
+    "configure-translations": "Configurer des traductions",
+    "configure-dicts": "Configurer des dictionnaires",
+    "context": "Contexte"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",
@@ -254,6 +250,7 @@
     "new-tag": "Nouvelle étiquette",
     "create-tag": "Créer l’étiquette",
     "delete-tag": "Supprimer l’étiquette",
+    "assign-last-tag": "Assigner la dernière étiquette",
     "all-tags": "Toutes les étiquettes",
     "assigned-tags": "Étiquettes attribuées",
     "unassigned-tags": "Étiquettes non attribuées",
