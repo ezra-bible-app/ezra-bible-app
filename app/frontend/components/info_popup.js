@@ -82,7 +82,7 @@ class InfoPopup {
     return timestamp.toLocaleDateString() + ' / ' + timestamp.toLocaleTimeString();
   }
 
-  async showAppInfo() {
+  async showAppInfo(moduleCode=undefined) {
     var CommitInfo = null;
     var gitCommit = "";
 
@@ -95,7 +95,11 @@ class InfoPopup {
 
     this.initAppInfoBox();
 
-    const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    let currentModuleId = app_controller.tab_controller.getTab().getBibleTranslationId();
+
+    if (moduleCode != null) {
+      currentModuleId = moduleCode;
+    }
 
     var version = "";
     if (this.platformHelper.isElectron()) {
@@ -143,8 +147,8 @@ class InfoPopup {
 
     const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '--');
 
-    const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
-    const moduleInfo = await swordModuleHelper.getModuleInfo(currentBibleTranslationId, false, false);
+    const moduleDescription = await swordModuleHelper.getModuleDescription(currentModuleId);
+    const moduleInfo = await swordModuleHelper.getModuleInfo(currentModuleId, false, false);
 
     const exportUserDataHint = await i18n.t('general.export-user-data-hint');
 
@@ -164,8 +168,8 @@ class InfoPopup {
         <li id='app-info-tabs-3-nav'><a href='#app-info-tabs-3'>${i18n.t('shortcuts.tab-title')}</a></li>
       </ul>
 
-      <div id='app-info-tabs-1' class='info-tabs scrollable'>
-        <sword-module-select id='info-popup-module-select' width='450' current-module-id='${currentBibleTranslationId}'></sword-module-select>
+      <div id='app-info-tabs-1' class='info-tabs scrollable' style='padding-top: 1.2em;'>
+        <sword-module-select id='info-popup-module-select' width='450' current-module-id='${currentModuleId}'></sword-module-select>
 
         <div id='app-info-module-description'>
         ${moduleDescription}

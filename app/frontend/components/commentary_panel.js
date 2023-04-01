@@ -119,6 +119,20 @@ class CommentaryPanel {
     }
 
     this.getBoxContent().innerHTML = commentaryContent;
+
+    let moduleInfoButtons = this.getBoxContent().querySelectorAll('.module-info-button');
+    moduleInfoButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        this.handleModuleInfoButtonClick(event);
+      });
+    });
+
+    uiHelper.configureButtonStyles(this.getBoxContent());
+  }
+
+  handleModuleInfoButtonClick(event) {
+    let moduleCode = event.target.closest('.module-info-button').getAttribute('module');
+    app_controller.info_popup.showAppInfo(moduleCode);
   }
 
   performDelayedContentRefresh() {
@@ -141,13 +155,22 @@ class CommentaryPanel {
           return 0;
         });
 
+        let moduleInfoButtonTitle = i18n.t('menu.show-module-info');
+
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
           let firstVerseBox = $(selectedVerseBoxes[0]);
           let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
 
           if (verseCommentary.length != 0) {
-            commentaryContent += `<h3>${currentCommentary.description}</h3>`;
+            commentaryContent += `<h3>${currentCommentary.description}`;
+            commentaryContent += 
+             `<div class='module-info-button fg-button ui-corner-all ui-state-default ui-state-default'
+                   i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
+                <i class='fas fa-info'></i>
+              </div>`;
+            commentaryContent += '</h3>';
+
             commentaryContent += verseCommentary;
           }
         }
