@@ -178,10 +178,7 @@ class CommentaryPanel {
     let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
     let mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceTranslationId, targetTranslationId);
 
-    let kjvVerses = await ipcNsi.getBookText(targetTranslationId,
-                                             bibleBookShortTitle,
-                                             mappedAbsoluteVerseNumber,
-                                             1);
+    let kjvVerses = await ipcNsi.getBookText(targetTranslationId, bibleBookShortTitle, mappedAbsoluteVerseNumber, 1);
     let verse = kjvVerses[0];
     let reference = bibleBookShortTitle + ' ' + verse.chapter + ':' + verse.verseNr;
 
