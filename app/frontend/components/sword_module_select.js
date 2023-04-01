@@ -67,9 +67,6 @@ class SwordModuleSelect extends HTMLElement {
     this.initSelectMenu();
   }
 
-  async init() {
-  }
-
   async initSelectMenu() {
     var moduleSelect = null;
 
