@@ -41,6 +41,11 @@
     "module-type-generic": "Module",
     "module-type-generic_accusative": "Module",
     "module-type-generic_dative": "Modulen",
+    "module-type-commentary": "Bible commentaries",
+    "module-type-commentary_accusative": "Bible commentaries",
+    "module-type-commentary_dative": "Bible commentaries",
+    "module-type-commentary_instrumental": "Bible commentaries",
+    "module-type-commentary_singular": "Bible commentary",
     "header": "Konfiguriere {{module_type, title-case}}",
     "intro-text": "Ezra Bible App installiert <b>{{module_type, accusative}}</b> und benutzt dabei Ihre Internetverbindung. {{module_type, capitalize}} werden von der <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> vertrieben und werden von <a class='external' href='http://www.crosswire.org/sword'>SWORD</a> Modularchiven heruntergeladen.",
     "internet-usage-note": "<b>WICHTIGER HINWEIS</b><br/>Wenn Sie sich in einem Land befinden wo Christen verfolgt werden<br/>seien Sie sich bewusst, dass Ihr Internet Provider <br/><b>den Zugriff auf christliche Materialien erkennen kann</b>!",
@@ -188,6 +193,7 @@
     "modules-up-to-date": "Alle installierten Module sind auf dem neuesten Stand!",
     "configure-translations": "Übersetzungen konfigurieren",
     "configure-dicts": "Wörterbücher konfigurieren",
+    "configure-commentaries": "Configure commentaries",
     "context": "Kontext"
   },
   "help": {
@@ -362,6 +368,13 @@
     "show-parallel-translations": "Übersetzungen vergleichen",
     "help-instruction": "Um Übersetzungen zu vergleichen wählen Sie einen Vers oder eine Gruppe von Versen aus.<br><br> Dieser Bereich wird dann automatisch die Liste der gewählten Verse aus allen verfügbaren Übersetzungen anzeigen.<br><br> Sie müssen mindestens zwei Übersetzungen installieren, damit dies funktioniert.",
     "compare": "Vergleichen"
+  },
+  "commentary-panel": {
+    "default-header": "<b>Bible commentary</b>",
+    "commentaries-for": "Commentaries for",
+    "show-commentaries": "Show commentaries",
+    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries as well as from your own notes.",
+    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
     "search": "Durchsuche Emojis...",

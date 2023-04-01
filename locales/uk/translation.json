@@ -42,6 +42,10 @@
     "module-type-dict_singular-genitive": "словника",
     "module-type-generic": "модулі",
     "module-type-generic_accusative": "модулі",
+    "module-type-commentary": "Bible commentaries",
+    "module-type-commentary_accusative": "Bible commentaries",
+    "module-type-commentary_instrumental": "Bible commentaries",
+    "module-type-commentary_singular": "Bible commentary",
     "header": "Керування {{module_type, instrumental}}",
     "intro-text": "Біблійний застосунок Єздри встановлює <b>{{module_type, accusative}}</b> використовуючи ваше інтернет з'єднання. {{module_type, capitalize}} розповсюджуються <a class='external' href='http://www.crosswire.org'>Біблійним товариством CrossWire</a> та будуть завантажені зі сховищ <a class='external' href='http://www.crosswire.org/sword'>проєкту SWORD</a>.",
     "internet-usage-note": "<b>ВАЖЛИВА ПРИМІТКА</b> <br/> Якщо ви перебуваєте в країні, де переслідують Християн, <br/> майте на увазі, що ваш інтернет-провайдер зможе визначити, що <b>ви запитуєте християнскі ресурси</b>!",
@@ -193,6 +197,7 @@
     "modules-up-to-date": "Усі встановленні модулі мають найостанніші версії!",
     "configure-translations": "Переклади Біблії",
     "configure-dicts": "Словники",
+    "configure-commentaries": "Configure commentaries",
     "context": "Контекст"
   },
   "help": {
@@ -368,6 +373,13 @@
     "show-parallel-translations": "Порівняти переклади",
     "help-instruction": "Щоб порівняти певний вірш, чи вірші у різних перекладах Біблії, виберіть уривок чи один вірш.<br><br> Ця область автоматично відобразить обрані вірші в усіх встановленни перекладах.<br><br> Необхідно не меньш двох встановленних перекладів для порівняння.",
     "compare": "Порівняти"
+  },
+  "commentary-panel": {
+    "default-header": "<b>Bible commentary</b>",
+    "commentaries-for": "Commentaries for",
+    "show-commentaries": "Show commentaries",
+    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries as well as from your own notes.",
+    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
     "search": "Пошук образок...",
