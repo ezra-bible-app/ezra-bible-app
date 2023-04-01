@@ -159,8 +159,11 @@ class VerseSearch {
         var parentClass = parentNode.className;
         var parentNodeName = parentNode.nodeName;
 
-        if (parentClass.startsWith('verse') || parentNodeName == "W" ||
-            parentNodeName == "SEG" || parentNodeName == "TRANSCHANGE") {
+        if (parentClass.startsWith('verse') ||
+            parentClass.indexOf('sword-quote-jesus') != -1 ||
+            parentNodeName == "W" ||
+            parentNodeName == "SEG" ||
+            parentNodeName == "TRANSCHANGE") {
 
           return NodeFilter.FILTER_ACCEPT;
         }
