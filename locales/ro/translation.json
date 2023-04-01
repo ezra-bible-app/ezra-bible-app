@@ -42,6 +42,10 @@
     "module-type-dict_singular-genitive": "dicționarului",
     "module-type-generic": "module",
     "module-type-generic_accusative": "module",
+    "module-type-commentary": "Bible commentaries",
+    "module-type-commentary_accusative": "Bible commentaries",
+    "module-type-commentary_instrumental": "Bible commentaries",
+    "module-type-commentary_singular": "Bible commentary",
     "header": "Configurează {{module_type, instrumental, title-case}}",
     "intro-text": "Ezra Bible App instalează <b>{{module_type, accusative}}</b> folosind conexiunea ta de internet. {{module_type, capitalize}} sunt distribuite de către <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> și vor fi descărcate din depozitele <a class='external' href='http://www.crosswire.org/sword'>proiectului SWORD</a>.",
     "internet-usage-note": "<b>NOTĂ IMPORTANTĂ</b><br/>Dacă te afli într-o țară unde creștinii sunt persecutați,<br/>să ai în vedere că furnizorul tău de internet va putea să detecteze<br/>că <b>accesezi resurse creștine</b>!",
@@ -193,6 +197,7 @@
     "modules-up-to-date": "Toate modulele instalate sunt actualizate la zi!",
     "configure-translations": "Configurează traducerile",
     "configure-dicts": "Configurează dicționarele",
+    "configure-commentaries": "Configure commentaries",
     "context": "Context"
   },
   "help": {
@@ -367,6 +372,13 @@
     "show-parallel-translations": "Compară traducerile",
     "help-instruction": "Pentru a compara traducerile, selectează un verset sau un grup de versete.<br><br> Această zonă va lista automat versetele selectate din toate traducerile disponibile.<br><br> Pentru ca această funcționalitate să funcționeze, trebuie să ai cel puțin două traduceri instalate.",
     "compare": "Compară"
+  },
+  "commentary-panel": {
+    "default-header": "<b>Bible commentary</b>",
+    "commentaries-for": "Commentaries for",
+    "show-commentaries": "Show commentaries",
+    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries as well as from your own notes.",
+    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
     "search": "Căută emoji ...",
