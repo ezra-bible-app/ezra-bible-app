@@ -43,7 +43,7 @@ const template = html`
   </style>
 
   <div class="sword-module-select-container">
-    <select name="sword-module-select" class="sword-module-select">
+    <select class="sword-module-select">
     </select>
   </div>
   `;
@@ -57,14 +57,17 @@ class SwordModuleSelect extends HTMLElement {
 
     this._width = this.getAttribute('width');
     this._currentModuleId = this.getAttribute('current-module-id');
+    this._name = this.getAttribute('name');
 
-    $(this.selectEl).selectmenu({
-      width: this._width + 'px',
-      change: () => this.handleChange(),
-    });
+    if (this._name != null) {
+      this.selectEl.setAttribute('name', this._name);
+    }
 
     this.localize();
     this.initSelectMenu();
+  }
+
+  async init() {
   }
 
   async initSelectMenu() {
@@ -91,7 +94,9 @@ class SwordModuleSelect extends HTMLElement {
 
     moduleSelect.selectmenu({
       width: platformHelper.isMobile() ? 110 : undefined,
-      change: () => this.handleChange()
+      change: () => {
+        this.handleChange();
+      }
     });
   }
 
