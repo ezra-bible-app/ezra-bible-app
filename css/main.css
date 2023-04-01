@@ -1051,9 +1051,19 @@ main.content {
   padding: 0 0.8em;
 }
 
+.module-info-button {
+  display: inline-block;
+  width: 1em;
+  padding: 0.2em;
+  padding-left: 0.7em !important;
+  margin-left: 0.5em;
+  font-size: 0.9em;
+}
+
 .verse-list-menu .display-options-button,
 .verse-list-menu .app-info-button,
-.verse-list-menu .export-docx-button {
+.verse-list-menu .export-docx-button,
+.module-info-button {
   justify-content: center;
 }
 
