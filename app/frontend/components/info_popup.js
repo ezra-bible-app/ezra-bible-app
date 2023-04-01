@@ -160,20 +160,19 @@ class InfoPopup {
     <div id='app-info-tabs'>
       <ul>
         <li><a href='#app-info-tabs-1'>${i18n.t('general.sword-module-description')}</a></li>
-        <li><a href='#app-info-tabs-2'>${i18n.t('general.sword-module-details')}</a></li>
-        <li><a href='#app-info-tabs-3'>${i18n.t('general.application-info')}</a></li>
-        <li id='app-info-tabs-4-nav'><a href='#app-info-tabs-4'>${i18n.t('shortcuts.tab-title')}</a></li>
+        <li><a href='#app-info-tabs-2'>${i18n.t('general.application-info')}</a></li>
+        <li id='app-info-tabs-3-nav'><a href='#app-info-tabs-3'>${i18n.t('shortcuts.tab-title')}</a></li>
       </ul>
 
       <div id='app-info-tabs-1' class='info-tabs scrollable'>
         ${moduleDescription}
-      </div>
-      
-      <div id='app-info-tabs-2' class='info-tabs scrollable' style='padding-top: 1em !important;'>
+
+        <div style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid var(--border-color)">
         ${moduleInfo}
+        </div>
       </div>
 
-      <div id='app-info-tabs-3' class='info-tabs scrollable'>
+      <div id='app-info-tabs-2' class='info-tabs scrollable'>
         <h2>${i18n.t("general.about-ezra-bible-app")}</h2>
         <p>${i18n.t("general.general-app-info")}</p>
 
@@ -226,7 +225,7 @@ class InfoPopup {
         </div>
       </div>
 
-      <div id='app-info-tabs-4' class='info-tabs scrollable'>
+      <div id='app-info-tabs-3' class='info-tabs scrollable'>
        <h2>${i18n.t("shortcuts.description")}</h2>
         <table role="table" id="info-table-shortcuts">
 
