@@ -93,7 +93,8 @@ class IpcNsi {
   async getUpdatedModules() {
     let allLocalBibleModules = await ipcNsi.getAllLocalModules('BIBLE');
     let allLocalDictModules = await ipcNsi.getAllLocalModules('DICT');
-    let allLocalModules = [...allLocalBibleModules, ...allLocalDictModules];
+    let allLocalCommentaryModules = await ipcNsi.getAllLocalModules('COMMENTARY');
+    let allLocalModules = [...allLocalBibleModules, ...allLocalDictModules, ...allLocalCommentaryModules];
     let updatedModules = [];
 
     for (let i = 0; i < allLocalModules.length; i++) {
