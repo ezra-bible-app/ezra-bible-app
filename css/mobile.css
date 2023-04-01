@@ -482,7 +482,7 @@ Librem 5/Pinephone etc.
   }
 
   /* Hide keyboard shortcuts on mobile */
-  #app-info-tabs-4-nav, #app-info-tabs-4 {
+  #app-info-tabs-3-nav, #app-info-tabs-3 {
     display: none !important;
   }
 
