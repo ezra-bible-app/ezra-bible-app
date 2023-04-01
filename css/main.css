@@ -561,6 +561,12 @@ a.chapter-nav:hover {
   height: calc(100% - 1em);
 }
 
+#app-info-tabs .ui-tabs-nav {
+  border-top: unset !important;
+  border-left: unset !important;
+  border-right: unset !important;
+}
+
 .verse-list-without-tags .tag-box,
 .ezra-dialog .tag-box {
   display: none;
