@@ -98,6 +98,7 @@ class Startup {
     require('./components/module_assistant/module_assistant.js');
     require('./components/verse_context_menu.js');
     require('./components/text_field.js');
+    require('./components/sword_module_select.js');
   }
 
   loadHTML() {
