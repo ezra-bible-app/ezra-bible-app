@@ -376,7 +376,7 @@
     "default-header": "<b>Bible commentary</b>",
     "commentaries-for": "Commentaries for",
     "show-commentaries": "Show commentaries",
-    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries as well as from your own notes.",
+    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
     "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
