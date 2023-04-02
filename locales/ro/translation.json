@@ -135,6 +135,7 @@
     "module-version": "Versiune",
     "module-current-version": "Versiune actuală",
     "module-new-version": "Versiune nouă",
+    "module-last-update": "Last update",
     "module-language": "Limbă",
     "module-license": "Licență",
     "module-strongs": "Concordanță (Strong's)",

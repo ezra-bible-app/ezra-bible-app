@@ -135,6 +135,7 @@
     "module-version": "Версія",
     "module-current-version": "Поточна версія",
     "module-new-version": "Доступна версія",
+    "module-last-update": "Last update",
     "module-language": "Мова",
     "module-license": "Ліцензія",
     "module-strongs": "Числа Стронга",

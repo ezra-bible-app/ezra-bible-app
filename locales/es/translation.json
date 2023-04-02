@@ -135,6 +135,7 @@
     "module-version": "Versión",
     "module-current-version": "Versión actual",
     "module-new-version": "Nueva versión",
+    "module-last-update": "Last update",
     "module-language": "Idioma",
     "module-license": "Licencia",
     "module-strongs": "Strongs",
