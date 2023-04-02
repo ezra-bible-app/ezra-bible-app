@@ -200,6 +200,10 @@ class UiHelper {
       position = [0, 0];
     }
 
+    if (platformHelper.isCordova()) {
+      modal = true;
+    }
+
     let dialogOptions = {
       width: width,
       draggable: draggable,
