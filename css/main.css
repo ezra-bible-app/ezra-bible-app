@@ -1824,6 +1824,20 @@ tr.compare-translation-row:nth-child(odd) {
   margin-top: 0.5em;
 }
 
+#commentary-panel-content .sword-markup {
+  display: unset !important;
+}
+
+#commentary-panel-content .sword-scripref {
+  display: inline-block;
+}
+
+#commentary-panel-content .sword-section-title {
+  font-weight: bold;
+  display: block !important;
+  margin-bottom: 1em;
+}
+
 #strongs-box {
   display: none;
   text-align: center;
