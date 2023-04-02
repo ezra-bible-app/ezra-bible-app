@@ -344,9 +344,9 @@ class DictionaryInfoBox {
       <b>${this.getShortInfo(strongsEntry, lemma)}</b>
       <p>${this.getFindAllLink(strongsEntry)} | ${this.getBlueletterLink(strongsEntry)}</p>
       ${extraDictContent}
-      <b>Strong's</b>
+      <p class='bold'>Strong's</p>
       <pre class='strongs-definition'>${strongsEntry.definition}</pre>
-      ${relatedStrongsContent}`;    
+      ${relatedStrongsContent}`;
 
     return extendedStrongsInfo;
   }
@@ -472,23 +472,9 @@ class DictionaryInfoBox {
 
       if (currentDictContent != undefined) {
         currentDictContent = currentDictContent.trim();
-        var containsLineBreaks = false;
-
-        if (currentDictContent.indexOf("\n") != -1 ||
-            currentDictContent.indexOf("<br />") != -1 ||
-            currentDictContent.indexOf("<br/>") != -1 ||
-            currentDictContent.indexOf("<entry") != -1) {
-
-          containsLineBreaks = true;
-        }
-
-        extraDictContent += "<span class='bold'>" + dict.description;
-       
-        if (containsLineBreaks) {
-          extraDictContent += "</span><br/>" + currentDictContent + "<hr></hr>";
-        } else {
-          extraDictContent += ": </span>" + currentDictContent + "<hr></hr>";
-        }
+        extraDictContent += `
+          <p class='bold'>${dict.description}</p> ${currentDictContent} <hr></hr>
+        `;
       }
     }
 
