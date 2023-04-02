@@ -21,6 +21,7 @@ const { html, sleep } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const exportHelper = require('../helpers/export_helper.js');
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
+const moduleSelectHelper = require('../helpers/module_select_helper.js');
 
 class InfoPopup {
   constructor() {
@@ -282,11 +283,12 @@ class InfoPopup {
     $('#info-popup-content').html(appInfo.innerHTML);
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
 
+    const MODULE_SELECT_WIDTH = 450;
     let moduleSelect = document.getElementById('info-popup-content').querySelector('#info-popup-module-select');
-    /*moduleSelect.addEventListener('moduleChanged', async (event) => {
-      const selectedModuleCode = event.detail.module;
-      this.updateModuleSummary(selectedModuleCode);
-    });*/
+
+    await moduleSelectHelper.initModuleSelect(moduleSelect, currentModuleId, MODULE_SELECT_WIDTH, (selectedValue) => {
+      this.updateModuleSummary(selectedValue);
+    });
 
     if (this.platformHelper.isElectron()) {
       document.getElementById('export-user-data-button').addEventListener('click', async () => {
