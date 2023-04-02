@@ -155,7 +155,7 @@ class CommentaryPanel {
           return 0;
         });
 
-        let moduleInfoButtonTitle = i18n.t('menu.show-module-info');
+        const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
 
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
