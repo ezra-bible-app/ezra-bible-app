@@ -1809,8 +1809,9 @@ tr.compare-translation-row:nth-child(odd) {
   margin-bottom: 0.5em;
 }
 
-/* Special style for Scofield commentary to create line breaks before <hi> elements */
-#commentary-panel-content div.module-code-scofield hi:before {
+/* Special style for specific commentaries (Scofield, GerKingComm) to create line breaks before <hi> elements */
+#commentary-panel-content div.module-code-scofield hi.bold:before,
+#commentary-panel-content div.module-code-gerkingcomm hi.bold:before {
   display: block;
   margin-top: 0.5em;
   content: ' ';
