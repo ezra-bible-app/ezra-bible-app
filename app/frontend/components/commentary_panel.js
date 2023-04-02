@@ -163,15 +163,18 @@ class CommentaryPanel {
           let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
 
           if (verseCommentary.length != 0) {
-            commentaryContent += `<h3>${currentCommentary.description}`;
-            commentaryContent += 
-             `<div class='module-info-button fg-button ui-corner-all ui-state-default ui-state-default'
-                   i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
-                <i class='fas fa-info'></i>
-              </div>`;
-            commentaryContent += '</h3>';
+            commentaryContent += `
+            <div class='commentary module-code-${currentCommentary.name.toLowerCase()}'>
+              <h3>${currentCommentary.description}
+                <div class='module-info-button fg-button ui-corner-all ui-state-default ui-state-default'
+                    i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
+                  <i class='fas fa-info'></i>
+                </div>
+              </h3>
 
-            commentaryContent += verseCommentary;
+              ${verseCommentary}
+            </div>
+            `;
           }
         }
 
