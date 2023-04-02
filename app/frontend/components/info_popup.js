@@ -169,7 +169,7 @@ class InfoPopup {
       </ul>
 
       <div id='app-info-tabs-1' class='info-tabs scrollable' style='padding-top: 1.2em;'>
-        <sword-module-select id='info-popup-module-select' width='450' current-module-id='${currentModuleId}'></sword-module-select>
+        <select id='info-popup-module-select' name='info-popup-module-select'></select>
 
         <div id='app-info-module-description'>
         ${moduleDescription}
@@ -283,10 +283,10 @@ class InfoPopup {
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
 
     let moduleSelect = document.getElementById('info-popup-content').querySelector('#info-popup-module-select');
-    moduleSelect.addEventListener('moduleChanged', async (event) => {
+    /*moduleSelect.addEventListener('moduleChanged', async (event) => {
       const selectedModuleCode = event.detail.module;
       this.updateModuleSummary(selectedModuleCode);
-    });
+    });*/
 
     if (this.platformHelper.isElectron()) {
       document.getElementById('export-user-data-button').addEventListener('click', async () => {
