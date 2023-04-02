@@ -74,7 +74,6 @@ class CommentaryPanel {
 
     let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
     if (allCommentaries.length == 0) {
-      panelContent.innerHTML = "";
       return;
     }
 
@@ -103,7 +102,7 @@ class CommentaryPanel {
 
       this.getBoxContent().innerHTML = "";
       this.showLoadingIndicator();
-      this.performDelayedContentRefresh();
+      this.performDelayedContentRefresh(selectedVerseBoxes);
 
     } else {
 
@@ -135,9 +134,9 @@ class CommentaryPanel {
     app_controller.info_popup.showAppInfo(moduleCode);
   }
 
-  performDelayedContentRefresh() {
+  performDelayedContentRefresh(selectedVerseBoxes=undefined) {
     setTimeout(async () => {
-      await this.performContentRefresh();
+      await this.performContentRefresh(selectedVerseBoxes);
     }, 50);
   }
 
@@ -162,7 +161,7 @@ class CommentaryPanel {
           let firstVerseBox = $(selectedVerseBoxes[0]);
           let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
 
-          if (verseCommentary.length != 0) {
+          if (verseCommentary != null && verseCommentary.length != 0) {
             commentaryContent += `
             <div class='commentary module-code-${currentCommentary.name.toLowerCase()}'>
               <h3>${currentCommentary.description}
