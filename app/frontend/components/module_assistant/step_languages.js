@@ -25,7 +25,7 @@ const languageMapper = require('../../../lib/language_mapper.js');
 const assistantHelper = require('./assistant_helper.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 require('./update_repositories.js');
-require('../loading_indicator.js');
+require('../generic/loading_indicator.js');
 require('../generic/fuzzy_search.js');
 
 const template = html`
