@@ -16,10 +16,11 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const { sleep } = require('../helpers/ezra_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const moduleSelectHelper = require('../helpers/module_select_helper.js');
+const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
 const INSTANT_LOADING_CHAPTER_LIMIT = 15;
 
@@ -53,23 +54,6 @@ class TranslationController {
       $("select#bible-select").empty();
       await this.initTranslationsMenu();
     });
-  }
-
-  sortTranslations(a,b) {
-    const isMobile = platformHelper.isMobile();
-    let aDescription = isMobile ? a.name : a.description;
-    aDescription = aDescription.toLowerCase();
-  
-    let bDescription = isMobile ? b.name : b.description;
-    bDescription = bDescription.toLowerCase();
-  
-    if (aDescription < bDescription) {
-      return -1;
-    } else if (aDescription > bDescription) {
-      return 1;
-    } else {
-      return 0;
-    }
   }
 
   getTranslationCount() {
@@ -124,22 +108,6 @@ class TranslationController {
     }
   }
 
-  async addLanguageGroupsToBibleSelectMenu(tabIndex, localModules=undefined) {
-    var bibleSelect = this.getBibleSelect(tabIndex);
-    if (bibleSelect == null) {
-      return;
-    }
-
-    var languages = await this.getLanguages('BIBLE', localModules);
-
-    for (let i = 0; i < languages.length; i++) {
-      let currentLang = languages[i];
-
-      let newOptGroup = "<optgroup class='bible-select-" + currentLang.languageCode + "-translations' label='" + currentLang.languageName + "'></optgroup>";
-      bibleSelect.append(newOptGroup);
-    }
-  }
-
   updateUiBasedOnNumberOfTranslations(tabIndex, count) {
     var bibleSelect = this.getBibleSelect(tabIndex);
     var bibleSelectBlock = this.getBibleSelectBlock(tabIndex);
@@ -190,38 +158,6 @@ class TranslationController {
     }
   }
 
-  addTranslationsToBibleSelectMenu(tabIndex, translations) {
-    var bibleSelect = this.getBibleSelect(tabIndex)[0];
-    if (bibleSelect == null) {
-      return;
-    }
-
-    var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    var currentBibleTranslationId = null;
-
-    if (currentTab != null) {
-      currentBibleTranslationId = currentTab.getBibleTranslationId();
-    }
-
-    for (var translation of translations) {
-      var currentTranslationEl = document.createElement('option');
-      currentTranslationEl.value = translation.name;
-
-      if (platformHelper.isMobile()) {
-        currentTranslationEl.innerText = translation.name;
-      } else {
-        currentTranslationEl.innerText = translation.description;
-      }
-
-      if (currentBibleTranslationId == translation.name) {
-        currentTranslationEl.selected = "selected";
-      }
-
-      var optGroup = bibleSelect.querySelector('.bible-select-' + translation.language + '-translations');
-      optGroup.append(currentTranslationEl);
-    }
-  }
-
   async initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
     if (tabIndex === undefined) {
       tabIndex = app_controller.tab_controller.getSelectedTabIndex();
@@ -248,22 +184,22 @@ class TranslationController {
       bibleSelect = currentVerseListMenu.find('select.bible-select');
       bibleSelect.empty();
 
-      var translations = await ipcNsi.getAllLocalModules('BIBLE');
-      translations.sort(this.sortTranslations);
+      var modules = await ipcNsi.getAllLocalModules('BIBLE');
+      modules.sort(swordModuleHelper.sortModules);
 
-      await this.addLanguageGroupsToBibleSelectMenu(tabIndex, translations);
+      await moduleSelectHelper.addLanguageGroupsToModuleSelectMenu(bibleSelect, modules);
 
-      if (translations == null) translations = [];
+      if (modules == null) modules = [];
 
       this.previousTranslationCount = this.translationCount;
-      this.translationCount = translations.length;
+      this.translationCount = modules.length;
 
       if (this.translationCount != this.previousTranslationCount) {
-        this.updateUiBasedOnNumberOfTranslations(tabIndex, translations.length);
+        this.updateUiBasedOnNumberOfTranslations(tabIndex, modules.length);
       }
       
-      this.addTranslationsToBibleSelectMenu(tabIndex, translations);
-      eventController.subscribe('on-locale-changed', locale => this.updateLanguages(locale, bibleSelect));
+      moduleSelectHelper.addModulesToModuleSelectMenu(tabIndex, bibleSelect[0], modules);
+      eventController.subscribe('on-locale-changed', locale => moduleSelectHelper.updateModuleSelectLanguages(locale, bibleSelect));
     }
 
     bibleSelect.selectmenu({
@@ -302,22 +238,6 @@ class TranslationController {
     return allSectionTitles.length > 0;
   }
 
-  async isStrongsTranslationAvailable() {
-    var allTranslations = await ipcNsi.getAllLocalModules();
-
-    if (allTranslations == null) {
-      return false;
-    }
-
-    for (var dbTranslation of allTranslations) {
-      if (dbTranslation.hasStrongs) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   async installStrongs(htmlElementForMessages) {
     var message = "<span>" + i18n.t("general.installing-strongs") + " ...</span>";
     htmlElementForMessages.append(message);
@@ -334,10 +254,11 @@ class TranslationController {
     }
   }
 
+  // Currently not used!! (see startup.js)
   async installStrongsIfNeeded() {
     //console.time("get sync infos");   
     var strongsAvailable = await ipcNsi.strongsAvailable();
-    var strongsInstallNeeded = await this.isStrongsTranslationAvailable() && !strongsAvailable;
+    var strongsInstallNeeded = await swordModuleHelper.isStrongsTranslationAvailable() && !strongsAvailable;
     //console.timeEnd("get sync infos");
 
     if (strongsInstallNeeded) {
@@ -365,37 +286,9 @@ class TranslationController {
     $('#bible-sync-box').dialog("close");
   }
 
-  async getLanguages(moduleType='BIBLE', localModules=undefined) {
-    if (localModules == undefined) {
-      localModules = await ipcNsi.getAllLocalModules(moduleType);
-    }
-
-    if (localModules == null) {
-      return [];
-    }
-    
-    var languages = [];
-    var languageCodes = [];
-
-    for (let i = 0; i < localModules.length; i++) {
-      const module = localModules[i];
-      const languageName = i18nHelper.getLanguageName(module.language);
-
-      if (!languageCodes.includes(module.language)) {
-        languages.push({
-          'languageName': languageName,
-          'languageCode': module.language
-        });
-        languageCodes.push(module.language);
-      }
-    }
-
-    return languages;
-  }
-
   async getInstalledModules(moduleType='BIBLE') {
     var localModules = await ipcNsi.getAllLocalModules(moduleType);
-    localModules.sort(this.sortTranslations);
+    localModules.sort(swordModuleHelper.sortModules);
 
     var translations = [];
 
@@ -444,23 +337,6 @@ class TranslationController {
       // Refresh the selectmenu widget
       bibleSelect.selectmenu();
     }
-  }
-
-  updateLanguages(localeCode, bibleSelect) {
-    if (bibleSelect === null) {
-      return;
-    }
-
-    let optGroups = bibleSelect.find('optgroup');
-
-    for (let i = 0; i < optGroups.length; i++) {
-      let optgroup = optGroups[i];
-      const code = optgroup.getAttribute('class').split('-')[2];
-      optgroup.setAttribute('label', i18nHelper.getLanguageName(code, false, localeCode));
-    }
-
-    // Refresh the selectmenu widget
-    bibleSelect.selectmenu();
   }
 
   async isInstantLoadingBook(bibleTranslationId, bookCode) {
