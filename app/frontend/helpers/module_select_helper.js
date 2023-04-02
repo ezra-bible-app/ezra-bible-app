@@ -30,19 +30,18 @@ module.exports.addLanguageGroupsToModuleSelectMenu = async function(selectElemen
     const currentLang = languages[i];
 
     let newOptGroup = "<optgroup class='module-select-" + currentLang.languageCode + "-modules' label='" + currentLang.languageName + "'></optgroup>";
-    selectElement.append(newOptGroup);
+    $(selectElement).append(newOptGroup);
   }
 };
 
-module.exports.addModulesToModuleSelectMenu = function(tabIndex, moduleSelect, modules) {
+module.exports.addModulesToModuleSelectMenu = function(tabIndex, moduleSelect, modules, currentModuleId=undefined) {
   if (moduleSelect == null) {
     return;
   }
 
   const currentTab = app_controller.tab_controller.getTab(tabIndex);
-  var currentModuleId = null;
 
-  if (currentTab != null) {
+  if (currentTab != null && currentModuleId == null) {
     currentModuleId = currentTab.getBibleTranslationId();
   }
 
@@ -80,4 +79,29 @@ module.exports.updateModuleSelectLanguages = function(localeCode, moduleSelect) 
 
   // Refresh the selectmenu widget
   moduleSelect.selectmenu();
+};
+
+module.exports.initModuleSelect = async function(moduleSelectEl, currentModuleId, moduleSelectWidth, onChange) {
+  var bibleModules = await ipcNsi.getAllLocalModules('BIBLE');
+  var dictModules = await ipcNsi.getAllLocalModules('DICT');
+  var commentaryModules = await ipcNsi.getAllLocalModules('COMMENTARY');
+
+  if (bibleModules == null) bibleModules = [];
+  if (dictModules == null) dictModules = [];
+  if (commentaryModules == null) commentaryModules = [];
+
+  var allModules = [...bibleModules, ...dictModules, ...commentaryModules];
+
+  allModules.sort(swordModuleHelper.sortModules);
+
+  await module.exports.addLanguageGroupsToModuleSelectMenu(moduleSelectEl, allModules);
+  module.exports.addModulesToModuleSelectMenu(undefined, moduleSelectEl, allModules, currentModuleId);
+
+  $(moduleSelectEl).selectmenu({
+    width: moduleSelectWidth,
+    change: () => {
+      let selectedModuleCode = moduleSelectEl.value;
+      onChange(selectedModuleCode);
+    }
+  });
 };
