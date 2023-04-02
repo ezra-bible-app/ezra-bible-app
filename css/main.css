@@ -2035,3 +2035,6 @@ transchange {
   font-style: italic;
 }
 
+#dictionary-panel-content hr {
+  border: 1px solid var(--border-color);
+}
