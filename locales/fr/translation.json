@@ -148,6 +148,7 @@
     "module-version": "Version",
     "module-current-version": "Version actuelle",
     "module-new-version": "Nouvelle version",
+    "module-last-update": "Last update",
     "module-language": "Langue",
     "module-license": "Licence",
     "module-strongs": "Strong",

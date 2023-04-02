@@ -138,6 +138,7 @@
     "module-version": "Verzia",
     "module-current-version": "Aktuálna verzia",
     "module-new-version": "Nová verzia",
+    "module-last-update": "Last update",
     "module-language": "Jazyk",
     "module-license": "Licencia",
     "module-strongs": "Strongy",

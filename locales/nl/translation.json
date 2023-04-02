@@ -140,6 +140,7 @@
     "module-version": "Versie",
     "module-current-version": "Huidige versie",
     "module-new-version": "Nieuwe versie",
+    "module-last-update": "Last update",
     "module-language": "Taal",
     "module-license": "Licentie",
     "module-strongs": "Strongs",

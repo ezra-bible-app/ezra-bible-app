@@ -102,9 +102,20 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
       moduleInfo += `<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>${i18n.t("general.sword-module-info")}</p>`;
     }
 
+    let lastUpdate = swordModule.lastUpdate;
+
+    if (lastUpdate != "") {
+      try {
+        lastUpdate = i18nHelper.getLocalizedDate(lastUpdate);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
     moduleInfo += "<table>";
     moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
+    moduleInfo += "<tr><td>" + i18n.t("general.module-last-update") + ":</td><td>" + lastUpdate + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + i18nHelper.getLanguageName(swordModule.language) + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + swordModule.distributionLicense + "</td></tr>";
 
