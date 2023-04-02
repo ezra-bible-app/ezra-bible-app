@@ -23,7 +23,7 @@ const eventController = require('../../controllers/event_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const assistantHelper = require('./assistant_helper.js');
 require('./update_repositories.js');
-require('../loading_indicator.js');
+require('../generic/loading_indicator.js');
 
 const template = html`
 <style>
