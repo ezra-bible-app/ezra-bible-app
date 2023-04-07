@@ -23,6 +23,8 @@
   --background-color-darker: #e6e9eb;
   --widget-bg-color: #eeeeee;
   --text-color: #362b36;
+  --text-color-red: firebrick;
+  --text-color-red-darkmode: salmon;
 
   --highlight-object-color: #AFCDFF;
   --highlight-object-color-dark: #00396a;
@@ -1748,11 +1750,11 @@ body:not(.darkmode--activated) .tab-search-occurances {
 }
 
 .verse-list-with-red-letters .sword-quote-jesus {
-  color: firebrick;
+  color: var(--text-color-red);
 }
 
 .darkmode--activated .verse-list-with-red-letters .sword-quote-jesus {
-  color: salmon;
+  color: var(--text-color-red-darkmode);
 }
 
 .verse-list.verse-list-with-paragraphs .sword-paragraph-end {

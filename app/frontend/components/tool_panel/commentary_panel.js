@@ -71,10 +71,15 @@ class CommentaryPanel {
     }
 
     let panelContent = document.getElementById('commentary-panel-content');
+    let helpMessageNoCommentariesInstalled = document.getElementById('commentary-panel-help-no-commentaries');
 
     let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
     if (allCommentaries.length == 0) {
+      helpMessageNoCommentariesInstalled.style.display = '';
       return;
+
+    } else {
+      helpMessageNoCommentariesInstalled.style.display = 'none';
     }
 
     let panelHeader = document.getElementById('commentary-panel-header');
