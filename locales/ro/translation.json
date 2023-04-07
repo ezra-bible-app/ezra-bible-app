@@ -378,6 +378,7 @@
     "commentaries-for": "Commentaries for",
     "show-commentaries": "Show commentaries",
     "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
+    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
     "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
