@@ -30,14 +30,37 @@ class CommentaryPanel {
       this.performRefresh(verseSelectionDetails.selectedElements);
     });
 
-    eventController.subscribe('on-commentary-panel-switched', () => {
+    let refreshWithSelection = () => {
       let selectedVerseBoxes = app_controller.verse_selection.getSelectedElements();
       this.performRefresh(selectedVerseBoxes);
+    };
+
+    eventController.subscribe('on-commentary-panel-switched', () => {
+      refreshWithSelection();
     });
 
     eventController.subscribe('on-locale-changed', () => {
-      let selectedVerseBoxes = app_controller.verse_selection.getSelectedElements();
-      this.performRefresh(selectedVerseBoxes);
+      refreshWithSelection();
+    });
+
+    eventController.subscribe('on-translation-added', (moduleCode) => {
+      if (moduleCode == 'KJV') {
+        refreshWithSelection();
+      }
+    });
+
+    eventController.subscribe('on-translation-removed', (moduleCode) => {
+      if (moduleCode == 'KJV') {
+        refreshWithSelection();
+      }
+    });
+
+    eventController.subscribe('on-commentary-added', () => {
+      refreshWithSelection();
+    });
+
+    eventController.subscribe('on-commentary-removed', () => {
+      refreshWithSelection();
     });
   }
 
@@ -65,25 +88,51 @@ class CommentaryPanel {
     return document.getElementById('commentary-panel-help');
   }
 
+  showHelpBox() {
+    let panelContent = document.getElementById('commentary-panel-content');
+    panelContent.innerHTML = "";
+
+    let helpBox = this.getHelpBox();
+    helpBox.classList.remove('hidden');
+  }
+
+  hideHelpBox() {
+    let helpBox = this.getHelpBox();
+    helpBox.classList.add('hidden');
+  }
+
   async performRefresh(selectedVerseBoxes) {
     if (!this.isPanelActive()) {
       return;
     }
 
-    let panelContent = document.getElementById('commentary-panel-content');
     let helpMessageNoCommentariesInstalled = document.getElementById('commentary-panel-help-no-commentaries');
+    let helpMessageNoKjvInstalled = document.getElementById('commentary-panel-help-no-kjv');
+    let installPreconditionsFulfilled = true;
 
     let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
     if (allCommentaries.length == 0) {
       helpMessageNoCommentariesInstalled.style.display = '';
-      return;
+      installPreconditionsFulfilled = false;
 
     } else {
       helpMessageNoCommentariesInstalled.style.display = 'none';
     }
 
+    const kjv = await ipcNsi.getLocalModule('KJV');
+    if (kjv == null) {
+      helpMessageNoKjvInstalled.style.display = '';
+      installPreconditionsFulfilled = false;
+    } else {
+      helpMessageNoKjvInstalled.style.display = 'none';
+    }
+
+    if (!installPreconditionsFulfilled) {
+      this.showHelpBox();
+      return;
+    }
+
     let panelHeader = document.getElementById('commentary-panel-header');
-    let helpBox = this.getHelpBox();
     let panelTitle = "";
 
     if (app_controller.verse_selection != null &&
@@ -93,12 +142,12 @@ class CommentaryPanel {
       panelTitle = i18n.t("commentary-panel.commentaries-for") + " " + 
         await app_controller.verse_selection.getSelectedVerseLabelText();
 
-      helpBox.classList.add('hidden');
+      this.hideHelpBox();
 
     } else {
       panelTitle = i18n.t("commentary-panel.default-header");
-      helpBox.classList.remove('hidden');
-      panelContent.innerHTML = "";
+
+      this.showHelpBox();
     }
 
     panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
