@@ -188,6 +188,7 @@ class StepInstall extends HTMLElement {
       this._setInstallationInfoStatus();
       $progressBar.progressbar("value", 100);
       const strongsAvailable = await ipcNsi.strongsAvailable();
+      const kjvAvailable = await ipcNsi.getLocalModule('KJV') != null;
       const moduleType = assistantController.get('moduleType');
       
       if (moduleType == 'BIBLE') {
@@ -204,6 +205,12 @@ class StepInstall extends HTMLElement {
 
       if (moduleType == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
         await this._installStrongsModules();
+      }
+
+      // Install KJV as a dependency of commentaries if it has not been installed yet
+      if (moduleType == 'COMMENTARY' && !kjvAvailable) {
+        await this._installModule('KJV');
+        await eventController.publishAsync('on-translation-added', 'KJV');
       }
     } else {
       let errorType = "";
