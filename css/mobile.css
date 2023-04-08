@@ -700,6 +700,10 @@ Librem 5/Pinephone etc.
   #panel-switches {
     justify-content: center !important;
   }
+
+  #info-popup-module-select-button {
+    margin-top: 1em !important;
+  }
 }
 
 /* PORTRAIT */
