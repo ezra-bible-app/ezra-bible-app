@@ -66,10 +66,10 @@
   margin-bottom: 1em;
 }
 
-#commentary-panel-help-no-commentaries {
+.warning-text {
   color: var(--text-color-red);
 }
 
-.darkmode--activated #commentary-panel-help-no-commentaries {
+.darkmode--activated .warning-text {
   color: var(--text-color-red-darkmode);
 }

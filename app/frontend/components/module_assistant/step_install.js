@@ -189,17 +189,22 @@ class StepInstall extends HTMLElement {
       
       this._setInstallationInfoStatus();
       $progressBar.progressbar("value", 100);
-      var strongsAvailable = await ipcNsi.strongsAvailable();
+      const strongsAvailable = await ipcNsi.strongsAvailable();
+      const moduleType = assistantController.get('moduleType');
       
-      if (assistantController.get('moduleType') == 'BIBLE') {
+      if (moduleType == 'BIBLE') {
         await eventController.publishAsync('on-translation-added', moduleCode);
       }
 
-      if (assistantController.get('moduleType') == 'DICT') {
+      if (moduleType == 'DICT') {
         await eventController.publishAsync('on-dictionary-added', moduleCode);
       }
 
-      if (assistantController.get('moduleType') == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
+      if (moduleType == 'COMMENTARY') {
+        await eventController.publishAsync('on-commentary-added', moduleCode);
+      }
+
+      if (moduleType == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
         await this._installStrongsModules();
       }
     } else {

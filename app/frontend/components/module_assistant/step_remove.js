@@ -85,18 +85,23 @@ class StepRemove extends HTMLElement {
 
     await ipcNsi.uninstallModule(moduleCode);
 
-    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    const modules = await app_controller.translation_controller.getInstalledModules('BIBLE');
 
-    if (currentBibleTranslationId == moduleCode) {
-      var modules = await app_controller.translation_controller.getInstalledModules('BIBLE');
+    if (modules.length > 0) {
+      await eventController.publishAsync('on-translation-changed', {from: currentBibleTranslationId, to: modules[0]});
+    } else {
+      await eventController.publishAsync('on-all-translations-removed');
+    }
 
-      if (modules.length > 0) {
-        await eventController.publishAsync('on-translation-changed', {from: currentBibleTranslationId, to: modules[0]});
-      } else {
-        await eventController.publishAsync('on-all-translations-removed');
-      }
+    const moduleType = assistantController.get('moduleType');
 
+    if (moduleType == 'BIBLE') {
       await eventController.publishAsync('on-translation-removed', moduleCode);
+    }
+
+    if (moduleType == 'COMMENTARY') {
+      await eventController.publishAsync('on-commentary-removed', moduleCode);
     }
 
     this._setRemovalInfoStatus();
