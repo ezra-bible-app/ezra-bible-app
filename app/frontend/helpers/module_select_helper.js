@@ -97,6 +97,10 @@ module.exports.initModuleSelect = async function(moduleSelectEl, currentModuleId
   await module.exports.addLanguageGroupsToModuleSelectMenu(moduleSelectEl, allModules);
   module.exports.addModulesToModuleSelectMenu(undefined, moduleSelectEl, allModules, currentModuleId);
 
+  if (platformHelper.isMobile()) {
+    moduleSelectWidth = 110;
+  }
+
   $(moduleSelectEl).selectmenu({
     width: moduleSelectWidth,
     change: () => {
