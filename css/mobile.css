@@ -404,7 +404,7 @@ Librem 5/Pinephone etc.
     display: none;
   }
 
-  #module-info, .module-info-button {
+  #module-info, #filtered-module-list .module-info-button {
     display: none;
   }
 
