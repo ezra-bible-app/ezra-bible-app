@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "Nouvelle étiquette",
-    "assign-last-tag": "Assigner la dernière étiquette",
-    "configure-translations": "Configurer des traductions",
-    "configure-dicts": "Configurer des dictionnaires",
-    "context": "Contexte"
-  },
   "application-menu": {
     "quit-app": "Quitter Ezra Bible App"
   },
@@ -55,6 +48,10 @@
     "module-type-dict_singular-demonstrative-pronoun": "Ce dictionnaire",
     "module-type-generic": "modules",
     "module-type-generic_accusative": "modules",
+    "module-type-commentary": "Bible commentaries",
+    "module-type-commentary_accusative": "Bible commentaries",
+    "module-type-commentary_instrumental": "Bible commentaries",
+    "module-type-commentary_singular": "Bible commentary",
     "header": "Configurer {{module_type, instrumental, title-case}}",
     "intro-text": "Ezra Bible App installe des <b>{{module_type, accusative}}</b> en utilisant votre connexion Internet. {{module_type, capitalize}} sont distribués par la <a class='external' href='http://www.crosswire.org'>Société biblique CrossWire</a> et seront téléchargé depuis les dépôts du <a class='external' href='http://www.crosswire.org/sword'>projet SWORD</a>.",
     "internet-usage-note": "<b>NOTE IMPORTANT</b><br/>Si vous vivez dans un pays de persécution chrétienne,<br/>sachez que votre fournisseur internet sera capable de détecter<br/>que <b> vous accédez à des ressources chrétiennes</b> !",
@@ -207,7 +204,11 @@
     "not-installed": "Pas installé",
     "and-more": "et plus",
     "module-updates-available": "Les modules listés ci-dessous ont des mises à jour.",
-    "modules-up-to-date": "Tous les modules installés sont à jour !"
+    "modules-up-to-date": "Tous les modules installés sont à jour !",
+    "configure-translations": "Configurer des traductions",
+    "configure-dicts": "Configurer des dictionnaires",
+    "configure-commentaries": "Configure commentaries",
+    "context": "Contexte"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",
@@ -254,6 +255,7 @@
     "new-tag": "Nouvelle étiquette",
     "create-tag": "Créer l’étiquette",
     "delete-tag": "Supprimer l’étiquette",
+    "assign-last-tag": "Assigner la dernière étiquette",
     "all-tags": "Toutes les étiquettes",
     "assigned-tags": "Étiquettes attribuées",
     "unassigned-tags": "Étiquettes non attribuées",
@@ -380,6 +382,15 @@
     "show-parallel-translations": "Comparer les traductions",
     "help-instruction": "Pour comparer les traductions, vous sélectionnez un verset ou un groupe de versets.<br><br> Cette zone listera alors automatiquement les versets sélectionnés parmi toutes les traductions disponibles.<br><br> Vous devez installer au moins deux traductions pour cette fonctionnalité.",
     "compare": "Comparer"
+  },
+  "commentary-panel": {
+    "default-header": "<b>Bible commentary</b>",
+    "commentaries-for": "Commentaries for",
+    "show-commentaries": "Show commentaries",
+    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
+    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
+    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
+    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
     "search": "Rechercher des emojis...",

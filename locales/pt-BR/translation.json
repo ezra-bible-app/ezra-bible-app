@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "Nova etiqueta",
-    "assign-last-tag": "Atribuir última etiqueta",
-    "configure-translations": "Configurar traduções",
-    "configure-dicts": "Configurar dicionários",
-    "context": "Contexto"
-  },
   "application-menu": {
     "quit-app": "Sair da Bíblia Esdras"
   },
@@ -49,6 +42,10 @@
     "module-type-dict_singular-genitive": "dicionário",
     "module-type-generic": "módulos",
     "module-type-generic_accusative": "módulos",
+    "module-type-commentary": "Bible commentaries",
+    "module-type-commentary_accusative": "Bible commentaries",
+    "module-type-commentary_instrumental": "Bible commentaries",
+    "module-type-commentary_singular": "Bible commentary",
     "header": "Configurar {{module_type, instrumental, title-case}}",
     "intro-text": "A Bíblia Esdras instala <b>{{module_type, accusative}}</b> utilizando sua conexão de internet. {{module_type, capitalize}} são distribuídas pela <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> e serão baixada(o)s dos repositórios do <a class='external' href='http://www.crosswire.org/sword'>projeto The SWORD</a>.",
     "internet-usage-note": "<b>NOTA IMPORTANTE</b><br/>Se você estiver em um país onde cristãos são perseguidos, <br/>esteja ciente de que seu provedor de Internet será capaz de detectar<br/> que <b>você está acessando recursos cristãos</b>!",
@@ -197,7 +194,11 @@
     "not-installed": "Não instalado",
     "and-more": "e mais",
     "module-updates-available": "Há atualizações para os módulos listados abaixo.",
-    "modules-up-to-date": "Todos os módulos instalados estão atualizados!"
+    "modules-up-to-date": "Todos os módulos instalados estão atualizados!",
+    "configure-translations": "Configurar traduções",
+    "configure-dicts": "Configurar dicionários",
+    "configure-commentaries": "Configure commentaries",
+    "context": "Contexto"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para começar a trabalhar com etiquetas, crie a primeira clicando no botão <i>Nova&nbsp;etiqueta</i>.<br/><br/>Depois disso, você pode navegar pelo texto da Bíblia e clicar, ou arrastar, e selecionar versículos - e em seguida, atribua a etiqueta que você acabou de criar.",
@@ -244,6 +245,7 @@
     "new-tag": "Nova etiqueta",
     "create-tag": "Criar etiqueta",
     "delete-tag": "Apagar etiqueta",
+    "assign-last-tag": "Atribuir última etiqueta",
     "all-tags": "Todas as etiquetas",
     "assigned-tags": "Etiquetas atribuídas",
     "unassigned-tags": "Etiquetas não atribuídas",
@@ -370,6 +372,15 @@
     "show-parallel-translations": "Comparar traduções",
     "help-instruction": "Para comparar traduções, você deve selecionar um ou mais versículos.<br><br> Esta área listará automaticamente os versículos selecionados de todas as traduções disponíveis.<br><br> You need to have at least two translations installed for this functionality to work.",
     "compare": "Comparar"
+  },
+  "commentary-panel": {
+    "default-header": "<b>Bible commentary</b>",
+    "commentaries-for": "Commentaries for",
+    "show-commentaries": "Show commentaries",
+    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
+    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
+    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
+    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
     "search": "Buscar emojis...",

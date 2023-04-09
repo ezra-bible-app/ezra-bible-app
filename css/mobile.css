@@ -404,7 +404,7 @@ Librem 5/Pinephone etc.
     display: none;
   }
 
-  #module-info, .module-info-button {
+  #module-info, #filtered-module-list .module-info-button {
     display: none;
   }
 
@@ -699,6 +699,10 @@ Librem 5/Pinephone etc.
 
   #panel-switches {
     justify-content: center !important;
+  }
+
+  #info-popup-module-select-button {
+    margin-top: 1em !important;
   }
 }
 

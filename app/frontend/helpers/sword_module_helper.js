@@ -297,12 +297,74 @@ module.exports.isPublicDomain = async function(moduleId) {
   return !license || PUBLIC_LICENSES.includes(license);
 };
 
+module.exports.getLanguages = async function(moduleType='BIBLE', localModules=undefined) {
+  if (localModules == undefined) {
+    localModules = await ipcNsi.getAllLocalModules(moduleType);
+  }
+
+  if (localModules == null) {
+    return [];
+  }
+  
+  var languages = [];
+  var languageCodes = [];
+
+  for (let i = 0; i < localModules.length; i++) {
+    const module = localModules[i];
+    const languageName = i18nHelper.getLanguageName(module.language);
+
+    if (!languageCodes.includes(module.language)) {
+      languages.push({
+        'languageName': languageName,
+        'languageCode': module.language
+      });
+      languageCodes.push(module.language);
+    }
+  }
+
+  return languages;
+};
+
+module.exports.isStrongsTranslationAvailable = async function() {
+  var allTranslations = await ipcNsi.getAllLocalModules();
+
+  if (allTranslations == null) {
+    return false;
+  }
+
+  for (var dbTranslation of allTranslations) {
+    if (dbTranslation.hasStrongs) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+module.exports.sortModules = function(a,b) {
+  const isMobile = platformHelper.isMobile();
+  let aDescription = isMobile ? a.name : a.description;
+  aDescription = aDescription.toLowerCase();
+
+  let bDescription = isMobile ? b.name : b.description;
+  bDescription = bDescription.toLowerCase();
+
+  if (aDescription < bDescription) {
+    return -1;
+  } else if (aDescription > bDescription) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
+
 function urlify(text) {
   // replace urls in text with <a> html tag
   var aTagRegex = /(<a href.*?>.*?<\/a>)/g;
   var aSplits = text.split(aTagRegex);
 
   // regex extracted from https://www.codegrepper.com/code-examples/whatever/use+regex+to+get+urls+from+string
+  // eslint-disable-next-line no-useless-escape
   var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])/igm;
 
   var cleanedText = "";

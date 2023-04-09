@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "Neuer Tag",
-    "assign-last-tag": "Letzten Tag zuweisen",
-    "configure-translations": "Übersetzungen konfigurieren",
-    "configure-dicts": "Wörterbücher konfigurieren",
-    "context": "Kontext"
-  },
   "application-menu": {
     "quit-app": "Ezra Bible App beenden"
   },
@@ -48,6 +41,11 @@
     "module-type-generic": "Module",
     "module-type-generic_accusative": "Module",
     "module-type-generic_dative": "Modulen",
+    "module-type-commentary": "Bible commentaries",
+    "module-type-commentary_accusative": "Bible commentaries",
+    "module-type-commentary_dative": "Bible commentaries",
+    "module-type-commentary_instrumental": "Bible commentaries",
+    "module-type-commentary_singular": "Bible commentary",
     "header": "Konfiguriere {{module_type, title-case}}",
     "intro-text": "Ezra Bible App installiert <b>{{module_type, accusative}}</b> und benutzt dabei Ihre Internetverbindung. {{module_type, capitalize}} werden von der <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> vertrieben und werden von <a class='external' href='http://www.crosswire.org/sword'>SWORD</a> Modularchiven heruntergeladen.",
     "internet-usage-note": "<b>WICHTIGER HINWEIS</b><br/>Wenn Sie sich in einem Land befinden wo Christen verfolgt werden<br/>seien Sie sich bewusst, dass Ihr Internet Provider <br/><b>den Zugriff auf christliche Materialien erkennen kann</b>!",
@@ -192,7 +190,11 @@
     "not-installed": "Nicht installiert",
     "and-more": "und weitere",
     "module-updates-available": "Es gibt Updates für die unten aufgelisteten Module.",
-    "modules-up-to-date": "Alle installierten Module sind auf dem neuesten Stand!"
+    "modules-up-to-date": "Alle installierten Module sind auf dem neuesten Stand!",
+    "configure-translations": "Übersetzungen konfigurieren",
+    "configure-dicts": "Wörterbücher konfigurieren",
+    "configure-commentaries": "Configure commentaries",
+    "context": "Kontext"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
@@ -239,6 +241,7 @@
     "new-tag": "Neuer Tag",
     "create-tag": "Tag erstellen",
     "delete-tag": "Tag löschen",
+    "assign-last-tag": "Letzten Tag zuweisen",
     "all-tags": "Alle Tags",
     "assigned-tags": "Zugeordnete Tags",
     "unassigned-tags": "Nicht zugeordnete Tags",
@@ -365,6 +368,15 @@
     "show-parallel-translations": "Übersetzungen vergleichen",
     "help-instruction": "Um Übersetzungen zu vergleichen wählen Sie einen Vers oder eine Gruppe von Versen aus.<br><br> Dieser Bereich wird dann automatisch die Liste der gewählten Verse aus allen verfügbaren Übersetzungen anzeigen.<br><br> Sie müssen mindestens zwei Übersetzungen installieren, damit dies funktioniert.",
     "compare": "Vergleichen"
+  },
+  "commentary-panel": {
+    "default-header": "<b>Bible commentary</b>",
+    "commentaries-for": "Commentaries for",
+    "show-commentaries": "Show commentaries",
+    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
+    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
+    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
+    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
     "search": "Durchsuche Emojis...",

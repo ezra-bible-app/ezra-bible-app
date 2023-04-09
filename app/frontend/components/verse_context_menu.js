@@ -33,7 +33,7 @@ const template = html`
 </style>
 
 <div class="assign-last-tag-button fg-button ui-state-default ui-corner-all ui-state-disabled">
-  <span i18n="tags-toolbar.assign-last-tag"></span>
+  <span i18n="tags.assign-last-tag"></span>
 </div>
 
 <div class="edit-note-button fg-button ui-state-default ui-corner-all ui-state-disabled">
@@ -53,7 +53,7 @@ const template = html`
 
 <div class="show-context-button fg-button ui-state-default ui-corner-all ui-state-disabled">
   <i class="fas fa-arrows-alt-v"></i><i class="fas fa-align-justify"></i>
-  <span i18n="tags-toolbar.context"></span>
+  <span i18n="general.context"></span>
 </div>
 `;
 

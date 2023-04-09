@@ -93,7 +93,8 @@ class IpcNsi {
   async getUpdatedModules() {
     let allLocalBibleModules = await ipcNsi.getAllLocalModules('BIBLE');
     let allLocalDictModules = await ipcNsi.getAllLocalModules('DICT');
-    let allLocalModules = [...allLocalBibleModules, ...allLocalDictModules];
+    let allLocalCommentaryModules = await ipcNsi.getAllLocalModules('COMMENTARY');
+    let allLocalModules = [...allLocalBibleModules, ...allLocalDictModules, ...allLocalCommentaryModules];
     let updatedModules = [];
 
     for (let i = 0; i < allLocalModules.length; i++) {
@@ -164,6 +165,11 @@ class IpcNsi {
 
   async getRawModuleEntry(moduleCode, key) {
     var returnValue = this._ipcRenderer.call('nsi_getRawModuleEntry', moduleCode, key);
+    return returnValue;
+  }
+
+  async getReferenceText(moduleCode, key) {
+    var returnValue = this._ipcRenderer.call('nsi_getReferenceText', moduleCode, key);
     return returnValue;
   }
 

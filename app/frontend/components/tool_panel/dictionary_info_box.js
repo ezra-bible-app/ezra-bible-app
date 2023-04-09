@@ -16,8 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const eventController = require('../controllers/event_controller.js');
-const { html } = require('../helpers/ezra_helper.js');
+const eventController = require('../../controllers/event_controller.js');
+const { html } = require('../../helpers/ezra_helper.js');
 
 let jsStrongs = null;
 
@@ -126,7 +126,7 @@ class DictionaryInfoBox {
     this.dictionaryInfoBoxHelp.hide();
     this.dictionaryInfoBoxBreadcrumbs.html(this.getCurrentDictInfoBreadcrumbs(additionalStrongsEntries));
 
-    var extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
+    let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
 
     this.dictionaryInfoBoxContent.html(extendedStrongsInfo);
 
@@ -137,6 +137,20 @@ class DictionaryInfoBox {
         currentA.replaceWith(currentA.text());
       }
     });
+
+    uiHelper.configureButtonStyles(this.dictionaryInfoBoxContent[0]);
+
+    let moduleInfoButtons = this.dictionaryInfoBoxContent[0].querySelectorAll('.module-info-button');
+    moduleInfoButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        this.handleModuleInfoButtonClick(event);
+      });
+    });
+  }
+
+  handleModuleInfoButtonClick(event) {
+    let moduleCode = event.target.closest('.module-info-button').getAttribute('module');
+    app_controller.info_popup.showAppInfo(moduleCode);
   }
 
   getAlternativeStrongsLink(strongsKey) {
@@ -330,23 +344,32 @@ class DictionaryInfoBox {
 
   async getExtendedStrongsInfo(strongsEntry, lemma) {
 
-    var lang = "";
+    let lang = "";
+    let moduleCode = "";
+
     if (strongsEntry.key[0] == 'G') {
       lang = 'GREEK';
+      moduleCode = 'StrongsGreek';
     } else if (strongsEntry.key[0] == 'H') {
       lang = 'HEBREW';
+      moduleCode = 'StrongsHebrew';
     }
 
-    var extraDictContent = await this.getExtraDictionaryContent(lang, strongsEntry);
-    var relatedStrongsContent = await this.getRelatedStrongsContent(strongsEntry.references);
+    let extraDictContent = await this.getExtraDictionaryContent(lang, strongsEntry);
+    let relatedStrongsContent = await this.getRelatedStrongsContent(strongsEntry.references);
+    
+    const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
+    let moduleInfoButton = this.getModuleInfoButton(moduleInfoButtonTitle, moduleCode);
 
-    var extendedStrongsInfo = `
+    let extendedStrongsInfo = `
       <b>${this.getShortInfo(strongsEntry, lemma)}</b>
       <p>${this.getFindAllLink(strongsEntry)} | ${this.getBlueletterLink(strongsEntry)}</p>
       ${extraDictContent}
-      <b>Strong's</b>
+      <div class='bold' style='margin-bottom: 1em'>Strong's
+      ${moduleInfoButton} 
+      </div>
       <pre class='strongs-definition'>${strongsEntry.definition}</pre>
-      ${relatedStrongsContent}`;    
+      ${relatedStrongsContent}`;
 
     return extendedStrongsInfo;
   }
@@ -463,36 +486,41 @@ class DictionaryInfoBox {
   }
 
   async getExtraDictionaryContent(lang='GREEK', strongsEntry) {
-    var extraDictModules = await this.getAllExtraDictModules(lang);
-    var extraDictContent = "<hr></hr>";
+    let extraDictModules = await this.getAllExtraDictModules(lang);
+    let extraDictContent = "<hr></hr>";
 
-    for (var i = 0; i < extraDictModules.length; i++) {
-      var dict = extraDictModules[i];
-      var currentDictContent = await this.getDictionaryEntry(dict.name, strongsEntry);
+    const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
+
+    for (let i = 0; i < extraDictModules.length; i++) {
+      let dict = extraDictModules[i];
+      let currentDictContent = await this.getDictionaryEntry(dict.name, strongsEntry);
 
       if (currentDictContent != undefined) {
         currentDictContent = currentDictContent.trim();
-        var containsLineBreaks = false;
+        let moduleInfoButton = this.getModuleInfoButton(moduleInfoButtonTitle, dict.name);
 
-        if (currentDictContent.indexOf("\n") != -1 ||
-            currentDictContent.indexOf("<br />") != -1 ||
-            currentDictContent.indexOf("<br/>") != -1 ||
-            currentDictContent.indexOf("<entry") != -1) {
+        let dictHeader = `
+          <div class='bold' style='margin-bottom: 1em'>
+            <span>${dict.description}</span>
+            ${moduleInfoButton}
+            </div>
+          </div> ${currentDictContent} <hr></hr>
+        `;
 
-          containsLineBreaks = true;
-        }
-
-        extraDictContent += "<span class='bold'>" + dict.description;
-       
-        if (containsLineBreaks) {
-          extraDictContent += "</span><br/>" + currentDictContent + "<hr></hr>";
-        } else {
-          extraDictContent += ": </span>" + currentDictContent + "<hr></hr>";
-        }
+        extraDictContent += dictHeader;
       }
     }
 
     return extraDictContent;
+  }
+
+  getModuleInfoButton(moduleInfoButtonTitle, moduleCode) {
+    return `
+      <div class='module-info-button fg-button ui-corner-all ui-state-default ui-state-default'
+            i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${moduleCode}'>
+        <i class='fas fa-info'></i>
+      </div>
+    `;
   }
 
   async getDictionaryEntry(moduleCode, strongsEntry) {

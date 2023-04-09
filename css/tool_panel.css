@@ -199,6 +199,10 @@
   padding: 0;
 }
 
+.ui-accordion .ui-accordion-content {
+  margin-top: unset !important;
+}
+
 .accordion-panel .ui-accordion-header {
   height: 2.2em;
 }

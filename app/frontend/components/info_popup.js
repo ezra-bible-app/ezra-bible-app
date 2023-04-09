@@ -20,6 +20,8 @@ const PlatformHelper = require('../../lib/platform_helper.js');
 const { html, sleep } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const exportHelper = require('../helpers/export_helper.js');
+const swordModuleHelper = require('../helpers/sword_module_helper.js');
+const moduleSelectHelper = require('../helpers/module_select_helper.js');
 
 class InfoPopup {
   constructor() {
@@ -81,7 +83,7 @@ class InfoPopup {
     return timestamp.toLocaleDateString() + ' / ' + timestamp.toLocaleTimeString();
   }
 
-  async showAppInfo() {
+  async showAppInfo(moduleCode=undefined) {
     var CommitInfo = null;
     var gitCommit = "";
 
@@ -94,7 +96,11 @@ class InfoPopup {
 
     this.initAppInfoBox();
 
-    const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    let currentModuleId = app_controller.tab_controller.getTab().getBibleTranslationId();
+
+    if (moduleCode != null) {
+      currentModuleId = moduleCode;
+    }
 
     var version = "";
     if (this.platformHelper.isElectron()) {
@@ -142,9 +148,8 @@ class InfoPopup {
 
     const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '--');
 
-    const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
-    const moduleInfo = await swordModuleHelper.getModuleInfo(currentBibleTranslationId, false, false);
+    const moduleDescription = await swordModuleHelper.getModuleDescription(currentModuleId);
+    const moduleInfo = await swordModuleHelper.getModuleInfo(currentModuleId, false, false);
 
     const exportUserDataHint = await i18n.t('general.export-user-data-hint');
 
@@ -164,10 +169,14 @@ class InfoPopup {
         <li id='app-info-tabs-3-nav'><a href='#app-info-tabs-3'>${i18n.t('shortcuts.tab-title')}</a></li>
       </ul>
 
-      <div id='app-info-tabs-1' class='info-tabs scrollable'>
-        ${moduleDescription}
+      <div id='app-info-tabs-1' class='info-tabs scrollable' style='padding-top: 1.2em;'>
+        <select id='info-popup-module-select' name='info-popup-module-select'></select>
 
-        <div style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid var(--border-color)">
+        <div id='app-info-module-description'>
+        ${moduleDescription}
+        </div>
+
+        <div id='app-info-module-info' style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid var(--border-color)">
         ${moduleInfo}
         </div>
       </div>
@@ -274,6 +283,13 @@ class InfoPopup {
     $('#info-popup-content').html(appInfo.innerHTML);
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
 
+    const MODULE_SELECT_WIDTH = 450;
+    let moduleSelect = document.getElementById('info-popup-content').querySelector('#info-popup-module-select');
+
+    await moduleSelectHelper.initModuleSelect(moduleSelect, currentModuleId, MODULE_SELECT_WIDTH, (selectedValue) => {
+      this.updateModuleSummary(selectedValue);
+    });
+
     if (this.platformHelper.isElectron()) {
       document.getElementById('export-user-data-button').addEventListener('click', async () => {
         var dialogTitle = i18n.t("general.export-user-data-action");
@@ -293,6 +309,17 @@ class InfoPopup {
     uiHelper.configureButtonStyles('#info-popup-content');
 
     $('#info-popup').dialog("open");
+  }
+
+  async updateModuleSummary(moduleCode) {
+    const moduleDescription = await swordModuleHelper.getModuleDescription(moduleCode);
+    const moduleInfo = await swordModuleHelper.getModuleInfo(moduleCode, false, false);
+
+    let moduleDescriptionContainer = document.querySelector('#app-info-module-description');
+    let moduleInfoContainer = document.querySelector('#app-info-module-info');
+
+    moduleDescriptionContainer.innerHTML = moduleDescription;
+    moduleInfoContainer.innerHTML = moduleInfo;
   }
 
   enableCurrentAppInfoButton(tabIndex = undefined) {

@@ -69,6 +69,8 @@ const i18nextOptions = {
         value = "module-assistant.module-type-bible";
       } else if (value == 'DICT') {
         value = "module-assistant.module-type-dict";
+      } else if (value == 'COMMENTARY') {
+        value = "module-assistant.module-type-commentary";
       }
 
       value = i18n.t(value, {context});

@@ -23,6 +23,8 @@
   --background-color-darker: #e6e9eb;
   --widget-bg-color: #eeeeee;
   --text-color: #362b36;
+  --text-color-red: firebrick;
+  --text-color-red-darkmode: salmon;
 
   --highlight-object-color: #AFCDFF;
   --highlight-object-color-dark: #00396a;
@@ -152,6 +154,12 @@ h2 {
   padding-top: 0.5em;
   font-size: 1.2em;
   margin-left: 0.5em;
+  clear: both;
+}
+
+h3 {
+  padding-top: 0;
+  font-size: 1.1em;
   clear: both;
 }
 
@@ -1045,9 +1053,19 @@ main.content {
   padding: 0 0.8em;
 }
 
+.module-info-button {
+  display: inline-block;
+  width: 1em;
+  padding: 0.2em;
+  padding-left: 0.7em !important;
+  margin-left: 0.5em;
+  font-size: 0.9em;
+}
+
 .verse-list-menu .display-options-button,
 .verse-list-menu .app-info-button,
-.verse-list-menu .export-docx-button {
+.verse-list-menu .export-docx-button,
+.module-info-button {
   justify-content: center;
 }
 
@@ -1232,7 +1250,8 @@ li.book-unavailable a:focus,
 }
 
 #verse-list-popup-loading-indicator,
-#compare-translations-loading-indicator {
+#compare-translations-loading-indicator,
+#commentary-panel-loading-indicator {
   display: none;
   /* width: 300px; */
   height: 30px;
@@ -1270,6 +1289,7 @@ li.book-unavailable a:focus,
 
 #show-translation-settings-button,
 #show-dict-settings-button,
+#show-commentary-settings-button,
 #setup-db-sync-button,
 #show-module-update-button {
   padding: 0.5em;
@@ -1730,11 +1750,11 @@ body:not(.darkmode--activated) .tab-search-occurances {
 }
 
 .verse-list-with-red-letters .sword-quote-jesus {
-  color: firebrick;
+  color: var(--text-color-red);
 }
 
 .darkmode--activated .verse-list-with-red-letters .sword-quote-jesus {
-  color: salmon;
+  color: var(--text-color-red-darkmode);
 }
 
 .verse-list.verse-list-with-paragraphs .sword-paragraph-end {
@@ -2017,3 +2037,6 @@ transchange {
   font-style: italic;
 }
 
+#dictionary-panel-content hr {
+  border: 1px solid var(--border-color);
+}

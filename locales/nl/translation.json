@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "Nieuwe tag",
-    "assign-last-tag": "Laatste tag toewijzen",
-    "configure-translations": "Vertalingen configureren",
-    "configure-dicts": "Woordenboeken configureren",
-    "context": "Context"
-  },
   "application-menu": {
     "quit-app": "Sluit Ezra Bible App"
   },
@@ -51,6 +44,10 @@
     "module-type-dict_singular-genitive": "woordenboek",
     "module-type-generic": "modules",
     "module-type-generic_accusative": "modules",
+    "module-type-commentary": "Bible commentaries",
+    "module-type-commentary_accusative": "Bible commentaries",
+    "module-type-commentary_instrumental": "Bible commentaries",
+    "module-type-commentary_singular": "Bible commentary",
     "header": "Configureer {{module_type, instrumental, title-case}}",
     "intro-text": "Ezra Bible App installeert <b>{{module_type, accusative}}</b> via uw internetverbinding. {{module_type, capitalize}} worden verdeeld door de <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> en zullen gedownload worden van de depots van <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a>.",
     "internet-usage-note": "<b>BELANGRIJKE OPMERKING</b><br/>Als u zich in een land bevindt waar Christenen vervolgd worden,<br/> wees u er van bewust dat uw internetprovider zal kunnen detecteren<br/>dat <b>u toegang hebt tot Christelijke bronnen</b>!",
@@ -199,7 +196,11 @@
     "not-installed": "Niet geïnstalleerd",
     "and-more": "en meer",
     "module-updates-available": "Onderstaande modules kunnen bijgewerkt worden.",
-    "modules-up-to-date": "Alle geïnstalleerde modules zijn bijgewerkt!"
+    "modules-up-to-date": "Alle geïnstalleerde modules zijn bijgewerkt!",
+    "configure-translations": "Vertalingen configureren",
+    "configure-dicts": "Woordenboeken configureren",
+    "configure-commentaries": "Configure commentaries",
+    "context": "Context"
   },
   "help": {
     "help-text-no-tags-book-opened": "Om te beginnen werken met tags, maak uw eerste tag door te klikken op de knop  <i>Nieuwe&nbsp;tag</i>.<br/><br/>Daarna kunt u door de bijbeltekst bladeren, verzen aanklikken of slepen-selecteren en vervolgens de tag toewijzen die u zojuist hebt gemaakt.",
@@ -246,6 +247,7 @@
     "new-tag": "Nieuwe tag",
     "create-tag": "Maak tag",
     "delete-tag": "Verwijder tag",
+    "assign-last-tag": "Laatste tag toewijzen",
     "all-tags": "Alle tags",
     "assigned-tags": "Toegewezen tags",
     "unassigned-tags": "Niet-toegewezen tags",
@@ -372,6 +374,15 @@
     "show-parallel-translations": "Vertalingen vergelijken",
     "help-instruction": "Om vertalingen te vergelijken, selecteert u één vers of een groep verzen.<br><br> Dit gebied toont dan automatisch de geselecteerde verzen van alle beschikbare vertalingen.<br><br> U moet ten minste twee vertalingen hebben geïnstalleerd om deze functionaliteit te laten werken.",
     "compare": "Vergelijken"
+  },
+  "commentary-panel": {
+    "default-header": "<b>Bible commentary</b>",
+    "commentaries-for": "Commentaries for",
+    "show-commentaries": "Show commentaries",
+    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
+    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
+    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
+    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
     "search": "Zoek emojis...",

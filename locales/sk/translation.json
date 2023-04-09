@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "Nová značka",
-    "assign-last-tag": "Priradiť poslednú značku",
-    "configure-translations": "Nastavenie prekladov",
-    "configure-dicts": "Nastavenie slovníkov",
-    "context": "Kontext"
-  },
   "application-menu": {
     "quit-app": "Ukončiť Ezra Bible App"
   },
@@ -49,6 +42,10 @@
     "module-type-dict_singular-genitive": "slovníka",
     "module-type-generic": "moduly",
     "module-type-generic_accusative": "moduly",
+    "module-type-commentary": "Bible commentaries",
+    "module-type-commentary_accusative": "Bible commentaries",
+    "module-type-commentary_instrumental": "Bible commentaries",
+    "module-type-commentary_singular": "Bible commentary",
     "header": "Nastaviť {{module_type, instrumental, title-case}}",
     "intro-text": "Ezra Bible App inštaluje <b>{{module_type, accusative}}</b> pomocou internetového pripojenie. {{module_type, capitalize}} je distribuovaný <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> a bude stiahnutý z <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> úložiska.",
     "internet-usage-note": "<b>DÔLEŽITÁ POZNÁMKA</b><br/>Ak sa nachádzate v krajine, kde sú kresťania prenasledovaní,<br/>uvedomte si, že váš poskytovateľ internetu bude schopný zistiť,<br/>že <b>pristupujete ku kresťanským zdrojom</b>!",
@@ -197,7 +194,11 @@
     "not-installed": "Nenainštalované",
     "and-more": "a viac",
     "module-updates-available": "K dispozícii sú aktualizácie pre moduly uvedené nižšie.",
-    "modules-up-to-date": "Všetky nainštalované moduly sú aktuálne!"
+    "modules-up-to-date": "Všetky nainštalované moduly sú aktuálne!",
+    "configure-translations": "Nastavenie prekladov",
+    "configure-dicts": "Nastavenie slovníkov",
+    "configure-commentaries": "Configure commentaries",
+    "context": "Kontext"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -244,6 +245,7 @@
     "new-tag": "Nový štítok",
     "create-tag": "Vytvoriť štítok",
     "delete-tag": "Zmazať štítok",
+    "assign-last-tag": "Priradiť poslednú značku",
     "all-tags": "Všetky štítky",
     "assigned-tags": "Pridelené štítky",
     "unassigned-tags": "Nepridelené štítky",
@@ -370,6 +372,15 @@
     "show-parallel-translations": "Porovnanie prekladov",
     "help-instruction": "Na porovnanie prekladov si vyberiete jeden verš alebo skupinu veršov.<br><br> V tejto oblasti sa potom automaticky zobrazia vybrané verše zo všetkých dostupných prekladov.<br><br> Aby táto funkcia fungovala, musíte mať nainštalované aspoň dva preklady.",
     "compare": "Porovnať"
+  },
+  "commentary-panel": {
+    "default-header": "<b>Bible commentary</b>",
+    "commentaries-for": "Commentaries for",
+    "show-commentaries": "Show commentaries",
+    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
+    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
+    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
+    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
     "search": "Vyhľadajte emodži...",

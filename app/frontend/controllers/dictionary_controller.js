@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const DictionaryInfoBox = require('../components/dictionary_info_box.js');
+const DictionaryInfoBox = require('../components/tool_panel/dictionary_info_box.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 

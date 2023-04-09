@@ -600,6 +600,10 @@ class VerseSelection {
 
     return verse_selection_tags;
   }
+
+  getSelectedElements() {
+    return this.selected_verse_box_elements;
+  }
 }
 
 module.exports = VerseSelection;

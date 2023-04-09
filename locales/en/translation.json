@@ -1,11 +1,4 @@
 {
-  "tags-toolbar": {
-    "new-tag": "New tag",
-    "assign-last-tag": "Assign last tag",
-    "configure-translations": "Configure translations",
-    "configure-dicts": "Configure dictionaries",
-    "context": "Context"
-  },
   "application-menu": {
     "quit-app": "Quit Ezra Bible App"
   },
@@ -49,6 +42,10 @@
     "module-type-dict_singular-genitive": "dictionary",
     "module-type-generic": "modules",
     "module-type-generic_accusative": "modules",
+    "module-type-commentary": "Bible commentaries",
+    "module-type-commentary_accusative": "Bible commentaries",
+    "module-type-commentary_instrumental": "Bible commentaries",
+    "module-type-commentary_singular": "Bible commentary",
     "header": "Configure {{module_type, instrumental, title-case}}",
     "intro-text": "Ezra Bible App installs <b>{{module_type, accusative}}</b> using your internet connection. {{module_type, capitalize}} are distributed by the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> and will be downloaded from <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> repositories.",
     "internet-usage-note": "<b>IMPORTANT NOTE</b><br/>If you are located in a country where Christians are persecuted,<br/>be aware that your internet provider will be able to detect<br/>that <b>you are accessing Christian resources</b>!",
@@ -97,7 +94,7 @@
     "step-install": {
       "installing-modules": "Installing selected {{module_type, accusative}}",
       "installing": "Installing",
-      "it-takes-time-to-install": "Note that it takes some time for each {{module_type, singular-genitive}} to be downloaded and then installed.",
+      "it-takes-time-to-install": "Note that it takes some time for each {{module_type, singular}} to be downloaded and then installed.",
       "downloading": "Downloading",
       "part-of-total": "of"
     },
@@ -197,7 +194,11 @@
     "not-installed": "Not installed",
     "and-more": "and more",
     "module-updates-available": "There are updates available for the modules listed below.",
-    "modules-up-to-date": "All installed modules are up to date!"
+    "modules-up-to-date": "All installed modules are up to date!",
+    "configure-translations": "Configure translations",
+    "configure-dicts": "Configure dictionaries",
+    "configure-commentaries": "Configure commentaries",
+    "context": "Context"
   },
   "help": {
     "help-text-no-tags-book-opened": "To start working with tags, create your first tag by clicking on the button <i>New&nbsp;tag</i>.<br/><br/>After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.",
@@ -244,6 +245,7 @@
     "new-tag": "New tag",
     "create-tag": "Create tag",
     "delete-tag": "Delete tag",
+    "assign-last-tag": "Assign last tag",
     "all-tags": "All tags",
     "assigned-tags": "Assigned tags",
     "unassigned-tags": "Unassigned tags",
@@ -370,6 +372,15 @@
     "show-parallel-translations": "Compare translations",
     "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.<br><br> You need to have at least two translations installed for this functionality to work.",
     "compare": "Compare"
+  },
+  "commentary-panel": {
+    "default-header": "<b>Bible commentary</b>",
+    "commentaries-for": "Commentaries for",
+    "show-commentaries": "Show commentaries",
+    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
+    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
+    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
+    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
   },
   "emoji": {
     "search": "Search emojis...",

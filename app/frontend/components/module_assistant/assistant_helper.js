@@ -162,6 +162,8 @@ module.exports.localizeContainer = function (container, module_type) {
     context = i18n.t("module-assistant.module-type-bible", {context: 'gender'});
   } else if (module_type == 'DICT') {
     context = i18n.t("module-assistant.module-type-dict", {context: 'gender'});
+  } else if (module_type == 'COMMENTARY') {
+    context = i18n.t("module-assistant.module-type-commentary", {context: 'gender'});
   }
 
   container.querySelectorAll('[i18n]').forEach(element => {
@@ -183,7 +185,10 @@ module.exports.localizeText = function (key, data) {
       context = i18n.t("module-assistant.module-type-bible", {context: 'gender'});
     } else if (data == 'DICT') {
       context = i18n.t("module-assistant.module-type-dict", {context: 'gender'});
+    } else if (data == 'COMMENTARY') {
+      context = i18n.t("module-assistant.module-type-commentary", {context: 'gender'});
     }
+
     data = { module_type: data };
   }
   

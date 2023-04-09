@@ -1,0 +1,75 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+#commentary-panel-content {
+  padding: 0.5em;
+}
+
+#commentary-panel-content div.commentary:first-of-type {
+  margin-top: 0.5em;
+}
+
+#commentary-panel-content div.commentary:not(:first-of-type) {
+  margin-top: 2em;
+}
+
+#commentary-panel-content ul {
+  padding-inline-start: 0em;
+}
+
+#commentary-panel-content li {
+  list-style-type: none;
+  margin-bottom: 0.5em;
+}
+
+/* Special style for specific commentaries (Scofield, GerKingComm) to create line breaks before <hi> elements */
+#commentary-panel-content div.module-code-scofield hi.bold:before,
+#commentary-panel-content div.module-code-gerkingcomm hi.bold:before {
+  display: block;
+  margin-top: 0.5em;
+  content: ' ';
+}
+
+/* Special style for Family Bible Notes commentary to create line breaks before <b> elements */
+#commentary-panel-content div.module-code-family b:before {
+  display: block;
+  content: ' ';
+  margin-top: 0.5em;
+}
+
+#commentary-panel-content .sword-markup {
+  display: unset !important;
+}
+
+#commentary-panel-content .sword-scripref {
+  display: inline-block;
+}
+
+#commentary-panel-content .sword-section-title {
+  font-weight: bold;
+  display: block !important;
+  margin-bottom: 1em;
+}
+
+.warning-text {
+  color: var(--text-color-red);
+}
+
+.darkmode--activated .warning-text {
+  color: var(--text-color-red-darkmode);
+}
