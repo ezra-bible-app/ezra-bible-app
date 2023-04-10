@@ -131,6 +131,10 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
     if (isRemote) {
       moduleInfo += "<tr><td>" + i18n.t("module-assistant.repository_singular") + ":</td><td>" + swordModule.repository + "</td></tr>";
     } else {
+      if (swordModule.sourceRepo != '') {
+        moduleInfo += "<tr><td>" + i18n.t("module-assistant.repository_singular") + ":</td><td>" + swordModule.sourceRepo + "</td></tr>";
+      }
+
       moduleInfo += "<tr><td>" + i18n.t("general.module-location") + ":</td><td>" + swordModule.location + "</td></tr>";
     }
 
