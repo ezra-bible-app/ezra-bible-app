@@ -128,13 +128,12 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
     }
 
     moduleInfo += "<tr><td>" + i18n.t("general.module-size") + ":</td><td>" + this.getModuleSize(swordModule) + "</td></tr>";
-    if (isRemote) {
-      moduleInfo += "<tr><td>" + i18n.t("module-assistant.repository_singular") + ":</td><td>" + swordModule.repository + "</td></tr>";
-    } else {
-      if (swordModule.sourceRepo != '') {
-        moduleInfo += "<tr><td>" + i18n.t("module-assistant.repository_singular") + ":</td><td>" + swordModule.sourceRepo + "</td></tr>";
-      }
 
+    if (swordModule.repository != '') {
+      moduleInfo += "<tr><td>" + i18n.t("module-assistant.repository_singular") + ":</td><td>" + swordModule.repository + "</td></tr>";
+    }
+
+    if (!isRemote) {
       moduleInfo += "<tr><td>" + i18n.t("general.module-location") + ":</td><td>" + swordModule.location + "</td></tr>";
     }
 
