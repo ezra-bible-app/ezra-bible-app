@@ -79,7 +79,7 @@ const template = html`
   <div id="module-list" class="scrollable">
     <p id="module-list-intro" class="intro" i18n="module-assistant.step-modules.select-module"></p>
     
-    <p><b i18n="module-assistant.step-modules.module-display-preferences"></b></p>
+    <p><b id="module-display-preferences-header" i18n="module-assistant.step-modules.module-display-preferences"></b></p>
 
     <div id="bible-module-feature-filter" class="feature-filter-wrapper">
       <label>
@@ -148,6 +148,8 @@ class StepModules extends HTMLElement {
       this.querySelector("#bible-module-feature-filter").style.display = 'block';
     } else if (moduleType == 'DICT') {
       this.querySelector("#dict-module-feature-filter").style.display = 'block';
+    } else {
+      this.querySelector("#module-display-preferences-header").style.display = 'none';
     }
 
     await this._listFilteredModules();
