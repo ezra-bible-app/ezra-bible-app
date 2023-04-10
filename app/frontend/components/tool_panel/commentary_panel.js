@@ -212,6 +212,12 @@ class CommentaryPanel {
 
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
+
+          // We do not support Image modules
+          if (currentCommentary.category == 'Images') {
+            continue;
+          }
+
           let firstVerseBox = $(selectedVerseBoxes[0]);
           let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
 

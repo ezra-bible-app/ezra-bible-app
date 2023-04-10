@@ -278,6 +278,11 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
         continue;
       }
 
+      // We do not support Image modules
+      if (swordModule.category == "Images") {
+        continue;
+      }
+
       let moduleInfo = {
         code: swordModule.name,
         text: `${swordModule.description} [${swordModule.name}]`,
