@@ -42,10 +42,10 @@
     "module-type-dict_singular-genitive": "dicționarului",
     "module-type-generic": "module",
     "module-type-generic_accusative": "module",
-    "module-type-commentary": "Bible commentaries",
-    "module-type-commentary_accusative": "Bible commentaries",
-    "module-type-commentary_instrumental": "Bible commentaries",
-    "module-type-commentary_singular": "Bible commentary",
+    "module-type-commentary": "Comentarii Biblice",
+    "module-type-commentary_accusative": "Comentarii Biblice",
+    "module-type-commentary_instrumental": "Comentarii Biblice",
+    "module-type-commentary_singular": "Comentariu Biblic",
     "header": "Configurează {{module_type, instrumental, title-case}}",
     "intro-text": "Ezra Bible App instalează <b>{{module_type, accusative}}</b> folosind conexiunea ta de internet. {{module_type, capitalize}} sunt distribuite de către <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> și vor fi descărcate din depozitele <a class='external' href='http://www.crosswire.org/sword'>proiectului SWORD</a>.",
     "internet-usage-note": "<b>NOTĂ IMPORTANTĂ</b><br/>Dacă te afli într-o țară unde creștinii sunt persecutați,<br/>să ai în vedere că furnizorul tău de internet va putea să detecteze<br/>că <b>accesezi resurse creștine</b>!",
@@ -135,7 +135,7 @@
     "module-version": "Versiune",
     "module-current-version": "Versiune actuală",
     "module-new-version": "Versiune nouă",
-    "module-last-update": "Last update",
+    "module-last-update": "Ultima actualizare",
     "module-language": "Limbă",
     "module-license": "Licență",
     "module-strongs": "Concordanță (Strong's)",
@@ -197,7 +197,7 @@
     "modules-up-to-date": "Toate modulele instalate sunt actualizate la zi!",
     "configure-translations": "Configurează traducerile",
     "configure-dicts": "Configurează dicționarele",
-    "configure-commentaries": "Configure commentaries",
+    "configure-commentaries": "Configurează comentariile",
     "context": "Context"
   },
   "help": {
@@ -374,13 +374,13 @@
     "compare": "Compară"
   },
   "commentary-panel": {
-    "default-header": "<b>Bible commentary</b>",
-    "commentaries-for": "Commentaries for",
-    "show-commentaries": "Show commentaries",
-    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
-    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
-    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
-    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
+    "default-header": "<b>Comentarii biblice</b>",
+    "commentaries-for": "Comentarii pentru",
+    "show-commentaries": "Arată comentarii",
+    "help-instruction": "Pentru a afișa conținutul comentariilor, selectează un verset.<br><br> Această zonă va lista automat versetul selectat din toate comentariile disponibile.",
+    "help-instruction-no-commentaries": "Încă nu au fost instalate comentarii. Trebuie să instalezi cel puțin un comentariu pentru ca această funcționalitate să fie utilă.",
+    "help-instruction-no-kjv": "Traducerea KJV nu a fost instalată, încă. Aceasta este necesară petnru a afișa corect comentarii Biblice pe baza versificării în limba engleză. Poți remedia asta prin:<ul><li>Instalarea traducerii KJV din depozitul CrossWire</li><li>Instalarea unui comentariu (versiunea KJV este instalată automat în acest caz)</li></ul>",
+    "no-commentaries-available-for-this-verse": "Nu există comentarii disponibile pentru acest verset."
   },
   "emoji": {
     "search": "Căută emoji ...",
