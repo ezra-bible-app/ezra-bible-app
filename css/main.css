@@ -281,7 +281,7 @@ h2:nth-of-type(1) {
   border-bottom-right-radius: unset;
 }
 
-.verse-list,
+.verse-list-content,
 .reference-verse {
   font: caption;
   font-size: 1em;
@@ -299,11 +299,11 @@ h2:nth-of-type(1) {
   padding-bottom: 3.5em;
 }
 
-.verse-list:not(.verse-list-with-section-titles) {
+.verse-list-content:not(.verse-list-with-section-titles) {
   padding-top: 0.5em;
 }
 
-.verse-list .help-text {
+.verse-list-content .help-text {
   margin: 1.5em;
 }
 
@@ -400,7 +400,7 @@ a.chapter-nav:hover {
   order: -1; /* Make sure that the verse reference itself comes first (compared to notes/tags indicators) */
 }
 
-.verse-list:not(.verse-list-tags-column).verse-list-with-notes .verse-reference {
+.verse-list-content:not(.verse-list-tags-column).verse-list-with-notes .verse-reference {
   height: 4em;
 }
 
@@ -1862,7 +1862,7 @@ tr.compare-translation-row:nth-child(odd) {
 .Windows,
 .Windows button,
 .Windows select,
-.Windows .verse-list,
+.Windows .verse-list-content,
 .Windows .loading-indicator-text,
 .Windows .loading-subtitle,
 .Windows div.CodeMirror {
@@ -1876,7 +1876,7 @@ tr.compare-translation-row:nth-child(odd) {
 .Linux,
 .Linux button,
 .Linux select,
-.Linux .verse-list,
+.Linux .verse-list-content,
 .Linux .loading-indicator-text,
 .Linux .loading-subtitle,
 .Linux div.CodeMirror {
@@ -1890,7 +1890,7 @@ tr.compare-translation-row:nth-child(odd) {
 .Android,
 .Android button,
 .Android select,
-.Android .verse-list,
+.Android .verse-list-content,
 .Android .loading-indicator-text,
 .Android .loading-subtitle,
 .Android div.CodeMirror {
@@ -1900,7 +1900,7 @@ tr.compare-translation-row:nth-child(odd) {
 .OSX,
 .OSX button,
 .OSX select,
-.OSX .verse-list,
+.OSX .verse-list-content,
 .OSX .loading-indicator-text,
 .OSX .loading-subtitle,
 .OSX div.CodeMirror {

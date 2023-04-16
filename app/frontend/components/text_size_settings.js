@@ -186,7 +186,7 @@ class TextSizeSettings {
 
   updateStyle() {
     this.stylesheet.insertRule(
-      `.verse-list ${this._shouldTagsNotesResize ? '' : '.verse-text '} {
+      `.verse-list-content ${this._shouldTagsNotesResize ? '' : '.verse-text '} {
         font-size: ${this._textSizeValue * 0.1}em 
       }`, this.stylesheet.cssRules.length);
 
