@@ -42,10 +42,10 @@
     "module-type-dict_singular-genitive": "dicionário",
     "module-type-generic": "módulos",
     "module-type-generic_accusative": "módulos",
-    "module-type-commentary": "Bible commentaries",
-    "module-type-commentary_accusative": "Bible commentaries",
-    "module-type-commentary_instrumental": "Bible commentaries",
-    "module-type-commentary_singular": "Bible commentary",
+    "module-type-commentary": "Comentários bíblicos",
+    "module-type-commentary_accusative": "Comentários bíblicos",
+    "module-type-commentary_instrumental": "Comentários bíblicos",
+    "module-type-commentary_singular": "Comentário bíblico",
     "header": "Configurar {{module_type, instrumental, title-case}}",
     "intro-text": "A Bíblia Esdras instala <b>{{module_type, accusative}}</b> utilizando sua conexão de internet. {{module_type, capitalize}} são distribuídas pela <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> e serão baixada(o)s dos repositórios do <a class='external' href='http://www.crosswire.org/sword'>projeto The SWORD</a>.",
     "internet-usage-note": "<b>NOTA IMPORTANTE</b><br/>Se você estiver em um país onde cristãos são perseguidos, <br/>esteja ciente de que seu provedor de Internet será capaz de detectar<br/> que <b>você está acessando recursos cristãos</b>!",
@@ -197,7 +197,7 @@
     "modules-up-to-date": "Todos os módulos instalados estão atualizados!",
     "configure-translations": "Configurar traduções",
     "configure-dicts": "Configurar dicionários",
-    "configure-commentaries": "Configure commentaries",
+    "configure-commentaries": "Configurar comentários",
     "context": "Contexto"
   },
   "help": {
@@ -374,13 +374,13 @@
     "compare": "Comparar"
   },
   "commentary-panel": {
-    "default-header": "<b>Bible commentary</b>",
-    "commentaries-for": "Commentaries for",
-    "show-commentaries": "Show commentaries",
-    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
-    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
-    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
-    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
+    "default-header": "<b>Comentário bíblico</b>",
+    "commentaries-for": "Comentários para",
+    "show-commentaries": "Mostrar comentários",
+    "help-instruction": "Para mostrar o conteúdo do comentário, selecione um versículo.<br><br> Esta área listará automaticamente todos os comentários disponíveis do versículo selecionado.",
+    "help-instruction-no-commentaries": "Nenhum comentário foi instalado ainda. Você precisa instalar pelo menos um comentário para que este recurso funcione.",
+    "help-instruction-no-kjv": "A tradução KJV ainda não foi instalada. A KJV é necessária para mostrar corretamente os comentários bíblicos baseados na divisão de versículos em inglês. Você pode corrigir isso:<ul><li>Instalando o KJV do repositório CrossWire</li><li>Instalando um comentário (A tradução KJV é instalada automaticamente neste caso)</li></ul>",
+    "no-commentaries-available-for-this-verse": "Não comentários disponíveis para este versículo."
   },
   "emoji": {
     "search": "Buscar emojis...",
