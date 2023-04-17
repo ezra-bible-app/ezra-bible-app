@@ -42,10 +42,10 @@
     "module-type-dict_singular-genitive": " el diccionario",
     "module-type-generic": "modulos",
     "module-type-generic_accusative": "modulos",
-    "module-type-commentary": "Bible commentaries",
-    "module-type-commentary_accusative": "Bible commentaries",
-    "module-type-commentary_instrumental": "Bible commentaries",
-    "module-type-commentary_singular": "Bible commentary",
+    "module-type-commentary": "Comentarios bíblicos",
+    "module-type-commentary_accusative": "Comentarios bíblicos",
+    "module-type-commentary_instrumental": "Comentarios bíblicos",
+    "module-type-commentary_singular": "Comentario bíblico",
     "header": "Configurar {{module_type, instrumental, title-case}}",
     "intro-text": "Ezra Bible App instalará <b>{{module_type, accusative}}</b> usando su conexión a Internet. {{module_type, capitalize}} son distribuidas por <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> y serán descargadas desde los repositorios  de <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a>.",
     "internet-usage-note": "<b>NOTA IMPORTANTE</b><br/>Si usted se encuentra en un país dónde los cristianos son perseguidos,<br/>debe estar consciente de que su proveedor de Internet sabrá <br/>que<b> usted accede a recursos cristianos.</b>!",
@@ -135,7 +135,7 @@
     "module-version": "Versión",
     "module-current-version": "Versión actual",
     "module-new-version": "Nueva versión",
-    "module-last-update": "Last update",
+    "module-last-update": "Última actualizacion",
     "module-language": "Idioma",
     "module-license": "Licencia",
     "module-strongs": "Strongs",
@@ -197,7 +197,7 @@
     "modules-up-to-date": "Todos los módulos instalados están en la última versión!",
     "configure-translations": "Configurar traducciones",
     "configure-dicts": "Configurar diccionarios",
-    "configure-commentaries": "Configure commentaries",
+    "configure-commentaries": "Configurar commentarios",
     "context": "Contexto"
   },
   "help": {
@@ -374,13 +374,13 @@
     "compare": "Comparar"
   },
   "commentary-panel": {
-    "default-header": "<b>Bible commentary</b>",
-    "commentaries-for": "Commentaries for",
-    "show-commentaries": "Show commentaries",
-    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
-    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
-    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
-    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
+    "default-header": "<b>Comentario bíblico</b>",
+    "commentaries-for": "Comentarios para",
+    "show-commentaries": "Mostrar comentarios",
+    "help-instruction": "Para mostrar el contenido del comentario, seleccione un verso.<br><br> Esta área mostrará entonces una lista con todos los comentarios disponibles para el versículo seleccionado.",
+    "help-instruction-no-commentaries": "No hay  comentarios instalados, aún. Necesita instalar al menos un comentario para usar esta funcionalidad.",
+    "help-instruction-no-kjv": "La versión KJV de la Biblia no ha sido instalada, aún. La biblia KJV es necesaria para mostrar correctamente los comentarios en inglés. Usted puede solucionar esto así:<ul><li> Instalando la biblia KJV desde el repositorio CrossWire</li><li>Instalando un comentario (la Biblia KJV será automáticamente instalada en este caso)</li></ul>",
+    "no-commentaries-available-for-this-verse": "No hay comentarios disponibles para el versículo seleccionado."
   },
   "emoji": {
     "search": "Buscar emojis...",
