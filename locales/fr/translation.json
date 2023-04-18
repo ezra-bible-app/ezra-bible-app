@@ -48,10 +48,10 @@
     "module-type-dict_singular-demonstrative-pronoun": "Ce dictionnaire",
     "module-type-generic": "modules",
     "module-type-generic_accusative": "modules",
-    "module-type-commentary": "Bible commentaries",
-    "module-type-commentary_accusative": "Bible commentaries",
-    "module-type-commentary_instrumental": "Bible commentaries",
-    "module-type-commentary_singular": "Bible commentary",
+    "module-type-commentary": "commentaires bibliques",
+    "module-type-commentary_accusative": "commentaires bibliques",
+    "module-type-commentary_instrumental": "commentaires bibliques",
+    "module-type-commentary_singular": "commentaire biblique",
     "header": "Configurer {{module_type, instrumental, title-case}}",
     "intro-text": "Ezra Bible App installe des <b>{{module_type, accusative}}</b> en utilisant votre connexion Internet. {{module_type, capitalize}} sont distribués par la <a class='external' href='http://www.crosswire.org'>Société biblique CrossWire</a> et seront téléchargé depuis les dépôts du <a class='external' href='http://www.crosswire.org/sword'>projet SWORD</a>.",
     "internet-usage-note": "<b>NOTE IMPORTANT</b><br/>Si vous vivez dans un pays de persécution chrétienne,<br/>sachez que votre fournisseur internet sera capable de détecter<br/>que <b> vous accédez à des ressources chrétiennes</b> !",
@@ -145,7 +145,7 @@
     "module-version": "Version",
     "module-current-version": "Version actuelle",
     "module-new-version": "Nouvelle version",
-    "module-last-update": "Last update",
+    "module-last-update": "Dernière mise à jour",
     "module-language": "Langue",
     "module-license": "Licence",
     "module-strongs": "Strong",
@@ -207,7 +207,7 @@
     "modules-up-to-date": "Tous les modules installés sont à jour !",
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
-    "configure-commentaries": "Configure commentaries",
+    "configure-commentaries": "Configurer des commentaires",
     "context": "Contexte"
   },
   "help": {
@@ -384,13 +384,13 @@
     "compare": "Comparer"
   },
   "commentary-panel": {
-    "default-header": "<b>Bible commentary</b>",
-    "commentaries-for": "Commentaries for",
-    "show-commentaries": "Show commentaries",
-    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
-    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
-    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
-    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
+    "default-header": "<b>Commentaire biblique</b>",
+    "commentaries-for": "Commentaires pour",
+    "show-commentaries": "Afficher les commentaires",
+    "help-instruction": "Pour afficher le contenu des commentaires, sélectionnez un verset.<br><br> Cette zone listera alors automatiquement le verset sélectionné parmi tous les commentaires disponibles.",
+    "help-instruction-no-commentaries": "Aucun commentaire n'a encore été installé. Vous devez installer au moins un commentaire pour que cette fonctionnalité fonctionne.",
+    "help-instruction-no-kjv": "La traduction KJV n'a pas encore été installée. Le KJV est nécessaire pour afficher correctement les commentaires bibliques basés sur la versification anglaise. Vous pouvez résoudre ce problème en :<ul><li>installant la KJV du dépôt CrossWire</li><li>installant un commentaire (le KJV est automatiquement installé dans ce cas)</li></ul>",
+    "no-commentaries-available-for-this-verse": "Il n'y a pas de commentaires disponibles pour ce verset."
   },
   "emoji": {
     "search": "Rechercher des emojis...",
