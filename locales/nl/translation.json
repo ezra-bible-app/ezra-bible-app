@@ -44,10 +44,10 @@
     "module-type-dict_singular-genitive": "woordenboek",
     "module-type-generic": "modules",
     "module-type-generic_accusative": "modules",
-    "module-type-commentary": "Bible commentaries",
-    "module-type-commentary_accusative": "Bible commentaries",
-    "module-type-commentary_instrumental": "Bible commentaries",
-    "module-type-commentary_singular": "Bible commentary",
+    "module-type-commentary": "bijbelcommentaren",
+    "module-type-commentary_accusative": "bijbelcommentaren",
+    "module-type-commentary_instrumental": "bijbelcommentaren",
+    "module-type-commentary_singular": "bijbelcommentaar",
     "header": "Configureer {{module_type, instrumental, title-case}}",
     "intro-text": "Ezra Bible App installeert <b>{{module_type, accusative}}</b> via uw internetverbinding. {{module_type, capitalize}} worden verdeeld door de <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> en zullen gedownload worden van de depots van <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a>.",
     "internet-usage-note": "<b>BELANGRIJKE OPMERKING</b><br/>Als u zich in een land bevindt waar Christenen vervolgd worden,<br/> wees u er van bewust dat uw internetprovider zal kunnen detecteren<br/>dat <b>u toegang hebt tot Christelijke bronnen</b>!",
@@ -137,7 +137,7 @@
     "module-version": "Versie",
     "module-current-version": "Huidige versie",
     "module-new-version": "Nieuwe versie",
-    "module-last-update": "Last update",
+    "module-last-update": "Laatste bijwerking",
     "module-language": "Taal",
     "module-license": "Licentie",
     "module-strongs": "Strongs",
@@ -199,7 +199,7 @@
     "modules-up-to-date": "Alle geïnstalleerde modules zijn bijgewerkt!",
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
-    "configure-commentaries": "Configure commentaries",
+    "configure-commentaries": "Commentaren configureren",
     "context": "Context"
   },
   "help": {
@@ -376,13 +376,13 @@
     "compare": "Vergelijken"
   },
   "commentary-panel": {
-    "default-header": "<b>Bible commentary</b>",
-    "commentaries-for": "Commentaries for",
-    "show-commentaries": "Show commentaries",
-    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
-    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
-    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
-    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
+    "default-header": "<b>Bijbelcommentaar</b>",
+    "commentaries-for": "Commentaren voor",
+    "show-commentaries": "Toon commentaren",
+    "help-instruction": "Selecteer een vers om de commentaarinhoud weer te geven.<br><br> Dit gebied zal dan automatisch het geselecteerde vers uit alle beschikbare commentaren weergeven.",
+    "help-instruction-no-commentaries": "Er zijn nog geen commentaren geïnstalleerd. U moet ten minste één commentaar installeren om deze functionaliteit te laten werken.",
+    "help-instruction-no-kjv": "De KJV-vertaling is nog niet geïnstalleerd. De KJV is nodig om bijbelcommentaren correct weer te geven op basis van de Engelse versificatie. U kunt dit oplossen door:<ul><li>de KJV te installeren vanuit het CrossWire-depot</li><li>een commentaar te installeren (de KJV wordt in dit geval automatisch geïnstalleerd)</li></ul>",
+    "no-commentaries-available-for-this-verse": "Er zijn geen commentaren beschikbaar voor dit vers."
   },
   "emoji": {
     "search": "Zoek emojis...",
