@@ -42,10 +42,10 @@
     "module-type-dict_singular-genitive": "словника",
     "module-type-generic": "модулі",
     "module-type-generic_accusative": "модулі",
-    "module-type-commentary": "Bible commentaries",
-    "module-type-commentary_accusative": "Bible commentaries",
-    "module-type-commentary_instrumental": "Bible commentaries",
-    "module-type-commentary_singular": "Bible commentary",
+    "module-type-commentary": "Коментарі Біблії",
+    "module-type-commentary_accusative": "коментарі",
+    "module-type-commentary_instrumental": "коментарями",
+    "module-type-commentary_singular": "коментар",
     "header": "Керування {{module_type, instrumental}}",
     "intro-text": "Біблійний застосунок Єздри встановлює <b>{{module_type, accusative}}</b> використовуючи ваше інтернет з'єднання. {{module_type, capitalize}} розповсюджуються <a class='external' href='http://www.crosswire.org'>Біблійним товариством CrossWire</a> та будуть завантажені зі сховищ <a class='external' href='http://www.crosswire.org/sword'>проєкту SWORD</a>.",
     "internet-usage-note": "<b>ВАЖЛИВА ПРИМІТКА</b> <br/> Якщо ви перебуваєте в країні, де переслідують Християн, <br/> майте на увазі, що ваш інтернет-провайдер зможе визначити, що <b>ви запитуєте християнскі ресурси</b>!",
@@ -135,7 +135,7 @@
     "module-version": "Версія",
     "module-current-version": "Поточна версія",
     "module-new-version": "Доступна версія",
-    "module-last-update": "Last update",
+    "module-last-update": "Останнє оновлення",
     "module-language": "Мова",
     "module-license": "Ліцензія",
     "module-strongs": "Числа Стронга",
@@ -197,7 +197,7 @@
     "modules-up-to-date": "Усі встановленні модулі мають найостанніші версії!",
     "configure-translations": "Переклади Біблії",
     "configure-dicts": "Словники",
-    "configure-commentaries": "Configure commentaries",
+    "configure-commentaries": "Коментарі",
     "context": "Контекст"
   },
   "help": {
@@ -375,13 +375,13 @@
     "compare": "Порівняти"
   },
   "commentary-panel": {
-    "default-header": "<b>Bible commentary</b>",
-    "commentaries-for": "Commentaries for",
-    "show-commentaries": "Show commentaries",
-    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
-    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
-    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
-    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
+    "default-header": "<b>Коментар Біблії</b>",
+    "commentaries-for": "Коментар до",
+    "show-commentaries": "Відображати коментарі",
+    "help-instruction": "Щоб відобразити зміст коментаря, виберіть вірш.<br><br> Ця область автоматично відобразить всі наявні коментарі до цього вірша.",
+    "help-instruction-no-commentaries": "Наразі коментарі ще не встановленні. Необхідно встановити принаймні один коментар.",
+    "help-instruction-no-kjv": "Переклад Біблії KJV ще не встановлено. Цей переклад необхідний, щоб відображати коментарі засновані на англомовному поділі на вірші та розділи. Для виправлення:<ul><li>Встановіть переклад Біблії KJV зі сховища CrossWire</li><li>Встановіть коментар (у цьому випадку KJV буде автоматично встановленно)</li></ul>",
+    "no-commentaries-available-for-this-verse": "Коментарі до цього вірша відсутні."
   },
   "emoji": {
     "search": "Пошук образок...",
