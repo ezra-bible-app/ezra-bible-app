@@ -265,10 +265,16 @@ class CommentaryPanel {
 
     let kjvVerses = await ipcNsi.getBookText(targetTranslationId, bibleBookShortTitle, mappedAbsoluteVerseNumber, 1);
     let verse = kjvVerses[0];
-    let reference = bibleBookShortTitle + ' ' + verse.chapter + ':' + verse.verseNr;
+    let commentary = "";
 
-    let commentaryEntry = await ipcNsi.getReferenceText(commentaryId, reference);
-    return commentaryEntry.content;
+    if (verse != null) {
+      let reference = bibleBookShortTitle + ' ' + verse.chapter + ':' + verse.verseNr;
+
+      let commentaryEntry = await ipcNsi.getReferenceText(commentaryId, reference);
+      commentary = commentaryEntry.content;
+    }
+
+    return commentary;
   }
 }
 
