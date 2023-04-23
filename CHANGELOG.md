@@ -1,6 +1,38 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.11.0 - 2023-04-23]
+
+### Features
+
+* Add support for Bible commentary modules. ([#886](i886))
+
+### Enhancements
+
+* Show SWORD module attribute SwordVersionDate as last update in module info. ([#897](i897))
+* Merge module description and module details tabs in app info dialog. ([#893](i893))
+* Update module dialog should be modal like the install translation/dictionary dialog. ([#882](i882))
+* Add info button to show dictionary module info. ([#895](i895))
+* Show source repository in module info dialog. ([#901](i901))
+
+### Fixes
+
+* Search terms are not highlighted if search term is found within text that quotes Jesus. ([#889](i889))
+* Module search is hanging if search starts or ends with whitespace. ([#888](i888))
+* Module assistant and module update dialog does not always fit the screen on Android. ([#883](i883))
+
+### Enablers
+
+[i882]: https://github.com/ezra-bible-app/ezra-bible-app/issues/882
+[i883]: https://github.com/ezra-bible-app/ezra-bible-app/issues/883
+[i886]: https://github.com/ezra-bible-app/ezra-bible-app/issues/886
+[i888]: https://github.com/ezra-bible-app/ezra-bible-app/issues/888
+[i889]: https://github.com/ezra-bible-app/ezra-bible-app/issues/889
+[i893]: https://github.com/ezra-bible-app/ezra-bible-app/issues/893
+[i895]: https://github.com/ezra-bible-app/ezra-bible-app/issues/895
+[i897]: https://github.com/ezra-bible-app/ezra-bible-app/issues/897
+[i901]: https://github.com/ezra-bible-app/ezra-bible-app/issues/901
+
 ## [1.10.0 - 2023-02-25]
 
 ### Enhancements
