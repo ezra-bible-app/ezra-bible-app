@@ -695,8 +695,6 @@ class TagsController {
     $dialogContainer.dialog('open');
 
     await waitUntilIdle();
-    tagInput.focus();
-    await waitUntilIdle();
 
     let allTagGroups = await ipcDb.getAllTagGroups();
     let tagGroupAssignmentSection = document.getElementById('tag-group-assignment-section');
@@ -729,6 +727,17 @@ class TagsController {
       }
     } else {
       addExistingTagsLink.style.display = 'none';
+    }
+
+    if (platformHelper.isCordova()) {
+      // Focus the input field (and show the screen keyboard) a little bit delayed
+      // to give the layout engine some time to render the input field.
+      setTimeout(async () => {
+        await waitUntilIdle();
+        tagInput.focus();
+      }, 1000);
+    } else {
+      tagInput.focus();
     }
   }
 
