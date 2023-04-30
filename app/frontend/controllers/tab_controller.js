@@ -101,6 +101,7 @@ class TabController {
     eventController.subscribe('on-bible-text-loaded', () => {
       let bibleTranslationId = this.getTab().getBibleTranslationId();
       this.setCurrentBibleTranslationId(bibleTranslationId);
+      this.restoreScrollPosition();
     });
 
     eventController.subscribe('on-db-refresh', async () => {
@@ -454,7 +455,7 @@ class TabController {
     uiHelper.configureButtonStyles('.ui-tabs-nav');
   }
 
-  saveTabScrollPosition(tabIndex) {
+  saveTabScrollPosition(tabIndex=undefined) {
     var metaTab = this.getTab(tabIndex);
     var firstVerseListAnchor = verseListController.getFirstVisibleVerseAnchor();
 
@@ -473,7 +474,7 @@ class TabController {
     }
   }
 
-  restoreScrollPosition(tabIndex) {
+  restoreScrollPosition(tabIndex=undefined) {
     var metaTab = this.getTab(tabIndex);
 
     if (metaTab != null) {
@@ -897,6 +898,8 @@ class TabController {
       app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {
       if (!this.isCurrentTabEmpty()) {
+        this.saveTabScrollPosition();
+
         await app_controller.text_controller.prepareForNewText(false, false);
         await app_controller.text_controller.requestTextUpdate(
           this.getSelectedTabId(),
