@@ -112,14 +112,6 @@ Librem 5/Pinephone etc.
     padding: 8px 0;
     display: inline-block;
   }
-
-  .verse-list-without-tags .verse-notes:not(.book-notes),
-  .verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
-  /* not teeny unusable notes area*/
-    width: 100% !important;
-    margin-top: 0.5em;
-    margin-left: unset !important;
-  }
 }
 
 /* Long smartphone */
