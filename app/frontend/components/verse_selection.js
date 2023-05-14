@@ -287,7 +287,8 @@ class VerseSelection {
     if (start_reference != undefined && end_reference != undefined) {
       formatted_passage = await this.format_passage_reference_for_view(bookId,
                                                                        start_reference,
-                                                                       end_reference);
+                                                                       end_reference,
+                                                                       ':');
 
       /*if (turn_into_link) {
         formatted_passage = "<a href=\"javascript:app_controller.jumpToReference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
@@ -302,16 +303,15 @@ class VerseSelection {
       return [];
     }
 
-    var new_list = new Array;
-
-    var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    let new_list = new Array;
+    let translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     
     if (bookId == undefined) {
       bookId = app_controller.tab_controller.getTab().getBook();
     }
 
-    for (var i = 0; i < list.length; i++) {
-      var absoluteVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(translationId, bookId, list[i]);
+    for (let i = 0; i < list.length; i++) {
+      let absoluteVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(translationId, bookId, list[i], false, ':');
       new_list.push(Number(absoluteVerseNr));
     }
 
@@ -370,14 +370,17 @@ class VerseSelection {
     return verse_list_for_view;
   }
 
-  async format_passage_reference_for_view(book_short_title, start_reference, end_reference) {
+  async format_passage_reference_for_view(book_short_title, start_reference, end_reference, reference_separator=undefined) {
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var source_separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
-    var start_chapter = parseInt(start_reference.split(source_separator)[0]);
-    var start_verse = parseInt(start_reference.split(source_separator)[1]);
-    var end_chapter = parseInt(end_reference.split(source_separator)[0]);
-    var end_verse = parseInt(end_reference.split(source_separator)[1]);
+    if (reference_separator == null) {
+      reference_separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+    }
+
+    var start_chapter = parseInt(start_reference.split(reference_separator)[0]);
+    var start_verse = parseInt(start_reference.split(reference_separator)[1]);
+    var end_chapter = parseInt(end_reference.split(reference_separator)[0]);
+    var end_verse = parseInt(end_reference.split(reference_separator)[1]);
   
     var passage = start_chapter + window.reference_separator + start_verse;
     var endChapterVerseCount = await ipcNsi.getChapterVerseCount(bibleTranslationId, book_short_title, end_chapter);
