@@ -62,12 +62,14 @@ class VerseReferenceHelper
     return verse_nr;
   }
   
-  async referenceStringToAbsoluteVerseNr(translation, bible_book_short_title, reference, split_support=false) {
+  async referenceStringToAbsoluteVerseNr(translation, bible_book_short_title, reference, split_support=false, separator=undefined) {
     if (!reference) {
       return 0; // for book level references
     }
 
-    var separator = await this.getReferenceSeparator(translation);
+    if (separator == null) {
+      separator = await this.getReferenceSeparator(translation);
+    }
   
     split_support = false;
     if (reference.search(/b/) != -1) {
