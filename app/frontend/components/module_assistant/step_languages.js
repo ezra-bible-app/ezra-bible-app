@@ -183,11 +183,14 @@ class StepLanguages extends HTMLElement {
       
     await waitUntilIdle();
     const containerLongList = document.createElement('div');
-    for(const category of ['iso6391-languages', 'iso6392T-languages', 'iso6393-languages', 'unknown-languages']) {      
+
+    languages['other-languages'] = new Map([...languages['iso6391-languages'], ...languages['iso6392T-languages'], ...languages['iso6393-languages']]);
+
+    for(const category of ['other-languages', 'unknown-languages']) {      
       this._appendList(containerLongList, 
                        languages[category], 
                        selectedLanguages, 
-                       category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined);
+                       category === 'other-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined);
     }
 
     await waitUntilIdle();
