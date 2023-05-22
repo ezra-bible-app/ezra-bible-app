@@ -184,6 +184,7 @@ class StepLanguages extends HTMLElement {
     await waitUntilIdle();
     const containerLongList = document.createElement('div');
 
+    // Merge several groups of languages into one set of 'other' languages
     languages['other-languages'] = new Map([...languages['iso6391-languages'], ...languages['iso6392T-languages'], ...languages['iso6393-languages']]);
 
     for(const category of ['other-languages', 'unknown-languages']) {      
