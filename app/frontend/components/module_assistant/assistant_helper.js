@@ -129,7 +129,7 @@ function generateCheckbox(item, checked, options) {
   } else {
     const { code, text, description, count, disabled, ...rest } = item;
 
-    const style = text && text.length > 22 && (options.columns === 'auto-fill' || options.columns > 1) ? 'style="grid-column-end: span 2"' : '';
+    const style = text && text.trim().length > 22 && (options.columns === 'auto-fill' || options.columns > 1) ? 'style="grid-column-end: span 2"' : '';
 
     const extraAttr = Object.entries(rest).map(([attr, val]) => `${attr}="${val}"`);
 
@@ -143,7 +143,7 @@ function generateCheckbox(item, checked, options) {
         ${description ? `description="${description}"` : ''}
         ${options.info ? 'flex-align-top' : ''}
         ${extraAttr.join(' ')}>
-        ${text ? text : code}
+        ${text ? text.trim() : code}
       </assistant-checkbox>`;
 
     return checkbox;
