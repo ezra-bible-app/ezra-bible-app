@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 const Verse = require('./verse.js');
 
 class VerseBox {
@@ -82,18 +83,18 @@ class VerseBox {
     }
   }
 
-  getSplittedReference() {
+  getSplittedReference(referenceSeparator=window.reference_separator) {
     if (this.verseBoxElement == null) {
       return null;
     } else {
       var verseReference = this.verseBoxElement.querySelector('.verse-reference-content').innerText;
-      var splittedReference = verseReference.split(window.reference_separator);
+      var splittedReference = verseReference.split(referenceSeparator);
       return splittedReference;
     }
   }
 
-  getChapter() {
-    var splittedReference = this.getSplittedReference();
+  getChapter(referenceSeparator=window.reference_separator) {
+    var splittedReference = this.getSplittedReference(referenceSeparator);
 
     if (splittedReference != null) {
       var chapter = parseInt(splittedReference[0]);
@@ -103,8 +104,8 @@ class VerseBox {
     }
   }
 
-  getVerseNumber() {
-    var splittedReference = this.getSplittedReference();
+  getVerseNumber(referenceSeparator=window.reference_separator) {
+    var splittedReference = this.getSplittedReference(referenceSeparator);
 
     if (splittedReference != null) {
       var verseNumber = parseInt(splittedReference[1]);
@@ -118,12 +119,13 @@ class VerseBox {
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     var sourceVersification = await swordModuleHelper.getVersification(sourceBibleTranslationId);
     var targetVersification = await swordModuleHelper.getVersification(targetBibleTranslationId);
+    const referenceSeparator = await i18nHelper.getReferenceSeparator(sourceBibleTranslationId);
 
     var absoluteVerseNumbers = await ipcDb.getAbsoluteVerseNumbersFromReference(sourceVersification,
                                                                                 this.getBibleBookShortTitle(),
                                                                                 this.getAbsoluteVerseNumber(),
-                                                                                this.getChapter(),
-                                                                                this.getVerseNumber());
+                                                                                this.getChapter(referenceSeparator),
+                                                                                this.getVerseNumber(referenceSeparator));
 
     var mappedAbsoluteVerseNr = null;
     if (targetVersification == 'HEBREW') {
