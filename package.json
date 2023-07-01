@@ -105,7 +105,7 @@
     "umzug": "^2.3.0"
   },
   "devDependencies": {
-    "@electron/notarize": "^1.2.3",
+    "@electron/notarize": "^2.1.0",
     "@sentry/cli": "^2.5.2",
     "better-docs": "^2.3.2",
     "brfs": "^2.0.2",
