@@ -91,7 +91,7 @@
     "izitoast": "^1.4.0",
     "jquery-i18next": "^1.2.1",
     "log-timestamp": "^0.3.0",
-    "marked": "^4.0.8",
+    "marked": "^5.1.0",
     "mousetrap": "^1.6.5",
     "node-html-parser": "^6.1.1",
     "node-sword-interface": "^1.0.16",
