@@ -15,6 +15,13 @@ jobs:
         - uses: actions/setup-node@v2
           with:
             node-version: '14'
+        - name: Install Python 2.7.18
+          shell: cmd
+          run: |
+            choco install wget --no-progress
+            wget -nv "https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi"
+            start /wait msiexec.exe /passive /i python-2.7.18.amd64.msi /norestart /L*V "python_install.log" ADDLOCAL=ALL ALLUSERS=1 TARGETDIR=c:\python27
+            type "python_install.log"
         - name: Remove docs folder
           run: Remove-Item -Recurse -Force docs
           shell: pwsh
