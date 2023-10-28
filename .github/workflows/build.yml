@@ -148,6 +148,21 @@ jobs:
             name: ezra-bible-app_debian11_latest
             path: ezra-bible-app_latest.deb
 
+    build-bookworm:
+        name: Build Debian 12 package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_bookworm
+          env:
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        - name: Upload deb file
+          uses: actions/upload-artifact@v1.0.0
+          with:
+            name: ezra-bible-app_debian12_latest
+            path: ezra-bible-app_latest.deb
+
     build-fedora31:
         name: Build Fedora 31 package
         runs-on: ubuntu-latest
@@ -312,6 +327,11 @@ jobs:
         with:
           name: ezra-bible-app_debian11_latest
 
+      - name: Download debian12 package
+        uses: actions/download-artifact@v1.0.0
+        with:
+          name: ezra-bible-app_debian12_latest
+
       - name: Download fedora31 package
         uses: actions/download-artifact@v1.0.0
         with:
@@ -353,6 +373,7 @@ jobs:
           mv ezra-bible-app_mint18_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_mint18-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_debian10_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian10-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_debian11_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian11-${GITHUB_REF##*/}.deb
+          mv ezra-bible-app_debian12_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian12-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_centos8_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_centos8-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora31_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora31-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_opensuse_leap_15.2_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap_15.2-${GITHUB_REF##*/}.rpm
