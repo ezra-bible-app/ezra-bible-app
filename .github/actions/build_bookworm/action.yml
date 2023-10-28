@@ -1,0 +1,6 @@
+# action.yml
+name: 'build-bookworm'
+description: 'Build Ezra Bible App for Debian 12 Bookworm'
+runs:
+    using: 'docker'
+    image: 'docker://toklein/ezra-bookworm:latest'
