@@ -597,9 +597,14 @@ class TabController {
   async reset() {
     this.removeAllExtraTabs();
     this.setCurrentBibleTranslationId(null);
-    this.getTab().setTagIdList("");
-    this.getTab().setXrefs(null);
-    this.getTab().setReferenceVerseElementId(null);
+
+    const tab = this.getTab();
+    if (tab != null) {
+      tab.setTagIdList("");
+      tab.setXrefs(null);
+      tab.setReferenceVerseElementId(null);
+    }
+
     this.setCurrentTabBook(null, "", "", null);
     this.resetCurrentTabTitle();
     if (this.persistanceEnabled) {
@@ -772,7 +777,11 @@ class TabController {
   }
 
   setCurrentBibleTranslationId(bibleTranslationId) {
-    this.getTab().setBibleTranslationId(bibleTranslationId);
+    const tab = this.getTab();
+
+    if (tab != null) {
+      tab.setBibleTranslationId(bibleTranslationId);
+    }
 
     if (bibleTranslationId != null) {
       this.defaultBibleTranslationId = bibleTranslationId;
