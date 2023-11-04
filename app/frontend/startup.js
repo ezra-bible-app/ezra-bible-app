@@ -349,6 +349,12 @@ class Startup {
       ipcRenderer.invoke("startupCompleted");
     }
 
+    // Automatically open module assistant to install Bible translations if no translations are installed yet.
+    const translationCount = app_controller.translation_controller.getTranslationCount();
+    if (translationCount == 0) {
+      app_controller.openModuleSettingsAssistant('BIBLE'); 
+    }
+
     console.timeEnd("application-startup");
 
     //await app_controller.translation_controller.installStrongsIfNeeded();
