@@ -685,11 +685,15 @@ class TabController {
   }
 
   setCurrentTabBook(bookCode, bookTitle, referenceBookTitle, chapter=undefined) {
-    this.getTab().setBook(bookCode, bookTitle, referenceBookTitle, chapter);
-    var currentTranslationId = this.getTab().getBibleTranslationId();
+    const tab = this.getTab();
 
-    if (bookTitle != undefined && bookTitle != null) {
-      this.setTabTitle(bookTitle, currentTranslationId);
+    if (tab != null) {
+      tab.setBook(bookCode, bookTitle, referenceBookTitle, chapter);
+      var currentTranslationId = tab.getBibleTranslationId();
+
+      if (bookTitle != undefined && bookTitle != null) {
+        this.setTabTitle(bookTitle, currentTranslationId);
+      }
     }
   }
 
