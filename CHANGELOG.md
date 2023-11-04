@@ -1,6 +1,32 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.12.0 - 2023-11-18]
+
+### Enhancements
+
+* Force horizontal display of verse notes in Portrait mode. ([#915](i915))
+* Scroll back to same verse after changing translations. ([#916](i916))
+* Add option that synchronizes the font size of the side panel with the font size used for the Bible text. ([#921](i921))
+* Automatically open module install assistant when no SWORD modules are installed yet. ([#885](i885))
+
+### Fixes
+
+* Dynamically determine reference separator when mapping absolute verse number. ([#928](i928))
+* Font-size settings are not applied in popup dialogs. ([#922](i922))
+
+### Enablers
+
+* Add package for Debian 12. ([#929](i929))
+
+[i885]: https://github.com/ezra-bible-app/ezra-bible-app/issues/885
+[i915]: https://github.com/ezra-bible-app/ezra-bible-app/issues/915
+[i916]: https://github.com/ezra-bible-app/ezra-bible-app/issues/916
+[i921]: https://github.com/ezra-bible-app/ezra-bible-app/issues/921
+[i922]: https://github.com/ezra-bible-app/ezra-bible-app/issues/922
+[i928]: https://github.com/ezra-bible-app/ezra-bible-app/issues/928
+[i929]: https://github.com/ezra-bible-app/ezra-bible-app/issues/929
+
 ## [1.11.0 - 2023-04-23]
 
 ### Features
