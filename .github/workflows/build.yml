@@ -287,7 +287,7 @@ jobs:
       needs: [ build-win32, build-ubuntu-1804,
                build-ubuntu-2004, build-ubuntu-2204,
                build-mint18, build-buster,
-               build-bullseye, build-fedora31,
+               build-bullseye, build-bookworm, build-fedora31,
                build-fedora33, build-fedora35, build-fedora37,
                build-centos8, build-opensuse-leap ]
 
