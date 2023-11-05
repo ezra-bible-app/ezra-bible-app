@@ -14,6 +14,7 @@ All notable changes to Ezra Bible App are documented in this file.
 
 * Dynamically determine reference separator when mapping absolute verse number. ([#928](i928))
 * Font-size settings are not applied in popup dialogs. ([#922](i922))
+* Wrong text direction for Hebrew Bibles. ([#938](i938))
 
 ### Enablers
 
@@ -26,6 +27,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i922]: https://github.com/ezra-bible-app/ezra-bible-app/issues/922
 [i928]: https://github.com/ezra-bible-app/ezra-bible-app/issues/928
 [i929]: https://github.com/ezra-bible-app/ezra-bible-app/issues/929
+[i938]: https://github.com/ezra-bible-app/ezra-bible-app/issues/938
 
 ## [1.11.0 - 2023-04-23]
 
