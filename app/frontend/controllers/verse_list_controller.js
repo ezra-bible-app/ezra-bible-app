@@ -18,6 +18,7 @@
 
 const VerseBox = require('../ui_models/verse_box.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
+const swordModuleHelper = require('../helpers/sword_module_helper.js');
 const wheelnavController = require('../controllers/wheelnav_controller.js');
 const eventController = require('../controllers/event_controller.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
@@ -32,8 +33,9 @@ const Hammer = require('../../../lib/hammerjs/hammer.js');
 module.exports.init = function init() {
   eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
 
+  eventController.subscribe('on-verse-list-init', async (tabIndex) => { this.updateVerseListClasses(tabIndex); });
+
   eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
-    this.updateVerseListClasses(tabIndex);
     this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
 
@@ -388,12 +390,20 @@ module.exports.updateVerseListClasses = async function(tabIndex=undefined) {
   let currentTab = app_controller.tab_controller.getTab(tabIndex);
   const currentTranslationId = currentTab.getBibleTranslationId();
   const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
+  const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(currentTranslationId);
+
   let currentVerseList = this.getCurrentVerseList(tabIndex);
 
   if (!isInstantLoadingBook && currentVerseList[0] != null) {
     currentVerseList.addClass('verse-list-without-chapter-titles');
   } else {
     currentVerseList.removeClass('verse-list-without-chapter-titles');
+  }
+
+  if (moduleIsRightToLeft) {
+    currentVerseList.addClass('verse-list-rtl');
+  } else {
+    currentVerseList.removeClass('verse-list-rtl');
   }
 };
 

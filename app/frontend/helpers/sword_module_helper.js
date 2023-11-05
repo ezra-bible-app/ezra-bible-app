@@ -175,7 +175,7 @@ module.exports.getModuleSize = function(swordModule) {
 };
 
 module.exports.moduleHasStrongs = async function(moduleId) {
-  var swordModule = await this.getSwordModule(moduleId);
+  const swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
     return swordModule.hasStrongs;
@@ -184,9 +184,19 @@ module.exports.moduleHasStrongs = async function(moduleId) {
   }
 };
 
+module.exports.moduleIsRTL = async function(moduleId) {
+  const swordModule = await this.getSwordModule(moduleId);
+
+  if (swordModule != null) {
+    return swordModule.isRightToLeft;
+  } else {
+    return false;
+  }
+};
+
 module.exports.bookHasHeaders = async function(moduleId, book, validate=true) {
   var hasHeaders = false;
-  var swordModule = await this.getSwordModule(moduleId);
+  const swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
     hasHeaders = swordModule.hasHeadings;
@@ -256,7 +266,7 @@ module.exports.getThreeLetterVersification = async function(moduleId) {
 };
 
 module.exports.getModuleLanguage = async function(moduleId) {
-  var swordModule = await this.getSwordModule(moduleId);
+  const swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
     return swordModule.language;
@@ -266,7 +276,7 @@ module.exports.getModuleLanguage = async function(moduleId) {
 };
 
 module.exports.getModuleFullName = async function(moduleId) {
-  var swordModule = await this.getSwordModule(moduleId);
+  const swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
     return swordModule.description;
@@ -276,7 +286,7 @@ module.exports.getModuleFullName = async function(moduleId) {
 };
 
 module.exports.getModuleCopyright = async function(moduleId) {
-  var swordModule = await this.getSwordModule(moduleId);
+  const swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
     return swordModule.shortCopyright || swordModule.copyright;
@@ -286,7 +296,7 @@ module.exports.getModuleCopyright = async function(moduleId) {
 };
 
 module.exports.getModuleLicense = async function(moduleId) {
-  var swordModule = await this.getSwordModule(moduleId);
+  const swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
     return swordModule.distributionLicense;
