@@ -21,6 +21,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
+const swordModuleHelper = require('../helpers/sword_module_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
@@ -208,13 +209,17 @@ class VerseListPopup {
       bookTaggedVersesCountLabel.empty();
     }
 
+    const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
+    const currentTranslationId = currentTab.getBibleTranslationId();
+    const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(currentTranslationId);
+
     setTimeout(() => {
       app_controller.text_controller.requestVersesForSelectedTags(
         currentTabIndex,
         currentTabId,
         this.currentTagId,
         (htmlVerses, verseCount) => { 
-          this.renderVerseListInPopup(htmlVerses, verseCount); 
+          this.renderVerseListInPopup(htmlVerses, verseCount, moduleIsRightToLeft); 
 
           if (onlyCurrentBook) {
             this.handleCurrentBookFilterClick();
@@ -263,12 +268,16 @@ class VerseListPopup {
   async loadXrefs(clickedElement, currentTabId, currentTabIndex) {
     await this.initCurrentXrefs(clickedElement);
 
+    const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
+    const currentTranslationId = currentTab.getBibleTranslationId();
+    const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(currentTranslationId);
+
     setTimeout(() => {
       app_controller.text_controller.requestVersesForXrefs(
         currentTabIndex,
         currentTabId,
         this.currentXrefs,
-        (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
+        (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount, moduleIsRightToLeft); },
         'html',
         false
       );
@@ -423,7 +432,7 @@ class VerseListPopup {
     this.getNewTabButton().addClass('ui-state-disabled');
   }
 
-  renderVerseListInPopup(htmlVerses, verseCount) {
+  renderVerseListInPopup(htmlVerses, verseCount, rtl) {
     $('#verse-list-popup-loading-indicator').hide();
 
     if (getPlatform().isFullScreen() || platformHelper.isMobile()) {
@@ -437,6 +446,12 @@ class VerseListPopup {
     tagReferenceBoxTitle += ' (' + verseCount + ')';
 
     $('#verse-list-popup').dialog({ title: tagReferenceBoxTitle });
+
+    if (rtl) {
+      $('#verse-list-popup-verse-list').addClass('verse-list-rtl');
+    } else {
+      $('#verse-list-popup-verse-list').removeClass('verse-list-rtl');
+    }
 
     if (!app_controller.optionsMenu._xrefsOption.isChecked) {
       $('#verse-list-popup-verse-list').addClass('verse-list-without-xrefs');
