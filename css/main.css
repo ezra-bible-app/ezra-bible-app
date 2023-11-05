@@ -1783,6 +1783,10 @@ s {
   text-decoration: none;
 }
 
+.rtl {
+  direction: rtl;
+}
+
 tr.compare-translation-row:nth-child(odd) {
   background-color: var(--background-color-darker);
 }
