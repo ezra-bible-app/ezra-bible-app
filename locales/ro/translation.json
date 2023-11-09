@@ -57,14 +57,14 @@
     "repository_plural": "Depozite",
     "installation": "Instalare",
     "removal": "Ștergere",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Datele din depozit au fost actualizate ultima oară la {{date}}.",
       "update-now": "Actualizează acum",
       "updating-repository-data": "Actualizare date din depozit! Va dura câteva secunde ...",
       "update-failed": "Actualizare eșuată",
       "update-repository-data-failed": "Actualizarea datelor din depozit e eșuat! Ești deconectat de la internet?"
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Te rog să alegi cel puțin una dintre următoarele limbi.",
       "total-modules-language": "Lângă fiecare depozit este numărul de {{module_type}} disponibile în depozitele SWORD.",
       "loading-languages": "Se încarcă limbile...",
@@ -83,7 +83,7 @@
       "repo-recommended": "Acest depozit este un loc bun cu care să începi",
       "more-repo-information-needed": "Ai nevoie de mai multe informații despre aceste depozite? <br/> Vizitează <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'> CrossWire Wiki </a>."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Te rog alege {{module_type}} care să fie instalat.",
       "module-display-preferences": "Preferințe filtrare:",
       "module-with": "{{module_type, capitalize}} cu {{feature_type, instrumental}}",
@@ -98,7 +98,7 @@
       "downloading": "Se descarcă",
       "part-of-total": "al"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Select the {{module_type, accusative}} that you would like to remove.",
       "disable-remove-note": "Acest {{module_type, singular}} nu este instalat în folderul utilizatorului sau este necesar pentru funcționarea Ezra Bible App.",
       "removing-modules": "Dezinstalare {{module_type, accusative}}",
@@ -340,7 +340,7 @@
     "open-verselist-in-new-tab": "Deschide lista versetelor într-o filă nouă",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Ajustează dimensiunea fontului pentru etichete și note",
-    "adjust-font-size-side-panel": "Adjust side panel font size",
+    "adjust-font-size-side-panel": "Ajustează mărimea fontului pentru panoul lateral",
     "new-note-hint": "Click pentru a adăuga o notă",
     "open-complete-book": "Deschide cărțile în întregime",
     "open-chapters-large-books": "Deschide cărțile mari per capitol",
