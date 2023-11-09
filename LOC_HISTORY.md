@@ -4,6 +4,7 @@ This table shows the growth of the Ezra Bible App code base over time (only cons
 
 Version | Release Date | JavaScript Total | JavaScript Delta
 --------| -------------|------------------|------------------
+1.11.0  | 2023-04-23   | 25309            | +2320
 1.7.0   | 2022-08-21   | 22989            | +5821
 1.1.0   | 2021-06-26   | 17168            | +6691
 0.13.0  | 2020-06-04   | 10477            | +5050

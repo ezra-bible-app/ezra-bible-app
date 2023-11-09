@@ -38,6 +38,7 @@ class TextSizeSettings {
   constructor() {
     this._textSizeValue = this.DEFAULT_TEXT_SIZE;
     this._shouldTagsNotesResize = true;
+    this._shouldSidePanelResize = false;
     this.openMenuButton = '.text-size-settings-button';
     this.menuContainer = '.text-size-menu';
     this.menuIsOpened = false;
@@ -94,6 +95,7 @@ class TextSizeSettings {
       if (window.ipcSettings) {
         this._textSizeValue = await window.ipcSettings.get(SETTINGS_KEY, DEFAULT_TEXT_SIZE);
         this._shouldTagsNotesResize = await window.ipcSettings.get('adjustTagsNotesTextSize', this._shouldTagsNotesResize);
+        this._shouldSidePanelResize = await window.ipcSettings.get('adjustSidePanelTextSize', this._shouldSidePanelResize);
       }
 
       this.updateStyle();
@@ -173,8 +175,13 @@ class TextSizeSettings {
     this.saveConfig();
   }
 
-  updateTagsNotes(shouldTagsNotesResize = true) {
+  updateTagsNotes(shouldTagsNotesResize=true) {
     this._shouldTagsNotesResize = shouldTagsNotesResize;
+    this.updateStyle();
+  }
+
+  updateSidePanel(shouldSidePanelResize=true) {
+    this._shouldSidePanelResize = shouldSidePanelResize;
     this.updateStyle();
   }
 
@@ -186,7 +193,7 @@ class TextSizeSettings {
 
   updateStyle() {
     this.stylesheet.insertRule(
-      `.verse-list-content ${this._shouldTagsNotesResize ? '' : '.verse-text '} {
+      `.verse-list-content ${this._shouldTagsNotesResize ? '' : '.verse-text '} ${this._shouldSidePanelResize ? ', .panel-wrapper' : ''} {
         font-size: ${this._textSizeValue * 0.1}em 
       }`, this.stylesheet.cssRules.length);
 

@@ -1,24 +1,84 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.12.0 - 2023-11-18]
+
+### Enhancements
+
+* Force horizontal display of verse notes in Portrait mode. ([#915][i915])
+* Scroll back to same verse after changing translations. ([#916][i916])
+* Add option that synchronizes the font size of the side panel with the font size used for the Bible text. ([#921][i921])
+* Automatically open module install assistant when no SWORD modules are installed yet. ([#885][i885])
+
+### Fixes
+
+* Dynamically determine reference separator when mapping absolute verse number. ([#928][i928])
+* Font-size settings are not applied in popup dialogs. ([#922][i922])
+* Wrong text direction for Hebrew Bibles. ([#938][i938])
+
+### Enablers
+
+* Add package for Debian 12. ([#929][i929])
+
+[i885]: https://github.com/ezra-bible-app/ezra-bible-app/issues/885
+[i915]: https://github.com/ezra-bible-app/ezra-bible-app/issues/915
+[i916]: https://github.com/ezra-bible-app/ezra-bible-app/issues/916
+[i921]: https://github.com/ezra-bible-app/ezra-bible-app/issues/921
+[i922]: https://github.com/ezra-bible-app/ezra-bible-app/issues/922
+[i928]: https://github.com/ezra-bible-app/ezra-bible-app/issues/928
+[i929]: https://github.com/ezra-bible-app/ezra-bible-app/issues/929
+[i938]: https://github.com/ezra-bible-app/ezra-bible-app/issues/938
+
+## [1.11.0 - 2023-04-23]
+
+### Features
+
+* Add support for Bible commentary modules. ([#886][i886])
+
+### Enhancements
+
+* Show SWORD module attribute SwordVersionDate as last update in module info. ([#897][i897])
+* Merge module description and module details tabs in app info dialog. ([#893][i893])
+* Update module dialog should be modal like the install translation/dictionary dialog. ([#882][i882])
+* Add info button to show dictionary module info. ([#895][i895])
+* Show source repository in module info dialog. ([#901][i901])
+
+### Fixes
+
+* Search terms are not highlighted if search term is found within text that quotes Jesus. ([#889][i889])
+* Module search is hanging if search starts or ends with whitespace. ([#888][i888])
+* Module assistant and module update dialog does not always fit the screen on Android. ([#883][i883])
+
+### Enablers
+
+[i882]: https://github.com/ezra-bible-app/ezra-bible-app/issues/882
+[i883]: https://github.com/ezra-bible-app/ezra-bible-app/issues/883
+[i886]: https://github.com/ezra-bible-app/ezra-bible-app/issues/886
+[i888]: https://github.com/ezra-bible-app/ezra-bible-app/issues/888
+[i889]: https://github.com/ezra-bible-app/ezra-bible-app/issues/889
+[i893]: https://github.com/ezra-bible-app/ezra-bible-app/issues/893
+[i895]: https://github.com/ezra-bible-app/ezra-bible-app/issues/895
+[i897]: https://github.com/ezra-bible-app/ezra-bible-app/issues/897
+[i901]: https://github.com/ezra-bible-app/ezra-bible-app/issues/901
+
 ## [1.10.0 - 2023-02-25]
 
 ### Enhancements
 
-* Add option to show search results in popup. ([#853](i853))
-* Show persecution warning message also for update module dialog. ([#849](i849))
-* Hide tag indicators on Android and show large note indicator below verse references on all device classes. ([#871](i871))
+* Add option to show search results in popup. ([#853][i853])
+* Show persecution warning message also for update module dialog. ([#849][i849])
+* Hide tag indicators on Android and show large note indicator below verse references on all device classes. ([#871][i871])
 
 ### Fixes
 
-* Font size setting not used in popup dialogs. ([#866](i866))
-* Module search menu does not respond to Enter button on Android. ([#852](i852))
-* App info dialog keeps cache of SWORD module even after module update. ([#869](i869))
-* Module search: Do not consider footnotes, headings and other markup. ([#851](i851))
+* Font size setting not used in popup dialogs. ([#866][i866])
+* Module search menu does not respond to Enter button on Android. ([#852][i852])
+* App info dialog keeps cache of SWORD module even after module update. ([#869][i869])
+* Module search: Do not consider footnotes, headings and other markup. ([#851][i851])
 
 ### Enablers
 
-* Remove libicu dependency on Linux. ([#878](i878))
+* Remove libicu dependency on Linux. ([#878][i878])
 
 [i849]: https://github.com/ezra-bible-app/ezra-bible-app/issues/849
 [i851]: https://github.com/ezra-bible-app/ezra-bible-app/issues/851

@@ -19,6 +19,7 @@
 const VerseBox = require("../../ui_models/verse_box.js");
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const eventController = require('../../controllers/event_controller.js');
+const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 
 /**
  * The TranslationComparison component implements a tool panel that shows selected verses
@@ -73,7 +74,10 @@ class TranslationComparison {
         verseHtml +=  "<td class='verse-reference-td'>" + targetVerseReference + "</td>";
       }
 
-      verseHtml += "<td class='verse-content-td'>" + targetTranslationVerse.content + "</td>";
+      const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(targetTranslationId);
+      const rtlClass = moduleIsRightToLeft ? 'rtl' : '';
+
+      verseHtml += `<td class='verse-content-td ${rtlClass}'>` + targetTranslationVerse.content + "</td>";
       verseHtml += "</tr>";
     }
 

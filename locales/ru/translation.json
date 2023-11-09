@@ -44,10 +44,10 @@
     "module-type-dict_singular-instrumental": "словаре",
     "module-type-generic": "модули",
     "module-type-generic_accusative": "модули",
-    "module-type-commentary": "Bible commentaries",
-    "module-type-commentary_accusative": "Bible commentaries",
-    "module-type-commentary_instrumental": "Bible commentaries",
-    "module-type-commentary_singular": "Bible commentary",
+    "module-type-commentary": "Комментарии Библии",
+    "module-type-commentary_accusative": "комментарии",
+    "module-type-commentary_instrumental": "комментариями",
+    "module-type-commentary_singular": "комментарий",
     "header": "Управление {{module_type, instrumental}}",
     "intro-text": "Ezra Bible App устанавливает <b>{{module_type, accusative}}</b> используя ваше интернет-соединение. {{module_type, capitalize}} распространяются <a class='external' href='http://www.crosswire.org'>Библейским обществом CrossWire</a> и будут загруженны из репозиториев <a class='external' href='http://www.crosswire.org/sword'>проекта SWORD</a>.",
     "internet-usage-note": "<b>ВНИМАНИЕ!</b><br/>Если вы находитесь в стране, где преследуют Христиан,<br/>имейте ввиду, что ваш интернет-провайдер способен определить, что <b>вы ищите христианские ресурсы</b>!",
@@ -137,7 +137,7 @@
     "module-version": "Версия",
     "module-current-version": "Текущая версия",
     "module-new-version": "Доступная версия",
-    "module-last-update": "Last update",
+    "module-last-update": "Последнее обновление",
     "module-language": "Язык",
     "module-license": "Лицензия",
     "module-strongs": "Номера Стронга",
@@ -199,7 +199,7 @@
     "modules-up-to-date": "Все модули обновленны!",
     "configure-translations": "Управлять переводами",
     "configure-dicts": "Управлять словарями",
-    "configure-commentaries": "Configure commentaries",
+    "configure-commentaries": "Управлять комментариями",
     "context": "Контекст"
   },
   "help": {
@@ -343,6 +343,7 @@
     "open-verselist-in-new-tab": "Открыть список стихов в новой вкладке",
     "footnote-character": "*",
     "adjust-font-size-tags-notes": "Настраивать текст меток/заметок",
+    "adjust-font-size-side-panel": "Adjust side panel font size",
     "new-note-hint": "Добавить заметку",
     "open-complete-book": "Открывать книги полностью",
     "open-chapters-large-books": "Открывать по главам большие книги",
@@ -377,13 +378,13 @@
     "compare": "Сравнить"
   },
   "commentary-panel": {
-    "default-header": "<b>Bible commentary</b>",
-    "commentaries-for": "Commentaries for",
-    "show-commentaries": "Show commentaries",
-    "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
-    "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
-    "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
-    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
+    "default-header": "<b>Комментарий Библии</b>",
+    "commentaries-for": "Комментарии для",
+    "show-commentaries": "Показывать комментарии",
+    "help-instruction": "Чтобы увидеть комментарии, выберите стих.<br><br> Эта область автоматически отобразит все имеющиеся комментарии к выбранному стиху.",
+    "help-instruction-no-commentaries": "Комментарии не были установленны. Вам необходимо установить как минимум один комментарий.",
+    "help-instruction-no-kjv": "Перевод Библии KJV не установлен. Этот перевод нужен для коректного отображения комментариев основанных на англоязычном разделе на стихи. Это будет исправленно:<ul><li>При установке перевода KJV из репозитория CrossWire</li><li>При установке комментария (в этом случае перевод KJV будет установлен автоматически)</li></ul>",
+    "no-commentaries-available-for-this-verse": "Комментарии для этого стиха отсутствуют."
   },
   "emoji": {
     "search": "Поиск эмодзи...",

@@ -101,6 +101,7 @@ class TabController {
     eventController.subscribe('on-bible-text-loaded', () => {
       let bibleTranslationId = this.getTab().getBibleTranslationId();
       this.setCurrentBibleTranslationId(bibleTranslationId);
+      this.restoreScrollPosition();
     });
 
     eventController.subscribe('on-db-refresh', async () => {
@@ -454,7 +455,7 @@ class TabController {
     uiHelper.configureButtonStyles('.ui-tabs-nav');
   }
 
-  saveTabScrollPosition(tabIndex) {
+  saveTabScrollPosition(tabIndex=undefined) {
     var metaTab = this.getTab(tabIndex);
     var firstVerseListAnchor = verseListController.getFirstVisibleVerseAnchor();
 
@@ -473,7 +474,7 @@ class TabController {
     }
   }
 
-  restoreScrollPosition(tabIndex) {
+  restoreScrollPosition(tabIndex=undefined) {
     var metaTab = this.getTab(tabIndex);
 
     if (metaTab != null) {
@@ -596,9 +597,14 @@ class TabController {
   async reset() {
     this.removeAllExtraTabs();
     this.setCurrentBibleTranslationId(null);
-    this.getTab().setTagIdList("");
-    this.getTab().setXrefs(null);
-    this.getTab().setReferenceVerseElementId(null);
+
+    const tab = this.getTab();
+    if (tab != null) {
+      tab.setTagIdList("");
+      tab.setXrefs(null);
+      tab.setReferenceVerseElementId(null);
+    }
+
     this.setCurrentTabBook(null, "", "", null);
     this.resetCurrentTabTitle();
     if (this.persistanceEnabled) {
@@ -679,11 +685,15 @@ class TabController {
   }
 
   setCurrentTabBook(bookCode, bookTitle, referenceBookTitle, chapter=undefined) {
-    this.getTab().setBook(bookCode, bookTitle, referenceBookTitle, chapter);
-    var currentTranslationId = this.getTab().getBibleTranslationId();
+    const tab = this.getTab();
 
-    if (bookTitle != undefined && bookTitle != null) {
-      this.setTabTitle(bookTitle, currentTranslationId);
+    if (tab != null) {
+      tab.setBook(bookCode, bookTitle, referenceBookTitle, chapter);
+      var currentTranslationId = tab.getBibleTranslationId();
+
+      if (bookTitle != undefined && bookTitle != null) {
+        this.setTabTitle(bookTitle, currentTranslationId);
+      }
     }
   }
 
@@ -771,7 +781,11 @@ class TabController {
   }
 
   setCurrentBibleTranslationId(bibleTranslationId) {
-    this.getTab().setBibleTranslationId(bibleTranslationId);
+    const tab = this.getTab();
+
+    if (tab != null) {
+      tab.setBibleTranslationId(bibleTranslationId);
+    }
 
     if (bibleTranslationId != null) {
       this.defaultBibleTranslationId = bibleTranslationId;
@@ -897,6 +911,8 @@ class TabController {
       app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {
       if (!this.isCurrentTabEmpty()) {
+        this.saveTabScrollPosition();
+
         await app_controller.text_controller.prepareForNewText(false, false);
         await app_controller.text_controller.requestTextUpdate(
           this.getSelectedTabId(),

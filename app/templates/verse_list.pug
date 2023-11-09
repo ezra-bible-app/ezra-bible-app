@@ -145,7 +145,8 @@ each bibleBook in bibleBooks
         verse-bible-book-short=verse.bibleBookShortTitle)
 
       - var verseReference = verse.chapter + referenceSeparator + verse.verseNr;
-      - var anchor = verseListId + " " + bibleBook.shortTitle + " " + verseReference;
+      - var uniqueVerseReference = verse.chapter + ':' + verse.verseNr;
+      - var anchor = verseListId + " " + bibleBook.shortTitle + " " + uniqueVerseReference;
       a(class='nav', name=anchor)
 
       div.verse-reference
