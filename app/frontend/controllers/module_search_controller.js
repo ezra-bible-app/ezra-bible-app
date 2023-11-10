@@ -70,10 +70,12 @@ class ModuleSearchController {
       if (platformHelper.isCordova()) {
         // Handle the enter key in the search field and start the search when it is pressed
         moduleSearchInput.addEventListener('beforeinput', (event) => {
-          const lastCharacter = event.data[event.data.length - 1];
+          if (event.data != null) {
+            const lastCharacter = event.data[event.data.length - 1];
 
-          if (lastCharacter == '\n') {
-            this.startSearch(event);
+            if (lastCharacter == '\n') {
+              this.startSearch(event);
+            }
           }
         });
       } else {
