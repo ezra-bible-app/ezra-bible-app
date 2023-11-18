@@ -104,7 +104,7 @@ To sign and notarize Ezra Bible App run the following commands in the project di
 
 `npm run notarize-mac`
 
-You will be asked for your Apple ID and the corresponding password. The scripts (sign_mac.sh, notarize_mac.sh) will then sign and notarize the app. This is a lengthy process (may take 20-25 minutes).
+You will be asked for your Apple ID, the corresponding password and your Team ID (get the Team ID from your [Apple Developer account page](https://developer.apple.com/account)). The scripts (sign_mac.sh, notarize_mac.sh) will then sign and notarize the app. This is a lengthy process (may take 20-25 minutes).
 
 ### Creating a DMG image for distribution
 
