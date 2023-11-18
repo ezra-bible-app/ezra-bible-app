@@ -107,7 +107,7 @@
     "umzug": "^2.3.0"
   },
   "devDependencies": {
-    "@electron/notarize": "^1.2.3",
+    "@electron/notarize": "^2.2.0",
     "@sentry/cli": "^2.5.2",
     "better-docs": "^2.3.2",
     "brfs": "^2.0.2",
@@ -117,7 +117,7 @@
     "copy-dir": "^1.3.0",
     "cucumber": "^6.0.5",
     "electron": "^17.1.0",
-    "electron-osx-sign": "^0.6.0",
+    "@electron/osx-sign": "^1.0.5",
     "electron-packager": "^17.0.0",
     "electron-rebuild": "^3.2.7",
     "electron-winstaller": "^4.0.2",
