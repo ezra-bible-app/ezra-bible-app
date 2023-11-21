@@ -201,6 +201,7 @@ class InfoPopup {
         <a class='external' href='https://github.com/debritto'>Christian De Britto (Brazilian Portuguese)</a><br>
         <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov (Ukrainian, Russian)</a><br>
         <a class='external' href='https://github.com/augustin-colesnic'>Augustin Colesnic (Romanian)</a><br>
+        <a class='external' href='https://github.com/msavli'>Marjan Šavli (Slovenian)</a><br>
 
         <h2>${i18n.t("general.versions-and-paths")}</h2>
         <table>
