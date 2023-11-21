@@ -16,6 +16,7 @@
     "ro": "Afar",
     "ru": "Афарский",
     "sk": "Afarčina",
+    "sl": "Afarščina",
     "uk": "Афарська"
   },
   "ab": {
@@ -35,6 +36,7 @@
     "ro": "Abhază",
     "ru": "Абхазский",
     "sk": "Abcházčina",
+    "sl": "Abhaščina",
     "uk": "Абхазька"
   },
   "ae": {
@@ -54,6 +56,7 @@
     "ro": "Avestană",
     "ru": "Авестийский",
     "sk": "Avestčina",
+    "sl": "Avestijščina",
     "uk": "Авестійська"
   },
   "af": {
@@ -73,6 +76,7 @@
     "ro": "Afrikaans",
     "ru": "Африкаанс",
     "sk": "Afrikánčina",
+    "sl": "Afrikanščina",
     "uk": "Африкаанс"
   },
   "ak": {
@@ -92,6 +96,7 @@
     "ro": "Akan",
     "ru": "Акан",
     "sk": "Akančina",
+    "sl": "Akanščina",
     "uk": "Акан"
   },
   "am": {
@@ -111,6 +116,7 @@
     "ro": "Amharică",
     "ru": "Амхарский",
     "sk": "Amharčina",
+    "sl": "Amharščina",
     "uk": "Амхарська"
   },
   "an": {
@@ -130,6 +136,7 @@
     "ro": "Aragoneză",
     "ru": "Арагонский",
     "sk": "Aragónčina",
+    "sl": "Aragonščina",
     "uk": "Арагонська"
   },
   "ar": {
@@ -149,6 +156,7 @@
     "ro": "Arabă",
     "ru": "Арабский",
     "sk": "Arabčina",
+    "sl": "Arabščina",
     "uk": "Арабська"
   },
   "as": {
@@ -168,6 +176,7 @@
     "ro": "Asameză",
     "ru": "Ассамский",
     "sk": "Ásamčina",
+    "sl": "Asamščina",
     "uk": "Асамська"
   },
   "av": {
@@ -190,6 +199,7 @@
     "ro": "Avară",
     "ru": "Аварский",
     "sk": "Avarčina",
+    "sl": "Avarščina",
     "uk": "Аварська"
   },
   "ay": {
@@ -209,6 +219,7 @@
     "ro": "Aymara",
     "ru": "Аймара",
     "sk": "Aymarčina",
+    "sl": "Ajmarščina",
     "uk": "Аймара"
   },
   "az": {
@@ -233,6 +244,7 @@
     "ro": "Azeră",
     "ru": "Азербайджанский",
     "sk": "Azerbajdžančina",
+    "sl": "Azerbajdžanščina",
     "uk": "Азербайджанська"
   },
   "ba": {
@@ -255,6 +267,7 @@
     "ro": "Bașkiră",
     "ru": "Башкирский",
     "sk": "Baškirčina",
+    "sl": "Baškirščina",
     "uk": "Башкирська"
   },
   "be": {
@@ -274,6 +287,7 @@
     "ro": "Belarusă",
     "ru": "Белорусский",
     "sk": "Bieloruština",
+    "sl": "Beloruščina",
     "uk": "Білоруська"
   },
   "bg": {
@@ -293,6 +307,7 @@
     "ro": "Bulgară",
     "ru": "Болгарский",
     "sk": "Bulharčina",
+    "sl": "Bolgarščina",
     "uk": "Болгарська"
   },
   "bh": {
@@ -316,6 +331,7 @@
     "ro": "Bislama",
     "ru": "Бислама",
     "sk": "Bislama",
+    "sl": "Bislamščina",
     "uk": "Біслама"
   },
   "bm": {
@@ -335,6 +351,7 @@
     "ro": "Bambara",
     "ru": "Бамбара",
     "sk": "Bambarčina",
+    "sl": "Bambarščina",
     "uk": "Бамбара"
   },
   "bn": {
@@ -354,6 +371,7 @@
     "ro": "Bengaleză",
     "ru": "Бенгальский",
     "sk": "Bengálčina",
+    "sl": "Bengalščina",
     "uk": "Бенгальська"
   },
   "bo": {
@@ -373,6 +391,7 @@
     "ro": "Tibetană",
     "ru": "Тибетский",
     "sk": "Tibetčina",
+    "sl": "Tibetanščina",
     "uk": "Тибетська"
   },
   "br": {
@@ -392,6 +411,7 @@
     "ro": "Bretonă",
     "ru": "Бретонский",
     "sk": "Bretónčina",
+    "sl": "Bretonščina",
     "uk": "Бретонська"
   },
   "bs": {
@@ -411,6 +431,7 @@
     "ro": "Bosniacă",
     "ru": "Боснийский",
     "sk": "Bosniačtina",
+    "sl": "Bosanščina",
     "uk": "Боснійська"
   },
   "ca": {
@@ -430,6 +451,7 @@
     "ro": "Catalană",
     "ru": "Каталанский",
     "sk": "Katalánčina",
+    "sl": "Katalonščina",
     "uk": "Каталонська"
   },
   "ce": {
@@ -452,6 +474,7 @@
     "ro": "Cecenă",
     "ru": "Чеченский",
     "sk": "Čečenčina",
+    "sl": "Čečenščina",
     "uk": "Чеченська"
   },
   "ch": {
@@ -471,6 +494,7 @@
     "ro": "Chamorro",
     "ru": "Чаморро",
     "sk": "Čamorčina",
+    "sl": "Čamorščina",
     "uk": "Чаморро"
   },
   "co": {
@@ -490,6 +514,7 @@
     "ro": "Corsicană",
     "ru": "Корсиканский",
     "sk": "Korzičtina",
+    "sl": "Korziščina",
     "uk": "Корсиканська"
   },
   "cr": {
@@ -509,6 +534,7 @@
     "ro": "Cree",
     "ru": "Кри",
     "sk": "Krí",
+    "sl": "Krijščina",
     "uk": "Крі"
   },
   "cs": {
@@ -528,6 +554,7 @@
     "ro": "Cehă",
     "ru": "Чешский",
     "sk": "Čeština",
+    "sl": "Češčina",
     "uk": "Чеська"
   },
   "cu": {
@@ -547,6 +574,7 @@
     "ro": "Slavonă",
     "ru": "Церковнославянский",
     "sk": "Cirkevná slovančina",
+    "sl": "Stara cerkvena slovanščina",
     "uk": "Церковнословʼянська"
   },
   "cv": {
@@ -569,6 +597,7 @@
     "ro": "Ciuvașă",
     "ru": "Чувашский",
     "sk": "Čuvaština",
+    "sl": "Čuvaščina",
     "uk": "Чуваська"
   },
   "cy": {
@@ -588,6 +617,7 @@
     "ro": "Galeză",
     "ru": "Валлийский",
     "sk": "Waleština",
+    "sl": "Valižanščina",
     "uk": "Валлійська"
   },
   "da": {
@@ -607,6 +637,7 @@
     "ro": "Daneză",
     "ru": "Датский",
     "sk": "Dánčina",
+    "sl": "Danščina",
     "uk": "Данська"
   },
   "de": {
@@ -626,6 +657,7 @@
     "ro": "Germană",
     "ru": "Немецкий",
     "sk": "Nemčina",
+    "sl": "Nemščina",
     "uk": "Німецька"
   },
   "dv": {
@@ -645,6 +677,7 @@
     "ro": "Divehi",
     "ru": "Мальдивский",
     "sk": "Maldivčina",
+    "sl": "Diveščina",
     "uk": "Дівехі"
   },
   "dz": {
@@ -664,6 +697,7 @@
     "ro": "Dzongkha",
     "ru": "Дзонг-кэ",
     "sk": "Dzongkha",
+    "sl": "Dzonka",
     "uk": "Дзонг-ке"
   },
   "ee": {
@@ -683,6 +717,7 @@
     "ro": "Ewe",
     "ru": "Эве",
     "sk": "Eweština",
+    "sl": "Evenščina",
     "uk": "Еве"
   },
   "el": {
@@ -702,6 +737,7 @@
     "ro": "Greacă",
     "ru": "Греческий",
     "sk": "Gréčtina",
+    "sl": "Grščina",
     "uk": "Грецька"
   },
   "en": {
@@ -725,6 +761,7 @@
         "ro": "Regatul Unit",
         "ru": "Великобритания",
         "sk": "Spojené kráľovstvo",
+        "sl": "Združeno kraljestvo",
         "uk": "Велика Британія"
       },
       "US": {
@@ -738,6 +775,7 @@
         "ro": "Statele Unite ale Americii",
         "ru": "Соединенные Штаты",
         "sk": "Spojené štáty",
+        "sl": "Združene države Amerike",
         "uk": "Сполучені Штати"
       }
     },
@@ -749,6 +787,7 @@
     "ro": "Engleză",
     "ru": "Английский",
     "sk": "Angličtina",
+    "sl": "Angleščina",
     "uk": "Англійська"
   },
   "eo": {
@@ -768,6 +807,7 @@
     "ro": "Esperanto",
     "ru": "Эсперанто",
     "sk": "Esperanto",
+    "sl": "Esperanto",
     "uk": "Есперанто"
   },
   "es": {
@@ -787,6 +827,7 @@
     "ro": "Spaniolă",
     "ru": "Испанский",
     "sk": "Španielčina",
+    "sl": "Španščina",
     "uk": "Іспанська"
   },
   "et": {
@@ -806,6 +847,7 @@
     "ro": "Estonă",
     "ru": "Эстонский",
     "sk": "Estónčina",
+    "sl": "Estonščina",
     "uk": "Естонська"
   },
   "eu": {
@@ -825,6 +867,7 @@
     "ro": "Bască",
     "ru": "Баскский",
     "sk": "Baskičtina",
+    "sl": "Baskovščina",
     "uk": "Баскська"
   },
   "fa": {
@@ -844,6 +887,7 @@
     "ro": "Persană",
     "ru": "Персидский",
     "sk": "Perzština",
+    "sl": "Perzijščina",
     "uk": "Перська"
   },
   "ff": {
@@ -863,6 +907,7 @@
     "ro": "Fulah",
     "ru": "Фулах",
     "sk": "Fulbčina",
+    "sl": "Fulščina",
     "uk": "Фула"
   },
   "fi": {
@@ -882,6 +927,7 @@
     "ro": "Finlandeză",
     "ru": "Финский",
     "sk": "Fínčina",
+    "sl": "Finščina",
     "uk": "Фінська"
   },
   "fj": {
@@ -901,6 +947,7 @@
     "ro": "Fijiană",
     "ru": "Фиджи",
     "sk": "Fidžijčina",
+    "sl": "Fidžijščina",
     "uk": "Фіджі"
   },
   "fo": {
@@ -920,6 +967,7 @@
     "ro": "Feroeză",
     "ru": "Фарерский",
     "sk": "Faerčina",
+    "sl": "Ferščina",
     "uk": "Фарерська"
   },
   "fr": {
@@ -939,6 +987,7 @@
     "ro": "Franceză",
     "ru": "Французский",
     "sk": "Francúzština",
+    "sl": "Francoščina",
     "uk": "Французька"
   },
   "fy": {
@@ -958,6 +1007,7 @@
     "ro": "Frizonă occidentală",
     "ru": "Западнофризский",
     "sk": "Západná frízština",
+    "sl": "Zahodna frizijščina",
     "uk": "Західнофризька"
   },
   "ga": {
@@ -977,6 +1027,7 @@
     "ro": "Irlandeză",
     "ru": "Ирландский",
     "sk": "Írčina",
+    "sl": "Irščina",
     "uk": "Ірландська"
   },
   "gd": {
@@ -996,6 +1047,7 @@
     "ro": "Gaelică scoțiană",
     "ru": "Гэльский",
     "sk": "Škótska gaelčina",
+    "sl": "Škotska gelščina",
     "uk": "Шотландська гельська"
   },
   "gl": {
@@ -1015,6 +1067,7 @@
     "ro": "Galiciană",
     "ru": "Галисийский",
     "sk": "Galícijčina",
+    "sl": "Galicijščina",
     "uk": "Галісійська"
   },
   "gn": {
@@ -1034,6 +1087,7 @@
     "ro": "Guarani",
     "ru": "Гуарани",
     "sk": "Guaraníjčina",
+    "sl": "Gvaranijščina",
     "uk": "Гуарані"
   },
   "gu": {
@@ -1053,6 +1107,7 @@
     "ro": "Gujarati",
     "ru": "Гуджарати",
     "sk": "Gudžarátčina",
+    "sl": "Gudžaratščina",
     "uk": "Гуджараті"
   },
   "gv": {
@@ -1072,6 +1127,7 @@
     "ro": "Manx",
     "ru": "Мэнский",
     "sk": "Mančina",
+    "sl": "Manščina",
     "uk": "Менкська"
   },
   "ha": {
@@ -1091,6 +1147,7 @@
     "ro": "Hausa",
     "ru": "Хауса",
     "sk": "Hauština",
+    "sl": "Havščina",
     "uk": "Хауса"
   },
   "he": {
@@ -1110,6 +1167,7 @@
     "ro": "Ebraică",
     "ru": "Иврит",
     "sk": "Hebrejčina",
+    "sl": "Hebrejščina",
     "uk": "Іврит"
   },
   "hi": {
@@ -1129,6 +1187,7 @@
     "ro": "Hindi",
     "ru": "Хинди",
     "sk": "Hindčina",
+    "sl": "Hindijščina",
     "uk": "Гінді"
   },
   "ho": {
@@ -1148,6 +1207,7 @@
     "ro": "Hiri motu",
     "ru": "Хиримоту",
     "sk": "Hiri motu",
+    "sl": "Hiri motu",
     "uk": "Хірі-моту"
   },
   "hr": {
@@ -1167,6 +1227,7 @@
     "ro": "Croată",
     "ru": "Хорватский",
     "sk": "Chorvátčina",
+    "sl": "Hrvaščina",
     "uk": "Хорватська"
   },
   "ht": {
@@ -1186,6 +1247,7 @@
     "ro": "Haitiană",
     "ru": "Гаитянский",
     "sk": "Haitská kreolčina",
+    "sl": "Haitijska kreolščina",
     "uk": "Гаїтянська креольська"
   },
   "hu": {
@@ -1205,6 +1267,7 @@
     "ro": "Maghiară",
     "ru": "Венгерский",
     "sk": "Maďarčina",
+    "sl": "Madžarščina",
     "uk": "Угорська"
   },
   "hy": {
@@ -1224,6 +1287,7 @@
     "ro": "Armeană",
     "ru": "Армянский",
     "sk": "Arménčina",
+    "sl": "Armenščina",
     "uk": "Вірменська"
   },
   "hz": {
@@ -1243,6 +1307,7 @@
     "ro": "Herero",
     "ru": "Гереро",
     "sk": "Herero",
+    "sl": "Herero",
     "uk": "Гереро"
   },
   "ia": {
@@ -1262,6 +1327,7 @@
     "ro": "Interlingua",
     "ru": "Интерлингва",
     "sk": "Interlingua",
+    "sl": "Interlingva",
     "uk": "Інтерлінгва"
   },
   "id": {
@@ -1281,6 +1347,7 @@
     "ro": "Indoneziană",
     "ru": "Индонезийский",
     "sk": "Indonézština",
+    "sl": "Indonezijščina",
     "uk": "Індонезійська"
   },
   "ie": {
@@ -1300,6 +1367,7 @@
     "ro": "Interlingue",
     "ru": "Интерлингве",
     "sk": "Interlingue",
+    "sl": "Interlingve",
     "uk": "Інтерлінгве"
   },
   "ig": {
@@ -1319,6 +1387,7 @@
     "ro": "Igbo",
     "ru": "Игбо",
     "sk": "Igboština",
+    "sl": "Igboščina",
     "uk": "Ігбо"
   },
   "ii": {
@@ -1338,6 +1407,7 @@
     "ro": "Yi din Sichuan",
     "ru": "Носу",
     "sk": "S’čchuanská iovčina",
+    "sl": "Sečuanska jiščina",
     "uk": "Сичуаньська ї"
   },
   "ik": {
@@ -1357,6 +1427,7 @@
     "ro": "Inupiak",
     "ru": "Инупиак",
     "sk": "Inupik",
+    "sl": "Inupiaščina",
     "uk": "Інупіак"
   },
   "in": {
@@ -1369,6 +1440,7 @@
     "ro": "Indoneziană",
     "ru": "Индонезийский",
     "sk": "Indonézština",
+    "sl": "Indonezijščina",
     "uk": "Індонезійська"
   },
   "io": {
@@ -1388,6 +1460,7 @@
     "ro": "Ido",
     "ru": "Идо",
     "sk": "Ido",
+    "sl": "Ido",
     "uk": "Ідо"
   },
   "is": {
@@ -1407,6 +1480,7 @@
     "ro": "Islandeză",
     "ru": "Исландский",
     "sk": "Islandčina",
+    "sl": "Islandščina",
     "uk": "Ісландська"
   },
   "it": {
@@ -1426,6 +1500,7 @@
     "ro": "Italiană",
     "ru": "Итальянский",
     "sk": "Taliančina",
+    "sl": "Italijanščina",
     "uk": "Італійська"
   },
   "iu": {
@@ -1445,6 +1520,7 @@
     "ro": "Inuktitut",
     "ru": "Инуктитут",
     "sk": "Inuktitut",
+    "sl": "Inuktitutščina",
     "uk": "Інуктітут"
   },
   "iw": {
@@ -1457,6 +1533,7 @@
     "ro": "Ebraică",
     "ru": "Иврит",
     "sk": "Hebrejčina",
+    "sl": "Hebrejščina",
     "uk": "Іврит"
   },
   "ja": {
@@ -1476,6 +1553,7 @@
     "ro": "Japoneză",
     "ru": "Японский",
     "sk": "Japončina",
+    "sl": "Japonščina",
     "uk": "Японська"
   },
   "ji": {
@@ -1488,6 +1566,7 @@
     "ro": "Idiș",
     "ru": "Идиш",
     "sk": "Jidiš",
+    "sl": "Jidiš",
     "uk": "Їдиш"
   },
   "jv": {
@@ -1507,6 +1586,7 @@
     "ro": "Javaneză",
     "ru": "Яванский",
     "sk": "Jávčina",
+    "sl": "Javanščina",
     "uk": "Яванська"
   },
   "jw": {
@@ -1519,6 +1599,7 @@
     "ro": "Javaneză",
     "ru": "Яванский",
     "sk": "Jávčina",
+    "sl": "Javanščina",
     "uk": "Яванська"
   },
   "ka": {
@@ -1538,6 +1619,7 @@
     "ro": "Georgiană",
     "ru": "Грузинский",
     "sk": "Gruzínčina",
+    "sl": "Gruzijščina",
     "uk": "Грузинська"
   },
   "kg": {
@@ -1557,6 +1639,7 @@
     "ro": "Congoleză",
     "ru": "Конго",
     "sk": "Kongčina",
+    "sl": "Kongovščina",
     "uk": "Конґолезька"
   },
   "ki": {
@@ -1576,6 +1659,7 @@
     "ro": "Kikuyu",
     "ru": "Кикуйю",
     "sk": "Kikujčina",
+    "sl": "Kikujščina",
     "uk": "Кікуйю"
   },
   "kj": {
@@ -1595,6 +1679,7 @@
     "ro": "Kuanyama",
     "ru": "Кунама",
     "sk": "Kuaňama",
+    "sl": "Kvanjama",
     "uk": "Кунама"
   },
   "kk": {
@@ -1614,6 +1699,7 @@
     "ro": "Kazahă",
     "ru": "Казахский",
     "sk": "Kazaština",
+    "sl": "Kazaščina",
     "uk": "Казахська"
   },
   "kl": {
@@ -1633,6 +1719,7 @@
     "ro": "Kalaallisut",
     "ru": "Гренландский",
     "sk": "Grónčina",
+    "sl": "Grenlandščina",
     "uk": "Калааллісут"
   },
   "km": {
@@ -1652,6 +1739,7 @@
     "ro": "Khmeră",
     "ru": "Кхмерский",
     "sk": "Khmérčina",
+    "sl": "Kmerščina",
     "uk": "Кхмерська"
   },
   "kn": {
@@ -1671,6 +1759,7 @@
     "ro": "Kannada",
     "ru": "Каннада",
     "sk": "Kannadčina",
+    "sl": "Kanareščina",
     "uk": "Каннада"
   },
   "ko": {
@@ -1694,6 +1783,7 @@
         "ro": "Coreea de Nord",
         "ru": "КНДР",
         "sk": "Severná Kórea",
+        "sl": "Severna Koreja",
         "uk": "Північна Корея"
       }
     },
@@ -1705,6 +1795,7 @@
     "ro": "Coreeană",
     "ru": "Корейский",
     "sk": "Kórejčina",
+    "sl": "Korejščina",
     "uk": "Корейська"
   },
   "kr": {
@@ -1724,6 +1815,7 @@
     "ro": "Kanuri",
     "ru": "Канури",
     "sk": "Kanurijčina",
+    "sl": "Kanurščina",
     "uk": "Канурі"
   },
   "ks": {
@@ -1747,6 +1839,7 @@
     "ro": "Cașmiră",
     "ru": "Кашмири",
     "sk": "Kašmírčina",
+    "sl": "Kašmirščina",
     "uk": "Кашмірська"
   },
   "ku": {
@@ -1771,6 +1864,7 @@
     "ro": "Kurdă",
     "ru": "Курдский",
     "sk": "Kurdčina",
+    "sl": "Kurdščina",
     "uk": "Курдська"
   },
   "kv": {
@@ -1790,6 +1884,7 @@
     "ro": "Komi",
     "ru": "Коми",
     "sk": "Komijčina",
+    "sl": "Komijščina",
     "uk": "Комі"
   },
   "kw": {
@@ -1809,6 +1904,7 @@
     "ro": "Cornică",
     "ru": "Корнский",
     "sk": "Kornčina",
+    "sl": "Kornijščina",
     "uk": "Корнська"
   },
   "ky": {
@@ -1832,6 +1928,7 @@
     "ro": "Kârgâză",
     "ru": "Киргизский",
     "sk": "Kirgizština",
+    "sl": "Kirgiščina",
     "uk": "Киргизька"
   },
   "la": {
@@ -1851,6 +1948,7 @@
     "ro": "Latină",
     "ru": "Латинский",
     "sk": "Latinčina",
+    "sl": "Latinščina",
     "uk": "Латинська"
   },
   "lb": {
@@ -1870,6 +1968,7 @@
     "ro": "Luxemburgheză",
     "ru": "Люксембургский",
     "sk": "Luxemburčina",
+    "sl": "Luksemburščina",
     "uk": "Люксембурзька"
   },
   "lg": {
@@ -1889,6 +1988,7 @@
     "ro": "Ganda",
     "ru": "Ганда",
     "sk": "Gandčina",
+    "sl": "Ganda",
     "uk": "Ганда"
   },
   "li": {
@@ -1908,6 +2008,7 @@
     "ro": "Limburgheză",
     "ru": "Лимбургский",
     "sk": "Limburčina",
+    "sl": "Limburščina",
     "uk": "Лімбургійська"
   },
   "ln": {
@@ -1927,6 +2028,7 @@
     "ro": "Lingala",
     "ru": "Лингала",
     "sk": "Lingalčina",
+    "sl": "Lingala",
     "uk": "Лінгала"
   },
   "lo": {
@@ -1946,6 +2048,7 @@
     "ro": "Laoțiană",
     "ru": "Лаосский",
     "sk": "Laoština",
+    "sl": "Laoščina",
     "uk": "Лаоська"
   },
   "lt": {
@@ -1965,6 +2068,7 @@
     "ro": "Lituaniană",
     "ru": "Литовский",
     "sk": "Litovčina",
+    "sl": "Litovščina",
     "uk": "Литовська"
   },
   "lu": {
@@ -1984,6 +2088,7 @@
     "ro": "Luba-katanga",
     "ru": "Луба-катанга",
     "sk": "Lubčina (katanžská)",
+    "sl": "Luba-katanga",
     "uk": "Луба-катанга"
   },
   "lv": {
@@ -2003,6 +2108,7 @@
     "ro": "Letonă",
     "ru": "Латышский",
     "sk": "Lotyština",
+    "sl": "Latvijščina",
     "uk": "Латиська"
   },
   "mg": {
@@ -2022,6 +2128,7 @@
     "ro": "Malgașă",
     "ru": "Малагасийский",
     "sk": "Malgaština",
+    "sl": "Malgaščina",
     "uk": "Малагасійська"
   },
   "mh": {
@@ -2041,6 +2148,7 @@
     "ro": "Marshalleză",
     "ru": "Маршалльский",
     "sk": "Marshallčina",
+    "sl": "Marshallovščina",
     "uk": "Маршалльська"
   },
   "mi": {
@@ -2060,6 +2168,7 @@
     "ro": "Maori",
     "ru": "Маори",
     "sk": "Maorijčina",
+    "sl": "Maorščina",
     "uk": "Маорі"
   },
   "mk": {
@@ -2079,6 +2188,7 @@
     "ro": "Macedoneană",
     "ru": "Македонский",
     "sk": "Macedónčina",
+    "sl": "Makedonščina",
     "uk": "Македонська"
   },
   "ml": {
@@ -2098,6 +2208,7 @@
     "ro": "Malayalam",
     "ru": "Малаялам",
     "sk": "Malajálamčina",
+    "sl": "Malajalamščina",
     "uk": "Малаялам"
   },
   "mn": {
@@ -2117,6 +2228,7 @@
     "ro": "Mongolă",
     "ru": "Монгольский",
     "sk": "Mongolčina",
+    "sl": "Mongolščina",
     "uk": "Монгольська"
   },
   "mo": {
@@ -2129,6 +2241,7 @@
     "ro": "Română",
     "ru": "Румынский",
     "sk": "Rumunčina",
+    "sl": "Romunščina",
     "uk": "Румунська"
   },
   "mr": {
@@ -2148,6 +2261,7 @@
     "ro": "Marathi",
     "ru": "Маратхи",
     "sk": "Maráthčina",
+    "sl": "Maratščina",
     "uk": "Маратхі"
   },
   "ms": {
@@ -2167,6 +2281,7 @@
     "ro": "Malaeză",
     "ru": "Малайский",
     "sk": "Malajčina",
+    "sl": "Malajščina",
     "uk": "Малайська"
   },
   "mt": {
@@ -2186,6 +2301,7 @@
     "ro": "Malteză",
     "ru": "Мальтийский",
     "sk": "Maltčina",
+    "sl": "Malteščina",
     "uk": "Мальтійська"
   },
   "my": {
@@ -2205,6 +2321,7 @@
     "ro": "Birmană",
     "ru": "Бирманский",
     "sk": "Barmčina",
+    "sl": "Burmanščina",
     "uk": "Бірманська"
   },
   "na": {
@@ -2224,6 +2341,7 @@
     "ro": "Nauru",
     "ru": "Науру",
     "sk": "Nauruština",
+    "sl": "Naurujščina",
     "uk": "Науру"
   },
   "nb": {
@@ -2243,6 +2361,7 @@
     "ro": "Norvegiană bokmål",
     "ru": "Норвежский букмол",
     "sk": "Nórčina (bokmal)",
+    "sl": "Knjižna norveščina",
     "uk": "Норвезька (букмол)"
   },
   "nd": {
@@ -2262,6 +2381,7 @@
     "ro": "Ndebele de nord",
     "ru": "Северный ндебеле",
     "sk": "Ndebelčina (severná)",
+    "sl": "Severna ndebelščina",
     "uk": "Північна ндебеле"
   },
   "ne": {
@@ -2281,6 +2401,7 @@
     "ro": "Nepaleză",
     "ru": "Непальский",
     "sk": "Nepálčina",
+    "sl": "Nepalščina",
     "uk": "Непальська"
   },
   "ng": {
@@ -2300,6 +2421,7 @@
     "ro": "Ndonga",
     "ru": "Ндонга",
     "sk": "Ndonga",
+    "sl": "Ndonga",
     "uk": "Ндонга"
   },
   "nl": {
@@ -2319,6 +2441,7 @@
     "ro": "Neerlandeză",
     "ru": "Нидерландский",
     "sk": "Holandčina",
+    "sl": "Nizozemščina",
     "uk": "Нідерландська"
   },
   "nn": {
@@ -2338,6 +2461,7 @@
     "ro": "Norvegiană nynorsk",
     "ru": "Нюнорск",
     "sk": "Nórčina (nynorsk)",
+    "sl": "Novonorveščina",
     "uk": "Норвезька (нюношк)"
   },
   "no": {
@@ -2357,6 +2481,7 @@
     "ro": "Norvegiană",
     "ru": "Норвежский",
     "sk": "Nórčina",
+    "sl": "Norveščina",
     "uk": "Норвезька"
   },
   "nr": {
@@ -2376,6 +2501,7 @@
     "ro": "Ndebele de sud",
     "ru": "Южный ндебеле",
     "sk": "Ndebelčina (južná)",
+    "sl": "Južna ndebelščina",
     "uk": "Ндебелє південна"
   },
   "nv": {
@@ -2395,6 +2521,7 @@
     "ro": "Navajo",
     "ru": "Навахо",
     "sk": "Navaho",
+    "sl": "Navajščina",
     "uk": "Навахо"
   },
   "ny": {
@@ -2414,6 +2541,7 @@
     "ro": "Nyanja",
     "ru": "Ньянджа",
     "sk": "Ňandža",
+    "sl": "Njanščina",
     "uk": "Ньянджа"
   },
   "oc": {
@@ -2433,6 +2561,7 @@
     "ro": "Occitană",
     "ru": "Окситанский",
     "sk": "Okcitánčina",
+    "sl": "Okcitanščina",
     "uk": "Окситанська"
   },
   "oj": {
@@ -2452,6 +2581,7 @@
     "ro": "Ojibwa",
     "ru": "Оджибва",
     "sk": "Odžibva",
+    "sl": "Anašinabščina",
     "uk": "Оджібва"
   },
   "om": {
@@ -2471,6 +2601,7 @@
     "ro": "Oromo",
     "ru": "Оромо",
     "sk": "Oromčina",
+    "sl": "Oromo",
     "uk": "Оромо"
   },
   "or": {
@@ -2490,6 +2621,7 @@
     "ro": "Odia",
     "ru": "Ория",
     "sk": "Uríjčina",
+    "sl": "Odijščina",
     "uk": "Одія"
   },
   "os": {
@@ -2509,6 +2641,7 @@
     "ro": "Osetă",
     "ru": "Осетинский",
     "sk": "Osetčina",
+    "sl": "Osetinščina",
     "uk": "Осетинська"
   },
   "pa": {
@@ -2533,6 +2666,7 @@
     "ro": "Punjabi",
     "ru": "Панджаби",
     "sk": "Pandžábčina",
+    "sl": "Pandžabščina",
     "uk": "Панджабі"
   },
   "pi": {
@@ -2552,6 +2686,7 @@
     "ro": "Pali",
     "ru": "Пали",
     "sk": "Pálí",
+    "sl": "Palijščina",
     "uk": "Палі"
   },
   "pl": {
@@ -2571,6 +2706,7 @@
     "ro": "Poloneză",
     "ru": "Польский",
     "sk": "Poľština",
+    "sl": "Poljščina",
     "uk": "Польська"
   },
   "ps": {
@@ -2590,6 +2726,7 @@
     "ro": "Paștună",
     "ru": "Пушту",
     "sk": "Paštčina",
+    "sl": "Paštunščina",
     "uk": "Пушту"
   },
   "pt": {
@@ -2612,6 +2749,7 @@
         "ro": "Brazilia",
         "ru": "Бразилия",
         "sk": "Brazília",
+        "sl": "Brazilija",
         "uk": "Бразилія"
       }
     },
@@ -2624,6 +2762,7 @@
     "ro": "Portugheză",
     "ru": "Португальский",
     "sk": "Portugalčina",
+    "sl": "Portugalščina",
     "uk": "Португальська"
   },
   "qu": {
@@ -2643,6 +2782,7 @@
     "ro": "Quechua",
     "ru": "Кечуа",
     "sk": "Kečuánčina",
+    "sl": "Kečuanščina",
     "uk": "Кечуа"
   },
   "rm": {
@@ -2662,6 +2802,7 @@
     "ro": "Romanșă",
     "ru": "Романшский",
     "sk": "Rétorománčina",
+    "sl": "Retoromanščina",
     "uk": "Ретороманська"
   },
   "rn": {
@@ -2681,6 +2822,7 @@
     "ro": "Kirundi",
     "ru": "Рунди",
     "sk": "Rundčina",
+    "sl": "Rundščina",
     "uk": "Рунді"
   },
   "ro": {
@@ -2700,6 +2842,7 @@
     "ro": "Română",
     "ru": "Румынский",
     "sk": "Rumunčina",
+    "sl": "Romunščina",
     "uk": "Румунська"
   },
   "ru": {
@@ -2719,6 +2862,7 @@
     "ro": "Rusă",
     "ru": "Русский",
     "sk": "Ruština",
+    "sl": "Ruščina",
     "uk": "Російська"
   },
   "rw": {
@@ -2738,6 +2882,7 @@
     "ro": "Kinyarwanda",
     "ru": "Киньяруанда",
     "sk": "Rwandčina",
+    "sl": "Ruandščina",
     "uk": "Кіньяруанда"
   },
   "sa": {
@@ -2757,6 +2902,7 @@
     "ro": "Sanscrită",
     "ru": "Санскрит",
     "sk": "Sanskrit",
+    "sl": "Sanskrt",
     "uk": "Санскрит"
   },
   "sc": {
@@ -2776,6 +2922,7 @@
     "ro": "Sardiniană",
     "ru": "Сардинский",
     "sk": "Sardínčina",
+    "sl": "Sardinščina",
     "uk": "Сардинська"
   },
   "sd": {
@@ -2795,6 +2942,7 @@
     "ro": "Sindhi",
     "ru": "Синдхи",
     "sk": "Sindhčina",
+    "sl": "Sindščina",
     "uk": "Синдхі"
   },
   "se": {
@@ -2814,6 +2962,7 @@
     "ro": "Sami de nord",
     "ru": "Северносаамский",
     "sk": "Saamčina (severná)",
+    "sl": "Severna samijščina",
     "uk": "Північносаамська"
   },
   "sg": {
@@ -2833,6 +2982,7 @@
     "ro": "Sango",
     "ru": "Санго",
     "sk": "Sango",
+    "sl": "Sango",
     "uk": "Санго"
   },
   "sh": {
@@ -2850,6 +3000,7 @@
     "ro": "Sârbo-croată",
     "ru": "Сербскохорватский",
     "sk": "Srbochorvátčina",
+    "sl": "Srbohrvaščina",
     "uk": "Сербсько-хорватська"
   },
   "si": {
@@ -2869,6 +3020,7 @@
     "ro": "Singhaleză",
     "ru": "Сингальский",
     "sk": "Sinhalčina",
+    "sl": "Sinhalščina",
     "uk": "Сингальська"
   },
   "sk": {
@@ -2888,6 +3040,7 @@
     "ro": "Slovacă",
     "ru": "Словацкий",
     "sk": "Slovenčina",
+    "sl": "Slovaščina",
     "uk": "Словацька"
   },
   "sl": {
@@ -2907,6 +3060,7 @@
     "ro": "Slovenă",
     "ru": "Словенский",
     "sk": "Slovinčina",
+    "sl": "Slovenščina",
     "uk": "Словенська"
   },
   "sm": {
@@ -2926,6 +3080,7 @@
     "ro": "Samoană",
     "ru": "Самоанский",
     "sk": "Samojčina",
+    "sl": "Samoanščina",
     "uk": "Самоанська"
   },
   "sn": {
@@ -2945,6 +3100,7 @@
     "ro": "Shona",
     "ru": "Шона",
     "sk": "Šončina",
+    "sl": "Šonščina",
     "uk": "Шона"
   },
   "so": {
@@ -2964,6 +3120,7 @@
     "ro": "Somaleză",
     "ru": "Сомали",
     "sk": "Somálčina",
+    "sl": "Somalščina",
     "uk": "Сомалі"
   },
   "sq": {
@@ -2983,6 +3140,7 @@
     "ro": "Albaneză",
     "ru": "Албанский",
     "sk": "Albánčina",
+    "sl": "Albanščina",
     "uk": "Албанська"
   },
   "sr": {
@@ -3006,6 +3164,7 @@
     "ro": "Sârbă",
     "ru": "Сербский",
     "sk": "Srbčina",
+    "sl": "Srbščina",
     "uk": "Сербська"
   },
   "ss": {
@@ -3025,6 +3184,7 @@
     "ro": "Swati",
     "ru": "Свази",
     "sk": "Svazijčina",
+    "sl": "Svazijščina",
     "uk": "Сісваті"
   },
   "st": {
@@ -3044,6 +3204,7 @@
     "ro": "Sesotho",
     "ru": "Южный сото",
     "sk": "Sothčina (južná)",
+    "sl": "Sesoto",
     "uk": "Південна сото"
   },
   "su": {
@@ -3063,6 +3224,7 @@
     "ro": "Sundaneză",
     "ru": "Сунданский",
     "sk": "Sundčina",
+    "sl": "Sundanščina",
     "uk": "Сунданська"
   },
   "sv": {
@@ -3082,6 +3244,7 @@
     "ro": "Suedeză",
     "ru": "Шведский",
     "sk": "Švédčina",
+    "sl": "Švedščina",
     "uk": "Шведська"
   },
   "sw": {
@@ -3101,6 +3264,7 @@
     "ro": "Swahili",
     "ru": "Суахили",
     "sk": "Swahilčina",
+    "sl": "Svahili",
     "uk": "Суахілі"
   },
   "ta": {
@@ -3120,6 +3284,7 @@
     "ro": "Tamilă",
     "ru": "Тамильский",
     "sk": "Tamilčina",
+    "sl": "Tamilščina",
     "uk": "Тамільська"
   },
   "te": {
@@ -3139,6 +3304,7 @@
     "ro": "Telugu",
     "ru": "Телугу",
     "sk": "Telugčina",
+    "sl": "Telugijščina",
     "uk": "Телугу"
   },
   "tg": {
@@ -3163,6 +3329,7 @@
     "ro": "Tadjică",
     "ru": "Таджикский",
     "sk": "Tadžičtina",
+    "sl": "Tadžiščina",
     "uk": "Таджицька"
   },
   "th": {
@@ -3182,6 +3349,7 @@
     "ro": "Thailandeză",
     "ru": "Тайский",
     "sk": "Thajčina",
+    "sl": "Tajščina",
     "uk": "Тайська"
   },
   "ti": {
@@ -3201,6 +3369,7 @@
     "ro": "Tigrină",
     "ru": "Тигринья",
     "sk": "Tigriňa",
+    "sl": "Tigrajščina",
     "uk": "Тигринья"
   },
   "tk": {
@@ -3225,6 +3394,7 @@
     "ro": "Turkmenă",
     "ru": "Туркменский",
     "sk": "Turkménčina",
+    "sl": "Turkmenščina",
     "uk": "Туркменська"
   },
   "tl": {
@@ -3247,6 +3417,7 @@
     "ro": "Tagalog",
     "ru": "Тагалог",
     "sk": "Tagalčina",
+    "sl": "Tagalogščina",
     "uk": "Тагальська"
   },
   "tn": {
@@ -3266,6 +3437,7 @@
     "ro": "Setswana",
     "ru": "Тсвана",
     "sk": "Tswančina",
+    "sl": "Cvanščina",
     "uk": "Тсвана"
   },
   "to": {
@@ -3285,6 +3457,7 @@
     "ro": "Tongană",
     "ru": "Тонганский",
     "sk": "Tongčina",
+    "sl": "Tongščina",
     "uk": "Тонганська"
   },
   "tr": {
@@ -3304,6 +3477,7 @@
     "ro": "Turcă",
     "ru": "Турецкий",
     "sk": "Turečtina",
+    "sl": "Turščina",
     "uk": "Турецька"
   },
   "ts": {
@@ -3323,6 +3497,7 @@
     "ro": "Tsonga",
     "ru": "Тсонга",
     "sk": "Tsongčina",
+    "sl": "Congščina",
     "uk": "Тсонга"
   },
   "tt": {
@@ -3346,6 +3521,7 @@
     "ro": "Tătară",
     "ru": "Татарский",
     "sk": "Tatárčina",
+    "sl": "Tatarščina",
     "uk": "Татарська"
   },
   "tw": {
@@ -3365,6 +3541,7 @@
     "ro": "Twi",
     "ru": "Тви",
     "sk": "Twi",
+    "sl": "Tvi",
     "uk": "Тві"
   },
   "ty": {
@@ -3384,6 +3561,7 @@
     "ro": "Tahitiană",
     "ru": "Таитянский",
     "sk": "Tahitčina",
+    "sl": "Tahitščina",
     "uk": "Таїтянська"
   },
   "ug": {
@@ -3408,6 +3586,7 @@
     "ro": "Uigură",
     "ru": "Уйгурский",
     "sk": "Ujgurčina",
+    "sl": "Ujgurščina",
     "uk": "Уйгурська"
   },
   "uk": {
@@ -3427,6 +3606,7 @@
     "ro": "Ucraineană",
     "ru": "Украинский",
     "sk": "Ukrajinčina",
+    "sl": "Ukrajinščina",
     "uk": "Українська"
   },
   "ur": {
@@ -3450,6 +3630,7 @@
     "ro": "Urdu",
     "ru": "Урду",
     "sk": "Urdčina",
+    "sl": "Urdujščina",
     "uk": "Урду"
   },
   "uz": {
@@ -3473,6 +3654,7 @@
     "ro": "Uzbecă",
     "ru": "Узбекский",
     "sk": "Uzbečtina",
+    "sl": "Uzbeščina",
     "uk": "Узбецька"
   },
   "ve": {
@@ -3492,6 +3674,7 @@
     "ro": "Venda",
     "ru": "Венда",
     "sk": "Vendčina",
+    "sl": "Venda",
     "uk": "Венда"
   },
   "vi": {
@@ -3511,6 +3694,7 @@
     "ro": "Vietnameză",
     "ru": "Вьетнамский",
     "sk": "Vietnamčina",
+    "sl": "Vietnamščina",
     "uk": "Вʼєтнамська"
   },
   "vo": {
@@ -3530,6 +3714,7 @@
     "ro": "Volapuk",
     "ru": "Волапюк",
     "sk": "Volapük",
+    "sl": "Volapik",
     "uk": "Волапюк"
   },
   "wa": {
@@ -3549,6 +3734,7 @@
     "ro": "Valonă",
     "ru": "Валлонский",
     "sk": "Valónčina",
+    "sl": "Valonščina",
     "uk": "Валлонська"
   },
   "wo": {
@@ -3568,6 +3754,7 @@
     "ro": "Wolof",
     "ru": "Волоф",
     "sk": "Wolofčina",
+    "sl": "Volofščina",
     "uk": "Волоф"
   },
   "xh": {
@@ -3587,6 +3774,7 @@
     "ro": "Xhosa",
     "ru": "Коса",
     "sk": "Xhoština",
+    "sl": "Koščina",
     "uk": "Кхоса"
   },
   "yi": {
@@ -3606,6 +3794,7 @@
     "ro": "Idiș",
     "ru": "Идиш",
     "sk": "Jidiš",
+    "sl": "Jidiš",
     "uk": "Їдиш"
   },
   "yo": {
@@ -3625,6 +3814,7 @@
     "ro": "Yoruba",
     "ru": "Йоруба",
     "sk": "Jorubčina",
+    "sl": "Jorubščina",
     "uk": "Йоруба"
   },
   "za": {
@@ -3667,6 +3857,7 @@
     "ro": "Chineză",
     "ru": "Китайский",
     "sk": "Čínština",
+    "sl": "Kitajščina",
     "uk": "Китайська"
   },
   "zu": {
@@ -3686,6 +3877,7 @@
     "ro": "Zulu",
     "ru": "Зулу",
     "sk": "Zuluština",
+    "sl": "Zulujščina",
     "uk": "Зулуська"
   },
   "aaa": {
@@ -4053,6 +4245,7 @@
     "ro": "Aceh",
     "ru": "Ачехский",
     "sk": "Acehčina",
+    "sl": "Ačejščina",
     "uk": "Ачехська"
   },
   "acf": {
@@ -4078,6 +4271,7 @@
     "ro": "Acoli",
     "ru": "Ачоли",
     "sk": "Ačoli",
+    "sl": "Ačolijščina",
     "uk": "Ачолі"
   },
   "aci": {
@@ -4208,6 +4402,7 @@
     "ro": "Adangme",
     "ru": "Адангме",
     "sk": "Adangme",
+    "sl": "Adangmejščina",
     "uk": "Адангме"
   },
   "adb": {
@@ -4297,6 +4492,7 @@
     "ro": "Dzongkha",
     "ru": "Дзонг-кэ",
     "sk": "Dzongkha",
+    "sl": "Dzonka",
     "uk": "Дзонг-ке"
   },
   "adq": {
@@ -4367,6 +4563,7 @@
     "ro": "Adyghe",
     "ru": "Адыгейский",
     "sk": "Adygejčina",
+    "sl": "Adigejščina",
     "uk": "Адигейська"
   },
   "adz": {
@@ -4538,6 +4735,7 @@
     "ro": "Afrihili",
     "ru": "Африхили",
     "sk": "Afrihili",
+    "sl": "Afrihili",
     "uk": "Африхілі"
   },
   "afi": {
@@ -4725,6 +4923,7 @@
     "ro": "Aghem",
     "ru": "Агем",
     "sk": "Aghem",
+    "sl": "Aghemščina",
     "uk": "Агем"
   },
   "agr": {
@@ -4998,6 +5197,7 @@
     "ro": "Ainu",
     "ru": "Айнский",
     "sk": "Ainčina",
+    "sl": "Ainujščina",
     "uk": "Айнська"
   },
   "aio": {
@@ -5194,6 +5394,7 @@
     "ro": "Akkadiană",
     "ru": "Аккадский",
     "sk": "Akkadčina",
+    "sl": "Akadščina",
     "uk": "Аккадська"
   },
   "akl": {
@@ -5335,6 +5536,7 @@
     "ro": "Aleută",
     "ru": "Алеутский",
     "sk": "Aleutčina",
+    "sl": "Aleutščina",
     "uk": "Алеутська"
   },
   "alf": {
@@ -5453,6 +5655,7 @@
     "ro": "Altaică meridională",
     "ru": "Южноалтайский",
     "sk": "Južná altajčina",
+    "sl": "Južna altajščina",
     "uk": "Південноалтайська"
   },
   "alu": {
@@ -5546,6 +5749,7 @@
     "ro": "Amharică",
     "ru": "Амхарский",
     "sk": "Amharčina",
+    "sl": "Amharščina",
     "uk": "Амхарська"
   },
   "ami": {
@@ -5732,6 +5936,7 @@
     "ro": "Engleză veche",
     "ru": "Староанглийский",
     "sk": "Stará angličtina",
+    "sl": "Stara angleščina",
     "uk": "Давньоанглійська"
   },
   "anh": {
@@ -5806,6 +6011,7 @@
     "ro": "Angika",
     "ru": "Ангика",
     "sk": "Angika",
+    "sl": "Angikaščina",
     "uk": "Ангіка"
   },
   "anq": {
@@ -6249,6 +6455,7 @@
     "ro": "Aramaică",
     "ru": "Арамейский",
     "sk": "Aramejčina",
+    "sl": "Aramejščina",
     "uk": "Арамейська"
   },
   "ard": {
@@ -6319,6 +6526,7 @@
     "ro": "Mapuche",
     "ru": "Мапуче",
     "sk": "Mapudungun",
+    "sl": "Mapudungunščina",
     "uk": "Арауканська"
   },
   "aro": {
@@ -6348,6 +6556,7 @@
     "ro": "Arapaho",
     "ru": "Арапахо",
     "sk": "Arapažština",
+    "sl": "Arapaščina",
     "uk": "Арапахо"
   },
   "arq": {
@@ -6417,6 +6626,7 @@
     "ro": "Arawak",
     "ru": "Аравакский",
     "sk": "Arawačtina",
+    "sl": "Aravaščina",
     "uk": "Аравакська"
   },
   "arx": {
@@ -6460,6 +6670,7 @@
     "ro": "Asu",
     "ru": "Асу",
     "sk": "Asu",
+    "sl": "Asujščina",
     "uk": "Асу"
   },
   "asb": {
@@ -6597,6 +6808,7 @@
     "ro": "Asturiană",
     "ru": "Астурийский",
     "sk": "Astúrčina",
+    "sl": "Asturijščina",
     "uk": "Астурійська"
   },
   "asu": {
@@ -6983,6 +7195,7 @@
     "ro": "Avară",
     "ru": "Аварский",
     "sk": "Avarčina",
+    "sl": "Avarščina",
     "uk": "Аварська"
   },
   "avb": {
@@ -7081,6 +7294,7 @@
     "ro": "Awadhi",
     "ru": "Авадхи",
     "sk": "Awadhi",
+    "sl": "Avadščina",
     "uk": "Авадхі"
   },
   "awb": {
@@ -7527,6 +7741,7 @@
     "ro": "Baluchi",
     "ru": "Белуджский",
     "sk": "Balúčtina",
+    "sl": "Beludžijščina",
     "uk": "Балучі"
   },
   "bam": {
@@ -7540,6 +7755,7 @@
     "ro": "Bambara",
     "ru": "Бамбара",
     "sk": "Bambarčina",
+    "sl": "Bambarščina",
     "uk": "Бамбара"
   },
   "ban": {
@@ -7558,6 +7774,7 @@
     "ro": "Balineză",
     "ru": "Балийский",
     "sk": "Balijčina",
+    "sl": "Balijščina",
     "uk": "Балійська"
   },
   "bao": {
@@ -7601,6 +7818,7 @@
     "ro": "Basaa",
     "ru": "Баса",
     "sk": "Basa",
+    "sl": "Basa",
     "uk": "Баса"
   },
   "bat": {
@@ -8274,6 +8492,7 @@
     "ro": "Beja",
     "ru": "Беджа",
     "sk": "Bedža",
+    "sl": "Bedža",
     "uk": "Беджа"
   },
   "bek": {
@@ -8299,6 +8518,7 @@
     "ro": "Bemba",
     "ru": "Бемба",
     "sk": "Bemba",
+    "sl": "Bemba",
     "uk": "Бемба"
   },
   "beo": {
@@ -8392,6 +8612,7 @@
     "ro": "Bena",
     "ru": "Бена",
     "sk": "Bena",
+    "sl": "Benajščina",
     "uk": "Бена"
   },
   "bfa": {
@@ -8669,6 +8890,7 @@
     "ro": "Baluchi occidentală",
     "ru": "Западный белуджский",
     "sk": "Západná balúčtina",
+    "sl": "Zahodnobalučijščina",
     "uk": "Східнобелуджійська"
   },
   "bgo": {
@@ -8865,6 +9087,7 @@
     "ro": "Bhojpuri",
     "ru": "Бходжпури",
     "sk": "Bhódžpurčina",
+    "sl": "Bodžpuri",
     "uk": "Бходжпурі"
   },
   "bhp": {
@@ -9016,6 +9239,7 @@
     "ro": "Bikol",
     "ru": "Бикольский",
     "sk": "Bikolčina",
+    "sl": "Bikolski jezik",
     "uk": "Бікольська"
   },
   "bil": {
@@ -9048,6 +9272,7 @@
     "ro": "Bini",
     "ru": "Бини",
     "sk": "Bini",
+    "sl": "Edo",
     "uk": "Біні"
   },
   "bio": {
@@ -9504,6 +9729,7 @@
     "ro": "Siksika",
     "ru": "Сиксика",
     "sk": "Siksika",
+    "sl": "Siksika",
     "uk": "Сіксіка"
   },
   "blb": {
@@ -10541,6 +10767,7 @@
     "ro": "Braj",
     "ru": "Брауи",
     "sk": "Bradžčina",
+    "sl": "Bradžbakanščina",
     "uk": "Брадж"
   },
   "brb": {
@@ -10707,6 +10934,7 @@
     "ro": "Bodo",
     "ru": "Бодо",
     "sk": "Bodo",
+    "sl": "Bodojščina",
     "uk": "Бодо"
   },
   "bry": {
@@ -11091,6 +11319,7 @@
     "ro": "Buriat",
     "ru": "Бурятский",
     "sk": "Buriatčina",
+    "sl": "Burjatščina",
     "uk": "Бурятська"
   },
   "bub": {
@@ -11144,6 +11373,7 @@
     "ro": "Bugineză",
     "ru": "Бугийский",
     "sk": "Bugiština",
+    "sl": "Buginščina",
     "uk": "Бугійська"
   },
   "buh": {
@@ -11882,6 +12112,7 @@
     "ro": "Blin",
     "ru": "Билин",
     "sk": "Blin",
+    "sl": "Blinščina",
     "uk": "Блін"
   },
   "byo": {
@@ -12178,6 +12409,7 @@
     "ro": "Caddo",
     "ru": "Каддо",
     "sk": "Kaddo",
+    "sl": "Kadoščina",
     "uk": "Каддо"
   },
   "cae": {
@@ -12283,6 +12515,7 @@
     "ro": "Carib",
     "ru": "Кариб",
     "sk": "Karibčina",
+    "sl": "Karibski jezik",
     "uk": "Карібська"
   },
   "cas": {
@@ -12552,6 +12785,7 @@
     "ro": "Chakma",
     "ru": "Чакма",
     "sk": "Čakma",
+    "sl": "Chakma",
     "uk": "Чакма"
   },
   "ccq": {
@@ -12690,6 +12924,7 @@
     "ro": "Cebuană",
     "ru": "Себуано",
     "sk": "Cebuánčina",
+    "sl": "Sebuanščina",
     "uk": "Себуанська"
   },
   "ceg": {
@@ -12772,6 +13007,7 @@
     "ro": "Chiga",
     "ru": "Кига",
     "sk": "Kiga",
+    "sl": "Čigajščina",
     "uk": "Кіга"
   },
   "cgk": {
@@ -12797,6 +13033,7 @@
     "ro": "Chibcha",
     "ru": "Чибча",
     "sk": "Čibča",
+    "sl": "Čibčevščina",
     "uk": "Чібча"
   },
   "chc": {
@@ -12836,6 +13073,7 @@
     "ro": "Chagatai",
     "ru": "Чагатайский",
     "sk": "Čagatajčina",
+    "sl": "Čagatajščina",
     "uk": "Чагатайська"
   },
   "chh": {
@@ -12868,6 +13106,7 @@
     "ro": "Chuukese",
     "ru": "Чукотский",
     "sk": "Chuuk",
+    "sl": "Trukeščina",
     "uk": "Чуукська"
   },
   "chl": {
@@ -12893,6 +13132,7 @@
     "ro": "Mari",
     "ru": "Марийский",
     "sk": "Marijčina",
+    "sl": "Marijščina",
     "uk": "Марійська"
   },
   "chn": {
@@ -12911,6 +13151,7 @@
     "ro": "Jargon chinook",
     "ru": "Чинук жаргон",
     "sk": "Činucký žargón",
+    "sl": "Činuški žargon",
     "uk": "Чинук жаргон"
   },
   "cho": {
@@ -12929,6 +13170,7 @@
     "ro": "Choctaw",
     "ru": "Чоктавский",
     "sk": "Čoktčina",
+    "sl": "Čoktavščina",
     "uk": "Чокто"
   },
   "chp": {
@@ -12947,6 +13189,7 @@
     "ro": "Chipewyan",
     "ru": "Чипевьян",
     "sk": "Čipevajčina",
+    "sl": "Čipevščina",
     "uk": "Чіпевʼян"
   },
   "chq": {
@@ -12972,6 +13215,7 @@
     "ro": "Cherokee",
     "ru": "Чероки",
     "sk": "Čerokí",
+    "sl": "Čerokeščina",
     "uk": "Черокі"
   },
   "cht": {
@@ -13011,6 +13255,7 @@
     "ro": "Cheyenne",
     "ru": "Шайенский",
     "sk": "Čejenčina",
+    "sl": "Čejenščina",
     "uk": "Чейєнн"
   },
   "chz": {
@@ -13218,6 +13463,7 @@
     "ro": "Kurdă centrală",
     "ru": "Сорани",
     "sk": "Kurdčina (sorání)",
+    "sl": "Soranska kurdščina",
     "uk": "Центральнокурдська"
   },
   "ckh": {
@@ -13693,6 +13939,7 @@
     "ro": "Coptă",
     "ru": "Коптский",
     "sk": "Koptčina",
+    "sl": "Koptščina",
     "uk": "Коптська"
   },
   "coq": {
@@ -13902,6 +14149,7 @@
     "ro": "Turcă crimeeană",
     "ru": "Крымско-татарский",
     "sk": "Krymská tatárčina",
+    "sl": "Krimska tatarščina",
     "uk": "Кримськотатарська"
   },
   "cri": {
@@ -13984,6 +14232,7 @@
     "ro": "Creolă franceză seselwa",
     "ru": "Сейшельский креольский",
     "sk": "Seychelská kreolčina",
+    "sl": "Sejšelska francoska kreolščina",
     "uk": "Сейшельська креольська"
   },
   "crt": {
@@ -14051,6 +14300,7 @@
     "ro": "Cașubiană",
     "ru": "Кашубский",
     "sk": "Kašubčina",
+    "sl": "Kašubščina",
     "uk": "Кашубська"
   },
   "csc": {
@@ -14606,6 +14856,7 @@
     "ro": "Dakota",
     "ru": "Дакота",
     "sk": "Dakotčina",
+    "sl": "Dakotščina",
     "uk": "Дакота"
   },
   "dal": {
@@ -14658,6 +14909,7 @@
     "ro": "Dargwa",
     "ru": "Даргинский",
     "sk": "Darginčina",
+    "sl": "Darginščina",
     "uk": "Даргінська"
   },
   "das": {
@@ -14688,6 +14940,7 @@
     "ro": "Taita",
     "ru": "Таита",
     "sk": "Taita",
+    "sl": "Taitajščina",
     "uk": "Таіта"
   },
   "daw": {
@@ -14990,6 +15243,7 @@
     "ro": "Delaware",
     "ru": "Делаварский",
     "sk": "Delawarčina",
+    "sl": "Delavarščina",
     "uk": "Делаварська"
   },
   "dem": {
@@ -15015,6 +15269,7 @@
     "ro": "Slave",
     "ru": "Слейви",
     "sk": "Slavé",
+    "sl": "Slavejščina",
     "uk": "Слейв"
   },
   "dep": {
@@ -15153,6 +15408,7 @@
     "ro": "Dogrib",
     "ru": "Догриб",
     "sk": "Dogribčina",
+    "sl": "Dogrib",
     "uk": "Догрибська"
   },
   "dgs": {
@@ -15366,6 +15622,7 @@
     "ro": "Dinka",
     "ru": "Динка",
     "sk": "Dinkčina",
+    "sl": "Dinka",
     "uk": "Дінка"
   },
   "dio": {
@@ -15476,6 +15733,7 @@
     "ro": "Zarma",
     "ru": "Джерма",
     "sk": "Zarma",
+    "sl": "Zarmajščina",
     "uk": "Джерма"
   },
   "djf": {
@@ -15853,6 +16111,7 @@
     "ro": "Dogri",
     "ru": "Догри",
     "sk": "Dógrí",
+    "sl": "Dogri",
     "uk": "Догрі"
   },
   "dok": {
@@ -16079,6 +16338,7 @@
     "ro": "Sorabă de jos",
     "ru": "Нижнелужицкий",
     "sk": "Dolnolužická srbčina",
+    "sl": "Dolnja lužiška srbščina",
     "uk": "Нижньолужицька"
   },
   "dse": {
@@ -16219,6 +16479,7 @@
     "ro": "Duala",
     "ru": "Дуала",
     "sk": "Duala",
+    "sl": "Duala",
     "uk": "Дуала"
   },
   "dub": {
@@ -16306,6 +16567,7 @@
     "ro": "Neerlandeză medie",
     "ru": "Средненидерландский",
     "sk": "Stredná holandčina",
+    "sl": "Srednja nizozemščina",
     "uk": "Середньонідерландська"
   },
   "dun": {
@@ -16499,6 +16761,7 @@
     "ro": "Jola-fonyi",
     "ru": "Диола-фоньи",
     "sk": "Jola-fonyi",
+    "sl": "Jola-fonjiščina",
     "uk": "Дьола-фоні"
   },
   "dyu": {
@@ -16517,6 +16780,7 @@
     "ro": "Dyula",
     "ru": "Диула",
     "sk": "Ďula",
+    "sl": "Diula",
     "uk": "Діула"
   },
   "dyy": {
@@ -16550,6 +16814,7 @@
     "ro": "Dazaga",
     "ru": "Даза",
     "sk": "Dazaga",
+    "sl": "Dazaga",
     "uk": "Дазага"
   },
   "dzl": {
@@ -16608,6 +16873,7 @@
     "ro": "Embu",
     "ru": "Эмбу",
     "sk": "Embu",
+    "sl": "Embujščina",
     "uk": "Ембу"
   },
   "ecr": {
@@ -16668,6 +16934,7 @@
     "ro": "Efik",
     "ru": "Эфик",
     "sk": "Efik",
+    "sl": "Efiščina",
     "uk": "Ефік"
   },
   "ega": {
@@ -16713,6 +16980,7 @@
     "ro": "Egipteană veche",
     "ru": "Древнеегипетский",
     "sk": "Staroegyptčina",
+    "sl": "Stara egipčanščina",
     "uk": "Давньоєгипетська"
   },
   "ehu": {
@@ -16766,6 +17034,7 @@
     "ro": "Ekajuk",
     "ru": "Экаджук",
     "sk": "Ekadžuk",
+    "sl": "Ekajuk",
     "uk": "Екаджук"
   },
   "eke": {
@@ -16906,6 +17175,7 @@
     "ro": "Elamită",
     "ru": "Эламский",
     "sk": "Elamčina",
+    "sl": "Elamščina",
     "uk": "Еламська"
   },
   "ema": {
@@ -17060,6 +17330,7 @@
     "ro": "Engleză medie",
     "ru": "Среднеанглийский",
     "sk": "Stredná angličtina",
+    "sl": "Srednja angleščina",
     "uk": "Середньоанглійська"
   },
   "enn": {
@@ -17396,6 +17667,7 @@
     "ro": "Ewondo",
     "ru": "Эвондо",
     "sk": "Ewondo",
+    "sl": "Evondovščina",
     "uk": "Евондо"
   },
   "ext": {
@@ -17523,6 +17795,7 @@
     "ro": "Fang",
     "ru": "Фанг",
     "sk": "Fangčina",
+    "sl": "Fangijščina",
     "uk": "Фанг"
   },
   "fap": {
@@ -17555,6 +17828,7 @@
     "ro": "Fanti",
     "ru": "Фанти",
     "sk": "Fanti",
+    "sl": "Fantijščina",
     "uk": "Фанті"
   },
   "fau": {
@@ -17650,6 +17924,7 @@
     "ro": "Filipineză",
     "ru": "Филиппинский",
     "sk": "Filipínčina",
+    "sl": "Filipinščina",
     "uk": "Філіппінська"
   },
   "fip": {
@@ -17807,6 +18082,7 @@
     "ro": "Fon",
     "ru": "Фон",
     "sk": "Fončina",
+    "sl": "Fonščina",
     "uk": "Фон"
   },
   "for": {
@@ -17854,6 +18130,7 @@
     "ro": "Franceză cajun",
     "ru": "Каджунский французский",
     "sk": "Francúzština (Cajun)",
+    "sl": "Cajunska francoščina",
     "uk": "Кажунська французька"
   },
   "frd": {
@@ -17886,6 +18163,7 @@
     "ro": "Franceză medie",
     "ru": "Среднефранцузский",
     "sk": "Stredná francúzština",
+    "sl": "Srednja francoščina",
     "uk": "Середньофранцузька"
   },
   "fro": {
@@ -17904,6 +18182,7 @@
     "ro": "Franceză veche",
     "ru": "Старофранцузский",
     "sk": "Stará francúzština",
+    "sl": "Stara francoščina",
     "uk": "Давньофранцузька"
   },
   "frp": {
@@ -17940,6 +18219,7 @@
     "ro": "Frizonă nordică",
     "ru": "Северный фризский",
     "sk": "Severná frízština",
+    "sl": "Severna frizijščina",
     "uk": "Фризька північна"
   },
   "frs": {
@@ -17958,6 +18238,7 @@
     "ro": "Frizonă orientală",
     "ru": "Восточный фризский",
     "sk": "Východofrízština",
+    "sl": "Vzhodna frizijščina",
     "uk": "Фризька східна"
   },
   "frt": {
@@ -18083,6 +18364,7 @@
     "ro": "Friulană",
     "ru": "Фриульский",
     "sk": "Friulčina",
+    "sl": "Furlanščina",
     "uk": "Фріульська"
   },
   "fut": {
@@ -18150,6 +18432,7 @@
     "ro": "Ga",
     "ru": "Га",
     "sk": "Ga",
+    "sl": "Ga",
     "uk": "Га"
   },
   "gab": {
@@ -18198,6 +18481,7 @@
     "ro": "Găgăuză",
     "ru": "Гагаузский",
     "sk": "Gagauzština",
+    "sl": "Gagavščina",
     "uk": "Гагаузька"
   },
   "gah": {
@@ -18339,6 +18623,7 @@
     "ro": "Gayo",
     "ru": "Гайо",
     "sk": "Gayo",
+    "sl": "Gajščina",
     "uk": "Гайо"
   },
   "gaz": {
@@ -18364,6 +18649,7 @@
     "ro": "Gbaya",
     "ru": "Гбая",
     "sk": "Gbaja",
+    "sl": "Gbajščina",
     "uk": "Гбайя"
   },
   "gbb": {
@@ -18842,6 +19128,7 @@
     "ro": "Geez",
     "ru": "Геэз",
     "sk": "Etiópčina",
+    "sl": "Etiopščina",
     "uk": "Гєез"
   },
   "gfk": {
@@ -19065,6 +19352,7 @@
     "ro": "Gilbertină",
     "ru": "Гилбертский",
     "sk": "Kiribatčina",
+    "sl": "Kiribatščina",
     "uk": "Гільбертська"
   },
   "gim": {
@@ -19320,6 +19608,7 @@
     "ro": "Germană înaltă medie",
     "ru": "Средневерхненемецкий",
     "sk": "Stredná horná nemčina",
+    "sl": "Srednja visoka nemščina",
     "uk": "Середньоверхньонімецька"
   },
   "gml": {
@@ -19575,6 +19864,7 @@
     "ro": "Germană înaltă veche",
     "ru": "Древневерхненемецкий",
     "sk": "Stará horná nemčina",
+    "sl": "Stara visoka nemščina",
     "uk": "Давньоверхньонімецька"
   },
   "goi": {
@@ -19631,6 +19921,7 @@
     "ro": "Gondi",
     "ru": "Гонди",
     "sk": "Góndčina",
+    "sl": "Gondi",
     "uk": "Гонді"
   },
   "goo": {
@@ -19670,6 +19961,7 @@
     "ro": "Gorontalo",
     "ru": "Горонтало",
     "sk": "Gorontalo",
+    "sl": "Gorontalščina",
     "uk": "Горонтало"
   },
   "gos": {
@@ -19695,6 +19987,7 @@
     "ro": "Gotică",
     "ru": "Готский",
     "sk": "Gótčina",
+    "sl": "Gotščina",
     "uk": "Готська"
   },
   "gou": {
@@ -19797,6 +20090,7 @@
     "ro": "Grebo",
     "ru": "Гребо",
     "sk": "Grebo",
+    "sl": "Grebščina",
     "uk": "Гребо"
   },
   "grc": {
@@ -19815,6 +20109,7 @@
     "ro": "Greacă veche",
     "ru": "Древнегреческий",
     "sk": "Starogréčtina",
+    "sl": "Stara grščina",
     "uk": "Давньогрецька"
   },
   "grd": {
@@ -20011,6 +20306,7 @@
     "ro": "Germană (Elveția)",
     "ru": "Швейцарский немецкий",
     "sk": "Nemčina (švajčiarska)",
+    "sl": "Nemščina (Švica)",
     "uk": "Швейцарська німецька"
   },
   "gta": {
@@ -20201,6 +20497,7 @@
     "ro": "Gusii",
     "ru": "Гусии",
     "sk": "Gusii",
+    "sl": "Gusijščina",
     "uk": "Гусії"
   },
   "gva": {
@@ -20359,6 +20656,7 @@
     "ro": "Gwichʼin",
     "ru": "Гвичин",
     "sk": "Kučinčina",
+    "sl": "Gvičin",
     "uk": "Кучін"
   },
   "gwj": {
@@ -20594,6 +20892,7 @@
     "ro": "Haida",
     "ru": "Хайда",
     "sk": "Haida",
+    "sl": "Haidščina",
     "uk": "Хайда"
   },
   "haj": {
@@ -20697,6 +20996,7 @@
     "ro": "Hawaiiană",
     "ru": "Гавайский",
     "sk": "Havajčina",
+    "sl": "Havajščina",
     "uk": "Гавайська"
   },
   "hax": {
@@ -20949,6 +21249,7 @@
     "ro": "Hiligaynon",
     "ru": "Хилигайнон",
     "sk": "Hiligajnončina",
+    "sl": "Hiligajnonščina",
     "uk": "Хілігайнон"
   },
   "him": {
@@ -20984,6 +21285,7 @@
     "ro": "Hitită",
     "ru": "Хеттский",
     "sk": "Chetitčina",
+    "sl": "Hetitščina",
     "uk": "Хітіті"
   },
   "hiw": {
@@ -21184,6 +21486,7 @@
     "ro": "Hmong",
     "ru": "Хмонг",
     "sk": "Hmongčina",
+    "sl": "Hmonščina",
     "uk": "Хмонг"
   },
   "hmp": {
@@ -21562,6 +21865,7 @@
     "ro": "Sorabă de sus",
     "ru": "Верхнелужицкий",
     "sk": "Hornolužická srbčina",
+    "sl": "Gornja lužiška srbščina",
     "uk": "Верхньолужицька"
   },
   "hsh": {
@@ -21742,6 +22046,7 @@
     "ro": "Hupa",
     "ru": "Хупа",
     "sk": "Hupčina",
+    "sl": "Hupa",
     "uk": "Хупа"
   },
   "huq": {
@@ -21888,6 +22193,7 @@
     "ro": "Armeană",
     "ru": "Армянский",
     "sk": "Arménčina",
+    "sl": "Armenščina",
     "uk": "Вірменська"
   },
   "hyx": {
@@ -21933,6 +22239,7 @@
     "ro": "Iban",
     "ru": "Ибанский",
     "sk": "Ibančina",
+    "sl": "Ibanščina",
     "uk": "Ібанська"
   },
   "ibb": {
@@ -21949,6 +22256,7 @@
     "ro": "Ibibio",
     "ru": "Ибибио",
     "sk": "Ibibio",
+    "sl": "Ibibijščina",
     "uk": "Ібібіо"
   },
   "ibd": {
@@ -22427,6 +22735,7 @@
     "ro": "Iloko",
     "ru": "Илоко",
     "sk": "Ilokánčina",
+    "sl": "Ilokanščina",
     "uk": "Ілоканська"
   },
   "ils": {
@@ -22548,6 +22857,7 @@
     "ro": "Ingușă",
     "ru": "Ингушский",
     "sk": "Inguština",
+    "sl": "Inguščina",
     "uk": "Інгуська"
   },
   "inj": {
@@ -23203,6 +23513,7 @@
     "ro": "Lojban",
     "ru": "Ложбан",
     "sk": "Lojban",
+    "sl": "Lojban",
     "uk": "Ложбан"
   },
   "jbr": {
@@ -23362,6 +23673,7 @@
     "ro": "Ngomba",
     "ru": "Нгомба",
     "sk": "Ngomba",
+    "sl": "Ngomba",
     "uk": "Нгомба"
   },
   "jhi": {
@@ -23540,6 +23852,7 @@
     "ro": "Machame",
     "ru": "Мачаме",
     "sk": "Mašame",
+    "sl": "Mačamejščina",
     "uk": "Мачаме"
   },
   "jmd": {
@@ -23698,6 +24011,7 @@
     "ro": "Iudeo-persană",
     "ru": "Еврейско-персидский",
     "sk": "Židovská perzština",
+    "sl": "Judovska perzijščina",
     "uk": "Юдео-перська"
   },
   "jpx": {
@@ -23733,6 +24047,7 @@
     "ro": "Iudeo-arabă",
     "ru": "Еврейско-арабский",
     "sk": "Židovská arabčina",
+    "sl": "Judovska arabščina",
     "uk": "Юдео-арабська"
   },
   "jrr": {
@@ -23947,6 +24262,7 @@
     "ro": "Karakalpak",
     "ru": "Каракалпакский",
     "sk": "Karakalpačtina",
+    "sl": "Karakalpaščina",
     "uk": "Каракалпацька"
   },
   "kab": {
@@ -23965,6 +24281,7 @@
     "ro": "Kabyle",
     "ru": "Кабильский",
     "sk": "Kabylčina",
+    "sl": "Kabilščina",
     "uk": "Кабільська"
   },
   "kac": {
@@ -23983,6 +24300,7 @@
     "ro": "Kachin",
     "ru": "Качинский",
     "sk": "Kačjinčina",
+    "sl": "Kačinščina",
     "uk": "Качін"
   },
   "kad": {
@@ -24042,6 +24360,7 @@
     "ro": "Jju",
     "ru": "Каджи",
     "sk": "Jju",
+    "sl": "Jju",
     "uk": "Йю"
   },
   "kak": {
@@ -24067,6 +24386,7 @@
     "ro": "Kamba",
     "ru": "Камба",
     "sk": "Kamba",
+    "sl": "Kambaščina",
     "uk": "Камба"
   },
   "kao": {
@@ -24107,6 +24427,7 @@
     "ro": "Georgiană",
     "ru": "Грузинский",
     "sk": "Gruzínčina",
+    "sl": "Gruzijščina",
     "uk": "Грузинська"
   },
   "kav": {
@@ -24132,6 +24453,7 @@
     "ro": "Kawi",
     "ru": "Кави",
     "sk": "Kawi",
+    "sl": "Kavi",
     "uk": "Каві"
   },
   "kax": {
@@ -24185,6 +24507,7 @@
     "ro": "Kabardian",
     "ru": "Кабардинский",
     "sk": "Kabardčina",
+    "sl": "Kabardinščina",
     "uk": "Кабардинська"
   },
   "kbe": {
@@ -24403,6 +24726,7 @@
     "ro": "Tyap",
     "ru": "Тьяп",
     "sk": "Tyap",
+    "sl": "Tjapska nigerijščina",
     "uk": "Тіап"
   },
   "kch": {
@@ -24574,6 +24898,7 @@
     "ro": "Makonde",
     "ru": "Маконде",
     "sk": "Makonde",
+    "sl": "Makondščina",
     "uk": "Маконде"
   },
   "kdf": {
@@ -24722,6 +25047,7 @@
     "ro": "Kabuverdianu",
     "ru": "Кабувердьяну",
     "sk": "Kapverdčina",
+    "sl": "Zelenortskootoška kreolščina",
     "uk": "Кабувердіану"
   },
   "keb": {
@@ -25015,6 +25341,7 @@
     "ro": "Koro",
     "ru": "Коро",
     "sk": "Koro",
+    "sl": "Koro",
     "uk": "Коро"
   },
   "kfp": {
@@ -25276,6 +25603,7 @@
     "ro": "Khasi",
     "ru": "Кхаси",
     "sk": "Khasijčina",
+    "sl": "Kasi",
     "uk": "Кхасі"
   },
   "khb": {
@@ -25374,6 +25702,7 @@
     "ro": "Khotaneză",
     "ru": "Хотанский",
     "sk": "Chotančina",
+    "sl": "Kotanščina",
     "uk": "Хотаносакська"
   },
   "khp": {
@@ -25397,6 +25726,7 @@
     "ro": "Koyra chiini",
     "ru": "Койра чиини",
     "sk": "Západná songhajčina",
+    "sl": "Koyra chiini",
     "uk": "Койра чіїні"
   },
   "khr": {
@@ -25874,6 +26204,7 @@
     "ro": "Kako",
     "ru": "Како",
     "sk": "Kako",
+    "sl": "Kako",
     "uk": "Како"
   },
   "kkk": {
@@ -26093,6 +26424,7 @@
     "ro": "Kalenjin",
     "ru": "Календжин",
     "sk": "Kalendžin",
+    "sl": "Kalenjinščina",
     "uk": "Календжин"
   },
   "klo": {
@@ -26202,6 +26534,7 @@
     "ro": "Kimbundu",
     "ru": "Кимбунду",
     "sk": "Kimbundu",
+    "sl": "Kimbundu",
     "uk": "Кімбунду"
   },
   "kmc": {
@@ -26615,6 +26948,7 @@
     "ro": "Komi-permiak",
     "ru": "Коми-пермяцкий",
     "sk": "Komi-permiačtina",
+    "sl": "Komi-permjaščina",
     "uk": "Комі-перм’яцька"
   },
   "koj": {
@@ -26636,6 +26970,7 @@
     "ro": "Konkani",
     "ru": "Конкани",
     "sk": "Konkánčina",
+    "sl": "Konkanščina",
     "uk": "Конкані"
   },
   "kol": {
@@ -26682,6 +27017,7 @@
     "ro": "Kosrae",
     "ru": "Косраенский",
     "sk": "Kusaie",
+    "sl": "Kosrajščina",
     "uk": "Косрае"
   },
   "kot": {
@@ -26773,6 +27109,7 @@
     "ro": "Kpelle",
     "ru": "Кпелле",
     "sk": "Kpelle",
+    "sl": "Kpelejščina",
     "uk": "Кпеллє"
   },
   "kpf": {
@@ -27133,6 +27470,7 @@
     "ro": "Karaceai-balkar",
     "ru": "Карачаево-балкарский",
     "sk": "Karačajevsko-balkarčina",
+    "sl": "Karačaj-balkarščina",
     "uk": "Карачаєво-балкарська"
   },
   "krd": {
@@ -27206,6 +27544,7 @@
     "ro": "Kareliană",
     "ru": "Карельский",
     "sk": "Karelčina",
+    "sl": "Karelščina",
     "uk": "Карельська"
   },
   "krm": {
@@ -27265,6 +27604,7 @@
     "ro": "Kurukh",
     "ru": "Курух",
     "sk": "Kuruchčina",
+    "sl": "Kuruk",
     "uk": "Курукх"
   },
   "krv": {
@@ -27323,6 +27663,7 @@
     "ro": "Shambala",
     "ru": "Шамбала",
     "sk": "Šambala",
+    "sl": "Šambala",
     "uk": "Шамбала"
   },
   "ksc": {
@@ -27360,6 +27701,7 @@
     "ro": "Bafia",
     "ru": "Бафия",
     "sk": "Bafia",
+    "sl": "Bafia",
     "uk": "Бафіа"
   },
   "ksg": {
@@ -27383,6 +27725,7 @@
     "ro": "Kölsch",
     "ru": "Кёльнский",
     "sk": "Kolínčina",
+    "sl": "Kölnsko narečje",
     "uk": "Кельнська"
   },
   "ksi": {
@@ -27786,6 +28129,7 @@
     "ro": "Kumyk",
     "ru": "Кумыкский",
     "sk": "Kumyčtina",
+    "sl": "Kumiščina",
     "uk": "Кумицька"
   },
   "kun": {
@@ -27839,6 +28183,7 @@
     "ro": "Kutenai",
     "ru": "Кутенаи",
     "sk": "Kutenajčina",
+    "sl": "Kutenajščina",
     "uk": "Кутенаї"
   },
   "kuu": {
@@ -28797,6 +29142,7 @@
     "ro": "Ladino",
     "ru": "Ладино",
     "sk": "Židovská španielčina",
+    "sl": "Ladinščina",
     "uk": "Ладіно"
   },
   "lae": {
@@ -28827,6 +29173,7 @@
     "ro": "Langi",
     "ru": "Ланго",
     "sk": "Langi",
+    "sl": "Langijščina",
     "uk": "Лангі"
   },
   "lah": {
@@ -28845,6 +29192,7 @@
     "ro": "Lahnda",
     "ru": "Лахнда",
     "sk": "Lahandčina",
+    "sl": "Landa",
     "uk": "Ланда"
   },
   "lai": {
@@ -28891,6 +29239,7 @@
     "ro": "Lamba",
     "ru": "Ламба",
     "sk": "Lamba",
+    "sl": "Lamba",
     "uk": "Ламба"
   },
   "lan": {
@@ -29467,6 +29816,7 @@
     "ro": "Lezghian",
     "ru": "Лезгинский",
     "sk": "Lezginčina",
+    "sl": "Lezginščina",
     "uk": "Лезгінська"
   },
   "lfa": {
@@ -29748,6 +30098,7 @@
     "ro": "Lingala",
     "ru": "Лингала",
     "sk": "Lingalčina",
+    "sl": "Lingala",
     "uk": "Лінгала"
   },
   "lio": {
@@ -29963,6 +30314,7 @@
     "ro": "Lakota",
     "ru": "Лакота",
     "sk": "Lakotčina",
+    "sl": "Lakotščina",
     "uk": "Лакота"
   },
   "lky": {
@@ -30449,6 +30801,7 @@
     "ro": "Mongo",
     "ru": "Монго",
     "sk": "Mongo",
+    "sl": "Mongo",
     "uk": "Монго"
   },
   "lom": {
@@ -30521,6 +30874,7 @@
     "ro": "Creolă (Louisiana)",
     "ru": "Луизианский креольский",
     "sk": "Kreolčina (Louisiana)",
+    "sl": "Louisianska kreolščina",
     "uk": "Луїзіанська креольська"
   },
   "lov": {
@@ -30567,6 +30921,7 @@
     "ro": "Lozi",
     "ru": "Лози",
     "sk": "Lozi",
+    "sl": "Lozi",
     "uk": "Лозі"
   },
   "lpa": {
@@ -30625,6 +30980,7 @@
     "ro": "Luri de nord",
     "ru": "Севернолурский",
     "sk": "Severné luri",
+    "sl": "Severna lurijščina",
     "uk": "Північнолурська"
   },
   "lre": {
@@ -30856,6 +31212,7 @@
     "ro": "Luba-lulua",
     "ru": "Луба-лулуа",
     "sk": "Lubčina (luluánska)",
+    "sl": "Luba-lulua",
     "uk": "Луба-лулуа"
   },
   "luc": {
@@ -30902,6 +31259,7 @@
     "ro": "Luiseno",
     "ru": "Луисеньо",
     "sk": "Luiseňo",
+    "sl": "Luisenščina",
     "uk": "Луїсеньо"
   },
   "luj": {
@@ -30948,6 +31306,7 @@
     "ro": "Lunda",
     "ru": "Лунда",
     "sk": "Lunda",
+    "sl": "Lunda",
     "uk": "Лунда"
   },
   "luo": {
@@ -30966,6 +31325,7 @@
     "ro": "Luo",
     "ru": "Луо",
     "sk": "Luo",
+    "sl": "Luo",
     "uk": "Луо"
   },
   "lup": {
@@ -31005,6 +31365,7 @@
     "ro": "Mizo",
     "ru": "Мизо",
     "sk": "Mizorámčina",
+    "sl": "Mizojščina",
     "uk": "Мізо"
   },
   "lut": {
@@ -31050,6 +31411,7 @@
     "ro": "Luyia",
     "ru": "Лухья",
     "sk": "Luhja",
+    "sl": "Luhijščina",
     "uk": "Луйя"
   },
   "luz": {
@@ -31228,6 +31590,7 @@
     "ro": "Madureză",
     "ru": "Мадурский",
     "sk": "Madurčina",
+    "sl": "Madurščina",
     "uk": "Мадурська"
   },
   "mae": {
@@ -31269,6 +31632,7 @@
     "ro": "Magahi",
     "ru": "Магахи",
     "sk": "Magadhčina",
+    "sl": "Magadščina",
     "uk": "Магадхі"
   },
   "mai": {
@@ -31287,6 +31651,7 @@
     "ro": "Maithili",
     "ru": "Майтхили",
     "sk": "Maithilčina",
+    "sl": "Maitili",
     "uk": "Майтхілі"
   },
   "maj": {
@@ -31312,6 +31677,7 @@
     "ro": "Makasar",
     "ru": "Макассарский",
     "sk": "Makasarčina",
+    "sl": "Makasarščina",
     "uk": "Макасарська"
   },
   "mal": {
@@ -31325,6 +31691,7 @@
     "ro": "Malayalam",
     "ru": "Малаялам",
     "sk": "Malajálamčina",
+    "sl": "Malajalamščina",
     "uk": "Малаялам"
   },
   "mam": {
@@ -31350,6 +31717,7 @@
     "ro": "Mandingo",
     "ru": "Мандинго",
     "sk": "Mandingo",
+    "sl": "Mandingo",
     "uk": "Мандінго"
   },
   "map": {
@@ -31378,6 +31746,7 @@
     "ro": "Masai",
     "ru": "Масаи",
     "sk": "Masajčina",
+    "sl": "Masajščina",
     "uk": "Масаї"
   },
   "mat": {
@@ -31841,6 +32210,7 @@
     "ro": "Moksha",
     "ru": "Мокшанский",
     "sk": "Mokšiančina",
+    "sl": "Mokšavščina",
     "uk": "Мокша"
   },
   "mdg": {
@@ -31929,6 +32299,7 @@
     "ro": "Mandar",
     "ru": "Мандарский",
     "sk": "Mandarčina",
+    "sl": "Mandarščina",
     "uk": "Мандарська"
   },
   "mds": {
@@ -32090,6 +32461,7 @@
     "ro": "Mende",
     "ru": "Менде",
     "sk": "Mendejčina",
+    "sl": "Mende",
     "uk": "Менде"
   },
   "meo": {
@@ -32127,6 +32499,7 @@
     "ro": "Meru",
     "ru": "Меру",
     "sk": "Meru",
+    "sl": "Meru",
     "uk": "Меру"
   },
   "mes": {
@@ -32220,6 +32593,7 @@
     "ro": "Morisyen",
     "ru": "Маврикийский креольский",
     "sk": "Maurícijská kreolčina",
+    "sl": "Morisjenščina",
     "uk": "Маврикійська креольська"
   },
   "mff": {
@@ -32385,6 +32759,7 @@
     "ro": "Irlandeză medie",
     "ru": "Среднеирландский",
     "sk": "Stredná írčina",
+    "sl": "Srednja irščina",
     "uk": "Середньоірландська"
   },
   "mgb": {
@@ -32443,6 +32818,7 @@
     "ro": "Makhuwa-meetto",
     "ru": "Макуа-меетто",
     "sk": "Makua-meetto",
+    "sl": "Makuva-meto",
     "uk": "Макува-меето"
   },
   "mgi": {
@@ -32501,6 +32877,7 @@
     "ro": "Meta’",
     "ru": "Мета",
     "sk": "Meta’",
+    "sl": "Meta",
     "uk": "Мета"
   },
   "mgp": {
@@ -32777,6 +33154,7 @@
     "ro": "Micmac",
     "ru": "Микмак",
     "sk": "Mikmakčina",
+    "sl": "Mikmaščina",
     "uk": "Мікмак"
   },
   "mid": {
@@ -32865,6 +33243,7 @@
     "ro": "Minangkabau",
     "ru": "Минангкабау",
     "sk": "Minangkabaučina",
+    "sl": "Minangkabau",
     "uk": "Мінангкабау"
   },
   "mio": {
@@ -33643,6 +34022,7 @@
     "ro": "Manciuriană",
     "ru": "Маньчжурский",
     "sk": "Mandžuština",
+    "sl": "Mandžurščina",
     "uk": "Манчжурська"
   },
   "mnd": {
@@ -33697,6 +34077,7 @@
     "ro": "Manipuri",
     "ru": "Манипурский",
     "sk": "Manípurčina",
+    "sl": "Manipurščina",
     "uk": "Маніпурі"
   },
   "mnj": {
@@ -33864,6 +34245,7 @@
     "ro": "Mohawk",
     "ru": "Мохаук",
     "sk": "Mohawkčina",
+    "sl": "Mohoščina",
     "uk": "Магавк"
   },
   "moi": {
@@ -33938,6 +34320,7 @@
     "ro": "Mossi",
     "ru": "Моси",
     "sk": "Mossi",
+    "sl": "Mosijščina",
     "uk": "Моссі"
   },
   "mot": {
@@ -34880,6 +35263,7 @@
     "ro": "Mundang",
     "ru": "Мунданг",
     "sk": "Mundang",
+    "sl": "Mundang",
     "uk": "Мунданг"
   },
   "mub": {
@@ -34961,6 +35345,7 @@
     "ro": "Mai multe limbi",
     "ru": "Языки разных семей",
     "sk": "Viaceré jazyky",
+    "sl": "Več jezikov",
     "uk": "Кілька мов"
   },
   "mum": {
@@ -35017,6 +35402,7 @@
     "ro": "Creek",
     "ru": "Крик",
     "sk": "Kríkčina",
+    "sl": "Creekovščina",
     "uk": "Крік"
   },
   "mut": {
@@ -35314,6 +35700,7 @@
     "ro": "Mirandeză",
     "ru": "Мирандский",
     "sk": "Mirandčina",
+    "sl": "Mirandeščina",
     "uk": "Мірандська"
   },
   "mwm": {
@@ -35367,6 +35754,7 @@
     "ro": "Marwari",
     "ru": "Марвари",
     "sk": "Marwari",
+    "sl": "Marvarščina",
     "uk": "Марварі"
   },
   "mws": {
@@ -35748,6 +36136,7 @@
     "ro": "Erzya",
     "ru": "Эрзянский",
     "sk": "Erzjančina",
+    "sl": "Erzjanščina",
     "uk": "Ерзя"
   },
   "myw": {
@@ -35876,6 +36265,7 @@
     "ro": "Mazanderani",
     "ru": "Мазандеранский",
     "sk": "Mázandaránčina",
+    "sl": "Mazanderanščina",
     "uk": "Мазандеранська"
   },
   "mzo": {
@@ -36054,6 +36444,7 @@
     "pt-BR": "Min nan",
     "ro": "Chineză min nan",
     "ru": "Миньнань",
+    "sl": "Min nan kitajščina",
     "uk": "Південноміньська"
   },
   "nao": {
@@ -36079,6 +36470,7 @@
     "ro": "Napolitană",
     "ru": "Неаполитанский",
     "sk": "Neapolčina",
+    "sl": "Napolitanščina",
     "uk": "Неаполітанська"
   },
   "naq": {
@@ -36095,6 +36487,7 @@
     "ro": "Nama",
     "ru": "Нама",
     "sk": "Nama",
+    "sl": "Khoekhoe",
     "uk": "Нама"
   },
   "nar": {
@@ -36584,6 +36977,7 @@
     "ro": "Germana de jos",
     "ru": "Нижненемецкий",
     "sk": "Dolná nemčina",
+    "sl": "Nizka nemščina",
     "uk": "Нижньонімецька"
   },
   "ndt": {
@@ -36784,6 +37178,7 @@
     "ro": "Newari",
     "ru": "Неварский",
     "sk": "Nevárčina",
+    "sl": "Nevarščina",
     "uk": "Неварі"
   },
   "nex": {
@@ -37199,6 +37594,7 @@
     "ro": "Nias",
     "ru": "Ниас",
     "sk": "Niasánčina",
+    "sl": "Niaščina",
     "uk": "Ніаська"
   },
   "nib": {
@@ -37339,6 +37735,7 @@
     "ro": "Niueană",
     "ru": "Ниуэ",
     "sk": "Niueština",
+    "sl": "Niuejščina",
     "uk": "Ніуе"
   },
   "niv": {
@@ -37813,6 +38210,7 @@
     "ro": "Kwasio",
     "ru": "Квасио",
     "sk": "Kwasio",
+    "sl": "Kwasio",
     "uk": "Квазіо"
   },
   "nmh": {
@@ -38012,6 +38410,7 @@
     "ro": "Ngiemboon",
     "ru": "Нгиембунд",
     "sk": "Ngiemboon",
+    "sl": "Ngiemboonščina",
     "uk": "Нгємбун"
   },
   "nni": {
@@ -38179,6 +38578,7 @@
     "ro": "Nogai",
     "ru": "Ногайский",
     "sk": "Nogajčina",
+    "sl": "Nogajščina",
     "uk": "Ногайська"
   },
   "noh": {
@@ -38225,6 +38625,7 @@
     "ro": "Nordică veche",
     "ru": "Старонорвежский",
     "sk": "Stará nórčina",
+    "sl": "Stara nordijščina",
     "uk": "Давньонорвезька"
   },
   "noo": {
@@ -38410,6 +38811,7 @@
     "ro": "N’ko",
     "ru": "Нко",
     "sk": "N’ko",
+    "sl": "N’ko",
     "uk": "Нко"
   },
   "nra": {
@@ -38603,6 +39005,7 @@
     "ro": "Sotho de nord",
     "ru": "Северный сото",
     "sk": "Sothčina (severná)",
+    "sl": "Severna sotščina",
     "uk": "Північна сото"
   },
   "nsp": {
@@ -38898,6 +39301,7 @@
     "ro": "Nuer",
     "ru": "Нуэр",
     "sk": "Nuer",
+    "sl": "Nuerščina",
     "uk": "Нуер"
   },
   "nut": {
@@ -38993,6 +39397,7 @@
     "ro": "Newari clasică",
     "ru": "Классический невари",
     "sk": "Klasická nevárčina",
+    "sl": "Klasična nevarščina",
     "uk": "Неварі класична"
   },
   "nwe": {
@@ -39204,6 +39609,7 @@
     "ro": "Nyamwezi",
     "ru": "Ньямвези",
     "sk": "Ňamwezi",
+    "sl": "Njamveščina",
     "uk": "Ньямвезі"
   },
   "nyn": {
@@ -39222,6 +39628,7 @@
     "ro": "Nyankole",
     "ru": "Ньянколе",
     "sk": "Ňankole",
+    "sl": "Njankole",
     "uk": "Ньянколе"
   },
   "nyo": {
@@ -39240,6 +39647,7 @@
     "ro": "Nyoro",
     "ru": "Ньоро",
     "sk": "Ňoro",
+    "sl": "Njoro",
     "uk": "Ньоро"
   },
   "nyp": {
@@ -39342,6 +39750,7 @@
     "ro": "Nzima",
     "ru": "Нзима",
     "sk": "Nzima",
+    "sl": "Nzima",
     "uk": "Нзіма"
   },
   "nzk": {
@@ -40244,6 +40653,7 @@
     "ro": "Osage",
     "ru": "Оседжи",
     "sk": "Osedžština",
+    "sl": "Osage",
     "uk": "Осейдж"
   },
   "osc": {
@@ -40311,6 +40721,7 @@
     "ro": "Turcă otomană",
     "ru": "Старотурецкий",
     "sk": "Osmanská turečtina",
+    "sl": "Otomanska turščina",
     "uk": "Османська"
   },
   "otb": {
@@ -40576,6 +40987,7 @@
     "ro": "Pangasinan",
     "ru": "Пангасинан",
     "sk": "Pangasinančina",
+    "sl": "Pangasinanščina",
     "uk": "Пангасінанська"
   },
   "pah": {
@@ -40633,6 +41045,7 @@
     "ro": "Pampanga",
     "ru": "Пампанга",
     "sk": "Kapampangančina",
+    "sl": "Pampanščina",
     "uk": "Пампанга"
   },
   "pao": {
@@ -40658,6 +41071,7 @@
     "ro": "Papiamento",
     "ru": "Папьяменто",
     "sk": "Papiamento",
+    "sl": "Papiamentu",
     "uk": "Папʼяменто"
   },
   "paq": {
@@ -40704,6 +41118,7 @@
     "ro": "Palauană",
     "ru": "Палау",
     "sk": "Palaučina",
+    "sl": "Palavanščina",
     "uk": "Палауанська"
   },
   "pav": {
@@ -40964,6 +41379,7 @@
     "ro": "Pidgin nigerian",
     "ru": "Нигерийско-креольский",
     "sk": "Nigerijský pidžin",
+    "sl": "Nigerijski pidžin",
     "uk": "Нігерійсько-креольська"
   },
   "pcn": {
@@ -41145,6 +41561,7 @@
     "ro": "Persană veche",
     "ru": "Староперсидский",
     "sk": "Stará perzština",
+    "sl": "Stara perzijščina",
     "uk": "Давньоперська"
   },
   "pep": {
@@ -41340,6 +41757,7 @@
     "ro": "Feniciană",
     "ru": "Финикийский",
     "sk": "Feničtina",
+    "sl": "Feničanščina",
     "uk": "Фінікійсько-пунічна"
   },
   "pho": {
@@ -42178,6 +42596,7 @@
     "ro": "Pohnpeiană",
     "ru": "Понапе",
     "sk": "Pohnpeiština",
+    "sl": "Ponpejščina",
     "uk": "Понапе"
   },
   "poo": {
@@ -42404,6 +42823,7 @@
     "ro": "Prusacă",
     "ru": "Прусский",
     "sk": "Pruština",
+    "sl": "Stara pruščina",
     "uk": "Прусська"
   },
   "prh": {
@@ -42464,6 +42884,7 @@
     "ro": "Provensală veche",
     "ru": "Старопровансальский",
     "sk": "Stará okcitánčina",
+    "sl": "Stara provansalščina",
     "uk": "Давньопровансальська"
   },
   "prp": {
@@ -43028,6 +43449,7 @@
     "ro": "Quiché",
     "ru": "Киче",
     "sk": "Quiché",
+    "sl": "Quiche",
     "uk": "Кіче"
   },
   "qud": {
@@ -43486,6 +43908,7 @@
     "ro": "Rajasthani",
     "ru": "Раджастхани",
     "sk": "Radžastančina",
+    "sl": "Radžastanščina",
     "uk": "Раджастхані"
   },
   "rak": {
@@ -43539,6 +43962,7 @@
     "ro": "Rapanui",
     "ru": "Рапануйский",
     "sk": "Rapanujčina",
+    "sl": "Rapanujščina",
     "uk": "Рапануї"
   },
   "raq": {
@@ -43564,6 +43988,7 @@
     "ro": "Rarotongan",
     "ru": "Раротонга",
     "sk": "Rarotongská maorijčina",
+    "sl": "Rarotongščina",
     "uk": "Раротонга"
   },
   "ras": {
@@ -44185,6 +44610,7 @@
     "ro": "Rombo",
     "ru": "Ромбо",
     "sk": "Rombo",
+    "sl": "Rombo",
     "uk": "Ромбо"
   },
   "rog": {
@@ -44217,6 +44643,7 @@
     "ro": "Romani",
     "ru": "Цыганский",
     "sk": "Rómčina",
+    "sl": "Romščina",
     "uk": "Циганська"
   },
   "roo": {
@@ -44408,6 +44835,7 @@
     "ro": "Aromână",
     "ru": "Арумынский",
     "sk": "Arumunčina",
+    "sl": "Aromunščina",
     "uk": "Арумунська"
   },
   "ruq": {
@@ -44466,6 +44894,7 @@
     "ro": "Rwa",
     "ru": "Руанда",
     "sk": "Rwa",
+    "sl": "Rwa",
     "uk": "Рва"
   },
   "rwm": {
@@ -44547,6 +44976,7 @@
     "ro": "Sandawe",
     "ru": "Сандаве",
     "sk": "Sandaweština",
+    "sl": "Sandavščina",
     "uk": "Сандаве"
   },
   "sae": {
@@ -44582,6 +45012,7 @@
     "ro": "Sakha",
     "ru": "Саха",
     "sk": "Jakutčina",
+    "sl": "Jakutščina",
     "uk": "Саха"
   },
   "sai": {
@@ -44620,6 +45051,7 @@
     "ro": "Aramaică samariteană",
     "ru": "Самаритянский арамейский",
     "sk": "Samaritánska aramejčina",
+    "sl": "Samaritanska aramejščina",
     "uk": "Самаритянська арамейська"
   },
   "sao": {
@@ -44646,6 +45078,7 @@
     "ro": "Samburu",
     "ru": "Самбуру",
     "sk": "Samburu",
+    "sl": "Samburščina",
     "uk": "Самбуру"
   },
   "sar": {
@@ -44671,6 +45104,7 @@
     "ro": "Sasak",
     "ru": "Сасакский",
     "sk": "Sasačtina",
+    "sl": "Sasaščina",
     "uk": "Сасакська"
   },
   "sat": {
@@ -44689,6 +45123,7 @@
     "ro": "Santali",
     "ru": "Сантали",
     "sk": "Santalčina",
+    "sl": "Santalščina",
     "uk": "Сантальська"
   },
   "sau": {
@@ -44750,6 +45185,7 @@
     "ro": "Ngambay",
     "ru": "Нгамбайский",
     "sk": "Ngambay",
+    "sl": "Ngambajščina",
     "uk": "Нгамбай"
   },
   "sbb": {
@@ -44864,6 +45300,7 @@
     "ro": "Sangu",
     "ru": "Сангу",
     "sk": "Sangu",
+    "sl": "Sangujščina",
     "uk": "Сангу"
   },
   "sbq": {
@@ -45011,6 +45448,7 @@
     "ro": "Siciliană",
     "ru": "Сицилийский",
     "sk": "Sicílčina",
+    "sl": "Sicilijanščina",
     "uk": "Сицилійська"
   },
   "sco": {
@@ -45029,6 +45467,7 @@
     "ro": "Scots",
     "ru": "Шотландский",
     "sk": "Škótčina",
+    "sl": "Škotščina",
     "uk": "Шотландська"
   },
   "scp": {
@@ -45139,6 +45578,7 @@
     "ro": "Kurdă de sud",
     "ru": "Южнокурдский",
     "sk": "Južná kurdčina",
+    "sl": "Južna kurdščina",
     "uk": "Південнокурдська"
   },
   "sdj": {
@@ -45303,6 +45743,7 @@
     "ro": "Sena",
     "ru": "Сена",
     "sk": "Sena",
+    "sl": "Sena",
     "uk": "Сена"
   },
   "sei": {
@@ -45345,6 +45786,7 @@
     "ro": "Selkup",
     "ru": "Селькупский",
     "sk": "Selkupčina",
+    "sl": "Selkupščina",
     "uk": "Селькупська"
   },
   "sem": {
@@ -45399,6 +45841,7 @@
     "ro": "Koyraboro Senni",
     "ru": "Койраборо сенни",
     "sk": "Koyraboro senni",
+    "sl": "Koyraboro senni",
     "uk": "Койраборо сені"
   },
   "set": {
@@ -45487,6 +45930,7 @@
     "ro": "Irlandeză veche",
     "ru": "Староирландский",
     "sk": "Stará írčina",
+    "sl": "Stara irščina",
     "uk": "Давньоірландська"
   },
   "sgb": {
@@ -45659,6 +46103,7 @@
     "ro": "Tachelhit",
     "ru": "Ташельхит",
     "sk": "Tachelhit",
+    "sl": "Tahelitska berberščina",
     "uk": "Тачеліт"
   },
   "shj": {
@@ -45705,6 +46150,7 @@
     "ro": "Shan",
     "ru": "Шанский",
     "sk": "Šančina",
+    "sl": "Šanščina",
     "uk": "Шанська"
   },
   "sho": {
@@ -45830,6 +46276,7 @@
     "ro": "Sidamo",
     "ru": "Сидама",
     "sk": "Sidamo",
+    "sl": "Sidamščina",
     "uk": "Сідамо"
   },
   "sie": {
@@ -45906,6 +46353,7 @@
     "ro": "Singhaleză",
     "ru": "Сингальский",
     "sk": "Sinhalčina",
+    "sl": "Sinhalščina",
     "uk": "Сингальська"
   },
   "sio": {
@@ -46439,6 +46887,7 @@
     "ro": "Sami de sud",
     "ru": "Южносаамский",
     "sk": "Saamčina (južná)",
+    "sl": "Južna samijščina",
     "uk": "Південносаамська"
   },
   "smb": {
@@ -46502,6 +46951,7 @@
     "ro": "Sami lule",
     "ru": "Луле-саамский",
     "sk": "Saamčina (lulská)",
+    "sl": "Luleška samijščina",
     "uk": "Саамська луле"
   },
   "smk": {
@@ -46541,6 +46991,7 @@
     "ro": "Sami inari",
     "ru": "Инари-саамский",
     "sk": "Saamčina (inarijská)",
+    "sl": "Inarska samijščina",
     "uk": "Саамська інарі"
   },
   "smp": {
@@ -46580,6 +47031,7 @@
     "ro": "Sami skolt",
     "ru": "Колтта-саамский",
     "sk": "Saamčina (skoltská)",
+    "sl": "Skoltska samijščina",
     "uk": "Скольт-саамська"
   },
   "smt": {
@@ -46700,6 +47152,7 @@
     "ro": "Soninke",
     "ru": "Сонинке",
     "sk": "Soninke",
+    "sl": "Soninke",
     "uk": "Сонінке"
   },
   "snl": {
@@ -47262,6 +47715,7 @@
     "ro": "Sranan tongo",
     "ru": "Сранан-тонго",
     "sk": "Surinamčina",
+    "sl": "Surinamska kreolščina",
     "uk": "Сранан тонго"
   },
   "sro": {
@@ -47294,6 +47748,7 @@
     "ro": "Serer",
     "ru": "Серер",
     "sk": "Sererčina",
+    "sl": "Sererščina",
     "uk": "Серер"
   },
   "srs": {
@@ -47523,6 +47978,7 @@
     "ro": "Saho",
     "ru": "Сахо",
     "sk": "Saho",
+    "sl": "Saho",
     "uk": "Сахо"
   },
   "ssz": {
@@ -47754,6 +48210,7 @@
     "ro": "Sukuma",
     "ru": "Сукума",
     "sk": "Sukuma",
+    "sl": "Sukuma",
     "uk": "Сукума"
   },
   "sul": {
@@ -47792,6 +48249,7 @@
     "ro": "Susu",
     "ru": "Сусу",
     "sk": "Susu",
+    "sl": "Susujščina",
     "uk": "Сусу"
   },
   "sut": {
@@ -47831,6 +48289,7 @@
     "ro": "Sumeriană",
     "ru": "Шумерский",
     "sk": "Sumerčina",
+    "sl": "Sumerščina",
     "uk": "Шумерська"
   },
   "suy": {
@@ -47913,6 +48372,7 @@
     "ro": "Comoreză",
     "ru": "Коморский",
     "sk": "Komorčina",
+    "sl": "Šikomor",
     "uk": "Коморська"
   },
   "swc": {
@@ -48184,6 +48644,7 @@
     "ro": "Siriacă clasică",
     "ru": "Классический сирийский",
     "sk": "Sýrčina (klasická)",
+    "sl": "Klasična sirščina",
     "uk": "Сирійська класична"
   },
   "syd": {
@@ -48247,6 +48708,7 @@
     "ro": "Siriacă",
     "ru": "Сирийский",
     "sk": "Sýrčina",
+    "sl": "Sirščina",
     "uk": "Сирійська"
   },
   "sys": {
@@ -49077,6 +49539,7 @@
     "ro": "Timne",
     "ru": "Темне",
     "sk": "Temne",
+    "sl": "Temnejščina",
     "uk": "Темне"
   },
   "ten": {
@@ -49100,6 +49563,7 @@
     "ro": "Teso",
     "ru": "Тесо",
     "sk": "Teso",
+    "sl": "Teso",
     "uk": "Тесо"
   },
   "tep": {
@@ -49157,6 +49621,7 @@
     "ro": "Tetum",
     "ru": "Тетум",
     "sk": "Tetumčina",
+    "sl": "Tetumščina",
     "uk": "Тетум"
   },
   "teu": {
@@ -49543,6 +50008,7 @@
     "ro": "Tigre",
     "ru": "Тигре",
     "sk": "Tigrejčina",
+    "sl": "Tigrejščina",
     "uk": "Тигре"
   },
   "tih": {
@@ -49652,6 +50118,7 @@
     "ro": "Tiv",
     "ru": "Тиви",
     "sk": "Tiv",
+    "sl": "Tivščina",
     "uk": "Тів"
   },
   "tiw": {
@@ -49792,6 +50259,7 @@
     "ro": "Tokelau",
     "ru": "Токелайский",
     "sk": "Tokelauština",
+    "sl": "Tokelavščina",
     "uk": "Токелау"
   },
   "tkm": {
@@ -49935,6 +50403,7 @@
     "ro": "Klingoniană",
     "ru": "Клингонский",
     "sk": "Klingónčina",
+    "sl": "Klingonščina",
     "uk": "Клінгонська"
   },
   "tli": {
@@ -49953,6 +50422,7 @@
     "ro": "Tlingit",
     "ru": "Тлингит",
     "sk": "Tlingitčina",
+    "sl": "Tlingitščina",
     "uk": "Тлінгіт"
   },
   "tlj": {
@@ -50132,6 +50602,7 @@
     "ro": "Tamashek",
     "ru": "Тамашек",
     "sk": "Tuaregčina",
+    "sl": "Tamajaščina",
     "uk": "Тамашек"
   },
   "tmi": {
@@ -50463,6 +50934,7 @@
     "ro": "Nyasa tonga",
     "ru": "Тонга",
     "sk": "Ňasa tonga",
+    "sl": "Malavijska tongščina",
     "uk": "Ньяса тонга"
   },
   "toh": {
@@ -50628,6 +51100,7 @@
     "ro": "Tok pisin",
     "ru": "Ток-писин",
     "sk": "Novoguinejský pidžin",
+    "sl": "Tok pisin",
     "uk": "Ток-пісін"
   },
   "tpj": {
@@ -50980,6 +51453,7 @@
     "ro": "Taroko",
     "ru": "Седекский",
     "sk": "Taroko",
+    "sl": "Taroko",
     "uk": "Тароко"
   },
   "trw": {
@@ -51081,6 +51555,7 @@
     "ro": "Tsimshian",
     "ru": "Цимшиан",
     "sk": "Cimšjančina",
+    "sl": "Tsimščina",
     "uk": "Цимшиан"
   },
   "tsj": {
@@ -51452,6 +51927,7 @@
     "ro": "Tumbuka",
     "ru": "Тумбука",
     "sk": "Tumbuka",
+    "sl": "Tumbukščina",
     "uk": "Тумбука"
   },
   "tun": {
@@ -51570,6 +52046,7 @@
     "ro": "Tuvalu",
     "ru": "Тувалу",
     "sk": "Tuvalčina",
+    "sl": "Tuvalujščina",
     "uk": "Тувалу"
   },
   "tvm": {
@@ -51726,6 +52203,7 @@
     "ro": "Tasawaq",
     "ru": "Тасавак",
     "sk": "Tasawaq",
+    "sl": "Tasawaq",
     "uk": "Тасавак"
   },
   "twr": {
@@ -51989,6 +52467,7 @@
     "ro": "Tuvană",
     "ru": "Тувинский",
     "sk": "Tuviančina",
+    "sl": "Tuvinščina",
     "uk": "Тувинська"
   },
   "tyx": {
@@ -52040,6 +52519,7 @@
     "ro": "Tamazight din Atlasul Central",
     "ru": "Среднеатласский тамазигхтский",
     "sk": "Tamazight (stredomarocký)",
+    "sl": "Tamašek (Srednji Atlas)",
     "uk": "Центральноатласька тамазігт"
   },
   "tzn": {
@@ -52177,6 +52657,7 @@
     "ro": "Udmurt",
     "ru": "Удмуртский",
     "sk": "Udmurtčina",
+    "sl": "Udmurtščina",
     "uk": "Удмуртська"
   },
   "udu": {
@@ -52216,6 +52697,7 @@
     "ro": "Ugaritică",
     "ru": "Угаритский",
     "sk": "Ugaritčina",
+    "sl": "Ugaritski jezik",
     "uk": "Угаритська"
   },
   "ugb": {
@@ -52444,6 +52926,7 @@
     "ro": "Umbundu",
     "ru": "Умбунду",
     "sk": "Umbundu",
+    "sl": "Umbundščina",
     "uk": "Умбунду"
   },
   "umc": {
@@ -52970,6 +53453,7 @@
     "ro": "Vai",
     "ru": "Ваи",
     "sk": "Vai",
+    "sl": "Vajščina",
     "uk": "Ваї"
   },
   "vaj": {
@@ -53483,6 +53967,7 @@
     "ro": "Votică",
     "ru": "Водский",
     "sk": "Vodčina",
+    "sl": "Votjaščina",
     "uk": "Водська"
   },
   "vra": {
@@ -53565,6 +54050,7 @@
     "ro": "Vunjo",
     "ru": "Вунджо",
     "sk": "Vunjo",
+    "sl": "Vunjo",
     "uk": "Вуньо"
   },
   "vut": {
@@ -53623,6 +54109,7 @@
     "ro": "Walser",
     "ru": "Валлисский",
     "sk": "Walserčina",
+    "sl": "Walser",
     "uk": "Вальзерська"
   },
   "waf": {
@@ -53679,6 +54166,7 @@
     "ro": "Wolaita",
     "ru": "Воламо",
     "sk": "Walamčina",
+    "sl": "Valamščina",
     "uk": "Волайтта"
   },
   "wam": {
@@ -53732,6 +54220,7 @@
     "ro": "Waray",
     "ru": "Варай",
     "sk": "Waray",
+    "sl": "Varajščina",
     "uk": "Варай"
   },
   "was": {
@@ -53750,6 +54239,7 @@
     "ro": "Washo",
     "ru": "Вашо",
     "sk": "Washo",
+    "sl": "Vašajščina",
     "uk": "Вашо"
   },
   "wat": {
@@ -53885,6 +54375,7 @@
     "ro": "Warlpiri",
     "ru": "Вальбири",
     "sk": "Warlpiri",
+    "sl": "Varlpirščina",
     "uk": "Валпірі"
   },
   "wbq": {
@@ -55172,6 +55663,7 @@
     "ro": "Calmucă",
     "ru": "Калмыцкий",
     "sk": "Kalmyčtina",
+    "sl": "Kalmiščina",
     "uk": "Калмицька"
   },
   "xam": {
@@ -56178,6 +56670,7 @@
     "ro": "Soga",
     "ru": "Сога",
     "sk": "Soga",
+    "sl": "Sogščina",
     "uk": "Сога"
   },
   "xoi": {
@@ -57005,6 +57498,7 @@
     "ro": "Yao",
     "ru": "Яо",
     "sk": "Jao",
+    "sl": "Jaojščina",
     "uk": "Яо"
   },
   "yap": {
@@ -57023,6 +57517,7 @@
     "ro": "Yapeză",
     "ru": "Яп",
     "sk": "Japčina",
+    "sl": "Japščina",
     "uk": "Яп"
   },
   "yaq": {
@@ -57075,6 +57570,7 @@
     "ro": "Yangben",
     "ru": "Янгбен",
     "sk": "Jangben",
+    "sl": "Jangben",
     "uk": "Янгбен"
   },
   "yaw": {
@@ -57126,6 +57622,7 @@
     "ro": "Yemba",
     "ru": "Йемба",
     "sk": "Yemba",
+    "sl": "Jembajščina",
     "uk": "Ємба"
   },
   "ybd": {
@@ -58221,6 +58718,7 @@
     "ro": "Cantoneză",
     "ru": "Кантонский",
     "sk": "Kantončina",
+    "sl": "Kantonščina",
     "uk": "Кантонська"
   },
   "yuf": {
@@ -58550,6 +59048,7 @@
     "ro": "Zapotecă",
     "ru": "Сапотекский",
     "sk": "Zapotéčtina",
+    "sl": "Zapoteščina",
     "uk": "Сапотекська"
   },
   "zaq": {
@@ -58652,6 +59151,7 @@
     "ro": "Simboluri Bilss",
     "ru": "Блиссимволика",
     "sk": "Systém Bliss",
+    "sl": "Znakovni jezik Bliss",
     "uk": "Блісса мова"
   },
   "zbt": {
@@ -58729,6 +59229,7 @@
     "ro": "Zenaga",
     "ru": "Зенагский",
     "sk": "Zenaga",
+    "sl": "Zenaščina",
     "uk": "Зенага"
   },
   "zga": {
@@ -59641,6 +60142,7 @@
     "ro": "Zuni",
     "ru": "Зуньи",
     "sk": "Zuniština",
+    "sl": "Zunijščina",
     "uk": "Зуньї"
   },
   "zuy": {
@@ -59708,6 +60210,7 @@
     "ro": "Zaza",
     "ru": "Заза",
     "sk": "Zaza",
+    "sl": "Zazajščina",
     "uk": "Зазакі"
   },
   "zzj": {
@@ -59733,6 +60236,7 @@
     "ro": "arabă",
     "ru": "арабица",
     "sk": "arabské",
+    "sl": "arabski",
     "uk": "арабиця"
   },
   "Armi": {
@@ -59741,6 +60245,7 @@
     "nl": "Keizerlijk Aramees",
     "pt-BR": "armi",
     "ru": "арамейская",
+    "sl": "imperialno-aramejski",
     "uk": "армі"
   },
   "Armn": {
@@ -59753,6 +60258,7 @@
     "ro": "armeană",
     "ru": "армянская",
     "sk": "arménske",
+    "sl": "armenski",
     "uk": "вірменська"
   },
   "Avst": {
@@ -59763,6 +60269,7 @@
     "nl": "Avestaans",
     "pt-BR": "avéstico",
     "ru": "авестийская",
+    "sl": "avestanski",
     "uk": "авестійський"
   },
   "Bali": {
@@ -59775,6 +60282,7 @@
     "ro": "balineză",
     "ru": "балийская",
     "sk": "balijský",
+    "sl": "balijski",
     "uk": "балійський"
   },
   "Bamu": {
@@ -59793,6 +60301,7 @@
     "nl": "Batak",
     "pt-BR": "bataque",
     "ru": "батакская",
+    "sl": "bataški",
     "uk": "батак"
   },
   "Beng": {
@@ -59805,6 +60314,7 @@
     "ro": "bengaleză",
     "ru": "бенгальская",
     "sk": "bengálske",
+    "sl": "bengalski",
     "uk": "бенгальська"
   },
   "Blis": {
@@ -59815,6 +60325,7 @@
     "nl": "Blissymbolen",
     "pt-BR": "símbolos bliss",
     "ru": "блиссимволика",
+    "sl": "znakovna pisava Bliss",
     "uk": "символи Блісса"
   },
   "Bopo": {
@@ -59827,6 +60338,7 @@
     "ro": "bopomofo",
     "ru": "бопомофо",
     "sk": "bopomofo",
+    "sl": "bopomofo",
     "uk": "бопомофо"
   },
   "Brah": {
@@ -59837,6 +60349,7 @@
     "nl": "Brahmi",
     "pt-BR": "brahmi",
     "ru": "брахми",
+    "sl": "bramanski",
     "uk": "брахмі"
   },
   "Brai": {
@@ -59849,6 +60362,7 @@
     "ro": "braille",
     "ru": "шрифт Брайля",
     "sk": "braillovo",
+    "sl": "braillova pisava",
     "uk": "шрифт Брайля"
   },
   "Bugi": {
@@ -59859,6 +60373,7 @@
     "nl": "Buginees",
     "pt-BR": "buginês",
     "ru": "бугинизийская",
+    "sl": "buginski",
     "uk": "бугійський"
   },
   "Buhd": {
@@ -59869,6 +60384,7 @@
     "nl": "Buhid",
     "pt-BR": "buhid",
     "ru": "бухид",
+    "sl": "buhidski",
     "uk": "бухід"
   },
   "Cakm": {
@@ -59889,6 +60405,7 @@
     "pt-BR": "escrita silábica unificada dos aborígenes canadenses",
     "ro": "silabică aborigenă canadiană unificată",
     "ru": "канадское слоговое письмо",
+    "sl": "poenotena zlogovna pisava kanadskih staroselcev",
     "uk": "уніфіковані символи канадських тубільців"
   },
   "Cari": {
@@ -59918,6 +60435,7 @@
     "nl": "Cherokee",
     "pt-BR": "cherokee",
     "ru": "чероки",
+    "sl": "čerokeški",
     "uk": "черокі"
   },
   "Cirt": {
@@ -59928,6 +60446,7 @@
     "nl": "Cirth",
     "pt-BR": "cirth",
     "ru": "кирт",
+    "sl": "kirt",
     "uk": "кирт"
   },
   "Copt": {
@@ -59939,6 +60458,7 @@
     "pt-BR": "cóptico",
     "ro": "coptă",
     "ru": "коптская",
+    "sl": "koptski",
     "uk": "коптський"
   },
   "Cprt": {
@@ -59950,6 +60470,7 @@
     "pt-BR": "cipriota",
     "ro": "cipriotă",
     "ru": "кипрская",
+    "sl": "ciprski",
     "uk": "кіпрський"
   },
   "Cyrl": {
@@ -59962,6 +60483,7 @@
     "ro": "chirilică",
     "ru": "кириллица",
     "sk": "cyrilika",
+    "sl": "cirilica",
     "uk": "кирилиця"
   },
   "Cyrs": {
@@ -59973,6 +60495,7 @@
     "pt-BR": "cirílico eslavo eclesiástico",
     "ro": "chirilică slavonă bisericească veche",
     "ru": "старославянская",
+    "sl": "starocerkvenoslovanska cirilica",
     "uk": "давньоцерковнословʼянський"
   },
   "Deva": {
@@ -59985,6 +60508,7 @@
     "ro": "devanagari",
     "ru": "деванагари",
     "sk": "dévanágarí",
+    "sl": "devanagarščica",
     "uk": "деванагарі"
   },
   "Dsrt": {
@@ -59996,6 +60520,7 @@
     "pt-BR": "deseret",
     "ro": "mormonă",
     "ru": "дезерет",
+    "sl": "fonetska pisava deseret",
     "uk": "дезерет"
   },
   "Egyd": {
@@ -60007,6 +60532,7 @@
     "pt-BR": "demótico egípcio",
     "ro": "demotică egipteană",
     "ru": "египетская демотическая",
+    "sl": "demotska egipčanska pisava",
     "uk": "єгипетський демотичний"
   },
   "Egyh": {
@@ -60018,6 +60544,7 @@
     "pt-BR": "hierático egípcio",
     "ro": "hieratică egipteană",
     "ru": "египетская иератическая",
+    "sl": "hieratska egipčanska pisava",
     "uk": "єгипетський ієратичний"
   },
   "Egyp": {
@@ -60030,6 +60557,7 @@
     "ro": "hieroglife egiptene",
     "ru": "египетская иероглифическая",
     "sk": "egyptské hieroglyfy",
+    "sl": "egipčanska slikovna pisava",
     "uk": "єгипетський ієрогліфічний"
   },
   "Ethi": {
@@ -60042,6 +60570,7 @@
     "ro": "etiopiană",
     "ru": "эфиопская",
     "sk": "etiópske",
+    "sl": "etiopski",
     "uk": "ефіопська"
   },
   "Geok": {
@@ -60053,6 +60582,7 @@
     "pt-BR": "khutsuri georgiano",
     "ro": "georgiană bisericească",
     "ru": "грузинская хуцури",
+    "sl": "cerkvenogruzijski",
     "uk": "кхутсурі"
   },
   "Geor": {
@@ -60065,6 +60595,7 @@
     "ro": "georgiană",
     "ru": "грузинская",
     "sk": "gruzínske",
+    "sl": "gruzijski",
     "uk": "грузинська"
   },
   "Glag": {
@@ -60077,6 +60608,7 @@
     "ro": "glagolitică",
     "ru": "глаголица",
     "sk": "hlaholika",
+    "sl": "glagoliški",
     "uk": "глаголичний"
   },
   "Goth": {
@@ -60089,6 +60621,7 @@
     "ro": "gotică",
     "ru": "готская",
     "sk": "gotický",
+    "sl": "gotski",
     "uk": "готичний"
   },
   "Grek": {
@@ -60101,6 +60634,7 @@
     "ro": "greacă",
     "ru": "греческая",
     "sk": "grécke",
+    "sl": "grški",
     "uk": "грецька"
   },
   "Gujr": {
@@ -60113,6 +60647,7 @@
     "ro": "gujarati",
     "ru": "гуджарати",
     "sk": "gudžarátí",
+    "sl": "gudžaratski",
     "uk": "гуджараті"
   },
   "Guru": {
@@ -60125,6 +60660,7 @@
     "ro": "gurmukhi",
     "ru": "гурмукхи",
     "sk": "gurmukhi",
+    "sl": "gurmuki",
     "uk": "гурмухі"
   },
   "Hang": {
@@ -60137,6 +60673,7 @@
     "ro": "hangul",
     "ru": "хангыль",
     "sk": "hangul",
+    "sl": "hangul",
     "uk": "хангиль"
   },
   "Hani": {
@@ -60149,6 +60686,7 @@
     "ro": "han",
     "ru": "китайская",
     "sk": "čínske",
+    "sl": "kanji",
     "uk": "китайська"
   },
   "Hano": {
@@ -60159,6 +60697,7 @@
     "nl": "Hanunoo",
     "pt-BR": "hanunoo",
     "ru": "хануну",
+    "sl": "hanunski",
     "uk": "хануну"
   },
   "Hans": {
@@ -60171,6 +60710,7 @@
     "ro": "simplificată",
     "ru": "упрощенная китайская",
     "sk": "zjednodušené",
+    "sl": "poenostavljena pisava",
     "uk": "спрощена"
   },
   "Hant": {
@@ -60183,6 +60723,7 @@
     "ro": "tradițională",
     "ru": "традиционная китайская",
     "sk": "tradičné",
+    "sl": "tradicionalna pisava",
     "uk": "традиційна"
   },
   "Hebr": {
@@ -60195,6 +60736,7 @@
     "ro": "ebraică",
     "ru": "еврейская",
     "sk": "hebrejské",
+    "sl": "hebrejski",
     "uk": "іврит"
   },
   "Hira": {
@@ -60207,6 +60749,7 @@
     "ro": "hiragana",
     "ru": "хирагана",
     "sk": "hiragana",
+    "sl": "hiragana",
     "uk": "хірагана"
   },
   "Hmng": {
@@ -60217,6 +60760,7 @@
     "nl": "Pahawh Hmong",
     "pt-BR": "pahawh hmong",
     "ru": "пахау хмонг",
+    "sl": "pahavhmonska zlogovna pisava",
     "uk": "пахау хмонг"
   },
   "Hrkt": {
@@ -60229,6 +60773,7 @@
     "ro": "silabică japoneză",
     "ru": "катакана и хирагана",
     "sk": "kana",
+    "sl": "japonska zlogovnica",
     "uk": "японські силабарії"
   },
   "Hung": {
@@ -60240,6 +60785,7 @@
     "pt-BR": "húngaro antigo",
     "ro": "maghiară veche",
     "ru": "старовенгерская",
+    "sl": "staroogrski",
     "uk": "давньоугорський"
   },
   "Inds": {
@@ -60251,6 +60797,7 @@
     "pt-BR": "indo",
     "ro": "indus",
     "ru": "хараппская (письменность долины Инда)",
+    "sl": "induški",
     "uk": "харапський"
   },
   "Ital": {
@@ -60262,6 +60809,7 @@
     "pt-BR": "itálico antigo",
     "ro": "italică veche",
     "ru": "староитальянская",
+    "sl": "staroitalski",
     "uk": "давньоіталійський"
   },
   "Java": {
@@ -60273,6 +60821,7 @@
     "pt-BR": "javanês",
     "ro": "javaneză",
     "ru": "яванская",
+    "sl": "javanski",
     "uk": "яванський"
   },
   "Jpan": {
@@ -60285,6 +60834,7 @@
     "ro": "japoneză",
     "ru": "японская",
     "sk": "japonské",
+    "sl": "japonski",
     "uk": "японська"
   },
   "Kali": {
@@ -60295,6 +60845,7 @@
     "nl": "Kayah Li",
     "pt-BR": "kayah li",
     "ru": "кайа",
+    "sl": "karenski",
     "uk": "кая лі"
   },
   "Kana": {
@@ -60307,6 +60858,7 @@
     "ro": "katakana",
     "ru": "катакана",
     "sk": "katakana",
+    "sl": "katakana",
     "uk": "катакана"
   },
   "Khar": {
@@ -60317,6 +60869,7 @@
     "nl": "Kharoshthi",
     "pt-BR": "kharoshthi",
     "ru": "кхароштхи",
+    "sl": "gandarski",
     "uk": "кхароштхі"
   },
   "Khmr": {
@@ -60329,6 +60882,7 @@
     "ro": "khmeră",
     "ru": "кхмерская",
     "sk": "khmérske",
+    "sl": "kmerski",
     "uk": "кхмерська"
   },
   "Knda": {
@@ -60341,6 +60895,7 @@
     "ro": "kannada",
     "ru": "каннада",
     "sk": "kannadské",
+    "sl": "kanadski",
     "uk": "каннада"
   },
   "Kore": {
@@ -60353,6 +60908,7 @@
     "ro": "coreeană",
     "ru": "корейская",
     "sk": "kórejské",
+    "sl": "korejski",
     "uk": "корейська"
   },
   "Kthi": {
@@ -60362,6 +60918,7 @@
     "nl": "Kaithi",
     "pt-BR": "kthi",
     "ru": "кайтхи",
+    "sl": "kajatski",
     "uk": "каїті"
   },
   "Lana": {
@@ -60384,6 +60941,7 @@
     "ro": "laoțiană",
     "ru": "лаосская",
     "sk": "laoské",
+    "sl": "laoški",
     "uk": "лаоська"
   },
   "Latf": {
@@ -60395,6 +60953,7 @@
     "pt-BR": "latim fraktur",
     "ro": "latină Fraktur",
     "ru": "латинская фрактура",
+    "sl": "fraktura",
     "uk": "латинський фрактурний"
   },
   "Latg": {
@@ -60406,6 +60965,7 @@
     "pt-BR": "latim gaélico",
     "ro": "latină gaelică",
     "ru": "гэльская латинская",
+    "sl": "gelski latinični",
     "uk": "латинський гельський"
   },
   "Latn": {
@@ -60418,6 +60978,7 @@
     "ro": "latină",
     "ru": "латиница",
     "sk": "latinka",
+    "sl": "latinica",
     "uk": "латиниця"
   },
   "Lepc": {
@@ -60428,6 +60989,7 @@
     "nl": "Lepcha",
     "pt-BR": "lepcha",
     "ru": "лепха",
+    "sl": "lepški",
     "uk": "лепча"
   },
   "Limb": {
@@ -60438,6 +61000,7 @@
     "nl": "Limbu",
     "pt-BR": "limbu",
     "ru": "лимбу",
+    "sl": "limbuški",
     "uk": "лімбу"
   },
   "Lina": {
@@ -60450,6 +61013,7 @@
     "ro": "lineară A",
     "ru": "линейное письмо А",
     "sk": "lineárna A",
+    "sl": "linearna pisava A",
     "uk": "лінійний А"
   },
   "Linb": {
@@ -60462,6 +61026,7 @@
     "ro": "lineară B",
     "ru": "линейное письмо Б",
     "sk": "lineárna B",
+    "sl": "linearna pisava B",
     "uk": "лінійний В"
   },
   "Lisu": {
@@ -60480,6 +61045,7 @@
     "nl": "Lycisch",
     "pt-BR": "lício",
     "ru": "лициан",
+    "sl": "licijski",
     "uk": "лікійський"
   },
   "Lydi": {
@@ -60491,6 +61057,7 @@
     "pt-BR": "lídio",
     "ro": "lidiană",
     "ru": "лидийская",
+    "sl": "lidijski",
     "uk": "лідійський"
   },
   "Mand": {
@@ -60501,6 +61068,7 @@
     "nl": "Mandaeans",
     "pt-BR": "mandaico",
     "ru": "мандейская",
+    "sl": "mandanski",
     "uk": "мандейський"
   },
   "Mani": {
@@ -60510,6 +61078,7 @@
     "nl": "Manicheaans",
     "pt-BR": "maniqueano",
     "ru": "манихейская",
+    "sl": "manihejski",
     "uk": "маніхейський"
   },
   "Maya": {
@@ -60522,6 +61091,7 @@
     "ro": "hieroglife maya",
     "ru": "майя",
     "sk": "mayské hieroglyfy",
+    "sl": "majevska slikovna pisava",
     "uk": "майя ієрогліфічний"
   },
   "Mero": {
@@ -60532,6 +61102,7 @@
     "nl": "Meroïtisch",
     "pt-BR": "meroítico",
     "ru": "мероитская",
+    "sl": "meroitski",
     "uk": "мероїтський"
   },
   "Mlym": {
@@ -60544,6 +61115,7 @@
     "ro": "malayalam",
     "ru": "малаялам",
     "sk": "malajálamske",
+    "sl": "malajalamski",
     "uk": "малаяламська"
   },
   "Mong": {
@@ -60556,6 +61128,7 @@
     "ro": "mongolă",
     "ru": "монгольская",
     "sk": "mongolské",
+    "sl": "mongolska",
     "uk": "монгольська"
   },
   "Moon": {
@@ -60566,6 +61139,7 @@
     "nl": "Moon",
     "pt-BR": "moon",
     "ru": "азбука муна",
+    "sl": "Moonova pisava za slepe",
     "uk": "мун"
   },
   "Mtei": {
@@ -60578,6 +61152,7 @@
     "ro": "meitei mayek",
     "ru": "манипури",
     "sk": "mejtej majek (manipurské)",
+    "sl": "manipurski",
     "uk": "мейтей майєк"
   },
   "Mymr": {
@@ -60590,6 +61165,7 @@
     "ro": "birmană",
     "ru": "мьянманская",
     "sk": "barmské",
+    "sl": "mjanmarski",
     "uk": "мʼянмська"
   },
   "Nkgb": {
@@ -60616,6 +61192,7 @@
     "nl": "Ogham",
     "pt-BR": "ogâmico",
     "ru": "огамическая",
+    "sl": "ogamski",
     "uk": "огамічний"
   },
   "Olck": {
@@ -60628,6 +61205,7 @@
     "ro": "ol chiki",
     "ru": "ол чики",
     "sk": "santálske (ol chiki)",
+    "sl": "santalski",
     "uk": "сантальський"
   },
   "Orkh": {
@@ -60638,6 +61216,7 @@
     "nl": "Orkhon",
     "pt-BR": "orkhon",
     "ru": "орхоно-енисейская",
+    "sl": "orkonski",
     "uk": "орхонський"
   },
   "Orya": {
@@ -60650,6 +61229,7 @@
     "ro": "oriya",
     "ru": "ория",
     "sk": "uríjske",
+    "sl": "orijski",
     "uk": "орія"
   },
   "Osma": {
@@ -60661,6 +61241,7 @@
     "pt-BR": "osmania",
     "ru": "османская",
     "sk": "osmanský",
+    "sl": "osmanski",
     "uk": "османський"
   },
   "Perm": {
@@ -60671,6 +61252,7 @@
     "nl": "Oudpermisch",
     "pt-BR": "pérmico antigo",
     "ru": "древнепермская",
+    "sl": "staropermijski",
     "uk": "давньопермський"
   },
   "Phag": {
@@ -60681,6 +61263,7 @@
     "nl": "Phags-pa",
     "pt-BR": "phags-pa",
     "ru": "пагспа",
+    "sl": "pagpajski",
     "uk": "пхагс-па"
   },
   "Phli": {
@@ -60690,6 +61273,7 @@
     "nl": "Inscriptioneel Pahlavi",
     "pt-BR": "phli",
     "ru": "пехлевийская",
+    "sl": "vrezani napisi pahlavi",
     "uk": "пехлеві написів"
   },
   "Phlp": {
@@ -60699,6 +61283,7 @@
     "nl": "Psalmen Pahlavi",
     "pt-BR": "phlp",
     "ru": "пахлави псалтирная",
+    "sl": "psalmski pahlavi",
     "uk": "пехлеві релігійний"
   },
   "Phlv": {
@@ -60708,6 +61293,7 @@
     "nl": "Boek Pahlavi",
     "pt-BR": "pahlavi antigo",
     "ru": "пахлави книжная",
+    "sl": "knjižno palavanski",
     "uk": "пехлеві літературний"
   },
   "Phnx": {
@@ -60719,6 +61305,7 @@
     "pt-BR": "fenício",
     "ro": "feniciană",
     "ru": "финикийская",
+    "sl": "feničanski",
     "uk": "фінікійський"
   },
   "Plrd": {
@@ -60729,6 +61316,7 @@
     "nl": "Pollard-fonetisch",
     "pt-BR": "fonético pollard",
     "ru": "поллардовская фонетика",
+    "sl": "Pollardova fonetska pisava",
     "uk": "писемність Полларда"
   },
   "Prti": {
@@ -60758,6 +61346,7 @@
     "nl": "Rongorongo",
     "pt-BR": "rongorongo",
     "ru": "ронго-ронго",
+    "sl": "rongorongo",
     "uk": "ронго-ронго"
   },
   "Runr": {
@@ -60770,6 +61359,7 @@
     "ro": "runică",
     "ru": "руническая",
     "sk": "Runové písmo",
+    "sl": "runski",
     "uk": "рунічний"
   },
   "Samr": {
@@ -60779,6 +61369,7 @@
     "nl": "Samaritaans",
     "pt-BR": "samaritano",
     "ru": "самаритянская",
+    "sl": "samaritanski",
     "uk": "самаритянський"
   },
   "Sara": {
@@ -60789,6 +61380,7 @@
     "nl": "Sarati",
     "pt-BR": "sarati",
     "ru": "сарати",
+    "sl": "saratski",
     "uk": "сараті"
   },
   "Sarb": {
@@ -60815,6 +61407,7 @@
     "nl": "SignWriting",
     "pt-BR": "signwriting",
     "ru": "язык знаков",
+    "sl": "znakovna pisava",
     "uk": "знаковий"
   },
   "Shaw": {
@@ -60825,6 +61418,7 @@
     "nl": "Shavian",
     "pt-BR": "shaviano",
     "ru": "алфавит Шоу",
+    "sl": "šojevski",
     "uk": "шоу"
   },
   "Sinh": {
@@ -60837,6 +61431,7 @@
     "ro": "singaleză",
     "ru": "сингальская",
     "sk": "sinhálske",
+    "sl": "sinhalski",
     "uk": "сингальська"
   },
   "Sund": {
@@ -60847,6 +61442,7 @@
     "nl": "Soendanees",
     "pt-BR": "sundanês",
     "ru": "сунданская",
+    "sl": "sundanski",
     "uk": "сунданський"
   },
   "Sylo": {
@@ -60857,6 +61453,7 @@
     "nl": "Syloti Nagri",
     "pt-BR": "syloti nagri",
     "ru": "силоти нагри",
+    "sl": "siletsko-nagarijski",
     "uk": "сілоті нагрі"
   },
   "Syrc": {
@@ -60868,6 +61465,7 @@
     "pt-BR": "siríaco",
     "ro": "siriacă",
     "ru": "сирийская",
+    "sl": "sirijski",
     "uk": "сирійський"
   },
   "Syre": {
@@ -60878,6 +61476,7 @@
     "nl": "Estrangelo Aramees",
     "pt-BR": "siríaco estrangelo",
     "ru": "сирийская эстрангело",
+    "sl": "sirska abeceda estrangelo",
     "uk": "давньосирійський естрангело"
   },
   "Syrj": {
@@ -60889,6 +61488,7 @@
     "pt-BR": "siríaco ocidental",
     "ro": "siriacă occidentală",
     "ru": "западносирийская",
+    "sl": "zahodnosirijski",
     "uk": "давньосирійський західний"
   },
   "Syrn": {
@@ -60900,6 +61500,7 @@
     "pt-BR": "siríaco oriental",
     "ro": "siriacă orientală",
     "ru": "восточно-сирийская",
+    "sl": "vzhodnosirijski",
     "uk": "давньосирійський східний"
   },
   "Tagb": {
@@ -60910,6 +61511,7 @@
     "nl": "Tagbanwa",
     "pt-BR": "tagbanwa",
     "ru": "тагбанва",
+    "sl": "tagbanski",
     "uk": "тагбанва"
   },
   "Tale": {
@@ -60942,6 +61544,7 @@
     "ro": "tamilă",
     "ru": "тамильская",
     "sk": "tamilské",
+    "sl": "tamilski",
     "uk": "тамільська"
   },
   "Tavt": {
@@ -60951,6 +61554,7 @@
     "nl": "Tai Viet",
     "pt-BR": "tavt",
     "ru": "тай-вьет",
+    "sl": "tajsko-vietnamski",
     "uk": "тай-вʼєт"
   },
   "Telu": {
@@ -60963,6 +61567,7 @@
     "ro": "telugu",
     "ru": "телугу",
     "sk": "telugské",
+    "sl": "teluški",
     "uk": "телугу"
   },
   "Teng": {
@@ -60973,6 +61578,7 @@
     "nl": "Tengwar",
     "pt-BR": "tengwar",
     "ru": "тенгварская",
+    "sl": "tengvarski",
     "uk": "тенгвар"
   },
   "Tfng": {
@@ -60984,6 +61590,7 @@
     "pt-BR": "tifinagh",
     "ro": "berberă",
     "ru": "древнеливийская",
+    "sl": "tifinajski",
     "uk": "тифінаг"
   },
   "Tglg": {
@@ -60994,6 +61601,7 @@
     "nl": "Tagalog",
     "pt-BR": "tagalo",
     "ru": "тагалог",
+    "sl": "tagaloški",
     "uk": "тагальський"
   },
   "Thaa": {
@@ -61006,6 +61614,7 @@
     "ro": "thaana",
     "ru": "тана",
     "sk": "tána",
+    "sl": "tanajski",
     "uk": "таана"
   },
   "Thai": {
@@ -61018,6 +61627,7 @@
     "ro": "thailandeză",
     "ru": "тайская",
     "sk": "thajské",
+    "sl": "tajski",
     "uk": "тайська"
   },
   "Tibt": {
@@ -61030,6 +61640,7 @@
     "ro": "tibetană",
     "ru": "тибетская",
     "sk": "tibetské",
+    "sl": "tibetanski",
     "uk": "тибетська"
   },
   "Ugar": {
@@ -61040,6 +61651,7 @@
     "nl": "Ugaritisch",
     "pt-BR": "ugarítico",
     "ru": "угаритская",
+    "sl": "ugaritski",
     "uk": "угаритський"
   },
   "Vaii": {
@@ -61050,6 +61662,7 @@
     "nl": "Vai",
     "pt-BR": "vai",
     "ru": "вайская",
+    "sl": "zlogovna pisava vai",
     "uk": "ваї"
   },
   "Visp": {
@@ -61060,6 +61673,7 @@
     "nl": "Zichtbare spraak",
     "pt-BR": "visible speech",
     "ru": "видимая речь",
+    "sl": "vidni govor",
     "uk": "видиме мовлення"
   },
   "Xpeo": {
@@ -61071,6 +61685,7 @@
     "pt-BR": "persa antigo",
     "ro": "persană veche",
     "ru": "староперсидская",
+    "sl": "staroperzijski",
     "uk": "давньоперський"
   },
   "Xsux": {
@@ -61082,6 +61697,7 @@
     "pt-BR": "sumério-acadiano cuneiforme",
     "ro": "cuneiformă sumero-akkadiană",
     "ru": "шумеро-аккадская клинопись",
+    "sl": "sumersko-akadski klinopis",
     "uk": "шумеро-аккадський клінопис"
   },
   "Yiii": {
