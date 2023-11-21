@@ -1,6 +1,6 @@
 {
   "application-menu": {
-    "quit-app": "Zapri Ezra Bible Aplikacijo".
+    "quit-app": "Zapri Ezra Bible Aplikacijo"
   },
   "menu": {
     "book": "Knjiga",
@@ -14,7 +14,7 @@
     "text-size": "Prilagodi velikost pisave vrstic",
     "text-size-decrease": "Zmanjšanje velikosti pisave",
     "text-size-reset": "Ponastavi privzeto velikost pisave",
-    "text-size-increase": "Povečaj velikost pisave".
+    "text-size-increase": "Povečaj velikost pisave"
   },
   "search-menu": {
     "search": "Iskanje",
@@ -102,7 +102,7 @@
       "select-module-to-be-removed": "Izberite {{module_type, accusative}}, ki ga želite odstraniti.",
       "disable-remove-note": "Ta {{module_type, singular}} ni nameščen v uporabnikovem imeniku ali pa je bistven za delovanje aplikacije Ezra Bible App.",
       "removing-modules": "Odstranjevanje {{module_type, accusative}}",
-      "removing": "Odstranjevanje".
+      "removing": "Odstranjevanje"
     },
     "unlock": {
       "module-lock-info": "Ta {{module_type, singular}} je licenčno zaščiten in zahteva nakup ključa za odklepanje pri lastniku vsebine!",
@@ -198,7 +198,7 @@
     "configure-translations": "Konfigurirajte prevode",
     "configure-dicts": "Konfigurirajte slovarje",
     "configure-commentaries": "Konfigurirajte komentarje",
-    "context": "Kontekst".
+    "context": "Kontekst"
   },
   "help": {
     "help-text-no-tags-book-opened": "Če želite začeti delati z oznakami, ustvarite svojo prvo oznako s klikom na gumb <i>Nova&nbspoznaka</i>.<br/><br/>Nato lahko brskate po svetopisemskem besedilu, kliknete ali povlečete in izberete vrstice in nato dodelite oznako, ki ste jo pravkar ustvarili.",
@@ -362,7 +362,7 @@
     "help-instruction-part3-cordova": "Dotaknite se posameznih besed ali besednih zvez in jih pridržite, dokler ne vidite vnosov v slovar tukaj.",
     "find-all-occurrences": "Poišči vse pojavitve",
     "open-in-blueletter": "Odpri v Blue Letter Bible",
-    "related-strongs": "Sorodne Strongove knjige".
+    "related-strongs": "Sorodne Strongove knjige"
   },
   "tag-statistics-panel": {
     "default-header": "Statistika oznak",
