@@ -185,7 +185,7 @@ class InfoPopup {
         <h2>${i18n.t("general.about-ezra-bible-app")}</h2>
         <p>${i18n.t("general.general-app-info")}</p>
 
-        Website: <a class='external' href='https://ezrabibleapp.net'>ezrabibleapp.net</a><br>
+        ${i18n.t("general.website")}: <a class='external' href='https://ezrabibleapp.net'>ezrabibleapp.net</a><br>
         GitHub: <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>github.com/ezra-bible-app/ezra-bible-app</a>
 
         <h2>${i18n.t("general.developers")}</h2>
