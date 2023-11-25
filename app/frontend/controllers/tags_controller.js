@@ -1397,7 +1397,7 @@ class TagsController {
       tags_controller.verse_selection_blocked = false;
     }, 300);
 
-    var versesSelected = app_controller.verse_selection.selected_verse_box_elements.length > 0;
+    var versesSelected = app_controller.verse_selection.getSelectedVerseBoxes().length > 0;
     var selected_verse_tags = [];
 
     if (versesSelected) { // Verses are selected
