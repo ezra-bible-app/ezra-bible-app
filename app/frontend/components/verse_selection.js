@@ -24,7 +24,8 @@ const { getPlatform } = require('../helpers/ezra_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
- * The VerseSelection component implements the label that shows the currently selected verses.
+ * The VerseSelection component implements the label that shows the currently selected verses 
+ * and it provides an API and an event (on-verses-selected) that other components can use to get the current verse selection.
  * 
  * @category Component
  */
