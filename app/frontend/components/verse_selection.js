@@ -23,6 +23,7 @@ const eventController = require('../controllers/event_controller.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 
+
 /**
  * The VerseSelection component implements the label that shows the currently selected verses 
  * and it provides an API and an event (on-verses-selected) that other components can use to get the current verse selection.
@@ -31,12 +32,13 @@ const verseListController = require('../controllers/verse_list_controller.js');
  */
 class VerseSelection {
   constructor() {
-    this.selected_verse_references = null;
-    this.selected_verse_box_elements = [];
-    this.previous_selection_existing = false;
+    this.selectedVerseBoxElements = [];
+    this.selectedVerseReferences = null;
+    this.previousSelectionExisting = false;
     this.previousFirstVerseReference = null;
     this.previousVerseCount = null;
     this.verseReferenceHelper = null;
+    this.previousSelectionIndex = -1;
 
     eventController.subscribe('on-locale-changed', async () => {
       await this.updateSelectedVersesLabel();
@@ -56,7 +58,7 @@ class VerseSelection {
   }
 
   getSelectedVerseBoxes() {
-    return this.selected_verse_box_elements;
+    return this.selectedVerseBoxElements;
   }
 
   initHelper(nsi) {
@@ -78,8 +80,8 @@ class VerseSelection {
         // If one of these keys is pressed that indicates that the user wants to select individual non-consecutive verses.
         // And in this case the start event is fired for each individual verse.
         if (event.metaKey == false && event.ctrlKey == false) {
-          this.selected_verse_references = new Array;
-          this.selected_verse_box_elements = new Array;
+          this.selectedVerseReferences = new Array;
+          this.selectedVerseBoxElements = new Array;
         }
 
         app_controller.handleBodyClick(event);
@@ -90,27 +92,57 @@ class VerseSelection {
         this.updateSelected(verseList);
 
         let currentFirstVerseReference = this.getFirstSelectedVerseReferenceId();
-        let currentVerseCount = this.selected_verse_box_elements.length;
+        let currentVerseCount = this.selectedVerseBoxElements.length;
 
-        if (this.previous_selection_existing && 
+        if (this.previousSelectionExisting && 
             currentFirstVerseReference == this.previousFirstVerseReference &&
             currentVerseCount == this.previousVerseCount) {
 
           this.clearVerseSelection(true, undefined);
           this.updateViewsAfterVerseSelection();
-          this.previous_selection_existing = false;
+          this.previousSelectionExisting = false;
         } else {
           this.updateViewsAfterVerseSelection();
           this.publishVersesSelected();
-          this.previous_selection_existing = true;
+          this.previousSelectionExisting = true;
 
-          if (this.selected_verse_box_elements.length > 0) {
+          if (this.selectedVerseBoxElements.length > 0) {
             this.previousFirstVerseReference = this.getFirstSelectedVerseReferenceId();
-            this.previousVerseCount = this.selected_verse_box_elements.length;
+            this.previousVerseCount = this.selectedVerseBoxElements.length;
           } else {
             this.previousVerseCount = 0;
             this.previousFirstVerseReference = null;
           }
+        }
+      },
+
+      // Solution taken from https://stackoverflow.com/a/14469388/1269556
+      // This implements shift-based selection
+      // (adding verses between the first clicked verse and the last clicked verse while holding shift)
+      selecting: (e, ui) => { // on select
+        let currentSelectionIndex = $(ui.selecting.tagName, e.target).index(ui.selecting); // get selecting item index
+
+        if (this.previousVerseCount != null && this.previousVerseCount > 1) {
+          currentSelectionIndex = currentSelectionIndex - this.previousVerseCount;
+        }
+
+        // if shift key was pressed and there is a previous selection - select all verses between the two clicked verses
+        if(e.shiftKey && this.previousSelectionIndex > -1) { 
+          let startIndex = Math.min(this.previousSelectionIndex, currentSelectionIndex) - 5;
+          let endIndex = Math.max(this.previousSelectionIndex, currentSelectionIndex) + 5;
+          let $selectedElements = $(ui.selecting.tagName, e.target).slice(startIndex, endIndex);
+
+          for (let i = 0; i < $selectedElements.length; i++) {
+            let currentElement = $selectedElements[i];
+
+            if (currentElement.classList.contains('verse-text')) {
+              currentElement.classList.add('ui-selected');
+            }
+          }
+
+          this.previousSelectionIndex = -1; // and reset previousSelection
+        } else {
+          this.previousSelectionIndex = currentSelectionIndex; // othervise just save previousSelection
         }
       },
 
@@ -122,8 +154,8 @@ class VerseSelection {
   }
 
   getFirstSelectedVerseReferenceId() {
-    if (this.selected_verse_box_elements != null && this.selected_verse_box_elements.length > 0) {
-      return this.selected_verse_box_elements[0].getAttribute('verse-reference-id');
+    if (this.selectedVerseBoxElements != null && this.selectedVerseBoxElements.length > 0) {
+      return this.selectedVerseBoxElements[0].getAttribute('verse-reference-id');
     } else {
       return null;
     }
@@ -131,7 +163,7 @@ class VerseSelection {
 
   publishVersesSelected(tabIndex=undefined) {
     eventController.publishAsync('on-verses-selected', {
-      'selectedElements': this.selected_verse_box_elements,
+      'selectedElements': this.selectedVerseBoxElements,
       'selectedVerseTags': this.getCurrentSelectionTags(),
       'tabIndex': tabIndex
     });
@@ -155,7 +187,7 @@ class VerseSelection {
   }
 
   versesSelected() {
-    return this.selected_verse_box_elements.length > 0;
+    return this.selectedVerseBoxElements.length > 0;
   }
 
   getVerseReferenceFromAnchor(anchorText) {
@@ -169,7 +201,7 @@ class VerseSelection {
       this.clearVerseSelection(false, undefined);
       verseText.classList.add('ui-selected');
       verseText.classList.add('ui-selectee');
-      this.selected_verse_box_elements.push(verseText);
+      this.selectedVerseBoxElements.push(verseText);
 
       this.updateSelected();
       this.updateViewsAfterVerseSelection();
@@ -182,22 +214,23 @@ class VerseSelection {
       verseList = verseListController.getCurrentVerseList();
     }
 
-    this.selected_verse_box_elements = verseList.find('.ui-selected').closest('.verse-box');
+    this.selectedVerseBoxElements = verseList.find('.ui-selected').closest('.verse-box');
     var selectedVerseReferences = [];
 
-    for (var i = 0; i < this.selected_verse_box_elements.length; i++) {
-      var verseBox = $(this.selected_verse_box_elements[i]);
+    for (var i = 0; i < this.selectedVerseBoxElements.length; i++) {
+      var verseBox = $(this.selectedVerseBoxElements[i]);
       var currentVerseReferenceAnchor = verseBox.find('a:first').attr('name');
       var currentVerseReference = this.getVerseReferenceFromAnchor(currentVerseReferenceAnchor);
       selectedVerseReferences.push(currentVerseReference);
     }
 
-    this.selected_verse_references = selectedVerseReferences;
+    this.selectedVerseReferences = selectedVerseReferences;
   }
 
   clearVerseSelection(updateViews=true, tabIndex=undefined) {
-    this.selected_verse_references = new Array;
-    this.selected_verse_box_elements = new Array;
+    this.previousSelectionIndex = -1;
+    this.selectedVerseReferences = new Array;
+    this.selectedVerseBoxElements = new Array;
 
     var verseList = verseListController.getCurrentVerseList(tabIndex);
     verseList[0].querySelectorAll('.ui-selected').forEach((verseText) => {
@@ -215,8 +248,8 @@ class VerseSelection {
   async getSelectedBooks() {
     var selectedBooks = [];
 
-    for (var i = 0; i < this.selected_verse_box_elements.length; i++) {
-      var currentVerseBox = this.selected_verse_box_elements[i];
+    for (var i = 0; i < this.selectedVerseBoxElements.length; i++) {
+      var currentVerseBox = this.selectedVerseBoxElements[i];
       var currentBookShortName = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
       if (!selectedBooks.includes(currentBookShortName)) {
@@ -235,8 +268,8 @@ class VerseSelection {
       var currentBookShortName = selectedBooks[i];
       var currentBookVerseReferences = [];
       
-      for (var j = 0; j < this.selected_verse_box_elements.length; j++) {
-        var currentVerseBox = this.selected_verse_box_elements[j];
+      for (var j = 0; j < this.selectedVerseBoxElements.length; j++) {
+        var currentVerseBox = this.selectedVerseBoxElements[j];
 
         var currentVerseBibleBookShortName = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
@@ -442,14 +475,14 @@ class VerseSelection {
   }
 
   current_verse_selection_as_xml() {
-    var selected_verse_elements = this.selected_verse_box_elements;
+    var selected_verse_elements = this.selectedVerseBoxElements;
 
     return (this.element_list_to_xml_verse_list(selected_verse_elements));
   }
 
   current_verse_selection_as_verse_reference_ids() {
     var selected_verse_ids = new Array;
-    var selected_verse_elements = this.selected_verse_box_elements;
+    var selected_verse_elements = this.selectedVerseBoxElements;
     
     for (var i = 0; i < selected_verse_elements.length; i++) {
       var verse_box_element = selected_verse_elements[i];
@@ -475,7 +508,7 @@ class VerseSelection {
     var selectedVersesLabelText = selectedVersesLabel.text();
     var allSearchResultsText = i18n.t('bible-browser.all-search-results');
     var someSearchResultsText = i18n.t('bible-browser.some-search-results');
-    var selectedVerseReferenceCount = this.selected_verse_references.length;
+    var selectedVerseReferenceCount = this.selectedVerseReferences.length;
 
     if ((selectedVersesLabelText == allSearchResultsText || selectedVersesLabelText == someSearchResultsText) && selectedVerseReferenceCount > 1 && !preDefinedText) {
       selectedVerseDisplayText = i18n.t('bible-browser.some-search-results');
@@ -515,7 +548,7 @@ class VerseSelection {
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
     
-    var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    var selectedVerseBoxes = this.selectedVerseBoxElements;
     
     var selectedText = "";
     const selectionHasMultipleVerses = selectedVerseBoxes.length > 1;
@@ -559,12 +592,12 @@ class VerseSelection {
   getCurrentSelectionTags() {
     var verse_selection_tags = new Array;
 
-    if (this.selected_verse_box_elements == null) {
+    if (this.selectedVerseBoxElements == null) {
       return verse_selection_tags;
     }
 
-    for (let i = 0; i < this.selected_verse_box_elements.length; i++) {
-      let current_verse_box = $(this.selected_verse_box_elements[i]);
+    for (let i = 0; i < this.selectedVerseBoxElements.length; i++) {
+      let current_verse_box = $(this.selectedVerseBoxElements[i]);
       let current_tag_list = current_verse_box.find('.tag-data').children();
 
       for (let j = 0; j < current_tag_list.length; j++) {
@@ -599,14 +632,14 @@ class VerseSelection {
 
     for (let i = 0; i < verse_selection_tags.length; i++) {
       let current_tag_obj = verse_selection_tags[i];
-      current_tag_obj.complete = (current_tag_obj.count == this.selected_verse_box_elements.length);
+      current_tag_obj.complete = (current_tag_obj.count == this.selectedVerseBoxElements.length);
     }
 
     return verse_selection_tags;
   }
 
   getSelectedElements() {
-    return this.selected_verse_box_elements;
+    return this.selectedVerseBoxElements;
   }
 }
 
