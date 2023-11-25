@@ -658,15 +658,7 @@ class ModuleSearchController {
   }
 
   selectAllSearchResults() {
-    var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
-
-    var allVerseTextElements = currentVerseListFrame[0].querySelectorAll('.verse-text');
-    allVerseTextElements.forEach((verseTextElement) => {
-      verseTextElement.classList.add('ui-selected');
-    });
-
-    app_controller.verse_selection.updateSelected();
-    app_controller.verse_selection.updateViewsAfterVerseSelection(i18n.t('bible-browser.all-search-results'));
+    verseListController.selectAllVerses('bible-browser.all-search-results');
   }
 
   getBibleBookStatsFromSearchResults(search_results) {
