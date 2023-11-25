@@ -882,7 +882,7 @@ class TagsController {
   }
 
   async clickCheckBoxTag(checkboxTag) {
-    var current_verse_list = app_controller.verse_selection.selected_verse_references;
+    var current_verse_list = app_controller.verse_selection.selectedVerseReferences;
 
     if (!tags_controller.is_blocked && current_verse_list.length > 0) {
       this.toggleTagButton(checkboxTag);
@@ -920,7 +920,7 @@ class TagsController {
   }
 
   async handleCheckboxTagStateChange(checkboxTag) {
-    var current_verse_list = app_controller.verse_selection.selected_verse_references;
+    var current_verse_list = app_controller.verse_selection.selectedVerseReferences;
 
     if (tags_controller.is_blocked || current_verse_list.length == 0) {
       return;
