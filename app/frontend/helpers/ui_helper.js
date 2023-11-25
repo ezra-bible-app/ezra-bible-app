@@ -264,6 +264,31 @@ class UiHelper {
       }
     }
   }
+
+  addButton(containerElement, cssClass, localeId, onClickFunction, isDisabled=false) {
+    let button = document.createElement('button');
+    button.setAttribute('style', 'margin: 0.5em;');
+    button.classList.add(cssClass);
+    button.classList.add('fg-button');
+    button.classList.add('ui-corner-all');
+    button.classList.add('ui-state-default');
+    
+    if (isDisabled) {
+      button.classList.add('ui-state-disabled');
+    }
+
+    button.innerText = i18n.t(localeId);
+    button.setAttribute('i18n', localeId);
+    containerElement.append(button);
+
+    button.onclick = () => {
+      if (button.classList.contains('ui-state-disabled')){
+        return;
+      }
+      
+      onClickFunction();
+    };
+  }
 }
 
 module.exports = UiHelper;

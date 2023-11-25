@@ -634,21 +634,12 @@ class ModuleSearchController {
     moduleSearchHeader.html(header);
 
     if (!showSearchResultsInPopup && currentSearchResults != null && currentSearchResults.length > 0) {
-      var selectAllSearchResultsButton = document.createElement('button');
-      selectAllSearchResultsButton.setAttribute('style', 'margin: 0.5em;');
-      selectAllSearchResultsButton.classList.add('select-all-search-results-button');
-      selectAllSearchResultsButton.classList.add('fg-button');
-      selectAllSearchResultsButton.classList.add('ui-corner-all');
-      selectAllSearchResultsButton.classList.add('ui-state-default');
-      if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
-        selectAllSearchResultsButton.classList.add('ui-state-disabled');
-      }
+      uiHelper.addButton(moduleSearchHeader,
+                         'select-all-search-results-button',
+                         'bible-browser.select-all-search-results',
+                         this.selectAllSearchResults,
+                         this.searchResultsExceedPerformanceLimit(tabIndex));
 
-      selectAllSearchResultsButton.innerText = i18n.t('bible-browser.select-all-search-results');
-      selectAllSearchResultsButton.setAttribute('i18n', 'bible-browser.select-all-search-results');
-      moduleSearchHeader.append(selectAllSearchResultsButton);
-
-      selectAllSearchResultsButton.onclick = this.selectAllSearchResults;
       uiHelper.configureButtonStyles('.verse-list-header');
     }
 
