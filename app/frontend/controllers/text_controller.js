@@ -755,7 +755,7 @@ class TextController {
       }
 
       uiHelper.addButton(selectAllVersesButtonContainer, 'select-all-verses-button', 'bible-browser.select-all-verses', () => {
-        verseListController.selectAllVerses('bible-browser.all-search-results');
+        verseListController.selectAllVerses('bible-browser.all-verses');
       });
 
       uiHelper.configureButtonStyles('select-all-verses-button');
