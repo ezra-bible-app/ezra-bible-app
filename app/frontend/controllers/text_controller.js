@@ -741,13 +741,24 @@ class TextController {
         app_controller.docxExport.enableExportButton(tabIndex, 'TAGS');
       }
 
-      if (!currentTab.hasReferenceVerse()) {
-        var tagTitleList = currentTab.getTagTitleList();
-        var headerText = `<h2><span i18n="tags.verses-tagged-with">${i18n.t('tags.verses-tagged-with')}</span> <i>${tagTitleList}</i></h2>`;
-        var verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
+      let verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
+      let selectAllVersesButtonContainer = verseListHeader[0];
+
+      if (currentTab.hasReferenceVerse()) {
+        let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
+        selectAllVersesButtonContainer = verseListFrame.find('.reference-verse');
+      } else {
+        let tagTitleList = currentTab.getTagTitleList();
+        let headerText = `<h2><span i18n="tags.verses-tagged-with">${i18n.t('tags.verses-tagged-with')}</span> <i>${tagTitleList}</i></h2>`;
         verseListHeader.html(headerText);
         verseListHeader.show();
       }
+
+      uiHelper.addButton(selectAllVersesButtonContainer, 'select-all-verses-button', 'bible-browser.select-all-verses', () => {
+        verseListController.selectAllVerses('bible-browser.all-search-results');
+      });
+
+      uiHelper.configureButtonStyles('select-all-verses-button');
 
       target.removeClass('verse-list-book');
 
@@ -848,6 +859,10 @@ class TextController {
 
       uiHelper.hideTextLoadingIndicator();
     }
+  }
+
+  selectAllVerses() {
+
   }
 }
 
