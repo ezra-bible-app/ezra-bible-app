@@ -811,9 +811,9 @@ class TextController {
 
       if (listType == 'tagged_verses') {
         let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
-        let verseList = verseListController.getCurrentVerseList(tabIndex)[0];
         let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
-        tagDistributionMatrix.input = verseList;
+        let verseList = verseListController.getCurrentVerseList(tabIndex)[0];
+        await tagDistributionMatrix.setInputAndRefresh(verseList, tabIndex);
 
         let tagDistributionMatrixWrapper = verseListFrame.find('.tag-distribution-matrix-wrapper')[0];
         tagDistributionMatrixWrapper.style.removeProperty('display');
@@ -826,7 +826,7 @@ class TextController {
 
       let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
       let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
-      tagDistributionMatrix.input = '';
+      tagDistributionMatrix.reset();
 
       let tagDistributionMatrixWrapper = verseListFrame.find('.tag-distribution-matrix-wrapper')[0];
       tagDistributionMatrixWrapper.style.display = 'none';
