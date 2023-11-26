@@ -649,7 +649,7 @@ class ModuleSearchController {
   }
 
   selectAllSearchResults() {
-    verseListController.selectAllVerses('bible-browser.all-search-results');
+    app_controller.verse_selection.selectAllVerses('bible-browser.all-search-results');
   }
 
   getBibleBookStatsFromSearchResults(search_results) {

@@ -532,15 +532,3 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
     }
   });
 };
-
-module.exports.selectAllVerses = function(selectionLocaleText) {
-  const currentVerseList = this.getCurrentVerseList();
-
-  let allVerseTextElements = currentVerseList[0].querySelectorAll('.verse-text');
-  allVerseTextElements.forEach((verseTextElement) => {
-    verseTextElement.classList.add('ui-selected');
-  });
-
-  app_controller.verse_selection.updateSelected();
-  app_controller.verse_selection.updateViewsAfterVerseSelection(i18n.t(selectionLocaleText));
-};

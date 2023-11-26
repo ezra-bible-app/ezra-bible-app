@@ -321,15 +321,7 @@ class AppController {
     });
 
     Mousetrap.bind(selectAllShortCut, () => {
-      let currentTab = app_controller.tab_controller.getTab();
-      let textType = currentTab.getTextType();
-      
-      if (textType == 'search_results') {
-        this.module_search_controller.selectAllSearchResults();
-      } else if (textType == 'tagged_verses') {
-        this.text_controller.selectAllVerses();
-      }
-
+      this.selectAllVerses();
       return false;
     });
 
@@ -357,6 +349,17 @@ class AppController {
       currentTab.tab_search.jumpToNextOccurance(false);
       return false;
     });
+  }
+
+  selectAllVerses() {
+    let currentTab = app_controller.tab_controller.getTab();
+    let textType = currentTab.getTextType();
+    
+    if (textType == 'search_results') {
+      this.module_search_controller.selectAllSearchResults();
+    } else if (textType == 'tagged_verses') {
+      this.text_controller.selectAllVerses();
+    }
   }
 
   getCurrentVerseListTabs(tabIndex=undefined) {
