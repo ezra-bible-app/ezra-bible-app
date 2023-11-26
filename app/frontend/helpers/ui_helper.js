@@ -33,7 +33,8 @@ class UiHelper {
       throw new Error('context should be HTMLElement, css selector string or null for the document context');
     }
   
-    var buttons = context.querySelectorAll('.fg-button');
+    if (context == null) { return; }
+    let buttons = context.querySelectorAll('.fg-button');
   
     for (let i = 0; i < buttons.length; i++) {
       const currentButton = buttons[i];
