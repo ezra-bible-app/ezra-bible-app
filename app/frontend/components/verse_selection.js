@@ -23,6 +23,7 @@ const eventController = require('../controllers/event_controller.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 
+const MAX_VERSES_FOR_DETAILED_LABEL = 5;
 
 /**
  * The VerseSelection component implements the label that shows the currently selected verses 
@@ -41,7 +42,35 @@ class VerseSelection {
     this.previousSelectionIndex = -1;
 
     eventController.subscribe('on-locale-changed', async () => {
-      await this.updateSelectedVersesLabel();
+      let currentTab = app_controller.tab_controller.getTab();
+      let textType = currentTab.getTextType();
+
+      if (textType != 'tagged_verses' && textType != 'search_results') {
+        await this.updateSelectedVersesLabel();
+      }
+
+      if (this.allVersesSelected() || this.someVersesSelected()) {
+        let selectionLocaleText = '';
+        
+        if (textType == 'search_results') {
+
+          if (this.allVersesSelected()) {
+            selectionLocaleText = 'bible-browser.all-search-results';
+          } else if (this.someVersesSelected()) {
+            selectionLocaleText = 'bible-browser.some-search-results';
+          }
+        } else if (textType == 'tagged_verses') {
+
+          if (this.allVersesSelected()) {
+            selectionLocaleText = 'bible-browser.all-verses';
+          } else if (this.someVersesSelected()) {
+            selectionLocaleText = 'bible-browser.all-verses';
+          }
+        }
+
+        this.updateSelected();
+        this.updateViewsAfterVerseSelection(i18n.t(selectionLocaleText));
+      }
     });
 
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
@@ -498,10 +527,12 @@ class VerseSelection {
   async getSelectedVerseLabelText(selectedVerseDisplayText=undefined) {
     var preDefinedText = false;
 
-    if (selectedVerseDisplayText == undefined) {
-      selectedVerseDisplayText = await this.getSelectedVerseDisplayText();
-    } else {
-      preDefinedText = true;
+    if (!this.someVersesSelected()) {
+      if (selectedVerseDisplayText == undefined && !this.someVersesSelected()) {
+        selectedVerseDisplayText = await this.getSelectedVerseDisplayText();
+      } else {
+        preDefinedText = true;
+      }
     }
 
     var selectedVersesLabel = this.getSelectedVersesLabel();
@@ -640,6 +671,35 @@ class VerseSelection {
 
   getSelectedElements() {
     return this.selectedVerseBoxElements;
+  }
+
+  selectAllVerses(selectionLocaleText) {
+    const currentVerseList = verseListController.getCurrentVerseList();
+
+    let allVerseTextElements = currentVerseList[0].querySelectorAll('.verse-text');
+    allVerseTextElements.forEach((verseTextElement) => {
+      verseTextElement.classList.add('ui-selected');
+    });
+
+    this.updateSelected();
+    this.updateViewsAfterVerseSelection(i18n.t(selectionLocaleText));
+  }
+
+  allVersesSelected() {
+    const currentVerseList = verseListController.getCurrentVerseList();
+
+    let allVerseTextElements = currentVerseList[0].querySelectorAll('.verse-text');
+    let allSelectedElements = currentVerseList[0].querySelectorAll('.ui-selected');
+
+    return allVerseTextElements.length == allSelectedElements.length != 0;
+  }
+
+  someVersesSelected() {
+    const currentVerseList = verseListController.getCurrentVerseList();
+
+    let allSelectedElements = currentVerseList[0].querySelectorAll('.ui-selected');
+
+    return allSelectedElements.length > MAX_VERSES_FOR_DETAILED_LABEL;
   }
 }
 

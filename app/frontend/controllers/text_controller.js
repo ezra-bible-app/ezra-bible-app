@@ -862,7 +862,7 @@ class TextController {
   }
 
   selectAllVerses() {
-    verseListController.selectAllVerses('bible-browser.all-verses');
+    app_controller.verse_selection.selectAllVerses('bible-browser.all-verses');
   }
 }
 
