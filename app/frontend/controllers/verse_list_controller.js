@@ -249,7 +249,7 @@ module.exports.resetVerseListView = function() {
 
   let verseListFrame = this.getCurrentVerseListFrame();
   let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
-  tagDistributionMatrix.input = '';
+  tagDistributionMatrix.reset();
 
   app_controller.docxExport.disableExportButton();
 };
