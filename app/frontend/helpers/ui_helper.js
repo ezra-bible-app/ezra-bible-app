@@ -268,7 +268,6 @@ class UiHelper {
 
   addButton(containerElement, cssClass, localeId, onClickFunction, isDisabled=false) {
     let button = document.createElement('button');
-    button.setAttribute('style', 'margin: 0.5em;');
     button.classList.add(cssClass);
     button.classList.add('fg-button');
     button.classList.add('ui-corner-all');
@@ -282,13 +281,13 @@ class UiHelper {
     button.setAttribute('i18n', localeId);
     containerElement.append(button);
 
-    button.onclick = () => {
+    button.addEventListener('click', () => {
       if (button.classList.contains('ui-state-disabled')){
         return;
       }
       
       onClickFunction();
-    };
+    });
   }
 }
 
