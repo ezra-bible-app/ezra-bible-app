@@ -534,9 +534,9 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
 };
 
 module.exports.selectAllVerses = function(selectionLocaleText) {
-  const currentVerseListFrame = this.getCurrentVerseListFrame();
+  const currentVerseList = this.getCurrentVerseList();
 
-  let allVerseTextElements = currentVerseListFrame[0].querySelectorAll('.verse-text');
+  let allVerseTextElements = currentVerseList[0].querySelectorAll('.verse-text');
   allVerseTextElements.forEach((verseTextElement) => {
     verseTextElement.classList.add('ui-selected');
   });
