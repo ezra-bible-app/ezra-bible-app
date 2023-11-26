@@ -310,6 +310,8 @@
     "select-all-search-results": "Вибрати всі результати пошуку",
     "all-search-results": "Усі результати пошуку",
     "some-search-results": "Деякі результати пошуку",
+    "select-all-verses": "Select all verses",
+    "all-verses": "All verses",
     "module-configuration": "Керування модулями",
     "display": "Параметри відображення",
     "text-options": "Параметри тексту",
