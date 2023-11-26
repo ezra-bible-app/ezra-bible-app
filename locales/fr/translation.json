@@ -319,6 +319,8 @@
     "select-all-search-results": "Sélectionner tous les résultats de recherche",
     "all-search-results": "Tous les résultats de recherche",
     "some-search-results": "Quelques résultats de recherche",
+    "select-all-verses": "Select all verses",
+    "all-verses": "All verses",
     "module-configuration": "Configuration du module",
     "display": "Affichage",
     "text-options": "Options de texte",

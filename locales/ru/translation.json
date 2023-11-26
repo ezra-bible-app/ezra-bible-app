@@ -312,6 +312,8 @@
     "select-all-search-results": "Выбрать все результаты поиска",
     "all-search-results": "Все результаты поиска",
     "some-search-results": "Некоторые результаты поиска",
+    "select-all-verses": "Select all verses",
+    "all-verses": "All verses",
     "module-configuration": "Конфигурация модулей",
     "display": "Параметры отображения",
     "text-options": "Параметры текста",
