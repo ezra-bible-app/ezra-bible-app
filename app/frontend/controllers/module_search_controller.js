@@ -635,7 +635,7 @@ class ModuleSearchController {
 
     if (!showSearchResultsInPopup && currentSearchResults != null && currentSearchResults.length > 0) {
       uiHelper.addButton(moduleSearchHeader,
-                         'select-all-search-results-button',
+                         'select-all-verses-button',
                          'bible-browser.select-all-search-results',
                          this.selectAllSearchResults,
                          this.searchResultsExceedPerformanceLimit(tabIndex));
