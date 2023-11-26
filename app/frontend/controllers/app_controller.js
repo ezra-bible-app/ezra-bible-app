@@ -293,7 +293,7 @@ class AppController {
   }
 
   initGlobalShortCuts() {
-    var shortCut = 'ctrl+c';
+    let shortCut = 'ctrl+c';
     if (platformHelper.isMac()) {
       shortCut = 'command+c';
     }
@@ -303,26 +303,44 @@ class AppController {
       return false;
     });
 
-    var searchShortCut = 'ctrl+f';
+    let searchShortCut = 'ctrl+f';
     if (platformHelper.isMac()) {
       searchShortCut = 'command+f';
     }
 
+    let selectAllShortCut = 'ctrl+a';
+    if (platformHelper.isMac()) {
+      selectAllShortCut = 'command+a';
+    }
+
     Mousetrap.bind(searchShortCut, () => {
-      var currentTab = app_controller.tab_controller.getTab();
+      let currentTab = app_controller.tab_controller.getTab();
       currentTab.tab_search.show();
       currentTab.tab_search.focus();
       return false;
     });
 
+    Mousetrap.bind(selectAllShortCut, () => {
+      let currentTab = app_controller.tab_controller.getTab();
+      let textType = currentTab.getTextType();
+      
+      if (textType == 'search_results') {
+        this.module_search_controller.selectAllSearchResults();
+      } else if (textType == 'tagged_verses') {
+        this.text_controller.selectAllVerses();
+      }
+
+      return false;
+    });
+
     Mousetrap.bind('esc', () => {
-      var currentTab = app_controller.tab_controller.getTab();
+      let currentTab = app_controller.tab_controller.getTab();
       currentTab.tab_search.resetSearch();
       return false;
     });
 
     Mousetrap.bind('enter', () => {
-      var currentTab = app_controller.tab_controller.getTab();
+      let currentTab = app_controller.tab_controller.getTab();
       // We need to notify the TabSearch component that there has been a mouse trap event.
       // This is to avoid double event processing, because the TabSearch also listens for key press events.
       currentTab.tab_search.mouseTrapEvent = true;
@@ -331,7 +349,7 @@ class AppController {
     });
 
     Mousetrap.bind('shift+enter', () => {
-      var currentTab = app_controller.tab_controller.getTab();
+      let currentTab = app_controller.tab_controller.getTab();
       // We need to notify the TabSearch component that there has been a mouse trap event.
       // This is to avoid double event processing, because the TabSearch also listens for key press events.
       currentTab.tab_search.mouseTrapEvent = true;
