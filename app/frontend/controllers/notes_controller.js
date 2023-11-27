@@ -216,7 +216,7 @@ class NotesController {
   }
 
   editVerseNotesForCurrentlySelectedVerse() {
-    const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
     const firstVerseBox = selectedVerseBoxes[0];
 
     if (firstVerseBox != null) {
@@ -226,7 +226,7 @@ class NotesController {
   }
 
   deleteVerseNotesForCurrentlySelectedVerse() {
-    const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
     const firstVerseBox = selectedVerseBoxes[0];
 
     if (firstVerseBox != null) {
