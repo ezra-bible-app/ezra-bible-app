@@ -134,10 +134,14 @@ class CommentaryPanel {
 
     let panelHeader = document.getElementById('commentary-panel-header');
     let panelTitle = "";
+    let selectedVerseBoxElements = null;
+   
+    if (app_controller.verse_selection != null) {
+      selectedVerseBoxElements = app_controller.verse_selection.getSelectedVerseBoxes();
+    }
 
-    if (app_controller.verse_selection != null &&
-        app_controller.verse_selection.selected_verse_box_elements != null &&
-        app_controller.verse_selection.selected_verse_box_elements.length > 0) {
+    if (selectedVerseBoxElements != null &&
+        selectedVerseBoxElements.length > 0) {
 
       panelTitle = i18n.t("commentary-panel.commentaries-for") + " " + 
         await app_controller.verse_selection.getSelectedVerseLabelText();

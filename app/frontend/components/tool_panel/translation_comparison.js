@@ -91,7 +91,7 @@ class TranslationComparison {
     }
 
     var sourceTranslationId = tab.getBibleTranslationId();
-    var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    var selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
     var compareTranslationContent = "<table style='width: 100%;'>";
     var allTranslations = await ipcNsi.getAllLocalModules();
 
@@ -179,10 +179,14 @@ class TranslationComparison {
     var panelHeader = document.getElementById('compare-panel-header');
     var helpBox = this.getHelpBox();
     var panelTitle = "";
+    let selectedVerseBoxElements = null;
+   
+    if (app_controller.verse_selection != null) {
+      selectedVerseBoxElements = app_controller.verse_selection.getSelectedVerseBoxes();
+    }
 
-    if (app_controller.verse_selection != null &&
-        app_controller.verse_selection.selected_verse_box_elements != null &&
-        app_controller.verse_selection.selected_verse_box_elements.length > 0) {
+    if (selectedVerseBoxElements != null &&
+        selectedVerseBoxElements.length > 0) {
 
       panelTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
         await app_controller.verse_selection.getSelectedVerseLabelText();
