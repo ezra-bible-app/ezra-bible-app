@@ -47,7 +47,7 @@ class VerseContextController {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
     var current_reference = null;
-    let selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes;
+    let selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
 
     if (viaMouseOver) {
 
