@@ -6,6 +6,7 @@
     "book": "Buch",
     "tags": "Tags",
     "search": "Suche",
+    "verse-context-actions": "Verse context actions",
     "options": "Optionen",
     "export": "Exportieren in Textdokument",
     "show-module-info": "Modulinfos zeigen",
