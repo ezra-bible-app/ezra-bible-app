@@ -103,7 +103,7 @@
     "simple-emoji-button": "^4.6.2",
     "sqlite3": "^5.0.2",
     "strongs": "^1.0.2",
-    "umzug": "^2.3.0"
+    "umzug": "^3.4.0"
   },
   "devDependencies": {
     "@electron/notarize": "^2.2.0",
