@@ -233,13 +233,7 @@
 
 #dictionary-panel-content .strongs-definition {
   margin-top: 0;
-  font-size: 110%;
-  white-space: pre-wrap;
   color: black;
-}
-
-.OSX #dictionary-panel-content .strongs-definition {
-  font-size: 120%;
 }
 
 .darkmode--activated #dictionary-panel-content .strongs-definition {
