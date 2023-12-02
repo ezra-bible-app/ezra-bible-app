@@ -368,7 +368,7 @@ class DictionaryInfoBox {
       <div class='bold' style='margin-bottom: 1em'>Strong's
       ${moduleInfoButton} 
       </div>
-      <pre class='strongs-definition'>${strongsEntry.definition}</pre>
+      <div class='strongs-definition'>${strongsEntry.definition}</div>
       ${relatedStrongsContent}`;
 
     return extendedStrongsInfo;
