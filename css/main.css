@@ -578,14 +578,6 @@ a.chapter-nav:hover {
   display: none;
 }
 
-.verse-list-without-xrefs .sword-xref-marker {
-  display: none;
-}
-
-.verse-list-without-footnotes .sword-note-marker {
-  display: none;
-}
-
 .verse-list-without-user-data-indicators .notes-info,
 .verse-list-without-user-data-indicators .tag-info {
   display: none;
@@ -1756,36 +1748,6 @@ body:not(.darkmode--activated) .tab-search-occurances {
   background-color: forestgreen;
 }
 
-/* Sword markup disabled by default */
-.sword-markup {
-  display: none;
-}
-
-.sword-quote-jesus {
-  display: unset;
-}
-
-.verse-list-with-red-letters .sword-quote-jesus {
-  color: var(--text-color-red);
-}
-
-.darkmode--activated .verse-list-with-red-letters .sword-quote-jesus {
-  color: var(--text-color-red-darkmode);
-}
-
-.verse-list.verse-list-with-paragraphs .sword-paragraph-end {
-  margin-bottom: 4em;
-  display: block !important;
-}
-
-/* This element only occurs in the NA28 sword module */
-s {
-  text-decoration: none;
-}
-
-.rtl {
-  direction: rtl;
-}
 
 tr.compare-translation-row:nth-child(odd) {
   background-color: var(--background-color-darker);
@@ -1825,22 +1787,6 @@ tr.compare-translation-row:nth-child(odd) {
   user-select: none;
   position: fixed;
   color: var(--text-color);
-}
-
-.strongs-hl {
-  background-color: var(--highlight-bg-color);
-}
-
-.darkmode--activated .strongs-hl {
-  background-color: dimgray;
-}
-
-.strongs-current-verse w {
-  color: blue;
-}
-
-.darkmode--activated .strongs-current-verse w {
-  color: lightgreen;
 }
 
 .progress-bar {
@@ -1927,29 +1873,6 @@ tr.compare-translation-row:nth-child(odd) {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
-.sword-note,
-.sword-note reference,
-.sword-note hi {
-  display: none;
-}
-
-.sword-xref-marker,
-.sword-note-marker {
-  display: inline-block;
-  padding-right: 0.2em;
-  font-weight: bold;
-  position: relative;
-  top: -0.3em;
-}
-
-.sword-note-marker {
-  color: var(--accent-color);
-}
-
-.sword-xref-marker {
-  cursor: pointer;
-}
-
 .ui-selectmenu-menu-dropdown {
   box-shadow: 5px 5px 5px #A0A0A0;
 }
@@ -2010,7 +1933,6 @@ tr.compare-translation-row:nth-child(odd) {
   text-align:left;
 }
 
-
 code {
   padding: .2em .4em;
   margin: 0;
@@ -2053,10 +1975,90 @@ code {
   background-color: gray;
 }
 
+#dictionary-panel-content hr {
+  border: 1px solid var(--border-color);
+}
+
+/* SWORD text related */
+
+/* Sword markup disabled by default */
+.sword-markup {
+  display: none;
+}
+
+.sword-quote-jesus {
+  display: unset;
+}
+
+.verse-list-with-red-letters .sword-quote-jesus {
+  color: var(--text-color-red);
+}
+
+.darkmode--activated .verse-list-with-red-letters .sword-quote-jesus {
+  color: var(--text-color-red-darkmode);
+}
+
+.verse-list.verse-list-with-paragraphs .sword-paragraph-end {
+  margin-bottom: 4em;
+  display: block !important;
+}
+
+.rtl {
+  direction: rtl;
+}
+
 transchange {
   font-style: italic;
 }
 
-#dictionary-panel-content hr {
-  border: 1px solid var(--border-color);
+.sword-note,
+.sword-note reference,
+.sword-note hi {
+  display: none;
+}
+
+.sword-xref-marker,
+.sword-note-marker {
+  display: inline-block;
+  padding-right: 0.2em;
+  font-weight: bold;
+  position: relative;
+  top: -0.3em;
+}
+
+.sword-note-marker {
+  color: var(--accent-color);
+}
+
+.sword-xref-marker {
+  cursor: pointer;
+}
+
+.verse-list-without-xrefs .sword-xref-marker {
+  display: none;
+}
+
+.verse-list-without-footnotes .sword-note-marker {
+  display: none;
+}
+
+.strongs-hl {
+  background-color: var(--highlight-bg-color);
+}
+
+.darkmode--activated .strongs-hl {
+  background-color: dimgray;
+}
+
+.strongs-current-verse w {
+  color: blue;
+}
+
+.darkmode--activated .strongs-current-verse w {
+  color: lightgreen;
+}
+
+/* This element only occurs in the NA28 sword module */
+s {
+  text-decoration: none;
 }
