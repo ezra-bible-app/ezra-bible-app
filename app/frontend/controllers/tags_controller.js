@@ -896,9 +896,9 @@ class TagsController {
 
     if (isActive) {
       tag_button.classList.remove('active');
+      tag_button.classList.add('no-hl');
 
       if (platformHelper.isElectron()) {
-        tag_button.classList.add('no-hl');
         tag_button.addEventListener('mouseleave', tags_controller.removeTagButtonNoHl);
       }
     } else {
