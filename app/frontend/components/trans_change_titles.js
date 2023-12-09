@@ -36,9 +36,11 @@ function initTransChangeTitlesForTab(tabIndex) {
     let transChange = transChangeElements[i];
     let type = transChange.getAttribute('type');
     let i18nText = getI18nForType(type);
-    let localizedText = i18n.t(i18nText);
 
-    transChange.setAttribute('title', localizedText);
+    if (i18nText !== undefined) {
+      let localizedText = i18n.t(i18nText);
+      transChange.setAttribute('title', localizedText);
+    }
   }
 }
 
