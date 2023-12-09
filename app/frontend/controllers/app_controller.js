@@ -50,6 +50,7 @@ const wheelnavController = require('./wheelnav_controller.js');
 const fullscreenController = require('./fullscreen_controller.js');
 const cacheController = require('./cache_controller.js');
 const moduleUpdateController = require('./module_update_controller.js');
+const transChangeTitles = require('../components/trans_change_titles.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -125,6 +126,7 @@ class AppController {
     wheelnavController.init();
     verseListController.init();
     moduleUpdateController.init();
+    transChangeTitles.init();
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });

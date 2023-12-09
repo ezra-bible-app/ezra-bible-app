@@ -355,7 +355,16 @@
     "copy-table-to-clipboard": "Copy table to clipboard",
     "copy-table-to-clipboard-success": "Table copied to clipboard!",
     "edit-note": "Edit note",
-    "delete-note": "Delete note"
+    "delete-note": "Delete note",
+    "transchange" : {
+      "added" : "Words added",
+      "amplified" : "More than addition of words to smooth out a translation",
+      "changed" : "Words are changed in the translation, such as modern spellings",
+      "deleted" : "Words that appear in the original but not in the translation",
+      "implied" : "Words added for modern readers, where in the original the meaning was implied",
+      "moved" : "Words that are moved to better represent the meaning of the text being translated from their original order",
+      "tense-change": "Change of the tense from the original to one that occurs in the translation language"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Greek Dictionary",
