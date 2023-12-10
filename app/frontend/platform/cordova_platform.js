@@ -359,6 +359,14 @@ class CordovaPlatform {
     // Note that the following code depends on having cordova-clipboard available
     cordova.plugins.clipboard.copy(text);
   }
+
+  copyHtmlToClipboard(html) {
+    this.copyTextToClipboard(html);
+  }
+
+  copyToClipboard(text, html) {
+    this.copyTextToClipboard(text);
+  }
 }
 
 module.exports = CordovaPlatform;

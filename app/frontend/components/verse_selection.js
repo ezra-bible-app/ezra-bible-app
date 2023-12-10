@@ -567,19 +567,61 @@ class VerseSelection {
     return $(currentVerseListMenu.find('.selected-verses')[0]);
   }
   
-  getLineBreak() {
-    if (platformHelper.isElectron() && process.platform === 'win32') {
-      return "\r\n";
+  getLineBreak(html=false) {
+    if (html) {
+      return "<br/>";
     } else {
-      return "\n";
+      if (platformHelper.isElectron() && process.platform === 'win32') {
+        return "\r\n";
+      } else {
+        return "\n";
+      }
     }
   }
 
-  async getSelectedVerseText() {
+  convertTransChangeToItalic(textElement) {
+    let transChangeElements = textElement.find('transChange');
+    transChangeElements.each((index, transChange) => {
+      let italicElement = document.createElement('i');
+      italicElement.innerText = transChange.innerText;
+      transChange.replaceWith(italicElement); 
+    });
+  }
+
+  convertSwordQuoteJesusToSpanElement(textElement) {
+    let swordQuoteJesusElements = textElement.find('.sword-quote-jesus');
+    swordQuoteJesusElements.each((index, swordQuoteJesus) => {
+      let spanElement = document.createElement('span');
+      spanElement.innerText = swordQuoteJesus.innerText;
+      spanElement.setAttribute('style', 'color: #FF0000;');
+      swordQuoteJesus.replaceWith(spanElement);
+    });
+  }
+
+  sanitizeHtmlCode(htmlCode) {
+    const sanitizeHtml = require('sanitize-html');
+
+    htmlCode = sanitizeHtml(htmlCode, {
+      allowedTags: ['i', 'span', 'br'],
+      allowedAttributes: {
+        'span': ['style']
+      },
+      allowedStyles: {
+        '*': {
+          // Match HEX and RGB
+          'color': [/^#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
+        },
+      }
+    });
+
+    return htmlCode;
+  }
+
+  async getSelectedVerseText(html=false) {
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
     
-    var selectedVerseBoxes = this.selectedVerseBoxElements;
+    let selectedVerseBoxes = this.selectedVerseBoxElements;
     
     var selectedText = "";
     const selectionHasMultipleVerses = selectedVerseBoxes.length > 1;
@@ -593,11 +635,16 @@ class VerseSelection {
       let currentText = currentVerseBox.find('.verse-text').clone();
 
       if (paragraphsOption.isChecked) {
-        let paragraphBreaks = this.getLineBreak() + this.getLineBreak() + this.getLineBreak() + this.getLineBreak();
+        let paragraphBreaks = this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html);
         currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
       }
 
-      currentText.find('.sword-markup').remove();
+      currentText.find('.sword-markup').filter(":not('.sword-quote-jesus')").remove();
+
+      if (html) {
+        this.convertTransChangeToItalic(currentText);
+        this.convertSwordQuoteJesusToSpanElement(currentText);
+      }
 
       if (selectionHasMultipleVerses) {
         selectedText += currentVerseNr + " ";
@@ -606,18 +653,24 @@ class VerseSelection {
       selectedText += currentText.html().replace(/&nbsp;/g, ' ') + " ";
     }
 
-    var parser = new DOMParser();
-    var htmlText = parser.parseFromString("<div>" + selectedText + "</div>", 'text/html');
+    const parser = new DOMParser();
+    let htmlText = parser.parseFromString("<div>" + selectedText + "</div>", 'text/html');
 
-    selectedText = htmlText.querySelector('div').innerText;
-    selectedText += " " + this.getLineBreak() + this.getLineBreak() + app_controller.verse_selection.getSelectedVersesLabel().text();
+    selectedText = html ? htmlText.querySelector('div').innerHTML : htmlText.querySelector('div').innerText;
+    selectedText += " " + this.getLineBreak(html) + this.getLineBreak(html) + app_controller.verse_selection.getSelectedVersesLabel().text();
+
+    if (html) {
+      selectedText = this.sanitizeHtmlCode(selectedText);
+    }
 
     return selectedText;
   }
 
   async copySelectedVerseTextToClipboard() {
-    var selectedVerseText = await this.getSelectedVerseText();
-    getPlatform().copyTextToClipboard(selectedVerseText);
+    let selectedVerseText = await this.getSelectedVerseText();
+    let selectedVerseTextHtml = await this.getSelectedVerseText(true);
+
+    getPlatform().copyToClipboard(selectedVerseText, selectedVerseTextHtml);
   }
 
   getCurrentSelectionTags() {
