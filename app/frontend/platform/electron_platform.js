@@ -54,6 +54,15 @@ class ElectronPlatform {
     const { clipboard } = require('electron');
     clipboard.writeHTML(html);
   }
+
+  async copyToClipboard(text, html) {
+    const { clipboard } = require('electron');
+
+    clipboard.write({
+      'text': text,
+      'html': html
+    });
+  }
 }
 
 module.exports = ElectronPlatform;
