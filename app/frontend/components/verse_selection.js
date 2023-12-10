@@ -593,7 +593,7 @@ class VerseSelection {
     swordQuoteJesusElements.each((index, swordQuoteJesus) => {
       let spanElement = document.createElement('span');
       spanElement.innerText = swordQuoteJesus.innerText;
-      spanElement.setAttribute('style', 'color: #FF0000;');
+      spanElement.setAttribute('style', 'color: #B22222;');
       swordQuoteJesus.replaceWith(spanElement);
     });
   }
@@ -602,7 +602,7 @@ class VerseSelection {
     const sanitizeHtml = require('sanitize-html');
 
     htmlCode = sanitizeHtml(htmlCode, {
-      allowedTags: ['i', 'span', 'br'],
+      allowedTags: ['i', 'span', 'br', 'sup'],
       allowedAttributes: {
         'span': ['style']
       },
@@ -651,7 +651,11 @@ class VerseSelection {
       }
 
       if (selectionHasMultipleVerses) {
-        selectedText += currentVerseNr + " ";
+        if (html) {
+          selectedText += "<sup>" + currentVerseNr + "</sup> ";
+        } else {
+          selectedText += currentVerseNr + " ";
+        }
       }
 
       selectedText += currentText.html().replace(/&nbsp;/g, ' ') + " ";
