@@ -658,7 +658,7 @@ class VerseSelection {
     }
 
     const parser = new DOMParser();
-    let htmlText = parser.parseFromString("<div>" + selectedText + "</div>", 'text/html');
+    let htmlText = parser.parseFromString("<div>" + selectedText.trim() + "</div>", 'text/html');
 
     selectedText = html ? htmlText.querySelector('div').innerHTML : htmlText.querySelector('div').innerText;
     selectedText += " " + this.getLineBreak(html) + this.getLineBreak(html) + app_controller.verse_selection.getSelectedVersesLabel().text();
