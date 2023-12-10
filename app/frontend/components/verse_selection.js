@@ -643,7 +643,11 @@ class VerseSelection {
 
       if (html) {
         this.convertTransChangeToItalic(currentText);
-        this.convertSwordQuoteJesusToSpanElement(currentText);
+
+        const redLetterOption = app_controller.optionsMenu._redLetterOption;
+        if (redLetterOption.isChecked) {
+          this.convertSwordQuoteJesusToSpanElement(currentText);
+        }
       }
 
       if (selectionHasMultipleVerses) {
