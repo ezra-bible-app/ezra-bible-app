@@ -112,13 +112,11 @@ class DictionaryController {
       }
     });
 
-    if (platformHelper.isCordova()) {
-      eventController.subscribe('on-verses-selected', (selectionDetails) => {
-        this._lastSelection = selectionDetails;
-        this.removeHighlight();
-        this.highlightStrongsFromSelection(selectionDetails);
-      });
-    }
+    eventController.subscribe('on-verses-selected', (selectionDetails) => {
+      this._lastSelection = selectionDetails;
+      this.removeHighlight();
+      this.highlightStrongsFromSelection(selectionDetails);
+    });
   }
 
   getJsStrongs() {
@@ -333,12 +331,20 @@ class DictionaryController {
     }
   }
 
+  currentVerseSelected(verseText) {
+    if (verseText == null) {
+      return false;
+    } else {
+      return verseText.classList.contains('ui-selected');
+    }
+  }
+
   async _handleShiftMouseMove(event) {
     if (!this._isDictionaryOpen) {
       return;
     }
 
-    if (!this.shiftKeyPressed) {
+    if (!this.shiftKeyPressed && !this.currentVerseSelected(event.target.closest('.verse-text'))) {
       return;
     }
 
@@ -388,7 +394,7 @@ class DictionaryController {
       return;
     }
 
-    if (!force && !this.shiftKeyPressed) {
+    if (!force && !this.shiftKeyPressed && !this.currentVerseSelected(verseTextElement)) {
       return;
     }
 
