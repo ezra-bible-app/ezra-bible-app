@@ -131,6 +131,10 @@ Librem 5/Pinephone etc.
   .book-list-column li {
     line-height: 2.2em !important;
   }
+
+  #book-selection-menu-chapter-list {
+    max-height: unset !important;
+  }
 }
 
 /* Long smartphone - keyboard visible */
