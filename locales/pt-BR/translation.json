@@ -355,7 +355,16 @@
     "copy-table-to-clipboard": "Copiar tabela para o clipboard",
     "copy-table-to-clipboard-success": "Tabela copiada para o clipboard!",
     "edit-note": "Editar nota",
-    "delete-note": "Apagar nota"
+    "delete-note": "Apagar nota",
+    "transchange" : {
+      "added" : "These words were added in translation",
+      "amplified" : "These words are amplifications of information in the source text",
+      "changed" : "These words were changed in translation",
+      "deleted" : "Some words in the source text are not present in the translation",
+      "implied" : "These words were added or changed to translate information implied by the source text",
+      "moved" : "These words were in another location in the source text",
+      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Dicionário de Grego",
