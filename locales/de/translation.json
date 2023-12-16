@@ -353,13 +353,13 @@
     "edit-note": "Notiz ändern",
     "delete-note": "Notiz löschen",
     "transchange" : {
-      "added" : "These words were added in translation",
-      "amplified" : "These words are amplifications of information in the source text",
-      "changed" : "These words were changed in translation",
-      "deleted" : "Some words in the source text are not present in the translation",
-      "implied" : "These words were added or changed to translate information implied by the source text",
-      "moved" : "These words were in another location in the source text",
-      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+      "added" : "Diese Worte wurden in der Übersetzung hinzugefügt",
+      "amplified" : "Diese Worte heben Informationen aus dem ursprünglichen Text hervor",
+      "changed" : "Diese Worte wurden in der Übersetzung geändert",
+      "deleted" : "Einige Worte aus dem ursprünglichen Text wurden nicht in die Übersetzung übernommen",
+      "implied" : "Diese Worte wurden hinzugefügt oder geändert, um implizierte Informationen aus dem ursprünglichen Text zu übersetzen",
+      "moved" : "Diese Worte waren im ursprünglichen Text an einer anderen Stelle",
+      "tense-change": "Die grammatikalische Zeit dieser Worte wurde im Rahmen der Übersetzung geändert"
     }
   },
   "dictionary-panel": {
