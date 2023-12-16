@@ -26,10 +26,18 @@ module.exports.init = function() {
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
       initTransChangeTitlesForTab(tabIndex);
     });
+
+    eventController.subscribe('on-locale-changed', () => {
+      const tabCount = app_controller.tab_controller.getTabCount();
+
+      for (let i = 0; i < tabCount; i++) {
+        initTransChangeTitlesForTab(i);
+      }
+    });
   }
 };
 
-function initTransChangeTitlesForTab(tabIndex) {
+function initTransChangeTitlesForTab(tabIndex=undefined) {
   let transChangeElements = getCurrentTabTransChangeElements(tabIndex);
 
   for (let i = 0; i < transChangeElements.length; i++) {
