@@ -357,13 +357,13 @@
     "edit-note": "Edit note",
     "delete-note": "Delete note",
     "transchange" : {
-      "added" : "Words added",
-      "amplified" : "More than addition of words to smooth out a translation",
-      "changed" : "Words are changed in the translation, such as modern spellings",
-      "deleted" : "Words that appear in the original but not in the translation",
-      "implied" : "Words added for modern readers, where in the original the meaning was implied",
-      "moved" : "Words that are moved to better represent the meaning of the text being translated from their original order",
-      "tense-change": "Change of the tense from the original to one that occurs in the translation language"
+      "added" : "These words were added in translation",
+      "amplified" : "These words are amplifications of information in the source text",
+      "changed" : "These words were changed in translation",
+      "deleted" : "Some words in the source text are not present in the translation",
+      "implied" : "These words were added or changed to translate information implied by the source text",
+      "moved" : "These words were in another location in the source text",
+      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
     }
   },
   "dictionary-panel": {
