@@ -358,7 +358,16 @@
     "copy-table-to-clipboard": "Скопировать таблицу в буфер обмена",
     "copy-table-to-clipboard-success": "Таблица скопированна в буфер обмена!",
     "edit-note": "Редактировать заметку",
-    "delete-note": "Удалить заметку"
+    "delete-note": "Удалить заметку",
+    "transchange" : {
+      "added" : "These words were added in translation",
+      "amplified" : "These words are amplifications of information in the source text",
+      "changed" : "These words were changed in translation",
+      "deleted" : "Some words in the source text are not present in the translation",
+      "implied" : "These words were added or changed to translate information implied by the source text",
+      "moved" : "These words were in another location in the source text",
+      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Словарь греческого языка",
