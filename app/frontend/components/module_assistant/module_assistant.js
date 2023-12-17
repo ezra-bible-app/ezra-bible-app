@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Mousetrap = require('mousetrap');
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
@@ -154,6 +155,8 @@ class ModuleAssistant extends HTMLElement{
     moduleSettingsDialogOptions.modal = true;
     moduleSettingsDialogOptions.title = assistantHelper.localizeText("module-assistant.header", moduleType);
     moduleSettingsDialogOptions.dialogClass = 'ezra-dialog module-assistant-dialog';
+
+    Mousetrap.bind('esc', () => { $('#module-settings-assistant').dialog("close"); });
 
     $('#module-settings-assistant').dialog(moduleSettingsDialogOptions);
     uiHelper.fixDialogCloseIconOnAndroid('module-assistant-dialog');

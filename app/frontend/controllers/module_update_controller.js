@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Mousetrap = require('mousetrap');
 const eventController = require('../controllers/event_controller.js');
 const { html } = require('../helpers/ezra_helper.js');
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
@@ -135,6 +136,8 @@ module.exports.showModuleUpdateDialog = async function() {
       $dialogBox.remove();
       resolve(confirmed);
     };
+
+    Mousetrap.bind('esc', () => { $dialogBox.dialog("close"); });
 
     $dialogBox.dialog(dialogOptions);
     uiHelper.fixDialogCloseIconOnAndroid('module-update-dialog');

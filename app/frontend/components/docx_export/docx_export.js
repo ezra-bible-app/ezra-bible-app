@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Mousetrap = require('mousetrap');
 const exportController = require('./export_controller.js');
 const exportHelper = require('../../helpers/export_helper.js');
 const { html } = require('../../helpers/ezra_helper.js');
@@ -179,6 +180,8 @@ async function agreeDisclaimerDialog(moduleId) {
     };
 
     const title = i18n.t('menu.export') + ' &mdash; ' + i18n.t('general.module-copyright');
+
+    Mousetrap.bind('esc', () => { $dialogBox.dialog("close"); });
   
     $dialogBox.dialog({
       width,
