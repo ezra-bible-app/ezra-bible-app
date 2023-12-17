@@ -136,6 +136,10 @@ class AppController {
     eventController.subscribe('on-tag-group-selected', () => { this.hideAllMenus(); });
     eventController.subscribe('on-button-clicked', () => { this.hideAllMenus(); });
 
+    $('.verse-list-menu, #verse-list-tabs').bind('click', (event) => {
+      app_controller.handleBodyClick(event);
+    });
+
     this.verse_context_controller.initButtonEvents();
     this.initExitEvent();
   }
