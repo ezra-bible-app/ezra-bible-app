@@ -180,17 +180,18 @@ class NotesController {
   }
 
   async _handleNotesClick(event) {
-    var verseNotesBox = event.target.closest('.verse-notes');
+    app_controller.hideAllMenus();
 
     if (event.target.nodeName == 'A') {
       // If the user is clicking a link within the note ('a' element)
-      // we simply return and let Electron handle the default action
+      // we simply return and let the platform handle the default action
       // (Link will be opened in the default browser)
       return;
     }
     event.stopPropagation();
 
     var verseReferenceId = null;
+    var verseNotesBox = event.target.closest('.verse-notes');
 
     if (verseNotesBox.classList.contains('book-notes')) {
       verseReferenceId = verseNotesBox.getAttribute('verse-reference-id');
