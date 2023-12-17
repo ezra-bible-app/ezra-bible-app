@@ -771,7 +771,7 @@ a.chapter-nav:hover {
 
   /* Force horizontal display of verse notes in Portrait mode */
   .verse-list-without-tags .verse-notes:not(.book-notes),
-  .verse-list-content:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
+  .verse-list-content .verse-notes:not(.book-notes) {
     width: 100% !important;
     margin-top: 0.5em;
     margin-left: unset !important;
