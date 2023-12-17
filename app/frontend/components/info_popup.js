@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Mousetrap = require('mousetrap');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const { html, sleep } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
@@ -309,6 +310,8 @@ class InfoPopup {
     }
 
     uiHelper.configureButtonStyles('#info-popup-content');
+
+    Mousetrap.bind('esc', () => { $('#info-popup').dialog("close"); });
 
     $('#info-popup').dialog("open");
   }
