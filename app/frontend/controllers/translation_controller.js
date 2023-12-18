@@ -287,13 +287,15 @@ class TranslationController {
   }
 
   async getInstalledModules(moduleType='BIBLE') {
-    var localModules = await ipcNsi.getAllLocalModules(moduleType);
-    localModules.sort(swordModuleHelper.sortModules);
-
     var translations = [];
+    var localModules = await ipcNsi.getAllLocalModules(moduleType);
 
-    for (var i = 0; i < localModules.length; i++) {
-      translations.push(localModules[i].name);
+    if (localModules != null) {
+      localModules.sort(swordModuleHelper.sortModules);
+
+      for (var i = 0; i < localModules.length; i++) {
+        translations.push(localModules[i].name);
+      }
     }
 
     return translations;
