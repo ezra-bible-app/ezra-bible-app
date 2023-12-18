@@ -488,7 +488,6 @@ a.chapter-nav:hover {
 }
 
 #verse-list-popup,
-#book-tag-statistics-box,
 #info-popup,
 #search-results-box,
 #db-sync-box {
@@ -549,12 +548,6 @@ a.chapter-nav:hover {
   margin-bottom: 0.5em;
   overflow-y: scroll;
   display: none;
-}
-
-#book-tag-statistics-box {
-  width: 350px;
-  max-height: 500px;
-  overflow-y: scroll;
 }
 
 #info-popup {
