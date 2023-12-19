@@ -20,6 +20,7 @@ const IpcRenderer = require('./ipc_renderer.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const i18nController = require('../controllers/i18n_controller.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 
 class IpcDb {
   constructor() {
@@ -77,11 +78,14 @@ class IpcDb {
     var increment = (action == "add" ? true : false);
     tags_controller.updateTagVerseCount(tagId, verseBoxes, increment);
 
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var referenceSeparator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+
     var verseObjects = [];
 
     for (var verseBox of verseBoxes) {
       var verseBoxModel = new VerseBox(verseBox);
-      var verseObject = verseBoxModel.getVerseObject();
+      var verseObject = verseBoxModel.getVerseObject(referenceSeparator);
       verseObjects.push(verseObject);
     }
 
