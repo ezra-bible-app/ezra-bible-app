@@ -25,7 +25,7 @@ class VerseBox {
     this.verseBoxElement = verseBoxElement;
   }
 
-  getVerseObject() {
+  getVerseObject(referenceSeparator=window.reference_separator) {
     var isBookNoteVerse = this.isBookNoteVerse();
     var verse = undefined;
 
@@ -42,8 +42,8 @@ class VerseBox {
       verse = new Verse(
         this.getBibleBookShortTitle(),
         this.getAbsoluteVerseNumber(),
-        this.getChapter(),
-        this.getVerseNumber(),
+        this.getChapter(referenceSeparator),
+        this.getVerseNumber(referenceSeparator),
         isBookNoteVerse
       );
     }
