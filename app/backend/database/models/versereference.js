@@ -196,7 +196,7 @@ module.exports = (sequelize, DataTypes) => {
     var query = `SELECT vr.*, 
                  b.shortTitle as bibleBookShortTitle,
                  b.longTitle AS bibleBookLongTitle,
-                 GROUP_CONCAT(t.title, ';') AS tagList,
+                 REPLACE(GROUP_CONCAT(DISTINCT t.title), ',', ';') AS tagList,
                  REPLACE(GROUP_CONCAT(DISTINCT tg.title), ',', ';') AS tagGroupList,
                  n.text AS noteText
                  FROM VerseReferences vr
