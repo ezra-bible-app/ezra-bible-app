@@ -115,6 +115,21 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
+    if (!created) {
+      // Rewrite the chapter and verseNr in case the existing values are null
+      // This may be the case due to a bug that existed in the frontend (see #979)
+      // We cannot undo the wrongful saving of verse references, but we can rewrite the verse reference
+      // if we encounter one that has missing chapter / verseNr attributes.
+
+      if (verseReference.dataValues.chapter == null) {
+        verseReference.chapter = chapter;
+      } else if (verseReference.dataValues.verseNr == null) {
+        verseReference.verseNr = verseNr;
+      }
+
+      await verseReference.save();
+    }
+
     return verseReference;
   };
 
