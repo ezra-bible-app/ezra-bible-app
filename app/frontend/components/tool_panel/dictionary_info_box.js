@@ -83,11 +83,13 @@ class DictionaryInfoBox {
 
     let helpInstructionPart2 = i18n.t("dictionary-panel.help-instruction-part2");
     let helpInstructionPart3 = "";
+    let helpInstructionPart4 = "";
    
     if (platformHelper.isCordova()) {
       helpInstructionPart3 = i18n.t("dictionary-panel.help-instruction-part3-cordova");
     } else {
       helpInstructionPart3 = i18n.t("dictionary-panel.help-instruction-part3");
+      helpInstructionPart4 = `<li>${i18n.t("dictionary-panel.help-instruction-part4-desktop")}</li>`;
     }
     
     let helpInstruction = html`
@@ -96,6 +98,7 @@ class DictionaryInfoBox {
         <li>${helpInstructionPart1}</li>
         <li>${helpInstructionPart2}</li>
         <li>${helpInstructionPart3}</li>
+        ${helpInstructionPart4}
       </ol>
     `;
 

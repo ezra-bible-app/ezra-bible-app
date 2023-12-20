@@ -375,8 +375,9 @@
     "help-instruction-intro": "Hoe woordenboeklemma's hier tonen:",
     "help-instruction-part1": "Wees eerst zeker dat de Strongwoordenboeken (Hebreeuws en Grieks) geïnstalleerd zijn. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Open dan een vertaling met de Strongs-functie.",
-    "help-instruction-part3": "Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de DICTIONARY ENTRIES hier te bekijken.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Houd afzonderlijke woorden of zinnen ingedrukt totdat u hier woordenboeklemma's ziet.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs"

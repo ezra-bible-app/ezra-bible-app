@@ -373,8 +373,9 @@
     "help-instruction-intro": "Ako tu zobraziť položky slovníka:",
     "help-instruction-part1": "Uistite sa, že sú nainštalované Strongove slovníky (hebrejčina a gréčtina). Stav: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Otvorte preklad pomocou funkcie Strong.",
-    "help-instruction-part3": "Zatiaľ čo stlačíte tlačidlo Kláves SHIFT môžete posúvať myšou po jednotlivých slovách a frázach, aby ste tu zobrazili položky v slovníku.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Dotknite sa a podržte jednotlivé slová alebo frázy, kým neuvidíte položky v slovníku.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-occurrences": "Nájsť všetky výskyty",
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
     "related-strongs": "Súvisiace Strongy"

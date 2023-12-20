@@ -373,8 +373,9 @@
     "help-instruction-intro": "Como mostrar entradas de dicionário aqui:",
     "help-instruction-part1": "Certifique-se de que os dicionários de Strong (Hebraico e Grego) estão instalados. Status: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Abra uma tradução com recurso Strong.",
-    "help-instruction-part3": "Enquanto pressiona a tecla SHIFT, você pode mover o mouse sobre palavras específicas ou frases para ver as entradas do dicionário aqui.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Toque e segure palavras individuais ou frases até ver as entradas do dicionário aqui.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-occurrences": "Encontrar todas as ocorrências",
     "open-in-blueletter": "Abrir na Bíblia Blue Letter",
     "related-strongs": "Strong's relacionados"

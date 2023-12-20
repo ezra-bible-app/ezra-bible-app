@@ -373,8 +373,9 @@
     "help-instruction-intro": "Kako prikazati slovarske vnose tukaj:",
     "help-instruction-part1": "Prepričajte se, da so nameščeni Strongovi slovarji (hebrejski in grški). Stanje: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Prevod odprite s Strongovo funkcionalnostjo.",
-    "help-instruction-part3": "Medtem ko držite tipko SHIFT, se z miško premikate nad posameznimi besedami, da si tukaj ogledate slovarske vnose.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Dotaknite se posameznih besed ali besednih zvez in jih pridržite, dokler ne vidite vnosov v slovar tukaj.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-occurrences": "Poišči vse pojavitve",
     "open-in-blueletter": "Odpri v Blue Letter Bible",
     "related-strongs": "Sorodne Strongove knjige"
