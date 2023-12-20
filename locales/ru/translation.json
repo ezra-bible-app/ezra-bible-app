@@ -376,8 +376,9 @@
     "help-instruction-intro": "Отображение статей из словаря:",
     "help-instruction-part1": "Убедитесь, что установленны словари Стронга (иврита и греческого). Статус: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Откройте перевод с номерами Стронга.",
-    "help-instruction-part3": "Удерживая клавишу SHIFT, наводите указатель мыши на отдельные слова и фразы, чтобы увидеть соответсвующую статью из словаря.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Удерживайте касание на отдельных словах или фразах пока не увидите соответсвующую статью из словаря.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-событий": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"

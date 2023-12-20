@@ -374,7 +374,7 @@
     "help-instruction-intro": "Як відобразити словникові записи:",
     "help-instruction-part1": "Переконайтеся, що встановленно словники Стронга (івриту та грецької). Поточний стан: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Відкрийте переклад, що містить числа Стронга.",
-    "help-instruction-part3": "Затиснюючи клавішу SHIFT, переміщуйте мишу повз окремі слова та фрази, щоб побачити тут словникові записи.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Торкніться та утримуйте на певному слові або фразі аж поки словникові записи не відобразяться в цьому вікні.",
     "find-all-occurrences": "Знайти всі випадки",
     "open-in-blueletter": "Відкрити у Blue Letter Bible",

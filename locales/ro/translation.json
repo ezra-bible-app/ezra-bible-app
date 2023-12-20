@@ -373,8 +373,9 @@
     "help-instruction-intro": "Cum să afișezi intrările de dicționar aici:",
     "help-instruction-part1": "Asigură-te ca sunt instalate dicționarele de concordanță (Strong's) (Ebraică și Greacă). Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Mai întâi deschide o traducere cu caracteristica Concordanță (Strong's).",
-    "help-instruction-part3": "În timp ce apeși tasta SHIFT, poți muta mouse-ul peste anumite cuvinte și fraze ca să vezi intrările din dicționar aici.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Atinge și ține apăsat pe cuvintele sau expresiile individuale până când vei vedea intrările din dicționar aici.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
     "related-strongs": "(Strong's) Concordanțe asociate"
