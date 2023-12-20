@@ -279,7 +279,8 @@ function renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleC
 function renderVerse(verse) {
 
   let currentVerseContent = "";
-  const fixedContent = verse.content.replace(/<([a-z]+)(\s?[^>]*?)\/>/g, '<$1$2></$1>'); // replace self clothing tags FIXME: Should it be in the NSI?
+  let fixedContent = verse.content.replace(/<([a-z]+)(\s?[^>]*?)\/>/g, '<$1$2></$1>'); // replace self closing tags FIXME: Should it be in the NSI?
+  fixedContent = fixedContent.replaceAll('&nbsp;', ' ');
   const currentVerseNodes = Array.from(parseHTML(fixedContent).childNodes);
 
   currentVerseContent = currentVerseNodes.reduce((prevContent, currentNode) => {
