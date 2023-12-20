@@ -744,6 +744,7 @@ class VerseSelection {
 
     this.updateSelected();
     this.updateViewsAfterVerseSelection(i18n.t(selectionLocaleText));
+    this.publishVersesSelected();
   }
 
   allVersesSelected() {
