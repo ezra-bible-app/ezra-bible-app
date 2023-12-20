@@ -478,8 +478,8 @@ class NotesController {
       autofocus: true,
       extraKeys: { 
         "Enter": "newlineAndIndentContinueMarkdownList",
-        "Ctrl-Enter": () => "save",
-        "Cmd-Enter": () => "save",
+        "Ctrl-Enter": "save",
+        "Cmd-Enter": "save",
         "Esc": () => { this.restoreCurrentlyEditedNotes(false); }
       },
       theme: this.theme
