@@ -134,6 +134,9 @@ class TranslationComparison {
         }
 
         compareTranslationRow += "</table></td>";
+        compareTranslationRow += "<td class='compare-translation-row' style='font-size: 120%; padding-left: 0.5em; padding-right: 0.5em;'>";
+        compareTranslationRow += "<div class='copy-button button-small'><i class='fas fa-copy'/></div>";
+        compareTranslationRow += "</td>";
         compareTranslationRow += "</tr>";
 
         if (contentCounter > 0) {
