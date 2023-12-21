@@ -231,12 +231,12 @@ class TranslationComparison {
 
       if (classList.contains('copy-button') || classList.contains('copy-icon')) {
         let copyButton = event.target.closest('.copy-button');
-        this.copyRow(copyButton);
+        this.copyRowToClipboard(copyButton);
       }
     });
   }
 
-  copyRow(targetButton) {
+  copyRowToClipboard(targetButton) {
     let buttonTd = targetButton.parentElement;
     let verseContentCell = buttonTd.previousSibling;
     let verseContentTdList = verseContentCell.querySelectorAll('td.verse-content-td');
