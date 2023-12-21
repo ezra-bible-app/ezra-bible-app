@@ -135,7 +135,7 @@ class TranslationComparison {
 
         compareTranslationRow += "</table></td>";
         compareTranslationRow += "<td class='compare-translation-row' style='font-size: 120%; padding-left: 0.5em; padding-right: 0.5em;'>";
-        compareTranslationRow += "<div class='copy-button button-small'><i class='fas fa-copy'/></div>";
+        compareTranslationRow += "<div class='copy-button button-small'><i class='fas fa-copy copy-icon'/></div>";
         compareTranslationRow += "</td>";
         compareTranslationRow += "</tr>";
 
@@ -223,6 +223,25 @@ class TranslationComparison {
     }
 
     this.getBoxContent().innerHTML = compareTranslationContent;
+
+    this.getBoxContent().addEventListener('click', (event) => {
+      event.stopImmediatePropagation();
+
+      let classList = event.target.classList;
+
+      if (classList.contains('copy-button') || classList.contains('copy-icon')) {
+        let copyButton = event.target.closest('.copy-button');
+        this.copyRow(copyButton);
+      }
+    });
+  }
+
+  copyRow(targetButton) {
+    let buttonTd = targetButton.parentElement;
+    let verseContentCell = buttonTd.previousSibling;
+    let verseContentTdList = verseContentCell.querySelectorAll('td.verse-content-td');
+
+    console.log(`Number of verses to copy: ${verseContentTdList.length}`);
   }
 
   performDelayedContentRefresh() {
