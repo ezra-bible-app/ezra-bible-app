@@ -250,7 +250,7 @@ class VerseBoxHelper {
         currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
       }
 
-      currentText.find('.sword-markup').filter(":not('.sword-quote-jesus')").remove();
+      currentText.find('.sword-markup').filter(":not('.sword-quote-jesus, .sword-quote')").remove();
 
       if (html) {
         this.convertTransChangeToItalic(currentText);
