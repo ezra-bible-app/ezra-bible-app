@@ -71,7 +71,7 @@ class TranslationComparison {
       var targetVerseReference = targetTranslationVerse.chapter + moduleReferenceSeparator + targetTranslationVerse.verseNr;
       
       if (totalVerseCount > 1) {
-        verseHtml +=  "<td class='verse-reference-td'>" + targetVerseReference + "</td>";
+        verseHtml +=  "<td class='verse-reference-td verse-reference-content'>" + targetVerseReference + "</td>";
       }
 
       const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(targetTranslationId);
