@@ -182,6 +182,108 @@ class VerseBoxHelper {
     var localizedReference = currentBookLocalizedName + ' ' + verseReferenceContent;
     return localizedReference;
   }
+  
+  getLineBreak(html=false) {
+    if (html) {
+      return "<br/>";
+    } else {
+      if (platformHelper.isElectron() && process.platform === 'win32') {
+        return "\r\n";
+      } else {
+        return "\n";
+      }
+    }
+  }
+
+  convertTransChangeToItalic(textElement) {
+    let transChangeElements = textElement.find('transChange');
+    transChangeElements.each((index, transChange) => {
+      let italicElement = document.createElement('i');
+      italicElement.innerText = transChange.innerText;
+      transChange.replaceWith(italicElement); 
+    });
+  }
+
+  convertSwordQuoteJesusToSpanElement(textElement) {
+    let swordQuoteJesusElements = textElement.find('.sword-quote-jesus');
+    swordQuoteJesusElements.each((index, swordQuoteJesus) => {
+      let spanElement = document.createElement('span');
+      spanElement.innerText = swordQuoteJesus.innerText;
+      spanElement.setAttribute('style', 'color: #B22222;');
+      swordQuoteJesus.replaceWith(spanElement);
+    });
+  }
+
+  sanitizeHtmlCode(htmlCode) {
+    const sanitizeHtml = require('sanitize-html');
+
+    htmlCode = sanitizeHtml(htmlCode, {
+      allowedTags: ['i', 'span', 'br', 'sup'],
+      allowedAttributes: {
+        'span': ['style']
+      },
+      allowedStyles: {
+        '*': {
+          // Match HEX and RGB
+          'color': [/^#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
+        },
+      }
+    });
+
+    return htmlCode;
+  }
+
+  getVerseTextFromVerseElements(verseElements, verseReferenceText, html=false, referenceSeparator=window.reference_separator) {
+    var selectedText = "";
+    const selectionHasMultipleVerses = verseElements.length > 1;
+
+    const paragraphsOption = app_controller.optionsMenu._paragraphsOption;
+
+    for (let i = 0; i < verseElements.length; i++) {
+      let currentVerseBox = $(verseElements[i]);
+      let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
+      let currentVerseNr = verseReferenceContent.split(referenceSeparator)[1];
+      let currentText = currentVerseBox.find('.verse-text').clone();
+
+      if (paragraphsOption.isChecked) {
+        let paragraphBreaks = this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html);
+        currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
+      }
+
+      currentText.find('.sword-markup').filter(":not('.sword-quote-jesus')").remove();
+
+      if (html) {
+        this.convertTransChangeToItalic(currentText);
+
+        const redLetterOption = app_controller.optionsMenu._redLetterOption;
+        if (redLetterOption.isChecked) {
+          this.convertSwordQuoteJesusToSpanElement(currentText);
+        }
+      }
+
+      if (selectionHasMultipleVerses) {
+        if (html) {
+          selectedText += "<sup>" + currentVerseNr + "</sup> ";
+        } else {
+          selectedText += currentVerseNr + " ";
+        }
+      }
+
+      selectedText += currentText.html().replace(/&nbsp;/g, ' ') + " ";
+    }
+
+    const parser = new DOMParser();
+    let htmlText = parser.parseFromString("<div>" + selectedText.trim() + "</div>", 'text/html');
+
+    selectedText = html ? htmlText.querySelector('div').innerHTML : htmlText.querySelector('div').innerText;
+    selectedText += " " + this.getLineBreak(html) + this.getLineBreak(html) + verseReferenceText;
+
+    if (html) {
+      selectedText = this.sanitizeHtmlCode(selectedText);
+    }
+
+    return selectedText;
+  }
 }
 
 module.exports = VerseBoxHelper;

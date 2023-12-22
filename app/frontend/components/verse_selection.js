@@ -22,6 +22,7 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 
 const MAX_VERSES_FOR_DETAILED_LABEL = 5;
 
@@ -40,6 +41,7 @@ class VerseSelection {
     this.previousVerseCount = null;
     this.verseReferenceHelper = null;
     this.previousSelectionIndex = -1;
+    this.verseBoxHelper = new VerseBoxHelper();
 
     eventController.subscribe('on-locale-changed', async () => {
       let currentTab = app_controller.tab_controller.getTab();
@@ -566,110 +568,14 @@ class VerseSelection {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     return $(currentVerseListMenu.find('.selected-verses')[0]);
   }
-  
-  getLineBreak(html=false) {
-    if (html) {
-      return "<br/>";
-    } else {
-      if (platformHelper.isElectron() && process.platform === 'win32') {
-        return "\r\n";
-      } else {
-        return "\n";
-      }
-    }
-  }
-
-  convertTransChangeToItalic(textElement) {
-    let transChangeElements = textElement.find('transChange');
-    transChangeElements.each((index, transChange) => {
-      let italicElement = document.createElement('i');
-      italicElement.innerText = transChange.innerText;
-      transChange.replaceWith(italicElement); 
-    });
-  }
-
-  convertSwordQuoteJesusToSpanElement(textElement) {
-    let swordQuoteJesusElements = textElement.find('.sword-quote-jesus');
-    swordQuoteJesusElements.each((index, swordQuoteJesus) => {
-      let spanElement = document.createElement('span');
-      spanElement.innerText = swordQuoteJesus.innerText;
-      spanElement.setAttribute('style', 'color: #B22222;');
-      swordQuoteJesus.replaceWith(spanElement);
-    });
-  }
-
-  sanitizeHtmlCode(htmlCode) {
-    const sanitizeHtml = require('sanitize-html');
-
-    htmlCode = sanitizeHtml(htmlCode, {
-      allowedTags: ['i', 'span', 'br', 'sup'],
-      allowedAttributes: {
-        'span': ['style']
-      },
-      allowedStyles: {
-        '*': {
-          // Match HEX and RGB
-          'color': [/^#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
-        },
-      }
-    });
-
-    return htmlCode;
-  }
 
   async getSelectedVerseText(html=false) {
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
     
     let selectedVerseBoxes = this.selectedVerseBoxElements;
-    
-    var selectedText = "";
-    const selectionHasMultipleVerses = selectedVerseBoxes.length > 1;
-
-    const paragraphsOption = app_controller.optionsMenu._paragraphsOption;
-
-    for (let i = 0; i < selectedVerseBoxes.length; i++) {
-      let currentVerseBox = $(selectedVerseBoxes[i]);
-      let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
-      let currentVerseNr = verseReferenceContent.split(separator)[1];
-      let currentText = currentVerseBox.find('.verse-text').clone();
-
-      if (paragraphsOption.isChecked) {
-        let paragraphBreaks = this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html);
-        currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
-      }
-
-      currentText.find('.sword-markup').filter(":not('.sword-quote-jesus')").remove();
-
-      if (html) {
-        this.convertTransChangeToItalic(currentText);
-
-        const redLetterOption = app_controller.optionsMenu._redLetterOption;
-        if (redLetterOption.isChecked) {
-          this.convertSwordQuoteJesusToSpanElement(currentText);
-        }
-      }
-
-      if (selectionHasMultipleVerses) {
-        if (html) {
-          selectedText += "<sup>" + currentVerseNr + "</sup> ";
-        } else {
-          selectedText += currentVerseNr + " ";
-        }
-      }
-
-      selectedText += currentText.html().replace(/&nbsp;/g, ' ') + " ";
-    }
-
-    const parser = new DOMParser();
-    let htmlText = parser.parseFromString("<div>" + selectedText.trim() + "</div>", 'text/html');
-
-    selectedText = html ? htmlText.querySelector('div').innerHTML : htmlText.querySelector('div').innerText;
-    selectedText += " " + this.getLineBreak(html) + this.getLineBreak(html) + app_controller.verse_selection.getSelectedVersesLabel().text();
-
-    if (html) {
-      selectedText = this.sanitizeHtmlCode(selectedText);
-    }
+    let verseReferenceText = this.getSelectedVersesLabel().text();
+    let selectedText = this.verseBoxHelper.getVerseTextFromVerseElements(selectedVerseBoxes, verseReferenceText, html, separator);
 
     return selectedText;
   }
