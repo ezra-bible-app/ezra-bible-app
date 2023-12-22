@@ -20,6 +20,8 @@ const VerseBox = require("../../ui_models/verse_box.js");
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+const { getPlatform } = require('../../helpers/ezra_helper.js');
+const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
 
 /**
  * The TranslationComparison component implements a tool panel that shows selected verses
@@ -40,6 +42,8 @@ class TranslationComparison {
     eventController.subscribe('on-locale-changed', () => {
       this.performRefresh();
     });
+
+    this.verseBoxHelper = new VerseBoxHelper();
   }
 
   getBox() {
@@ -65,7 +69,7 @@ class TranslationComparison {
     var verseHtml = "";
     
     if (targetTranslationVerse != null && targetTranslationVerse.content != "") {
-      verseHtml += "<tr>";
+      verseHtml += "<tr class='verse-content-tr'>";
 
       var moduleReferenceSeparator = await i18nHelper.getReferenceSeparator(targetTranslationId);
       var targetVerseReference = targetTranslationVerse.chapter + moduleReferenceSeparator + targetTranslationVerse.verseNr;
@@ -77,7 +81,7 @@ class TranslationComparison {
       const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(targetTranslationId);
       const rtlClass = moduleIsRightToLeft ? 'rtl' : '';
 
-      verseHtml += `<td class='verse-content-td ${rtlClass}'>` + targetTranslationVerse.content + "</td>";
+      verseHtml += `<td class='verse-content-td verse-text ${rtlClass}'>` + targetTranslationVerse.content + "</td>";
       verseHtml += "</tr>";
     }
 
@@ -236,12 +240,20 @@ class TranslationComparison {
     });
   }
 
-  copyRowToClipboard(targetButton) {
+  async copyRowToClipboard(targetButton) {
     let buttonTd = targetButton.parentElement;
     let verseContentCell = buttonTd.previousSibling;
-    let verseContentTdList = verseContentCell.querySelectorAll('td.verse-content-td');
+    let bibleTranslationCell = verseContentCell.previousSibling;
 
-    console.log(`Number of verses to copy: ${verseContentTdList.length}`);
+    let verseContentTrList = verseContentCell.querySelectorAll('tr.verse-content-tr');
+    const bibleTranslationId = bibleTranslationCell.innerText;
+    const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+
+    let verseReferenceText = "";
+    let verseText = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceText, false, separator);
+    let verseTextHtml = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceText, true, separator);
+
+    getPlatform().copyToClipboard(verseText, verseTextHtml);
   }
 
   performDelayedContentRefresh() {
