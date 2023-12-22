@@ -1753,6 +1753,7 @@ tr.compare-translation-row:nth-child(odd) {
 .compare-translation-row .verse-reference-td {
   width: 4em;
   padding: 0.5em;
+  margin-left: unset !important;
 }
 
 .compare-translation-row .verse-content-td {
