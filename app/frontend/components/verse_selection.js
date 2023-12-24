@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseBox = require("../ui_models/verse_box.js");
-const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
@@ -91,10 +90,6 @@ class VerseSelection {
 
   getSelectedVerseBoxes() {
     return this.selectedVerseBoxElements;
-  }
-
-  initHelper(nsi) {
-    this.verseReferenceHelper = new VerseReferenceHelper(nsi);
   }
 
   initSelectable(verseList) {

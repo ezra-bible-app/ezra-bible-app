@@ -18,6 +18,11 @@
 
 const VerseBox = require("../ui_models/verse_box.js");
 const i18nHelper = require('./i18n_helper.js');
+const VerseReferenceHelper = require("./verse_reference_helper.js");
+
+module.exports.initHelper = function(nsi) {
+  this.verseReferenceHelper = new VerseReferenceHelper(nsi);
+};
 
 module.exports.getSelectedVerseDisplayText = async function(selectedBooks, selectedVerseBoxElements) {
   var selected_verses_content = [];

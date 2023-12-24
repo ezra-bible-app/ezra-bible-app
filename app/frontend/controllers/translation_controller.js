@@ -77,15 +77,6 @@ class TranslationController {
     });
   }
 
-  initVerseSelection() {
-    app_controller.verse_selection.initHelper(ipcNsi);
-  }
-
-  async loadSettings() {
-    await app_controller.book_selection_menu.updateAvailableBooks();
-    this.initVerseSelection();
-  }
-
   getBibleSelect(tabIndex) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
 
