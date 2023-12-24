@@ -51,6 +51,7 @@ const fullscreenController = require('./fullscreen_controller.js');
 const cacheController = require('./cache_controller.js');
 const moduleUpdateController = require('./module_update_controller.js');
 const transChangeTitles = require('../components/trans_change_titles.js');
+const sectionLabelHelper = require('../helpers/section_label_helper.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -256,7 +257,8 @@ class AppController {
         eventController.publishAsync('on-tag-group-selected', tagGroup);
       }
 
-      await this.translation_controller.loadSettings();
+      await this.book_selection_menu.updateAvailableBooks();
+      sectionLabelHelper.initHelper(ipcNsi);
     } catch (e) {
       console.trace("Failed to load settings ... got exception.", e);
     }
