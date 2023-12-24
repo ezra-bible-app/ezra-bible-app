@@ -354,6 +354,7 @@
     "copy": "Kopírovať",
     "copy-table-to-clipboard": "Skopírujte tabuľku do schránky",
     "copy-table-to-clipboard-success": "Tabuľka bola skopírovaná do schránky!",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
     "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Upraviť poznámku",
     "delete-note": "Vymazať poznámku",
