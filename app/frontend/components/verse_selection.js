@@ -241,7 +241,10 @@ class VerseSelection {
     for (var i = 0; i < this.selectedVerseBoxElements.length; i++) {
       var verseBox = $(this.selectedVerseBoxElements[i]);
       var currentVerseReferenceAnchor = verseBox.find('a:first').attr('name');
-      var currentVerseReference = sectionLabelHelper.getVerseReferenceFromAnchor(currentVerseReferenceAnchor);
+
+      var splittedVerseReference = currentVerseReferenceAnchor.split(" ");
+      var currentVerseReference = splittedVerseReference[splittedVerseReference.length - 1];
+
       selectedVerseReferences.push(currentVerseReference);
     }
 
@@ -335,7 +338,7 @@ class VerseSelection {
     if (!this.someVersesSelected()) {
       if (selectedVerseDisplayText == undefined && !this.someVersesSelected()) {
         const selectedBooks = await this.getSelectedBooks();
-        selectedVerseDisplayText = await sectionLabelHelper.getSelectedVerseDisplayText(selectedBooks, this.selectedVerseBoxElements);
+        selectedVerseDisplayText = await sectionLabelHelper.getVerseDisplayText(selectedBooks, this.selectedVerseBoxElements);
       } else {
         preDefinedText = true;
       }
