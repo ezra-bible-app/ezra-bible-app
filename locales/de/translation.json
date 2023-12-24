@@ -350,6 +350,7 @@
     "copy": "Kopieren",
     "copy-table-to-clipboard": "Tabelle in Zwischenablage kopieren",
     "copy-table-to-clipboard-success": "Tabelle in Zwischenablage kopiert!",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Notiz ändern",
     "delete-note": "Notiz löschen",
     "transchange" : {
