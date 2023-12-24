@@ -355,6 +355,7 @@
     "copy": "Зкопіювати",
     "copy-table-to-clipboard": "Зкопіювати таблицю до буферу обміну",
     "copy-table-to-clipboard-success": "Таблицю зкопійовано до буферу обміну!",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
     "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Редагувати нотатку",
     "delete-note": "Видалити нотатку",

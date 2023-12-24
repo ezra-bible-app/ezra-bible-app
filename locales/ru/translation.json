@@ -357,6 +357,7 @@
     "copy": "Скопировать",
     "copy-table-to-clipboard": "Скопировать таблицу в буфер обмена",
     "copy-table-to-clipboard-success": "Таблица скопированна в буфер обмена!",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
     "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Редактировать заметку",
     "delete-note": "Удалить заметку",

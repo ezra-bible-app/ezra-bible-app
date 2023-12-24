@@ -354,6 +354,7 @@
     "copy": "Kopiraj",
     "copy-table-to-clipboard": "Kopiraj tabelo v odložišče",
     "copy-table-to-clipboard-success": "Tabela kopirana v odložišče!",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
     "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Uredi opombo",
     "delete-note": "Izbriši opombo",

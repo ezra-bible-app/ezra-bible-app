@@ -354,6 +354,7 @@
     "copy": "Copy",
     "copy-table-to-clipboard": "Copy table to clipboard",
     "copy-table-to-clipboard-success": "Table copied to clipboard!",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
     "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Edit note",
     "delete-note": "Delete note",

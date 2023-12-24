@@ -138,9 +138,11 @@ class TranslationComparison {
           }
         }
 
+        const copyButtonTitle = i18n.t('bible-browser.copy-verse-text-to-clipboard');
+
         compareTranslationRow += "</table></td>";
         compareTranslationRow += "<td class='compare-translation-row' style='font-size: 120%; padding-left: 0.5em; padding-right: 0.5em;'>";
-        compareTranslationRow += "<div class='copy-button button-small'><i class='fas fa-copy copy-icon'/></div>";
+        compareTranslationRow += `<div class='copy-button button-small' i18n='bible-browser.copy-verse-text-to-clipboard' title='${copyButtonTitle}'><i class='fas fa-copy copy-icon'/></div>`;
         compareTranslationRow += "</td>";
         compareTranslationRow += "</tr>";
 
