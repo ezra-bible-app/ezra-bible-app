@@ -25,7 +25,10 @@ module.exports.initHelper = function(nsi) {
   verseReferenceHelper = new VerseReferenceHelper(nsi);
 };
 
-module.exports.getSelectedVerseDisplayText = async function(selectedBooks, selectedVerseBoxElements) {
+module.exports.getVerseDisplayText = async function(selectedBooks,
+                                                    selectedVerseBoxElements,
+                                                    getBibleBookFunction=getBibleBookShortTitleFromVerseBox,
+                                                    getVerseReferenceFunction=getVerseReference) {
   let selectedVerseContent = [];
 
   for (let i = 0; i < selectedBooks.length; i++) {
@@ -34,11 +37,10 @@ module.exports.getSelectedVerseDisplayText = async function(selectedBooks, selec
     
     for (let j = 0; j < selectedVerseBoxElements.length; j++) {
       let currentVerseBox = selectedVerseBoxElements[j];
-
-      let currentVerseBibleBookShortName = new VerseBox(currentVerseBox).getBibleBookShortTitle();
+      let currentVerseBibleBookShortName = getBibleBookFunction(currentVerseBox);
 
       if (currentVerseBibleBookShortName == currentBookShortName) {
-        let currentVerseReference = this.getVerseReferenceFromAnchor($(currentVerseBox).find('a:first').attr('name'));
+        let currentVerseReference = getVerseReferenceFunction(currentVerseBox);
         currentBookVerseReferences.push(currentVerseReference);
       }
     }
@@ -56,11 +58,20 @@ module.exports.getSelectedVerseDisplayText = async function(selectedBooks, selec
   }
 };
 
-module.exports.getVerseReferenceFromAnchor = function(anchorText) {
+function getVerseReference(verseBox) {
+  let verseReference = getVerseReferenceFromAnchor($(verseBox).find('a:first').attr('name'));
+  return verseReference;
+}
+
+function getVerseReferenceFromAnchor(anchorText) {
   let splittedVerseReference = anchorText.split(" ");
   let currentVerseReference = splittedVerseReference[splittedVerseReference.length - 1];
   return currentVerseReference;
-};
+}
+
+function getBibleBookShortTitleFromVerseBox(verseBox) {
+  return new VerseBox(verseBox).getBibleBookShortTitle();
+}
 
 function verseListHasGaps(list) {
   let hasGaps = false;
