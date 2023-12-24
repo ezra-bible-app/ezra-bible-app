@@ -76,13 +76,13 @@ class TranslationComparison {
       var targetVerseReference = targetTranslationVerse.chapter + moduleReferenceSeparator + targetTranslationVerse.verseNr;
       
       if (totalVerseCount > 1) {
-        verseHtml += `<td class='verse-reference-td verse-reference-content' book='${bibleBookShortTitle}'>${targetVerseReference}</td>`;
+        verseHtml += `<td class='verse-reference-td verse-reference-content' book='${bibleBookShortTitle}' reference='${targetVerseReference}'>${targetVerseReference}</td>`;
       }
 
       const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(targetTranslationId);
       const rtlClass = moduleIsRightToLeft ? 'rtl' : '';
 
-      verseHtml += `<td class='verse-content-td verse-text ${rtlClass}' book='${bibleBookShortTitle}'>` + targetTranslationVerse.content + "</td>";
+      verseHtml += `<td class='verse-content-td verse-text ${rtlClass}' book='${bibleBookShortTitle}' reference='${targetVerseReference}'>` + targetTranslationVerse.content + "</td>";
       verseHtml += "</tr>";
     }
 
@@ -277,7 +277,7 @@ class TranslationComparison {
 
   getVerseReferenceFromVerseContentTr(verseContentTr) {
     let verseReferenceContent = verseContentTr.firstChild;
-    return verseReferenceContent.innerText;
+    return verseReferenceContent.getAttribute('reference');
   }
 
   performDelayedContentRefresh() {
