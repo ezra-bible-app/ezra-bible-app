@@ -33,18 +33,11 @@ module.exports.getVerseDisplayText = async function(selectedBooks,
 
   for (let i = 0; i < selectedBooks.length; i++) {
     let currentBookShortName = selectedBooks[i];
-    let currentBookVerseReferences = [];
+    let currentBookVerseReferences = this.getBookVerseReferences(currentBookShortName,
+                                                                 selectedVerseBoxElements,
+                                                                 getBibleBookFunction,
+                                                                 getVerseReferenceFunction);
     
-    for (let j = 0; j < selectedVerseBoxElements.length; j++) {
-      let currentVerseBox = selectedVerseBoxElements[j];
-      let currentVerseBibleBookShortName = getBibleBookFunction(currentVerseBox);
-
-      if (currentVerseBibleBookShortName == currentBookShortName) {
-        let currentVerseReference = getVerseReferenceFunction(currentVerseBox);
-        currentBookVerseReferences.push(currentVerseReference);
-      }
-    }
-
     let formattedVerseList = await formatVerseList(currentBookVerseReferences, false, currentBookShortName);
     let currentBookName = await (currentBookShortName == 'Ps' ? i18nHelper.getPsalmTranslation() : ipcDb.getBookTitleTranslation(currentBookShortName));
     let currentBookVerseReferenceDisplay = currentBookName + ' ' + formattedVerseList;
@@ -56,6 +49,25 @@ module.exports.getVerseDisplayText = async function(selectedBooks,
   } else {
     return i18n.t("tags.none-selected");
   }
+};
+
+module.exports.getBookVerseReferences = function(book,
+                                                 selectedVerseBoxElements,
+                                                 getBibleBookFunction=getBibleBookShortTitleFromVerseBox,
+                                                 getVerseReferenceFunction=getVerseReference) {
+  let currentBookVerseReferences = [];
+  
+  for (let i = 0; i < selectedVerseBoxElements.length; i++) {
+    let currentVerseBox = selectedVerseBoxElements[i];
+    let currentVerseBibleBookShortName = getBibleBookFunction(currentVerseBox);
+
+    if (currentVerseBibleBookShortName == book) {
+      let currentVerseReference = getVerseReferenceFunction(currentVerseBox);
+      currentBookVerseReferences.push(currentVerseReference);
+    }
+  }
+
+  return currentBookVerseReferences;
 };
 
 function getVerseReference(verseBox) {
