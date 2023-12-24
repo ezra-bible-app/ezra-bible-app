@@ -356,6 +356,7 @@
     "copy": "Kopiëren",
     "copy-table-to-clipboard": "Kopieer tabel naar klembord",
     "copy-table-to-clipboard-success": "Tabel gekopieerd naar klembord!",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Notitie aanpassen",
     "delete-note": "Notitie verwijderen",
     "transchange" : {

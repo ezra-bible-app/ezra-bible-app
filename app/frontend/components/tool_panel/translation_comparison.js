@@ -260,6 +260,13 @@ class TranslationComparison {
     let verseTextHtml = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceText, true, separator);
 
     getPlatform().copyToClipboard(verseText, verseTextHtml);
+
+    // eslint-disable-next-line no-undef
+    iziToast.success({
+      message: i18n.t('bible-browser.copy-verse-text-to-clipboard-success'),
+      position: 'bottomRight',
+      timeout: 2000
+    });
   }
 
   getBibleBookShortTitleFromVerseContentTr(verseContentTr) {

@@ -364,6 +364,7 @@
     "copy": "Copier",
     "copy-table-to-clipboard": "Copier le tableau dans le presse-papiers",
     "copy-table-to-clipboard-success": "Le tableau est copié dans le presse-papier !",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Modifier la note",
     "delete-note": "Supprimer la note",
     "transchange" : {
