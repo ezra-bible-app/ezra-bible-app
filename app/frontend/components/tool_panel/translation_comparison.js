@@ -22,6 +22,7 @@ const eventController = require('../../controllers/event_controller.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const { getPlatform } = require('../../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
+const sectionLabelHelper = require('../../helpers/section_label_helper.js');
 
 /**
  * The TranslationComparison component implements a tool panel that shows selected verses
@@ -75,13 +76,13 @@ class TranslationComparison {
       var targetVerseReference = targetTranslationVerse.chapter + moduleReferenceSeparator + targetTranslationVerse.verseNr;
       
       if (totalVerseCount > 1) {
-        verseHtml +=  "<td class='verse-reference-td verse-reference-content'>" + targetVerseReference + "</td>";
+        verseHtml += `<td class='verse-reference-td verse-reference-content' book='${bibleBookShortTitle}'>${targetVerseReference}</td>`;
       }
 
       const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(targetTranslationId);
       const rtlClass = moduleIsRightToLeft ? 'rtl' : '';
 
-      verseHtml += `<td class='verse-content-td verse-text ${rtlClass}'>` + targetTranslationVerse.content + "</td>";
+      verseHtml += `<td class='verse-content-td verse-text ${rtlClass}' book='${bibleBookShortTitle}'>` + targetTranslationVerse.content + "</td>";
       verseHtml += "</tr>";
     }
 
@@ -249,11 +250,27 @@ class TranslationComparison {
     const bibleTranslationId = bibleTranslationCell.innerText;
     const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
-    let verseReferenceText = "";
+    let selectedBooks = await app_controller.verse_selection.getSelectedBooks();
+    let verseReferenceText = await sectionLabelHelper.getVerseDisplayText(selectedBooks,
+                                                                          verseContentTrList,
+                                                                          this.getBibleBookShortTitleFromVerseContentTr,
+                                                                          this.getVerseReferenceFromVerseContentTr);
+
     let verseText = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceText, false, separator);
     let verseTextHtml = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceText, true, separator);
 
     getPlatform().copyToClipboard(verseText, verseTextHtml);
+  }
+
+  getBibleBookShortTitleFromVerseContentTr(verseContentTr) {
+    let verseReferenceContent = verseContentTr.firstChild;
+    let bibleBook = verseReferenceContent.getAttribute('book');
+    return bibleBook;
+  }
+
+  getVerseReferenceFromVerseContentTr(verseContentTr) {
+    let verseReferenceContent = verseContentTr.firstChild;
+    return verseReferenceContent.innerText;
   }
 
   performDelayedContentRefresh() {
