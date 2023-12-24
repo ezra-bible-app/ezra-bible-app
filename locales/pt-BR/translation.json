@@ -354,6 +354,7 @@
     "copy": "Copiar",
     "copy-table-to-clipboard": "Copiar tabela para o clipboard",
     "copy-table-to-clipboard-success": "Tabela copiada para o clipboard!",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Editar nota",
     "delete-note": "Apagar nota",
     "transchange" : {

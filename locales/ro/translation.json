@@ -354,6 +354,7 @@
     "copy": "Copiază",
     "copy-table-to-clipboard": "Copiază tabelul în clipboard",
     "copy-table-to-clipboard-success": "Tabelul copiat în clipboard!",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Editează nota",
     "delete-note": "Șterge nota",
     "transchange" : {
