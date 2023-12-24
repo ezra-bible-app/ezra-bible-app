@@ -208,7 +208,7 @@ class VerseBoxHelper {
     let swordQuoteJesusElements = textElement.find('.sword-quote-jesus');
     swordQuoteJesusElements.each((index, swordQuoteJesus) => {
       let spanElement = document.createElement('span');
-      spanElement.innerText = swordQuoteJesus.innerText;
+      spanElement.innerHTML = swordQuoteJesus.innerHTML;
       spanElement.setAttribute('style', 'color: #B22222;');
       swordQuoteJesus.replaceWith(spanElement);
     });
