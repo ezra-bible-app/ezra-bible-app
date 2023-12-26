@@ -33,7 +33,7 @@
 
 @media (min-width: 1200px) {
   #tool-panel {
-    min-width: 30em;
+    min-width: 33em;
   }
 
   .Android #tool-panel #tag-list-stats {
