@@ -252,7 +252,10 @@ class VerseBoxHelper {
 
         if (currentVerseBook == book) {
           currentVerseElements.push(verseElements[j]);
-          currentReferences.push(currentReference);
+
+          if (currentReference != null) {
+            currentReferences.push(currentReference);
+          }
         }
       }
 
@@ -282,7 +285,7 @@ class VerseBoxHelper {
           }
         }
 
-        if (selectionHasMultipleVerses) {
+        if (selectionHasMultipleVerses && !verseListHasGaps) {
           if (html) {
             selectedText += "<sup>" + currentVerseNr + "</sup> ";
           } else {
