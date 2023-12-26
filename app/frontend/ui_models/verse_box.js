@@ -87,7 +87,13 @@ class VerseBox {
     if (this.verseBoxElement == null) {
       return null;
     } else {
-      var verseReference = this.verseBoxElement.querySelector('.verse-reference-content').innerText;
+      var verseReferenceElement = this.verseBoxElement.querySelector('.verse-reference-content');
+      var verseReference = null;
+      
+      if (verseReferenceElement != null) {
+        verseReference = verseReferenceElement.innerText;
+      }
+
       return verseReference;
     }
   }
