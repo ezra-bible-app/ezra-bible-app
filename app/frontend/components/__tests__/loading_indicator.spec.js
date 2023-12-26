@@ -1,4 +1,4 @@
-require('../loading_indicator');
+require('../generic/loading_indicator');
 
 describe('<loading-indicator>', () => {
   it('renders without errors', async () => {
