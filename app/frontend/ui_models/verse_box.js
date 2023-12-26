@@ -83,11 +83,20 @@ class VerseBox {
     }
   }
 
-  getSplittedReference(referenceSeparator=window.reference_separator) {
+  getReference() {
     if (this.verseBoxElement == null) {
       return null;
     } else {
       var verseReference = this.verseBoxElement.querySelector('.verse-reference-content').innerText;
+      return verseReference;
+    }
+  }
+
+  getSplittedReference(referenceSeparator=window.reference_separator) {
+    if (this.verseBoxElement == null) {
+      return null;
+    } else {
+      var verseReference = this.getReference();
       var splittedReference = verseReference.split(referenceSeparator);
       return splittedReference;
     }

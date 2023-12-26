@@ -70,7 +70,7 @@ class TranslationComparison {
     var verseHtml = "";
     
     if (targetTranslationVerse != null && targetTranslationVerse.content != "") {
-      verseHtml += "<tr class='verse-content-tr'>";
+      verseHtml += `<tr class='verse-content-tr' verse-bible-book-short='${bibleBookShortTitle}'>`;
 
       var moduleReferenceSeparator = await i18nHelper.getReferenceSeparator(targetTranslationId);
       var targetVerseReference = targetTranslationVerse.chapter + moduleReferenceSeparator + targetTranslationVerse.verseNr;
@@ -199,7 +199,7 @@ class TranslationComparison {
         selectedVerseBoxElements.length > 0) {
 
       panelTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
-        await app_controller.verse_selection.getSelectedVerseLabelText();
+        await app_controller.verse_selection.getSelectedVerseLabelText(undefined, true);
 
       helpBox.classList.add('hidden');
 
@@ -253,13 +253,15 @@ class TranslationComparison {
     const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     let selectedBooks = await app_controller.verse_selection.getSelectedBooks();
-    let verseReferenceText = await sectionLabelHelper.getVerseDisplayText(selectedBooks,
-                                                                          verseContentTrList,
-                                                                          this.getBibleBookShortTitleFromVerseContentTr,
-                                                                          this.getVerseReferenceFromVerseContentTr);
+    let verseReferenceTextList = await sectionLabelHelper.getVerseDisplayText(selectedBooks,
+                                                                              verseContentTrList,
+                                                                              true,
+                                                                              false,
+                                                                              this.getBibleBookShortTitleFromVerseContentTr,
+                                                                              this.getVerseReferenceFromVerseContentTr);
 
-    let verseText = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceText, false, separator);
-    let verseTextHtml = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceText, true, separator);
+    let verseText = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceTextList, false, separator);
+    let verseTextHtml = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceTextList, true, separator);
 
     getPlatform().copyToClipboard(verseText, verseTextHtml);
 
