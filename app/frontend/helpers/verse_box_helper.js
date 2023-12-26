@@ -297,7 +297,11 @@ class VerseBoxHelper {
 
         if (verseListHasGaps) {
           let verseReference = book + ' ' + verseReferenceContent;
-          selectedText += this.getLineBreak(html) + this.getLineBreak(html) + verseReference + this.getLineBreak(html) + this.getLineBreak(html);
+          selectedText += this.getLineBreak(html) + this.getLineBreak(html) + verseReference;
+
+          if (j < currentVerseElements.length - 1) {
+            selectedText += this.getLineBreak(html) + this.getLineBreak(html);
+          }
         }
       }
 
