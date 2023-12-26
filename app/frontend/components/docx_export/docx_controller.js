@@ -280,7 +280,7 @@ function renderVerse(verse) {
 
   let currentVerseContent = "";
   let fixedContent = verse.content.replace(/<([a-z]+)(\s?[^>]*?)\/>/g, '<$1$2></$1>'); // replace self closing tags FIXME: Should it be in the NSI?
-  fixedContent = fixedContent.replaceAll('&nbsp;', ' ');
+  fixedContent = fixedContent.replace(/&nbsp;/g, ' ');
   const currentVerseNodes = Array.from(parseHTML(fixedContent).childNodes);
 
   currentVerseContent = currentVerseNodes.reduce((prevContent, currentNode) => {
