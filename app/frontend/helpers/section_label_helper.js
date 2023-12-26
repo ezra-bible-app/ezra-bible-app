@@ -27,6 +27,8 @@ module.exports.initHelper = function(nsi) {
 
 module.exports.getVerseDisplayText = async function(selectedBooks,
                                                     selectedVerseBoxElements,
+                                                    returnAsArray=false,
+                                                    useShortBookTitles=false,
                                                     getBibleBookFunction=getBibleBookShortTitleFromVerseBox,
                                                     getVerseReferenceFunction=getVerseReference) {
   let selectedVerseContent = [];
@@ -38,17 +40,30 @@ module.exports.getVerseDisplayText = async function(selectedBooks,
                                                                  getBibleBookFunction,
                                                                  getVerseReferenceFunction);
     
-    let formattedVerseList = await formatVerseList(currentBookVerseReferences, false, currentBookShortName);
-    let currentBookName = await (currentBookShortName == 'Ps' ? i18nHelper.getPsalmTranslation() : ipcDb.getBookTitleTranslation(currentBookShortName));
+    let formattedVerseList = await this.formatVerseList(currentBookVerseReferences, false, currentBookShortName);
+    let currentBookName = await (useShortBookTitles ? currentBookShortName : ipcDb.getBookTitleTranslation(currentBookShortName));
+
+    if (currentBookShortName == 'Ps' && !useShortBookTitles) {
+      currentBookName = await i18nHelper.getPsalmTranslation();
+    }
+
     let currentBookVerseReferenceDisplay = currentBookName + ' ' + formattedVerseList;
     selectedVerseContent.push(currentBookVerseReferenceDisplay);
   }
 
   if (selectedVerseContent.length > 0) {
-    return selectedVerseContent.join('; ');
+    if (!returnAsArray) {
+      selectedVerseContent = selectedVerseContent.join('; ');
+    }
   } else {
-    return i18n.t("tags.none-selected");
+    selectedVerseContent = i18n.t("tags.none-selected");
+
+    if (returnAsArray) {
+      selectedVerseContent = [ selectedVerseContent ];
+    }
   }
+
+  return selectedVerseContent;
 };
 
 module.exports.getBookVerseReferences = function(book,
@@ -85,7 +100,7 @@ function getBibleBookShortTitleFromVerseBox(verseBox) {
   return new VerseBox(verseBox).getBibleBookShortTitle();
 }
 
-function verseListHasGaps(list) {
+module.exports.verseListHasGaps = function(list) {
   let hasGaps = false;
 
   for (let i = 1; i < list.length; i++) {
@@ -96,7 +111,7 @@ function verseListHasGaps(list) {
   }
 
   return hasGaps;
-}
+};
 
 async function formatSingleVerseBlock(list, start_index, end_index, turn_into_link, bookId=undefined) {
   if (bookId == undefined) {
@@ -125,7 +140,7 @@ async function formatSingleVerseBlock(list, start_index, end_index, turn_into_li
   return formatted_passage;
 }
 
-async function verseReferenceListToAbsoluteVerseNrList(list, bookId=undefined) {
+module.exports.verseReferenceListToAbsoluteVerseNrList = async function(list, bookId=undefined) {
   if (verseReferenceHelper == null) {
     return [];
   }
@@ -143,14 +158,14 @@ async function verseReferenceListToAbsoluteVerseNrList(list, bookId=undefined) {
   }
 
   return new_list;
-}
+};
 
-async function formatVerseList(selected_verse_array, link_references, bookId=undefined) {
-  const absolute_nr_list = await verseReferenceListToAbsoluteVerseNrList(selected_verse_array, bookId);
+module.exports.formatVerseList = async function(selected_verse_array, link_references, bookId=undefined) {
+  const absolute_nr_list = await this.verseReferenceListToAbsoluteVerseNrList(selected_verse_array, bookId);
   let verse_list_for_view = "";
 
   if (selected_verse_array.length > 0) {
-    if (verseListHasGaps(absolute_nr_list)) {
+    if (this.verseListHasGaps(absolute_nr_list)) {
       let current_start_index = 0;
 
       for (let i = 0; i < absolute_nr_list.length; i++) {
@@ -195,7 +210,7 @@ async function formatVerseList(selected_verse_array, link_references, bookId=und
   }
 
   return verse_list_for_view;
-}
+};
 
 async function formatPassageReference(book_short_title, start_reference, end_reference, reference_separator=undefined) {
   let bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();

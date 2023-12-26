@@ -18,6 +18,7 @@
 
 const VerseBox = require("../ui_models/verse_box.js");
 const verseListController = require('../controllers/verse_list_controller.js');
+const sectionLabelHelper = require('./section_label_helper.js');
 
 class VerseBoxHelper {
   constructor() {}
@@ -39,13 +40,15 @@ class VerseBoxHelper {
 
   getBookListFromVerseBoxes(verseBoxes) {
     var bookList = [];
-    verseBoxes.forEach((verseBox) => {
+
+    for (let i = 0; i < verseBoxes.length; i++) {
+      let verseBox = verseBoxes[i];
       var verseBibleBook = new VerseBox(verseBox).getBibleBookShortTitle();
 
       if (!bookList.includes(verseBibleBook)) {
         bookList.push(verseBibleBook);
       }
-    });
+    }
 
     return bookList;
   }
@@ -233,53 +236,83 @@ class VerseBoxHelper {
     return htmlCode;
   }
 
-  getVerseTextFromVerseElements(verseElements, verseReferenceText, html=false, referenceSeparator=window.reference_separator) {
-    var selectedText = "";
-    const selectionHasMultipleVerses = verseElements.length > 1;
-
+  async getVerseTextFromVerseElements(verseElements, verseReferenceTextList, html=false, referenceSeparator=window.reference_separator) {
     const paragraphsOption = app_controller.optionsMenu._paragraphsOption;
+    const bookList = this.getBookListFromVerseBoxes(verseElements);
+    var selectedText = "";
 
-    for (let i = 0; i < verseElements.length; i++) {
-      let currentVerseBox = $(verseElements[i]);
-      let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
-      let currentVerseNr = verseReferenceContent.split(referenceSeparator)[1];
-      let currentText = currentVerseBox.find('.verse-text').clone();
+    for (let i = 0; i < bookList.length; i++) {
+      let book = bookList[i];
+      let currentVerseElements = [];
+      let currentReferences = [];
 
-      if (paragraphsOption.isChecked) {
-        let paragraphBreaks = this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html);
-        currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
+      for (let j = 0; j < verseElements.length; j++) {
+        let currentReference = new VerseBox(verseElements[j]).getReference();
+        let currentVerseBook = new VerseBox(verseElements[j]).getBibleBookShortTitle();
+
+        if (currentVerseBook == book) {
+          currentVerseElements.push(verseElements[j]);
+          currentReferences.push(currentReference);
+        }
       }
 
-      currentText.find('.sword-markup').filter(":not('.sword-quote-jesus, .sword-quote')").remove();
+      let selectionHasMultipleVerses = currentVerseElements.length > 1;
+      let absoluteNrList = await sectionLabelHelper.verseReferenceListToAbsoluteVerseNrList(currentReferences, book);
+      let verseListHasGaps = sectionLabelHelper.verseListHasGaps(absoluteNrList);
+
+      for (let j= 0; j < currentVerseElements.length; j++) {
+        let currentVerseBox = $(currentVerseElements[j]);
+        let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
+        let currentVerseNr = verseReferenceContent.split(referenceSeparator)[1];
+        let currentText = currentVerseBox.find('.verse-text').clone();
+
+        if (paragraphsOption.isChecked && j < currentVerseElements.length - 1) {
+          let paragraphBreaks = this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html);
+          currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
+        }
+
+        currentText.find('.sword-markup').filter(":not('.sword-quote-jesus, .sword-quote')").remove();
+
+        if (html) {
+          this.convertTransChangeToItalic(currentText);
+
+          const redLetterOption = app_controller.optionsMenu._redLetterOption;
+          if (redLetterOption.isChecked) {
+            this.convertSwordQuoteJesusToSpanElement(currentText);
+          }
+        }
+
+        if (selectionHasMultipleVerses) {
+          if (html) {
+            selectedText += "<sup>" + currentVerseNr + "</sup> ";
+          } else {
+            selectedText += currentVerseNr + " ";
+          }
+        }
+
+        selectedText += currentText.html().replace(/&nbsp;/g, ' ') + " ";
+
+        if (verseListHasGaps) {
+          let verseReference = book + ' ' + verseReferenceContent;
+          selectedText += this.getLineBreak(html) + this.getLineBreak(html) + verseReference + this.getLineBreak(html) + this.getLineBreak(html);
+        }
+      }
+
+      const parser = new DOMParser();
+      let htmlText = parser.parseFromString("<div>" + selectedText.trim() + "</div>", 'text/html');
+
+      selectedText = html ? htmlText.querySelector('div').innerHTML : htmlText.querySelector('div').innerText;
+      if (!verseListHasGaps) {
+        selectedText += " " + this.getLineBreak(html) + this.getLineBreak(html) + verseReferenceTextList[i];
+      }
+
+      if (i < bookList.length - 1) {
+        selectedText += this.getLineBreak(html) + this.getLineBreak(html);
+      }
 
       if (html) {
-        this.convertTransChangeToItalic(currentText);
-
-        const redLetterOption = app_controller.optionsMenu._redLetterOption;
-        if (redLetterOption.isChecked) {
-          this.convertSwordQuoteJesusToSpanElement(currentText);
-        }
+        selectedText = this.sanitizeHtmlCode(selectedText);
       }
-
-      if (selectionHasMultipleVerses) {
-        if (html) {
-          selectedText += "<sup>" + currentVerseNr + "</sup> ";
-        } else {
-          selectedText += currentVerseNr + " ";
-        }
-      }
-
-      selectedText += currentText.html().replace(/&nbsp;/g, ' ') + " ";
-    }
-
-    const parser = new DOMParser();
-    let htmlText = parser.parseFromString("<div>" + selectedText.trim() + "</div>", 'text/html');
-
-    selectedText = html ? htmlText.querySelector('div').innerHTML : htmlText.querySelector('div').innerText;
-    selectedText += " " + this.getLineBreak(html) + this.getLineBreak(html) + verseReferenceText;
-
-    if (html) {
-      selectedText = this.sanitizeHtmlCode(selectedText);
     }
 
     return selectedText;

@@ -332,13 +332,13 @@ class VerseSelection {
     return selected_verse_ids;
   }
 
-  async getSelectedVerseLabelText(selectedVerseDisplayText=undefined) {
+  async getSelectedVerseLabelText(selectedVerseDisplayText=undefined, useShortBookTitles=false) {
     var preDefinedText = false;
 
     if (!this.someVersesSelected()) {
       if (selectedVerseDisplayText == undefined && !this.someVersesSelected()) {
         const selectedBooks = await this.getSelectedBooks();
-        selectedVerseDisplayText = await sectionLabelHelper.getVerseDisplayText(selectedBooks, this.selectedVerseBoxElements);
+        selectedVerseDisplayText = await sectionLabelHelper.getVerseDisplayText(selectedBooks, this.selectedVerseBoxElements, false, useShortBookTitles);
       } else {
         preDefinedText = true;
       }
@@ -380,9 +380,9 @@ class VerseSelection {
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
     
-    let selectedVerseBoxes = this.selectedVerseBoxElements;
-    let verseReferenceText = this.getSelectedVersesLabel().text();
-    let selectedText = this.verseBoxHelper.getVerseTextFromVerseElements(selectedVerseBoxes, verseReferenceText, html, separator);
+    const selectedBooks = await this.getSelectedBooks();
+    let verseReferenceText = await sectionLabelHelper.getVerseDisplayText(selectedBooks, this.selectedVerseBoxElements, true);
+    let selectedText = await this.verseBoxHelper.getVerseTextFromVerseElements(this.selectedVerseBoxElements, verseReferenceText, html, separator);
 
     return selectedText;
   }
