@@ -24,7 +24,6 @@ Feature: Adding, viewing and editing notes
     Given I open the book selection menu
     And I select the book Ephesians
 
-  @remove-last-note-after-scenario
   Scenario: Adding a note to a book
     Given I have the notes displayed
     And I click on "Ephesians" note
@@ -58,7 +57,6 @@ Feature: Adding, viewing and editing notes
     Then the note assigned to "Ephesians 1:2" in the database starts with text "**Grace and peace"
     And the note assigned to "Ephesians 1:2" has "strong" text "Grace and peace"
 
-  @remove-last-note-after-scenario
   Scenario: Cancel verse note editing
     Given I have the notes hidden
     And I have the indicators displayed
