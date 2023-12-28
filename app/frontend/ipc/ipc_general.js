@@ -92,6 +92,10 @@ class IpcGeneral {
   async resetIpcCallStats() {
     return await this._ipcRenderer.call('general_resetIpcCallStats');
   }
+
+  async setSendCrashReports(sendCrashReports) {
+    return await this._ipcRenderer.call('general_setSendCrashReports', sendCrashReports);
+  }
 }
 
 module.exports = IpcGeneral;
