@@ -43,23 +43,13 @@ class CommentaryPanel {
       refreshWithSelection();
     });
 
-    eventController.subscribe('on-translation-added', (moduleCode) => {
+    eventController.subscribeMultiple(['on-translation-added', 'on-translation-removed'], (moduleCode) => {
       if (moduleCode == 'KJV') {
         refreshWithSelection();
       }
     });
 
-    eventController.subscribe('on-translation-removed', (moduleCode) => {
-      if (moduleCode == 'KJV') {
-        refreshWithSelection();
-      }
-    });
-
-    eventController.subscribe('on-commentary-added', () => {
-      refreshWithSelection();
-    });
-
-    eventController.subscribe('on-commentary-removed', () => {
+    eventController.subscribeMultiple(['on-commentary-added', 'on-commentary-removed'], () => {
       refreshWithSelection();
     });
   }

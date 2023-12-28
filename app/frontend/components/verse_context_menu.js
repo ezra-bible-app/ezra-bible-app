@@ -73,12 +73,7 @@ class VerseContextMenu extends HTMLElement {
       this.hideVerseContextMenuButton(tabIndex);
     });
 
-    eventController.subscribe('on-note-created', () => {
-      let selection = { 'selectedElements' : app_controller.verse_selection.getSelectedVerseBoxes() };
-      this.toggleButtons(selection);
-    });
-
-    eventController.subscribe('on-note-deleted', () => {
+    eventController.subscribeMultiple(['on-note-created', 'on-note-deleted'], () => {
       let selection = { 'selectedElements' : app_controller.verse_selection.getSelectedVerseBoxes() };
       this.toggleButtons(selection);
     });

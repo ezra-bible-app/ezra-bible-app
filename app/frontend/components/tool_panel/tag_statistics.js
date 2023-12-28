@@ -33,11 +33,7 @@ class TagStatistics {
       this.clearTagStatisticsPanel(tabIndex);
     });
 
-    eventController.subscribe('on-tag-deleted', async () => {
-      await this.updateBookTagStatistics();
-    });
-
-    eventController.subscribe('on-latest-tag-changed', async () => {
+    eventController.subscribeMultiple(['on-tag-deleted', 'on-latest-tag-changed'], async () => {
       await this.updateBookTagStatistics();
     });
 
