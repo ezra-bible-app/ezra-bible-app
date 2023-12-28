@@ -140,11 +140,7 @@ class TagsController {
       this.refreshTagDialogs();
     });
 
-    eventController.subscribe('on-translation-added', async () => {
-      await this.updateTagUiBasedOnTagAvailability();
-    });
-
-    eventController.subscribe('on-translation-removed', async () => {
+    eventController.subscribeMultiple(['on-translation-added', 'on-translation-removed'], async () => {
       await this.updateTagUiBasedOnTagAvailability();
     });
 
