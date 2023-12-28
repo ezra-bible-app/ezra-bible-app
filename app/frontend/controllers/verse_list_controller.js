@@ -45,7 +45,7 @@ module.exports.init = function init() {
     }
   });
 
-  eventController.subscribe('on-tag-group-filter-enabled', async () => {
+  eventController.subscribeMultiple(['on-tag-group-filter-enabled', 'on-tag-group-members-changed'], async () => {
     this.applyTagGroupFilter(tags_controller.currentTagGroupId);
   });
 
@@ -57,10 +57,6 @@ module.exports.init = function init() {
     if (tagGroup != null && tagGroup != undefined) {
       this.applyTagGroupFilter(tagGroup.id);
     }
-  });
-
-  eventController.subscribe('on-tag-group-members-changed', async() => {
-    this.applyTagGroupFilter(tags_controller.currentTagGroupId);
   });
 };
 

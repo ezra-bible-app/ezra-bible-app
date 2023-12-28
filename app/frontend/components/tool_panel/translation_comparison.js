@@ -32,15 +32,7 @@ const sectionLabelHelper = require('../../helpers/section_label_helper.js');
  */
 class TranslationComparison {
   constructor() {
-    eventController.subscribe('on-verses-selected', () => {
-      this.performRefresh();
-    });
-
-    eventController.subscribe('on-compare-panel-switched', () => {
-      this.performRefresh();
-    });
-
-    eventController.subscribe('on-locale-changed', () => {
+    eventController.subscribeMultiple(['on-verses-selected', 'on-compare-panel-switched', 'on-locale-changed'], () => {
       this.performRefresh();
     });
 

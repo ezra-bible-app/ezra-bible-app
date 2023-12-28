@@ -64,11 +64,7 @@ class TagSelectionMenu {
       this.initForTab(tabIndex);
     });
 
-    eventController.subscribe('on-tag-created', async () => {
-      await this.requestTagsForMenu(this.currentTagGroupId, true);
-    });
-
-    eventController.subscribe('on-tag-deleted', async () => {
+    eventController.subscribeMultiple(['on-tag-created', 'on-tag-deleted'], async () => {
       await this.requestTagsForMenu(this.currentTagGroupId, true);
     });
 

@@ -207,11 +207,7 @@ class TagGroupList extends HTMLElement {
       }
     });
 
-    eventController.subscribe('on-tag-created', async () => {
-      await this.updateTagCountAndRefreshList();
-    });
-
-    eventController.subscribe('on-tag-deleted', async () => {
+    eventController.subscribeMultiple(['on-tag-created', 'on-tag-deleted'], async () => {
       await this.updateTagCountAndRefreshList();
     });
   }
