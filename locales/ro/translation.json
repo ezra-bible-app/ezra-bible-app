@@ -200,7 +200,10 @@
     "configure-translations": "Configurează traducerile",
     "configure-dicts": "Configurează dicționarele",
     "configure-commentaries": "Configurează comentariile",
-    "context": "Context"
+    "context": "Context",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, creează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă click sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",
@@ -433,7 +436,6 @@
     "waiting-app-ready": "În așteptare ca aplicație să fie pregătită"
   },
   "dropbox": {
-    "database-dropbox-sync": "Sincronizarea bazei de date din Dropbox",
     "setup-db-sync": "Configurează sincronizarea cu Dropbox",
     "dropbox-sync-explanation-part1": "Sincronizarea cu Dropbox poate fi folosită pentru a îți sincroniza baza de date  Ezra&nbsp;Bible&nbsp;App cu mai multe dispozitive pe care le deții.",
     "dropbox-sync-explanation-part2": "Baza de date va fi sincronizată cu la evenimentele următoare:",

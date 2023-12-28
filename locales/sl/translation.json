@@ -200,7 +200,10 @@
     "configure-translations": "Konfiguriraj prevode",
     "configure-dicts": "Konfiguriraj slovarje",
     "configure-commentaries": "Konfiguriraj komentarje",
-    "context": "Kontekst"
+    "context": "Kontekst",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports"
   },
   "help": {
     "help-text-no-tags-book-opened": "Če želite začeti delati z oznakami, ustvarite svojo prvo oznako s klikom na gumb <i>Nova&nbspoznaka</i>.<br/><br/>Nato lahko brskate po svetopisemskem besedilu, kliknete ali povlečete in izberete vrstice in nato dodelite oznako, ki ste jo pravkar ustvarili.",
@@ -433,7 +436,6 @@
     "waiting-app-ready": "Čakanje, da se aplikacija pripravi"
   },
   "dropbox": {
-    "database-dropbox-sync": "Sinhroniziranje Dropboxove baze",
     "setup-db-sync": "Nastavitev sinhronizacije Dropbox",
     "dropbox-sync-explanation-part1": "Sinhronizacijo Dropboxa lahko uporabite za sinhronizacijo baze podatkov aplikacije Ezra&nbsp;Bible&nbsp;App v več napravah.",
     "dropbox-sync-explanation-part2": "Podatkovna baza se bo sinhronizirala v naslednjih primerih:",

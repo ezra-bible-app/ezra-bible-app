@@ -200,7 +200,10 @@
     "configure-translations": "Nastavenie prekladov",
     "configure-dicts": "Nastavenie slovníkov",
     "configure-commentaries": "Konfigurácia komentárov",
-    "context": "Kontext"
+    "context": "Kontext",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -433,7 +436,6 @@
     "waiting-app-ready": "Čaká sa na spustenie aplikácie"
   },
   "dropbox": {
-    "database-dropbox-sync": "Synchronizácia databázy s Dropboxom",
     "setup-db-sync": "Nastaviť Dropbox synchornizáciu",
     "dropbox-sync-explanation-part1": "Synchronizácia Dropbox sa dá použiť na synchronizáciu databázy aplikácie Ezra Bible na viacerých zariadeniach.",
     "dropbox-sync-explanation-part2": "Databáza bude synchronizovaná v nasledujúcich udalostiach:",
