@@ -102,13 +102,18 @@ class VerseContextMenu extends HTMLElement {
       }
 
       const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
-      const firstVerseBox = selectedVerseBoxes[0];
 
-      if (firstVerseBox != null) {
-        const notesInfo = firstVerseBox.querySelector('.notes-info');
-        
-        if (notesInfo.classList.contains('visible')) {
-          this.enableDeleteNoteButton();
+      if (selectedVerseBoxes.length > 0) {
+        const firstVerseBox = selectedVerseBoxes[0];
+
+        if (firstVerseBox != null && typeof(firstVerseBox.querySelector) == 'function') {
+          const notesInfo = firstVerseBox.querySelector('.notes-info');
+          
+          if (notesInfo.classList != null && notesInfo.classList.contains('visible')) {
+            this.enableDeleteNoteButton();
+          } else {
+            this.disableDeleteNoteButton();
+          }
         } else {
           this.disableDeleteNoteButton();
         }
