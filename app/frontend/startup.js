@@ -51,6 +51,10 @@ class Startup {
 
     window.app_controller = null;
     window.tags_controller = null;
+
+    if (window.sendCrashReports == null) {
+      window.sendCrashReports = false;
+    }
   }
 
   async initTest() {
@@ -362,7 +366,9 @@ class Startup {
 
     //await app_controller.translation_controller.installStrongsIfNeeded();
 
-    if (this._platformHelper.isElectron()) {
+    let checkNewReleasesOption = app_controller.optionsMenu._checkNewReleasesOption;
+
+    if (this._platformHelper.isElectron() && checkNewReleasesOption.isChecked) {
       console.log("Checking for latest release ...");
       const NewReleaseChecker = require('./helpers/new_release_checker.js');
       var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
