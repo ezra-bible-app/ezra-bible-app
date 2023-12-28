@@ -77,15 +77,10 @@ class NavigationPane {
       }
     };
 
-    eventController.subscribe('on-tag-group-selected', () => {
-      updateChapterTagIndicatorsForBookTextType();
-    });
+    eventController.subscribeMultiple(['on-tag-group-selected',
+                                       'on-tag-group-filter-enabled',
+                                       'on-tag-group-filter-disabled'], () => {
 
-    eventController.subscribe('on-tag-group-filter-enabled', () => {
-      updateChapterTagIndicatorsForBookTextType();
-    });
-
-    eventController.subscribe('on-tag-group-filter-disabled', () => {
       updateChapterTagIndicatorsForBookTextType();
     });
   }
