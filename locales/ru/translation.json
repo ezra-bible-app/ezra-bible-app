@@ -202,7 +202,10 @@
     "configure-translations": "Управлять переводами",
     "configure-dicts": "Управлять словарями",
     "configure-commentaries": "Управлять комментариями",
-    "context": "Контекст"
+    "context": "Контекст",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports"
   },
   "help": {
     "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
@@ -436,7 +439,6 @@
     "waiting-app-ready": "Ожидание готовности приложения"
   },
   "dropbox": {
-    "database-dropbox-sync": "Синхронизация базы данных через Dropbox",
     "setup-db-sync": "Настройка Dropbox синхронизации",
     "dropbox-sync-explanation-part1": "С помощью Dropbox синхронизации можно синхронизировать вашу базу данных Ezra&nbsp;Bible&nbsp;App на разных устройствах.",
     "dropbox-sync-explanation-part2": "База данных будет синхронизированна в следующих случаях:",
