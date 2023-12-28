@@ -839,6 +839,11 @@ main.content {
   height: fit-content;
 }
 
+/* We do not check for new releases on Android and therefore do not show this option. */
+.Android #checkNewReleasesOption {
+  display: none;
+}
+
 .selection-menu-footer {
   clear: both;
   margin: 0;
