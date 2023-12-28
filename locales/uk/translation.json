@@ -200,7 +200,10 @@
     "configure-translations": "Переклади Біблії",
     "configure-dicts": "Словники",
     "configure-commentaries": "Коментарі",
-    "context": "Контекст"
+    "context": "Контекст",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports"
   },
   "help": {
     "help-text-no-tags-book-opened": "Щоб розпочати роботу з мітами, створіть свою першу міту, натиснувши кнопку <i>Нова&nbsp;міта</i>. <br/><br/>Після цього ви можете переглядати текст Біблії, клацати або перетягувати вірші, щоб призначати щойно створену міту.",
@@ -433,7 +436,6 @@
     "waiting-app-ready": "Очікування готовності застосунку"
   },
   "dropbox": {
-    "database-dropbox-sync": "Позгода бази даних з Dropbox",
     "setup-db-sync": "Налаштувати позгоду з Dropbox",
     "dropbox-sync-explanation-part1": "Позгода з Dropbox може узгодити вашу базу даних Біблійного&nbsp;застосунку&nbsp;Єздри між різними пристроями.",
     "dropbox-sync-explanation-part2": "Базу даних буде узгоджено у наступних випадках:",

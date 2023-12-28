@@ -210,7 +210,10 @@
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
     "configure-commentaries": "Configurer des commentaires",
-    "context": "Contexte"
+    "context": "Contexte",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",
@@ -443,7 +446,6 @@
     "waiting-app-ready": "En attente de la préparation de l’application"
   },
   "dropbox": {
-    "database-dropbox-sync": "Synchroniser la base de données avec Dropbox",
     "setup-db-sync": "Configurer la synchronisation Dropbox",
     "dropbox-sync-explanation-part1": "La synchronisation Dropbox peut être utilisée pour synchroniser votre base de données d'Ezra&nbsp;Bible&nbsp;App sur plusieurs appareils.",
     "dropbox-sync-explanation-part2": "La base de données sera synchronisée dans les événements suivants :",

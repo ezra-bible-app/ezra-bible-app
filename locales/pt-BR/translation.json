@@ -200,7 +200,10 @@
     "configure-translations": "Configurar traduções",
     "configure-dicts": "Configurar dicionários",
     "configure-commentaries": "Configurar comentários",
-    "context": "Contexto"
+    "context": "Contexto",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para começar a trabalhar com etiquetas, crie a primeira clicando no botão <i>Nova&nbsp;etiqueta</i>.<br/><br/>Depois disso, você pode navegar pelo texto da Bíblia e clicar, ou arrastar, e selecionar versículos - e em seguida, atribua a etiqueta que você acabou de criar.",
@@ -433,7 +436,6 @@
     "waiting-app-ready": "Aguardando aplicativo ficar pronto"
   },
   "dropbox": {
-    "database-dropbox-sync": "Sincronização do banco de dados via Dropbox",
     "setup-db-sync": "Configurar sincronização via Dropbox",
     "dropbox-sync-explanation-part1": "A sincronização via Dropbox pode ser usada para sincronizar o banco de dados do aplicativo Bíblia Esdras em vários dispositivos.",
     "dropbox-sync-explanation-part2": "O banco de dados será sincronizado nos seguintes eventos:",
