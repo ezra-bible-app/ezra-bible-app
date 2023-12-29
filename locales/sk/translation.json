@@ -203,7 +203,8 @@
     "context": "Kontext",
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
-    "send-crash-reports": "Send error reports"
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -421,7 +422,6 @@
     }
   },
   "cordova" : {
-    "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
     "storage-justification": "Ezra Bible App potrebuje prístup do úložnej oblasti zariadenia, aby mohol ukladať moduly SWORD a ukladať svoju databázu.<br><br>Po stlačení tlačidla nižšie budete požiadaní, aby ste aplikácii Ezra Bible App povolili prístup k súborom vo vašom zariadení.",
     "enable-storage-access": "Povoliť prístup k internému úložisku",
     "storage-permission-denied": "Rozhodli ste sa odmietnuť prístup k úložisku. <br> Môžete to zmeniť stlačením tlačidla nižšie!",

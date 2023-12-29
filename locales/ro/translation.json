@@ -203,7 +203,8 @@
     "context": "Context",
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
-    "send-crash-reports": "Send error reports"
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, creează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă click sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",
@@ -421,7 +422,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!",
     "storage-justification": "Ezra Bible App are nevoie de acces la zona de stocare a dispozitivului pentru a salva modulele SWORD și a stoca baza de date a acestuia.<br><br>După apăsarea butonului de mai jos, ți se va cere să permiți aplicației Ezra Bible să acceseze fișierele de pe dispozitivul tău.",
     "enable-storage-access": "Activează accesul la stocarea dispozitivului",
     "storage-permission-denied": "Ai decis să refuzi accesul la stocare.<br>Poți schimba acest lucru apăsând butonul de mai jos!",

@@ -203,7 +203,8 @@
     "context": "Contexto",
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
-    "send-crash-reports": "Send error reports"
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Bem vindo ao aplicativo Bíblia Esdras!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para começar a trabalhar com etiquetas, crie a primeira clicando no botão <i>Nova&nbsp;etiqueta</i>.<br/><br/>Depois disso, você pode navegar pelo texto da Bíblia e clicar, ou arrastar, e selecionar versículos - e em seguida, atribua a etiqueta que você acabou de criar.",
@@ -421,7 +422,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Bem vindo ao aplicativo Bíblia Esdras!",
     "storage-justification": "A Bíblia Esdras precisa ter acesso a área de armazenamento do dispositivo para salvar módulos The SWORD e armazenar seu banco de dados.<br><br>Após pressionar o botão abaixo, você será deverá conceder permissão para que a Bíblia Esdras acesse os arquivos em seu dispositivo.",
     "enable-storage-access": "Permitir acesso ao armazenamento do dispositivo",
     "storage-permission-denied": "Você decidiu negar o acesso ao armazenamento.<br>Você pode alterar isso pressionando o botão abaixo!",

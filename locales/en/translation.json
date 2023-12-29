@@ -204,7 +204,16 @@
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
     "send-crash-reports": "Send error reports",
-    "confirm-privacy-options": "Confirm data privacy options"
+    "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!"
+  },
+  "data-privacy": {
+    "confirm-privacy-options": "Confirm data privacy options",
+    "data-privacy-options": "Data privacy options",
+    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access.<br/> You can also make changes in the Options menu later.",
+    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with GitHub, where new releases are published.",
+    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
+    "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
+    "send-crash-reports-hint-part3": "Note that the error reports only contain technical information and do not require much data bandwidth."
   },
   "help": {
     "help-text-no-tags-book-opened": "To start working with tags, create your first tag by clicking on the button <i>New&nbsp;tag</i>.<br/><br/>After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.",
@@ -422,7 +431,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Welcome to the Ezra Bible App!",
     "storage-justification": "Ezra Bible App needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible App to access files on your device.",
     "enable-storage-access": "Enable access to device storage",
     "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",

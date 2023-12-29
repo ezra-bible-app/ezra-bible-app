@@ -213,7 +213,8 @@
     "context": "Contexte",
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
-    "send-crash-reports": "Send error reports"
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",
@@ -431,7 +432,6 @@
     }
   },
   "cordova" : {
-    "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !",
     "storage-justification": "Ezra Bible App a besoin d’accéder au stockage de l’appareil pour enregistrer les modules SWORD et stocker sa base de données. <br> <br> Après avoir appuyé sur le bouton ci-dessous, il vous sera demandé d’autoriser Ezra Bible App à accéder aux fichiers de votre appareil.",
     "enable-storage-access": "Activer l’accès au stockage de l’appareil",
     "storage-permission-denied": "Vous avez décidé de refuser l’accès au stockage. <br> Vous pouvez modifier cela en appuyant sur le bouton ci-dessous !",
