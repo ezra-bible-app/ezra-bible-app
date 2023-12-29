@@ -299,6 +299,7 @@ class Startup {
       dialogOptions.title = i18n.t('data-privacy.confirm-privacy-options');
       dialogOptions.resizable = false;
       dialogOptions.modal = true;
+      dialogOptions.dialogClass = 'ezra-dialog privacy-options-dialog';
       dialogOptions.close = () => {
         $dialogBox.dialog('destroy');
         $dialogBox.remove();
@@ -307,6 +308,8 @@ class Startup {
 
       Mousetrap.bind('esc', () => { $dialogBox.dialog("close"); });
       $dialogBox.dialog(dialogOptions);
+      
+      $('.privacy-options-dialog').find('.ui-dialog-titlebar-close').hide();
     });
   }
 
