@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-
+const Mousetrap = require('mousetrap');
 const PlatformHelper = require('../lib/platform_helper.js');
 const IpcGeneral = require('./ipc/ipc_general.js');
 const IpcI18n = require('./ipc/ipc_i18n.js');
@@ -31,7 +31,7 @@ const eventController = require('./controllers/event_controller.js');
 const UiHelper = require('./helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
 
-const { waitUntilIdle } = require('./helpers/ezra_helper.js');
+const { html, waitUntilIdle } = require('./helpers/ezra_helper.js');
 
 /**
  * The Startup class has the purpose to start up the application.
@@ -111,8 +111,6 @@ class Startup {
 
     this.loadWebComponents();
 
-    const fs = require('fs');
-
     var bookSelectionMenu = null;
     var tagSelectionMenu = null;
     var toolPanel = null;
@@ -145,6 +143,8 @@ class Startup {
 
       // Note that for Cordova these readFileSync calls are all inlined, which means the content of those files
       // becomes part of the bundle when bundling up the sources with Browserify.
+
+      const fs = require('fs');
 
       bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
       tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
@@ -233,6 +233,76 @@ class Startup {
         window.open(link, '_system');
 
       }
+    });
+  }
+
+  async confirmPrivacyOptions() {
+    const dialogBoxTemplate = html`
+      <div id='privacy-options-box-content'>
+        <h2>Privacy options</h2>
+        <p>Welcome to Ezra Bible App! <br/>
+           At the first start you need to confirm the following options. These options do require internet access.<br/>
+           Note that you can also change these options in the options menu later.</p>
+        <h3>Check for new releases</h3>
+        <p>Ezra Bible App can check for new releases at every start. This requires a short interaction with GitHub, where new releases are published.</p>
+
+        <div style='width: 18em;'>
+          <config-option id="checkNewReleasesPrivacyOption" settingsKey="checkNewReleases" label="general.check-new-releases" checkedByDefault="true"></config-option>
+        </div>
+
+        <h3>Send error reports</h3>
+        <p>Ezra Bible App can automatically send error reports to the error tracking platform Sentry.io whenever an error is detected.
+           This helps the development team to become aware of issues much faster and therefore contributes 
+           to the enhancement of Ezra Bible App. Note that the error reports only contain technical information
+           and do not require much data bandwidth.</p>
+
+        <div style='width: 18em;'>
+          <config-option id="sendCrashReportsPrivacyOption" settingsKey="sendCrashReports" label="general.send-crash-reports" checkedByDefault="true"></config-option>
+        </div>
+      </div>
+    `;
+
+    return new Promise((resolve) => {
+      document.querySelector('#privacy-options-box').appendChild(dialogBoxTemplate.content);
+      const $dialogBox = $('#privacy-options-box');
+
+      let checkNewReleasesOption = document.getElementById('checkNewReleasesPrivacyOption');
+      let checkNewReleasesMenuOption = document.getElementById('checkNewReleasesOption');
+      checkNewReleasesOption.addEventListener("optionChanged", async () => {
+        await checkNewReleasesMenuOption.loadOptionFromSettings();
+      });
+
+      let sendCrashReportsOption = document.getElementById('sendCrashReportsPrivacyOption');
+      let sendCrashReportsMenuOption = document.getElementById('sendCrashReportsOption');
+      sendCrashReportsOption.addEventListener("optionChanged", async () => {
+        await sendCrashReportsMenuOption.loadOptionFromSettings();
+      });
+
+      uiHelper.configureButtonStyles('#privacy-options-box');
+      
+      const width = 800;
+      const height = 600;
+      const offsetLeft = ($(window).width() - width)/2;
+
+      let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
+
+      var buttons = {};
+      buttons[i18n.t('general.ok')] = function() {
+        $(this).dialog('close');
+      };
+
+      dialogOptions.buttons = buttons;
+      dialogOptions.title = i18n.t('general.confirm-privacy-options');
+      dialogOptions.resizable = false;
+      dialogOptions.modal = true;
+      dialogOptions.close = () => {
+        $dialogBox.dialog('destroy');
+        $dialogBox.remove();
+        resolve();
+      };
+
+      Mousetrap.bind('esc', () => { $dialogBox.dialog("close"); });
+      $dialogBox.dialog(dialogOptions);
     });
   }
 
@@ -357,16 +427,22 @@ class Startup {
       ipcRenderer.invoke("startupCompleted");
     }
 
-    // Automatically open module assistant to install Bible translations if no translations are installed yet.
+    console.timeEnd("application-startup");
 
+    // Confirm privacy options at first startup
+    const firstStartDone = await ipcSettings.has('firstStartDone');
+    if (!this._platformHelper.isTest() && this._platformHelper.isSupportedPlatform() && !firstStartDone) {
+      await this.confirmPrivacyOptions();
+      await ipcSettings.set('firstStartDone', true);
+    }
+
+    // Automatically open module assistant to install Bible translations if no translations are installed yet.
     if (!this._platformHelper.isTest()) {
       const translationCount = app_controller.translation_controller.getTranslationCount();
       if (translationCount == 0) {
         app_controller.openModuleSettingsAssistant('BIBLE'); 
       }
     }
-
-    console.timeEnd("application-startup");
 
     //await app_controller.translation_controller.installStrongsIfNeeded();
 
@@ -397,8 +473,6 @@ class Startup {
       loadingSubtitleElement.textContent = i18nController.getStringForStartup("cordova.starting-app", "Starting app");
     }
   }
-  
-  
 }
 
 module.exports = Startup;
