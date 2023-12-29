@@ -203,7 +203,8 @@
     "context": "Контекст",
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
-    "send-crash-reports": "Send error reports"
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Щоб розпочати роботу з мітами, створіть свою першу міту, натиснувши кнопку <i>Нова&nbsp;міта</i>. <br/><br/>Після цього ви можете переглядати текст Біблії, клацати або перетягувати вірші, щоб призначати щойно створену міту.",
@@ -421,7 +422,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!",
     "storage-justification": "Біблійний застосунок Єздри потребує доступу до сховища вашого пристрою для зберігання модулів SWORD та власної бази даних.<br><br>Після натискання цієї кнопки буде запит на дозвіл Ezra Bible App до файлів на вашому пристрої.",
     "enable-storage-access": "Надайте дозвіл на доступ до сховища пристрою",
     "storage-permission-denied": "Ви заборонили доступ до сховища пристрою.<br>Ви можете змінити це, натиснувши кнопку нижче!",
