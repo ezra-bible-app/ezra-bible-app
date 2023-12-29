@@ -26,8 +26,13 @@ const eventController = require('./event_controller.js');
  */
 
 const SETTINGS_KEY = 'appLocale';
-
 const jqueryI18next = require('jquery-i18next');
+
+// Initialize the localize function as empty first. This helps to have a functioning JavaScript environment
+// when opening the index.html file just like that.
+jQuery.fn.extend({
+  localize: function() { return null; }
+});
 
 const i18nextOptions = {
   debug: false,
@@ -105,7 +110,7 @@ module.exports.initI18N = async function() {
     .use(I18nIpcBackend)
     .init(i18nextOptions);
 
-  systemLocale = this.getLocale();  
+  systemLocale = this.getLocale();
 
   jqueryI18next.init(i18n, $, {
     tName: 't', // --> appends $.t = i18next.t
