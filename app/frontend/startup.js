@@ -276,6 +276,7 @@ class Startup {
       let sendCrashReportsMenuOption = document.getElementById('sendCrashReportsOption');
       sendCrashReportsOption.addEventListener("optionChanged", async () => {
         await sendCrashReportsMenuOption.loadOptionFromSettings();
+        await app_controller.optionsMenu.toggleCrashReportsBasedOnOption();
       });
 
       uiHelper.configureButtonStyles('#privacy-options-box');
