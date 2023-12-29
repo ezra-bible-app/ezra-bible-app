@@ -344,6 +344,15 @@ class Startup {
     await this.initIpcClients();
 
     console.log("Initializing i18n ...");
+
+    // Initialize the localize function as empty first. This helps to have a functioning JavaScript environment
+    // when opening the index.html file just like that.
+    if (window.jQuery) {
+      jQuery.fn.extend({
+        localize: function() { return null; }
+      });
+    }
+
     if (this._platformHelper.isElectron()) {
       await i18nController.initI18N();
     } else if (this._platformHelper.isCordova()) {
