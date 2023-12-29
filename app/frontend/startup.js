@@ -239,24 +239,24 @@ class Startup {
   async confirmPrivacyOptions() {
     const dialogBoxTemplate = html`
       <div id='privacy-options-box-content'>
-        <h2>Data privacy options</h2>
-        <p>Welcome to Ezra Bible App! <br/><br/>
+        <h2 i18n='data-privacy.data-privacy-options'></h2>
+        <p i18n='general.welcome-to-ezra-bible-app'></p>
 
-           Please confirm the following data privacy options. These options require internet access.<br/>
-           You can also make these changes in the Options menu later.</p>
+        <p i18n='[html]data-privacy.please-confirm-options'></p>
 
-        <h3>Check for new releases</h3>
-        <p>Ezra Bible App can check for new releases at every start. This requires a short interaction with GitHub, where new releases are published.</p>
+        <h3 i18n='general.check-new-releases'></h3>
+        <p i18n='[html]data-privacy.check-new-releases-hint'></p>
 
         <div style='width: 18em;'>
           <config-option id="checkNewReleasesPrivacyOption" settingsKey="checkNewReleases" label="general.check-new-releases" checkedByDefault="true"></config-option>
         </div>
 
-        <h3>Send error reports</h3>
-        <p>Ezra Bible App can automatically send error reports to the error tracking platform Sentry.io whenever an error is detected.
-           This helps the development team to become aware of issues much faster and therefore contributes 
-           to the enhancement of Ezra Bible App. Note that the error reports only contain technical information
-           and do not require much data bandwidth.</p>
+        <h3 i18n='general.send-crash-reports'></h3>
+        <p>
+           <span i18n='[html]data-privacy.send-crash-reports-hint-part1'></span>
+           <span i18n='[html]data-privacy.send-crash-reports-hint-part2'></span>
+           <span i18n='[html]data-privacy.send-crash-reports-hint-part3'></span> 
+        </p>
 
         <div style='width: 18em;'>
           <config-option id="sendCrashReportsPrivacyOption" settingsKey="sendCrashReports" label="general.send-crash-reports" checkedByDefault="true"></config-option>
@@ -267,6 +267,7 @@ class Startup {
     return new Promise((resolve) => {
       document.querySelector('#privacy-options-box').appendChild(dialogBoxTemplate.content);
       const $dialogBox = $('#privacy-options-box');
+      $dialogBox.localize();
 
       let checkNewReleasesOption = document.getElementById('checkNewReleasesPrivacyOption');
       let checkNewReleasesMenuOption = document.getElementById('checkNewReleasesOption');
@@ -295,7 +296,7 @@ class Startup {
       };
 
       dialogOptions.buttons = buttons;
-      dialogOptions.title = i18n.t('general.confirm-privacy-options');
+      dialogOptions.title = i18n.t('data-privacy.confirm-privacy-options');
       dialogOptions.resizable = false;
       dialogOptions.modal = true;
       dialogOptions.close = () => {
