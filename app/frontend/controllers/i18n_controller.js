@@ -30,9 +30,11 @@ const jqueryI18next = require('jquery-i18next');
 
 // Initialize the localize function as empty first. This helps to have a functioning JavaScript environment
 // when opening the index.html file just like that.
-$.fn.extend({
-  localize: function() { return null; }
-});
+if (jQuery !== undefined) {
+  jQuery.fn.extend({
+    localize: function() { return null; }
+  });
+}
 
 const i18nextOptions = {
   debug: false,
