@@ -203,7 +203,8 @@
     "context": "Kontekst",
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
-    "send-crash-reports": "Send error reports"
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Dobrodošli v aplikaciji Ezra Bible App!"
   },
   "help": {
     "help-text-no-tags-book-opened": "Če želite začeti delati z oznakami, ustvarite svojo prvo oznako s klikom na gumb <i>Nova&nbspoznaka</i>.<br/><br/>Nato lahko brskate po svetopisemskem besedilu, kliknete ali povlečete in izberete vrstice in nato dodelite oznako, ki ste jo pravkar ustvarili.",
@@ -421,7 +422,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Dobrodošli v aplikaciji Ezra Bible App!",
     "storage-justification": "Aplikacija Ezra Bible potrebuje dostop do prostora za shranjevanje v napravi, da shrani module SWORD in svojo bazo podatkov.<br><br>Ko pritisnete spodnji gumb, boste pozvani, da aplikaciji Ezra Bible dovolite dostop do datotek v vaši napravi.",
     "enable-storage-access": "Omogoči dostop do shrambe naprave",
     "storage-permission-denied": "Odločili ste se zavrniti dostop do shrambe.<br>To lahko spremenite s pritiskom na spodnji gumb!",

@@ -205,7 +205,8 @@
     "context": "Контекст",
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
-    "send-crash-reports": "Send error reports"
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!"
   },
   "help": {
     "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
@@ -424,7 +425,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!",
     "storage-justification": "Приложению Ezra Bible App требуется доступ к области памяти устройства, чтобы сохранять модули SWORD и базу данных приложения. <br><br> После нажатия кнопки ниже вас попросят разрешить приложению Ezra Bible App доступ к файлам на вашем устройстве. ",
     "enable-storage-access": "Разрешить доступ к хранилищу устройства",
     "storage-permission-denied": "Вы решили запретить доступ к хранилищу. <br>Вы можете изменить это, нажав кнопку ниже!",

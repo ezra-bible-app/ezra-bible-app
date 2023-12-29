@@ -241,7 +241,7 @@ class CordovaPlatform {
 
     uiHelper.hideGlobalLoadingIndicator();
 
-    var welcomeTitle = i18n.t("cordova.welcome-to-ezra-bible-app");
+    var welcomeTitle = i18n.t("general.welcome-to-ezra-bible-app");
 
     let dialogOptions = uiHelper.getDialogOptions(400, null, false, null);
     dialogOptions.dialogClass = 'ezra-dialog welcome-dialog';
