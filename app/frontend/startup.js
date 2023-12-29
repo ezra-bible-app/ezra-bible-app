@@ -239,10 +239,12 @@ class Startup {
   async confirmPrivacyOptions() {
     const dialogBoxTemplate = html`
       <div id='privacy-options-box-content'>
-        <h2>Privacy options</h2>
-        <p>Welcome to Ezra Bible App! <br/>
-           At the first start you need to confirm the following options. These options do require internet access.<br/>
-           Note that you can also change these options in the options menu later.</p>
+        <h2>Data privacy options</h2>
+        <p>Welcome to Ezra Bible App! <br/><br/>
+
+           Please confirm the following data privacy options. These options require internet access.<br/>
+           You can also make these changes in the Options menu later.</p>
+
         <h3>Check for new releases</h3>
         <p>Ezra Bible App can check for new releases at every start. This requires a short interaction with GitHub, where new releases are published.</p>
 
