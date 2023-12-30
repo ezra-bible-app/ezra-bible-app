@@ -299,8 +299,16 @@ class Startup {
         $(this).dialog('close');
       };
 
+      let title = '';
+
+      if (this._platformHelper.isElectron()) { 
+        title = i18n.t('data-privacy.confirm-privacy-options');
+      } else if (this._platformHelper.isCordova()) {
+        title = i18n.t('general.ezra-bible-app') + ' - ' + i18n.t('data-privacy.confirm-privacy-options');
+      }
+
       dialogOptions.buttons = buttons;
-      dialogOptions.title = i18n.t('data-privacy.confirm-privacy-options');
+      dialogOptions.title = title;
       dialogOptions.resizable = false;
       dialogOptions.modal = true;
       dialogOptions.dialogClass = 'ezra-dialog privacy-options-dialog';
