@@ -244,22 +244,26 @@ class Startup {
 
         <p i18n='[html]data-privacy.please-confirm-options'></p>
 
-        <h3 i18n='general.check-new-releases'></h3>
-        <p i18n='[html]data-privacy.check-new-releases-hint'></p>
+        <div id='check-new-releases-box'>
+          <h3 i18n='general.check-new-releases'></h3>
+          <p i18n='[html]data-privacy.check-new-releases-hint'></p>
 
-        <div style='width: 18em;'>
-          <config-option id="checkNewReleasesPrivacyOption" settingsKey="checkNewReleases" label="general.check-new-releases" checkedByDefault="true"></config-option>
+          <div style='width: 18em;'>
+            <config-option id="checkNewReleasesPrivacyOption" settingsKey="checkNewReleases" label="general.check-new-releases" checkedByDefault="true"></config-option>
+          </div>
         </div>
 
-        <h3 i18n='general.send-crash-reports'></h3>
-        <p>
-           <span i18n='[html]data-privacy.send-crash-reports-hint-part1'></span>
-           <span i18n='[html]data-privacy.send-crash-reports-hint-part2'></span>
-           <span i18n='[html]data-privacy.send-crash-reports-hint-part3'></span> 
-        </p>
+        <div id='send-crash-reports-box'>
+          <h3 i18n='general.send-crash-reports'></h3>
+          <p>
+            <span i18n='[html]data-privacy.send-crash-reports-hint-part1'></span>
+            <span i18n='[html]data-privacy.send-crash-reports-hint-part2'></span>
+            <span i18n='[html]data-privacy.send-crash-reports-hint-part3'></span> 
+          </p>
 
-        <div style='width: 18em;'>
-          <config-option id="sendCrashReportsPrivacyOption" settingsKey="sendCrashReports" label="general.send-crash-reports" checkedByDefault="true"></config-option>
+          <div style='width: 18em;'>
+            <config-option id="sendCrashReportsPrivacyOption" settingsKey="sendCrashReports" label="general.send-crash-reports" checkedByDefault="true"></config-option>
+          </div>
         </div>
       </div>
     `;
@@ -351,9 +355,10 @@ class Startup {
 
     console.log("Initializing i18n ...");
 
-    // Initialize the localize function as empty first. This helps to have a functioning JavaScript environment
+    // Initialize the localize function as empty first on unsupported platforms.
+    // This helps to have a functioning JavaScript environment
     // when opening the index.html file just like that.
-    if (window.jQuery) {
+    if (window.jQuery && !this._platformHelper.isSupportedPlatform()) {
       jQuery.fn.extend({
         localize: function() { return null; }
       });
