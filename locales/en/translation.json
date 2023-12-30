@@ -210,7 +210,7 @@
   "data-privacy": {
     "confirm-privacy-options": "Confirm data privacy options",
     "data-privacy-options": "Data privacy options",
-    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access.<br/> You can also make changes in the Options menu later.",
+    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access. You can also make changes in the Options menu later.",
     "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with GitHub, where new releases are published.",
     "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
     "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
