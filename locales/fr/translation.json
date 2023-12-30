@@ -126,6 +126,7 @@
     "module-sync-header": "Installation de modules supplémentaires"
   },
   "general": {
+    "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "À propos d'Ezra Bible App",
     "general-app-info": "Des informations générales sur Ezra Bible App sont disponibles sur le site Web.<br> Des informations techniques sur le développement d'Ezra Bible App sont disponibles sur GitHub.",
     "website": "Website",
