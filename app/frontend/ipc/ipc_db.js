@@ -147,8 +147,8 @@ class IpcDb {
     return await this._ipcRenderer.call('db_updateTagGroup', tagGroupId, title);
   }
 
-  async getAllTagGroups() {
-    return await this._ipcRenderer.call('db_getAllTagGroups');
+  async getAllTagGroups(bibleBookId=0) {
+    return await this._ipcRenderer.call('db_getAllTagGroups', bibleBookId);
   }
 
   async deleteTagGroup(tagGroupId) {
