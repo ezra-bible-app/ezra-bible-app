@@ -211,6 +211,17 @@ class TagListMenu extends HTMLElement {
       }
     });
 
+    eventController.subscribe(this._tagGroupLinkEvent, () => {
+      this.hideTagGroupDisplay();
+      this.getTagGroupListLink().classList.add('list-tag-groups');
+
+      if (this._addElementButtons) {
+        this.showAddTagGroupButton();
+      }
+
+      this.hideAddTagButton();
+    });
+
     this.localize();
 
     this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', async function(event) {
@@ -229,14 +240,6 @@ class TagListMenu extends HTMLElement {
   }
 
   onTagGroupListLinkClicked() {
-    this.hideTagGroupDisplay();
-    this.getTagGroupListLink().classList.add('list-tag-groups');
-
-    if (this._addElementButtons) {
-      this.showAddTagGroupButton();
-    }
-
-    this.hideAddTagButton();
     eventController.publishAsync(this._tagGroupLinkEvent);
   }
 
