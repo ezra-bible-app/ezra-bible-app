@@ -337,8 +337,8 @@ class IpcDbHandler {
       return result;
     });
 
-    this._ipcMain.add('db_getAllTagGroups', async () => {
-      var allSequelizeTagGroups = await global.models.TagGroup.findWithTagCount();
+    this._ipcMain.add('db_getAllTagGroups', async (bibleBookId=0) => {
+      var allSequelizeTagGroups = await global.models.TagGroup.findWithTagCount(bibleBookId);
       var allTagGroups = this.makeSequelizeResultsSerializable(allSequelizeTagGroups);
       return allTagGroups;
     });
