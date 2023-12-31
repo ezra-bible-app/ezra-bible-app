@@ -37,37 +37,35 @@ class TagStatistics {
       await this.updateBookTagStatistics();
     });
 
-    eventController.subscribe('on-tag-group-selected', (tagGroup) => {
-      this.updatePanelHeader(tagGroup);
+    eventController.subscribe('on-tag-group-list-activated', () => {
+      this.getContentBox().style.display = 'none';
+      document.getElementById('tag-statistics-panel-tag-group-list').style.removeProperty('display');
     });
 
-    eventController.subscribe('on-locale-changed', () => {
-      let currentTagGroup = tags_controller.getCurrentTagGroup();
-
-      if (currentTagGroup != null) {
-        this.updatePanelHeader(currentTagGroup);
-      }
+    eventController.subscribe('on-tag-group-selected', async () => {
+      this.showTagStatistics();
     });
   }
 
-  updatePanelHeader(tagGroup) {
-    let tagStatisticsPanelHeader = document.getElementById('tag-statistics-panel-header');
-    let header = i18n.t('tag-statistics-panel.default-header');
+  getContentBox() {
+    return document.getElementById('tag-statistics-panel-content');
+  }
 
-    if (tagGroup != null && tagGroup != undefined && tagGroup.id > 0) {
-      let localizedTagGroup = i18n.t('tags.tag-group');
+  hideTagGroupList() {
+    document.getElementById('tag-statistics-panel-tag-group-list').style.display = 'none';
+  }
 
-      header += ' &mdash; ' + localizedTagGroup + ': ' + tagGroup.title;
-    }
-
-    tagStatisticsPanelHeader.innerHTML = header;
+  async showTagStatistics() {
+    this.hideTagGroupList();
+    this.getContentBox().style.removeProperty('display');
+    await this.updateBookTagStatistics();
   }
 
   clearTagStatisticsPanel(tabIndex) {
     var tab = app_controller.tab_controller.getTab(tabIndex);
 
     if (tab.getTextType() != 'book') {
-      document.getElementById('tag-statistics-panel-content').innerHTML = '';
+      this.getContentBox().innerHTML = '';
     }
   }
 
@@ -190,7 +188,7 @@ class TagStatistics {
     var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
     var allChapterVerseCounts = await ipcNsi.getAllChapterVerseCounts(currentBibleTranslationId, currentBook);
 
-    var bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-content');
+    var bookTagStatisticsBoxContent = this.getContentBox();
 
     if (this.isEmpty()) {
       let helpInstruction = i18n.t('tag-statistics-panel.help-instruction', { interpolation: {escapeValue: false} });
@@ -258,7 +256,7 @@ class TagStatistics {
   }
 
   bindEvents() {
-    const bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-content');
+    const bookTagStatisticsBoxContent = this.getContentBox();
     let tagLinks = bookTagStatisticsBoxContent.querySelectorAll('.tagLink');
 
     tagLinks.forEach((link) => {
