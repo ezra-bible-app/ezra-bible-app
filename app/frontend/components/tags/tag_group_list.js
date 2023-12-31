@@ -188,7 +188,7 @@ class TagGroupList extends HTMLElement {
         const currentBook = this.getCurrentBook();
         let bibleBookId = 0;
 
-        if (currentBook != null) {
+        if (this._bookFilter && currentBook != null) {
           this._tagGroupManager.setBookFilter(currentBook);
           const dbBibleBook = await ipcDb.getBibleBook(currentBook);
           bibleBookId = dbBibleBook.id;
@@ -249,7 +249,7 @@ class TagGroupList extends HTMLElement {
   async updateTagCountAndRefreshList(currentBook) {
     let bibleBookId = 0;
 
-    if (currentBook != null) {
+    if (this._bookFilter && currentBook != null) {
       const dbBibleBook = await ipcDb.getBibleBook(currentBook);
       bibleBookId = dbBibleBook.id;
     }
