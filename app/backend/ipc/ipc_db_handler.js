@@ -286,8 +286,8 @@ class IpcDbHandler {
       return result;
     });
 
-    this._ipcMain.add('db_getTagCount', async () => {
-      return await global.models.Tag.getTagCount();
+    this._ipcMain.add('db_getTagCount', async (bibleBookId=0) => {
+      return await global.models.Tag.getTagCount(bibleBookId);
     });
 
     this._ipcMain.add('db_getAllTags', async (bibleBookId, lastUsed, onlyStats) => {
