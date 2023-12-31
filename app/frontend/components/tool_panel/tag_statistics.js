@@ -67,7 +67,7 @@ class TagStatistics {
     var tab = app_controller.tab_controller.getTab(tabIndex);
 
     if (tab.getTextType() != 'book') {
-      document.getElementById('tag-statistics-panel-wrapper').innerHTML = '';
+      document.getElementById('tag-statistics-panel-content').innerHTML = '';
     }
   }
 
@@ -190,7 +190,7 @@ class TagStatistics {
     var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
     var allChapterVerseCounts = await ipcNsi.getAllChapterVerseCounts(currentBibleTranslationId, currentBook);
 
-    var bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
+    var bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-content');
 
     if (this.isEmpty()) {
       let helpInstruction = i18n.t('tag-statistics-panel.help-instruction', { interpolation: {escapeValue: false} });
@@ -258,7 +258,7 @@ class TagStatistics {
   }
 
   bindEvents() {
-    const bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
+    const bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-content');
     let tagLinks = bookTagStatisticsBoxContent.querySelectorAll('.tagLink');
 
     tagLinks.forEach((link) => {
