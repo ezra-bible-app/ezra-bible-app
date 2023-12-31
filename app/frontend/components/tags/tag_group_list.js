@@ -185,7 +185,16 @@ class TagGroupList extends HTMLElement {
 
     if (this._activationEvent != null) {
       eventController.subscribe(this._activationEvent, async () => {
-        this._virtualTagGroups[0].count = await ipcDb.getTagCount();
+        const currentBook = this.getCurrentBook();
+        let bibleBookId = 0;
+
+        if (currentBook != null) {
+          this._tagGroupManager.setBookFilter(currentBook);
+          const dbBibleBook = await ipcDb.getBibleBook(currentBook);
+          bibleBookId = dbBibleBook.id;
+        }
+
+        this._virtualTagGroups[0].count = await ipcDb.getTagCount(bibleBookId);
         await this._tagGroupManager.populateItemList();
         this.showTagGroupList();
       });
@@ -209,25 +218,43 @@ class TagGroupList extends HTMLElement {
     });
 
     eventController.subscribeMultiple(['on-tag-created', 'on-tag-deleted'], async () => {
-      await this.updateTagCountAndRefreshList();
+      const currentBook = this.getCurrentBook();
+      await this.updateTagCountAndRefreshList(currentBook);
     });
 
     if (this._bookFilter) {
       eventController.subscribe('on-verse-list-init', async (tabIndex) => {
-        const currentTab = app_controller.tab_controller.getTab(tabIndex);
-        const currentBook = currentTab.getBook();
-        const currentTextType = currentTab.getTextType();
+        const currentBook = this.getCurrentBook(tabIndex);
 
-        if (currentTextType == 'book' && currentBook != null) {
+        if (currentBook != null) {
           this._tagGroupManager.setBookFilter(currentBook);
-          await this.updateTagCountAndRefreshList();
+          await this.updateTagCountAndRefreshList(currentBook);
         }
       });
     }
   }
 
-  async updateTagCountAndRefreshList() {
-    this._virtualTagGroups[0].count = await ipcDb.getTagCount();
+  getCurrentBook(tabIndex=undefined) {
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const currentBook = currentTab.getBook();
+    const currentTextType = currentTab.getTextType();
+
+    if (currentTextType == 'book' && currentBook != null) {
+      return currentBook;
+    } else {
+      return null;
+    }
+  }
+
+  async updateTagCountAndRefreshList(currentBook) {
+    let bibleBookId = 0;
+
+    if (currentBook != null) {
+      const dbBibleBook = await ipcDb.getBibleBook(currentBook);
+      bibleBookId = dbBibleBook.id;
+    }
+
+    this._virtualTagGroups[0].count = await ipcDb.getTagCount(bibleBookId);
     await this._tagGroupManager.refreshItemList();
   }
 
