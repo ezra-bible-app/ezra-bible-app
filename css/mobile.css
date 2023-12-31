@@ -616,7 +616,7 @@ Librem 5/Pinephone etc.
 
   #tags-content-global {
     font-size: 0.9em;
-    height: calc(100% - 6.5em) !important;
+    height: calc(100% - 6.2em) !important;
   }
 
   #tags-content-global loading-indicator {
