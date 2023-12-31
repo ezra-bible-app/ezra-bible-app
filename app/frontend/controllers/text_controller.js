@@ -691,7 +691,9 @@ class TextController {
                         append=false, 
                         hasNotes=false) {
     
-    await eventController.publishAsync('on-verse-list-init', tabIndex);
+    if (!append) {
+      await eventController.publishAsync('on-verse-list-init', tabIndex);
+    }
 
     verseListController.hideVerseListLoadingIndicator();
     verseListController.hideSearchProgressBar();
