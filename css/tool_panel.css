@@ -334,7 +334,7 @@ tr.td-underline td {
   margin: 0.1em 0 0 0;
   padding: 0.5em;
   user-select: none;
-  height: calc(100% - 5.8em) !important;
+  height: calc(100% - 5.5em) !important;
   box-sizing: border-box;
 }
 
