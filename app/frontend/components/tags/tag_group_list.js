@@ -136,6 +136,7 @@ class TagGroupList extends HTMLElement {
 
     this._editable = false;
     this._subscriptionDone = false;
+    this._bookFilter = false;
 
     this._tagGroupManager = new TagGroupManager((event) => { this.handleTagGroupClick(event); },
                                                 (itemId) => { this.handleTagGroupEdit(itemId); },
@@ -210,6 +211,19 @@ class TagGroupList extends HTMLElement {
     eventController.subscribeMultiple(['on-tag-created', 'on-tag-deleted'], async () => {
       await this.updateTagCountAndRefreshList();
     });
+
+    if (this._bookFilter) {
+      eventController.subscribe('on-verse-list-init', async (tabIndex) => {
+        const currentTab = app_controller.tab_controller.getTab(tabIndex);
+        const currentBook = currentTab.getBook();
+        const currentTextType = currentTab.getTextType();
+
+        if (currentTextType == 'book' && currentBook != null) {
+          this._tagGroupManager.setBookFilter(currentBook);
+          await this.updateTagCountAndRefreshList();
+        }
+      });
+    }
   }
 
   async updateTagCountAndRefreshList() {
@@ -260,6 +274,14 @@ class TagGroupList extends HTMLElement {
     if (this.hasAttribute('rounded-bottom-corners')) {
       if (this.getAttribute('rounded-bottom-corners') == 'true') {
         this.getContentDiv().classList.add('rounded-bottom-corners');
+      }
+    }
+
+    if (this.hasAttribute('book-filter')) {
+      if (this.getAttribute('book-filter') == 'true') {
+        this._bookFilter = true;
+      } else {
+        this._bookFilter = false;
       }
     }
   }
