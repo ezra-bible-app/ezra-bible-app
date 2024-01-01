@@ -408,7 +408,10 @@
   },
   "tag-statistics-panel": {
     "default-header": "Statistiques des étiquettes",
-    "help-instruction": "Ici, vous verrez des statistiques d'étiquettes basées sur la fréquence à laquelle elles sont utilisées dans un livre.<br><br> Il n'y a actuellement aucune attribution d'étiquettes dans ce livre. Une fois que vous avez commencé à attribuer des étiquettes, les statistiques des étiquettes s'actualisent automatiquement."
+    "help-instruction-part1": "Ici, vous verrez des statistiques d'étiquettes basées sur la fréquence à laquelle elles sont utilisées dans un livre.",
+    "help-instruction-part2": "Il n'y a actuellement aucune attribution d'étiquettes dans ce livre.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Une fois que vous avez commencé à attribuer des étiquettes, les statistiques des étiquettes s'actualisent automatiquement."
   },
   "compare-panel": {
     "default-header": "<b>Comparer les traductions</b>",

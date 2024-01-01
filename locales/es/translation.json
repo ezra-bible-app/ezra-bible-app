@@ -398,7 +398,10 @@
   },
   "tag-statistics-panel": {
     "default-header": "Estadística de etiquetas",
-    "help-instruction": "Aquí usted podrá consultar estadísticas basadas en cuantas ocasiones se usa una etiqueta en un libro.<br><br> Actualmente no hay etiquetas asignadas a este libro. Cuando usted comience a asignarlas, las estadísticas se actualizarán automáticamente."
+    "help-instruction-part1": "Aquí usted podrá consultar estadísticas basadas en cuantas ocasiones se usa una etiqueta en un libro.",
+    "help-instruction-part2": "Actualmente no hay etiquetas asignadas a este libro.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Cuando usted comience a asignarlas, las estadísticas se actualizarán automáticamente."
   },
   "compare-panel": {
     "default-header": "<b>Comparar traducciones</b>",

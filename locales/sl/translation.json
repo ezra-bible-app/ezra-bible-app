@@ -398,7 +398,10 @@
   },
   "tag-statistics-panel": {
     "default-header": "Statistika oznak",
-    "help-instruction": "Tukaj boste videli statistiko oznak glede na to, kako pogosto so uporabljene v knjigi.<br><br> V tej knjigi trenutno ni nobenih dodelitev oznak. Ko začnete dodeljevati oznake, se bo statistika oznak samodejno osvežila."
+    "help-instruction-part1": "Tukaj boste videli statistiko oznak glede na to, kako pogosto so uporabljene v knjigi.",
+    "help-instruction-part2": "V tej knjigi trenutno ni nobenih dodelitev oznak.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Ko začnete dodeljevati oznake, se bo statistika oznak samodejno osvežila."
   },
   "compare-panel": {
     "default-header": "<b>Primerjava prevodov</b>",

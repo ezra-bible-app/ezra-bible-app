@@ -398,7 +398,10 @@
   },
   "tag-statistics-panel": {
     "default-header": "Statistici etichete",
-    "help-instruction": "Aici vei vedea statistici ale etichetelor bazate pe frecvența cu care sunt utilizate într-o carte.<br><br> În prezent, nu există atribuiri de etichete în această carte. Odată ce începi să atribui etichete, statisticile etichetelor se vor reîmprospăta automat."
+    "help-instruction-part1": "Aici vei vedea statistici ale etichetelor bazate pe frecvența cu care sunt utilizate într-o carte.",
+    "help-instruction-part2": "În prezent, nu există atribuiri de etichete în această carte.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Odată ce începi să atribui etichete, statisticile etichetelor se vor reîmprospăta automat."
   },
   "compare-panel": {
     "default-header": "<b>Compară traducerile</b>",
