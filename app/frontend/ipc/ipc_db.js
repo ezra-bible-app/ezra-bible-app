@@ -96,7 +96,7 @@ class IpcDb {
     return await this._ipcRenderer.call('db_updateTagsOnVerses', tagId, verseObjects, versification, action);
   }
 
-  async getTagCount(bibleBookId) {
+  async getTagCount(bibleBookId=0) {
     return await this._ipcRenderer.call('db_getTagCount', bibleBookId);
   }
 
