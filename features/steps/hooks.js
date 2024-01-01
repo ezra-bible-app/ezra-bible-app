@@ -157,6 +157,8 @@ After("@cleanup-after-scenario", async function() {
     document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#tag-group-list-link').click();
   });
 
+  await spectronHelper.sleep(500);
+
   await uiHelper.selectTagGroup('All tags');
 });
 
