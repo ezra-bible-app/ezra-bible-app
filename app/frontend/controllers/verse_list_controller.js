@@ -68,8 +68,8 @@ module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
 
 module.exports.getCurrentVerseList = function(tabIndex=undefined) {
   var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-  var verseList = currentVerseListFrame[0].querySelector('.verse-list');
-  return $(verseList);
+  var verseList = currentVerseListFrame.find('.verse-list');
+  return verseList;
 };
 
 module.exports.getCurrentVerseListHeader = function(tabIndex=undefined) {
