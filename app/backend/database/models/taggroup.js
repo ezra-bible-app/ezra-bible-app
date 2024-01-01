@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
 
   TagGroup.findWithTagCount = function(bibleBookId=0) {
     var bookFilterQuery = '';
+    var orderBy = 'tg.title ASC';
 
     if (bibleBookId != 0) {
       bookFilterQuery = `
@@ -41,6 +42,8 @@ module.exports = (sequelize, DataTypes) => {
         LEFT JOIN VerseReferences vr ON vt.verseReferenceId = vr.id
         WHERE vr.bibleBookId = ${bibleBookId}
       `;
+
+      orderBy = 'count DESC, tg.title ASC';
     }
 
     var query = `
@@ -48,7 +51,8 @@ module.exports = (sequelize, DataTypes) => {
       LEFT JOIN TagGroupMembers tgm ON tgm.tagGroupId = tg.id
       LEFT JOIN Tags t ON tgm.tagId = t.id
       ${bookFilterQuery}
-      GROUP BY tg.id ORDER BY tg.title ASC
+      GROUP BY tg.id
+      ORDER BY ${orderBy}
     `;
     
     return sequelize.query(query, { model: global.models.TagGroup }); 
