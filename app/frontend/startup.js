@@ -292,7 +292,7 @@ class Startup {
       const height = 600;
       const offsetLeft = ($(window).width() - width)/2;
 
-      let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
+      let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 80]);
 
       var buttons = {};
       buttons[i18n.t('general.ok')] = function() {
