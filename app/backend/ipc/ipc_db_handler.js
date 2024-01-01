@@ -351,6 +351,27 @@ class IpcDbHandler {
       return result;
     });
 
+    this._ipcMain.add('db_isTagGroupUsedInBook', async(tagGroupId, bibleBookId) => {
+      if (tagGroupId == null || bibleBookId == null) {
+        console.error('Missing parameters for db_isTagGroupUsedInBook');
+        return false;
+      }
+
+      const allTagGroups = await global.models.TagGroup.findWithTagCount(bibleBookId);
+      let tagGroupUsed = false;
+
+      for (let i = 0; i < allTagGroups.length; i++) {
+        let tagGroup = allTagGroups[i];
+
+        if (tagGroup.dataValues.id == tagGroupId) {
+          tagGroupUsed = true;
+          break;
+        }
+      }
+
+      return tagGroupUsed;
+    });
+
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
       let result = await global.models.Note.persistNote(noteValue, verseObject, versification);
 
