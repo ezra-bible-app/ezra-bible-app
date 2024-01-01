@@ -110,7 +110,9 @@ const template = html`
 <div id="tag-group-list-content" class="scrollable" style="display: none;">
 </div>
 `;
-   
+
+const TAG_GROUP_ALL_TAGS = -1;
+
 /**
  * The TagGroupList is a web component that lists all tag groups.
  * 
@@ -132,7 +134,7 @@ class TagGroupList extends HTMLElement {
     super();
 
     this._virtualTagGroups = [
-      { id: -1, title: i18n.t('tags.all-tags') }
+      { id: TAG_GROUP_ALL_TAGS, title: i18n.t('tags.all-tags') }
     ];
 
     this._editable = false;
@@ -243,7 +245,7 @@ class TagGroupList extends HTMLElement {
             await this.updateTagCountAndRefreshList(currentBook);
           } else {
             // Switch back to all tags because the selected tag group is not present in the current book
-            await this.selectTagGroup(-1);
+            await this.selectTagGroup(TAG_GROUP_ALL_TAGS);
           }
         }
       });
