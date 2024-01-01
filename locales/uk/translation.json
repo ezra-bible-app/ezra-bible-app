@@ -398,7 +398,10 @@
   },
   "tag-statistics-panel": {
     "default-header": "Перелік міт",
-    "help-instruction": "Тут буде відображенно перелік міт за частотою їх вживання у поточній книзі.<br><br> Наразі відкрита книга не містить помічених віршів. Щойно ви почнете прикріпляти міти до віршів, цей перелік міт автоматично оновиться."
+    "help-instruction-part1": "Тут буде відображенно перелік міт за частотою їх вживання у поточній книзі.",
+    "help-instruction-part2": "Наразі відкрита книга не містить помічених віршів.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Щойно ви почнете прикріпляти міти до віршів, цей перелік міт автоматично оновиться."
   },
   "compare-panel": {
     "default-header": "<b>Порівняти переклади</b>",

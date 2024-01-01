@@ -394,7 +394,10 @@
   },
   "tag-statistics-panel": {
     "default-header": "Tag Statistiken",
-    "help-instruction": "Hier sehen Sie Tag Statistiken an Hand der Häufigkeit der Vorkommnisse in einem Buch.<br><br> Aktuell gibt es keine Tag Zuordnungen in diesem Buch. Sobald Sie anfangen Tags zuzuordnen werden die Tag Statistiken automatisch aktualisiert."
+    "help-instruction-part1": "Hier sehen Sie Tag Statistiken an Hand der Häufigkeit der Vorkommnisse in einem Buch.",
+    "help-instruction-part2": "Aktuell gibt es keine Tags in diesem Buch.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Sobald Sie anfangen Tags zuzuordnen werden die Tag Statistiken automatisch aktualisiert."
   },
   "compare-panel": {
     "default-header": "<b>Übersetzungen vergleichen</b>",

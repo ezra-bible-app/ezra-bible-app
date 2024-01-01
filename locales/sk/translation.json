@@ -398,7 +398,10 @@
   },
   "tag-statistics-panel": {
     "default-header": "Štatistika značiek",
-    "help-instruction": "Tu uvidíte štatistiku štítkov podľa toho, ako často sa používajú v knihe.<br><br> V tejto knihe momentálne nie sú priradené žiadne štítky. Keď začnete priraďovať značky, štatistika značiek sa automaticky obnoví."
+    "help-instruction-part1": "Tu uvidíte štatistiku štítkov podľa toho, ako často sa používajú v knihe.",
+    "help-instruction-part2": "V tejto knihe momentálne nie sú priradené žiadne štítky.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Keď začnete priraďovať značky, štatistika značiek sa automaticky obnoví."
   },
   "compare-panel": {
     "default-header": "<b>Porovnanie prekladov</b>",

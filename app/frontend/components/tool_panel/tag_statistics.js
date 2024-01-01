@@ -191,8 +191,19 @@ class TagStatistics {
     var bookTagStatisticsBoxContent = this.getContentBox();
 
     if (this.isEmpty()) {
-      let helpInstruction = i18n.t('tag-statistics-panel.help-instruction', { interpolation: {escapeValue: false} });
-      bookTagStatisticsBoxContent.innerHTML = `<p>${helpInstruction}</p>`;
+      let helpInstructionPart1 = i18n.t('tag-statistics-panel.help-instruction-part1', { interpolation: {escapeValue: false} });
+      let helpInstructionPart2 = '';
+
+      if (tags_controller.tagGroupUsed()) {
+        helpInstructionPart2 = i18n.t('tag-statistics-panel.help-instruction-part2-tag-group', { interpolation: {escapeValue: false} });
+      } else {
+        helpInstructionPart2 = i18n.t('tag-statistics-panel.help-instruction-part2', { interpolation: {escapeValue: false} });
+      }
+
+      let helpInstructionPart3 = i18n.t('tag-statistics-panel.help-instruction-part3', { interpolation: {escapeValue: false} });
+      bookTagStatisticsBoxContent.innerHTML = `
+        <p>${helpInstructionPart1}<br/><br/>${helpInstructionPart2} ${helpInstructionPart3}</p>
+      `;
     }
 
     if (chapterCount == null || allChapterVerseCounts == null || this.isEmpty()) {
