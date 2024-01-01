@@ -155,6 +155,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_deleteTagGroup', tagGroupId);
   }
 
+  async isTagGroupUsedInBook(tagGroupId, bibleBookId) {
+    return await this._ipcRenderer.call('db_isTagGroupUsedInBook', tagGroupId, bibleBookId);
+  }
+
   async persistNote(noteValue, verseObject, versification) {
     return await this._ipcRenderer.call('db_persistNote', noteValue, verseObject, versification);
   }
