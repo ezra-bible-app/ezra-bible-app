@@ -398,7 +398,10 @@
   },
   "tag-statistics-panel": {
     "default-header": "Tag statistics",
-    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+    "help-instruction-part1": "Here you will see statistics of tags based on how frequently they are used in a book.",
+    "help-instruction-part2": "There are currently no tag assignments in this book.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Once you start assigning tags, the tag statistics will refresh automatically."
   },
   "compare-panel": {
     "default-header": "<b>Compare translations</b>",

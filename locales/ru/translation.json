@@ -401,7 +401,10 @@
   },
   "tag-statistics-panel": {
     "default-header": "Статистика меток",
-    "help-instruction": "Здесь будет отображенна статистика меток согласно часту использования в текущей книге.<br><br> К стихам этой книги еще не прикрепленно никаких меток. Статистика меток обновится автоматически после прикрепления меток."
+    "help-instruction-part1": "Здесь будет отображенна статистика меток согласно часту использования в текущей книге.",
+    "help-instruction-part2": "К стихам этой книги еще не прикрепленно никаких меток.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Статистика меток обновится автоматически после прикрепления меток."
   },
   "compare-panel": {
     "default-header": "<b>Сравнить переводы</b>",

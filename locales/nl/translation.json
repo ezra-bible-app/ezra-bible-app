@@ -400,7 +400,10 @@
   },
   "tag-statistics-panel": {
     "default-header": "Tag-statistieken",
-    "help-instruction": "Hier ziet u statistieken van tags op basis van hoe vaak ze in een boek gebruikt worden.<br><br> Er zijn momenteel geen toegewezen tags in dit boek. Zodra u begint met het toewijzen van tags, worden de tagstatistieken automatisch vernieuwd."
+    "help-instruction-part1": "Hier ziet u statistieken van tags op basis van hoe vaak ze in een boek gebruikt worden.",
+    "help-instruction-part2": "Er zijn momenteel geen toegewezen tags in dit boek.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Zodra u begint met het toewijzen van tags, worden de tagstatistieken automatisch vernieuwd."
   },
   "compare-panel": {
     "default-header": "<b>Vertalingen vergelijken</b>",
