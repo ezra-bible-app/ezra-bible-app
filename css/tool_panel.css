@@ -441,8 +441,12 @@ input.tag-cb {
 .Android .button-small {
   width: 24px;
   height: 24px;
-  margin-right: 1em;
   font-size: 1em;
+}
+
+.Android #tag-group-list-content .button-small,
+.Android #tags-content-global .button-small {
+  margin-right: 1em;
 }
 
 .edit-button {
