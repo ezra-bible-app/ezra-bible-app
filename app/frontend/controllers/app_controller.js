@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const { getPlatform } = require('../helpers/ezra_helper.js');
 
 const VerseBoxHelper = require("../helpers/verse_box_helper.js");
 const VerseSelection = require("../components/verse_selection.js");
@@ -48,7 +47,6 @@ const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
 const wheelnavController = require('./wheelnav_controller.js');
 const fullscreenController = require('./fullscreen_controller.js');
-const cacheController = require('./cache_controller.js');
 const moduleUpdateController = require('./module_update_controller.js');
 const transChangeTitles = require('../components/trans_change_titles.js');
 const sectionLabelHelper = require('../helpers/section_label_helper.js');
@@ -138,56 +136,6 @@ class AppController {
     eventController.subscribe('on-button-clicked', () => { this.hideAllMenus(); });
 
     this.verse_context_controller.initButtonEvents();
-    this.initExitEvent();
-  }
-
-  initExitEvent() {
-    var exitEvent = null;
-    var exitContext = window;
-
-    if (platformHelper.isElectron()) {
-      exitEvent = 'beforeunload';
-      exitContext = window;
-    } else if (platformHelper.isCordova()) {
-      exitEvent = 'pause';
-      exitContext = document;
-    }
-
-    exitContext.addEventListener(exitEvent, () => {
-      // FIXME: Introduce new event on-exit and handle the below actions in a de-coupled way
-
-      this.exitLog('Persisting data');
-
-      this.tab_controller.lastSelectedTabIndex = this.tab_controller.getSelectedTabIndex();
-      this.tab_controller.savePreviousTabScrollPosition();
-      
-      if (this.tab_controller.persistanceEnabled) {
-        this.exitLog('Saving tab configuration');
-        this.tab_controller.saveTabConfiguration();
-      }
-
-      this.exitLog('Saving tag group id');
-      ipcSettings.set('lastUsedTagGroupId', tags_controller.currentTagGroupId);
-      
-      this.exitLog('Saving last locale');
-      cacheController.saveLastLocale();
-
-      this.exitLog('Saving last used version');
-      cacheController.saveLastUsedVersion();
-
-      if (platformHelper.isCordova()) {
-        ipcSettings.set('lastUsedAndroidVersion', getPlatform().getAndroidVersion());
-      }
-    });
-  }
-
-  exitLog(logMessage) {
-    if (platformHelper.isElectron()) {
-      const { ipcRenderer } = require('electron');
-      ipcRenderer.send('log', logMessage);
-    } else {
-      console.log(logMessage);
-    }
   }
 
   toggleVerseContextMenuButton(tabIndex=undefined) {

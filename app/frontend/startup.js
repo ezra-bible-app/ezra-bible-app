@@ -26,12 +26,13 @@ const IpcSettings = require('./ipc/ipc_settings.js');
 const i18nController = require('./controllers/i18n_controller.js');
 const dbSyncController = require('./controllers/db_sync_controller.js');
 const eventController = require('./controllers/event_controller.js');
+const cacheController = require('./controllers/cache_controller.js');
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
 
-const { html, waitUntilIdle } = require('./helpers/ezra_helper.js');
+const { html, waitUntilIdle, getPlatform } = require('./helpers/ezra_helper.js');
 
 /**
  * The Startup class has the purpose to start up the application.
@@ -454,6 +455,14 @@ class Startup {
     if (this._platformHelper.isElectron()) {
       const { ipcRenderer } = require('electron');
       ipcRenderer.invoke("startupCompleted");
+    }
+
+    // Save some meta data about versions used
+
+    cacheController.saveLastUsedVersion();
+
+    if (platformHelper.isCordova()) {
+      ipcSettings.set('lastUsedAndroidVersion', getPlatform().getAndroidVersion());
     }
 
     console.timeEnd("application-startup");
