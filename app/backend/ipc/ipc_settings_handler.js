@@ -106,37 +106,6 @@ class IpcSettingsHandler {
     this._ipcMain.add('settings_getConfigFilePath', () => {
       return this.getConfig().path;
     });
-
-    this._ipcMain.add('settings_storeNightModeCss', () => {
-      var config = this.getConfig();
-      var useNightMode = config.get('useNightMode', false);
-      var userDataPath = this.platformHelper.getUserDataPath();
-      var fileName = path.join(userDataPath, 'theme.css');
-
-      var bgColor = 'null';
-      if (useNightMode) {
-        bgColor = '#1e1e1e';
-      } else {
-        bgColor = 'white';
-      }
-
-      var fileContent = `
-        body {
-          background-color: ${bgColor};
-        }
-      `;
-
-      const fs = require('fs');
-      var ret = null;
-
-      try {
-        ret = fs.writeFileSync(fileName, fileContent);
-      } catch (e) {
-        console.error('Could not write to ' + fileName);
-      }
-
-      return ret;
-    });
   }
 }
 

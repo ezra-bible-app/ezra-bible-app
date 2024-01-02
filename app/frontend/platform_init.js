@@ -42,9 +42,6 @@ window.initPlatform = function() {
       if (webViewVersion >= CHROMIUM_VERSION_MIN) {
         loadScript('cordova.js');
 
-        console.log("Using customizable theme.css!");
-        document.getElementById("cordova-theme-css").href = "file:///sdcard/Android/data/net.ezrabibleapp.cordova/theme.css";
-
         window.isDev = false;
 
         loadScript('dist/ezra_init.js');
