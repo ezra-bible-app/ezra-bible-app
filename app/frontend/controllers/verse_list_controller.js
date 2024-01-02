@@ -244,11 +244,12 @@ module.exports.resetVerseListView = function() {
   }
 
   let verseListFrame = this.getCurrentVerseListFrame();
+
+  let verseListHeader = verseListFrame.find('.verse-list-header');
+  verseListHeader.hide();
+
   let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
   tagDistributionMatrix.reset();
-
-  let verseListHeader = this.getCurrentVerseListFrame().find('.verse-list-header');
-  verseListHeader.hide();
 
   app_controller.docxExport.disableExportButton();
 };
