@@ -164,6 +164,8 @@ class TagsController {
       this.currentTagGroupId = tagGroupId;
       this.currentTagGroupTitle = tagGroup ? tagGroup.title : null;
 
+      ipcSettings.set('lastUsedTagGroupId', tagGroupId);
+
       document.getElementById('tags-search-input').style.removeProperty('display');
       document.getElementById('tag-list-filter-button').style.removeProperty('display');
       document.getElementById('tag-panel-tag-group-list').style.display = 'none';

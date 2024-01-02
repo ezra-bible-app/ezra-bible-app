@@ -18,6 +18,7 @@
 
 const locales = require('../../../locales/locales.json');
 const eventController = require('./event_controller.js');
+const cacheController = require('./cache_controller.js');
 
 /**
  * This controller initializes the app locale at startup and updates it on demand when changing the locale
@@ -174,6 +175,8 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   if (saveSettings) {
     await ipcSettings.set(SETTINGS_KEY, newLocale);
   }
+
+  await cacheController.saveLastLocale();
 
   $(document).localize();
   window.reference_separator = i18n.t('general.chapter-verse-separator');

@@ -102,6 +102,11 @@ class TabController {
       let bibleTranslationId = this.getTab().getBibleTranslationId();
       this.setCurrentBibleTranslationId(bibleTranslationId);
       this.restoreScrollPosition();
+
+      if (this.persistanceEnabled) {
+        this.lastSelectedTabIndex = this.getSelectedTabIndex();
+        this.saveTabConfiguration();
+      }
     });
 
     eventController.subscribe('on-db-refresh', async () => {
@@ -577,6 +582,7 @@ class TabController {
     }
 
     this.updateFirstTabCloseButton();
+    this.saveTabConfiguration();
   }
 
   removeAllExtraTabs() {
