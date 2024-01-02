@@ -103,8 +103,8 @@ class IpcDb {
   }
 
   async getAllTags(bibleBookId=0, lastUsed=false, onlyStats=false) {
-    // We use a semaphore/lock here to ensure that the caching functionality is working properly.
-    // Before introducing this lock we observed some parallel getAllTags call during startup, specifically on Android.
+    // We use a semaphore/lock here to ensure that the caching functionality is working properly during startup.
+    // Before introducing this lock we observed some parallel getAllTags calls during startup, specifically on Android.
     // Those parallel calls are valid, but we want to ensure that the retrieval of the tag list
     // is only done once at that time and then cached.
     const releaseLock = await this._getAllTagsLock.acquire();
