@@ -21,6 +21,7 @@ const VerseBox = require('../ui_models/verse_box.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const i18nController = require('../controllers/i18n_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const { Mutex } = require('async-mutex');
 
 class IpcDb {
   constructor() {
@@ -30,6 +31,7 @@ class IpcDb {
     this._getAllTagsCounter = 0;
     this._cachedBookTitleTranslations = {};
     this._cachedTagList = [];
+    this._getTagListLock = new Mutex();
   }
 
   async closeDatabase() {
@@ -101,6 +103,12 @@ class IpcDb {
   }
 
   async getAllTags(bibleBookId=0, lastUsed=false, onlyStats=false) {
+    // We use a semaphore/lock here to ensure that the caching functionality is working properly.
+    // Before introducing this lock we observed some parallel getAllTags call during startup, specifically on Android.
+    // Those parallel calls are valid, but we want to ensure that the retrieval of the tag list
+    // is only done once at that time and then cached.
+    const releaseLock = await this._getTagListLock.acquire();
+
     var getAllTagsCounter = null;
     var debug = false;
     var useCache = false;
@@ -120,6 +128,7 @@ class IpcDb {
       var tagList = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
 
       if (!useCache) {
+        releaseLock();
         return tagList;
       } else {
         this._cachedTagList = tagList;
@@ -127,7 +136,8 @@ class IpcDb {
 
       if (debug || this._isCordova) console.timeEnd('getAllTags_' + getAllTagsCounter);
     }
-    
+
+    releaseLock();
     return this._cachedTagList;
   }
 
