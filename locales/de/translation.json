@@ -200,7 +200,7 @@
     "context": "Kontext",
     "general-options": "Allgemeine Optionen",
     "check-new-releases": "Neue Releases abfragen",
-    "send-crash-reports": "Fehlerberichte schicken",
+    "send-crash-reports": "Fehlerberichte senden",
     "welcome-to-ezra-bible-app": "Willkommen bei Ezra Bible App!"
   },
   "data-privacy": {
@@ -208,7 +208,7 @@
     "data-privacy-options": "Datenschutzoptionen",
     "please-confirm-options": "Bitte bestätigen Sie die folgenden Datenschutzoptionen. Diese Optionen benötigen Internetzugriff. Sie können im Optionsmenü später Änderungen vornehmen.",
     "check-new-releases-hint": "Ezra Bible App kann bei jedem Start die Verfügbarkeit neuer Releases abfragen. Das beinhaltet eine kurze Interaktion mit <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, wo neue Releases veröffentlicht werden.",
-    "send-crash-reports-hint-part1": "Ezra Bible App kann automatisch Fehlerberichte an die Fehlerberichtsplattform <a class='external' href='https://sentry.io'>Sentry.io</a> weiterleiten wenn ein Fehler detektiert wird.",
+    "send-crash-reports-hint-part1": "Ezra Bible App kann automatisch Fehlerberichte an die Fehlerberichtsplattform <a class='external' href='https://sentry.io'>Sentry.io</a> senden wenn ein Fehler detektiert wird.",
     "send-crash-reports-hint-part2": "Das hilft dem Entwicklungsteam, schneller auf diese Fehler aufmerksam zu werden und trägt daher zur Verbesserung von Ezra Bible App bei.",
     "send-crash-reports-hint-part3": "Beachten Sie, dass die Fehlerberichte ausschließlich technische Informationen beinhalten und nicht viel Internetbandbreite zur Übertragung benötigen."
   },
