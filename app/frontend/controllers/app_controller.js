@@ -254,7 +254,7 @@ class AppController {
         tags_controller.currentTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
         const tagGroupList = document.getElementById('tag-panel-tag-group-list');
         const tagGroup = await tagGroupList._tagGroupManager.getItemById(tags_controller.currentTagGroupId);
-        eventController.publishAsync('on-tag-group-selected', tagGroup);
+        await eventController.publishAsync('on-tag-group-selected', tagGroup);
       }
 
       await this.book_selection_menu.updateAvailableBooks();
