@@ -247,6 +247,9 @@ module.exports.resetVerseListView = function() {
   let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
   tagDistributionMatrix.reset();
 
+  let verseListHeader = this.getCurrentVerseListFrame().find('.verse-list-header');
+  verseListHeader.hide();
+
   app_controller.docxExport.disableExportButton();
 };
 
