@@ -317,7 +317,7 @@ class VerseBoxHelper {
         selectedText += this.getLineBreak(html) + this.getLineBreak(html);
       }
 
-      if (html) {
+      if (html && platformHelper.isElectron()) {
         selectedText = this.sanitizeHtmlCode(selectedText);
       }
     }

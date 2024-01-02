@@ -347,8 +347,10 @@ class TextController {
         if (bookHasHeaders) {
           bookIntroduction = await ipcNsi.getBookIntroduction(currentBibleTranslationId, bookShortTitle);
 
-          var sanitizeHtml = require('sanitize-html');
-          bookIntroduction = sanitizeHtml(bookIntroduction);
+          if (this.platformHelper.isElectron()) {
+            const sanitizeHtml = require('sanitize-html');
+            bookIntroduction = sanitizeHtml(bookIntroduction);
+          }
         }
       } catch (e) {
         console.log("Could not retrieve book introduction for module " + currentBibleTranslationId);
