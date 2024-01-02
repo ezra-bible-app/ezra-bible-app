@@ -31,7 +31,7 @@ class IpcDb {
     this._getAllTagsCounter = 0;
     this._cachedBookTitleTranslations = {};
     this._cachedTagList = [];
-    this._getTagListLock = new Mutex();
+    this._getAllTagsLock = new Mutex();
   }
 
   async closeDatabase() {
@@ -107,7 +107,7 @@ class IpcDb {
     // Before introducing this lock we observed some parallel getAllTags call during startup, specifically on Android.
     // Those parallel calls are valid, but we want to ensure that the retrieval of the tag list
     // is only done once at that time and then cached.
-    const releaseLock = await this._getTagListLock.acquire();
+    const releaseLock = await this._getAllTagsLock.acquire();
 
     var getAllTagsCounter = null;
     var debug = false;
