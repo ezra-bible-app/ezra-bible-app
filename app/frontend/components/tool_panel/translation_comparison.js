@@ -249,6 +249,7 @@ class TranslationComparison {
                                                                               verseContentTrList,
                                                                               true,
                                                                               false,
+                                                                              separator,
                                                                               this.getBibleBookShortTitleFromVerseContentTr,
                                                                               this.getVerseReferenceFromVerseContentTr);
 

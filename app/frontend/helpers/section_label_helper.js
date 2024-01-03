@@ -29,6 +29,7 @@ module.exports.getVerseDisplayText = async function(selectedBooks,
                                                     selectedVerseBoxElements,
                                                     returnAsArray=false,
                                                     useShortBookTitles=false,
+                                                    referenceSeparator=undefined,
                                                     getBibleBookFunction=getBibleBookShortTitleFromVerseBox,
                                                     getVerseReferenceFunction=getVerseReference) {
   let selectedVerseContent = [];
@@ -40,7 +41,7 @@ module.exports.getVerseDisplayText = async function(selectedBooks,
                                                                  getBibleBookFunction,
                                                                  getVerseReferenceFunction);
     
-    let formattedVerseList = await this.formatVerseList(currentBookVerseReferences, currentBookShortName);
+    let formattedVerseList = await this.formatVerseList(currentBookVerseReferences, currentBookShortName, referenceSeparator);
     let currentBookName = await (useShortBookTitles ? currentBookShortName : ipcDb.getBookTitleTranslation(currentBookShortName));
 
     if (currentBookShortName == 'Ps' && !useShortBookTitles) {
@@ -113,7 +114,7 @@ module.exports.verseListHasGaps = function(list) {
   return hasGaps;
 };
 
-async function formatSingleVerseBlock(list, start_index, end_index, bookId=undefined) {
+async function formatSingleVerseBlock(list, start_index, end_index, bookId=undefined, referenceSeparator=undefined) {
   if (bookId == undefined) {
     bookId = app_controller.tab_controller.getTab().getBook();
   }
@@ -129,7 +130,8 @@ async function formatSingleVerseBlock(list, start_index, end_index, bookId=undef
   if (start_reference != undefined && end_reference != undefined) {
     formatted_passage = await formatPassageReference(bookId,
                                                      start_reference,
-                                                     end_reference);
+                                                     end_reference,
+                                                     referenceSeparator);
   }
 
   return formatted_passage;
@@ -155,7 +157,7 @@ module.exports.verseReferenceListToAbsoluteVerseNrList = async function(list, bo
   return new_list;
 };
 
-module.exports.formatVerseList = async function(selected_verse_array, bookId=undefined) {
+module.exports.formatVerseList = async function(selected_verse_array, bookId=undefined, referenceSeparator=undefined) {
   const absolute_nr_list = await this.verseReferenceListToAbsoluteVerseNrList(selected_verse_array, bookId);
   let verse_list_for_view = "";
 
@@ -171,7 +173,8 @@ module.exports.formatVerseList = async function(selected_verse_array, bookId=und
           verse_list_for_view += await formatSingleVerseBlock(selected_verse_array,
                                                               current_start_index,
                                                               current_end_index,
-                                                              bookId);
+                                                              bookId,
+                                                              referenceSeparator);
 
           verse_list_for_view += "; ";
 
@@ -179,7 +182,8 @@ module.exports.formatVerseList = async function(selected_verse_array, bookId=und
             verse_list_for_view += await formatSingleVerseBlock(selected_verse_array,
                                                                 i,
                                                                 i,
-                                                                bookId);
+                                                                bookId,
+                                                                referenceSeparator);
           }
 
           current_start_index = i;
@@ -188,7 +192,8 @@ module.exports.formatVerseList = async function(selected_verse_array, bookId=und
             verse_list_for_view += await formatSingleVerseBlock(selected_verse_array,
                                                                 current_start_index,
                                                                 i,
-                                                                bookId);
+                                                                bookId,
+                                                                referenceSeparator);
           }
         }
       }
@@ -196,7 +201,8 @@ module.exports.formatVerseList = async function(selected_verse_array, bookId=und
       verse_list_for_view += await formatSingleVerseBlock(selected_verse_array,
                                                           0,
                                                           selected_verse_array.length - 1,
-                                                          bookId);
+                                                          bookId,
+                                                          referenceSeparator);
     }
   }
 
