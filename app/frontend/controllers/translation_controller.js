@@ -39,7 +39,9 @@ class TranslationController {
     this.initBibleSyncBoxDone = false;
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
-      await this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+      if (app_controller.isStartupCompleted()) {
+        await this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+      }
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -300,7 +302,7 @@ class TranslationController {
       let currentBook = currentTab.getBook();
       let previousBook = currentTab.getPreviousBook();
 
-      if (currentBook == previousBook) {
+      if (currentBook == null || currentBook == previousBook) {
         return;
       }
 
