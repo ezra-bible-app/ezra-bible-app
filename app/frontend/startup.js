@@ -457,6 +457,8 @@ class Startup {
       ipcRenderer.invoke("startupCompleted");
     }
 
+    console.timeEnd("application-startup");
+
     // Save some meta data about versions used
 
     cacheController.saveLastUsedVersion();
@@ -464,8 +466,6 @@ class Startup {
     if (platformHelper.isCordova()) {
       ipcSettings.set('lastUsedAndroidVersion', getPlatform().getAndroidVersion());
     }
-
-    console.timeEnd("application-startup");
 
     // Confirm privacy options at first startup
     const firstStartDone = await ipcSettings.has('firstStartDone');
