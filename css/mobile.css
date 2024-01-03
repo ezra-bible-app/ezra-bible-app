@@ -623,11 +623,6 @@ Librem 5/Pinephone etc.
     margin-top: 3em !important;
   }
 
-  .Android .copy-button {
-    width: 24px !important;
-    height: 24px !important;
-  }
-
   .Android .button-small:not(#new-standard-tag-button, .copy-button) {
     font-size: 0.9em !important;
     width: 16px !important;

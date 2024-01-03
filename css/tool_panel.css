@@ -422,15 +422,18 @@ input.tag-cb {
   border-radius: calc(var(--border-radius) - 2px);
   background-color: var(--background-color);
 }
+
 .darkmode--activated .button-small {
   color: var(--button-color-dark);
 }
+
 .button-small.active, 
 .button-small.button-small:hover:not(.disabled):not(.no-hl) {
   color: white;
   background-color: var(--accent-color);
   border-color: var(--highlight-border-color);
 }
+
 .button-small.disabled {
   color: var(--disabled-button-color);
   border-color: var(--disabled-button-color);
