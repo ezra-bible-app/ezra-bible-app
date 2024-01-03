@@ -40,7 +40,7 @@ module.exports.getVerseDisplayText = async function(selectedBooks,
                                                                  getBibleBookFunction,
                                                                  getVerseReferenceFunction);
     
-    let formattedVerseList = await this.formatVerseList(currentBookVerseReferences, false, currentBookShortName);
+    let formattedVerseList = await this.formatVerseList(currentBookVerseReferences, currentBookShortName);
     let currentBookName = await (useShortBookTitles ? currentBookShortName : ipcDb.getBookTitleTranslation(currentBookShortName));
 
     if (currentBookShortName == 'Ps' && !useShortBookTitles) {
@@ -113,7 +113,7 @@ module.exports.verseListHasGaps = function(list) {
   return hasGaps;
 };
 
-async function formatSingleVerseBlock(list, start_index, end_index, turn_into_link, bookId=undefined) {
+async function formatSingleVerseBlock(list, start_index, end_index, bookId=undefined) {
   if (bookId == undefined) {
     bookId = app_controller.tab_controller.getTab().getBook();
   }
@@ -129,12 +129,7 @@ async function formatSingleVerseBlock(list, start_index, end_index, turn_into_li
   if (start_reference != undefined && end_reference != undefined) {
     formatted_passage = await formatPassageReference(bookId,
                                                      start_reference,
-                                                     end_reference,
-                                                     ':');
-
-    /*if (turn_into_link) {
-      formatted_passage = "<a href=\"javascript:app_controller.jumpToReference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
-    }*/
+                                                     end_reference);
   }
 
   return formatted_passage;
@@ -160,7 +155,7 @@ module.exports.verseReferenceListToAbsoluteVerseNrList = async function(list, bo
   return new_list;
 };
 
-module.exports.formatVerseList = async function(selected_verse_array, link_references, bookId=undefined) {
+module.exports.formatVerseList = async function(selected_verse_array, bookId=undefined) {
   const absolute_nr_list = await this.verseReferenceListToAbsoluteVerseNrList(selected_verse_array, bookId);
   let verse_list_for_view = "";
 
@@ -176,7 +171,6 @@ module.exports.formatVerseList = async function(selected_verse_array, link_refer
           verse_list_for_view += await formatSingleVerseBlock(selected_verse_array,
                                                               current_start_index,
                                                               current_end_index,
-                                                              link_references,
                                                               bookId);
 
           verse_list_for_view += "; ";
@@ -185,7 +179,6 @@ module.exports.formatVerseList = async function(selected_verse_array, link_refer
             verse_list_for_view += await formatSingleVerseBlock(selected_verse_array,
                                                                 i,
                                                                 i,
-                                                                link_references,
                                                                 bookId);
           }
 
@@ -195,7 +188,6 @@ module.exports.formatVerseList = async function(selected_verse_array, link_refer
             verse_list_for_view += await formatSingleVerseBlock(selected_verse_array,
                                                                 current_start_index,
                                                                 i,
-                                                                link_references,
                                                                 bookId);
           }
         }
@@ -204,7 +196,6 @@ module.exports.formatVerseList = async function(selected_verse_array, link_refer
       verse_list_for_view += await formatSingleVerseBlock(selected_verse_array,
                                                           0,
                                                           selected_verse_array.length - 1,
-                                                          link_references,
                                                           bookId);
     }
   }
