@@ -7,7 +7,7 @@
     "tags": "Étiquettes",
     "search": "Rechercher",
     "options": "Options",
-    "verse-context-actions": "Verse context actions",
+    "verse-context-actions": "Actions liées au contexte du verset",
     "export": "Exporter en document texte",
     "show-module-info": "Montrer les informations sur le module",
     "fullscreen": "Basculer en mode plein écran",
@@ -129,7 +129,7 @@
     "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "À propos d'Ezra Bible App",
     "general-app-info": "Des informations générales sur Ezra Bible App sont disponibles sur le site Web.<br> Des informations techniques sur le développement d'Ezra Bible App sont disponibles sur GitHub.",
-    "website": "Website",
+    "website": "Site web",
     "chapter-verse-separator": ",",
     "module-application-info": "Informations sur le module et l’application",
     "application-info": "Informations sur l’application",
@@ -212,19 +212,19 @@
     "configure-dicts": "Configurer des dictionnaires",
     "configure-commentaries": "Configurer des commentaires",
     "context": "Contexte",
-    "general-options": "General options",
-    "check-new-releases": "Check for new releases",
-    "send-crash-reports": "Send error reports",
+    "general-options": "Options générales",
+    "check-new-releases": "Vérifiez s'il y a de nouvelles versions",
+     "send-crash-reports": "Envoyer les rapports d'erreurs",
     "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !"
   },
   "data-privacy": {
-    "confirm-privacy-options": "Confirm data privacy options",
-    "data-privacy-options": "Data privacy options",
-    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access. You can also make changes in the Options menu later.",
-    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, where new releases are published.",
-    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
-    "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
-    "send-crash-reports-hint-part3": "Note that the error reports only contain technical information and do not require much data bandwidth."
+     "confirm-privacy-options": "Confirmer les options de confidentialité des données",
+     "data-privacy-options": "Options de confidentialité des données",
+     "please-confirm-options": "Veuillez confirmer les options de confidentialité des données suivantes. Ces options nécessitent un accès à Internet. Vous pourrez également apporter des modifications dans le menu Options ultérieurement.",
+     "check-new-releases-hint": "Ezra Bible App peut vérifier les nouvelles versions à chaque démarrage. Cela nécessite une brève interaction avec <a class='external' href='https://github.com/ezra-bible -app/ezra-bible-app'>GitHub</a>, où les nouvelles versions sont publiées.",
+     "send-crash-reports-hint-part1": "Ezra Bible App peut envoyer automatiquement des rapports d'erreurs à la plateforme de suivi des erreurs <a class='external' href='https://sentry.io'>Sentry.io</ a> chaque fois qu'une erreur est détectée.",
+     "send-crash-reports-hint-part2": "Cela aide l'équipe de développement à découvrir les problèmes beaucoup plus rapidement et contribue donc à l'amélioration d'Ezra Bible App.",
+     "send-crash-reports-hint-part3": "Notez que les rapports d'erreurs contiennent uniquement des informations techniques et ne nécessitent pas beaucoup de bande passante de données."
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",
@@ -244,7 +244,7 @@
       "hide-in-tab-search-form": "Masquer le formulaire de recherche de l’onglet actuel",
       "jump-to-next-search-occurance": "Passer à la prochaine occurrence de recherche",
       "jump-to-previous-occurance": "Passer à l’occurrence précédente",
-      "select-all-verses": "Select all verses",
+      "select-all-verses": "Sélectionnez tous les versets",
       "copy-selected-verses-to-clipboard": "Copier les versets sélectionnés dans le presse-papiers",
       "toggle-fullscreen-only-Win-Linux": "Basculer en plein écran",
       "enable-dynamic-strongs-display": "Activer l’affichage dynamique de Strong",
@@ -377,19 +377,20 @@
     "open-chapters-all-books": "Ouvrir tous les livres par chapitre",
     "copy": "Copier",
     "copy-table-to-clipboard": "Copier le tableau dans le presse-papiers",
-    "copy-table-to-clipboard-success": "Le tableau est copié dans le presse-papier !",
-    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
-    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
+    "copy-table-to-clipboard-success": "Le tableau est copié dans le presse-papiers !",
+    "copy-verse-text-to-clipboard": "Copier le texte du verset dans le presse-papiers",
+    "copy-verse-text-to-clipboard-success": "Texte du verset copié dans le presse-papiers !",
     "edit-note": "Modifier la note",
     "delete-note": "Supprimer la note",
     "transchange" : {
-      "added" : "These words were added in translation",
-      "amplified" : "These words are amplifications of information in the source text",
-      "changed" : "These words were changed in translation",
-      "deleted" : "Some words in the source text are not present in the translation",
-      "implied" : "These words were added or changed to translate information implied by the source text",
-      "moved" : "These words were in another location in the source text",
-      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+       "added" : "Ces mots ont été ajoutés en traduction",
+       "amplified" : "Ces mots sont des amplifications d'informations dans le texte source",
+       "changed" : "Ces mots ont été modifiés lors de la traduction",
+       "deleted" : "Certains mots du texte source ne sont pas présents dans la traduction",
+       "implicite" : "Ces mots ont été ajoutés ou modifiés pour traduire des informations impliquées par le texte source",
+       "moved" : "Ces mots se trouvaient à un autre endroit dans le texte source",
+       "tense-change": "Le temps grammatical de ces mots a été modifié afin de faciliter la traduction"
+
     }
   },
   "dictionary-panel": {
@@ -399,9 +400,9 @@
     "help-instruction": "Comment afficher les entrées de dictionnaire ici :",
     "help-instruction-part1": "Vérifiez que les dictionnaires Strong (hébreu et grec) sont installés. Statut: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Ouvrez ensuite une traduction avec la fonctionnalité des nombres de Strong.",
-    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
+    "help-instruction-part3": "Une fois que vous avez sélectionné un verset, vous pouvez déplacer votre souris sur les mots et expressions individuels pour voir ici les entrées du dictionnaire.",
     "help-instruction-part3-cordova": "Appuyez de manière prolongée sur des mots ou des phrases individuels jusqu'à ce que vous voyiez des entrées de dictionnaire ici.",
-    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
+    "help-instruction-part4-desktop": "Maintenez la touche MAJ enfoncée pour activer la fonction de survol de la souris pour tous les versets.",
     "find-all-occurrences": "Trouver toutes les occurrences",
     "open-in-blueletter": "Ouvrir dans la Blue Letter Bible",
     "related-strongs": "Strong associés"
@@ -410,7 +411,7 @@
     "default-header": "Statistiques des étiquettes",
     "help-instruction-part1": "Ici, vous verrez des statistiques d'étiquettes basées sur la fréquence à laquelle elles sont utilisées dans un livre.",
     "help-instruction-part2": "Il n'y a actuellement aucune attribution d'étiquettes dans ce livre.",
-    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part2-tag-group": "Actuellement, il n'y a aucune attribution d'étiquettes dans ce livre basée sur le groupe d'étiquettes actuel.",
     "help-instruction-part3": "Une fois que vous avez commencé à attribuer des étiquettes, les statistiques des étiquettes s'actualisent automatiquement."
   },
   "compare-panel": {
