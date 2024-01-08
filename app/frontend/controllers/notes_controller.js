@@ -180,17 +180,18 @@ class NotesController {
   }
 
   async _handleNotesClick(event) {
-    var verseNotesBox = event.target.closest('.verse-notes');
+    app_controller.hideAllMenus();
 
     if (event.target.nodeName == 'A') {
       // If the user is clicking a link within the note ('a' element)
-      // we simply return and let Electron handle the default action
+      // we simply return and let the platform handle the default action
       // (Link will be opened in the default browser)
       return;
     }
     event.stopPropagation();
 
     var verseReferenceId = null;
+    var verseNotesBox = event.target.closest('.verse-notes');
 
     if (verseNotesBox.classList.contains('book-notes')) {
       verseReferenceId = verseNotesBox.getAttribute('verse-reference-id');
@@ -216,7 +217,7 @@ class NotesController {
   }
 
   editVerseNotesForCurrentlySelectedVerse() {
-    const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
     const firstVerseBox = selectedVerseBoxes[0];
 
     if (firstVerseBox != null) {
@@ -226,7 +227,7 @@ class NotesController {
   }
 
   deleteVerseNotesForCurrentlySelectedVerse() {
-    const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
     const firstVerseBox = selectedVerseBoxes[0];
 
     if (firstVerseBox != null) {
@@ -477,7 +478,9 @@ class NotesController {
       autofocus: true,
       extraKeys: { 
         "Enter": "newlineAndIndentContinueMarkdownList",
-        "Ctrl-Enter": "save", "Cmd-Enter": () => "save", 
+        "Ctrl-Enter": "save",
+        "Cmd-Enter": "save",
+        "Esc": () => { this.restoreCurrentlyEditedNotes(false); }
       },
       theme: this.theme
     });

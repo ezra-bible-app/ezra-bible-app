@@ -112,6 +112,8 @@ class OptionsMenu {
     this._adjustSidePanelTextSizeOption = this.initConfigOption('adjustSidePanelTextSizeOption', () => { app_controller.textSizeSettings.updateSidePanel(this._adjustSidePanelTextSizeOption.isChecked); });
     this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {});
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
+    this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
+    this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
@@ -139,12 +141,6 @@ class OptionsMenu {
       this.hideDisplayMenu();
       uiHelper.showGlobalLoadingIndicator();
       theme_controller.useNightModeBasedOnOption();
-
-      if (this.platformHelper.isCordova()) {
-        // On Cordova we persist a basic night mode style in a CSS file 
-        // which is then loaded on startup again
-        await ipcSettings.storeNightModeCss();
-      }
 
       await waitUntilIdle();
       uiHelper.hideGlobalLoadingIndicator();
@@ -511,6 +507,11 @@ class OptionsMenu {
         currentVerseList.removeClass('verse-list-tags-column');
       }
     }
+  }
+
+  async toggleCrashReportsBasedOnOption() {
+    window.sendCrashReports = this._sendCrashReportsOption.isChecked;
+    await ipcGeneral.setSendCrashReports(window.sendCrashReports);
   }
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {

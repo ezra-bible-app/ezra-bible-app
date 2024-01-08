@@ -166,8 +166,18 @@ module.exports = (sequelize, DataTypes) => {
     return sequelize.query(query, { model: global.models.Tag });
   };
 
-  Tag.getTagCount = async function() {
-    var query = "SELECT id FROM Tags t";
+  Tag.getTagCount = async function(bibleBookId=0) {
+    var bibleBookQuery = '';
+
+    if (bibleBookId != 0) {
+      bibleBookQuery = `
+        LEFT JOIN VerseTags vt ON vt.tagId = t.id
+        LEFT JOIN VerseReferences vr ON vt.verseReferenceId = vr.id
+        WHERE vr.bibleBookId = ${bibleBookId}
+      `;
+    }
+
+    var query = `SELECT t.id FROM Tags t ${bibleBookQuery}`;
     var records = await sequelize.query(query, { model: global.models.Tag });
     return records.length;
   };

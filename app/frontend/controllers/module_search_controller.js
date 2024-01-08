@@ -70,10 +70,12 @@ class ModuleSearchController {
       if (platformHelper.isCordova()) {
         // Handle the enter key in the search field and start the search when it is pressed
         moduleSearchInput.addEventListener('beforeinput', (event) => {
-          const lastCharacter = event.data[event.data.length - 1];
+          if (event.data != null) {
+            const lastCharacter = event.data[event.data.length - 1];
 
-          if (lastCharacter == '\n') {
-            this.startSearch(event);
+            if (lastCharacter == '\n') {
+              this.startSearch(event);
+            }
           }
         });
       } else {
@@ -632,21 +634,12 @@ class ModuleSearchController {
     moduleSearchHeader.html(header);
 
     if (!showSearchResultsInPopup && currentSearchResults != null && currentSearchResults.length > 0) {
-      var selectAllSearchResultsButton = document.createElement('button');
-      selectAllSearchResultsButton.setAttribute('style', 'margin: 0.5em;');
-      selectAllSearchResultsButton.classList.add('select-all-search-results-button');
-      selectAllSearchResultsButton.classList.add('fg-button');
-      selectAllSearchResultsButton.classList.add('ui-corner-all');
-      selectAllSearchResultsButton.classList.add('ui-state-default');
-      if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
-        selectAllSearchResultsButton.classList.add('ui-state-disabled');
-      }
+      uiHelper.addButton(moduleSearchHeader,
+                         'select-all-verses-button',
+                         'bible-browser.select-all-search-results',
+                         this.selectAllSearchResults,
+                         this.searchResultsExceedPerformanceLimit(tabIndex));
 
-      selectAllSearchResultsButton.innerText = i18n.t('bible-browser.select-all-search-results');
-      selectAllSearchResultsButton.setAttribute('i18n', 'bible-browser.select-all-search-results');
-      moduleSearchHeader.append(selectAllSearchResultsButton);
-
-      selectAllSearchResultsButton.onclick = this.selectAllSearchResults;
       uiHelper.configureButtonStyles('.verse-list-header');
     }
 
@@ -656,15 +649,7 @@ class ModuleSearchController {
   }
 
   selectAllSearchResults() {
-    var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
-
-    var allVerseTextElements = currentVerseListFrame[0].querySelectorAll('.verse-text');
-    allVerseTextElements.forEach((verseTextElement) => {
-      verseTextElement.classList.add('ui-selected');
-    });
-
-    app_controller.verse_selection.updateSelected();
-    app_controller.verse_selection.updateViewsAfterVerseSelection(i18n.t('bible-browser.all-search-results'));
+    app_controller.verse_selection.selectAllVerses('bible-browser.all-search-results');
   }
 
   getBibleBookStatsFromSearchResults(search_results) {

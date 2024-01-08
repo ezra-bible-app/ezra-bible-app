@@ -39,7 +39,9 @@ class TranslationController {
     this.initBibleSyncBoxDone = false;
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
-      await this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+      if (app_controller.isStartupCompleted()) {
+        await this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+      }
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -75,15 +77,6 @@ class TranslationController {
       title: i18n.t("module-sync.module-sync-header"),
       dialogClass: 'bible-sync-dialog'
     });
-  }
-
-  initVerseSelection() {
-    app_controller.verse_selection.initHelper(ipcNsi);
-  }
-
-  async loadSettings() {
-    await app_controller.book_selection_menu.updateAvailableBooks();
-    this.initVerseSelection();
   }
 
   getBibleSelect(tabIndex) {
@@ -287,13 +280,15 @@ class TranslationController {
   }
 
   async getInstalledModules(moduleType='BIBLE') {
-    var localModules = await ipcNsi.getAllLocalModules(moduleType);
-    localModules.sort(swordModuleHelper.sortModules);
-
     var translations = [];
+    var localModules = await ipcNsi.getAllLocalModules(moduleType);
 
-    for (var i = 0; i < localModules.length; i++) {
-      translations.push(localModules[i].name);
+    if (localModules != null) {
+      localModules.sort(swordModuleHelper.sortModules);
+
+      for (var i = 0; i < localModules.length; i++) {
+        translations.push(localModules[i].name);
+      }
     }
 
     return translations;
@@ -307,7 +302,7 @@ class TranslationController {
       let currentBook = currentTab.getBook();
       let previousBook = currentTab.getPreviousBook();
 
-      if (currentBook == previousBook) {
+      if (currentBook == null || currentBook == previousBook) {
         return;
       }
 

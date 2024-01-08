@@ -36,9 +36,12 @@ if renderBookNotes
   if bookNotes == null
     - bookNotesClassList += ' verse-notes-empty'
   else
-    - bookNotesRaw = bookNotes.text
-    - bookNotesText = marked.parse(bookNotes.text);
-    - bookNotesUpdate = helper.getLocalizedDate(bookNotes.updatedAt);
+    if bookNotes != null
+      if bookNotes.text != null
+        - bookNotesRaw = bookNotes.text
+        - bookNotesText = marked.parse(bookNotes.text);
+      if bookNotes.updatedAt != null
+        - bookNotesUpdate = helper.getLocalizedDate(bookNotes.updatedAt);
 
   div(class=bookNotesClassList, verse-reference-id=firstBibleBookId.toLowerCase(), notes-content=bookNotesRaw)
     div(class='verse-notes-text external') !{bookNotesText}

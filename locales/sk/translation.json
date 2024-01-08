@@ -7,6 +7,7 @@
     "tags": "Značky",
     "search": "Hľadať",
     "options": "Vlastnosti",
+    "verse-context-actions": "Kontextové akcie veršov",
     "export": "Exportovať ako text",
     "show-module-info": "Zobraziť informácie o module",
     "fullscreen": "Prepnúť režim celej obrazovky",
@@ -115,8 +116,10 @@
     "module-sync-header": "Inštalujem prídavné moduly"
   },
   "general": {
+    "ezra-bible-app": "Ezra Bible Aplikácia",
     "about-ezra-bible-app": "O Ezra Bible Apikácii",
     "general-app-info": "Všeobecné informácie o aplikácii Ezra Bible nájdete na webovej stránke.<br>Technické informácie o vývoji aplikácie Ezra Bible App nájdete na GitHub.",
+    "website": "Webová stránka",
     "chapter-verse-separator": ":",
     "module-application-info": "Info o moduloch a aplikácii",
     "application-info": "Info o aplikácii",
@@ -198,7 +201,20 @@
     "configure-translations": "Nastavenie prekladov",
     "configure-dicts": "Nastavenie slovníkov",
     "configure-commentaries": "Konfigurácia komentárov",
-    "context": "Kontext"
+    "context": "Kontext",
+    "general-options": "Všeobecné možnosti",
+    "check-new-releases": "Kontrola aktualizácií",
+    "send-crash-reports": "Odoslať chybové hlásenia",
+    "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!"
+  },
+  "data-privacy": {
+    "confirm-privacy-options": "Potvrďte ochranu osobných údajov",
+    "data-privacy-options": "Možnosti ochrany osobných údajov",
+    "please-confirm-options": "Potvrďte nasledujúce možnosti ochrany osobných údajov. Tieto možnosti vyžadujú prístup na internet. Zmeny môžete vykonať aj neskôr v ponuke Možnosti.",
+    "check-new-releases-hint": "Aplikácia Ezra Bible môže skontrolovať nové vydania pri každom spustení. Vyžaduje si to interakciu s <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub-om</a>, kde sú publikované nové vydania.",
+    "send-crash-reports-hint-part1": "Aplikácia Ezra Bible môže automaticky odosielať chybové hlásenia na platformu na sledovanie chýb <a class='external' href='https://sentry.io'>Sentry.io</a> vždy, keď sa zistí chyba.",
+    "send-crash-reports-hint-part2": "To pomáha vývojovému tímu oveľa rýchlejšie si uvedomiť problémy, a preto prispieva k vylepšeniu aplikácie Ezra Bible App.",
+    "send-crash-reports-hint-part3": "Upozorňujeme, že chybové hlásenia obsahujú iba technické informácie a nevyžadujú veľa dát."
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -218,6 +234,7 @@
       "hide-in-tab-search-form": "Skryť vzhľadávanie na aktuálnej karte",
       "jump-to-next-search-occurance": "Preskočiť na ďalší výskyt",
       "jump-to-previous-occurance": "Preskočiť na predchádzajúci výskyt",
+      "select-all-verses": "Označiť všetky verše",
       "copy-selected-verses-to-clipboard": "Skopírovať vybrané verše do schránky",
       "toggle-fullscreen-only-Win-Linux": "Prepnúť na celú obrazovku",
       "enable-dynamic-strongs-display": "Zobraziť dynamické slovníkové informácie pre Strong",
@@ -232,6 +249,7 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
       "enable-dynamic-strongs-display": "Shift + myš nad veršom",
@@ -308,6 +326,8 @@
     "select-all-search-results": "Označiť všetky výsledky vyhľadávania",
     "all-search-results": "Všetky výsledky vyhľadávania",
     "some-search-results": "Niektoré výsledky vyhľadávania",
+    "select-all-verses": "Vyberať všetky verše",
+    "all-verses": "Všetky verše",
     "module-configuration": "Nastavenie modulu",
     "display": "Zobraziť",
     "text-options": "Nastavenia textu",
@@ -348,8 +368,19 @@
     "copy": "Kopírovať",
     "copy-table-to-clipboard": "Skopírujte tabuľku do schránky",
     "copy-table-to-clipboard-success": "Tabuľka bola skopírovaná do schránky!",
+    "copy-verse-text-to-clipboard": "Skopírujte text verša do schránky",
+    "copy-verse-text-to-clipboard-success": "Text verša bol skopírovaný do schránky!",
     "edit-note": "Upraviť poznámku",
-    "delete-note": "Vymazať poznámku"
+    "delete-note": "Vymazať poznámku",
+    "transchange" : {
+      "added" : "Tieto slová boli pridané v preklade",
+      "amplified" : "Tieto slová sú amplifikáciou informácií v zdrojovom texte",
+      "changed" : "Tieto slová boli v preklade zmenené",
+      "deleted" : "Niektoré slová v zdrojovom texte sa v preklade nenachádzajú",
+      "implied" : "Tieto slová boli pridané alebo zmenené na preklad informácií vyplývajúcich zo zdrojového textu",
+      "moved" : "Tieto slová boli v zdrojovom texte na inom mieste",
+      "tense-change": "Gramatický čas týchto slov bol zmenený, aby sa uľahčil preklad"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Grécky slovník",
@@ -358,15 +389,19 @@
     "help-instruction-intro": "Ako tu zobraziť položky slovníka:",
     "help-instruction-part1": "Uistite sa, že sú nainštalované Strongove slovníky (hebrejčina a gréčtina). Stav: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Otvorte preklad pomocou funkcie Strong.",
-    "help-instruction-part3": "Zatiaľ čo stlačíte tlačidlo Kláves SHIFT môžete posúvať myšou po jednotlivých slovách a frázach, aby ste tu zobrazili položky v slovníku.",
+    "help-instruction-part3": "Po výbere verša môžete myšou pohybovať po jednotlivých slovách a frázach a zobraziť položky slovníka.",
     "help-instruction-part3-cordova": "Dotknite sa a podržte jednotlivé slová alebo frázy, kým neuvidíte položky v slovníku.",
+    "help-instruction-part4-desktop": "Podržaním klávesu SHIFT aktivujete funkciu prejdenia myšou pre všetky verše.",
     "find-all-occurrences": "Nájsť všetky výskyty",
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
     "related-strongs": "Súvisiace Strongy"
   },
   "tag-statistics-panel": {
     "default-header": "Štatistika značiek",
-    "help-instruction": "Tu uvidíte štatistiku štítkov podľa toho, ako často sa používajú v knihe.<br><br> V tejto knihe momentálne nie sú priradené žiadne štítky. Keď začnete priraďovať značky, štatistika značiek sa automaticky obnoví."
+    "help-instruction-part1": "Tu uvidíte štatistiku štítkov podľa toho, ako často sa používajú v knihe.",
+    "help-instruction-part2": "V tejto knihe momentálne nie sú priradené žiadne štítky.",
+    "help-instruction-part2-tag-group": "V tejto knihe momentálne nie sú priradené žiadne značky na základe aktuálnej skupiny značiek.",
+    "help-instruction-part3": "Keď začnete priraďovať značky, štatistika značiek sa automaticky obnoví."
   },
   "compare-panel": {
     "default-header": "<b>Porovnanie prekladov</b>",
@@ -400,7 +435,6 @@
     }
   },
   "cordova" : {
-    "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
     "storage-justification": "Ezra Bible App potrebuje prístup do úložnej oblasti zariadenia, aby mohol ukladať moduly SWORD a ukladať svoju databázu.<br><br>Po stlačení tlačidla nižšie budete požiadaní, aby ste aplikácii Ezra Bible App povolili prístup k súborom vo vašom zariadení.",
     "enable-storage-access": "Povoliť prístup k internému úložisku",
     "storage-permission-denied": "Rozhodli ste sa odmietnuť prístup k úložisku. <br> Môžete to zmeniť stlačením tlačidla nižšie!",
@@ -415,7 +449,6 @@
     "waiting-app-ready": "Čaká sa na spustenie aplikácie"
   },
   "dropbox": {
-    "database-dropbox-sync": "Synchronizácia databázy s Dropboxom",
     "setup-db-sync": "Nastaviť Dropbox synchornizáciu",
     "dropbox-sync-explanation-part1": "Synchronizácia Dropbox sa dá použiť na synchronizáciu databázy aplikácie Ezra Bible na viacerých zariadeniach.",
     "dropbox-sync-explanation-part2": "Databáza bude synchronizovaná v nasledujúcich udalostiach:",

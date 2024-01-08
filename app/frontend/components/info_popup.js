@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Mousetrap = require('mousetrap');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const { html, sleep } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
@@ -185,7 +186,7 @@ class InfoPopup {
         <h2>${i18n.t("general.about-ezra-bible-app")}</h2>
         <p>${i18n.t("general.general-app-info")}</p>
 
-        Website: <a class='external' href='https://ezrabibleapp.net'>ezrabibleapp.net</a><br>
+        ${i18n.t("general.website")}: <a class='external' href='https://ezrabibleapp.net'>ezrabibleapp.net</a><br>
         GitHub: <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>github.com/ezra-bible-app/ezra-bible-app</a>
 
         <h2>${i18n.t("general.developers")}</h2>
@@ -201,6 +202,7 @@ class InfoPopup {
         <a class='external' href='https://github.com/debritto'>Christian De Britto (Brazilian Portuguese)</a><br>
         <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov (Ukrainian, Russian)</a><br>
         <a class='external' href='https://github.com/augustin-colesnic'>Augustin Colesnic (Romanian)</a><br>
+        <a class='external' href='https://github.com/msavli'>Marjan Šavli (Slovenian)</a><br>
 
         <h2>${i18n.t("general.versions-and-paths")}</h2>
         <table>
@@ -259,6 +261,7 @@ class InfoPopup {
             <th class="info-tab-section-title">${i18n.t("shortcuts.summary.miscellaneous-section-title")}</th>
           </tr>
           
+          <tr><td>${i18n.t("shortcuts.summary.select-all-verses")}</td><td><code>${i18n.t("shortcuts.shortcut.select-all-verses")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.copy-selected-verses-to-clipboard")}</td><td><code>${i18n.t("shortcuts.shortcut.copy-selected-verses-to-clipboard")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.enable-dynamic-strongs-display")}</td><td><code>${i18n.t("shortcuts.shortcut.enable-dynamic-strongs-display")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.open-new-tab")}</td><td><code>${i18n.t("shortcuts.shortcut.open-new-tab")}</code></td></tr>
@@ -307,6 +310,8 @@ class InfoPopup {
     }
 
     uiHelper.configureButtonStyles('#info-popup-content');
+
+    Mousetrap.bind('esc', () => { $('#info-popup').dialog("close"); });
 
     $('#info-popup').dialog("open");
   }

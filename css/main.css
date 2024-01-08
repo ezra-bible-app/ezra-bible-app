@@ -307,6 +307,10 @@ h2:nth-of-type(1) {
   margin: 1.5em;
 }
 
+.Android #check-new-releases-box {
+  display: none;
+}
+
 div.chapter-nav {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -488,7 +492,6 @@ a.chapter-nav:hover {
 }
 
 #verse-list-popup,
-#book-tag-statistics-box,
 #info-popup,
 #search-results-box,
 #db-sync-box {
@@ -551,12 +554,6 @@ a.chapter-nav:hover {
   display: none;
 }
 
-#book-tag-statistics-box {
-  width: 350px;
-  max-height: 500px;
-  overflow-y: scroll;
-}
-
 #info-popup {
   width: 600px;
   height: 400px;
@@ -575,14 +572,6 @@ a.chapter-nav:hover {
 
 .verse-list-without-tags .tag-box,
 .ezra-dialog .tag-box {
-  display: none;
-}
-
-.verse-list-without-xrefs .sword-xref-marker {
-  display: none;
-}
-
-.verse-list-without-footnotes .sword-note-marker {
   display: none;
 }
 
@@ -779,7 +768,7 @@ a.chapter-nav:hover {
 
   /* Force horizontal display of verse notes in Portrait mode */
   .verse-list-without-tags .verse-notes:not(.book-notes),
-  .verse-list-content:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
+  .verse-list-content .verse-notes:not(.book-notes) {
     width: 100% !important;
     margin-top: 0.5em;
     margin-left: unset !important;
@@ -852,6 +841,11 @@ main.content {
 
 #bookLoadingModeOption-button {
   height: fit-content;
+}
+
+/* We do not check for new releases on Android and therefore do not show this option. */
+.Android #checkNewReleasesOption {
+  display: none;
 }
 
 .selection-menu-footer {
@@ -1272,6 +1266,7 @@ li.book-unavailable a:focus,
   /* width: 300px; */
   height: 30px;
   margin-top: 3em;
+  margin-left: 0.5em;
 }
 
 .loading-indicator-text,
@@ -1320,7 +1315,7 @@ li.book-unavailable a:focus,
   margin-bottom: 0.8em;
 }
 
-.select-all-search-results-button,
+.select-all-verses-button,
 #start-module-search-button {
   margin-left: 0.8em;
   height: 2.2em;
@@ -1756,36 +1751,6 @@ body:not(.darkmode--activated) .tab-search-occurances {
   background-color: forestgreen;
 }
 
-/* Sword markup disabled by default */
-.sword-markup {
-  display: none;
-}
-
-.sword-quote-jesus {
-  display: unset;
-}
-
-.verse-list-with-red-letters .sword-quote-jesus {
-  color: var(--text-color-red);
-}
-
-.darkmode--activated .verse-list-with-red-letters .sword-quote-jesus {
-  color: var(--text-color-red-darkmode);
-}
-
-.verse-list.verse-list-with-paragraphs .sword-paragraph-end {
-  margin-bottom: 4em;
-  display: block !important;
-}
-
-/* This element only occurs in the NA28 sword module */
-s {
-  text-decoration: none;
-}
-
-.rtl {
-  direction: rtl;
-}
 
 tr.compare-translation-row:nth-child(odd) {
   background-color: var(--background-color-darker);
@@ -1798,6 +1763,7 @@ tr.compare-translation-row:nth-child(odd) {
 .compare-translation-row .verse-reference-td {
   width: 4em;
   padding: 0.5em;
+  margin-left: unset !important;
 }
 
 .compare-translation-row .verse-content-td {
@@ -1825,22 +1791,6 @@ tr.compare-translation-row:nth-child(odd) {
   user-select: none;
   position: fixed;
   color: var(--text-color);
-}
-
-.strongs-hl {
-  background-color: var(--highlight-bg-color);
-}
-
-.darkmode--activated .strongs-hl {
-  background-color: dimgray;
-}
-
-.strongs-current-verse w {
-  color: blue;
-}
-
-.darkmode--activated .strongs-current-verse w {
-  color: lightgreen;
 }
 
 .progress-bar {
@@ -1927,29 +1877,6 @@ tr.compare-translation-row:nth-child(odd) {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
-.sword-note,
-.sword-note reference,
-.sword-note hi {
-  display: none;
-}
-
-.sword-xref-marker,
-.sword-note-marker {
-  display: inline-block;
-  padding-right: 0.2em;
-  font-weight: bold;
-  position: relative;
-  top: -0.3em;
-}
-
-.sword-note-marker {
-  color: var(--accent-color);
-}
-
-.sword-xref-marker {
-  cursor: pointer;
-}
-
 .ui-selectmenu-menu-dropdown {
   box-shadow: 5px 5px 5px #A0A0A0;
 }
@@ -2010,7 +1937,6 @@ tr.compare-translation-row:nth-child(odd) {
   text-align:left;
 }
 
-
 code {
   padding: .2em .4em;
   margin: 0;
@@ -2053,10 +1979,90 @@ code {
   background-color: gray;
 }
 
+#dictionary-panel-content hr {
+  border: 1px solid var(--border-color);
+}
+
+/* SWORD text related */
+
+/* Sword markup disabled by default */
+.sword-markup {
+  display: none;
+}
+
+.sword-quote-jesus {
+  display: unset;
+}
+
+.verse-list-with-red-letters .sword-quote-jesus {
+  color: var(--text-color-red);
+}
+
+.darkmode--activated .verse-list-with-red-letters .sword-quote-jesus {
+  color: var(--text-color-red-darkmode);
+}
+
+.verse-list.verse-list-with-paragraphs .sword-paragraph-end {
+  margin-bottom: 4em;
+  display: block !important;
+}
+
+.rtl {
+  direction: rtl;
+}
+
 transchange {
   font-style: italic;
 }
 
-#dictionary-panel-content hr {
-  border: 1px solid var(--border-color);
+.sword-note,
+.sword-note reference,
+.sword-note hi {
+  display: none;
+}
+
+.sword-xref-marker,
+.sword-note-marker {
+  display: inline-block;
+  padding-right: 0.2em;
+  font-weight: bold;
+  position: relative;
+  top: -0.3em;
+}
+
+.sword-note-marker {
+  color: var(--accent-color);
+}
+
+.sword-xref-marker {
+  cursor: pointer;
+}
+
+.verse-list-without-xrefs .sword-xref-marker {
+  display: none;
+}
+
+.verse-list-without-footnotes .sword-note-marker {
+  display: none;
+}
+
+.strongs-hl {
+  background-color: var(--highlight-bg-color);
+}
+
+.darkmode--activated .strongs-hl {
+  background-color: dimgray;
+}
+
+.strongs-current-verse w {
+  color: blue;
+}
+
+.darkmode--activated .strongs-current-verse w {
+  color: lightgreen;
+}
+
+/* This element only occurs in the NA28 sword module */
+s {
+  text-decoration: none;
 }

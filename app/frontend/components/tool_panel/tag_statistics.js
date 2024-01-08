@@ -33,45 +33,39 @@ class TagStatistics {
       this.clearTagStatisticsPanel(tabIndex);
     });
 
-    eventController.subscribe('on-tag-deleted', async () => {
+    eventController.subscribeMultiple(['on-tag-deleted', 'on-latest-tag-changed'], async () => {
       await this.updateBookTagStatistics();
     });
 
-    eventController.subscribe('on-latest-tag-changed', async () => {
-      await this.updateBookTagStatistics();
+    eventController.subscribe('on-tag-group-list-activated', () => {
+      this.getContentBox().style.display = 'none';
+      document.getElementById('tag-statistics-panel-tag-group-list').style.removeProperty('display');
     });
 
-    eventController.subscribe('on-tag-group-selected', (tagGroup) => {
-      this.updatePanelHeader(tagGroup);
-    });
-
-    eventController.subscribe('on-locale-changed', () => {
-      let currentTagGroup = tags_controller.getCurrentTagGroup();
-
-      if (currentTagGroup != null) {
-        this.updatePanelHeader(currentTagGroup);
-      }
+    eventController.subscribe('on-tag-group-selected', async () => {
+      this.showTagStatistics();
     });
   }
 
-  updatePanelHeader(tagGroup) {
-    let tagStatisticsPanelHeader = document.getElementById('tag-statistics-panel-header');
-    let header = i18n.t('tag-statistics-panel.default-header');
+  getContentBox() {
+    return document.getElementById('tag-statistics-panel-content');
+  }
 
-    if (tagGroup != null && tagGroup != undefined && tagGroup.id > 0) {
-      let localizedTagGroup = i18n.t('tags.tag-group');
+  hideTagGroupList() {
+    document.getElementById('tag-statistics-panel-tag-group-list').style.display = 'none';
+  }
 
-      header += ' &mdash; ' + localizedTagGroup + ': ' + tagGroup.title;
-    }
-
-    tagStatisticsPanelHeader.innerHTML = header;
+  async showTagStatistics() {
+    this.hideTagGroupList();
+    this.getContentBox().style.removeProperty('display');
+    await this.updateBookTagStatistics();
   }
 
   clearTagStatisticsPanel(tabIndex) {
     var tab = app_controller.tab_controller.getTab(tabIndex);
 
     if (tab.getTextType() != 'book') {
-      document.getElementById('tag-statistics-panel-wrapper').innerHTML = '';
+      this.getContentBox().innerHTML = '';
     }
   }
 
@@ -194,11 +188,22 @@ class TagStatistics {
     var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
     var allChapterVerseCounts = await ipcNsi.getAllChapterVerseCounts(currentBibleTranslationId, currentBook);
 
-    var bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
+    var bookTagStatisticsBoxContent = this.getContentBox();
 
     if (this.isEmpty()) {
-      let helpInstruction = i18n.t('tag-statistics-panel.help-instruction', { interpolation: {escapeValue: false} });
-      bookTagStatisticsBoxContent.innerHTML = `<p>${helpInstruction}</p>`;
+      let helpInstructionPart1 = i18n.t('tag-statistics-panel.help-instruction-part1', { interpolation: {escapeValue: false} });
+      let helpInstructionPart2 = '';
+
+      if (tags_controller.tagGroupUsed()) {
+        helpInstructionPart2 = i18n.t('tag-statistics-panel.help-instruction-part2-tag-group', { interpolation: {escapeValue: false} });
+      } else {
+        helpInstructionPart2 = i18n.t('tag-statistics-panel.help-instruction-part2', { interpolation: {escapeValue: false} });
+      }
+
+      let helpInstructionPart3 = i18n.t('tag-statistics-panel.help-instruction-part3', { interpolation: {escapeValue: false} });
+      bookTagStatisticsBoxContent.innerHTML = `
+        <p>${helpInstructionPart1}<br/><br/>${helpInstructionPart2} ${helpInstructionPart3}</p>
+      `;
     }
 
     if (chapterCount == null || allChapterVerseCounts == null || this.isEmpty()) {
@@ -262,7 +267,7 @@ class TagStatistics {
   }
 
   bindEvents() {
-    const bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
+    const bookTagStatisticsBoxContent = this.getContentBox();
     let tagLinks = bookTagStatisticsBoxContent.querySelectorAll('.tagLink');
 
     tagLinks.forEach((link) => {

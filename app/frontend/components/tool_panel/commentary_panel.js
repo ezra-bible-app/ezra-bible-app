@@ -43,23 +43,13 @@ class CommentaryPanel {
       refreshWithSelection();
     });
 
-    eventController.subscribe('on-translation-added', (moduleCode) => {
+    eventController.subscribeMultiple(['on-translation-added', 'on-translation-removed'], (moduleCode) => {
       if (moduleCode == 'KJV') {
         refreshWithSelection();
       }
     });
 
-    eventController.subscribe('on-translation-removed', (moduleCode) => {
-      if (moduleCode == 'KJV') {
-        refreshWithSelection();
-      }
-    });
-
-    eventController.subscribe('on-commentary-added', () => {
-      refreshWithSelection();
-    });
-
-    eventController.subscribe('on-commentary-removed', () => {
+    eventController.subscribeMultiple(['on-commentary-added', 'on-commentary-removed'], () => {
       refreshWithSelection();
     });
   }
@@ -134,10 +124,14 @@ class CommentaryPanel {
 
     let panelHeader = document.getElementById('commentary-panel-header');
     let panelTitle = "";
+    let selectedVerseBoxElements = null;
+   
+    if (app_controller.verse_selection != null) {
+      selectedVerseBoxElements = app_controller.verse_selection.getSelectedVerseBoxes();
+    }
 
-    if (app_controller.verse_selection != null &&
-        app_controller.verse_selection.selected_verse_box_elements != null &&
-        app_controller.verse_selection.selected_verse_box_elements.length > 0) {
+    if (selectedVerseBoxElements != null &&
+        selectedVerseBoxElements.length > 0) {
 
       panelTitle = i18n.t("commentary-panel.commentaries-for") + " " + 
         await app_controller.verse_selection.getSelectedVerseLabelText();

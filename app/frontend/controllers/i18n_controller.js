@@ -18,6 +18,7 @@
 
 const locales = require('../../../locales/locales.json');
 const eventController = require('./event_controller.js');
+const cacheController = require('./cache_controller.js');
 
 /**
  * This controller initializes the app locale at startup and updates it on demand when changing the locale
@@ -26,7 +27,6 @@ const eventController = require('./event_controller.js');
  */
 
 const SETTINGS_KEY = 'appLocale';
-
 const jqueryI18next = require('jquery-i18next');
 
 const i18nextOptions = {
@@ -105,7 +105,7 @@ module.exports.initI18N = async function() {
     .use(I18nIpcBackend)
     .init(i18nextOptions);
 
-  systemLocale = this.getLocale();  
+  systemLocale = this.getLocale();
 
   jqueryI18next.init(i18n, $, {
     tName: 't', // --> appends $.t = i18next.t
@@ -175,6 +175,8 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   if (saveSettings) {
     await ipcSettings.set(SETTINGS_KEY, newLocale);
   }
+
+  await cacheController.saveLastLocale();
 
   $(document).localize();
   window.reference_separator = i18n.t('general.chapter-verse-separator');

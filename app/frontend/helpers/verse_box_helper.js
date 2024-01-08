@@ -18,6 +18,7 @@
 
 const VerseBox = require("../ui_models/verse_box.js");
 const verseListController = require('../controllers/verse_list_controller.js');
+const sectionLabelHelper = require('./section_label_helper.js');
 
 class VerseBoxHelper {
   constructor() {}
@@ -39,13 +40,15 @@ class VerseBoxHelper {
 
   getBookListFromVerseBoxes(verseBoxes) {
     var bookList = [];
-    verseBoxes.forEach((verseBox) => {
+
+    for (let i = 0; i < verseBoxes.length; i++) {
+      let verseBox = verseBoxes[i];
       var verseBibleBook = new VerseBox(verseBox).getBibleBookShortTitle();
 
       if (!bookList.includes(verseBibleBook)) {
         bookList.push(verseBibleBook);
       }
-    });
+    }
 
     return bookList;
   }
@@ -181,6 +184,145 @@ class VerseBoxHelper {
 
     var localizedReference = currentBookLocalizedName + ' ' + verseReferenceContent;
     return localizedReference;
+  }
+  
+  getLineBreak(html=false) {
+    if (html) {
+      return "<br/>";
+    } else {
+      if (platformHelper.isElectron() && process.platform === 'win32') {
+        return "\r\n";
+      } else {
+        return "\n";
+      }
+    }
+  }
+
+  convertTransChangeToItalic(textElement) {
+    let transChangeElements = textElement.find('transChange');
+    transChangeElements.each((index, transChange) => {
+      let italicElement = document.createElement('i');
+      italicElement.innerText = transChange.innerText;
+      transChange.replaceWith(italicElement); 
+    });
+  }
+
+  convertSwordQuoteJesusToSpanElement(textElement) {
+    let swordQuoteJesusElements = textElement.find('.sword-quote-jesus');
+    swordQuoteJesusElements.each((index, swordQuoteJesus) => {
+      let spanElement = document.createElement('span');
+      spanElement.innerHTML = swordQuoteJesus.innerHTML;
+      spanElement.setAttribute('style', 'color: #B22222;');
+      swordQuoteJesus.replaceWith(spanElement);
+    });
+  }
+
+  sanitizeHtmlCode(htmlCode) {
+    const sanitizeHtml = require('sanitize-html');
+
+    htmlCode = sanitizeHtml(htmlCode, {
+      allowedTags: ['i', 'span', 'br', 'sup'],
+      allowedAttributes: {
+        'span': ['style']
+      },
+      allowedStyles: {
+        '*': {
+          // Match HEX and RGB
+          'color': [/^#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
+        },
+      }
+    });
+
+    return htmlCode;
+  }
+
+  async getVerseTextFromVerseElements(verseElements, verseReferenceTextList, html=false, referenceSeparator=window.reference_separator) {
+    const paragraphsOption = app_controller.optionsMenu._paragraphsOption;
+    const bookList = this.getBookListFromVerseBoxes(verseElements);
+    var selectedText = "";
+
+    for (let i = 0; i < bookList.length; i++) {
+      let book = bookList[i];
+      let currentVerseElements = [];
+      let currentReferences = [];
+
+      for (let j = 0; j < verseElements.length; j++) {
+        let currentReference = new VerseBox(verseElements[j]).getReference();
+        let currentVerseBook = new VerseBox(verseElements[j]).getBibleBookShortTitle();
+
+        if (currentVerseBook == book) {
+          currentVerseElements.push(verseElements[j]);
+
+          if (currentReference != null) {
+            currentReferences.push(currentReference);
+          }
+        }
+      }
+
+      let selectionHasMultipleVerses = currentVerseElements.length > 1;
+      let absoluteNrList = await sectionLabelHelper.verseReferenceListToAbsoluteVerseNrList(currentReferences, book);
+      let verseListHasGaps = sectionLabelHelper.verseListHasGaps(absoluteNrList);
+
+      for (let j= 0; j < currentVerseElements.length; j++) {
+        let currentVerseBox = $(currentVerseElements[j]);
+        let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
+        let currentVerseNr = verseReferenceContent.split(referenceSeparator)[1];
+        let currentText = currentVerseBox.find('.verse-text').clone();
+
+        if (paragraphsOption.isChecked && j < currentVerseElements.length - 1) {
+          let paragraphBreaks = this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html);
+          currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
+        }
+
+        currentText.find('.sword-markup').filter(":not('.sword-quote-jesus, .sword-quote')").remove();
+
+        if (html) {
+          this.convertTransChangeToItalic(currentText);
+
+          const redLetterOption = app_controller.optionsMenu._redLetterOption;
+          if (redLetterOption.isChecked) {
+            this.convertSwordQuoteJesusToSpanElement(currentText);
+          }
+        }
+
+        if (selectionHasMultipleVerses && !verseListHasGaps) {
+          if (html) {
+            selectedText += "<sup>" + currentVerseNr + "</sup> ";
+          } else {
+            selectedText += currentVerseNr + " ";
+          }
+        }
+
+        selectedText += currentText.html().replace(/&nbsp;/g, ' ') + " ";
+
+        if (verseListHasGaps) {
+          let verseReference = book + ' ' + verseReferenceContent;
+          selectedText += this.getLineBreak(html) + this.getLineBreak(html) + verseReference;
+
+          if (j < currentVerseElements.length - 1) {
+            selectedText += this.getLineBreak(html) + this.getLineBreak(html);
+          }
+        }
+      }
+
+      const parser = new DOMParser();
+      let htmlText = parser.parseFromString("<div>" + selectedText.trim() + "</div>", 'text/html');
+
+      selectedText = html ? htmlText.querySelector('div').innerHTML : htmlText.querySelector('div').innerText;
+      if (!verseListHasGaps) {
+        selectedText += " " + this.getLineBreak(html) + this.getLineBreak(html) + verseReferenceTextList[i];
+      }
+
+      if (i < bookList.length - 1) {
+        selectedText += this.getLineBreak(html) + this.getLineBreak(html);
+      }
+
+      if (html && platformHelper.isElectron()) {
+        selectedText = this.sanitizeHtmlCode(selectedText);
+      }
+    }
+
+    return selectedText;
   }
 }
 

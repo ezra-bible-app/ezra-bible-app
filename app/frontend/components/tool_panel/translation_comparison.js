@@ -20,6 +20,9 @@ const VerseBox = require("../../ui_models/verse_box.js");
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+const { getPlatform } = require('../../helpers/ezra_helper.js');
+const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
+const sectionLabelHelper = require('../../helpers/section_label_helper.js');
 
 /**
  * The TranslationComparison component implements a tool panel that shows selected verses
@@ -29,17 +32,11 @@ const swordModuleHelper = require('../../helpers/sword_module_helper.js');
  */
 class TranslationComparison {
   constructor() {
-    eventController.subscribe('on-verses-selected', () => {
+    eventController.subscribeMultiple(['on-verses-selected', 'on-compare-panel-switched', 'on-locale-changed'], () => {
       this.performRefresh();
     });
 
-    eventController.subscribe('on-compare-panel-switched', () => {
-      this.performRefresh();
-    });
-
-    eventController.subscribe('on-locale-changed', () => {
-      this.performRefresh();
-    });
+    this.verseBoxHelper = new VerseBoxHelper();
   }
 
   getBox() {
@@ -65,19 +62,19 @@ class TranslationComparison {
     var verseHtml = "";
     
     if (targetTranslationVerse != null && targetTranslationVerse.content != "") {
-      verseHtml += "<tr>";
+      verseHtml += `<tr class='verse-content-tr' verse-bible-book-short='${bibleBookShortTitle}'>`;
 
       var moduleReferenceSeparator = await i18nHelper.getReferenceSeparator(targetTranslationId);
       var targetVerseReference = targetTranslationVerse.chapter + moduleReferenceSeparator + targetTranslationVerse.verseNr;
       
       if (totalVerseCount > 1) {
-        verseHtml +=  "<td class='verse-reference-td'>" + targetVerseReference + "</td>";
+        verseHtml += `<td class='verse-reference-td verse-reference-content' book='${bibleBookShortTitle}' reference='${targetVerseReference}'>${targetVerseReference}</td>`;
       }
 
       const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(targetTranslationId);
       const rtlClass = moduleIsRightToLeft ? 'rtl' : '';
 
-      verseHtml += `<td class='verse-content-td ${rtlClass}'>` + targetTranslationVerse.content + "</td>";
+      verseHtml += `<td class='verse-content-td verse-text ${rtlClass}' book='${bibleBookShortTitle}' reference='${targetVerseReference}'>` + targetTranslationVerse.content + "</td>";
       verseHtml += "</tr>";
     }
 
@@ -91,7 +88,7 @@ class TranslationComparison {
     }
 
     var sourceTranslationId = tab.getBibleTranslationId();
-    var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    var selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
     var compareTranslationContent = "<table style='width: 100%;'>";
     var allTranslations = await ipcNsi.getAllLocalModules();
 
@@ -133,7 +130,12 @@ class TranslationComparison {
           }
         }
 
+        const copyButtonTitle = i18n.t('bible-browser.copy-verse-text-to-clipboard');
+
         compareTranslationRow += "</table></td>";
+        compareTranslationRow += "<td class='compare-translation-row' style='font-size: 120%; padding-left: 0.5em; padding-right: 0.5em;'>";
+        compareTranslationRow += `<div class='copy-button button-small' i18n='bible-browser.copy-verse-text-to-clipboard' title='${copyButtonTitle}'><i class='fas fa-copy copy-icon'/></div>`;
+        compareTranslationRow += "</td>";
         compareTranslationRow += "</tr>";
 
         if (contentCounter > 0) {
@@ -179,13 +181,17 @@ class TranslationComparison {
     var panelHeader = document.getElementById('compare-panel-header');
     var helpBox = this.getHelpBox();
     var panelTitle = "";
+    let selectedVerseBoxElements = null;
+   
+    if (app_controller.verse_selection != null) {
+      selectedVerseBoxElements = app_controller.verse_selection.getSelectedVerseBoxes();
+    }
 
-    if (app_controller.verse_selection != null &&
-        app_controller.verse_selection.selected_verse_box_elements != null &&
-        app_controller.verse_selection.selected_verse_box_elements.length > 0) {
+    if (selectedVerseBoxElements != null &&
+        selectedVerseBoxElements.length > 0) {
 
       panelTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
-        await app_controller.verse_selection.getSelectedVerseLabelText();
+        await app_controller.verse_selection.getSelectedVerseLabelText(undefined, true);
 
       helpBox.classList.add('hidden');
 
@@ -216,6 +222,59 @@ class TranslationComparison {
     }
 
     this.getBoxContent().innerHTML = compareTranslationContent;
+
+    this.getBoxContent().addEventListener('click', (event) => {
+      event.stopImmediatePropagation();
+
+      let classList = event.target.classList;
+
+      if (classList.contains('copy-button') || classList.contains('copy-icon')) {
+        let copyButton = event.target.closest('.copy-button');
+        this.copyRowToClipboard(copyButton);
+      }
+    });
+  }
+
+  async copyRowToClipboard(targetButton) {
+    let buttonTd = targetButton.parentElement;
+    let verseContentCell = buttonTd.previousSibling;
+    let bibleTranslationCell = verseContentCell.previousSibling;
+
+    let verseContentTrList = verseContentCell.querySelectorAll('tr.verse-content-tr');
+    const bibleTranslationId = bibleTranslationCell.innerText;
+    const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+
+    let selectedBooks = await app_controller.verse_selection.getSelectedBooks();
+    let verseReferenceTextList = await sectionLabelHelper.getVerseDisplayText(selectedBooks,
+                                                                              verseContentTrList,
+                                                                              true,
+                                                                              false,
+                                                                              separator,
+                                                                              this.getBibleBookShortTitleFromVerseContentTr,
+                                                                              this.getVerseReferenceFromVerseContentTr);
+
+    let verseText = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceTextList, false, separator);
+    let verseTextHtml = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceTextList, true, separator);
+
+    getPlatform().copyToClipboard(verseText, verseTextHtml);
+
+    // eslint-disable-next-line no-undef
+    iziToast.success({
+      message: i18n.t('bible-browser.copy-verse-text-to-clipboard-success'),
+      position: 'bottomRight',
+      timeout: 2000
+    });
+  }
+
+  getBibleBookShortTitleFromVerseContentTr(verseContentTr) {
+    let verseReferenceContent = verseContentTr.firstChild;
+    let bibleBook = verseReferenceContent.getAttribute('book');
+    return bibleBook;
+  }
+
+  getVerseReferenceFromVerseContentTr(verseContentTr) {
+    let verseReferenceContent = verseContentTr.firstChild;
+    return verseReferenceContent.getAttribute('reference');
   }
 
   performDelayedContentRefresh() {

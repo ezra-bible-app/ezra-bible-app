@@ -163,17 +163,14 @@ class TagDistributionMatrix extends HTMLElement {
     });
   }
 
-  set input(value) {
-    this._input = value;
-
-    if (this._input == '') {
-      this.reset();
-    } else {
-      this.refresh();
-    }
+  async setInputAndRefresh(input, tabIndex=undefined) {
+    this._input = input;
+    await this.refresh(tabIndex);
   }
 
   reset() {
+    this._input = '';
+
     let headerRow = this.shadowRoot.getElementById('header-row');
     headerRow.innerHTML = '';
 

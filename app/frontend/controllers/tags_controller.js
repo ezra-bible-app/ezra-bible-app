@@ -140,11 +140,7 @@ class TagsController {
       this.refreshTagDialogs();
     });
 
-    eventController.subscribe('on-translation-added', async () => {
-      await this.updateTagUiBasedOnTagAvailability();
-    });
-
-    eventController.subscribe('on-translation-removed', async () => {
+    eventController.subscribeMultiple(['on-translation-added', 'on-translation-removed'], async () => {
       await this.updateTagUiBasedOnTagAvailability();
     });
 
@@ -167,6 +163,8 @@ class TagsController {
       let tagGroupId = tagGroup ? tagGroup.id : null;
       this.currentTagGroupId = tagGroupId;
       this.currentTagGroupTitle = tagGroup ? tagGroup.title : null;
+
+      ipcSettings.set('lastUsedTagGroupId', tagGroupId);
 
       document.getElementById('tags-search-input').style.removeProperty('display');
       document.getElementById('tag-list-filter-button').style.removeProperty('display');
@@ -882,7 +880,7 @@ class TagsController {
   }
 
   async clickCheckBoxTag(checkboxTag) {
-    var current_verse_list = app_controller.verse_selection.selected_verse_references;
+    var current_verse_list = app_controller.verse_selection.selectedVerseReferences;
 
     if (!tags_controller.is_blocked && current_verse_list.length > 0) {
       this.toggleTagButton(checkboxTag);
@@ -896,9 +894,9 @@ class TagsController {
 
     if (isActive) {
       tag_button.classList.remove('active');
+      tag_button.classList.add('no-hl');
 
       if (platformHelper.isElectron()) {
-        tag_button.classList.add('no-hl');
         tag_button.addEventListener('mouseleave', tags_controller.removeTagButtonNoHl);
       }
     } else {
@@ -920,7 +918,7 @@ class TagsController {
   }
 
   async handleCheckboxTagStateChange(checkboxTag) {
-    var current_verse_list = app_controller.verse_selection.selected_verse_references;
+    var current_verse_list = app_controller.verse_selection.selectedVerseReferences;
 
     if (tags_controller.is_blocked || current_verse_list.length == 0) {
       return;
@@ -1397,7 +1395,7 @@ class TagsController {
       tags_controller.verse_selection_blocked = false;
     }, 300);
 
-    var versesSelected = app_controller.verse_selection.selected_verse_box_elements.length > 0;
+    var versesSelected = app_controller.verse_selection.getSelectedVerseBoxes().length > 0;
     var selected_verse_tags = [];
 
     if (versesSelected) { // Verses are selected

@@ -69,6 +69,8 @@ class IPC {
         if (androidVersion !== undefined && androidVersion >= 11) {
           customSwordDir = this.platformHelper.getUserDataPath(false, androidVersion);
         }
+
+        global.sendCrashReports = this.ipcSettingsHandler.getConfig().get('sendCrashReports', true);
       }
 
       global.ipcNsiHandler = new IpcNsiHandler(customSwordDir);

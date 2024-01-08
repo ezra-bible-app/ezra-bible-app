@@ -286,8 +286,8 @@ class IpcDbHandler {
       return result;
     });
 
-    this._ipcMain.add('db_getTagCount', async () => {
-      return await global.models.Tag.getTagCount();
+    this._ipcMain.add('db_getTagCount', async (bibleBookId=0) => {
+      return await global.models.Tag.getTagCount(bibleBookId);
     });
 
     this._ipcMain.add('db_getAllTags', async (bibleBookId, lastUsed, onlyStats) => {
@@ -337,8 +337,8 @@ class IpcDbHandler {
       return result;
     });
 
-    this._ipcMain.add('db_getAllTagGroups', async () => {
-      var allSequelizeTagGroups = await global.models.TagGroup.findWithTagCount();
+    this._ipcMain.add('db_getAllTagGroups', async (bibleBookId=0) => {
+      var allSequelizeTagGroups = await global.models.TagGroup.findWithTagCount(bibleBookId);
       var allTagGroups = this.makeSequelizeResultsSerializable(allSequelizeTagGroups);
       return allTagGroups;
     });
@@ -349,6 +349,27 @@ class IpcDbHandler {
       this.triggerDropboxSyncIfConfigured();
 
       return result;
+    });
+
+    this._ipcMain.add('db_isTagGroupUsedInBook', async(tagGroupId, bibleBookId) => {
+      if (tagGroupId == null || bibleBookId == null) {
+        console.error('Missing parameters for db_isTagGroupUsedInBook');
+        return false;
+      }
+
+      const allTagGroups = await global.models.TagGroup.findWithTagCount(bibleBookId);
+      let tagGroupUsed = false;
+
+      for (let i = 0; i < allTagGroups.length; i++) {
+        let tagGroup = allTagGroups[i];
+
+        if (tagGroup.dataValues.id == tagGroupId) {
+          tagGroupUsed = true;
+          break;
+        }
+      }
+
+      return tagGroupUsed;
     });
 
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {

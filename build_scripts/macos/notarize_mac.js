@@ -9,6 +9,7 @@ async function notarizeApp(appOutDir, appName, appBundleId) {
       appPath: `${appOutDir}/${appName}.app`,
       appleId: process.env.APPLE_ID,
       appleIdPassword: process.env.APPLE_ID_PW,
+      teamId: process.env.APPLE_TEAM_ID
     });
     notarized = true;
 

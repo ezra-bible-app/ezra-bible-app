@@ -7,6 +7,7 @@
     "tags": "Tags",
     "search": "Zoeken",
     "options": "Opties",
+    "verse-context-actions": "Verse context actions",
     "export": "Exporteren naar tekstdocument",
     "show-module-info": "Toon module-info",
     "fullscreen": "Volledig-beeldmodus omschakelen",
@@ -117,8 +118,10 @@
     "module-sync-header": "Extra modules installeren"
   },
   "general": {
+    "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "Over Ezra Bible App",
     "general-app-info": "Algemene informatie over Ezra Bible App is te vinden op de website.<br>Technische informatie over de ontwikkeling van Ezra Bible App is te vinden op GitHub.",
+    "website": "Website",
     "chapter-verse-separator": ":",
     "module-application-info": "Module- en applicatie-info",
     "application-info": "Applicatie-info",
@@ -200,7 +203,20 @@
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
     "configure-commentaries": "Commentaren configureren",
-    "context": "Context"
+    "context": "Context",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Welkom bij Ezra Bible App!"
+  },
+  "data-privacy": {
+    "confirm-privacy-options": "Confirm data privacy options",
+    "data-privacy-options": "Data privacy options",
+    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access. You can also make changes in the Options menu later.",
+    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, where new releases are published.",
+    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
+    "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
+    "send-crash-reports-hint-part3": "Note that the error reports only contain technical information and do not require much data bandwidth."
   },
   "help": {
     "help-text-no-tags-book-opened": "Om te beginnen werken met tags, maak uw eerste tag door te klikken op de knop  <i>Nieuwe&nbsp;tag</i>.<br/><br/>Daarna kunt u door de bijbeltekst bladeren, verzen aanklikken of slepen-selecteren en vervolgens de tag toewijzen die u zojuist hebt gemaakt.",
@@ -220,6 +236,7 @@
       "hide-in-tab-search-form": "Zoekformulier voor huidig tabblad verbergen",
       "jump-to-next-search-occurance": "Spring naar volgend zoekresultaat",
       "jump-to-previous-occurance": "Spring naar vorig zoekresultaat",
+      "select-all-verses": "Select all verses",
       "copy-selected-verses-to-clipboard": "Kopieer geselecteerde verzen naar klembord",
       "toggle-fullscreen-only-Win-Linux": "Volledig scherm omschakelen",
       "enable-dynamic-strongs-display": "Dynamische Strong's weergave inschakelen",
@@ -234,6 +251,7 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
       "enable-dynamic-strongs-display": "Shift + cursor over vers",
@@ -310,6 +328,8 @@
     "select-all-search-results": "Selecteer alle zoekresultaten",
     "all-search-results": "Alle zoekresultaten",
     "some-search-results": "Sommige zoekresultaten",
+    "select-all-verses": "Select all verses",
+    "all-verses": "All verses",
     "module-configuration": "Moduleconfiguratie",
     "display": "Weergave",
     "text-options": "Tekstopties",
@@ -342,7 +362,7 @@
     "open-verselist-in-new-tab": "Open verslijst in nieuw tabblad",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Pas de lettergrootte van tags en notities aan",
-    "adjust-font-size-side-panel": "Adjust side panel font size",
+    "adjust-font-size-side-panel": "Pas de lettergrootte van het zijpaneel aan",
     "new-note-hint": "Klik om een notitie toe te voegen",
     "open-complete-book": "Open boeken volledig",
     "open-chapters-large-books": "Open grote boeken volgens hoofdstuk",
@@ -350,8 +370,19 @@
     "copy": "Kopiëren",
     "copy-table-to-clipboard": "Kopieer tabel naar klembord",
     "copy-table-to-clipboard-success": "Tabel gekopieerd naar klembord!",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Notitie aanpassen",
-    "delete-note": "Notitie verwijderen"
+    "delete-note": "Notitie verwijderen",
+    "transchange" : {
+      "added" : "These words were added in translation",
+      "amplified" : "These words are amplifications of information in the source text",
+      "changed" : "These words were changed in translation",
+      "deleted" : "Some words in the source text are not present in the translation",
+      "implied" : "These words were added or changed to translate information implied by the source text",
+      "moved" : "These words were in another location in the source text",
+      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Grieks woordenboek",
@@ -360,15 +391,19 @@
     "help-instruction-intro": "Hoe woordenboeklemma's hier tonen:",
     "help-instruction-part1": "Wees eerst zeker dat de Strongwoordenboeken (Hebreeuws en Grieks) geïnstalleerd zijn. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Open dan een vertaling met de Strongs-functie.",
-    "help-instruction-part3": "Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de DICTIONARY ENTRIES hier te bekijken.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Houd afzonderlijke woorden of zinnen ingedrukt totdat u hier woordenboeklemma's ziet.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs"
   },
   "tag-statistics-panel": {
     "default-header": "Tag-statistieken",
-    "help-instruction": "Hier ziet u statistieken van tags op basis van hoe vaak ze in een boek gebruikt worden.<br><br> Er zijn momenteel geen toegewezen tags in dit boek. Zodra u begint met het toewijzen van tags, worden de tagstatistieken automatisch vernieuwd."
+    "help-instruction-part1": "Hier ziet u statistieken van tags op basis van hoe vaak ze in een boek gebruikt worden.",
+    "help-instruction-part2": "Er zijn momenteel geen toegewezen tags in dit boek.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Zodra u begint met het toewijzen van tags, worden de tagstatistieken automatisch vernieuwd."
   },
   "compare-panel": {
     "default-header": "<b>Vertalingen vergelijken</b>",
@@ -402,7 +437,6 @@
     }
   },
   "cordova" : {
-    "welcome-to-ezra-bible-app": "Welkom bij Ezra Bible App!",
     "storage-justification": "Ezra Bible App heeft toegang nodig tot de apparaatopslag om SWORD-modules te bewaren en de databank op te slaan. <br> <br> Nadat u op de onderstaande knop heeft gedrukt, wordt u gevraagd om Ezra Bible App toegang te geven tot bestanden op uw apparaat.",
     "enable-storage-access": "Schakel toegang tot apparaatopslag in",
     "storage-permission-denied": "U heeft besloten de opslagtoegang te weigeren. <br> U kunt dit wijzigen door op de onderstaande knop te drukken!",
@@ -417,7 +451,6 @@
     "waiting-app-ready": "Wachten tot applicatie klaar is"
   },
   "dropbox": {
-    "database-dropbox-sync": "Synchronisatie van databank en Dropbox",
     "setup-db-sync": "Dropbox-synchronisatie instellen",
     "dropbox-sync-explanation-part1": "De Dropbox-synchronisatie kan worden gebruikt om uw Ezra&nbsp;Bijbel&nbsp;App-database op meerdere apparaten te synchroniseren.",
     "dropbox-sync-explanation-part2": "De database wordt gesynchroniseerd na de volgende gebeurtenissen:",

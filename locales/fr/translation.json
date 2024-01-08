@@ -7,6 +7,7 @@
     "tags": "Étiquettes",
     "search": "Rechercher",
     "options": "Options",
+    "verse-context-actions": "Verse context actions",
     "export": "Exporter en document texte",
     "show-module-info": "Montrer les informations sur le module",
     "fullscreen": "Basculer en mode plein écran",
@@ -125,8 +126,10 @@
     "module-sync-header": "Installation de modules supplémentaires"
   },
   "general": {
+    "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "À propos d'Ezra Bible App",
     "general-app-info": "Des informations générales sur Ezra Bible App sont disponibles sur le site Web.<br> Des informations techniques sur le développement d'Ezra Bible App sont disponibles sur GitHub.",
+    "website": "Website",
     "chapter-verse-separator": ",",
     "module-application-info": "Informations sur le module et l’application",
     "application-info": "Informations sur l’application",
@@ -208,7 +211,20 @@
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
     "configure-commentaries": "Configurer des commentaires",
-    "context": "Contexte"
+    "context": "Contexte",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !"
+  },
+  "data-privacy": {
+    "confirm-privacy-options": "Confirm data privacy options",
+    "data-privacy-options": "Data privacy options",
+    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access. You can also make changes in the Options menu later.",
+    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, where new releases are published.",
+    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
+    "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
+    "send-crash-reports-hint-part3": "Note that the error reports only contain technical information and do not require much data bandwidth."
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",
@@ -228,6 +244,7 @@
       "hide-in-tab-search-form": "Masquer le formulaire de recherche de l’onglet actuel",
       "jump-to-next-search-occurance": "Passer à la prochaine occurrence de recherche",
       "jump-to-previous-occurance": "Passer à l’occurrence précédente",
+      "select-all-verses": "Select all verses",
       "copy-selected-verses-to-clipboard": "Copier les versets sélectionnés dans le presse-papiers",
       "toggle-fullscreen-only-Win-Linux": "Basculer en plein écran",
       "enable-dynamic-strongs-display": "Activer l’affichage dynamique de Strong",
@@ -242,6 +259,7 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Entrée",
       "jump-to-previous-occurance": "Maj + Entrée",
+      "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
       "enable-dynamic-strongs-display": "Maj + souris sur le verset",
@@ -318,6 +336,8 @@
     "select-all-search-results": "Sélectionner tous les résultats de recherche",
     "all-search-results": "Tous les résultats de recherche",
     "some-search-results": "Quelques résultats de recherche",
+    "select-all-verses": "Select all verses",
+    "all-verses": "All verses",
     "module-configuration": "Configuration du module",
     "display": "Affichage",
     "text-options": "Options de texte",
@@ -350,7 +370,7 @@
     "open-verselist-in-new-tab": "Ouvrir la liste des versets dans un nouvel onglet",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Ajuster la taille de la police des étiquettes et des notes",
-    "adjust-font-size-side-panel": "Adjust side panel font size",
+    "adjust-font-size-side-panel": "Ajuster la taille de la police du panneau latéral",
     "new-note-hint": "Cliques pour ajouter une note",
     "open-complete-book": "Ouvrir les livres complètement",
     "open-chapters-large-books": "Ouvrir les gros livres par chapitre",
@@ -358,8 +378,19 @@
     "copy": "Copier",
     "copy-table-to-clipboard": "Copier le tableau dans le presse-papiers",
     "copy-table-to-clipboard-success": "Le tableau est copié dans le presse-papier !",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Modifier la note",
-    "delete-note": "Supprimer la note"
+    "delete-note": "Supprimer la note",
+    "transchange" : {
+      "added" : "These words were added in translation",
+      "amplified" : "These words are amplifications of information in the source text",
+      "changed" : "These words were changed in translation",
+      "deleted" : "Some words in the source text are not present in the translation",
+      "implied" : "These words were added or changed to translate information implied by the source text",
+      "moved" : "These words were in another location in the source text",
+      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Dictionnaire grec",
@@ -368,15 +399,19 @@
     "help-instruction": "Comment afficher les entrées de dictionnaire ici :",
     "help-instruction-part1": "Vérifiez que les dictionnaires Strong (hébreu et grec) sont installés. Statut: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Ouvrez ensuite une traduction avec la fonctionnalité des nombres de Strong.",
-    "help-instruction-part3": "En pressant la touche SHIFT vous pouvez déplacer votre souris sur chaque mot en particulier ou sur une phrase pour y voir les entrées de dictionnaire.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Appuyez de manière prolongée sur des mots ou des phrases individuels jusqu'à ce que vous voyiez des entrées de dictionnaire ici.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-occurrences": "Trouver toutes les occurrences",
     "open-in-blueletter": "Ouvrir dans la Blue Letter Bible",
     "related-strongs": "Strong associés"
   },
   "tag-statistics-panel": {
     "default-header": "Statistiques des étiquettes",
-    "help-instruction": "Ici, vous verrez des statistiques d'étiquettes basées sur la fréquence à laquelle elles sont utilisées dans un livre.<br><br> Il n'y a actuellement aucune attribution d'étiquettes dans ce livre. Une fois que vous avez commencé à attribuer des étiquettes, les statistiques des étiquettes s'actualisent automatiquement."
+    "help-instruction-part1": "Ici, vous verrez des statistiques d'étiquettes basées sur la fréquence à laquelle elles sont utilisées dans un livre.",
+    "help-instruction-part2": "Il n'y a actuellement aucune attribution d'étiquettes dans ce livre.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Une fois que vous avez commencé à attribuer des étiquettes, les statistiques des étiquettes s'actualisent automatiquement."
   },
   "compare-panel": {
     "default-header": "<b>Comparer les traductions</b>",
@@ -410,7 +445,6 @@
     }
   },
   "cordova" : {
-    "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !",
     "storage-justification": "Ezra Bible App a besoin d’accéder au stockage de l’appareil pour enregistrer les modules SWORD et stocker sa base de données. <br> <br> Après avoir appuyé sur le bouton ci-dessous, il vous sera demandé d’autoriser Ezra Bible App à accéder aux fichiers de votre appareil.",
     "enable-storage-access": "Activer l’accès au stockage de l’appareil",
     "storage-permission-denied": "Vous avez décidé de refuser l’accès au stockage. <br> Vous pouvez modifier cela en appuyant sur le bouton ci-dessous !",
@@ -425,7 +459,6 @@
     "waiting-app-ready": "En attente de la préparation de l’application"
   },
   "dropbox": {
-    "database-dropbox-sync": "Synchroniser la base de données avec Dropbox",
     "setup-db-sync": "Configurer la synchronisation Dropbox",
     "dropbox-sync-explanation-part1": "La synchronisation Dropbox peut être utilisée pour synchroniser votre base de données d'Ezra&nbsp;Bible&nbsp;App sur plusieurs appareils.",
     "dropbox-sync-explanation-part2": "La base de données sera synchronisée dans les événements suivants :",

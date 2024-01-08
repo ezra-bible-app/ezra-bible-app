@@ -173,6 +173,12 @@ class IpcGeneralHandler {
         global.callCounters[key] = 0;
       }
     });
+
+    this._ipcMain.add('general_setSendCrashReports', async(sendCrashReports) => {
+      global.sendCrashReports = sendCrashReports;
+
+      console.log(`sendCrashReports: ${global.sendCrashReports}`);
+    });
   }
 }
 

@@ -38,7 +38,7 @@ class NewReleaseChecker {
 
     this.getInfoBox().dialog({
       width: 350,
-      height: 250,
+      height: 280,
       autoOpen: false,
       modal: true,
       title: i18n.t("general.new-release-available-title"),

@@ -20,6 +20,8 @@ const IpcRenderer = require('./ipc_renderer.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const i18nController = require('../controllers/i18n_controller.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
+const { Mutex } = require('async-mutex');
 
 class IpcDb {
   constructor() {
@@ -29,6 +31,7 @@ class IpcDb {
     this._getAllTagsCounter = 0;
     this._cachedBookTitleTranslations = {};
     this._cachedTagList = [];
+    this._getAllTagsLock = new Mutex();
   }
 
   async closeDatabase() {
@@ -77,11 +80,14 @@ class IpcDb {
     var increment = (action == "add" ? true : false);
     tags_controller.updateTagVerseCount(tagId, verseBoxes, increment);
 
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var referenceSeparator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+
     var verseObjects = [];
 
     for (var verseBox of verseBoxes) {
       var verseBoxModel = new VerseBox(verseBox);
-      var verseObject = verseBoxModel.getVerseObject();
+      var verseObject = verseBoxModel.getVerseObject(referenceSeparator);
       verseObjects.push(verseObject);
     }
 
@@ -92,11 +98,17 @@ class IpcDb {
     return await this._ipcRenderer.call('db_updateTagsOnVerses', tagId, verseObjects, versification, action);
   }
 
-  async getTagCount() {
-    return await this._ipcRenderer.call('db_getTagCount');
+  async getTagCount(bibleBookId=0) {
+    return await this._ipcRenderer.call('db_getTagCount', bibleBookId);
   }
 
   async getAllTags(bibleBookId=0, lastUsed=false, onlyStats=false) {
+    // We use a semaphore/lock here to ensure that the caching functionality is working properly during startup.
+    // Before introducing this lock we observed some parallel getAllTags calls during startup, specifically on Android.
+    // Those parallel calls are valid, but we want to ensure that the retrieval of the tag list
+    // is only done once at that time and then cached.
+    const releaseLock = await this._getAllTagsLock.acquire();
+
     var getAllTagsCounter = null;
     var debug = false;
     var useCache = false;
@@ -116,6 +128,7 @@ class IpcDb {
       var tagList = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
 
       if (!useCache) {
+        releaseLock();
         return tagList;
       } else {
         this._cachedTagList = tagList;
@@ -123,7 +136,8 @@ class IpcDb {
 
       if (debug || this._isCordova) console.timeEnd('getAllTags_' + getAllTagsCounter);
     }
-    
+
+    releaseLock();
     return this._cachedTagList;
   }
 
@@ -143,12 +157,16 @@ class IpcDb {
     return await this._ipcRenderer.call('db_updateTagGroup', tagGroupId, title);
   }
 
-  async getAllTagGroups() {
-    return await this._ipcRenderer.call('db_getAllTagGroups');
+  async getAllTagGroups(bibleBookId=0) {
+    return await this._ipcRenderer.call('db_getAllTagGroups', bibleBookId);
   }
 
   async deleteTagGroup(tagGroupId) {
     return await this._ipcRenderer.call('db_deleteTagGroup', tagGroupId);
+  }
+
+  async isTagGroupUsedInBook(tagGroupId, bibleBookId) {
+    return await this._ipcRenderer.call('db_isTagGroupUsedInBook', tagGroupId, bibleBookId);
   }
 
   async persistNote(noteValue, verseObject, versification) {

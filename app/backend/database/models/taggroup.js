@@ -32,11 +32,28 @@ module.exports = (sequelize, DataTypes) => {
     TagGroup.belongsToMany(models.Tag, {through: 'TagGroupMembers'});
   };
 
-  TagGroup.findWithTagCount = function() {
-    var query = "SELECT tg.*, COUNT(t.id) AS count FROM TagGroups tg" +
-                " LEFT JOIN TagGroupMembers tgm ON tgm.tagGroupId = tg.id" +
-                " LEFT JOIN Tags t ON tgm.tagId = t.id" +
-                " GROUP BY tg.id ORDER BY tg.title ASC";
+  TagGroup.findWithTagCount = function(bibleBookId=0) {
+    var bookFilterQuery = '';
+    var orderBy = 'tg.title ASC';
+
+    if (bibleBookId != 0) {
+      bookFilterQuery = `
+        LEFT JOIN VerseTags vt ON vt.tagId = t.id
+        LEFT JOIN VerseReferences vr ON vt.verseReferenceId = vr.id
+        WHERE vr.bibleBookId = ${bibleBookId}
+      `;
+
+      orderBy = 'count DESC, tg.title ASC';
+    }
+
+    var query = `
+      SELECT tg.*, COUNT(t.id) AS count FROM TagGroups tg
+      LEFT JOIN TagGroupMembers tgm ON tgm.tagGroupId = tg.id
+      LEFT JOIN Tags t ON tgm.tagId = t.id
+      ${bookFilterQuery}
+      GROUP BY tg.id
+      ORDER BY ${orderBy}
+    `;
     
     return sequelize.query(query, { model: global.models.TagGroup }); 
   };

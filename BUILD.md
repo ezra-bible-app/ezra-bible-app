@@ -98,13 +98,19 @@ Prerequisite: Apple Developer account
 
 Before you can sign and notarize Ezra Bible App on macOS you need to have the code signing certificates from your Apple developer account available on your Mac.
 
-To sign and notarize Ezra Bible App run the following commands in the project dir.
+To sign Ezra Bible App run the following command in the project dir.
 
 `npm run sign-mac`
 
+Signing the app will take a minute or two.
+
+To notarize Ezra Bible App run the following command in the project dir.
+
 `npm run notarize-mac`
 
-You will be asked for your Apple ID and the corresponding password. The scripts (sign_mac.sh, notarize_mac.sh) will then sign and notarize the app. This is a lengthy process (may take 20-25 minutes).
+You will be asked for your Apple ID, the corresponding password and your Team ID (get the Team ID from your [Apple Developer account page](https://developer.apple.com/account)). This is a lengthy process (may take 20-25 minutes). Once notarization is done you will see the following message:
+
+`App was notarized successfully!`
 
 ### Creating a DMG image for distribution
 
@@ -112,4 +118,4 @@ Once you have signed and notarized the app you can create a DMG image for distri
 
 `npm run dmg-mac`
 
-After the process is completed you will find a new DMG file at `<project-dir>/release/ezra-bible-app.dmg`.
+After the process is completed you will find a new DMG file at `<project-dir>/release/Ezra Bible App.dmg`.

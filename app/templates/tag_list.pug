@@ -25,14 +25,15 @@ each tag in tags
 
   if tagStatistics != null
     - currentStats = tagStatistics[tag.id]
-    - bookAssignmentCount = currentStats.bookAssignmentCount
-    - globalAssignmentCount = currentStats.globalAssignmentCount
+    if currentStats != null
+      - bookAssignmentCount = currentStats.bookAssignmentCount
+      - globalAssignmentCount = currentStats.globalAssignmentCount
 
-  - var used_in_book_class = (currentStats != null && currentStats.bookAssignmentCount > 0 ? "cb-label-assigned" : "")
+  - var used_in_book_class = (bookAssignmentCount > 0 ? "cb-label-assigned" : "")
   
   - var visible = true
   if current_filter != ''
-    - var visible = tags_controller.tag_list_filter.tagTitleMatchesFilter(tag.title, current_filter);
+    - visible = tags_controller.tag_list_filter.tagTitleMatchesFilter(tag.title, current_filter);
 
   - var visibility = "";
   if !visible
@@ -45,10 +46,9 @@ each tag in tags
                    global-assignment-count=globalAssignmentCount,
                    last-used-timestamp=last_used_timestamp)
 
-    if currentStats != null
-      - var tag_counts = currentStats.globalAssignmentCount
-      if current_book != null
-        - tag_counts = currentStats.bookAssignmentCount + " | " + currentStats.globalAssignmentCount
+    - var tag_counts = globalAssignmentCount
+    if current_book != null
+      - tag_counts = bookAssignmentCount + " | " + globalAssignmentCount
     
     - var cb_id = 'tag-' + tag.id
     i(id=cb_id class='fas fa-tag tag-button button-small')
@@ -57,7 +57,7 @@ each tag in tags
       span(class='cb-label' class=used_in_book_class) #{tag.title}
 
       if currentStats != null
-        - stats_id = 'cb-label-tag-assignment-count-' + tag.id
+        - var stats_id = 'cb-label-tag-assignment-count-' + tag.id
         span(class='cb-label-tag-assignment-count' id=stats_id) (#{tag_counts})
 
       span.cb-label-postfix

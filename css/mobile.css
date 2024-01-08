@@ -131,6 +131,10 @@ Librem 5/Pinephone etc.
   .book-list-column li {
     line-height: 2.2em !important;
   }
+
+  #book-selection-menu-chapter-list {
+    max-height: unset !important;
+  }
 }
 
 /* Long smartphone - keyboard visible */
@@ -612,14 +616,14 @@ Librem 5/Pinephone etc.
 
   #tags-content-global {
     font-size: 0.9em;
-    height: calc(100% - 6.5em) !important;
+    height: calc(100% - 6.2em) !important;
   }
 
   #tags-content-global loading-indicator {
     margin-top: 3em !important;
   }
 
-  .Android .button-small:not(#new-standard-tag-button) {
+  .Android .button-small:not(#new-standard-tag-button, .copy-button) {
     font-size: 0.9em !important;
     width: 16px !important;
     height: 16px !important;

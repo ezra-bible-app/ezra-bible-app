@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const { getPlatform } = require('../helpers/ezra_helper.js');
 
 const VerseBoxHelper = require("../helpers/verse_box_helper.js");
 const VerseSelection = require("../components/verse_selection.js");
@@ -48,8 +47,9 @@ const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
 const wheelnavController = require('./wheelnav_controller.js');
 const fullscreenController = require('./fullscreen_controller.js');
-const cacheController = require('./cache_controller.js');
 const moduleUpdateController = require('./module_update_controller.js');
+const transChangeTitles = require('../components/trans_change_titles.js');
+const sectionLabelHelper = require('../helpers/section_label_helper.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -126,6 +126,7 @@ class AppController {
     wheelnavController.init();
     verseListController.init();
     moduleUpdateController.init();
+    transChangeTitles.init();
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
@@ -135,56 +136,6 @@ class AppController {
     eventController.subscribe('on-button-clicked', () => { this.hideAllMenus(); });
 
     this.verse_context_controller.initButtonEvents();
-    this.initExitEvent();
-  }
-
-  initExitEvent() {
-    var exitEvent = null;
-    var exitContext = window;
-
-    if (platformHelper.isElectron()) {
-      exitEvent = 'beforeunload';
-      exitContext = window;
-    } else if (platformHelper.isCordova()) {
-      exitEvent = 'pause';
-      exitContext = document;
-    }
-
-    exitContext.addEventListener(exitEvent, () => {
-      // FIXME: Introduce new event on-exit and handle the below actions in a de-coupled way
-
-      this.exitLog('Persisting data');
-
-      this.tab_controller.lastSelectedTabIndex = this.tab_controller.getSelectedTabIndex();
-      this.tab_controller.savePreviousTabScrollPosition();
-      
-      if (this.tab_controller.persistanceEnabled) {
-        this.exitLog('Saving tab configuration');
-        this.tab_controller.saveTabConfiguration();
-      }
-
-      this.exitLog('Saving tag group id');
-      ipcSettings.set('lastUsedTagGroupId', tags_controller.currentTagGroupId);
-      
-      this.exitLog('Saving last locale');
-      cacheController.saveLastLocale();
-
-      this.exitLog('Saving last used version');
-      cacheController.saveLastUsedVersion();
-
-      if (platformHelper.isCordova()) {
-        ipcSettings.set('lastUsedAndroidVersion', getPlatform().getAndroidVersion());
-      }
-    });
-  }
-
-  exitLog(logMessage) {
-    if (platformHelper.isElectron()) {
-      const { ipcRenderer } = require('electron');
-      ipcRenderer.send('log', logMessage);
-    } else {
-      console.log(logMessage);
-    }
   }
 
   toggleVerseContextMenuButton(tabIndex=undefined) {
@@ -252,10 +203,11 @@ class AppController {
         tags_controller.currentTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
         const tagGroupList = document.getElementById('tag-panel-tag-group-list');
         const tagGroup = await tagGroupList._tagGroupManager.getItemById(tags_controller.currentTagGroupId);
-        eventController.publishAsync('on-tag-group-selected', tagGroup);
+        await eventController.publishAsync('on-tag-group-selected', tagGroup);
       }
 
-      await this.translation_controller.loadSettings();
+      await this.book_selection_menu.updateAvailableBooks();
+      sectionLabelHelper.initHelper(ipcNsi);
     } catch (e) {
       console.trace("Failed to load settings ... got exception.", e);
     }
@@ -293,7 +245,7 @@ class AppController {
   }
 
   initGlobalShortCuts() {
-    var shortCut = 'ctrl+c';
+    let shortCut = 'ctrl+c';
     if (platformHelper.isMac()) {
       shortCut = 'command+c';
     }
@@ -303,26 +255,36 @@ class AppController {
       return false;
     });
 
-    var searchShortCut = 'ctrl+f';
+    let searchShortCut = 'ctrl+f';
     if (platformHelper.isMac()) {
       searchShortCut = 'command+f';
     }
 
+    let selectAllShortCut = 'ctrl+a';
+    if (platformHelper.isMac()) {
+      selectAllShortCut = 'command+a';
+    }
+
     Mousetrap.bind(searchShortCut, () => {
-      var currentTab = app_controller.tab_controller.getTab();
+      let currentTab = app_controller.tab_controller.getTab();
       currentTab.tab_search.show();
       currentTab.tab_search.focus();
       return false;
     });
 
+    Mousetrap.bind(selectAllShortCut, () => {
+      this.selectAllVerses();
+      return false;
+    });
+
     Mousetrap.bind('esc', () => {
-      var currentTab = app_controller.tab_controller.getTab();
+      let currentTab = app_controller.tab_controller.getTab();
       currentTab.tab_search.resetSearch();
       return false;
     });
 
     Mousetrap.bind('enter', () => {
-      var currentTab = app_controller.tab_controller.getTab();
+      let currentTab = app_controller.tab_controller.getTab();
       // We need to notify the TabSearch component that there has been a mouse trap event.
       // This is to avoid double event processing, because the TabSearch also listens for key press events.
       currentTab.tab_search.mouseTrapEvent = true;
@@ -331,7 +293,7 @@ class AppController {
     });
 
     Mousetrap.bind('shift+enter', () => {
-      var currentTab = app_controller.tab_controller.getTab();
+      let currentTab = app_controller.tab_controller.getTab();
       // We need to notify the TabSearch component that there has been a mouse trap event.
       // This is to avoid double event processing, because the TabSearch also listens for key press events.
       currentTab.tab_search.mouseTrapEvent = true;
@@ -339,6 +301,17 @@ class AppController {
       currentTab.tab_search.jumpToNextOccurance(false);
       return false;
     });
+  }
+
+  selectAllVerses() {
+    let currentTab = app_controller.tab_controller.getTab();
+    let textType = currentTab.getTextType();
+    
+    if (textType == 'search_results') {
+      this.module_search_controller.selectAllSearchResults();
+    } else if (textType == 'tagged_verses') {
+      this.text_controller.selectAllVerses();
+    }
   }
 
   getCurrentVerseListTabs(tabIndex=undefined) {

@@ -33,7 +33,8 @@ class UiHelper {
       throw new Error('context should be HTMLElement, css selector string or null for the document context');
     }
   
-    var buttons = context.querySelectorAll('.fg-button');
+    if (context == null) { return; }
+    let buttons = context.querySelectorAll('.fg-button');
   
     for (let i = 0; i < buttons.length; i++) {
       const currentButton = buttons[i];
@@ -263,6 +264,30 @@ class UiHelper {
         }
       }
     }
+  }
+
+  addButton(containerElement, cssClass, localeId, onClickFunction, isDisabled=false) {
+    let button = document.createElement('button');
+    button.classList.add(cssClass);
+    button.classList.add('fg-button');
+    button.classList.add('ui-corner-all');
+    button.classList.add('ui-state-default');
+    
+    if (isDisabled) {
+      button.classList.add('ui-state-disabled');
+    }
+
+    button.innerText = i18n.t(localeId);
+    button.setAttribute('i18n', localeId);
+    containerElement.append(button);
+
+    button.addEventListener('click', () => {
+      if (button.classList.contains('ui-state-disabled')){
+        return;
+      }
+      
+      onClickFunction();
+    });
   }
 }
 

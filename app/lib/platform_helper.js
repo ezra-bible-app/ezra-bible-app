@@ -137,6 +137,10 @@ class PlatformHelper {
     return false;
   }
 
+  isSupportedPlatform() {
+    return this.isElectron() || this.isCordova();
+  }
+
   isMobile() {
     const MAX_MOBILE_PIXELS = 450;
     return window.innerWidth <= MAX_MOBILE_PIXELS || window.innerHeight <= MAX_MOBILE_PIXELS;

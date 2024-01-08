@@ -73,12 +73,7 @@ class VerseContextMenu extends HTMLElement {
       this.hideVerseContextMenuButton(tabIndex);
     });
 
-    eventController.subscribe('on-note-created', () => {
-      let selection = { 'selectedElements' : app_controller.verse_selection.getSelectedVerseBoxes() };
-      this.toggleButtons(selection);
-    });
-
-    eventController.subscribe('on-note-deleted', () => {
+    eventController.subscribeMultiple(['on-note-created', 'on-note-deleted'], () => {
       let selection = { 'selectedElements' : app_controller.verse_selection.getSelectedVerseBoxes() };
       this.toggleButtons(selection);
     });
@@ -101,14 +96,19 @@ class VerseContextMenu extends HTMLElement {
         this.disableContextButton();
       }
 
-      const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
-      const firstVerseBox = selectedVerseBoxes[0];
+      const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
 
-      if (firstVerseBox != null) {
-        const notesInfo = firstVerseBox.querySelector('.notes-info');
-        
-        if (notesInfo.classList.contains('visible')) {
-          this.enableDeleteNoteButton();
+      if (selectedVerseBoxes.length > 0) {
+        const firstVerseBox = selectedVerseBoxes[0];
+
+        if (firstVerseBox != null && typeof(firstVerseBox.querySelector) == 'function') {
+          const notesInfo = firstVerseBox.querySelector('.notes-info');
+          
+          if (notesInfo.classList != null && notesInfo.classList.contains('visible')) {
+            this.enableDeleteNoteButton();
+          } else {
+            this.disableDeleteNoteButton();
+          }
         } else {
           this.disableDeleteNoteButton();
         }

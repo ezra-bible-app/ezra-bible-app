@@ -7,6 +7,7 @@
     "tags": "Метки",
     "search": "Поиск",
     "options": "Опции",
+    "verse-context-actions": "Verse context actions",
     "export": "Сохранить в текстовый документ",
     "show-module-info": "Показать информацию о модуле",
     "fullscreen": "Переключить в полноэкранный режим",
@@ -117,8 +118,10 @@
     "module-sync-header": "Установка дополнительных модулей"
   },
   "general": {
+    "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "О Ezra Bible App",
     "general-app-info": "Общая информация о Ezra Bible App находится на сайте приложения.<br>Техническую информацию о разроботке Ezra Bible App можно найти на GitHub.",
+    "website": "Website",
     "chapter-verse-separator": ":",
     "module-application-info": "Информация о модуле и приложении",
     "application-info": "Информация о приложении",
@@ -200,11 +203,24 @@
     "configure-translations": "Управлять переводами",
     "configure-dicts": "Управлять словарями",
     "configure-commentaries": "Управлять комментариями",
-    "context": "Контекст"
+    "context": "Контекст",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!"
+  },
+  "data-privacy": {
+    "confirm-privacy-options": "Confirm data privacy options",
+    "data-privacy-options": "Data privacy options",
+    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access. You can also make changes in the Options menu later.",
+    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, where new releases are published.",
+    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
+    "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
+    "send-crash-reports-hint-part3": "Note that the error reports only contain technical information and do not require much data bandwidth."
   },
   "help": {
-    "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
-    "help-text-no-tags-no-book-opens": "Чтобы начать работу с метками, сначала выберите книгу Библии для изучения.",
+    "help-text-no-tags-book-opened": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
+    "help-text-no-tags-no-book-opened": "Чтобы начать работу с метками, сначала выберите книгу Библии для изучения.",
     "help-text-translation-available": "Для начала выберите книгу или метку в меню выше.",
     "help-text-no-translations": "Для начала установите хотя бы один перевод Библии. <br/><br/> Вы можете открыть помощник по установке, щелкнув по иконке настроек, а затем <i>Управление переводами< /i>. "
   },
@@ -220,6 +236,7 @@
       "hide-in-tab-search-form": "Спрятать форму поиска",
       "jump-to-next-search-occurance": "Перейти к следующему результату",
       "jump-to-previous-occurance": "Перейти к предыдущему результату",
+      "select-all-verses": "Select all verses",
       "copy-selected-verses-to-clipboard": "Скопировать выбранный отрывок в буфер обмена",
       "toggle-fullscreen-only-Win-Linux": "Переключиться в полноэкранный режим",
       "enable-dynamic-strongs-display": "Показать статью словаря по номеру Стронга",
@@ -234,6 +251,7 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
       "enable-dynamic-strongs-display": "Shift + наведение мышью над словом",
@@ -311,6 +329,8 @@
     "select-all-search-results": "Выбрать все результаты поиска",
     "all-search-results": "Все результаты поиска",
     "some-search-results": "Некоторые результаты поиска",
+    "select-all-verses": "Select all verses",
+    "all-verses": "All verses",
     "module-configuration": "Конфигурация модулей",
     "display": "Параметры отображения",
     "text-options": "Параметры текста",
@@ -343,7 +363,7 @@
     "open-verselist-in-new-tab": "Открыть список стихов в новой вкладке",
     "footnote-character": "*",
     "adjust-font-size-tags-notes": "Настраивать текст меток/заметок",
-    "adjust-font-size-side-panel": "Adjust side panel font size",
+    "adjust-font-size-side-panel": "Настраивать размер текста боковой панели",
     "new-note-hint": "Добавить заметку",
     "open-complete-book": "Открывать книги полностью",
     "open-chapters-large-books": "Открывать по главам большие книги",
@@ -351,8 +371,19 @@
     "copy": "Скопировать",
     "copy-table-to-clipboard": "Скопировать таблицу в буфер обмена",
     "copy-table-to-clipboard-success": "Таблица скопированна в буфер обмена!",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Редактировать заметку",
-    "delete-note": "Удалить заметку"
+    "delete-note": "Удалить заметку",
+    "transchange" : {
+      "added" : "These words were added in translation",
+      "amplified" : "These words are amplifications of information in the source text",
+      "changed" : "These words were changed in translation",
+      "deleted" : "Some words in the source text are not present in the translation",
+      "implied" : "These words were added or changed to translate information implied by the source text",
+      "moved" : "These words were in another location in the source text",
+      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Словарь греческого языка",
@@ -361,15 +392,19 @@
     "help-instruction-intro": "Отображение статей из словаря:",
     "help-instruction-part1": "Убедитесь, что установленны словари Стронга (иврита и греческого). Статус: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Откройте перевод с номерами Стронга.",
-    "help-instruction-part3": "Удерживая клавишу SHIFT, наводите указатель мыши на отдельные слова и фразы, чтобы увидеть соответсвующую статью из словаря.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Удерживайте касание на отдельных словах или фразах пока не увидите соответсвующую статью из словаря.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-событий": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"
   },
   "tag-statistics-panel": {
     "default-header": "Статистика меток",
-    "help-instruction": "Здесь будет отображенна статистика меток согласно часту использования в текущей книге.<br><br> К стихам этой книги еще не прикрепленно никаких меток. Статистика меток обновится автоматически после прикрепления меток."
+    "help-instruction-part1": "Здесь будет отображенна статистика меток согласно часту использования в текущей книге.",
+    "help-instruction-part2": "К стихам этой книги еще не прикрепленно никаких меток.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Статистика меток обновится автоматически после прикрепления меток."
   },
   "compare-panel": {
     "default-header": "<b>Сравнить переводы</b>",
@@ -403,7 +438,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!",
     "storage-justification": "Приложению Ezra Bible App требуется доступ к области памяти устройства, чтобы сохранять модули SWORD и базу данных приложения. <br><br> После нажатия кнопки ниже вас попросят разрешить приложению Ezra Bible App доступ к файлам на вашем устройстве. ",
     "enable-storage-access": "Разрешить доступ к хранилищу устройства",
     "storage-permission-denied": "Вы решили запретить доступ к хранилищу. <br>Вы можете изменить это, нажав кнопку ниже!",
@@ -418,7 +452,6 @@
     "waiting-app-ready": "Ожидание готовности приложения"
   },
   "dropbox": {
-    "database-dropbox-sync": "Синхронизация базы данных через Dropbox",
     "setup-db-sync": "Настройка Dropbox синхронизации",
     "dropbox-sync-explanation-part1": "С помощью Dropbox синхронизации можно синхронизировать вашу базу данных Ezra&nbsp;Bible&nbsp;App на разных устройствах.",
     "dropbox-sync-explanation-part2": "База данных будет синхронизированна в следующих случаях:",

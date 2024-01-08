@@ -7,6 +7,7 @@
     "tags": "Etichete",
     "search": "Caută",
     "options": "Opțiuni",
+    "verse-context-actions": "Verse context actions",
     "export": "Export ca document text",
     "show-module-info": "Arată info modul",
     "fullscreen": "Comută pe întregul ecran",
@@ -115,8 +116,10 @@
     "module-sync-header": "Se instalează module adiționale"
   },
   "general": {
+    "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "Despre Ezra Bible App",
     "general-app-info": "Informații generale despre Ezra Bible App pot fi găsite pe site-ul web.<br>Informații tehnice despre dezvoltarea Ezra Bible App pot fi găsite pe GitHub.",
+    "website": "Website",
     "chapter-verse-separator": ":",
     "module-application-info": "Informații despre module și aplicație",
     "application-info": "Informații despre aplicație",
@@ -198,7 +201,20 @@
     "configure-translations": "Configurează traducerile",
     "configure-dicts": "Configurează dicționarele",
     "configure-commentaries": "Configurează comentariile",
-    "context": "Context"
+    "context": "Context",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!"
+  },
+  "data-privacy": {
+    "confirm-privacy-options": "Confirm data privacy options",
+    "data-privacy-options": "Data privacy options",
+    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access. You can also make changes in the Options menu later.",
+    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, where new releases are published.",
+    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
+    "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
+    "send-crash-reports-hint-part3": "Note that the error reports only contain technical information and do not require much data bandwidth."
   },
   "help": {
     "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, creează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă click sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",
@@ -218,6 +234,7 @@
       "hide-in-tab-search-form": "Ascunde formularul de căutare în fereastră",
       "jump-to-next-search-occurance": "Salt la următorul rezultat al căutării",
       "jump-to-previous-occurance": "Salt la rezultatul anterior al căutării",
+      "select-all-verses": "Select all verses",
       "copy-selected-verses-to-clipboard": "Copiază versetele selectate în clipboard",
       "toggle-fullscreen-only-Win-Linux": "Comută ecranul întreg (doar Win/Linux)",
       "enable-dynamic-strongs-display": "Activează afișarea concordanței dinamice Strong's ",
@@ -232,6 +249,7 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
       "enable-dynamic-strongs-display": "Shift + mouse deasupra versetului",
@@ -308,6 +326,8 @@
     "select-all-search-results": "Selectează toate rezultatele căutării",
     "all-search-results": "Toate rezultatele căutării",
     "some-search-results": "Rezultate parțiale ale căutării",
+    "select-all-verses": "Select all verses",
+    "all-verses": "All verses",
     "module-configuration": "Configurare modul",
     "display": "Afișare",
     "text-options": "Opțiuni text",
@@ -348,8 +368,19 @@
     "copy": "Copiază",
     "copy-table-to-clipboard": "Copiază tabelul în clipboard",
     "copy-table-to-clipboard-success": "Tabelul copiat în clipboard!",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Editează nota",
-    "delete-note": "Șterge nota"
+    "delete-note": "Șterge nota",
+    "transchange" : {
+      "added" : "These words were added in translation",
+      "amplified" : "These words are amplifications of information in the source text",
+      "changed" : "These words were changed in translation",
+      "deleted" : "Some words in the source text are not present in the translation",
+      "implied" : "These words were added or changed to translate information implied by the source text",
+      "moved" : "These words were in another location in the source text",
+      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Dicționar grec",
@@ -358,15 +389,19 @@
     "help-instruction-intro": "Cum să afișezi intrările de dicționar aici:",
     "help-instruction-part1": "Asigură-te ca sunt instalate dicționarele de concordanță (Strong's) (Ebraică și Greacă). Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Mai întâi deschide o traducere cu caracteristica Concordanță (Strong's).",
-    "help-instruction-part3": "În timp ce apeși tasta SHIFT, poți muta mouse-ul peste anumite cuvinte și fraze ca să vezi intrările din dicționar aici.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Atinge și ține apăsat pe cuvintele sau expresiile individuale până când vei vedea intrările din dicționar aici.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
     "related-strongs": "(Strong's) Concordanțe asociate"
   },
   "tag-statistics-panel": {
     "default-header": "Statistici etichete",
-    "help-instruction": "Aici vei vedea statistici ale etichetelor bazate pe frecvența cu care sunt utilizate într-o carte.<br><br> În prezent, nu există atribuiri de etichete în această carte. Odată ce începi să atribui etichete, statisticile etichetelor se vor reîmprospăta automat."
+    "help-instruction-part1": "Aici vei vedea statistici ale etichetelor bazate pe frecvența cu care sunt utilizate într-o carte.",
+    "help-instruction-part2": "În prezent, nu există atribuiri de etichete în această carte.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Odată ce începi să atribui etichete, statisticile etichetelor se vor reîmprospăta automat."
   },
   "compare-panel": {
     "default-header": "<b>Compară traducerile</b>",
@@ -400,7 +435,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!",
     "storage-justification": "Ezra Bible App are nevoie de acces la zona de stocare a dispozitivului pentru a salva modulele SWORD și a stoca baza de date a acestuia.<br><br>După apăsarea butonului de mai jos, ți se va cere să permiți aplicației Ezra Bible să acceseze fișierele de pe dispozitivul tău.",
     "enable-storage-access": "Activează accesul la stocarea dispozitivului",
     "storage-permission-denied": "Ai decis să refuzi accesul la stocare.<br>Poți schimba acest lucru apăsând butonul de mai jos!",
@@ -415,7 +449,6 @@
     "waiting-app-ready": "În așteptare ca aplicație să fie pregătită"
   },
   "dropbox": {
-    "database-dropbox-sync": "Sincronizarea bazei de date din Dropbox",
     "setup-db-sync": "Configurează sincronizarea cu Dropbox",
     "dropbox-sync-explanation-part1": "Sincronizarea cu Dropbox poate fi folosită pentru a îți sincroniza baza de date  Ezra&nbsp;Bible&nbsp;App cu mai multe dispozitive pe care le deții.",
     "dropbox-sync-explanation-part2": "Baza de date va fi sincronizată cu la evenimentele următoare:",

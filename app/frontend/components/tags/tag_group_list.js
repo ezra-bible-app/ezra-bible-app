@@ -110,7 +110,9 @@ const template = html`
 <div id="tag-group-list-content" class="scrollable" style="display: none;">
 </div>
 `;
-   
+
+const TAG_GROUP_ALL_TAGS = -1;
+
 /**
  * The TagGroupList is a web component that lists all tag groups.
  * 
@@ -121,21 +123,23 @@ const template = html`
  * - persist: A Boolean attribute that determines whether changes of the list shall be written to the database or not.
  * - activation-event: The event used for populating the list and then showing it.
  * - selection-event: The event that shall be fired when an item is selected.
- * - show-tag-count: A Boolean attribute that determines whether or not the tag count shall be shown behind each tag group.
+ * - show-tag-count: A Boolean attribute that determines whether the tag count shall be shown behind each tag group.
  * - hide-top-border: A Boolean attribute that determines whether the top border shall be hidden.
- * - rounded-corners: A Boolean attribute that determines whether or not the borders of the box shall be rounded.
- * - rounded-bottom-corners: A Boolean attribute that determines whether or not the bottom corners of the box shall be rounded.
+ * - rounded-corners: A Boolean attribute that determines whether the borders of the box shall be rounded.
+ * - rounded-bottom-corners: A Boolean attribute that determines whether the bottom corners of the box shall be rounded.
+ * - book-filter: A boolean attribute that determines whether the tag group list should be filtered based on the current book.
  */
 class TagGroupList extends HTMLElement {
   constructor() {
     super();
 
     this._virtualTagGroups = [
-      { id: -1, title: i18n.t('tags.all-tags') }
+      { id: TAG_GROUP_ALL_TAGS, title: i18n.t('tags.all-tags') }
     ];
 
     this._editable = false;
     this._subscriptionDone = false;
+    this._bookFilter = false;
 
     this._tagGroupManager = new TagGroupManager((event) => { this.handleTagGroupClick(event); },
                                                 (itemId) => { this.handleTagGroupEdit(itemId); },
@@ -184,7 +188,16 @@ class TagGroupList extends HTMLElement {
 
     if (this._activationEvent != null) {
       eventController.subscribe(this._activationEvent, async () => {
-        this._virtualTagGroups[0].count = await ipcDb.getTagCount();
+        const currentBook = this.getCurrentBook();
+        let bibleBookId = 0;
+
+        if (this._bookFilter && currentBook != null) {
+          this._tagGroupManager.setBookFilter(currentBook);
+          const dbBibleBook = await ipcDb.getBibleBook(currentBook);
+          bibleBookId = dbBibleBook.id;
+        }
+
+        this._virtualTagGroups[0].count = await ipcDb.getTagCount(bibleBookId);
         await this._tagGroupManager.populateItemList();
         this.showTagGroupList();
       });
@@ -207,17 +220,59 @@ class TagGroupList extends HTMLElement {
       }
     });
 
-    eventController.subscribe('on-tag-created', async () => {
-      await this.updateTagCountAndRefreshList();
+    eventController.subscribeMultiple(['on-tag-created', 'on-tag-deleted'], async () => {
+      const currentBook = this.getCurrentBook();
+      await this.updateTagCountAndRefreshList(currentBook);
     });
 
-    eventController.subscribe('on-tag-deleted', async () => {
-      await this.updateTagCountAndRefreshList();
-    });
+    if (this._bookFilter) {
+      eventController.subscribe('on-verse-list-init', async (tabIndex) => {
+        const currentBook = this.getCurrentBook(tabIndex);
+
+        if (currentBook != null) {
+          let tagGroupUsedInBook = true;
+
+          if (tags_controller.tagGroupUsed()) {
+            const currentTagGroupId = tags_controller.currentTagGroupId;
+
+            const dbBibleBook = await ipcDb.getBibleBook(currentBook);
+            const bibleBookId = dbBibleBook.id;
+            tagGroupUsedInBook = await ipcDb.isTagGroupUsedInBook(currentTagGroupId, bibleBookId);
+          }
+
+          if (tagGroupUsedInBook) {
+            this._tagGroupManager.setBookFilter(currentBook);
+            await this.updateTagCountAndRefreshList(currentBook);
+          } else {
+            // Switch back to all tags because the selected tag group is not present in the current book
+            await this.selectTagGroup(TAG_GROUP_ALL_TAGS);
+          }
+        }
+      });
+    }
   }
 
-  async updateTagCountAndRefreshList() {
-    this._virtualTagGroups[0].count = await ipcDb.getTagCount();
+  getCurrentBook(tabIndex=undefined) {
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const currentBook = currentTab.getBook();
+    const currentTextType = currentTab.getTextType();
+
+    if (currentTextType == 'book' && currentBook != null) {
+      return currentBook;
+    } else {
+      return null;
+    }
+  }
+
+  async updateTagCountAndRefreshList(currentBook) {
+    let bibleBookId = 0;
+
+    if (this._bookFilter && currentBook != null) {
+      const dbBibleBook = await ipcDb.getBibleBook(currentBook);
+      bibleBookId = dbBibleBook.id;
+    }
+
+    this._virtualTagGroups[0].count = await ipcDb.getTagCount(bibleBookId);
     await this._tagGroupManager.refreshItemList();
   }
 
@@ -266,6 +321,14 @@ class TagGroupList extends HTMLElement {
         this.getContentDiv().classList.add('rounded-bottom-corners');
       }
     }
+
+    if (this.hasAttribute('book-filter')) {
+      if (this.getAttribute('book-filter') == 'true') {
+        this._bookFilter = true;
+      } else {
+        this._bookFilter = false;
+      }
+    }
   }
 
   async createTagGroupInDb(tagGroupTitle) {
@@ -294,8 +357,15 @@ class TagGroupList extends HTMLElement {
 
   async handleTagGroupClick(event) {
     const tagGroupId = parseInt(event.target.getAttribute('item-id'));
-    const tagGroup = await this._tagGroupManager.getItemById(tagGroupId);
+    await this.selectTagGroup(tagGroupId);
+  }
 
+  async selectTagGroup(tagGroupId) {
+    if (tagGroupId == null) {
+      return;
+    }
+
+    const tagGroup = await this._tagGroupManager.getItemById(tagGroupId);
     this.hideTagGroupList();
 
     if (this._selectionEvent != null) {

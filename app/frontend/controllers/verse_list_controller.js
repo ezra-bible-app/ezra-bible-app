@@ -45,7 +45,7 @@ module.exports.init = function init() {
     }
   });
 
-  eventController.subscribe('on-tag-group-filter-enabled', async () => {
+  eventController.subscribeMultiple(['on-tag-group-filter-enabled', 'on-tag-group-members-changed'], async () => {
     this.applyTagGroupFilter(tags_controller.currentTagGroupId);
   });
 
@@ -58,10 +58,6 @@ module.exports.init = function init() {
       this.applyTagGroupFilter(tagGroup.id);
     }
   });
-
-  eventController.subscribe('on-tag-group-members-changed', async() => {
-    this.applyTagGroupFilter(tags_controller.currentTagGroupId);
-  });
 };
 
 module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
@@ -72,8 +68,8 @@ module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
 
 module.exports.getCurrentVerseList = function(tabIndex=undefined) {
   var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-  var verseList = currentVerseListFrame[0].querySelector('.verse-list');
-  return $(verseList);
+  var verseList = currentVerseListFrame.find('.verse-list');
+  return verseList;
 };
 
 module.exports.getCurrentVerseListHeader = function(tabIndex=undefined) {
@@ -248,8 +244,12 @@ module.exports.resetVerseListView = function() {
   }
 
   let verseListFrame = this.getCurrentVerseListFrame();
+
+  let verseListHeader = verseListFrame.find('.verse-list-header');
+  verseListHeader.hide();
+
   let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
-  tagDistributionMatrix.input = '';
+  tagDistributionMatrix.reset();
 
   app_controller.docxExport.disableExportButton();
 };
