@@ -1,6 +1,59 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.13.0 - 2024-01-20]
+
+### Enhancements
+
+* Turn word website in app info dialog into translatable term. ([#956][i956])
+* Add support for selecting verses based on pressing Shift key. ([#957][i957])
+* Add a button for selecting all verses of a tagged verse list. ([#958][i958])
+* Add a short cut for selecting all verses in the search results or a tagged verse list (CTRL + A). ([#959][i959])
+* Copy verses to clipboard including html formatting. ([#962][i962])
+* Dictionary use without keyboard. ([#912][i912])
+* Put transChange meta data in html title attribute to make it readable. ([#972][i972])
+* Adjust height of chapter selection dialog on large mobiles. ([#856][i856])
+* Copy "Comparison Window" to Clipboard. ([#537][i537])
+* Cancel note editing when pressing Escape. ([#978][i978])
+* Make new release checking configurable. ([#988][i988])
+* Make Sentry error reporting configurable. ([#989][i989])
+* Add dialog that asks for confirming privacy options at first start of the app. ([#991][i991])
+* Add ability to switch tag group within tag statistics panel. ([#995][i995])
+
+### Fixes
+
+* Header section of tagged verse list and search results does not adjust when changing the font size. ([#960][i960])
+* Tag distribution matrix not correctly shown after reload/startup when on second/third tab. ([#961][i961])
+* Verse context action menu/button is missing tooltip / title. ([#963][i963])
+* Greek Strong's parsing broken with StrongsGreek version 2.0. ([NSI #49][nsi49])
+* Android: Tag button stays active after unassigning tag from verse. ([#975][i975])
+* Verse references are sometimes not parsed correctly when tagging verses. ([#979][i979])
+* Verses not separated correctly with copy to clipboard functionality. ([#983][i983])
+* Saving current tab configuration not working on Android exit, but only on pause. ([#997][i997])
+
+[i537]: https://github.com/ezra-bible-app/ezra-bible-app/issues/537
+[i856]: https://github.com/ezra-bible-app/ezra-bible-app/issues/856
+[i912]: https://github.com/ezra-bible-app/ezra-bible-app/issues/912
+[i956]: https://github.com/ezra-bible-app/ezra-bible-app/issues/956
+[i957]: https://github.com/ezra-bible-app/ezra-bible-app/issues/957
+[i958]: https://github.com/ezra-bible-app/ezra-bible-app/issues/958
+[i959]: https://github.com/ezra-bible-app/ezra-bible-app/issues/959
+[i960]: https://github.com/ezra-bible-app/ezra-bible-app/issues/960
+[i961]: https://github.com/ezra-bible-app/ezra-bible-app/issues/961
+[i962]: https://github.com/ezra-bible-app/ezra-bible-app/issues/962
+[i963]: https://github.com/ezra-bible-app/ezra-bible-app/issues/963
+[i972]: https://github.com/ezra-bible-app/ezra-bible-app/issues/972
+[i975]: https://github.com/ezra-bible-app/ezra-bible-app/issues/975
+[i978]: https://github.com/ezra-bible-app/ezra-bible-app/issues/978
+[i979]: https://github.com/ezra-bible-app/ezra-bible-app/issues/979
+[i983]: https://github.com/ezra-bible-app/ezra-bible-app/issues/983
+[i988]: https://github.com/ezra-bible-app/ezra-bible-app/issues/988
+[i989]: https://github.com/ezra-bible-app/ezra-bible-app/issues/989
+[i991]: https://github.com/ezra-bible-app/ezra-bible-app/issues/991
+[i995]: https://github.com/ezra-bible-app/ezra-bible-app/issues/995
+[i997]: https://github.com/ezra-bible-app/ezra-bible-app/issues/997
+[nsi49]: https://github.com/ezra-bible-app/node-sword-interface/issues/49
+
 ## [1.12.0 - 2023-11-18]
 
 ### Enhancements
