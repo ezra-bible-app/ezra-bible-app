@@ -129,7 +129,7 @@ class ModuleAssistant extends HTMLElement{
       dialogWidth = 1100;
     }
 
-    var dialogHeight = $(window).height() * 0.75;
+    var dialogHeight = $(window).height() * 0.8;
     var draggable = true;
 
     this._assistantAdd.hide();
