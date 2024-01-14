@@ -284,9 +284,18 @@ function renderVerse(verse) {
   const currentVerseNodes = Array.from(parseHTML(fixedContent).childNodes);
 
   currentVerseContent = currentVerseNodes.reduce((prevContent, currentNode) => {
-    // We export everything that is not a DIV
+    let textContent = currentNode.textContent;
+    let validElement = true;
+
+    // We export everything that is not a DIV (except .sword-quote-jesus)
     // DIV elements contain markup that should not be in the word document
-    return currentNode.nodeName !== 'DIV' ? prevContent + currentNode.textContent : prevContent;
+    if (currentNode.nodeName == 'DIV' && currentNode.classList.contains('sword-quote-jesus')) {
+      textContent = currentNode.innerText;
+    } else if (currentNode.nodeName == 'DIV') {
+      validElement = false;
+    }
+
+    return validElement ? prevContent + textContent : prevContent;
   }, "");
 
   return new docx.Paragraph({
