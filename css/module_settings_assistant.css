@@ -56,6 +56,7 @@ section.module-settings-assistant-internet-usage {
   display: grid;
   grid-auto-flow: column;
   gap: 5em;
+  margin-top: 1em;
 }
 
 .module-settings-assistant-init button {
