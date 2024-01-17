@@ -31,6 +31,9 @@ All notable changes to Ezra Bible App are documented in this file.
 * Verses not separated correctly with copy to clipboard functionality. ([#983][i983])
 * Saving current tab configuration not working on Android exit, but only on pause. ([#997][i997])
 
+### Enablers
+* Add Slovenian locale, thanks to Marjan Šavli. ([#1011][i1011])
+
 [i537]: https://github.com/ezra-bible-app/ezra-bible-app/issues/537
 [i856]: https://github.com/ezra-bible-app/ezra-bible-app/issues/856
 [i912]: https://github.com/ezra-bible-app/ezra-bible-app/issues/912
@@ -52,6 +55,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i991]: https://github.com/ezra-bible-app/ezra-bible-app/issues/991
 [i995]: https://github.com/ezra-bible-app/ezra-bible-app/issues/995
 [i997]: https://github.com/ezra-bible-app/ezra-bible-app/issues/997
+[i1011]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1011
 [nsi49]: https://github.com/ezra-bible-app/node-sword-interface/issues/49
 
 ## [1.12.0 - 2023-11-18]
