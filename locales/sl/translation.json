@@ -371,8 +371,8 @@
     "copy-verse-text-to-clipboard": "Kopirajte besedilo vrstice v odložišče",
     "copy-verse-text-to-clipboard-success": "Besedilo vrstice je bilo prekopirano v odložišče!",
     "edit-note": "Uredi opombo",
-    "delete-note": "Izbriši opombo"
-    "transchange" : "{
+    "delete-note": "Izbriši opombo",
+    "transchange" : {
       "added" : "Te besede so bile dodane v prevodu",
       "amplified" : "Te besede so razširitve informacij v izvornem besedilu",
       "changed" : "Te besede so bile v prevodu spremenjene",
