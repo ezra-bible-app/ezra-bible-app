@@ -19,6 +19,7 @@
 const locales = require('../../../locales/locales.json');
 const eventController = require('./event_controller.js');
 const cacheController = require('./cache_controller.js');
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 /**
  * This controller initializes the app locale at startup and updates it on demand when changing the locale
@@ -169,6 +170,11 @@ module.exports.getStringForStartup = function(key, fallbackText) {
 
 module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
+  if (platformHelper.isCordova()) {
+    uiHelper.showTextLoadingIndicator();
+    await waitUntilIdle();
+  }
+
   await i18n.changeLanguage(newLocale);
   preserveStringsForStartup();
 
@@ -179,6 +185,12 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   await cacheController.saveLastLocale();
 
   $(document).localize();
+
+  if (platformHelper.isCordova()) {
+    await waitUntilIdle();
+    uiHelper.hideTextLoadingIndicator();
+  }
+
   window.reference_separator = i18n.t('general.chapter-verse-separator');
   await eventController.publishAsync('on-locale-changed', newLocale);
 
