@@ -89,23 +89,6 @@ module.exports.parseHTML = (html) => {
   return template.content;
 };
 
-
-
-// https://stackoverflow.com/a/9609450/5681184
-// this prevents any overhead from creating the object each time
-var reusableDiv = document.createElement('div');
-module.exports.decodeEntities = function decodeHTMLEntities (str) {
-  if(str && typeof str === 'string') {
-    // strip script/html tags
-    str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
-    str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
-    reusableDiv.innerHTML = str;
-    str = reusableDiv.textContent;
-    reusableDiv.textContent = '';
-  }
-  return str;
-};
-
 module.exports.removeItemFromArray = function(arr, value) {
   var index = arr.indexOf(value);
   if (index > -1) {
