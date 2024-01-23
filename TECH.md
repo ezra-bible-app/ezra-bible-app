@@ -20,6 +20,7 @@ Furthermore, the following components are used (among others):
 * [fuse.js](https://fusejs.io) for fuzzy (approximate) search algorithm
 * [async-mutex](https://github.com/DirtyHairy/async-mutex) for synchronizing some asynchronous operations
 * [Hammer.JS](https://hammerjs.github.io) for detecting swipe gestures on mobile
+* [iziToast](https://github.com/marcelodolza/iziToast) for notification popups
 * [Dropbox SDK](https://github.com/dropbox/dropbox-sdk-js) for linking Ezra Bible App with Dropbox and synchronizing the database file
 
 To test Ezra Bible App, the following frameworks are used:
