@@ -478,10 +478,14 @@ class VerseSelection {
 
   someVersesSelected() {
     const currentVerseList = verseListController.getCurrentVerseList();
+    let someVersesSelected = false;
 
-    let allSelectedElements = currentVerseList[0].querySelectorAll('.ui-selected');
+    if (currentVerseList != null) {
+      let allSelectedElements = currentVerseList[0].querySelectorAll('.ui-selected');
+      someVersesSelected = allSelectedElements.length > MAX_VERSES_FOR_DETAILED_LABEL;
+    }
 
-    return allSelectedElements.length > MAX_VERSES_FOR_DETAILED_LABEL;
+    return someVersesSelected;
   }
 }
 
