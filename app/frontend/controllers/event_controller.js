@@ -58,7 +58,6 @@ module.exports.subscribePrioritized = function (event, callback) {
 /**
  * This function subscribes on multiple events, so that the callback function gets
  * called when any of those future events are published.
- * @param {[EzraEvent]} eventList Event keys to be notified for on publish
  * @param {SubscribedCallback} callback Function to call when events are published
  * @returns {Subscription} subscription
  */
