@@ -41,6 +41,7 @@ class OptionsMenu {
   constructor() {
     this.menuIsOpened = false;
     this.platformHelper = new PlatformHelper();
+    this.fontsInitialized = false;
 
     if (this.platformHelper.isCordova()) {
       var CordovaPlatform = require('../../platform/cordova_platform.js');
@@ -59,6 +60,11 @@ class OptionsMenu {
 
     $('#show-commentary-settings-button').bind('click', function() {
       app_controller.openModuleSettingsAssistant('COMMENTARY'); 
+    });
+
+    $('#show-typeface-settings-button').bind('click', () => {
+      this.hideDisplayMenu();
+      this.showTypeFaceSettingsDialog();
     });
 
     $('#show-module-update-button').bind('click', async () => {
@@ -513,6 +519,74 @@ class OptionsMenu {
   async toggleCrashReportsBasedOnOption() {
     window.sendCrashReports = this._sendCrashReportsOption.isChecked;
     await ipcGeneral.setSendCrashReports(window.sendCrashReports);
+  }
+
+  async showTypeFaceSettingsDialog() {
+    const box = $('#config-typeface-box');
+    const systemFontSelect = document.getElementById('system-font-select');
+
+    if (!this.fontsInitialized) {
+      const systemFonts = await ipcGeneral.getSystemFonts();
+
+      for (let i = 0; i < systemFonts.length; i++) {
+        const option = document.createElement('option');
+        let currentSystemFont = systemFonts[i].replaceAll("\"", '');
+        option.text = currentSystemFont;
+        systemFontSelect.add(option);
+      }
+
+      await systemFontSelect.loadOptionFromSettings();
+      systemFontSelect.initSelectMenu();
+
+      const currentTab = app_controller.tab_controller.getTab();
+      const currentBibleTranslationId = currentTab.getBibleTranslationId();
+      let verses = await ipcNsi.getBookText(currentBibleTranslationId, 'John', 1, 3);
+
+      let sampleText = `<sup>1</sup>&nbsp;${verses[0].content}
+                        <sup>2</sup>&nbsp;${verses[1].content}
+                        <sup>3</sup>&nbsp;${verses[2].content}`;
+
+      document.getElementById('bible-font-sample-text').innerHTML = sampleText;
+
+      var styleEl = $('<style id="dynamic-text-font" />');
+      $("head").append(styleEl);
+      this.dynamicTextFontStylesheet = styleEl[0].sheet;
+
+      systemFontSelect.addEventListener('optionChanged', () => {
+        let selectedFont = systemFontSelect.value;
+
+        let cssRules = `#bible-font-sample-text { font-family: "${selectedFont}" }`;
+        this.saveCssRules(cssRules);
+      });
+    }
+
+    box.dialog({
+      width: 640,
+      height: 550,
+      autoOpen: true,
+      modal: true,
+      title: i18n.t("general.configure-typeface-settings"),
+      buttons: {
+        Cancel: function() {
+          $(this).dialog("close");
+        },
+        Save: () => {
+          let selectedFont = systemFontSelect.value;
+          ipcSettings.set('bibleTextSystemFont', selectedFont);
+          let cssRules = `#bible-font-sample-text, .verse-text { font-family: "${selectedFont}" }`;
+          this.saveCssRules(cssRules);
+          box.dialog("close");
+        }
+      }
+    });
+  }
+
+  saveCssRules(cssRules) {
+    while (this.dynamicTextFontStylesheet.cssRules.length > 0) {
+      this.dynamicTextFontStylesheet.deleteRule(0);
+    }
+
+    this.dynamicTextFontStylesheet.insertRule(cssRules, this.dynamicTextFontStylesheet.cssRules.length);
   }
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {
