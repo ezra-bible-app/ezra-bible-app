@@ -70,6 +70,10 @@ class IpcGeneral {
     return await this._ipcRenderer.call('general_getBookNames', bibleBooks, localeCode);
   }
 
+  async getSystemFonts() {
+    return await this._ipcRenderer.call('general_getSystemFonts');
+  }
+
   /**
    * This can be used to check which functions are called how often as a basis for performance optimization.
    * Returns an object where the keys are function names and values call counts.

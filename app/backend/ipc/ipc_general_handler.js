@@ -126,6 +126,17 @@ class IpcGeneralHandler {
       return bookNames;
     });
 
+    this._ipcMain.add('general_getSystemFonts', async() => {
+      let fonts = [];
+
+      if (this._platformHelper.isElectronMain()) {
+        const fontList = require('font-list');
+        fonts = await fontList.getFonts();
+      }
+
+      return fonts;
+    });
+
     this._ipcMain.add('general_startDropboxAuthServer', async() => {
       console.log('Starting express server, listening on port 9999');
 
