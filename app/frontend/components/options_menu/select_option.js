@@ -79,6 +79,11 @@ class SelectOption extends HTMLSelectElement {
     } else {
       this.initSelectMenu();
     }
+
+    this._autoSave = true;
+    if (this.hasAttribute('autoSave') && this.getAttribute('autoSave') == "false") {
+      this._autoSave = false;
+    }
   }
 
   initSelectMenu() {
@@ -135,7 +140,7 @@ class SelectOption extends HTMLSelectElement {
    * @param value - The value that shall be used for the update.
    */
   set selectedValue(value) {
-    this.updatedSelectedValue(value);
+    this.updatedSelectedValue(value, this._autoSave);
   }
 
   /**
