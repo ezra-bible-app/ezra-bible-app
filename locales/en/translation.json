@@ -201,6 +201,7 @@
     "configure-translations": "Configure translations",
     "configure-dicts": "Configure dictionaries",
     "configure-commentaries": "Configure commentaries",
+    "configure-typeface": "Configure Bible text typeface",
     "context": "Context",
     "general-options": "General options",
     "check-new-releases": "Check for new releases",

@@ -1301,6 +1301,7 @@ li.book-unavailable a:focus,
 #show-translation-settings-button,
 #show-dict-settings-button,
 #show-commentary-settings-button,
+#show-typeface-settings-button,
 #setup-db-sync-button,
 #show-module-update-button {
   padding: 0.5em;
