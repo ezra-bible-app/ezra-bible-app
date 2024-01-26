@@ -494,7 +494,8 @@ a.chapter-nav:hover {
 #verse-list-popup,
 #info-popup,
 #search-results-box,
-#db-sync-box {
+#db-sync-box,
+#config-typeface-box {
   display: none;
 }
 
