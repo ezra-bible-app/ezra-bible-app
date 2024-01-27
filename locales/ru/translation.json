@@ -207,7 +207,16 @@
     "general-options": "Общие настройки",
     "check-new-releases": "Проверять наличие обновлений",
     "send-crash-reports": "Посылать отчеты об ошибках",
-    "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!"
+    "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "system-default": "System default",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
     "confirm-privacy-options": "Подтвердить настройки конфиденциальности данных",

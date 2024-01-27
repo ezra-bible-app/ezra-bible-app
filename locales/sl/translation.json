@@ -205,7 +205,16 @@
     "general-options": "Glavne nastavitve",
     "check-new-releases": "Preverite za novo izdajo",
     "send-crash-reports": "Pošlji poročila o napakah",
-    "welcome-to-ezra-bible-app": "Dobrodošli v Ezra Bible aplikaciji!"
+    "welcome-to-ezra-bible-app": "Dobrodošli v Ezra Bible aplikaciji!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "system-default": "System default",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
     "confirm-privacy-options": "Potrdite možnosti zasebnosti podatkov",

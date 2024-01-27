@@ -205,7 +205,16 @@
     "general-options": "Opțiuni generale",
     "check-new-releases": "Verifică lansări noi",
     "send-crash-reports": "Trimite rapoarte de eroare",
-    "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!"
+    "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "system-default": "System default",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirmă opțiunile legate de confidențialitatea datelor",
