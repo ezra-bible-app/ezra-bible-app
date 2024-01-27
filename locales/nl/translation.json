@@ -207,7 +207,16 @@
     "general-options": "Algemene opties",
     "check-new-releases": "Kijk of er nieuwe uitgaven zijn",
     "send-crash-reports": "Foutrapporten verzenden",
-    "welcome-to-ezra-bible-app": "Welkom bij Ezra Bible App!"
+    "welcome-to-ezra-bible-app": "Welkom bij Ezra Bible App!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "system-default": "System default",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
     "confirm-privacy-options": "Bevestig gegevensprivacy-opties",

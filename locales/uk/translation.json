@@ -205,7 +205,16 @@
     "general-options": "Загальні налаштування",
     "check-new-releases": "Перевіряти наявність оновлень",
     "send-crash-reports": "Відсилати звіти щодо помилок",
-    "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!"
+    "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "system-default": "System default",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
     "confirm-privacy-options": "Підтвердіть налаштування конфеденційности даних",
