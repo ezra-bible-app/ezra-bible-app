@@ -311,6 +311,10 @@ h2:nth-of-type(1) {
   display: none;
 }
 
+.Android #system-font-select-box {
+  display: none;
+}
+
 div.chapter-nav {
   margin-top: 0.5em;
   margin-bottom: 0.5em;

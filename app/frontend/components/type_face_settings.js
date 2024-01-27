@@ -32,6 +32,12 @@ module.exports.init = async function() {
   const systemFontSelect = document.getElementById('system-font-select');
 
   const systemFonts = await ipcGeneral.getSystemFonts();
+  const customFontFamilyOption = document.getElementById('custom-font-family-option');
+
+  if (platformHelper.isCordova()) {
+    customFontFamilyOption.setAttribute('disabled', 'disabled');
+    fontFamilySelect.initSelectMenu();
+  }
 
   for (let i = 0; i < systemFonts.length; i++) {
     const option = document.createElement('option');
@@ -132,12 +138,12 @@ function applyFontChange(selectedFont=undefined, apply=false) {
   if (selectedFont != null) {
     sampleTextCss = `${sampleTextId} { font-family: "${selectedFont}" }`;
     bibleTextCss = `${bibleTextId} { font-family: "${selectedFont}" }`;
+  }
 
-    saveCssRules(sampleTextStylesheet, sampleTextCss);
+  saveCssRules(sampleTextStylesheet, sampleTextCss);
 
-    if (apply) {
-      saveCssRules(bibleTextStylesheet, bibleTextCss);
-    }
+  if (apply) {
+    saveCssRules(bibleTextStylesheet, bibleTextCss);
   }
 }
 

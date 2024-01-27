@@ -53,24 +53,25 @@
       <option value="system-default" label="general.system-default"></option>
       <option value="sans-serif" label="general.sans-serif"></option>
       <option value="serif" label="general.serif"></option>
-      <option value="custom" label="general.custom"></option>
+      <option id="custom-font-family-option" value="custom" label="general.custom"></option>
 
     </select>
 
     <br/>
+    <div id="system-font-select-box">
+      <label for="system-font-select" style="width: 12em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;">
+        Custom Bible text font
+      </label>
 
-    <label for="system-font-select" style="width: 12em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;">
-      Custom Bible text font
-    </label>
-
-    <select is="select-option"
-            id="system-font-select"
-            settingsKey="bibleTextSystemFont"
-            autoLoad="false"
-            autoSave="false"
-            width="20em"
-            disabled="disabled">
-    </select>
+      <select is="select-option"
+              id="system-font-select"
+              settingsKey="bibleTextSystemFont"
+              autoLoad="false"
+              autoSave="false"
+              width="20em"
+              disabled="disabled">
+      </select>
+    </div>
 
     <div id="bible-font-sample-text"
          style="height: 12em;
