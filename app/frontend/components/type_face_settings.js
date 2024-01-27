@@ -17,13 +17,13 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 let dynamicTextFontStylesheet = null;
-let fontsInitialized = false;
+let initDone = false;
 
 module.exports.showTypeFaceSettingsDialog = async function() {
-  const box = $('#config-typeface-box');
+  const fontFamilySelect = document.getElementById('font-family-select');
   const systemFontSelect = document.getElementById('system-font-select');
 
-  if (!fontsInitialized) {
+  if (!initDone) {
     const systemFonts = await ipcGeneral.getSystemFonts();
 
     for (let i = 0; i < systemFonts.length; i++) {
@@ -50,17 +50,87 @@ module.exports.showTypeFaceSettingsDialog = async function() {
     $("head").append(styleEl);
     dynamicTextFontStylesheet = styleEl[0].sheet;
 
+    fontFamilySelect.addEventListener('optionChanged', () => {
+      let selectedFontFamily = fontFamilySelect.value;
+      handleFontFamilyChange(selectedFontFamily);
+    });
+
     systemFontSelect.addEventListener('optionChanged', () => {
       let selectedFont = systemFontSelect.value;
-
-      let cssRules = `#bible-font-sample-text { font-family: "${selectedFont}" }`;
-      saveCssRules(cssRules);
+      applyFontChange(selectedFont, false);
     });
     
-    fontsInitialized = true;
+    initDone = true;
   }
 
-  box.dialog({
+  let selectedFontFamily = fontFamilySelect.value;
+  handleFontFamilyChange(selectedFontFamily);
+  showDialog();
+};
+
+function handleFontFamilyChange(fontFamily, persist=false) {
+  let isCustomFontFamily = false;
+  let isCustomFont = false;
+  let cssFontFamily = "";
+
+  switch (fontFamily) {
+    case "system-default":
+      break;
+    case "sans-serif":
+      isCustomFontFamily = true;
+      cssFontFamily = "sans-serif";
+      break;
+    case "serif":
+      isCustomFontFamily = true;
+      cssFontFamily = "serif";
+      break;
+    case "custom":
+      isCustomFont = true;
+      break;
+  }
+
+  if (isCustomFontFamily) {
+    applyFontChange(cssFontFamily, persist);
+  } else if (!isCustomFont) {
+    // Reset to system default
+    applyFontChange(undefined, persist);
+  }
+
+  const systemFontSelect = document.getElementById('system-font-select');
+  let selectedFont = systemFontSelect.value;
+
+  if (isCustomFont) {
+    systemFontSelect.removeAttribute('disabled');
+    applyFontChange(selectedFont, persist);
+  } else {
+    systemFontSelect.setAttribute('disabled', 'disabled');
+  }
+
+  systemFontSelect.initSelectMenu();
+
+  if (persist) {
+    ipcSettings.set('bibleTextFontFamily', fontFamily);
+    ipcSettings.set('bibleTextSystemFont', selectedFont);
+  }
+}
+
+function applyFontChange(selectedFont=undefined, persist=false) {
+  let cssRules = undefined;
+  let cssClasses = persist ? '#bible-font-sample-text, .verse-text' : '#bible-font-sample-text';
+
+  if (selectedFont != null) {
+    cssRules = `${cssClasses} { font-family: "${selectedFont}" }`;
+  }
+
+  saveCssRules(cssRules);
+}
+
+function showDialog() {
+  const $box = $('#config-typeface-box');
+  const fontFamilySelect = document.getElementById('font-family-select');
+  const systemFontSelect = document.getElementById('system-font-select');
+
+  $box.dialog({
     width: 640,
     height: 550,
     autoOpen: true,
@@ -71,21 +141,21 @@ module.exports.showTypeFaceSettingsDialog = async function() {
         $(this).dialog("close");
       },
       Save: () => {
-        let selectedFont = systemFontSelect.value;
-        ipcSettings.set('bibleTextSystemFont', selectedFont);
-        let cssRules = `#bible-font-sample-text, .verse-text { font-family: "${selectedFont}" }`;
-        saveCssRules(cssRules);
-        box.dialog("close");
+        let selectedFontFamily = fontFamilySelect.value;
+        handleFontFamilyChange(selectedFontFamily, true);
+        $box.dialog("close");
       }
     }
   });
-};
+}
 
-function saveCssRules(cssRules) {
+function saveCssRules(cssRules=undefined) {
   while (dynamicTextFontStylesheet.cssRules.length > 0) {
     dynamicTextFontStylesheet.deleteRule(0);
   }
 
-  dynamicTextFontStylesheet.insertRule(cssRules, dynamicTextFontStylesheet.cssRules.length);
+  if (cssRules != null && cssRules != "") {
+    dynamicTextFontStylesheet.insertRule(cssRules, dynamicTextFontStylesheet.cssRules.length);
+  }
 }
 
