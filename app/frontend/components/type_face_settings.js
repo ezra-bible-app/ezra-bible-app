@@ -38,16 +38,6 @@ module.exports.init = async function() {
   await systemFontSelect.loadOptionFromSettings();
   systemFontSelect.initSelectMenu();
 
-  const currentTab = app_controller.tab_controller.getTab();
-  const currentBibleTranslationId = currentTab.getBibleTranslationId();
-  const verses = await ipcNsi.getBookText(currentBibleTranslationId, 'John', 1, 3);
-
-  const sampleText = `<sup>1</sup>&nbsp;${verses[0].content}
-                      <sup>2</sup>&nbsp;${verses[1].content}
-                      <sup>3</sup>&nbsp;${verses[2].content}`;
-
-  document.getElementById('bible-font-sample-text').innerHTML = sampleText;
-
   fontFamilySelect.addEventListener('optionChanged', () => {
     let selectedFontFamily = fontFamilySelect.value;
     handleFontFamilyChange(selectedFontFamily);
@@ -62,10 +52,23 @@ module.exports.init = async function() {
   handleFontFamilyChange(selectedFontFamily, true, false);
 };
 
+async function initSampleText() {
+  const currentTab = app_controller.tab_controller.getTab();
+  const currentBibleTranslationId = currentTab.getBibleTranslationId();
+  const verses = await ipcNsi.getBookText(currentBibleTranslationId, 'John', 1, 3);
+
+  const sampleText = `<sup>1</sup>&nbsp;${verses[0].content}
+                      <sup>2</sup>&nbsp;${verses[1].content}
+                      <sup>3</sup>&nbsp;${verses[2].content}`;
+
+  document.getElementById('bible-font-sample-text').innerHTML = sampleText;
+}
+
 module.exports.showTypeFaceSettingsDialog = function() {
   const fontFamilySelect = document.getElementById('font-family-select');
   let selectedFontFamily = fontFamilySelect.value;
   handleFontFamilyChange(selectedFontFamily);
+  initSampleText();
   showDialog();
 };
 

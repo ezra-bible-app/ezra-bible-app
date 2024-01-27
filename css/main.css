@@ -1992,6 +1992,18 @@ code {
   display: none;
 }
 
+#bible-font-sample-text .sword-markup {
+  display: unset !important;
+}
+
+#bible-font-sample-text .sword-section-title {
+  display: none !important;
+}
+
+#bible-font-sample-text .sword-note {
+  display: none !important;
+}
+
 .sword-quote-jesus {
   display: unset;
 }
