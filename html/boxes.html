@@ -41,7 +41,25 @@
 <div id="config-typeface-box">
   <div id="config-typeface-box-content" style="padding-top: 1em;">
 
-    <label for="system-font-select" style="position: relative; top: -0.3em; left: 1.2em;">
+    <label for="font-family-select" style="width: 12em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;">
+      Bible text font family
+    </label>
+    
+    <select is="select-option"
+            id="font-family-select"
+            settingsKey="bibleTextFontFamily"
+            autoLoad="false"
+            autoSave="false"
+            width="20em">
+      <option value="system-font" label="general.system-font"></option>
+      <option value="sans-serif" label="general.sans-serif"></option>
+      <option value="serif" label="general.serif"></option>
+      <option value="custom" label="general.custom"></option>
+    </select>
+
+    <br/>
+
+    <label for="system-font-select" style="width: 12em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;">
       Custom Bible text font
     </label>
 
@@ -50,7 +68,8 @@
             settingsKey="bibleTextSystemFont"
             autoLoad="false"
             autoSave="false"
-            width="20em">
+            width="20em"
+            disabled="disabled">
     </select>
 
     <div id="bible-font-sample-text"
