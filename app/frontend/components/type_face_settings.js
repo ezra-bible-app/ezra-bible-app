@@ -16,12 +16,17 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-let dynamicTextFontStylesheet = null;
+let sampleTextStylesheet = null;
+let bibleTextStylesheet = null;
 
 module.exports.init = async function() {
-  let styleEl = $('<style id="dynamic-text-font" />');
-  $("head").append(styleEl);
-  dynamicTextFontStylesheet = styleEl[0].sheet;
+  let sampleTextStyleEl = $('<style id="sample-text-font" />');
+  $("head").append(sampleTextStyleEl);
+  sampleTextStylesheet = sampleTextStyleEl[0].sheet;
+
+  let bibleTextStyleEl = $('<style id="bible-text-font" />');
+  $("head").append(bibleTextStyleEl);
+  bibleTextStylesheet = bibleTextStyleEl[0].sheet;
 
   const fontFamilySelect = document.getElementById('font-family-select');
   const systemFontSelect = document.getElementById('system-font-select');
@@ -119,14 +124,21 @@ function handleFontFamilyChange(fontFamily, apply=false, persist=false) {
 }
 
 function applyFontChange(selectedFont=undefined, apply=false) {
-  let cssRules = undefined;
-  let cssClasses = apply ? '#bible-font-sample-text, .verse-text' : '#bible-font-sample-text';
+  let sampleTextCss = undefined;
+  let bibleTextCss = undefined;
+  let sampleTextId = '#bible-font-sample-text';
+  let bibleTextId = '.verse-text';
 
   if (selectedFont != null) {
-    cssRules = `${cssClasses} { font-family: "${selectedFont}" }`;
-  }
+    sampleTextCss = `${sampleTextId} { font-family: "${selectedFont}" }`;
+    bibleTextCss = `${bibleTextId} { font-family: "${selectedFont}" }`;
 
-  saveCssRules(cssRules);
+    saveCssRules(sampleTextStylesheet, sampleTextCss);
+
+    if (apply) {
+      saveCssRules(bibleTextStylesheet, bibleTextCss);
+    }
+  }
 }
 
 function showDialog() {
@@ -152,13 +164,13 @@ function showDialog() {
   });
 }
 
-function saveCssRules(cssRules=undefined) {
-  while (dynamicTextFontStylesheet.cssRules.length > 0) {
-    dynamicTextFontStylesheet.deleteRule(0);
+function saveCssRules(stylesheet, cssRules=undefined) {
+  while (stylesheet.cssRules.length > 0) {
+    stylesheet.deleteRule(0);
   }
 
   if (cssRules != null && cssRules != "") {
-    dynamicTextFontStylesheet.insertRule(cssRules, dynamicTextFontStylesheet.cssRules.length);
+    stylesheet.insertRule(cssRules, stylesheet.cssRules.length);
   }
 }
 
