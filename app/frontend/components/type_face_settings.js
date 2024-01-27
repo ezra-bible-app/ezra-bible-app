@@ -65,7 +65,7 @@ module.exports.showTypeFaceSettingsDialog = async function() {
     height: 550,
     autoOpen: true,
     modal: true,
-    title: i18n.t("general.configure-typeface-settings"),
+    title: i18n.t("general.configure-typeface"),
     buttons: {
       Cancel: function() {
         $(this).dialog("close");
