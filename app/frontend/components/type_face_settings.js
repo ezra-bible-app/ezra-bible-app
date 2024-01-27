@@ -158,7 +158,7 @@ function showDialog() {
     height: 550,
     autoOpen: true,
     modal: true,
-    title: i18n.t("general.configure-typeface"),
+    title: i18n.t("general.type-face.configure-typeface"),
     buttons: {
       Cancel: function() {
         $(this).dialog("close");
