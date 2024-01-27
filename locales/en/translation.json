@@ -207,7 +207,7 @@
     "send-crash-reports": "Send error reports",
     "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!",
     "configure-typeface": "Configure Bible text typeface",
-    "system-font": "System font",
+    "system-default": "System default",
     "sans-serif": "Sans serif",
     "serif": "Serif",
     "custom": "Custom"
