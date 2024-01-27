@@ -17,58 +17,59 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 let dynamicTextFontStylesheet = null;
-let initDone = false;
 
-module.exports.showTypeFaceSettingsDialog = async function() {
+module.exports.init = async function() {
+  let styleEl = $('<style id="dynamic-text-font" />');
+  $("head").append(styleEl);
+  dynamicTextFontStylesheet = styleEl[0].sheet;
+
   const fontFamilySelect = document.getElementById('font-family-select');
   const systemFontSelect = document.getElementById('system-font-select');
 
-  if (!initDone) {
-    const systemFonts = await ipcGeneral.getSystemFonts();
+  const systemFonts = await ipcGeneral.getSystemFonts();
 
-    for (let i = 0; i < systemFonts.length; i++) {
-      const option = document.createElement('option');
-      let currentSystemFont = systemFonts[i].replaceAll("\"", '');
-      option.text = currentSystemFont;
-      systemFontSelect.add(option);
-    }
-
-    await systemFontSelect.loadOptionFromSettings();
-    systemFontSelect.initSelectMenu();
-
-    const currentTab = app_controller.tab_controller.getTab();
-    const currentBibleTranslationId = currentTab.getBibleTranslationId();
-    let verses = await ipcNsi.getBookText(currentBibleTranslationId, 'John', 1, 3);
-
-    let sampleText = `<sup>1</sup>&nbsp;${verses[0].content}
-                      <sup>2</sup>&nbsp;${verses[1].content}
-                      <sup>3</sup>&nbsp;${verses[2].content}`;
-
-    document.getElementById('bible-font-sample-text').innerHTML = sampleText;
-
-    var styleEl = $('<style id="dynamic-text-font" />');
-    $("head").append(styleEl);
-    dynamicTextFontStylesheet = styleEl[0].sheet;
-
-    fontFamilySelect.addEventListener('optionChanged', () => {
-      let selectedFontFamily = fontFamilySelect.value;
-      handleFontFamilyChange(selectedFontFamily);
-    });
-
-    systemFontSelect.addEventListener('optionChanged', () => {
-      let selectedFont = systemFontSelect.value;
-      applyFontChange(selectedFont, false);
-    });
-    
-    initDone = true;
+  for (let i = 0; i < systemFonts.length; i++) {
+    const option = document.createElement('option');
+    let currentSystemFont = systemFonts[i].replaceAll("\"", '');
+    option.text = currentSystemFont;
+    systemFontSelect.add(option);
   }
 
+  await systemFontSelect.loadOptionFromSettings();
+  systemFontSelect.initSelectMenu();
+
+  const currentTab = app_controller.tab_controller.getTab();
+  const currentBibleTranslationId = currentTab.getBibleTranslationId();
+  let verses = await ipcNsi.getBookText(currentBibleTranslationId, 'John', 1, 3);
+
+  let sampleText = `<sup>1</sup>&nbsp;${verses[0].content}
+                    <sup>2</sup>&nbsp;${verses[1].content}
+                    <sup>3</sup>&nbsp;${verses[2].content}`;
+
+  document.getElementById('bible-font-sample-text').innerHTML = sampleText;
+
+  fontFamilySelect.addEventListener('optionChanged', () => {
+    let selectedFontFamily = fontFamilySelect.value;
+    handleFontFamilyChange(selectedFontFamily);
+  });
+
+  systemFontSelect.addEventListener('optionChanged', () => {
+    let selectedFont = systemFontSelect.value;
+    applyFontChange(selectedFont, false);
+  });
+
+  let selectedFontFamily = fontFamilySelect.value;
+  handleFontFamilyChange(selectedFontFamily, true, false);
+};
+
+module.exports.showTypeFaceSettingsDialog = async function() {
+  const fontFamilySelect = document.getElementById('font-family-select');
   let selectedFontFamily = fontFamilySelect.value;
   handleFontFamilyChange(selectedFontFamily);
   showDialog();
 };
 
-function handleFontFamilyChange(fontFamily, persist=false) {
+function handleFontFamilyChange(fontFamily, apply=false, persist=false) {
   let isCustomFontFamily = false;
   let isCustomFont = false;
   let cssFontFamily = "";
@@ -90,10 +91,10 @@ function handleFontFamilyChange(fontFamily, persist=false) {
   }
 
   if (isCustomFontFamily) {
-    applyFontChange(cssFontFamily, persist);
+    applyFontChange(cssFontFamily, apply);
   } else if (!isCustomFont) {
     // Reset to system default
-    applyFontChange(undefined, persist);
+    applyFontChange(undefined, apply);
   }
 
   const systemFontSelect = document.getElementById('system-font-select');
@@ -101,7 +102,7 @@ function handleFontFamilyChange(fontFamily, persist=false) {
 
   if (isCustomFont) {
     systemFontSelect.removeAttribute('disabled');
-    applyFontChange(selectedFont, persist);
+    applyFontChange(selectedFont, apply);
   } else {
     systemFontSelect.setAttribute('disabled', 'disabled');
   }
@@ -114,9 +115,9 @@ function handleFontFamilyChange(fontFamily, persist=false) {
   }
 }
 
-function applyFontChange(selectedFont=undefined, persist=false) {
+function applyFontChange(selectedFont=undefined, apply=false) {
   let cssRules = undefined;
-  let cssClasses = persist ? '#bible-font-sample-text, .verse-text' : '#bible-font-sample-text';
+  let cssClasses = apply ? '#bible-font-sample-text, .verse-text' : '#bible-font-sample-text';
 
   if (selectedFont != null) {
     cssRules = `${cssClasses} { font-family: "${selectedFont}" }`;
@@ -128,7 +129,6 @@ function applyFontChange(selectedFont=undefined, persist=false) {
 function showDialog() {
   const $box = $('#config-typeface-box');
   const fontFamilySelect = document.getElementById('font-family-select');
-  const systemFontSelect = document.getElementById('system-font-select');
 
   $box.dialog({
     width: 640,
@@ -142,7 +142,7 @@ function showDialog() {
       },
       Save: () => {
         let selectedFontFamily = fontFamilySelect.value;
-        handleFontFamilyChange(selectedFontFamily, true);
+        handleFontFamilyChange(selectedFontFamily, true, true);
         $box.dialog("close");
       }
     }
