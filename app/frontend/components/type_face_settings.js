@@ -31,10 +31,12 @@ module.exports.init = async function() {
   const fontFamilySelect = document.getElementById('font-family-select');
   const systemFontSelect = document.getElementById('system-font-select');
 
-  const systemFonts = await ipcGeneral.getSystemFonts();
-  const customFontFamilyOption = document.getElementById('custom-font-family-option');
+  let systemFonts = [];
 
-  if (platformHelper.isCordova()) {
+  if (platformHelper.isElectron()) {
+    systemFonts = await ipcGeneral.getSystemFonts();
+  } else if (platformHelper.isCordova()) {
+    const customFontFamilyOption = document.getElementById('custom-font-family-option');
     customFontFamilyOption.setAttribute('disabled', 'disabled');
     fontFamilySelect.initSelectMenu();
   }
