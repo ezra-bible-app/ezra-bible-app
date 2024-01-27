@@ -42,7 +42,6 @@ class OptionsMenu {
   constructor() {
     this.menuIsOpened = false;
     this.platformHelper = new PlatformHelper();
-    this.fontsInitialized = false;
 
     if (this.platformHelper.isCordova()) {
       var CordovaPlatform = require('../../platform/cordova_platform.js');
