@@ -201,12 +201,16 @@
     "configure-translations": "Configure translations",
     "configure-dicts": "Configure dictionaries",
     "configure-commentaries": "Configure commentaries",
-    "configure-typeface": "Configure Bible text typeface",
     "context": "Context",
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
     "send-crash-reports": "Send error reports",
-    "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!"
+    "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!",
+    "configure-typeface": "Configure Bible text typeface",
+    "system-font": "System font",
+    "sans-serif": "Sans serif",
+    "serif": "Serif",
+    "custom": "Custom"
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirm data privacy options",
