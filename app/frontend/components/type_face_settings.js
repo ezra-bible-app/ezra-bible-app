@@ -90,15 +90,15 @@ function handleFontFamilyChange(fontFamily, apply=false, persist=false) {
       break;
   }
 
+  const systemFontSelect = document.getElementById('system-font-select');
+  let selectedFont = systemFontSelect.value;
+
   if (isCustomFontFamily) {
     applyFontChange(cssFontFamily, apply);
   } else if (!isCustomFont) {
     // Reset to system default
     applyFontChange(undefined, apply);
   }
-
-  const systemFontSelect = document.getElementById('system-font-select');
-  let selectedFont = systemFontSelect.value;
 
   if (isCustomFont) {
     systemFontSelect.removeAttribute('disabled');
