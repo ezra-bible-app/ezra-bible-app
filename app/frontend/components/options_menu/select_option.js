@@ -109,10 +109,10 @@ class SelectOption extends HTMLSelectElement {
 
   async loadOptionFromSettings() {
     var optionValue = await ipcSettings.get(this._settingsKey);
-    this.updatedSelectedValue(optionValue, false);
+    this.updateSelectedValue(optionValue, false);
   }
 
-  updatedSelectedValue(value, updateSettings=true) {
+  updateSelectedValue(value, updateSettings=true) {
     if (value !== false) {
       this._selectedValue = value;
 
@@ -140,7 +140,7 @@ class SelectOption extends HTMLSelectElement {
    * @param value - The value that shall be used for the update.
    */
   set selectedValue(value) {
-    this.updatedSelectedValue(value, this._autoSave);
+    this.updateSelectedValue(value, this._autoSave);
   }
 
   /**
