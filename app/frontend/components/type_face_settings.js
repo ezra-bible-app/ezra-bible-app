@@ -153,23 +153,30 @@ function showDialog() {
   const $box = $('#config-typeface-box');
   const fontFamilySelect = document.getElementById('font-family-select');
 
-  $box.dialog({
-    width: 640,
-    height: 550,
-    autoOpen: true,
-    modal: true,
-    title: i18n.t("general.type-face.configure-typeface"),
-    buttons: {
-      Cancel: function() {
-        $(this).dialog("close");
-      },
-      Save: () => {
-        let selectedFontFamily = fontFamilySelect.value;
-        handleFontFamilyChange(selectedFontFamily, true, true);
-        $box.dialog("close");
-      }
+  const width = 640;
+  const height = 550;
+  const draggable = false;
+
+  let dialogOptions = uiHelper.getDialogOptions(width, height, draggable);
+
+  dialogOptions.dialogClass = 'ezra-dialog config-typeface-dialog';
+  dialogOptions.modal = true;
+  dialogOptions.autoOpen = true;
+  dialogOptions.title = i18n.t("general.type-face.configure-typeface");
+
+  dialogOptions.buttons = {
+    Cancel: function() {
+      $(this).dialog("close");
+    },
+    Save: () => {
+      let selectedFontFamily = fontFamilySelect.value;
+      handleFontFamilyChange(selectedFontFamily, true, true);
+      $box.dialog("close");
     }
-  });
+  };
+
+  $box.dialog(dialogOptions);
+  uiHelper.fixDialogCloseIconOnAndroid('config-typeface-dialog');
 }
 
 function saveCssRules(stylesheet, cssRules=undefined) {
