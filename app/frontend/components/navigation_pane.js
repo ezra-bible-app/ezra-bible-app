@@ -47,6 +47,10 @@ class NavigationPane {
       }
     });
 
+    eventController.subscribe('on-all-translations-removed', async (tabIndex) => {
+      this.resetNavigationPane(tabIndex);
+    });
+
     eventController.subscribe('on-tab-search-results-available', async occurrences => {
       await this.onTabSearchResultsAvailable(occurrences);
     });
