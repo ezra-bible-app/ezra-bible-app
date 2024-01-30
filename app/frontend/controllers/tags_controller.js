@@ -181,7 +181,7 @@ class TagsController {
       }
     });
 
-    eventController.subscribe('on-db-refresh', async () => {
+    eventController.subscribeMultiple(['on-db-refresh', 'on-all-translations-removed'], async () => {
       const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
       document.getElementById('tags-content-global').innerHTML = "";
       await this.updateTagsView(currentTabIndex, true);
