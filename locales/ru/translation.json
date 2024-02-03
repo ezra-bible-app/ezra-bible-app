@@ -210,7 +210,6 @@
     "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!",
     "type-face": {
       "configure-typeface": "Configure Bible text typeface",
-      "system-default": "System default",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Custom",

@@ -99,11 +99,7 @@ function handleFontFamilyChange(fontFamily, apply=false, persist=false) {
   let cssFontFamily = "";
 
   switch (fontFamily) {
-    case "system-default":
-      break;
     case "sans-serif":
-      isCustomFontFamily = true;
-      cssFontFamily = "sans-serif";
       break;
     case "serif":
       isCustomFontFamily = true;
@@ -120,7 +116,7 @@ function handleFontFamilyChange(fontFamily, apply=false, persist=false) {
   if (isCustomFontFamily) {
     applyFontChange(cssFontFamily, apply);
   } else if (!isCustomFont) {
-    // Reset to system default
+    // Reset to system default (sans-serif)
     applyFontChange(undefined, apply);
   }
 
