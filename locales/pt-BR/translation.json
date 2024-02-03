@@ -208,7 +208,6 @@
     "welcome-to-ezra-bible-app": "Bem vindo ao aplicativo Bíblia Esdras!",
     "type-face": {
       "configure-typeface": "Configure Bible text typeface",
-      "system-default": "System default",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Custom",
