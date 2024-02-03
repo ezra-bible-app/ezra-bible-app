@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const swordModuleHelper = require('../helpers/sword_module_helper.js');
+
 let sampleTextStylesheet = null;
 let bibleTextStylesheet = null;
 
@@ -68,6 +70,8 @@ module.exports.init = async function() {
 async function initSampleText() {
   const currentTab = app_controller.tab_controller.getTab();
   const currentBibleTranslationId = currentTab.getBibleTranslationId();
+  const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(currentBibleTranslationId);
+
   let sampleText = '';
 
   if (currentBibleTranslationId != null) {
@@ -82,7 +86,15 @@ async function initSampleText() {
                   <sup>3</sup>All things came into being through Him, and apart from Him not even one thing came into being that has come into being.`;
   }
 
-  document.getElementById('bible-font-sample-text').innerHTML = sampleText;
+  let box = document.getElementById('bible-font-sample-text');
+
+  if (moduleIsRightToLeft) {
+    box.style.direction = 'rtl';
+  } else {
+    box.style.direction = 'unset';
+  }
+
+  box.innerHTML = sampleText;
 }
 
 module.exports.showTypeFaceSettingsDialog = function() {
