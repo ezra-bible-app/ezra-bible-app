@@ -91,7 +91,7 @@ class DropboxSync {
   async downloadFile(dropboxPath, destinationDir) {
     return this._dbx.filesDownload({path: dropboxPath}).then((response) => {
       if (!fs.existsSync(destinationDir)) {
-        fs.mkdirSync(destinationDir);
+        fs.mkdirSync(destinationDir, { recursive: true });
       }
 
       let fileName = response.result.name;
