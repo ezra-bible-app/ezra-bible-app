@@ -23,7 +23,7 @@ const path = require('path');
 const dch = require('./dropbox_content_hasher.js');
 
 class DropboxSync {
-  constructor(CLIENT_ID, TOKEN, REFRESH_TOKEN) {
+  constructor(CLIENT_ID, TOKEN, REFRESH_TOKEN=null) {
     this._TOKEN = TOKEN;
     this._REFRESH_TOKEN = REFRESH_TOKEN;
     this._CLIENT_ID = CLIENT_ID;
