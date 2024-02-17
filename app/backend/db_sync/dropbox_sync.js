@@ -120,11 +120,19 @@ class DropboxSync {
     return this._dbx.filesCreateFolderV2({ path: dropboxPath });
   }
 
-  async syncFileTwoWay(filePath, dropboxPath, prioritizeRemote=false, ignoreNonExisting=false) {
+  log(logMessage, silent) {
+    if (!silent) {
+      console.log(logMessage);
+    }
+  }
+
+  async syncFileTwoWay(filePath, dropboxPath, prioritizeRemote=false, ignoreNonExisting=false, silent=false) {
     let isSynced = null;
 
     if (!fs.existsSync(filePath)) {
-      console.warn(`File ${filePath} does not exist!`);
+      if (!silent) {
+        console.warn(`File ${filePath} does not exist!`);
+      }
 
       if (!ignoreNonExisting) {
         return -4;
@@ -147,25 +155,25 @@ class DropboxSync {
 
     if (isSynced) {
 
-      console.log(`File ${filePath} is already in sync with Dropbox file at ${dropboxPath}. Not doing anything!`);
+      this.log(`File ${filePath} is already in sync with Dropbox file at ${dropboxPath}. Not doing anything!`, silent);
       returnValue = 0;
 
     } else {
-      console.log(`File ${filePath} is different from file in Dropbox at ${dropboxPath}.`);
+      this.log(`File ${filePath} is different from file in Dropbox at ${dropboxPath}.`, silent);
 
       const dropboxFileExisting = await this.isDropboxFileExisting(dropboxPath);
       let dropboxFileNewer = false;
 
       if (dropboxFileExisting) {
-        console.log('Checking which one is newer ...');
+        this.log('Checking which one is newer ...', silent);
         dropboxFileNewer = await this.isDropboxFileNewer(dropboxPath, filePath);
       }
 
       if (dropboxFileExisting && (dropboxFileNewer || prioritizeRemote)) {
         if (prioritizeRemote) {
-          console.log(`We are going to prioritize the remote file ${dropboxPath} and download it!`);
+          this.log(`We are going to prioritize the remote file ${dropboxPath} and download it!`, silent);
         } else {
-          console.log(`The Dropbox file at ${dropboxPath} is newer than the local file at ${filePath}. Downloading the Dropbox file.`);
+          this.log(`The Dropbox file at ${dropboxPath} is newer than the local file at ${filePath}. Downloading the Dropbox file.`, silent);
         }
 
         try {
@@ -179,7 +187,7 @@ class DropboxSync {
           returnValue = -1;
         }
       } else {
-        console.log(`The local file at ${filePath} is newer than the Dropbox file at ${dropboxPath}. Uploading local file to Dropbox.`);
+        this.log(`The local file at ${filePath} is newer than the Dropbox file at ${dropboxPath}. Uploading local file to Dropbox.`, silent);
 
         try {
           await this.uploadFile(filePath, dropboxPath);
@@ -193,7 +201,7 @@ class DropboxSync {
       }
         
       if (this.isFileSynced(filePath, dropboxPath)) {
-        console.log(`Local file ${filePath} in sync with Dropbox file at ${dropboxPath}.`);
+        this.log(`Local file ${filePath} in sync with Dropbox file at ${dropboxPath}.`, silent);
       } else {
         console.warn(`Error syncing local file ${filePath} to Dropbox file at ${dropboxPath}`);
         if (returnValue == null) {
@@ -237,7 +245,7 @@ class DropboxSync {
     return false;
   }
 
-  async syncFolderFromRemoteToLocal(dropboxPath, localPath) {
+  async syncFolderFromRemoteToLocal(dropboxPath, localPath, progressFeedbackCB=null) {
     if (!fs.existsSync(localPath)) {
       console.warn(`Folder ${localPath} does not exist!`);
       return -4;
@@ -268,12 +276,31 @@ class DropboxSync {
 
     const remoteFiles = await this.getFiles(dropboxPath);
 
+    let totalSize = 0;
+    let copiedSize = 0;
+
+    for (let i = 0; i < remoteFiles.length; i++) {
+      let currentFile = remoteFiles[i];
+      totalSize += currentFile.size;
+    }
+
     for (let i = 0; i < remoteFiles.length; i++) {
       let currentFile = remoteFiles[i];
       let currentFilePath = currentFile.path_lower.replace(dropboxPath, '');
       let localFilePath = path.join(localPath, currentFilePath);
 
-      await this.syncFileTwoWay(localFilePath, currentFile.path_lower, true, true);
+      await this.syncFileTwoWay(localFilePath, currentFile.path_lower, true, true, true);
+
+      if (progressFeedbackCB != null) {
+        copiedSize += currentFile.size;
+        let progressPercent = Math.ceil((copiedSize / totalSize) * 100);
+
+        progressFeedbackCB({
+          total: totalSize,
+          copied: copiedSize,
+          percent: progressPercent
+        });
+      }
     }
   }
 
