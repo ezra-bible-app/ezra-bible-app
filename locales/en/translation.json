@@ -475,6 +475,7 @@
     "only-sync-on-wifi": "Only sync on WiFi",
     "sync-after-changes": "Sync database after changes",
     "dropbox-db-sync-folder": "Dropbox sync folder (Database)",
+    "sync-custom-sword-folder": "Sync custom SWORD folder",
     "dropbox-sword-sync-folder": "Dropbox sync folder (SWORD)",
     "dropbox-sync-info": "Dropbox synchronization info",
     "last-dropbox-sync-time": "Last sync",
