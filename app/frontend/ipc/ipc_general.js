@@ -90,6 +90,15 @@ class IpcGeneral {
     return await this._ipcRenderer.call('general_stopDropboxAuthServer');
   }
 
+  async syncDropboxFolderFromRemoteToLocal(dropboxPath, localPath, progressCallback=undefined) {
+    return await this._ipcRenderer.callWithProgressCallback('general_syncDropboxFolderFromRemoteToLocal',
+                                                            'general_syncDropboxFolderFromRemoteToLocalProgress',
+                                                            progressCallback,
+                                                            120000,
+                                                            dropboxPath,
+                                                            localPath);
+  }
+
   /**
    * Resets the IPC call statistics.
    */

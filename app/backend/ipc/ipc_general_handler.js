@@ -18,6 +18,7 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
+const DropboxSyncFactory = require('../db_sync/dropbox_sync_factory.js');
 let expressApp = null;
 let expressServer = null;
 
@@ -162,6 +163,21 @@ class IpcGeneralHandler {
       if (expressServer != null) {
         expressServer.close();
         expressServer = null;
+      }
+    });
+
+    this._ipcMain.addWithProgressCallback('general_syncDropboxFolderFromRemoteToLocal', async (progressCB, dropboxPath, localPath) => {
+      const dropboxSync = await DropboxSyncFactory.createDropboxSync();
+
+      if (dropboxSync == null) {
+        return -1;
+      }
+
+      try {
+        await dropboxSync.syncFolderFromRemoteToLocal(dropboxPath, localPath, progressCB);
+        return 0;
+      } catch (e) {
+        return -1;
       }
     });
 
