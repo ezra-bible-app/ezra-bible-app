@@ -474,7 +474,7 @@
     "dropbox-link-status-linking-failed": "Falló la vinculación!",
     "only-sync-on-wifi": "Solo sincronizar con conexión WiFi",
     "sync-after-changes": "Sincronizar la base de datos al efectuar cambios",
-    "dropbox-sync-folder": "Carpeta de sincronización en Dropbox",
+    "dropbox-db-sync-folder": "Carpeta de sincronización en Dropbox",
     "dropbox-sync-info": "Información de sincronización",
     "last-dropbox-sync-time": "Última sincronización",
     "last-dropbox-sync-result": "Estado de la última sincronización",

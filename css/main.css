@@ -1562,7 +1562,8 @@ li.book-unavailable a:focus,
 .tab-search-type,
 #search-type,
 #search-scope,
-#dropbox-sync-folder {
+#dropbox-db-sync-folder,
+.ezra-input {
   border: 1px solid lightgray;
   border-radius: 4px;
 }

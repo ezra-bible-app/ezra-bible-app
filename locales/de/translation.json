@@ -470,7 +470,7 @@
     "dropbox-link-status-linking-failed": "Verbindung fehlgeschlagen!",
     "only-sync-on-wifi": "Nur bei WLAN Verbindung synchronisieren",
     "sync-after-changes": "Datenbank nach Änderungen synchronisieren",
-    "dropbox-sync-folder": "Dropbox Verzeichnis",
+    "dropbox-db-sync-folder": "Dropbox Verzeichnis",
     "dropbox-sync-info": "Informationen zur Dropbox Synchronisation",
     "last-dropbox-sync-time": "Zuletzt synchronisiert",
     "last-dropbox-sync-result": "Letztes Synchronisationsergebnis",

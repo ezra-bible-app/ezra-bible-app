@@ -33,7 +33,8 @@ const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
 const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
 const DROPBOX_REFRESH_TOKEN_SETTINGS_KEY = 'dropboxRefreshToken';
 const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
-const DROPBOX_FOLDER_SETTINGS_KEY = 'dropboxFolder';
+const DROPBOX_DB_FOLDER_SETTINGS_KEY = 'dropboxFolder';
+const DROPBOX_SWORD_FOLDER_SETTINGS_KEY = 'dropboxSwordFolder';
 const DROPBOX_ONLY_WIFI_SETTINGS_KEY = 'dropboxOnlyWifi';
 const DROPBOX_SYNC_AFTER_CHANGES_KEY = 'dropboxSyncAfterChanges';
 const DROPBOX_LAST_SYNC_RESULT_KEY = 'lastDropboxSyncResult';
@@ -47,6 +48,7 @@ let dbSyncDropboxToken = null;
 let dbSyncDropboxRefreshToken = null;
 let dbSyncDropboxLinkStatus = null;
 let dbSyncDropboxFolder = null;
+let dbSyncSwordFolder = null;
 let dbSyncOnlyWifi = false;
 let dbSyncAfterChanges = false;
 let dbSyncFirstSyncDone = false;
@@ -169,12 +171,14 @@ async function initDbSync() {
   dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxRefreshToken = await ipcSettings.get(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
-  dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_FOLDER_SETTINGS_KEY, 'ezra');
+  dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_DB_FOLDER_SETTINGS_KEY, 'ezra');
+  dbSyncSwordFolder = await ipcSettings.get(DROPBOX_SWORD_FOLDER_SETTINGS_KEY, 'sword');
   dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
   dbSyncAfterChanges = await ipcSettings.get(DROPBOX_SYNC_AFTER_CHANGES_KEY, false);
   dbSyncFirstSyncDone = await ipcSettings.get(DROPBOX_FIRST_SYNC_DONE_KEY, false);
 
-  $('#dropbox-sync-folder').val(dbSyncDropboxFolder);
+  $('#dropbox-db-sync-folder').val(dbSyncDropboxFolder);
+  $('#dropbox-sword-sync-folder').val(dbSyncSwordFolder);
   document.getElementById('only-sync-on-wifi').checked = dbSyncOnlyWifi;
   document.getElementById('sync-dropbox-after-changes').checked = dbSyncAfterChanges;
   updateDropboxLinkStatusLabel();
@@ -186,7 +190,7 @@ async function initDbSync() {
   initAuthCallbacks();
 
   var dialogWidth = 500;
-  var dialogHeight = 600;
+  var dialogHeight = 650;
   var draggable = true;
   var position = [55, 120];
 
@@ -231,7 +235,8 @@ async function initDbSync() {
 async function handleDropboxConfigurationSave() {
   $('#db-sync-box').dialog("close");
 
-  dbSyncDropboxFolder = $('#dropbox-sync-folder').val();
+  dbSyncDropboxFolder = $('#dropbox-db-sync-folder').val();
+  dbSyncSwordFolder = $('#dropbox-sword-sync-folder').val();
   dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
   dbSyncAfterChanges = document.getElementById('sync-dropbox-after-changes').checked;
 
@@ -254,7 +259,8 @@ async function handleDropboxConfigurationSave() {
   }
 
   await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
-  await ipcSettings.set(DROPBOX_FOLDER_SETTINGS_KEY, dbSyncDropboxFolder);
+  await ipcSettings.set(DROPBOX_DB_FOLDER_SETTINGS_KEY, dbSyncDropboxFolder);
+  await ipcSettings.set(DROPBOX_SWORD_FOLDER_SETTINGS_KEY, dbSyncSwordFolder);
   await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
   await ipcSettings.set(DROPBOX_SYNC_AFTER_CHANGES_KEY, dbSyncAfterChanges);
 

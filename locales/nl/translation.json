@@ -476,7 +476,7 @@
     "dropbox-link-status-linking-failed": "Koppeling gefaald!",
     "only-sync-on-wifi": "Alleen synchroniseren op WiFi",
     "sync-after-changes": "Synchroniseer databank na wijzigingen",
-    "dropbox-sync-folder": "Dropbox-synchronisatiemap",
+    "dropbox-db-sync-folder": "Dropbox-synchronisatiemap",
     "dropbox-sync-info": "Info over Dropbox-synchronisatie",
     "last-dropbox-sync-time": "Laatste synchronisatie",
     "last-dropbox-sync-result": "Laatste synchronisatieresultaat",
