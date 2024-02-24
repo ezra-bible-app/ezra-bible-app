@@ -155,6 +155,7 @@
     "module-size": "Size",
     "module-location": "Location",
     "update-modules": "Update modules",
+    "sync-custom-modules": "Synchronize custom modules",
     "yes": "Yes",
     "no": "No",
     "ok": "Ok",
