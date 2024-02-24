@@ -179,7 +179,7 @@ class IpcGeneralHandler {
       } catch (e) {
         return -1;
       }
-    });
+    }, 'general_syncDropboxFolderFromRemoteToLocalProgress');
 
     this._ipcMain.add('general_getIpcCallStats', async() => {
       var fullStats = global.callCounters;
@@ -206,6 +206,10 @@ class IpcGeneralHandler {
 
       console.log(`sendCrashReports: ${global.sendCrashReports}`);
     });
+  }
+
+  setMainWindow(mainWindow) {
+    this._ipcMain.setMainWindow(mainWindow);
   }
 }
 
