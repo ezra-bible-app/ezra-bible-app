@@ -35,12 +35,6 @@ class DropboxSyncFactory {
     }
 
     const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
-
-    let prioritizeRemote = false;
-    if (!firstDropboxSyncDone) {
-      prioritizeRemote = true;
-    }
-
     let dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
 
     try {
