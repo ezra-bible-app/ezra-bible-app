@@ -72,6 +72,11 @@ class OptionsMenu {
       await moduleUpdateController.showModuleUpdateDialog();
     });
 
+    $('#sync-custom-modules-button').bind('click', async () => {
+      this.hideDisplayMenu();
+      await dbSyncController.startCustomModuleSync();
+    });
+
     $('#setup-db-sync-button').bind('click', async () => {
       this.hideDisplayMenu();
       await dbSyncController.showDbSyncConfigDialog();

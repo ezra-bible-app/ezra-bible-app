@@ -485,6 +485,7 @@
     "last-dropbox-upload-time": "Last upload",
     "sync-msg-title": "Dropbox sync",
     "sync-success-msg": "Successfully synchronized database with Dropbox ({{date}}).",
-    "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}})."
+    "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}}).",
+    "synchronizing-in-progress": "Synchronizing ..."
   }
 }

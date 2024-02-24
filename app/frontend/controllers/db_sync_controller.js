@@ -100,6 +100,28 @@ module.exports.showDbSyncConfigDialog = async function() {
   $('#db-sync-box').dialog("open");
 };
 
+module.exports.startCustomModuleSync = async function() {
+  await initDbSync();
+
+  const $progressBar = $('#db-sync-progress-bar');
+
+  uiHelper.initProgressBar($progressBar);
+  $progressBar.show();
+
+  var dialogWidth = 800;
+  var dialogHeight = 600;
+  var draggable = true;
+  var position = [55, 120];
+
+  let customModuleSyncDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+  customModuleSyncDialogOptions.title = i18n.t("general.sync-custom-modules");
+  customModuleSyncDialogOptions.dialogClass = 'ezra-dialog db-sync-progress-dialog';
+  customModuleSyncDialogOptions.modal = true;
+
+  $('#db-sync-progress-box').dialog(customModuleSyncDialogOptions);
+  uiHelper.fixDialogCloseIconOnAndroid('db-sync-progress-dialog');
+};
+
 module.exports.showSyncResultMessage = async function() {
   let onlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
   if (onlyWifi && navigator.connection.type != 'wifi') {

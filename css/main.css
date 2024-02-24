@@ -499,6 +499,7 @@ a.chapter-nav:hover {
 #info-popup,
 #search-results-box,
 #db-sync-box,
+#db-sync-progress-box,
 #config-typeface-box {
   display: none;
 }
