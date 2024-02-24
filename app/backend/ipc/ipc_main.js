@@ -90,7 +90,11 @@ class IpcMain {
     }
   }
 
-  addWithProgressCallback(functionName, callbackFunction, progressChannel) {
+  addWithProgressCallback(functionName, callbackFunction, progressChannel=undefined) {
+    if (progressChannel === undefined) {
+      console.error('ERROR: ipcMain.addWithProgressCallback / progressChannel is undefined!');
+    }
+
     if (global.registeredHandlers.includes(functionName)) {
       return;
     }
@@ -182,6 +186,8 @@ class IpcMain {
       } catch (e) {
         return undefined;
       }
+    } else {
+      console.error('mainWindow is null!!!');
     }
   }
 
