@@ -72,10 +72,16 @@ class OptionsMenu {
       await moduleUpdateController.showModuleUpdateDialog();
     });
 
-    $('#sync-custom-modules-button').bind('click', async () => {
+    $('#sync-custom-modules-button').bind('click', async (event) => {
+      if (event.target.classList.contains('ui-state-disabled')) {
+        return;
+      }
+
       this.hideDisplayMenu();
       await dbSyncController.startCustomModuleSync();
     });
+
+    await this.toggleCustomSwordModuleSyncButtonBasedOnOption();
 
     $('#setup-db-sync-button').bind('click', async () => {
       this.hideDisplayMenu();
@@ -524,6 +530,20 @@ class OptionsMenu {
   async toggleCrashReportsBasedOnOption() {
     window.sendCrashReports = this._sendCrashReportsOption.isChecked;
     await ipcGeneral.setSendCrashReports(window.sendCrashReports);
+  }
+
+  async toggleCustomSwordModuleSyncButtonBasedOnOption() {
+    let button = document.getElementById('sync-custom-modules-button');
+    const dbSyncCustomSwordFolder = await ipcSettings.get('dropboxSyncCustomSwordFolder', false);
+    
+    if (dbSyncCustomSwordFolder) {
+      button.classList.remove('ui-state-disabled');
+      button.classList.add('ui-state-default');
+      uiHelper.configureButtonStyles('#display-options-menu');
+    } else {
+      button.classList.remove('ui-state-default');
+      button.classList.add('ui-state-disabled');
+    }
   }
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {

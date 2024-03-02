@@ -325,6 +325,8 @@ async function handleDropboxConfigurationSave() {
   await ipcSettings.set(DROPBOX_SYNC_SWORD_FOLDER_SETTINGS_KEY, dbSyncCustomSwordFolder);
   await ipcSettings.set(DROPBOX_SYNC_AFTER_CHANGES_KEY, dbSyncAfterChanges);
 
+  await app_controller.optionsMenu.toggleCustomSwordModuleSyncButtonBasedOnOption();
+
   if (dbSyncDropboxLinkStatus == 'LINKED' && !dbSyncFirstSyncDone) {
     await ipcDb.syncDropbox();
     await eventController.publishAsync('on-db-refresh');
