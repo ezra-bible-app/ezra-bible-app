@@ -103,13 +103,14 @@ module.exports.showDbSyncConfigDialog = async function() {
 module.exports.startCustomModuleSync = async function() {
   await initDbSync();
 
-  const $progressBar = $('#db-sync-progress-bar');
+  const customSwordModulePath = await ipcGeneral.getCustomSwordModulePath();
 
+  const $progressBar = $('#db-sync-progress-bar');
   uiHelper.initProgressBar($progressBar);
   $progressBar.show();
 
-  var dialogWidth = 800;
-  var dialogHeight = 600;
+  var dialogWidth = 600;
+  var dialogHeight = 400;
   var draggable = true;
   var position = [55, 120];
 
@@ -120,6 +121,22 @@ module.exports.startCustomModuleSync = async function() {
 
   $('#db-sync-progress-box').dialog(customModuleSyncDialogOptions);
   uiHelper.fixDialogCloseIconOnAndroid('db-sync-progress-dialog');
+
+  let adaptedDbSyncSwordFolderName = dbSyncSwordFolderName;
+
+  if (!adaptedDbSyncSwordFolderName.startsWith('/')) {
+    adaptedDbSyncSwordFolderName = '/' + adaptedDbSyncSwordFolderName;
+  }
+
+  let result = await ipcGeneral.syncDropboxFolderFromRemoteToLocal(
+    adaptedDbSyncSwordFolderName,
+    customSwordModulePath,
+    (progress) => {
+      $progressBar.progressbar("value", progress.percent);
+    }
+  );
+
+  console.log(`Finished synchronization of Dropbox folder. Result: ${result}`);
 };
 
 module.exports.showSyncResultMessage = async function() {
