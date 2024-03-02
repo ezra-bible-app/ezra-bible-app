@@ -373,8 +373,8 @@ class DropboxSync {
         hasher.update(buf);
       });
 
-      f.on('end', function(err) {
-        var hexDigest = hasher.digest('hex');
+      f.on('end', function() {
+        let hexDigest = hasher.digest('hex');
         resolve(hexDigest);
       });
 
