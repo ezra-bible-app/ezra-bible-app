@@ -527,6 +527,10 @@ a.chapter-nav:hover {
   margin-left: 0.5em;
 }
 
+#db-sync-box-content input.ezra-input {
+  width: 15em;
+}
+
 #dropbox-link-status {
   width: fit-content !important;
   margin-left: 0.5em;
