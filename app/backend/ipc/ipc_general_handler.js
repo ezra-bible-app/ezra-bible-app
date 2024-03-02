@@ -192,6 +192,8 @@ class IpcGeneralHandler {
         let result = await dropboxSync.syncFolderFromRemoteToLocal(dropboxPath, localPath, progressCB);
         if (result < 0) {
           console.log('Dropbox folder sync failed!');
+        } else {
+          console.log('Dropbox folder sync successful!')
         }
 
         return result;

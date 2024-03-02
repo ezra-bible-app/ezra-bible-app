@@ -128,6 +128,8 @@ module.exports.startCustomModuleSync = async function() {
     adaptedDbSyncSwordFolderName = '/' + adaptedDbSyncSwordFolderName;
   }
 
+  console.log(`Starting synchronization of Dropbox folder from ${adaptedDbSyncSwordFolderName} to ${customSwordModulePath}`);
+
   let result = await ipcGeneral.syncDropboxFolderFromRemoteToLocal(
     adaptedDbSyncSwordFolderName,
     customSwordModulePath,
@@ -136,7 +138,11 @@ module.exports.startCustomModuleSync = async function() {
     }
   );
 
-  console.log(`Finished synchronization of Dropbox folder. Result: ${result}`);
+  if (result == 0) {
+    console.log('Synchronization of Dropbox folder successful!');
+  } else {
+    console.log(`ERROR: Synchronization of Dropbox folder failed. Result: ${result}`);
+  }
 };
 
 module.exports.showSyncResultMessage = async function() {
