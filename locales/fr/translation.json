@@ -485,7 +485,7 @@
     "dropbox-link-status-linking-failed": "Échec de la liaison !",
     "only-sync-on-wifi": "Synchroniser uniquement sur WiFi",
     "sync-after-changes": "Synchroniser la base de données après les modifications",
-    "dropbox-sync-folder": "Dossier de synchronisation Dropbox",
+    "dropbox-db-sync-folder": "Dossier de synchronisation Dropbox",
     "dropbox-sync-info": "Informations de synchronisation Dropbox",
     "last-dropbox-sync-time": "Dernière synchronisation",
     "last-dropbox-sync-result": "Résultat de la dernière synchronisation",

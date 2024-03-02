@@ -23,7 +23,7 @@ const path = require('path');
 const dch = require('./dropbox_content_hasher.js');
 
 class DropboxSync {
-  constructor(CLIENT_ID, TOKEN, REFRESH_TOKEN) {
+  constructor(CLIENT_ID, TOKEN, REFRESH_TOKEN=null) {
     this._TOKEN = TOKEN;
     this._REFRESH_TOKEN = REFRESH_TOKEN;
     this._CLIENT_ID = CLIENT_ID;
@@ -47,8 +47,8 @@ class DropboxSync {
     return this._TOKEN;
   }
 
-  async getFolders() {
-    let response = await this._dbx.filesListFolder({path: ''});
+  async getFolders(path='') {
+    let response = await this._dbx.filesListFolder({path: path});
     let folders = [];
 
     response.result.entries.forEach((item) => {
@@ -60,12 +60,40 @@ class DropboxSync {
     return folders;
   }
 
+  async getFiles(path='', recursive=true) {
+    let response = await this._dbx.filesListFolder({path: path});
+    let file_entries = response.result.entries;
+
+    if (recursive) {
+      for (let i = 0; i < file_entries.length; i++) {
+        if (file_entries[i]['.tag'] == 'folder') {
+          let entry_path = file_entries[i]['path_lower'];
+          let subdirectoryFiles = await this.getFiles(entry_path);
+          file_entries.push(...subdirectoryFiles);
+        }
+      }
+    }
+
+    let filtered_entries = [];
+    for (let i = 0; i < file_entries.length; i++) {
+      if (file_entries[i]['.tag'] != 'folder') {
+        filtered_entries.push(file_entries[i]);
+      }
+    }
+
+    return filtered_entries;
+  }
+
   async testAuthentication() {
     await this.getFolders();
   }
 
   async downloadFile(dropboxPath, destinationDir) {
     return this._dbx.filesDownload({path: dropboxPath}).then((response) => {
+      if (!fs.existsSync(destinationDir)) {
+        fs.mkdirSync(destinationDir, { recursive: true });
+      }
+
       let fileName = response.result.name;
       const destFilePath = path.join(destinationDir, fileName);
 
@@ -88,45 +116,64 @@ class DropboxSync {
     }
   }
 
-  async syncFileTwoWay(filePath, dropboxPath, prioritizeRemote=false) {
-    if (!fs.existsSync(filePath)) {
-      console.warn(`File ${filePath} does not exist!`);
-      return -4;
-    }
+  async createFolder(dropboxPath) {
+    return this._dbx.filesCreateFolderV2({ path: dropboxPath });
+  }
 
+  log(logMessage, silent) {
+    if (!silent) {
+      console.log(logMessage);
+    }
+  }
+
+  async syncFileTwoWay(filePath, dropboxPath, prioritizeRemote=false, ignoreNonExisting=false, silent=false) {
     let isSynced = null;
+
+    if (!fs.existsSync(filePath)) {
+      if (!silent) {
+        console.warn(`File ${filePath} does not exist!`);
+      }
+
+      if (!ignoreNonExisting) {
+        return -4;
+      } else {
+        isSynced = false;
+      }
+    }
     
-    try {
-      isSynced = await this.isFileSynced(filePath, dropboxPath);
-    } catch (e) {
-      console.log(e);
-      console.warn(`Could not determine sync status for ${filePath}`);
-      return -5;
+    if (isSynced == null) {
+      try {
+        isSynced = await this.isFileSynced(filePath, dropboxPath);
+      } catch (e) {
+        console.log(e);
+        console.warn(`Could not determine sync status for ${filePath}`);
+        return -5;
+      }
     }
 
     let returnValue = null;
 
     if (isSynced) {
 
-      console.log(`File ${filePath} is already in sync with Dropbox file at ${dropboxPath}. Not doing anything!`);
+      this.log(`File ${filePath} is already in sync with Dropbox file at ${dropboxPath}. Not doing anything!`, silent);
       returnValue = 0;
 
     } else {
-      console.log(`File ${filePath} is different from file in Dropbox at ${dropboxPath}.`);
+      this.log(`File ${filePath} is different from file in Dropbox at ${dropboxPath}.`, silent);
 
       const dropboxFileExisting = await this.isDropboxFileExisting(dropboxPath);
       let dropboxFileNewer = false;
 
       if (dropboxFileExisting) {
-        console.log('Checking which one is newer ...');
+        this.log('Checking which one is newer ...', silent);
         dropboxFileNewer = await this.isDropboxFileNewer(dropboxPath, filePath);
       }
 
       if (dropboxFileExisting && (dropboxFileNewer || prioritizeRemote)) {
         if (prioritizeRemote) {
-          console.log(`We are going to prioritize the remote file ${dropboxPath} and download it!`);
+          this.log(`We are going to prioritize the remote file ${dropboxPath} and download it!`, silent);
         } else {
-          console.log(`The Dropbox file at ${dropboxPath} is newer than the local file at ${filePath}. Downloading the Dropbox file.`);
+          this.log(`The Dropbox file at ${dropboxPath} is newer than the local file at ${filePath}. Downloading the Dropbox file.`, silent);
         }
 
         try {
@@ -140,7 +187,7 @@ class DropboxSync {
           returnValue = -1;
         }
       } else {
-        console.log(`The local file at ${filePath} is newer than the Dropbox file at ${dropboxPath}. Uploading local file to Dropbox.`);
+        this.log(`The local file at ${filePath} is newer than the Dropbox file at ${dropboxPath}. Uploading local file to Dropbox.`, silent);
 
         try {
           await this.uploadFile(filePath, dropboxPath);
@@ -154,7 +201,7 @@ class DropboxSync {
       }
         
       if (this.isFileSynced(filePath, dropboxPath)) {
-        console.log(`Local file ${filePath} in sync with Dropbox file at ${dropboxPath}.`);
+        this.log(`Local file ${filePath} in sync with Dropbox file at ${dropboxPath}.`, silent);
       } else {
         console.warn(`Error syncing local file ${filePath} to Dropbox file at ${dropboxPath}`);
         if (returnValue == null) {
@@ -164,6 +211,99 @@ class DropboxSync {
     }
 
     return returnValue;
+  }
+
+  async isLocalPathDirectory(path) {
+    return new Promise((resolve, reject) => {
+      fs.stat(path, (err, stats) => {
+        if (err) {
+          // Handle errors, such as file not found
+          reject('Error checking if the path is a directory. Error code: ' + err.code);
+        } else {
+          resolve(stats.isDirectory());
+        }
+      });
+    });
+  }
+
+  async isRemotePathDirectory(remotePath) {
+    const parsedPath = path.parse(remotePath);
+    const parentDirectory = parsedPath.dir;
+    const targetDirectory = parsedPath.name;
+
+    const remoteFoldersWithinPath = await this.getFolders(parentDirectory);
+
+    for (let i = 0; i < remoteFoldersWithinPath.length; i++) {
+      let currentFolder = remoteFoldersWithinPath[i];
+      let currentFolderName = currentFolder.name;
+
+      if (currentFolderName == targetDirectory) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  async syncFolderFromRemoteToLocal(dropboxPath, localPath, progressFeedbackCB=null) {
+    if (!fs.existsSync(localPath)) {
+      console.warn(`ERROR: Folder ${localPath} does not exist!`);
+      return -1;
+    }
+
+    const isLocalPathDirectory = await this.isLocalPathDirectory(localPath);
+
+    if (!isLocalPathDirectory) {
+      console.warn(`ERROR: The path ${localPath} is not a directory!`);
+      return -1;
+    }
+
+    const isRemotePathExisting = await this.isDropboxFileExisting(dropboxPath);
+
+    if (isRemotePathExisting) {
+      const isRemotePathDirectory = await this.isRemotePathDirectory(dropboxPath);
+
+      if (!isRemotePathDirectory) {
+        console.warn(`ERROR: The dropbox path ${dropboxPath} is not a directory!`);
+        return -1;
+      }
+    } else {
+      console.log(`ERROR: The dropbox path ${dropboxPath} does not exist!`);
+      return -1;
+    }
+
+    // Pre-conditions checked. Let's start the sync.
+
+    const remoteFiles = await this.getFiles(dropboxPath);
+
+    let totalSize = 0;
+    let copiedSize = 0;
+
+    for (let i = 0; i < remoteFiles.length; i++) {
+      let currentFile = remoteFiles[i];
+      totalSize += currentFile.size;
+    }
+
+    for (let i = 0; i < remoteFiles.length; i++) {
+      let currentFile = remoteFiles[i];
+      let currentFilePath = currentFile.path_lower.replace(dropboxPath, '');
+      let localFilePath = path.join(localPath, currentFilePath);
+
+      await this.syncFileTwoWay(localFilePath, currentFile.path_lower, true, true, true);
+
+      if (progressFeedbackCB != null) {
+        copiedSize += currentFile.size;
+        let progressPercent = Math.ceil((copiedSize / totalSize) * 100);
+
+        progressFeedbackCB({
+          total: totalSize,
+          copied: copiedSize,
+          percent: progressPercent
+        });
+      }
+    }
+    
+    return 0;
   }
 
   async isDropboxFileExisting(dropboxPath) {
@@ -181,7 +321,7 @@ class DropboxSync {
 
   async isDropboxFileNewer(dropboxPath, filePath) {
     if (!fs.existsSync(filePath)) {
-      throw Error(`File ${filePath} does not exist!`);
+      return true;
     }
 
     let remoteMetaData = await this.getFileMetaData(dropboxPath);
@@ -193,7 +333,7 @@ class DropboxSync {
 
   async isFileSynced(localFilePath, dropboxPath) {
     if (!fs.existsSync(localFilePath)) {
-      throw Error(`File ${localFilePath} does not exist!`);
+      return false;
     }
 
     let localHash = await this.getLocalFileHash(localFilePath);
@@ -233,8 +373,8 @@ class DropboxSync {
         hasher.update(buf);
       });
 
-      f.on('end', function(err) {
-        var hexDigest = hasher.digest('hex');
+      f.on('end', function() {
+        let hexDigest = hasher.digest('hex');
         resolve(hexDigest);
       });
 

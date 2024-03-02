@@ -16,8 +16,11 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const path = require('path');
+const fs = require('fs-extra');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
+const DropboxSyncFactory = require('../db_sync/dropbox_sync_factory.js');
 let expressApp = null;
 let expressServer = null;
 
@@ -41,6 +44,12 @@ class IpcGeneralHandler {
         return global.main.initDatabase(androidVersion, connectionType);
       });
     }
+
+    this._ipcMain.add('general_getCustomSwordModulePath', async (androidVersion=undefined) => {
+      let userDataPath = this._platformHelper.getUserDataPath(false, androidVersion);
+      let customSwordModulePath = path.join(userDataPath, 'sword');
+      return customSwordModulePath;
+    });
 
     this._ipcMain.add('general_setConnectionType', async (connectionType) => {
       global.connectionType = connectionType;
@@ -165,6 +174,37 @@ class IpcGeneralHandler {
       }
     });
 
+    this._ipcMain.addWithProgressCallback('general_syncDropboxFolderFromRemoteToLocal', async (progressCB, dropboxPath, localPath) => {
+      const dropboxSync = await DropboxSyncFactory.createDropboxSync();
+
+      if (dropboxSync == null) {
+        console.log('ERROR: Could not get instance of DropboxSync. Aborting sync.');
+        return -1;
+      }
+
+      if (!fs.existsSync(localPath)) {
+        fs.mkdirSync(localPath);
+      }
+
+      try {
+        console.log(`Attempting to perform a dropbox folder sync from ${dropboxPath} to ${localPath}`);
+
+        let result = await dropboxSync.syncFolderFromRemoteToLocal(dropboxPath, localPath, progressCB);
+        if (result < 0) {
+          console.log('Dropbox folder sync failed!');
+        } else {
+          console.log('Dropbox folder sync successful!')
+        }
+
+        return result;
+
+      } catch (e) {
+        console.log('Got exception while performing Dropbox folder sync!');
+        console.log(e);
+        return -1;
+      }
+    }, 'general_syncDropboxFolderFromRemoteToLocalProgress');
+
     this._ipcMain.add('general_getIpcCallStats', async() => {
       var fullStats = global.callCounters;
       var filteredStats = {};
@@ -190,6 +230,10 @@ class IpcGeneralHandler {
 
       console.log(`sendCrashReports: ${global.sendCrashReports}`);
     });
+  }
+
+  setMainWindow(mainWindow) {
+    this._ipcMain.setMainWindow(mainWindow);
   }
 }
 

@@ -499,6 +499,7 @@ a.chapter-nav:hover {
 #info-popup,
 #search-results-box,
 #db-sync-box,
+#db-sync-progress-box,
 #config-typeface-box {
   display: none;
 }
@@ -524,6 +525,10 @@ a.chapter-nav:hover {
 
 #db-sync-box-content input {
   margin-left: 0.5em;
+}
+
+#db-sync-box-content input.ezra-input {
+  width: 15em;
 }
 
 #dropbox-link-status {
@@ -1308,7 +1313,8 @@ li.book-unavailable a:focus,
 #show-commentary-settings-button,
 #show-typeface-settings-button,
 #setup-db-sync-button,
-#show-module-update-button {
+#show-module-update-button,
+#sync-custom-modules-button {
   padding: 0.5em;
   display: block;
   width: 100%;
@@ -1562,7 +1568,8 @@ li.book-unavailable a:focus,
 .tab-search-type,
 #search-type,
 #search-scope,
-#dropbox-sync-folder {
+#dropbox-db-sync-folder,
+.ezra-input {
   border: 1px solid lightgray;
   border-radius: 4px;
 }

@@ -474,7 +474,7 @@
     "dropbox-link-status-linking-failed": "Povezovanje ni uspelo!",
     "only-sync-on-wifi": "Sinhronizira se samo na brezžičnem omrežju WiFi",
     "sync-after-changes": "Po spremembah sinhroniziraj podatkovno zbirko",
-    "dropbox-sync-folder": "Dropbox sync folder",
+    "dropbox-db-sync-folder": "Dropbox sync folder",
     "dropbox-sync-info": "Informacije o sinhronizaciji Dropboxa",
     "last-dropbox-sync-time": "Zadnja sinhronizacija",
     "last-dropbox-sync-result": "Rezultat zadnje sinhronizacije",

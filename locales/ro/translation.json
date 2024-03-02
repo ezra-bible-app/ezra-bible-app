@@ -474,7 +474,7 @@
     "dropbox-link-status-linking-failed": "Conectare eșuată!",
     "only-sync-on-wifi": "Sincronizare doar prin WiFi",
     "sync-after-changes": "Sincronizează bază de date după modificări",
-    "dropbox-sync-folder": "Folder-ul de sincronizarea Dropbox",
+    "dropbox-db-sync-folder": "Folder-ul de sincronizarea Dropbox",
     "dropbox-sync-info": "Info sincronizre Dropbox",
     "last-dropbox-sync-time": "Ultima sincronizare",
     "last-dropbox-sync-result": "Rezultat ultima sincronizare",

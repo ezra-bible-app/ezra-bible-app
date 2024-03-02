@@ -475,7 +475,7 @@
     "dropbox-link-status-linking-failed": "Помилка зв'язування!",
     "only-sync-on-wifi": "Позгоджувати лише через WiFi",
     "sync-after-changes": "Позгоджувати базу даних відразу після змін",
-    "dropbox-sync-folder": "Тека у Dropbox",
+    "dropbox-db-sync-folder": "Тека у Dropbox",
     "dropbox-sync-info": "Відомості щодо позгодження з Dropbox",
     "last-dropbox-sync-time": "Останнє позгодження",
     "last-dropbox-sync-result": "Результат останнього позгодження",

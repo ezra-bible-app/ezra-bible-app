@@ -474,7 +474,7 @@
     "dropbox-link-status-linking-failed": "Prepojenie zlyhalo",
     "only-sync-on-wifi": "Synchronizácia len cez WiFi",
     "sync-after-changes": "Synchronizovať databázu po zmenách",
-    "dropbox-sync-folder": "Synchronizačný priečinok Dropbox",
+    "dropbox-db-sync-folder": "Synchronizačný priečinok Dropbox",
     "dropbox-sync-info": "Informácie o synchronizácii Dropboxu",
     "last-dropbox-sync-time": "Posledná synchronizácia",
     "last-dropbox-sync-result": "Výsledok poslednej synchronizácie",

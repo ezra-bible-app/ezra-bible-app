@@ -33,8 +33,10 @@ const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
 const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
 const DROPBOX_REFRESH_TOKEN_SETTINGS_KEY = 'dropboxRefreshToken';
 const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
-const DROPBOX_FOLDER_SETTINGS_KEY = 'dropboxFolder';
+const DROPBOX_DB_FOLDER_SETTINGS_KEY = 'dropboxFolder';
+const DROPBOX_SWORD_FOLDER_NAME_SETTINGS_KEY = 'dropboxSwordFolder';
 const DROPBOX_ONLY_WIFI_SETTINGS_KEY = 'dropboxOnlyWifi';
+const DROPBOX_SYNC_SWORD_FOLDER_SETTINGS_KEY = 'dropboxSyncCustomSwordFolder';
 const DROPBOX_SYNC_AFTER_CHANGES_KEY = 'dropboxSyncAfterChanges';
 const DROPBOX_LAST_SYNC_RESULT_KEY = 'lastDropboxSyncResult';
 const DROPBOX_LAST_SYNC_TIME_KEY = 'lastDropboxSyncTime';
@@ -46,8 +48,10 @@ let dbSyncInitDone = false;
 let dbSyncDropboxToken = null;
 let dbSyncDropboxRefreshToken = null;
 let dbSyncDropboxLinkStatus = null;
-let dbSyncDropboxFolder = null;
+let dbSyncDropboxFolderName = null;
+let dbSyncSwordFolderName = null;
 let dbSyncOnlyWifi = false;
+let dbSyncCustomSwordFolder = false;
 let dbSyncAfterChanges = false;
 let dbSyncFirstSyncDone = false;
 let lastConnectionType = undefined;
@@ -94,6 +98,51 @@ module.exports.showDbSyncConfigDialog = async function() {
 
   Mousetrap.bind('esc', () => { $('#db-sync-box').dialog("close"); });
   $('#db-sync-box').dialog("open");
+};
+
+module.exports.startCustomModuleSync = async function() {
+  await initDbSync();
+
+  const customSwordModulePath = await ipcGeneral.getCustomSwordModulePath();
+
+  const $progressBar = $('#db-sync-progress-bar');
+  uiHelper.initProgressBar($progressBar);
+  $progressBar.show();
+
+  var dialogWidth = 600;
+  var dialogHeight = 400;
+  var draggable = true;
+  var position = [55, 120];
+
+  let customModuleSyncDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+  customModuleSyncDialogOptions.title = i18n.t("general.sync-custom-modules");
+  customModuleSyncDialogOptions.dialogClass = 'ezra-dialog db-sync-progress-dialog';
+  customModuleSyncDialogOptions.modal = true;
+
+  $('#db-sync-progress-box').dialog(customModuleSyncDialogOptions);
+  uiHelper.fixDialogCloseIconOnAndroid('db-sync-progress-dialog');
+
+  let adaptedDbSyncSwordFolderName = dbSyncSwordFolderName;
+
+  if (!adaptedDbSyncSwordFolderName.startsWith('/')) {
+    adaptedDbSyncSwordFolderName = '/' + adaptedDbSyncSwordFolderName;
+  }
+
+  console.log(`Starting synchronization of Dropbox folder from ${adaptedDbSyncSwordFolderName} to ${customSwordModulePath}`);
+
+  let result = await ipcGeneral.syncDropboxFolderFromRemoteToLocal(
+    adaptedDbSyncSwordFolderName,
+    customSwordModulePath,
+    (progress) => {
+      $progressBar.progressbar("value", progress.percent);
+    }
+  );
+
+  if (result == 0) {
+    console.log('Synchronization of Dropbox folder successful!');
+  } else {
+    console.log(`ERROR: Synchronization of Dropbox folder failed. Result: ${result}`);
+  }
 };
 
 module.exports.showSyncResultMessage = async function() {
@@ -165,19 +214,39 @@ function initAuthCallbacks() {
   }
 }
 
+function toggleCustomSwordFolder(enabled) {
+  let inputField = document.getElementById('dropbox-sword-sync-folder');
+
+  if (enabled) {
+    inputField.removeAttribute('disabled');
+  } else {
+    inputField.setAttribute('disabled', 'disabled');
+  }
+}
+
 async function initDbSync() {
   dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxRefreshToken = await ipcSettings.get(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
-  dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_FOLDER_SETTINGS_KEY, 'ezra');
+  dbSyncDropboxFolderName = await ipcSettings.get(DROPBOX_DB_FOLDER_SETTINGS_KEY, 'ezra');
+  dbSyncSwordFolderName = await ipcSettings.get(DROPBOX_SWORD_FOLDER_NAME_SETTINGS_KEY, 'sword');
   dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
+  dbSyncCustomSwordFolder = await ipcSettings.get(DROPBOX_SYNC_SWORD_FOLDER_SETTINGS_KEY, false);
   dbSyncAfterChanges = await ipcSettings.get(DROPBOX_SYNC_AFTER_CHANGES_KEY, false);
   dbSyncFirstSyncDone = await ipcSettings.get(DROPBOX_FIRST_SYNC_DONE_KEY, false);
 
-  $('#dropbox-sync-folder').val(dbSyncDropboxFolder);
+  $('#dropbox-db-sync-folder').val(dbSyncDropboxFolderName);
+  $('#dropbox-sword-sync-folder').val(dbSyncSwordFolderName);
   document.getElementById('only-sync-on-wifi').checked = dbSyncOnlyWifi;
+  document.getElementById('sync-custom-sword-folder').checked = dbSyncCustomSwordFolder;
   document.getElementById('sync-dropbox-after-changes').checked = dbSyncAfterChanges;
   updateDropboxLinkStatusLabel();
+
+  toggleCustomSwordFolder(dbSyncCustomSwordFolder);
+
+  document.getElementById('sync-custom-sword-folder').addEventListener('change', (event) => {
+    toggleCustomSwordFolder(event.currentTarget.checked);
+  });
 
   if (dbSyncInitDone) {
     return;
@@ -186,7 +255,7 @@ async function initDbSync() {
   initAuthCallbacks();
 
   var dialogWidth = 500;
-  var dialogHeight = 600;
+  var dialogHeight = 650;
   var draggable = true;
   var position = [55, 120];
 
@@ -231,8 +300,10 @@ async function initDbSync() {
 async function handleDropboxConfigurationSave() {
   $('#db-sync-box').dialog("close");
 
-  dbSyncDropboxFolder = $('#dropbox-sync-folder').val();
+  dbSyncDropboxFolderName = $('#dropbox-db-sync-folder').val();
+  dbSyncSwordFolderName = $('#dropbox-sword-sync-folder').val();
   dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
+  dbSyncCustomSwordFolder = document.getElementById('sync-custom-sword-folder').checked;
   dbSyncAfterChanges = document.getElementById('sync-dropbox-after-changes').checked;
 
   if (resetDropboxConfiguration) {
@@ -254,9 +325,13 @@ async function handleDropboxConfigurationSave() {
   }
 
   await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
-  await ipcSettings.set(DROPBOX_FOLDER_SETTINGS_KEY, dbSyncDropboxFolder);
+  await ipcSettings.set(DROPBOX_DB_FOLDER_SETTINGS_KEY, dbSyncDropboxFolderName);
+  await ipcSettings.set(DROPBOX_SWORD_FOLDER_NAME_SETTINGS_KEY, dbSyncSwordFolderName);
   await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
+  await ipcSettings.set(DROPBOX_SYNC_SWORD_FOLDER_SETTINGS_KEY, dbSyncCustomSwordFolder);
   await ipcSettings.set(DROPBOX_SYNC_AFTER_CHANGES_KEY, dbSyncAfterChanges);
+
+  await app_controller.optionsMenu.toggleCustomSwordModuleSyncButtonBasedOnOption();
 
   if (dbSyncDropboxLinkStatus == 'LINKED' && !dbSyncFirstSyncDone) {
     await ipcDb.syncDropbox();
