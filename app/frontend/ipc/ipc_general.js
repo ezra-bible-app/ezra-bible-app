@@ -18,6 +18,7 @@
 
 const IpcRenderer = require('./ipc_renderer.js');
 const i18nController = require('../controllers/i18n_controller.js');
+const { getPlatform } = require('../helpers/ezra_helper.js');
 
 class IpcGeneral {
   constructor() {
@@ -39,6 +40,16 @@ class IpcGeneral {
     var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs, androidVersion, connectionType);
     console.timeEnd('initDatabase');
     return result;
+  }
+
+  async getCustomSwordModulePath() {
+    let androidVersion = undefined;
+    
+    if (platformHelper.isCordova()) {
+      androidVersion = getPlatform().getAndroidVersion();
+    }
+
+    return await this._ipcRenderer.call('general_getCustomSwordModulePath', androidVersion);
   }
 
   async setConnectionType(connectionType) {
