@@ -247,15 +247,15 @@ class DropboxSync {
 
   async syncFolderFromRemoteToLocal(dropboxPath, localPath, progressFeedbackCB=null) {
     if (!fs.existsSync(localPath)) {
-      console.warn(`Folder ${localPath} does not exist!`);
-      return -4;
+      console.warn(`ERROR: Folder ${localPath} does not exist!`);
+      return -1;
     }
 
     const isLocalPathDirectory = await this.isLocalPathDirectory(localPath);
 
     if (!isLocalPathDirectory) {
-      console.warn(`The path ${localPath} is not a directory!`);
-      return -4;
+      console.warn(`ERROR: The path ${localPath} is not a directory!`);
+      return -1;
     }
 
     const isRemotePathExisting = await this.isDropboxFileExisting(dropboxPath);
@@ -264,12 +264,12 @@ class DropboxSync {
       const isRemotePathDirectory = await this.isRemotePathDirectory(dropboxPath);
 
       if (!isRemotePathDirectory) {
-        console.warn(`The dropbox path ${dropboxPath} is not a directory!`);
-        return -4;
+        console.warn(`ERROR: The dropbox path ${dropboxPath} is not a directory!`);
+        return -1;
       }
     } else {
-      console.log(`The dropbox path ${dropboxPath} does not exist!`);
-      return -4;
+      console.log(`ERROR: The dropbox path ${dropboxPath} does not exist!`);
+      return -1;
     }
 
     // Pre-conditions checked. Let's start the sync.
@@ -302,6 +302,8 @@ class DropboxSync {
         });
       }
     }
+    
+    return 0;
   }
 
   async isDropboxFileExisting(dropboxPath) {
