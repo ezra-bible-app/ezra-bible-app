@@ -338,7 +338,8 @@ class VerseSelection {
     if (!this.someVersesSelected()) {
       if (selectedVerseDisplayText == undefined && !this.someVersesSelected()) {
         const selectedBooks = await this.getSelectedBooks();
-        selectedVerseDisplayText = await sectionLabelHelper.getVerseDisplayText(selectedBooks, this.selectedVerseBoxElements, false, useShortBookTitles);
+        const referenceSeparator = ':';
+        selectedVerseDisplayText = await sectionLabelHelper.getVerseDisplayText(selectedBooks, this.selectedVerseBoxElements, false, useShortBookTitles, referenceSeparator);
       } else {
         preDefinedText = true;
       }
