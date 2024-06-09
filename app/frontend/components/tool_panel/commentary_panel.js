@@ -167,6 +167,8 @@ class CommentaryPanel {
 
     this.getBoxContent().innerHTML = commentaryContent;
 
+    this.applyParagraphs();
+
     let moduleInfoButtons = this.getBoxContent().querySelectorAll('.module-info-button');
     moduleInfoButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
@@ -175,6 +177,18 @@ class CommentaryPanel {
     });
 
     uiHelper.configureButtonStyles(this.getBoxContent());
+  }
+
+  applyParagraphs() {
+    const sIdElements = this.getBoxContent().querySelectorAll('.sword-sid');
+
+    sIdElements.forEach((sIdElement) => {
+      let elementType = sIdElement.getAttribute('type');
+      
+      if (elementType == 'x-p') {
+        sIdElement.classList.add('sword-paragraph');
+      }
+    });
   }
 
   handleModuleInfoButtonClick(event) {

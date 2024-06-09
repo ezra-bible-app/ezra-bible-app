@@ -70,6 +70,11 @@
   font-style: italic;
 }
 
+.super { 
+  vertical-align: super;
+  font-size: 80%;
+}
+
 .underline {
   text-decoration: underline;
 }

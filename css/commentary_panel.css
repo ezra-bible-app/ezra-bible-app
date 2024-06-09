@@ -53,7 +53,12 @@
 }
 
 #commentary-panel-content .sword-markup {
-  display: unset !important;
+  display: unset;
+}
+
+.sword-paragraph {
+  margin-bottom: 1em;
+  display: block !important;
 }
 
 #commentary-panel-content .sword-scripref {
@@ -63,6 +68,7 @@
 #commentary-panel-content .sword-section-title {
   font-weight: bold;
   display: block !important;
+  margin-top: 1em;
   margin-bottom: 1em;
 }
 
