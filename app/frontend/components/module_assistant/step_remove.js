@@ -87,16 +87,18 @@ class StepRemove extends HTMLElement {
 
     const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     const modules = await app_controller.translation_controller.getInstalledModules('BIBLE');
-
-    if (modules.length > 0) {
-      await eventController.publishAsync('on-translation-changed', {from: currentBibleTranslationId, to: modules[0]});
-    } else {
-      await eventController.publishAsync('on-all-translations-removed');
-    }
-
     const moduleType = assistantController.get('moduleType');
 
     if (moduleType == 'BIBLE') {
+
+      if (modules.length > 0) {
+        if (currentBibleTranslationId == moduleCode) {
+          await eventController.publishAsync('on-translation-changed', {from: currentBibleTranslationId, to: modules[0]});
+        }
+      } else {
+        await eventController.publishAsync('on-all-translations-removed');
+      }
+
       await eventController.publishAsync('on-translation-removed', moduleCode);
     }
 
