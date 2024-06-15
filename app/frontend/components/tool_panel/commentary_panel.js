@@ -208,8 +208,10 @@ class CommentaryPanel {
     let moduleCode = event.target.closest('.commentary-copy-button').getAttribute('module');
     console.log(`copy commentary ${moduleCode}!`);
 
+    const commentaryContentBox = event.target.closest('.commentary').querySelector('.commentary-content');
+
     let commentaryText = "test";
-    let commentaryTextHTML = "test";
+    let commentaryTextHTML = this.processCommentaryHtml(commentaryContentBox.innerHTML);
 
     getPlatform().copyToClipboard(commentaryText, commentaryTextHTML);
 
@@ -219,6 +221,17 @@ class CommentaryPanel {
       position: 'bottomRight',
       timeout: 2000
     });
+  }
+
+  processCommentaryHtml(htmlInput) {
+    let processedHtml = '';
+    processedHtml = htmlInput.replaceAll('<hi', '<span');
+    processedHtml = processedHtml.replaceAll('</hi>', '</span>');
+    processedHtml = processedHtml.replaceAll('class="bold"', 'style="font-weight: bold;"');
+    processedHtml = processedHtml.replaceAll('class="italic"', 'style="font-style: italic;"');
+    processedHtml = processedHtml.replaceAll('sword-section-title"', 'sword-section-title"; style="font-weight: bold;"');
+
+    return processedHtml;
   }
 
   performDelayedContentRefresh(selectedVerseBoxes=undefined) {
@@ -270,7 +283,9 @@ class CommentaryPanel {
                 </div>
               </h3>
 
+              <div class='commentary-content'>
               ${verseCommentary}
+              </div>
             </div>
             `;
           }
