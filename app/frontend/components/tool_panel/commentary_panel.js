@@ -217,6 +217,7 @@ class CommentaryPanel {
         });
 
         const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
+        const copyCommentaryButtonTitle = i18n.t('commentary-panel.copy-commentary-to-clipboard');
 
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
@@ -238,7 +239,8 @@ class CommentaryPanel {
                   <i class='fas fa-info'></i>
                 </div>
 
-                <div class='commentary-copy-button fg-button ui-corner-all ui-state-default'>
+                <div class='commentary-copy-button fg-button ui-corner-all ui-state-default'
+                  i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}'>
                   <i class='fas fa-copy copy-icon'></i>
                 </div>
               </h3>
