@@ -417,6 +417,8 @@
     "default-header": "<b>Bibelkommentare</b>",
     "commentaries-for": "Kommentare für",
     "show-commentaries": "Bibelkommentare zeigen",
+    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
+    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "Um Bibelkommentare zu zeigen wählen Sie einen Vers aus.<br><br> Dieser Bereich wird dann automatisch alle verfügbaren Bibelkommentare anzeigen.",
     "help-instruction-no-commentaries": "Sie haben bisher keine Bibelkommentare installiert. Sie müssen mindestens einen Bibelkommentar installieren damit dieser Teil des Programms funktioniert.",
     "help-instruction-no-kjv": "Die KJV Übersetzung wurde nocht nicht installiert. Die KJV Übersetzung wird benötigt um Bibelkommentare basierend auf englischer Verszählung korrekt anzuzeigen. Sie können das tun indem Sie:<ul><li>Die KJV aus dem CrossWire Repository installieren.</li><li>Einen Bibelkommentar installieren (Die KJV wird dann automatisch installiert).</li></ul>",

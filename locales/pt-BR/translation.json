@@ -421,6 +421,8 @@
     "default-header": "<b>Comentário bíblico</b>",
     "commentaries-for": "Comentários para",
     "show-commentaries": "Mostrar comentários",
+    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
+    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "Para mostrar o conteúdo do comentário, selecione um versículo.<br><br> Esta área listará automaticamente todos os comentários disponíveis do versículo selecionado.",
     "help-instruction-no-commentaries": "Nenhum comentário foi instalado ainda. Você precisa instalar pelo menos um comentário para que este recurso funcione.",
     "help-instruction-no-kjv": "A tradução KJV ainda não foi instalada. A KJV é necessária para mostrar corretamente os comentários bíblicos baseados na divisão de versículos em inglês. Você pode corrigir isso:<ul><li>Instalando o KJV do repositório CrossWire</li><li>Instalando um comentário (A tradução KJV é instalada automaticamente neste caso)</li></ul>",
