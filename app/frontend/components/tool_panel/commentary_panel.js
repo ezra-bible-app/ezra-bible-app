@@ -205,12 +205,8 @@ class CommentaryPanel {
   }
 
   handleCopyCommentaryButtonClick(event) {
-    let moduleCode = event.target.closest('.commentary-copy-button').getAttribute('module');
-    console.log(`copy commentary ${moduleCode}!`);
-
     const commentaryContentBox = event.target.closest('.commentary').querySelector('.commentary-content');
-
-    let commentaryText = "test";
+    let commentaryText = commentaryContentBox.innerText;
     let commentaryTextHTML = this.processCommentaryHtml(commentaryContentBox.innerHTML);
 
     getPlatform().copyToClipboard(commentaryText, commentaryTextHTML);
