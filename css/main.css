@@ -1073,7 +1073,7 @@ main.content {
   padding: 0 0.8em;
 }
 
-.module-info-button {
+.module-info-button, .commentary-copy-button {
   display: inline-block;
   width: 1em;
   padding: 0.2em;
@@ -1082,10 +1082,16 @@ main.content {
   font-size: 0.9em;
 }
 
+.commentary-copy-button {
+  padding-left: 0.5em !important;
+  padding-right: 0.3em !important;
+}
+
 .verse-list-menu .display-options-button,
 .verse-list-menu .app-info-button,
 .verse-list-menu .export-docx-button,
-.module-info-button {
+.module-info-button,
+.commentary-copy-button {
   justify-content: center;
 }
 

@@ -233,9 +233,13 @@ class CommentaryPanel {
             commentaryContent += `
             <div class='commentary module-code-${currentCommentary.name.toLowerCase()}'>
               <h3>${currentCommentary.description}
-                <div class='module-info-button fg-button ui-corner-all ui-state-default ui-state-default'
+                <div class='module-info-button fg-button ui-corner-all ui-state-default'
                     i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
                   <i class='fas fa-info'></i>
+                </div>
+
+                <div class='commentary-copy-button fg-button ui-corner-all ui-state-default'>
+                  <i class='fas fa-copy copy-icon'></i>
                 </div>
               </h3>
 
