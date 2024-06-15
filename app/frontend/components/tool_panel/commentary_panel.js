@@ -18,6 +18,7 @@
 
 const eventController = require('../../controllers/event_controller.js');
 const VerseBox = require("../../ui_models/verse_box.js");
+const { getPlatform } = require('../../helpers/ezra_helper.js');
 
 /**
  * The CommentaryPanel component implements a tool panel that shows Bible commentaries for selected verses
@@ -206,6 +207,11 @@ class CommentaryPanel {
   handleCopyCommentaryButtonClick(event) {
     let moduleCode = event.target.closest('.commentary-copy-button').getAttribute('module');
     console.log(`copy commentary ${moduleCode}!`);
+
+    let commentaryText = "test";
+    let commentaryTextHTML = "test";
+
+    getPlatform().copyToClipboard(commentaryText, commentaryTextHTML);
 
     // eslint-disable-next-line no-undef
     iziToast.success({
