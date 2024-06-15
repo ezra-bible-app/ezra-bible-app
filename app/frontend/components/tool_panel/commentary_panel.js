@@ -221,7 +221,11 @@ class CommentaryPanel {
 
   processCommentaryHtml(htmlInput) {
     let processedHtml = '';
-    processedHtml = htmlInput.replaceAll('<hi', '<span');
+
+    processedHtml = htmlInput.replace(/&nbsp;/g, ' ');
+    processedHtml = processedHtml.replaceAll('<reference', '<span');
+    processedHtml = processedHtml.replaceAll('</reference', '</span');
+    processedHtml = processedHtml.replaceAll('<hi', '<span');
     processedHtml = processedHtml.replaceAll('</hi>', '</span>');
     processedHtml = processedHtml.replaceAll('class="bold"', 'style="font-weight: bold;"');
     processedHtml = processedHtml.replaceAll('class="italic"', 'style="font-style: italic;"');
