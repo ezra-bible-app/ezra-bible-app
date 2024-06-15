@@ -176,6 +176,13 @@ class CommentaryPanel {
       });
     });
 
+    let commentaryCopyButtons = this.getBoxContent().querySelectorAll('.commentary-copy-button');
+    commentaryCopyButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        this.handleCopyCommentaryButtonClick(event);
+      });
+    });
+
     uiHelper.configureButtonStyles(this.getBoxContent());
   }
 
@@ -194,6 +201,11 @@ class CommentaryPanel {
   handleModuleInfoButtonClick(event) {
     let moduleCode = event.target.closest('.module-info-button').getAttribute('module');
     app_controller.info_popup.showAppInfo(moduleCode);
+  }
+
+  handleCopyCommentaryButtonClick(event) {
+    let moduleCode = event.target.closest('.commentary-copy-button').getAttribute('module');
+    console.log(`copy commentary ${moduleCode}!`);
   }
 
   performDelayedContentRefresh(selectedVerseBoxes=undefined) {
@@ -240,7 +252,7 @@ class CommentaryPanel {
                 </div>
 
                 <div class='commentary-copy-button fg-button ui-corner-all ui-state-default'
-                  i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}'>
+                  i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${currentCommentary.name}'>
                   <i class='fas fa-copy copy-icon'></i>
                 </div>
               </h3>
