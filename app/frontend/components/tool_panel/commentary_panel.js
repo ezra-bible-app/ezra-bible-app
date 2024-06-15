@@ -19,6 +19,7 @@
 const eventController = require('../../controllers/event_controller.js');
 const VerseBox = require("../../ui_models/verse_box.js");
 const { getPlatform } = require('../../helpers/ezra_helper.js');
+const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
 
 /**
  * The CommentaryPanel component implements a tool panel that shows Bible commentaries for selected verses
@@ -53,6 +54,8 @@ class CommentaryPanel {
     eventController.subscribeMultiple(['on-commentary-added', 'on-commentary-removed'], () => {
       refreshWithSelection();
     });
+
+    this._verseBoxHelper = new VerseBoxHelper();
   }
 
   getBoxContent() {
@@ -204,12 +207,22 @@ class CommentaryPanel {
     app_controller.info_popup.showAppInfo(moduleCode);
   }
 
-  handleCopyCommentaryButtonClick(event) {
-    const commentaryContentBox = event.target.closest('.commentary').querySelector('.commentary-content');
-    let commentaryText = commentaryContentBox.innerText;
-    let commentaryTextHTML = this.processCommentaryHtml(commentaryContentBox.innerHTML);
+  async handleCopyCommentaryButtonClick(event) {
+    let verseLabelText = await app_controller.verse_selection.getSelectedVerseLabelText();
 
-    getPlatform().copyToClipboard(commentaryText, commentaryTextHTML);
+    const commentaryDiv = event.target.closest('.commentary');
+    const commentaryName = commentaryDiv.querySelector('.commentary-name').innerText;
+    const commentaryContentBox = commentaryDiv.querySelector('.commentary-content');
+
+    let commentaryContent = commentaryContentBox.innerText;
+    let lineBreak = this._verseBoxHelper.getLineBreak(false);
+    let commentaryText = `${commentaryName} - ${verseLabelText} ${lineBreak}${lineBreak} ${commentaryContent}`;
+
+    let commentaryTextHtml = this.processCommentaryHtml(commentaryContentBox.innerHTML);
+    lineBreak = this._verseBoxHelper.getLineBreak(true);
+    commentaryTextHtml = `<b>${commentaryName} - ${verseLabelText}</b> ${lineBreak}${lineBreak} ${commentaryTextHtml}`;
+
+    getPlatform().copyToClipboard(commentaryText, commentaryTextHtml);
 
     // eslint-disable-next-line no-undef
     iziToast.success({
@@ -230,6 +243,7 @@ class CommentaryPanel {
     processedHtml = processedHtml.replaceAll('class="bold"', 'style="font-weight: bold;"');
     processedHtml = processedHtml.replaceAll('class="italic"', 'style="font-style: italic;"');
     processedHtml = processedHtml.replaceAll('sword-section-title"', 'sword-section-title"; style="font-weight: bold;"');
+    processedHtml = processedHtml.replaceAll('<div class="sword-markup sword-sid sword-paragraph', '<br/><div class="sword-markup sword-sid sword-paragraph');
 
     return processedHtml;
   }
@@ -271,7 +285,9 @@ class CommentaryPanel {
           if (verseCommentary != null && verseCommentary.length != 0) {
             commentaryContent += `
             <div class='commentary module-code-${currentCommentary.name.toLowerCase()}'>
-              <h3>${currentCommentary.description}
+              <h3>
+                <span class='commentary-name'>${currentCommentary.description}</span>
+
                 <div class='module-info-button fg-button ui-corner-all ui-state-default'
                     i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
                   <i class='fas fa-info'></i>
