@@ -206,6 +206,13 @@ class CommentaryPanel {
   handleCopyCommentaryButtonClick(event) {
     let moduleCode = event.target.closest('.commentary-copy-button').getAttribute('module');
     console.log(`copy commentary ${moduleCode}!`);
+
+    // eslint-disable-next-line no-undef
+    iziToast.success({
+      message: i18n.t('commentary-panel.copy-commentary-to-clipboard-success'),
+      position: 'bottomRight',
+      timeout: 2000
+    });
   }
 
   performDelayedContentRefresh(selectedVerseBoxes=undefined) {
