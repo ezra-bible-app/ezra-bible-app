@@ -270,6 +270,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "Nieuwe tag",
     "create-tag": "Maak tag",
     "delete-tag": "Verwijder tag",

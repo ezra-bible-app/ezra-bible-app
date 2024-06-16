@@ -264,6 +264,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "Neuer Tag",
     "create-tag": "Tag erstellen",
     "delete-tag": "Tag löschen",

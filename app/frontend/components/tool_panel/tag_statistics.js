@@ -211,7 +211,7 @@ class TagStatistics {
     }
 
     var tagStatisticsHTML = "<table class='tag-statistics'>";
-    tagStatisticsHTML += "<tr><th style='text-align: left;'>Tag</th>"
+    tagStatisticsHTML += `<tr><th style='text-align: left;'>${i18n.t('tags.tag')}</th>`
                         +  "<th style='text-align: left; width: 2em;'>#</th>"
                         +  "<th style='text-align: left; width: 2em;'>%</th></tr>";
     

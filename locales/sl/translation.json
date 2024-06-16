@@ -268,6 +268,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "Nova oznaka",
     "create-tag": "Ustvari oznako",
     "delete-tag": "Brisanje oznake",

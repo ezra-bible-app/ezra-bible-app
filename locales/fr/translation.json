@@ -278,6 +278,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "Nouvelle étiquette",
     "create-tag": "Créer l’étiquette",
     "delete-tag": "Supprimer l’étiquette",

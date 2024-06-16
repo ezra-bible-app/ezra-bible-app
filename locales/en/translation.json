@@ -268,6 +268,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "New tag",
     "create-tag": "Create tag",
     "delete-tag": "Delete tag",
