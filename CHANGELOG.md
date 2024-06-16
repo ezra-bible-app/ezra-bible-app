@@ -1,6 +1,27 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.14.0 - 2024-06-30]
+
+### Enhancements
+
+* Add support for reading modules from /sdcard/Documents/sword on Android. ([NSI#51][nsi51])
+* Introduce option for configuring typeface / font of the Bible text. ([#1007][i1007])
+* Add button for copying individual commentary sections to the clipboard. ([#1041][i1041])
+
+### Fixes
+
+* Tag Statistics Panel - Column Header 'Tag' is not localized. ([#1012][i1012])
+* Bible commentaries and dictionaries do not render paragraphs correctly. ([#1016][i1016])
+* Dictionary side panel stops working if any SWORD module is uninstalled. ([#1045][i1045])
+
+[nsi51]: https://github.com/ezra-bible-app/node-sword-interface/issues/51
+[i1007]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1007
+[i1012]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1012
+[i1016]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1016
+[i1041]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1041
+[i1045]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1045
+
 ## [1.13.0 - 2024-01-20]
 
 ### Enhancements
