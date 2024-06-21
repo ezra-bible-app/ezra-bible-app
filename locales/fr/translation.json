@@ -217,12 +217,12 @@
      "send-crash-reports": "Envoyer les rapports d'erreurs",
     "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !",
     "type-face": {
-      "configure-typeface": "Configure Bible text typeface",
-      "sans-serif": "Sans serif",
-      "serif": "Serif",
-      "custom": "Custom",
-      "bible-text-font-family": "Bible text font family",
-      "custom-bible-text-font": "Custom Bible text font"
+      "configure-typeface": "Configurer la police de caractères du texte biblique",
+      "sans-serif": "Sans empattement",
+      "serif": "Avec empattement",
+      "custom": "Personnalisée",
+      "bible-text-font-family": "Famille de polices de texte biblique",
+      "custom-bible-text-font": "Police de caractères de texte biblique personnalisée"
     }
   },
   "data-privacy": {
@@ -278,7 +278,7 @@
     }
   },
   "tags": {
-    "tag": "Tag",
+    "tag": "Étiquette",
     "new-tag": "Nouvelle étiquette",
     "create-tag": "Créer l’étiquette",
     "delete-tag": "Supprimer l’étiquette",
@@ -433,8 +433,8 @@
     "default-header": "<b>Commentaire biblique</b>",
     "commentaries-for": "Commentaires pour",
     "show-commentaries": "Afficher les commentaires",
-    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
-    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
+    "copy-commentary-to-clipboard": "Copier le commentaire dans le presse-papiers",
+    "copy-commentary-to-clipboard-success": "Commentaire copié dans le presse-papiers !",
     "help-instruction": "Pour afficher le contenu des commentaires, sélectionnez un verset.<br><br> Cette zone listera alors automatiquement le verset sélectionné parmi tous les commentaires disponibles.",
     "help-instruction-no-commentaries": "Aucun commentaire n'a encore été installé. Vous devez installer au moins un commentaire pour que cette fonctionnalité fonctionne.",
     "help-instruction-no-kjv": "La traduction KJV n'a pas encore été installée. Le KJV est nécessaire pour afficher correctement les commentaires bibliques basés sur la versification anglaise. Vous pouvez résoudre ce problème en :<ul><li>installant la KJV du dépôt CrossWire</li><li>installant un commentaire (le KJV est automatiquement installé dans ce cas)</li></ul>",
