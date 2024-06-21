@@ -49,7 +49,7 @@ class CordovaPlatform {
 
       window.open = cordova.InAppBrowser.open;
 
-      if (!isDebug) {
+      if (!isDebug && window.sendCrashReports) {
         var version = await cordova.getAppVersion.getVersionNumber();
         console.log("Configuring Sentry (WebView) with app version: " + version);
 
@@ -60,10 +60,12 @@ class CordovaPlatform {
 
           window.Sentry = require('@sentry/browser/cjs');
 
-          Sentry.init({
-            dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
-            release: version
-          });
+          if (window.Sentry != null) {
+            Sentry.init({
+              dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
+              release: version
+            });
+          }
         } catch (error) {
           console.error('Sentry initialization failed with an error!');
           console.log(error);
