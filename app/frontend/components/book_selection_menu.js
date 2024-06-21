@@ -182,9 +182,11 @@ class BookSelectionMenu {
       return;
     }
 
-    Sentry.addBreadcrumb({category: "app",
-                          message: `Selected book ${bookCode} using translation ${this.currentBibleTranslationId}`,
-                          level: "info"});
+    if (window.Sentry != null) {
+      Sentry.addBreadcrumb({category: "app",
+                            message: `Selected book ${bookCode} using translation ${this.currentBibleTranslationId}`,
+                            level: "info"});
+    }
     
     var books = await ipcNsi.getBookList(this.currentBibleTranslationId);
     if (!books.includes(bookCode)) {

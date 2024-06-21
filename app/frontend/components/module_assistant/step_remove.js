@@ -77,11 +77,13 @@ class StepRemove extends HTMLElement {
 
     this._appendRemovalInfo(localModule.description);
 
-    Sentry.addBreadcrumb({
-      category: "app",
-      message: `Removing module ${moduleCode}`,
-      level: "info"
-    });
+    if (window.Sentry != null) {
+      Sentry.addBreadcrumb({
+        category: "app",
+        message: `Removing module ${moduleCode}`,
+        level: "info"
+      });
+    }
 
     await ipcNsi.uninstallModule(moduleCode);
 

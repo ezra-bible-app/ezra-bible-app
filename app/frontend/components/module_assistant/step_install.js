@@ -183,9 +183,11 @@ class StepInstall extends HTMLElement {
     }
     
     if (installSuccessful) {
-      Sentry.addBreadcrumb({category: "app",
-                            message: `Installed module ${moduleCode}`,
-                            level: "info"});
+      if (window.Sentry != null) {
+        Sentry.addBreadcrumb({category: "app",
+                              message: `Installed module ${moduleCode}`,
+                              level: "info"});
+      }
       
       this._setInstallationInfoStatus();
       $progressBar.progressbar("value", 100);

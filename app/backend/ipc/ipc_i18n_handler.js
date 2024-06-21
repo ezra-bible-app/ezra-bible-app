@@ -50,7 +50,10 @@ class IpcI18nHandler {
       } else {
         var message = `The file ${fileName} does not exist!`;
 
-        Sentry.captureMessage(message);
+        if (global.Sentry != null) {
+          Sentry.captureMessage(message);
+        }
+
         console.error(message);
       }
 
