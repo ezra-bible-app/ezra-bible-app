@@ -14,6 +14,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Tag Statistics Panel - Column Header 'Tag' is not localized. ([#1012][i1012])
 * Bible commentaries and dictionaries do not render paragraphs correctly. ([#1016][i1016])
 * Dictionary side panel stops working if any SWORD module is uninstalled. ([#1045][i1045])
+* Blocking JavaScript errors after turning off error reporting option. ([#1048][i1048])
 
 [nsi51]: https://github.com/ezra-bible-app/node-sword-interface/issues/51
 [i1007]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1007
@@ -21,6 +22,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1016]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1016
 [i1041]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1041
 [i1045]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1045
+[i1048]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1048
 
 ## [1.13.0 - 2024-01-20]
 
