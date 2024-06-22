@@ -39,19 +39,21 @@ class ThemeController {
   async initMacOsEventHandler() {
     const nativeTheme = require('@electron/remote').nativeTheme;
 
-    // Set up a listener to react when the native theme has changed
-    window.nativeThemeHandler = nativeTheme.on('updated', async () => {
-      const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
+    if (window.nativeThemeHandler == null) {
+      // Set up a listener to react when the native theme has changed
+      window.nativeThemeHandler = nativeTheme.on('updated', async () => {
+        const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
 
-      if (useSystemTheme && nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked) {
-        uiHelper.showGlobalLoadingIndicator();
+        if (useSystemTheme && nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked) {
+          uiHelper.showGlobalLoadingIndicator();
 
-        setTimeout(() => {
-          this.toggleDarkModeIfNeeded();
-          uiHelper.hideGlobalLoadingIndicator();
-        }, 100);
-      }
-    });
+          setTimeout(() => {
+            this.toggleDarkModeIfNeeded();
+            uiHelper.hideGlobalLoadingIndicator();
+          }, 100);
+        }
+      });
+    }
   }
 
   async initNightMode() {

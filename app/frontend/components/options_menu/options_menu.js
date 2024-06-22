@@ -160,9 +160,9 @@ class OptionsMenu {
       if (isMojaveOrLater) {
         if (useSystemTheme) {
           // On macOS Mojave and later we can use the system theme if that's what the user wants.
-          this._nightModeOption.enabled = false;
+          $(this._nightModeOption).hide();
         } else {
-          this._nightModeOption.enabled = true;
+          $(this._nightModeOption).show();
         }
       }
 
@@ -186,9 +186,9 @@ class OptionsMenu {
     if (isMojaveOrLater) {
       if (useSystemTheme) {
         // On macOS Mojave and later we can use the system theme if that's what the user wants.
-        this._nightModeOption.enabled = false;
+        $(this._nightModeOption).hide();
       } else {
-        this._nightModeOption.enabled = true;
+        $(this._nightModeOption).show();
       }
     } else {
       // Hide system theme option on all systems except macOS Mojave+
