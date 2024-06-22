@@ -143,21 +143,53 @@ class OptionsMenu {
   }
 
   async initNightModeOption() {
-    this._nightModeOption = this.initConfigOption('useNightModeOption', async () => {
+    let handleThemeChange = async (systemTheme=false) => {
       this.hideDisplayMenu();
       uiHelper.showGlobalLoadingIndicator();
-      theme_controller.useNightModeBasedOnOption();
+
+      if (systemTheme) {
+        theme_controller.initMacOsEventHandler();
+        theme_controller.toggleDarkModeIfNeeded();
+      } else {
+        theme_controller.useNightModeBasedOnOption();
+      }
+
+      const isMojaveOrLater = this.platformHelper.isMacOsMojaveOrLater();
+      const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
+
+      if (isMojaveOrLater) {
+        if (useSystemTheme) {
+          // On macOS Mojave and later we can use the system theme if that's what the user wants.
+          this._nightModeOption.enabled = false;
+        } else {
+          this._nightModeOption.enabled = true;
+        }
+      }
 
       await waitUntilIdle();
       uiHelper.hideGlobalLoadingIndicator();
+    };
+
+    this._nightModeOption = this.initConfigOption('useNightModeOption', () => {
+      handleThemeChange();
+    });
+
+    this._systemThemeOption = this.initConfigOption('useSystemTheme', () => {
+      handleThemeChange(true);
     });
 
     this._nightModeOption.checked = await theme_controller.isNightModeUsed();
 
-    var isMojaveOrLater = await this.platformHelper.isMacOsMojaveOrLater();
+    const isMojaveOrLater = this.platformHelper.isMacOsMojaveOrLater();
+    const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
+
     if (isMojaveOrLater) {
-      // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
-      $(this._nightModeOption).hide();
+      if (useSystemTheme) {
+        // On macOS Mojave and later we can use the system theme if that's what the user wants.
+        this._nightModeOption.enabled = false;
+      } else {
+        this._nightModeOption.enabled = true;
+      }
     }
   }
 
