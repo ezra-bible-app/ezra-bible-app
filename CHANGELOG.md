@@ -6,7 +6,7 @@ All notable changes to Ezra Bible App are documented in this file.
 ### Enhancements
 
 * Add support for reading modules from /sdcard/Documents/sword on Android. ([NSI#51][nsi51])
-* Introduce option for configuring typeface / font of the Bible text. ([#1007][i1007])
+* Introduce option for configuring typeface/font of the Bible text. ([#1007][i1007])
 * Add button for copying individual commentary sections to the clipboard. ([#1041][i1041])
 
 ### Fixes
@@ -16,6 +16,10 @@ All notable changes to Ezra Bible App are documented in this file.
 * Dictionary side panel stops working if any SWORD module is uninstalled. ([#1045][i1045])
 * Blocking JavaScript errors after turning off error reporting option. ([#1048][i1048])
 
+### Enablers
+
+* Add package for Ubuntu 24.04. ([#1051][i1051])
+
 [nsi51]: https://github.com/ezra-bible-app/node-sword-interface/issues/51
 [i1007]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1007
 [i1012]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1012
@@ -23,6 +27,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1041]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1041
 [i1045]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1045
 [i1048]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1048
+[i1051]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1051
 
 ## [1.13.0 - 2024-01-20]
 
