@@ -82,9 +82,10 @@ try {
 }
 
 function shouldUseDarkMode() {
-  var useDarkMode = false;
+  let useDarkMode = false;
+  const useSystemTheme = global.ipc.ipcSettingsHandler.getConfig().get('useSystemTheme', false);
 
-  if (platformHelper.isMacOsMojaveOrLater()) {
+  if (platformHelper.isMacOsMojaveOrLater() && useSystemTheme) {
     if (nativeTheme.shouldUseDarkColors) {
       useDarkMode = true;
     }
