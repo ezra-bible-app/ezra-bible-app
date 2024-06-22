@@ -25,7 +25,7 @@ After performing these steps you can run Ezra Bible App by running this command 
 
 ### Create a release directory
 
-To create a release directory that contains all necessary files, run the following command in the project dir: `npm run package-win`
+To create a release directory that contains all necessary files, run the following commands in the project dir: `npm run package-win`
 
 After running the above command you will find a new directory `<project-dir>\release\ezra-bible-app-win32-ia32`.
 The application binary within that directory is named `ezra-bible-app.exe`.
@@ -55,7 +55,10 @@ After performing these steps you can run Ezra Bible App by running this command 
 
 ### Create a release directory
 
-To create a release directory that contains all necessary files, run the following command in the project dir: `npm run package-linux`
+To create a release directory that contains all necessary files, run the following commands in the project dir:
+
+* `npm run purge-build-artifacts`
+* `npm run package-linux`
 
 After running the above command you will find a new directory `<project-dir>/release/ezra-bible-app-linux-x64`.
 The application binary within that directory is named `ezra-bible-app`.
@@ -87,7 +90,10 @@ After performing these steps you can run Ezra Bible App by running this command 
 
 ### Creating a release directory
 
-To create a release directory that contains all necessary files, run the following command in the project dir: `npm run package-mac`
+To create a release directory that contains all necessary files, run the following commands in the project dir:
+
+* `npm run purge-build-artifacts`
+* `npm run package-mac`
 
 After the process is completed you will find a new directory `<project-dir>/release/Ezra Bible App-darwin-x64/`.
 In that directory you find an application package named `Ezra Bible App.app`.
