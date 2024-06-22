@@ -190,6 +190,9 @@ class OptionsMenu {
       } else {
         this._nightModeOption.enabled = true;
       }
+    } else {
+      // Hide system theme option on all systems except macOS Mojave+
+      $(this._systemThemeOption).hide();
     }
   }
 
