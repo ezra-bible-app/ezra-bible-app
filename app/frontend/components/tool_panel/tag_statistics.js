@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -211,7 +211,7 @@ class TagStatistics {
     }
 
     var tagStatisticsHTML = "<table class='tag-statistics'>";
-    tagStatisticsHTML += "<tr><th style='text-align: left;'>Tag</th>"
+    tagStatisticsHTML += `<tr><th style='text-align: left;'>${i18n.t('tags.tag')}</th>`
                         +  "<th style='text-align: left; width: 2em;'>#</th>"
                         +  "<th style='text-align: left; width: 2em;'>%</th></tr>";
     

@@ -1,6 +1,34 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.14.0 - 2024-06-30]
+
+### Enhancements
+
+* Add support for reading modules from /sdcard/Documents/sword on Android. ([NSI#51][nsi51])
+* Introduce option for configuring typeface/font of the Bible text. ([#1007][i1007])
+* Add button for copying individual commentary sections to the clipboard. ([#1041][i1041])
+
+### Fixes
+
+* Tag Statistics Panel - Column Header 'Tag' is not localized. ([#1012][i1012])
+* Bible commentaries and dictionaries do not render paragraphs correctly. ([#1016][i1016])
+* Dictionary side panel stops working if any SWORD module is uninstalled. ([#1045][i1045])
+* Blocking JavaScript errors after turning off error reporting option. ([#1048][i1048])
+
+### Enablers
+
+* Add package for Ubuntu 24.04. ([#1051][i1051])
+
+[nsi51]: https://github.com/ezra-bible-app/node-sword-interface/issues/51
+[i1007]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1007
+[i1012]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1012
+[i1016]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1016
+[i1041]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1041
+[i1045]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1045
+[i1048]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1048
+[i1051]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1051
+
 ## [1.13.0 - 2024-01-20]
 
 ### Enhancements
@@ -31,6 +59,9 @@ All notable changes to Ezra Bible App are documented in this file.
 * Verses not separated correctly with copy to clipboard functionality. ([#983][i983])
 * Saving current tab configuration not working on Android exit, but only on pause. ([#997][i997])
 
+### Enablers
+* Add Slovenian locale, thanks to Marjan Šavli. ([#1011][i1011])
+
 [i537]: https://github.com/ezra-bible-app/ezra-bible-app/issues/537
 [i856]: https://github.com/ezra-bible-app/ezra-bible-app/issues/856
 [i912]: https://github.com/ezra-bible-app/ezra-bible-app/issues/912
@@ -52,6 +83,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i991]: https://github.com/ezra-bible-app/ezra-bible-app/issues/991
 [i995]: https://github.com/ezra-bible-app/ezra-bible-app/issues/995
 [i997]: https://github.com/ezra-bible-app/ezra-bible-app/issues/997
+[i1011]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1011
 [nsi49]: https://github.com/ezra-bible-app/node-sword-interface/issues/49
 
 ## [1.12.0 - 2023-11-18]

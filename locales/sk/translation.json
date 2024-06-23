@@ -205,7 +205,15 @@
     "general-options": "Všeobecné možnosti",
     "check-new-releases": "Kontrola aktualizácií",
     "send-crash-reports": "Odoslať chybové hlásenia",
-    "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!"
+    "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
     "confirm-privacy-options": "Potvrďte ochranu osobných údajov",
@@ -260,6 +268,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "Nový štítok",
     "create-tag": "Vytvoriť štítok",
     "delete-tag": "Zmazať štítok",
@@ -413,6 +422,8 @@
     "default-header": "<b>Biblický komentár</b>",
     "commentaries-for": "Komentáre pre",
     "show-commentaries": "Zobraziť komentáre",
+    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
+    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "Ak chcete zobraziť obsah komentára, vyberte verš.<br><br> Táto oblasť potom automaticky zobrazí vybratý verš zo všetkých dostupných komentárov.",
     "help-instruction-no-commentaries": "Zatiaľ neboli nainštalované žiadne komentáre. Aby táto funkcia fungovala, musíte nainštalovať aspoň jeden komentár.",
     "help-instruction-no-kjv": "Preklad KJV ešte nebol nainštalovaný. KJV je potrebný na správne zobrazenie biblických komentárov založených na anglickej verzii. Môžete to vyriešiť:<ul><li>Inštaláciou KJV z úložiska CrossWire</li><li>Inštaláciou komentára (v tomto prípade sa KJV nainštaluje automaticky)</li></ul>",

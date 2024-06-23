@@ -207,7 +207,15 @@
     "general-options": "Общие настройки",
     "check-new-releases": "Проверять наличие обновлений",
     "send-crash-reports": "Посылать отчеты об ошибках",
-    "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!"
+    "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
     "confirm-privacy-options": "Подтвердить настройки конфиденциальности данных",
@@ -262,6 +270,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "Новая метка",
     "create-tag": "Создать метку",
     "delete-tag": "Удалить метку",
@@ -416,6 +425,8 @@
     "default-header": "<b>Комментарий Библии</b>",
     "commentaries-for": "Комментарии для",
     "show-commentaries": "Показывать комментарии",
+    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
+    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "Чтобы увидеть комментарии, выберите стих.<br><br> Эта область автоматически отобразит все имеющиеся комментарии к выбранному стиху.",
     "help-instruction-no-commentaries": "Комментарии не были установленны. Вам необходимо установить как минимум один комментарий.",
     "help-instruction-no-kjv": "Перевод Библии KJV не установлен. Этот перевод нужен для коректного отображения комментариев основанных на англоязычном разделе на стихи. Это будет исправленно:<ul><li>При установке перевода KJV из репозитория CrossWire</li><li>При установке комментария (в этом случае перевод KJV будет установлен автоматически)</li></ul>",

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -192,10 +192,12 @@ class TextSizeSettings {
   }
 
   updateStyle() {
-    this.stylesheet.insertRule(
-      `.verse-list-content ${this._shouldTagsNotesResize ? '' : '.verse-text '} ${this._shouldSidePanelResize ? ', .panel-wrapper' : ''} {
+    let cssRules = `.verse-list-content ${this._shouldTagsNotesResize ? '' : '.verse-text '} ${this._shouldSidePanelResize ? ', .panel-wrapper' : ''} {
         font-size: ${this._textSizeValue * 0.1}em 
-      }`, this.stylesheet.cssRules.length);
+      }
+    `;
+
+    this.stylesheet.insertRule(cssRules, this.stylesheet.cssRules.length);
 
     if (this.stylesheet.cssRules.length > 1) {
       this.stylesheet.deleteRule(0);

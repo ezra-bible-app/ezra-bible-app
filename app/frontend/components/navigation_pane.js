@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,6 +45,10 @@ class NavigationPane {
       if (currentTab != null && currentTab.getTextType() != 'search_results') {
         this.scrollToTop(tabIndex);
       }
+    });
+
+    eventController.subscribe('on-all-translations-removed', async (tabIndex) => {
+      this.resetNavigationPane(tabIndex);
     });
 
     eventController.subscribe('on-tab-search-results-available', async occurrences => {

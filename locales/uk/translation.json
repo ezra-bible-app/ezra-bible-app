@@ -205,7 +205,15 @@
     "general-options": "Загальні налаштування",
     "check-new-releases": "Перевіряти наявність оновлень",
     "send-crash-reports": "Відсилати звіти щодо помилок",
-    "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!"
+    "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
     "confirm-privacy-options": "Підтвердіть налаштування конфеденційности даних",
@@ -260,6 +268,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "Нова міта",
     "create-tag": "Створити міту",
     "delete-tag": "Видалити міту",
@@ -414,6 +423,8 @@
     "default-header": "<b>Коментар Біблії</b>",
     "commentaries-for": "Коментар до",
     "show-commentaries": "Відображати коментарі",
+    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
+    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "Щоб відобразити зміст коментаря, виберіть вірш.<br><br> Ця область автоматично відобразить всі наявні коментарі до цього вірша.",
     "help-instruction-no-commentaries": "Наразі коментарі ще не встановленні. Необхідно встановити принаймні один коментар.",
     "help-instruction-no-kjv": "Переклад Біблії KJV ще не встановлено. Цей переклад необхідний, щоб відображати коментарі засновані на англомовному поділі на вірші та розділи. Для виправлення:<ul><li>Встановіть переклад Біблії KJV зі сховища CrossWire</li><li>Встановіть коментар (у цьому випадку KJV буде автоматично встановленно)</li></ul>",

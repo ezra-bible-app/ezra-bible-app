@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ const referenceVerseController = require('../../controllers/reference_verse_cont
 const verseListController = require('../../controllers/verse_list_controller.js');
 const dbSyncController = require('../../controllers/db_sync_controller.js');
 const moduleUpdateController = require('../../controllers/module_update_controller.js');
+const typeFaceSettings = require('../type_face_settings.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -59,6 +60,11 @@ class OptionsMenu {
 
     $('#show-commentary-settings-button').bind('click', function() {
       app_controller.openModuleSettingsAssistant('COMMENTARY'); 
+    });
+
+    $('#show-typeface-settings-button').bind('click', () => {
+      this.hideDisplayMenu();
+      typeFaceSettings.showTypeFaceSettingsDialog();
     });
 
     $('#show-module-update-button').bind('click', async () => {
@@ -159,7 +165,8 @@ class OptionsMenu {
     this._localeSwitchOption = document.querySelector('#localeSwitchOption');
 
     this._localeSwitchOption.addEventListener('localeChanged', async (e) => {
-      this.slowlyHideDisplayMenu();
+      this.hideDisplayMenu();
+      await waitUntilIdle();
       await i18nController.changeLocale(e.detail.locale);
     });
 

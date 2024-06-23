@@ -205,7 +205,15 @@
     "general-options": "Opțiuni generale",
     "check-new-releases": "Verifică lansări noi",
     "send-crash-reports": "Trimite rapoarte de eroare",
-    "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!"
+    "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirmă opțiunile legate de confidențialitatea datelor",
@@ -260,6 +268,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "Etichetă nouă",
     "create-tag": "Creează etichetă",
     "delete-tag": "Șterge etichetă",
@@ -413,6 +422,8 @@
     "default-header": "<b>Comentarii biblice</b>",
     "commentaries-for": "Comentarii pentru",
     "show-commentaries": "Arată comentarii",
+    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
+    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "Pentru a afișa conținutul comentariilor, selectează un verset.<br><br> Această zonă va lista automat versetul selectat din toate comentariile disponibile.",
     "help-instruction-no-commentaries": "Încă nu au fost instalate comentarii. Trebuie să instalezi cel puțin un comentariu pentru ca această funcționalitate să fie utilă.",
     "help-instruction-no-kjv": "Traducerea KJV nu a fost instalată, încă. Aceasta este necesară petnru a afișa corect comentarii Biblice pe baza versificării în limba engleză. Poți remedia asta prin:<ul><li>Instalarea traducerii KJV din depozitul CrossWire</li><li>Instalarea unui comentariu (versiunea KJV este instalată automat în acest caz)</li></ul>",

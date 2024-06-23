@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -338,7 +338,8 @@ class VerseSelection {
     if (!this.someVersesSelected()) {
       if (selectedVerseDisplayText == undefined && !this.someVersesSelected()) {
         const selectedBooks = await this.getSelectedBooks();
-        selectedVerseDisplayText = await sectionLabelHelper.getVerseDisplayText(selectedBooks, this.selectedVerseBoxElements, false, useShortBookTitles);
+        const referenceSeparator = ':';
+        selectedVerseDisplayText = await sectionLabelHelper.getVerseDisplayText(selectedBooks, this.selectedVerseBoxElements, false, useShortBookTitles, referenceSeparator);
       } else {
         preDefinedText = true;
       }
@@ -478,10 +479,14 @@ class VerseSelection {
 
   someVersesSelected() {
     const currentVerseList = verseListController.getCurrentVerseList();
+    let someVersesSelected = false;
 
-    let allSelectedElements = currentVerseList[0].querySelectorAll('.ui-selected');
+    if (currentVerseList != null) {
+      let allSelectedElements = currentVerseList[0].querySelectorAll('.ui-selected');
+      someVersesSelected = allSelectedElements.length > MAX_VERSES_FOR_DETAILED_LABEL;
+    }
 
-    return allSelectedElements.length > MAX_VERSES_FOR_DETAILED_LABEL;
+    return someVersesSelected;
   }
 }
 

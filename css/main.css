@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -68,6 +68,11 @@
 
 .italic {
   font-style: italic;
+}
+
+.super { 
+  vertical-align: super;
+  font-size: 80%;
 }
 
 .underline {
@@ -311,6 +316,10 @@ h2:nth-of-type(1) {
   display: none;
 }
 
+.Android #system-font-select-box {
+  display: none;
+}
+
 div.chapter-nav {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -494,7 +503,8 @@ a.chapter-nav:hover {
 #verse-list-popup,
 #info-popup,
 #search-results-box,
-#db-sync-box {
+#db-sync-box,
+#config-typeface-box {
   display: none;
 }
 
@@ -1063,7 +1073,7 @@ main.content {
   padding: 0 0.8em;
 }
 
-.module-info-button {
+.module-info-button, .commentary-copy-button {
   display: inline-block;
   width: 1em;
   padding: 0.2em;
@@ -1072,10 +1082,16 @@ main.content {
   font-size: 0.9em;
 }
 
+.commentary-copy-button {
+  padding-left: 0.5em !important;
+  padding-right: 0.3em !important;
+}
+
 .verse-list-menu .display-options-button,
 .verse-list-menu .app-info-button,
 .verse-list-menu .export-docx-button,
-.module-info-button {
+.module-info-button,
+.commentary-copy-button {
   justify-content: center;
 }
 
@@ -1301,6 +1317,7 @@ li.book-unavailable a:focus,
 #show-translation-settings-button,
 #show-dict-settings-button,
 #show-commentary-settings-button,
+#show-typeface-settings-button,
 #setup-db-sync-button,
 #show-module-update-button {
   padding: 0.5em;
@@ -1988,6 +2005,18 @@ code {
 /* Sword markup disabled by default */
 .sword-markup {
   display: none;
+}
+
+#bible-font-sample-text .sword-markup {
+  display: unset !important;
+}
+
+#bible-font-sample-text .sword-section-title {
+  display: none !important;
+}
+
+#bible-font-sample-text .sword-note {
+  display: none !important;
 }
 
 .sword-quote-jesus {

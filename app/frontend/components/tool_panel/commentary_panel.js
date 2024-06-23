@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 
 const eventController = require('../../controllers/event_controller.js');
 const VerseBox = require("../../ui_models/verse_box.js");
+const { getPlatform } = require('../../helpers/ezra_helper.js');
+const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
 
 /**
  * The CommentaryPanel component implements a tool panel that shows Bible commentaries for selected verses
@@ -52,6 +54,8 @@ class CommentaryPanel {
     eventController.subscribeMultiple(['on-commentary-added', 'on-commentary-removed'], () => {
       refreshWithSelection();
     });
+
+    this._verseBoxHelper = new VerseBoxHelper();
   }
 
   getBoxContent() {
@@ -167,6 +171,8 @@ class CommentaryPanel {
 
     this.getBoxContent().innerHTML = commentaryContent;
 
+    this.applyParagraphs();
+
     let moduleInfoButtons = this.getBoxContent().querySelectorAll('.module-info-button');
     moduleInfoButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
@@ -174,12 +180,72 @@ class CommentaryPanel {
       });
     });
 
+    let commentaryCopyButtons = this.getBoxContent().querySelectorAll('.commentary-copy-button');
+    commentaryCopyButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        this.handleCopyCommentaryButtonClick(event);
+      });
+    });
+
     uiHelper.configureButtonStyles(this.getBoxContent());
+  }
+
+  applyParagraphs() {
+    const sIdElements = this.getBoxContent().querySelectorAll('.sword-sid');
+
+    sIdElements.forEach((sIdElement) => {
+      let elementType = sIdElement.getAttribute('type');
+      
+      if (elementType == 'x-p') {
+        sIdElement.classList.add('sword-paragraph');
+      }
+    });
   }
 
   handleModuleInfoButtonClick(event) {
     let moduleCode = event.target.closest('.module-info-button').getAttribute('module');
     app_controller.info_popup.showAppInfo(moduleCode);
+  }
+
+  async handleCopyCommentaryButtonClick(event) {
+    let verseLabelText = await app_controller.verse_selection.getSelectedVerseLabelText();
+
+    const commentaryDiv = event.target.closest('.commentary');
+    const commentaryName = commentaryDiv.querySelector('.commentary-name').innerText;
+    const commentaryContentBox = commentaryDiv.querySelector('.commentary-content');
+
+    let commentaryContent = commentaryContentBox.innerText;
+    let lineBreak = this._verseBoxHelper.getLineBreak(false);
+    let commentaryText = `${commentaryName} - ${verseLabelText} ${lineBreak}${lineBreak} ${commentaryContent}`;
+
+    let commentaryTextHtml = this.processCommentaryHtml(commentaryContentBox.innerHTML);
+    lineBreak = this._verseBoxHelper.getLineBreak(true);
+    commentaryTextHtml = `<b>${commentaryName} - ${verseLabelText}</b> ${lineBreak}${lineBreak} ${commentaryTextHtml}`;
+
+    getPlatform().copyToClipboard(commentaryText, commentaryTextHtml);
+
+    // eslint-disable-next-line no-undef
+    iziToast.success({
+      message: i18n.t('commentary-panel.copy-commentary-to-clipboard-success'),
+      position: 'bottomRight',
+      timeout: 2000
+    });
+  }
+
+  processCommentaryHtml(htmlInput) {
+    let processedHtml = '';
+
+    processedHtml = htmlInput.replace(/&nbsp;/g, ' ');
+    processedHtml = processedHtml.replaceAll('<reference', '<span');
+    processedHtml = processedHtml.replaceAll('</reference', '</span');
+    processedHtml = processedHtml.replaceAll('<hi', '<span');
+    processedHtml = processedHtml.replaceAll('</hi>', '</span>');
+    processedHtml = processedHtml.replaceAll('class="bold"', 'style="font-weight: bold;"');
+    processedHtml = processedHtml.replaceAll('class="italic"', 'style="font-style: italic;"');
+    processedHtml = processedHtml.replaceAll('sword-section-title"', 'sword-section-title"; style="font-weight: bold;"');
+    processedHtml = processedHtml.replaceAll('<div class="sword-markup sword-sid sword-paragraph', '<br/><div class="sword-markup sword-sid sword-paragraph');
+
+    return processedHtml;
   }
 
   performDelayedContentRefresh(selectedVerseBoxes=undefined) {
@@ -203,6 +269,7 @@ class CommentaryPanel {
         });
 
         const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
+        const copyCommentaryButtonTitle = i18n.t('commentary-panel.copy-commentary-to-clipboard');
 
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
@@ -218,14 +285,23 @@ class CommentaryPanel {
           if (verseCommentary != null && verseCommentary.length != 0) {
             commentaryContent += `
             <div class='commentary module-code-${currentCommentary.name.toLowerCase()}'>
-              <h3>${currentCommentary.description}
-                <div class='module-info-button fg-button ui-corner-all ui-state-default ui-state-default'
+              <h3>
+                <span class='commentary-name'>${currentCommentary.description}</span>
+
+                <div class='module-info-button fg-button ui-corner-all ui-state-default'
                     i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
                   <i class='fas fa-info'></i>
                 </div>
+
+                <div class='commentary-copy-button fg-button ui-corner-all ui-state-default'
+                  i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${currentCommentary.name}'>
+                  <i class='fas fa-copy copy-icon'></i>
+                </div>
               </h3>
 
+              <div class='commentary-content'>
               ${verseCommentary}
+              </div>
             </div>
             `;
           }

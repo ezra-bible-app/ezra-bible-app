@@ -205,7 +205,15 @@
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
     "send-crash-reports": "Send error reports",
-    "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!"
+    "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirm data privacy options",
@@ -260,6 +268,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "New tag",
     "create-tag": "Create tag",
     "delete-tag": "Delete tag",
@@ -413,6 +422,8 @@
     "default-header": "<b>Bible commentary</b>",
     "commentaries-for": "Commentaries for",
     "show-commentaries": "Show commentaries",
+    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
+    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
     "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
     "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",

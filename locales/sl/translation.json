@@ -1,13 +1,13 @@
 {
   "application-menu": {
-    "quit-app": "Zapri Ezra Bible Aplikacijo"
+    "quit-app": "Zapri Ezra Bible aplikacijo"
   },
   "menu": {
     "book": "Knjiga",
     "tags": "Oznake",
     "search": "Iskanje",
     "options": "Možnosti",
-    "verse-context-actions": "Verse context actions",
+    "verse-context-actions": "Spremembe v vrstici",
     "export": "Izvozi v besedilni dokument",
     "show-module-info": "Prikaži informacije o modulu",
     "fullscreen": "Preklopi celozaslonski način",
@@ -34,7 +34,7 @@
     "module-type-bible_genitive": "svetopisemski prevodi",
     "module-type-bible_instrumental": "svetopisemskimi prevodi",
     "module-type-bible_singular": "prevod",
-    "module-type-bible_singular-genitive": "translation",
+    "module-type-bible_singular-genitive": "prevod",
     "module-type-dict": "slovarji",
     "module-type-dict_accusative": "slovarje",
     "module-type-dict_genitive": "slovarji",
@@ -48,26 +48,26 @@
     "module-type-commentary_instrumental": "svetopisemskimi komentarji",
     "module-type-commentary_singular": "svetopisemski komentar",
     "header": "Konfiguriraj {{module_type, accusative}}",
-    "intro-text": "Aplikacija Ezra Bible App namesti <b>{{module_type, accusative}}</b> z uporabo vaše internetne povezave. {{module_type, accusative, capitalize}} omogoča <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> in bodo preneseni iz <a class='external' href='http://www.crosswire.org/sword'>spletnih repozitorijev projekta SWORD</a>.",
+    "intro-text": "Ezra Bible aplikacija namesti <b>{{module_type, accusative}}</b> z uporabo vaše internetne povezave. {{module_type, accusative, capitalize}} omogoča <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> in bodo preneseni iz <a class='external' href='http://www.crosswire.org/sword'>spletnih shramb projekta SWORD</a>.",
     "internet-usage-note": "<b>POMEMBNA OPOMBA</b><br/>Če se nahajate v državi, kjer so kristjani preganjani,<br/>se zavedajte, da bo vaš internetni ponudnik lahko zaznal,<br/>da ste <b> dostopali do krščanskih virov</b>!",
     "add-modules": "Dodaj {{module_type, accusative}}",
     "remove-modules": "Odstrani {{module_type, accusative}}",
     "update-modules": "Posodobi {{module_type, accusative}}",
     "languages": "Jeziki",
-    "repository_singular": "Repozitorij",
-    "repository_plural": "Repozitoriji",
+    "repository_singular": "Spletna shramba",
+    "repository_plural": "Spletne shrambe",
     "installation": "Namestitev",
     "removal": "Odstranitev",
     "update-data": { 
-      "repo-data-last-updated": "Podatki o skladišču so bili nazadnje posodobljeni dne {{date}}.",
+      "repo-data-last-updated": "Podatki o spletni shrambi so bili nazadnje posodobljeni dne {{date}}.",
       "update-now": "Posodobi zdaj",
-      "updating-repository-data": "Posodabljanje podatkov o skladišču! To bo trajalo nekaj sekund ...",
+      "updating-repository-data": "Posodabljanje podatkov o spletnih shrambah! To bo trajalo nekaj sekund ...",
       "update-failed": "Posodobitev ni uspela",
-      "update-repository-data-failed": "Posodabljanje podatkov o skladišču ni uspelo! Ali ste brez povezave?"
+      "update-repository-data-failed": "Posodabljanje podatkov o spletni shrambi ni uspelo! Ali ste brez povezave?"
     },
     "step-languages": {  
       "select-language": "Izberite vsaj enega od naslednjih jezikov.",
-      "total-modules-language": "Ob vsakem jeziku je število {{module_type}}, ki so na voljo v skladiščih SWORD.",
+      "total-modules-language": "Ob vsakem jeziku je število {{module_type}}, ki so na voljo v SWORD-ovih spletnih shrambah.",
       "loading-languages": "Nalaganje jezikov ...",
       "app-system-languages": "Obstoječi jeziki in sistemski jeziki",
       "bible-languages": "Svetopisemski jeziki",
@@ -77,12 +77,12 @@
       "language-search-results": "Najdena ujemanja"
     },
     "step-repositories": {
-      "select-repository": "Izberite vsaj enega od naslednjih skladišč SWORD.",
-      "total-modules-repo": "Ob vsakem skladišču je število {{module_type}}, ki so na voljo v skladišču.",
-      "what-is-repository": "Repozitorij je spletno mesto, kjer so shranjeni {{module_type, genitive}}.",
-      "loading-repositories": "Nalaganje repozitorijev ...",
-      "repo-recommended": "To skladišče je dobro mesto za začetek",
-      "more-repo-information-needed": "Če potrebujete več informacij o teh skladiščih, si oglejte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "select-repository": "Izberite vsaj eno izmed naslednjih SWORD-ovih spletnih shramb.",
+      "total-modules-repo": "Ob vsaki spletni shrambi je število {{module_type}}, ki so na voljo v spletni shrambi.",
+      "what-is-repository": "Spletna shramba je spletno mesto, kjer so shranjeni {{module_type, genitive}}.",
+      "loading-repositories": "Nalaganje spletnih shramb ...",
+      "repo-recommended": "Ta spletna shramba je dobro mesto za začetek",
+      "more-repo-information-needed": "Če potrebujete več informacij o teh spletnih shrambah, si oglejte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
     },
     "step-modules": {  
       "select-module": "Prosimo, izberite {{module_type}} za namestitev.",
@@ -101,7 +101,7 @@
     },
     "remove": {  
       "select-module-to-be-removed": "Izberite {{module_type, accusative}}, ki ga želite odstraniti.",
-      "disable-remove-note": "Ta {{module_type, singular}} ni nameščen v uporabnikovem imeniku ali pa je bistven za delovanje aplikacije Ezra Bible App.",
+      "disable-remove-note": "Ta {{module_type, singular}} ni nameščen v uporabnikovem imeniku ali pa je bistven za delovanje Ezra Bible aplikacije.",
       "removing-modules": "Odstranjevanje {{module_type, accusative}}",
       "removing": "Odstranjevanje"
     },
@@ -116,9 +116,9 @@
     "module-sync-header": "Namestitev dodatnih modulov"
   },
   "general": {
-    "ezra-bible-app": "Ezra Bible App",
-    "about-ezra-bible-app": "O aplikaciji Ezra Bible App",
-    "general-app-info": "Splošne informacije o aplikaciji Ezra Bible najdete na spletnem mestu.<br>Tehnične informacije o razvoju aplikacije Ezra Bible najdete na GitHubu.",
+    "ezra-bible-app": "Ezra Bible aplikacija",
+    "about-ezra-bible-app": "O Ezra Bible aplikaciji",
+    "general-app-info": "Splošne informacije o Ezra Bible aplikaciji najdete na spletnem mestu.<br>Tehnične informacije o razvoju Ezra Bible aplikacije najdete na GitHubu.",
     "website": "Spletna stran",
     "chapter-verse-separator": ":",
     "module-application-info": "Informacije o modulu in aplikaciji",
@@ -145,7 +145,7 @@
     "module-strongs_instrumental": "Strongovimi",
     "module-hebrew-strongs-dict": "Hebrejski Strong",
     "module-hebrew-strongs-dict_instrumental": "Hebrejskim Strong-om",
-    "module-greek-strongs-dict": "Greek Strong",
+    "module-greek-strongs-dict": "Grški Strong",
     "module-greek-strongs-dict_instrumental": "Grškim Strong-om",
     "module-headings": "Naslovi",
     "module-headings_instrumental": "naslovi",
@@ -170,7 +170,7 @@
     "loading": "Nalaganje",
     "update": "Posodobitev",
     "new-release-available-title": "Nova različica je na voljo!",
-    "new-release-available-body": "Na voljo je nova izdaja aplikacije Ezra Bible App!",
+    "new-release-available-body": "Na voljo je nova izdaja Ezra Bible aplikacije!",
     "latest-version": "Najnovejša različica",
     "release-notes-download": "Opombe k izdaji in prenos",
     "no-repeated-info": "Ne prikaži tega ponovno",
@@ -202,19 +202,27 @@
     "configure-dicts": "Konfiguriraj slovarje",
     "configure-commentaries": "Konfiguriraj komentarje",
     "context": "Kontekst",
-    "general-options": "General options",
-    "check-new-releases": "Check for new releases",
-    "send-crash-reports": "Send error reports",
-    "welcome-to-ezra-bible-app": "Dobrodošli v aplikaciji Ezra Bible App!"
+    "general-options": "Glavne nastavitve",
+    "check-new-releases": "Preverite za novo izdajo",
+    "send-crash-reports": "Pošlji poročila o napakah",
+    "welcome-to-ezra-bible-app": "Dobrodošli v Ezra Bible aplikaciji!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
   },
   "data-privacy": {
-    "confirm-privacy-options": "Confirm data privacy options",
-    "data-privacy-options": "Data privacy options",
-    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access. You can also make changes in the Options menu later.",
-    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, where new releases are published.",
-    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
-    "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
-    "send-crash-reports-hint-part3": "Note that the error reports only contain technical information and do not require much data bandwidth."
+    "confirm-privacy-options": "Potrdite možnosti zasebnosti podatkov",
+    "data-privacy-options": "Možnosti zasebnosti podatkov",
+    "please-confirm-options": "Prosimo, potrdite naslednje možnosti zasebnosti podatkov. Te možnosti zahtevajo dostop do interneta. Pozneje lahko to spremenite v meniju Možnosti.",
+    "check-new-releases-hint": "Ezra Bible aplikacija lahko ob vsakem zagonu preveri, ali so na voljo nove izdaje. To zahteva kratek dostop do <a class='external <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, kjer so objavljene nove izdaje.",
+    "send-crash-reports-hint-part1": "Ezra Bible aplikacija lahko samodejno pošilja poročila o napakah platformi za sledenje napakam <a class='external' href='https://sentry.io'>Sentry.io</a> kadar koli je zaznana napaka.",
+    "send-crash-reports-hint-part2": "To pomaga razvojni ekipi, da se veliko hitreje zaveda težav in tako prispeva k izboljšavi Ezra Bible aplikacije.",
+    "send-crash-reports-hint-part3": "Upoštevajte, da poročila o napakah vsebujejo le tehnične informacije in ne zahtevajo velike pasovne širine podatkov."
   },
   "help": {
     "help-text-no-tags-book-opened": "Če želite začeti delati z oznakami, ustvarite svojo prvo oznako s klikom na gumb <i>Nova&nbspoznaka</i>.<br/><br/>Nato lahko brskate po svetopisemskem besedilu, kliknete ali povlečete in izberete vrstice in nato dodelite oznako, ki ste jo pravkar ustvarili.",
@@ -234,7 +242,7 @@
       "hide-in-tab-search-form": "Skrij obrazec za iskanje v trenutnem zavihku",
       "jump-to-next-search-occurance": "Skok na naslednje iskanje",
       "jump-to-previous-occurance": "Skok na prejšnje iskanje",
-      "select-all-verses": "Select all verses",
+      "select-all-verses": "Izberite vse vrstice",
       "copy-selected-verses-to-clipboard": "Izbrane vrstice kopiraj v odložišče",
       "toggle-fullscreen-only-Win-Linux": "Preklopi celozaslonsko prikazovanje",
       "enable-dynamic-strongs-display": "Omogoči dinamični prikaz Strongovih vrstic",
@@ -260,6 +268,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "Nova oznaka",
     "create-tag": "Ustvari oznako",
     "delete-tag": "Brisanje oznake",
@@ -326,7 +335,7 @@
     "select-all-search-results": "Izberite vse rezultate iskanja",
     "all-search-results": "Vsi rezultati iskanja",
     "some-search-results": "Nekateri rezultati iskanja",
-    "select-all-verses": "Select all verses",
+    "select-all-verses": "Izberite vse vrstice",
     "all-verses": "All verses",
     "module-configuration": "Konfiguracija modula",
     "display": "Prikaz",
@@ -368,18 +377,18 @@
     "copy": "Kopiraj",
     "copy-table-to-clipboard": "Kopiraj tabelo v odložišče",
     "copy-table-to-clipboard-success": "Tabela kopirana v odložišče!",
-    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
-    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
+    "copy-verse-text-to-clipboard": "Kopirajte besedilo vrstice v odložišče",
+    "copy-verse-text-to-clipboard-success": "Besedilo vrstice je bilo prekopirano v odložišče!",
     "edit-note": "Uredi opombo",
     "delete-note": "Izbriši opombo",
     "transchange" : {
-      "added" : "These words were added in translation",
-      "amplified" : "These words are amplifications of information in the source text",
-      "changed" : "These words were changed in translation",
-      "deleted" : "Some words in the source text are not present in the translation",
-      "implied" : "These words were added or changed to translate information implied by the source text",
-      "moved" : "These words were in another location in the source text",
-      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+      "added" : "Te besede so bile dodane v prevodu",
+      "amplified" : "Te besede so razširitve informacij v izvornem besedilu",
+      "changed" : "Te besede so bile v prevodu spremenjene",
+      "deleted" : "Nekatere besede v izvirnem besedilu niso prisotne v prevodu",
+      "implied" : "Te besede so bile dodane ali spremenjene za prevod informacij, ki jih vsebuje izvorno besedilo",
+      "moved" : "Te besede so bile v izvornem besedilu na drugem mestu",
+      "tense-change": "Slovnični čas teh besed je bil spremenjen, da bi olajšali prevod"
     }
   },
   "dictionary-panel": {
@@ -389,9 +398,9 @@
     "help-instruction-intro": "Kako prikazati slovarske vnose tukaj:",
     "help-instruction-part1": "Prepričajte se, da so nameščeni Strongovi slovarji (hebrejski in grški). Stanje: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Prevod odprite s Strongovo funkcionalnostjo.",
-    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
+    "help-instruction-part3": "Ko izberete vrstico, lahko miško premaknete nad posameznimi besedami, da se prikaže pomen.",
     "help-instruction-part3-cordova": "Dotaknite se posameznih besed ali besednih zvez in jih pridržite, dokler ne vidite vnosov v slovar tukaj.",
-    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
+    "help-instruction-part4-desktop": "Držite tipko SHIFT, da omogočite premikanja miške za vse vrstice.",
     "find-all-occurrences": "Poišči vse pojavitve",
     "open-in-blueletter": "Odpri v Blue Letter Bible",
     "related-strongs": "Sorodne Strongove knjige"
@@ -400,7 +409,7 @@
     "default-header": "Statistika oznak",
     "help-instruction-part1": "Tukaj boste videli statistiko oznak glede na to, kako pogosto so uporabljene v knjigi.",
     "help-instruction-part2": "V tej knjigi trenutno ni nobenih dodelitev oznak.",
-    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part2-tag-group": "V tej knjigi trenutno ni dodelitev oznak na podlagi trenutne skupine oznak.",
     "help-instruction-part3": "Ko začnete dodeljevati oznake, se bo statistika oznak samodejno osvežila."
   },
   "compare-panel": {
@@ -413,9 +422,11 @@
     "default-header": "<b>Komentar Svetega pisma</b>",
     "commentaries-for": "Komentarji za",
     "show-commentaries": "Prikaži komentarje",
+    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
+    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "Za prikaz vsebine komentarja izberite vrstico.<br><br> To področje bo nato samodejno prikazalo seznam izbrane vrstice iz vseh razpoložljivih komentarjev.",
     "help-instruction-no-commentaries": "Zaenkrat še ni nameščen noben komentar. Za delovanje te funkcionalnosti morate namestiti vsaj en komentar.",
-    "help-instruction-no-kjv": "Prevod KJV še ni bil nameščen. KJV je potreben za pravilen prikaz svetopisemskih komentarjev, ki temeljijo na angleški verzifikaciji. To lahko popravite tako, da:<ul><li>namestite prevod KJV iz skladišča CrossWire</li><li>namestite komentar (v tem primeru se KJV namesti samodejno)</li></ul>",
+    "help-instruction-no-kjv": "Prevod KJV še ni bil nameščen. KJV je potreben za pravilen prikaz svetopisemskih komentarjev, ki temeljijo na angleški verzifikaciji. To lahko popravite tako, da:<ul><li>namestite prevod KJV iz spletne shrambe CrossWire</li><li>namestite komentar (v tem primeru se KJV namesti samodejno)</li></ul>",
     "no-commentaries-available-for-this-verse": "Za to vrstico ni na voljo nobenih komentarjev."
   },
   "emoji": {
@@ -435,11 +446,11 @@
     }
   },
   "cordova": {
-    "storage-justification": "Aplikacija Ezra Bible potrebuje dostop do prostora za shranjevanje v napravi, da shrani module SWORD in svojo bazo podatkov.<br><br>Ko pritisnete spodnji gumb, boste pozvani, da aplikaciji Ezra Bible dovolite dostop do datotek v vaši napravi.",
+    "storage-justification": "Ezra Bible aplikacija potrebuje dostop do prostora za shranjevanje v napravi, da shrani module SWORD in svojo bazo podatkov.<br><br>Ko pritisnete spodnji gumb, boste pozvani, da Ezra Bible aplikaciji dovolite dostop do datotek v vaši napravi.",
     "enable-storage-access": "Omogoči dostop do shrambe naprave",
     "storage-permission-denied": "Odločili ste se zavrniti dostop do shrambe.<br>To lahko spremenite s pritiskom na spodnji gumb!",
     "permanent-permission-decision-part1": "Prej ste se odločili za trajno zavrnitev dostopa do shrambe!<br><br>To odločitev lahko spremenite le v nastavitvah dovoljenj v konfiguraciji sistema Android.",
-    "permanent-permission-decision-part2": "Če ne spremenite nastavitev dovoljenj, se <br>Ezra Bible App <span style='text-decoration: underline'>ne bo uspešno zagnala</span>.",
+    "permanent-permission-decision-part2": "Če ne spremenite nastavitev dovoljenj, se <br>Ezra Bible aplikacija <span style='text-decoration: underline'>ne bo uspešno zagnala</span>.",
     "starting-app": "Zagon aplikacije",
     "init-i18n": "Inicializacija i18n",
     "init-sword": "Inicializacija SWORDa",
@@ -457,7 +468,7 @@
     "dropbox-sync-explanation-part3c": "Ob zaprtju ali prekinitvi.",
     "dropbox-sync-explanation-part3d": "Po spremembah (če so konfigurirane).",
     "dropbox-sync-explanation-part3e": "Po vklopu brezžičnega omrežja WiFi (samo za sistem Android, glede na možnost).",
-    "dropbox-sync-explanation-part4": "Če želite začeti uporabljati sinhronizacijo Dropbox, morate najprej povezati svoj račun Dropbox z aplikacijo Ezra Bible.",
+    "dropbox-sync-explanation-part4": "Če želite začeti uporabljati sinhronizacijo Dropbox, morate najprej povezati svoj račun Dropbox z Ezra Bible aplikacijo.",
     "link-dropbox-account": "Povezava z računom Dropbox",
     "reset-dropbox-account-link": "Ponastavitev povezave",
     "dropbox-link-status": "Stanje povezave Dropbox",

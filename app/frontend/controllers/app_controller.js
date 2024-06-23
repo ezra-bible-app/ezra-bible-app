@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@ const fullscreenController = require('./fullscreen_controller.js');
 const moduleUpdateController = require('./module_update_controller.js');
 const transChangeTitles = require('../components/trans_change_titles.js');
 const sectionLabelHelper = require('../helpers/section_label_helper.js');
+const typeFaceSettings = require('../components/type_face_settings.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -196,6 +197,8 @@ class AppController {
       if (this.tab_controller.getTab().isValid() && await ipcDb.getTagCount() > 0) {
         tags_controller.showTagListLoadingIndicator();
       }
+
+      typeFaceSettings.init();
 
       await this.tab_controller.loadTabConfiguration();
 
