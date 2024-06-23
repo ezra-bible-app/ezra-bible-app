@@ -441,11 +441,15 @@ class DictionaryInfoBox {
   }
 
   async findAllOccurrences(strongsKey, bibleTranslationId) {
-    // Add a new tab. Set the default bible translation to the given one to ensure that the translation in the
-    // newly opened tab matches the one in the current tab
-    app_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
 
-    // Set search options for the new tab
+    if (!showSearchResultsInPopup) {
+      // Add a new tab. Set the default bible translation to the given one to ensure that the translation in the
+      // newly opened tab matches the one in the current tab
+      app_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
+    }
+
+    // Set search options
     var currentTab = app_controller.tab_controller.getTab();
     currentTab.setSearchOptions('strongsNumber', false);
 
@@ -453,8 +457,10 @@ class DictionaryInfoBox {
     app_controller.tab_controller.setTabSearch(strongsKey);
     app_controller.module_search_controller.populateSearchMenu();
 
-    // Prepare for the next text to be loaded
-    await app_controller.text_controller.prepareForNewText(true, true);
+    if (!showSearchResultsInPopup) {
+      // Prepare for the next text to be loaded
+      await app_controller.text_controller.prepareForNewText(true, true);
+    }
 
     // Perform the Strong's search
     await app_controller.module_search_controller.startSearch(/* event */      null,
