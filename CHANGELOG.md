@@ -15,6 +15,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Bible commentaries and dictionaries do not render paragraphs correctly. ([#1016][i1016])
 * Dictionary side panel stops working if any SWORD module is uninstalled. ([#1045][i1045])
 * Blocking JavaScript errors after turning off error reporting option. ([#1048][i1048])
+* Showing search results in a popup generates an empty new tab if triggered via Dictionary Panel strongs search. ([#1056][i1056])
 
 ### Enablers
 
@@ -28,6 +29,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1045]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1045
 [i1048]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1048
 [i1051]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1051
+[i1056]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1056
 
 ## [1.13.0 - 2024-01-20]
 
