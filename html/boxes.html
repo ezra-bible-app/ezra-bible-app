@@ -129,8 +129,26 @@
     </div>
 
     <div>
-      <label for="dropbox-sync-folder" i18n="dropbox.dropbox-sync-folder"></label>
-      <input id="dropbox-sync-folder" value="ezra"></input>
+      <label for="dropbox-db-sync-folder" i18n="dropbox.dropbox-db-sync-folder"></label>
+      <input id="dropbox-db-sync-folder" class="ezra-input" value="ezra"></input><br/>
+    </div>
+
+    <div>
+      <label for="sync-custom-sword-folder" i18n="dropbox.sync-custom-sword-folder"></label>
+      <input id="sync-custom-sword-folder" type="checkbox"></input><br/>
+    </div>
+
+    <div>
+      <label for="dropbox-sword-sync-folder" i18n="dropbox.dropbox-sword-sync-folder"></label>
+      <input id="dropbox-sword-sync-folder" class="ezra-input" value="sword"></input>
+    </div>
+  </div>
+</div>
+
+<div id="db-sync-progress-box">
+  <div id="db-sync-progress-box-content">
+    <div id="db-sync-progress-bar" class="progress-bar" style="margin-top: 3em; margin-left: 2em; margin-right: 2em;">
+      <div class="progress-label" i18n="dropbox.synchronizing-in-progress"></div>
     </div>
   </div>
 </div>
