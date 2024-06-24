@@ -523,12 +523,14 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
   // Update visibility of verse tag indicators
   verseBoxes.forEach((verseBox) => {
     let visibleTagCount = verseBox.querySelectorAll('.tag:not(.hidden)').length;
-
     let tagIndicator = verseBox.querySelector('.tag-info');
-    if (visibleTagCount > 0) {
-      tagIndicator.classList.add('visible');
-    } else {
-      tagIndicator.classList.remove('visible');
+
+    if (tagIndicator != null) {
+      if (visibleTagCount > 0) {
+        tagIndicator.classList.add('visible');
+      } else {
+        tagIndicator.classList.remove('visible');
+      }
     }
   });
 };
