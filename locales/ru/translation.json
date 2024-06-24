@@ -240,6 +240,8 @@
       "font-section-title": "Текст Библии",
       "current-tab-search-section-title": "Поиск по текущей вкладке",
       "miscellaneous-section-title": "Другое",
+      "previous-chapter": "Previous chapter",
+      "next-chapter": "Next chapter",
       "in-tab-search": "Открыть форму поиска",
       "hide-in-tab-search-form": "Спрятать форму поиска",
       "jump-to-next-search-occurance": "Перейти к следующему результату",

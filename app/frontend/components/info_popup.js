@@ -261,6 +261,8 @@ class InfoPopup {
             <th class="info-tab-section-title">${i18n.t("shortcuts.summary.miscellaneous-section-title")}</th>
           </tr>
           
+          <tr><td>${i18n.t("shortcuts.summary.previous-chapter")}</td><td><code>${i18n.t("shortcuts.shortcut.previous-chapter")}</code></td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.next-chapter")}</td><td><code>${i18n.t("shortcuts.shortcut.next-chapter")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.select-all-verses")}</td><td><code>${i18n.t("shortcuts.shortcut.select-all-verses")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.copy-selected-verses-to-clipboard")}</td><td><code>${i18n.t("shortcuts.shortcut.copy-selected-verses-to-clipboard")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.enable-dynamic-strongs-display")}</td><td><code>${i18n.t("shortcuts.shortcut.enable-dynamic-strongs-display")}</code></td></tr>

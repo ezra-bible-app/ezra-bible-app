@@ -248,6 +248,8 @@
       "font-section-title": "Police",
       "current-tab-search-section-title": "Recherche dans l’onglet actuel",
       "miscellaneous-section-title": "Divers",
+      "previous-chapter": "Previous chapter",
+      "next-chapter": "Next chapter",
       "in-tab-search": "Ouvrir la recherche dans l’onglet actuel",
       "hide-in-tab-search-form": "Masquer le formulaire de recherche de l’onglet actuel",
       "jump-to-next-search-occurance": "Passer à la prochaine occurrence de recherche",
