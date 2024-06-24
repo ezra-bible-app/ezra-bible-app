@@ -23,6 +23,7 @@ const wheelnavController = require('../controllers/wheelnav_controller.js');
 const eventController = require('../controllers/event_controller.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const Hammer = require('../../../lib/hammerjs/hammer.js');
+const Mousetrap = require('mousetrap');
 
 /**
  * This controller provides an API for the verse list as well as event handlers for clicks within the verse list.
@@ -42,6 +43,8 @@ module.exports.init = function init() {
     let platformHelper = new PlatformHelper();
     if (platformHelper.isCordova()) {
       this.initSwipeEvents(tabIndex);
+    } else {
+      this.initNavigationEvents(tabIndex);
     }
   });
 
@@ -352,6 +355,23 @@ module.exports.initSwipeEvents = async function(tabIndex) {
     });
 
     hammerTime.on('swipeleft', () => { 
+      this.goToNextChapter();
+    });
+  }
+};
+
+module.exports.initNavigationEvents = async function(tabIndex) {
+  let currentTab = app_controller.tab_controller.getTab(tabIndex);
+  const currentTranslationId = currentTab.getBibleTranslationId();
+  const currentBook = currentTab.getBook();
+  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentBook);
+
+  if (!isInstantLoadingBook) {
+    Mousetrap.bind('left', () => {
+      this.goToPreviousChapter();
+    });
+
+    Mousetrap.bind('right', () => {
       this.goToNextChapter();
     });
   }
