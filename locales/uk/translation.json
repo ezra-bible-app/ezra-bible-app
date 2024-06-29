@@ -207,12 +207,12 @@
     "send-crash-reports": "Відсилати звіти щодо помилок",
     "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!",
     "type-face": {
-      "configure-typeface": "Configure Bible text typeface",
-      "sans-serif": "Sans serif",
-      "serif": "Serif",
-      "custom": "Custom",
-      "bible-text-font-family": "Bible text font family",
-      "custom-bible-text-font": "Custom Bible text font"
+      "configure-typeface": "Налаштування черенків тексту Біблії",
+      "sans-serif": "Без зарубок",
+      "serif": "Із зарубками",
+      "custom": "Довільні",
+      "bible-text-font-family": "Черенки тексту Біблії",
+      "custom-bible-text-font": "Довільні черенки тексту Біблії"
     }
   },
   "data-privacy": {
@@ -268,7 +268,7 @@
     }
   },
   "tags": {
-    "tag": "Tag",
+    "tag": "Міта",
     "new-tag": "Нова міта",
     "create-tag": "Створити міту",
     "delete-tag": "Видалити міту",
@@ -375,11 +375,11 @@
     "open-complete-book": "Відкривати книги повністю",
     "open-chapters-large-books": "Відкривати за розділом великі книги",
     "open-chapters-all-books": "Відкривати за розділом усі книги",
-    "copy": "Зкопіювати",
-    "copy-table-to-clipboard": "Зкопіювати таблицю до буферу обміну",
-    "copy-table-to-clipboard-success": "Таблицю зкопійовано до буферу обміну!",
-    "copy-verse-text-to-clipboard": "Зкопіювати текст вірша до буферу обміну",
-    "copy-verse-text-to-clipboard-success": "Текст вірша скопійовано до буферу обміну!",
+    "copy": "Сколити",
+    "copy-table-to-clipboard": "Сколити таблицю до кишені",
+    "copy-table-to-clipboard-success": "Таблицю сколено до кишені!",
+    "copy-verse-text-to-clipboard": "Сколити текст вірша до кишені",
+    "copy-verse-text-to-clipboard-success": "Текст вірша сколено до кишені!",
     "edit-note": "Редагувати нотатку",
     "delete-note": "Видалити нотатку",
     "transchange" : {
@@ -423,8 +423,8 @@
     "default-header": "<b>Коментар Біблії</b>",
     "commentaries-for": "Коментар до",
     "show-commentaries": "Відображати коментарі",
-    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
-    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
+    "copy-commentary-to-clipboard": "Сколити коментар до кишені",
+    "copy-commentary-to-clipboard-success": "Коментар сколено до кишені!",
     "help-instruction": "Щоб відобразити зміст коментаря, виберіть вірш.<br><br> Ця область автоматично відобразить всі наявні коментарі до цього вірша.",
     "help-instruction-no-commentaries": "Наразі коментарі ще не встановленні. Необхідно встановити принаймні один коментар.",
     "help-instruction-no-kjv": "Переклад Біблії KJV ще не встановлено. Цей переклад необхідний, щоб відображати коментарі засновані на англомовному поділі на вірші та розділи. Для виправлення:<ul><li>Встановіть переклад Біблії KJV зі сховища CrossWire</li><li>Встановіть коментар (у цьому випадку KJV буде автоматично встановленно)</li></ul>",
