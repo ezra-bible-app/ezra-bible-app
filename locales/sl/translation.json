@@ -205,15 +205,19 @@
     "general-options": "Glavne nastavitve",
     "check-new-releases": "Preverite za novo izdajo",
     "send-crash-reports": "Pošlji poročila o napakah",
+<<<<<<< Updated upstream
+    "welcome-to-ezra-bible-app": "Dobrodošli v Ezra Bible aplikaciji!"
+=======
     "welcome-to-ezra-bible-app": "Dobrodošli v Ezra Bible aplikaciji!",
     "type-face": {
-      "configure-typeface": "Configure Bible text typeface",
+      "configure-typeface": "Nastavi pisavo",
       "sans-serif": "Sans serif",
       "serif": "Serif",
-      "custom": "Custom",
-      "bible-text-font-family": "Bible text font family",
-      "custom-bible-text-font": "Custom Bible text font"
+      "custom": "Po meri",
+      "bible-text-font-family": "Družina pisav",
+      "custom-bible-text-font": "Pisava po meri"
     }
+>>>>>>> Stashed changes
   },
   "data-privacy": {
     "confirm-privacy-options": "Potrdite možnosti zasebnosti podatkov",
@@ -268,7 +272,10 @@
     }
   },
   "tags": {
-    "tag": "Tag",
+<<<<<<< Updated upstream
+=======
+    "tag": "Oznaka",
+>>>>>>> Stashed changes
     "new-tag": "Nova oznaka",
     "create-tag": "Ustvari oznako",
     "delete-tag": "Brisanje oznake",
@@ -422,8 +429,11 @@
     "default-header": "<b>Komentar Svetega pisma</b>",
     "commentaries-for": "Komentarji za",
     "show-commentaries": "Prikaži komentarje",
-    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
-    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
+<<<<<<< Updated upstream
+=======
+    "copy-commentary-to-clipboard": "Komentarje kopiraj na odložišče",
+    "copy-commentary-to-clipboard-success": "Komentarji kopirani na odložišče!",
+>>>>>>> Stashed changes
     "help-instruction": "Za prikaz vsebine komentarja izberite vrstico.<br><br> To področje bo nato samodejno prikazalo seznam izbrane vrstice iz vseh razpoložljivih komentarjev.",
     "help-instruction-no-commentaries": "Zaenkrat še ni nameščen noben komentar. Za delovanje te funkcionalnosti morate namestiti vsaj en komentar.",
     "help-instruction-no-kjv": "Prevod KJV še ni bil nameščen. KJV je potreben za pravilen prikaz svetopisemskih komentarjev, ki temeljijo na angleški verzifikaciji. To lahko popravite tako, da:<ul><li>namestite prevod KJV iz spletne shrambe CrossWire</li><li>namestite komentar (v tem primeru se KJV namesti samodejno)</li></ul>",
