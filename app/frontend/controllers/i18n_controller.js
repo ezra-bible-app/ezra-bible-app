@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 
 const locales = require('../../../locales/locales.json');
 const eventController = require('./event_controller.js');
+const cacheController = require('./cache_controller.js');
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 /**
  * This controller initializes the app locale at startup and updates it on demand when changing the locale
@@ -26,7 +28,6 @@ const eventController = require('./event_controller.js');
  */
 
 const SETTINGS_KEY = 'appLocale';
-
 const jqueryI18next = require('jquery-i18next');
 
 const i18nextOptions = {
@@ -105,7 +106,7 @@ module.exports.initI18N = async function() {
     .use(I18nIpcBackend)
     .init(i18nextOptions);
 
-  systemLocale = this.getLocale();  
+  systemLocale = this.getLocale();
 
   jqueryI18next.init(i18n, $, {
     tName: 't', // --> appends $.t = i18next.t
@@ -169,6 +170,11 @@ module.exports.getStringForStartup = function(key, fallbackText) {
 
 module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
+  if (platformHelper.isCordova()) {
+    uiHelper.showTextLoadingIndicator();
+    await waitUntilIdle();
+  }
+
   await i18n.changeLanguage(newLocale);
   preserveStringsForStartup();
 
@@ -176,7 +182,15 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
     await ipcSettings.set(SETTINGS_KEY, newLocale);
   }
 
+  await cacheController.saveLastLocale();
+
   $(document).localize();
+
+  if (platformHelper.isCordova()) {
+    await waitUntilIdle();
+    uiHelper.hideTextLoadingIndicator();
+  }
+
   window.reference_separator = i18n.t('general.chapter-verse-separator');
   await eventController.publishAsync('on-locale-changed', newLocale);
 

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -64,11 +64,7 @@ class TagSelectionMenu {
       this.initForTab(tabIndex);
     });
 
-    eventController.subscribe('on-tag-created', async () => {
-      await this.requestTagsForMenu(this.currentTagGroupId, true);
-    });
-
-    eventController.subscribe('on-tag-deleted', async () => {
+    eventController.subscribeMultiple(['on-tag-created', 'on-tag-deleted'], async () => {
       await this.requestTagsForMenu(this.currentTagGroupId, true);
     });
 

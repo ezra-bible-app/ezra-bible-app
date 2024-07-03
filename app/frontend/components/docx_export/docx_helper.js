@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,21 @@
 
 const docx = require('docx');
 const marked = require('marked');
-const { decodeEntities } = require('../../helpers/ezra_helper.js');
+
+// https://stackoverflow.com/a/9609450/5681184
+// this prevents any overhead from creating the object each time
+var reusableDiv = document.createElement('div');
+function decodeHTMLEntities (str) {
+  if(str && typeof str === 'string') {
+    // strip script/html tags
+    str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+    str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+    reusableDiv.innerHTML = str;
+    str = reusableDiv.textContent;
+    reusableDiv.textContent = '';
+  }
+  return str;
+}
 
 module.exports.getPageProps = function() {
   return {
@@ -257,7 +271,7 @@ module.exports.markdownToDocx = function(markdown, style=undefined) {
       } else if (token.items) {
         convertMarkDownTokens(token.items, { ...currentOptions, ...textOptions });  
       } else if (token.text) {
-        currentParagraphText.push(new docx.TextRun({text: decodeEntities(token.text), ...currentOptions, ...textOptions }));
+        currentParagraphText.push(new docx.TextRun({text: decodeHTMLEntities(token.text), ...currentOptions, ...textOptions }));
         continue;
       }
 

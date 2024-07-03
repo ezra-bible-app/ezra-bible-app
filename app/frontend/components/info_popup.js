@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Mousetrap = require('mousetrap');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const { html, sleep } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
@@ -260,6 +261,9 @@ class InfoPopup {
             <th class="info-tab-section-title">${i18n.t("shortcuts.summary.miscellaneous-section-title")}</th>
           </tr>
           
+          <tr><td>${i18n.t("shortcuts.summary.previous-chapter")}</td><td><code>${i18n.t("shortcuts.shortcut.previous-chapter")}</code></td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.next-chapter")}</td><td><code>${i18n.t("shortcuts.shortcut.next-chapter")}</code></td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.select-all-verses")}</td><td><code>${i18n.t("shortcuts.shortcut.select-all-verses")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.copy-selected-verses-to-clipboard")}</td><td><code>${i18n.t("shortcuts.shortcut.copy-selected-verses-to-clipboard")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.enable-dynamic-strongs-display")}</td><td><code>${i18n.t("shortcuts.shortcut.enable-dynamic-strongs-display")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.open-new-tab")}</td><td><code>${i18n.t("shortcuts.shortcut.open-new-tab")}</code></td></tr>
@@ -308,6 +312,8 @@ class InfoPopup {
     }
 
     uiHelper.configureButtonStyles('#info-popup-content');
+
+    Mousetrap.bind('esc', () => { $('#info-popup').dialog("close"); });
 
     $('#info-popup').dialog("open");
   }

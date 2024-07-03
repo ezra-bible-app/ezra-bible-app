@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,14 +36,15 @@ class ThemeController {
     this.uiHelper = new UiHelper();
   }
 
-  async initNightMode() {
-    var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
-    if (isMojaveOrLater) { // On macOS (from Mojave) we initialize night mode based on the system settings
-      const nativeTheme = require('@electron/remote').nativeTheme;
+  async initMacOsEventHandler() {
+    const nativeTheme = require('@electron/remote').nativeTheme;
 
+    if (window.nativeThemeHandler == null) {
       // Set up a listener to react when the native theme has changed
-      nativeTheme.on('updated', () => {
-        if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked) {
+      window.nativeThemeHandler = nativeTheme.on('updated', async () => {
+        const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
+
+        if (useSystemTheme && nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked) {
           uiHelper.showGlobalLoadingIndicator();
 
           setTimeout(() => {
@@ -52,6 +53,17 @@ class ThemeController {
           }, 100);
         }
       });
+    }
+  }
+
+  async initNightMode() {
+    const isMojaveOrLater = platformHelper.isMacOsMojaveOrLater();
+    const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
+
+    if (isMojaveOrLater && useSystemTheme) { // On macOS (from Mojave) we initialize night mode based on the system settings
+      this.initMacOsEventHandler();
+
+      const nativeTheme = require('@electron/remote').nativeTheme;
 
       if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked) {
         console.log("Initializing night mode based on system settings ...");
@@ -74,8 +86,10 @@ class ThemeController {
   }
 
   async toggleDarkModeIfNeeded() {
-    var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
-    if (isMojaveOrLater) {
+    const isMojaveOrLater = platformHelper.isMacOsMojaveOrLater();
+    const useSystemTheme = await ipcSettings.get('useSystemTheme');
+
+    if (isMojaveOrLater && useSystemTheme) {
       const nativeTheme = require('@electron/remote').nativeTheme;
 
       if (nativeTheme.shouldUseDarkColors) {
@@ -123,8 +137,10 @@ class ThemeController {
   async isNightModeUsed() {
     var useNightMode = false;
 
-    var isMojaveOrLater = platformHelper.isMacOsMojaveOrLater();
-    if (isMojaveOrLater) {
+    const isMojaveOrLater = platformHelper.isMacOsMojaveOrLater();
+    const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
+
+    if (isMojaveOrLater && useSystemTheme) {
       const nativeTheme = require('@electron/remote').nativeTheme;
       useNightMode = nativeTheme.shouldUseDarkColors;
     } else {

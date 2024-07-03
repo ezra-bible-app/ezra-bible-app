@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ class CordovaPlatform {
 
       window.open = cordova.InAppBrowser.open;
 
-      if (!isDebug) {
+      if (!isDebug && window.sendCrashReports) {
         var version = await cordova.getAppVersion.getVersionNumber();
         console.log("Configuring Sentry (WebView) with app version: " + version);
 
@@ -60,10 +60,12 @@ class CordovaPlatform {
 
           window.Sentry = require('@sentry/browser/cjs');
 
-          Sentry.init({
-            dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
-            release: version
-          });
+          if (window.Sentry != null) {
+            Sentry.init({
+              dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
+              release: version
+            });
+          }
         } catch (error) {
           console.error('Sentry initialization failed with an error!');
           console.log(error);
@@ -241,7 +243,7 @@ class CordovaPlatform {
 
     uiHelper.hideGlobalLoadingIndicator();
 
-    var welcomeTitle = i18n.t("cordova.welcome-to-ezra-bible-app");
+    var welcomeTitle = i18n.t("general.welcome-to-ezra-bible-app");
 
     let dialogOptions = uiHelper.getDialogOptions(400, null, false, null);
     dialogOptions.dialogClass = 'ezra-dialog welcome-dialog';
@@ -358,6 +360,14 @@ class CordovaPlatform {
   copyTextToClipboard(text) {
     // Note that the following code depends on having cordova-clipboard available
     cordova.plugins.clipboard.copy(text);
+  }
+
+  copyHtmlToClipboard(html) {
+    this.copyTextToClipboard(html);
+  }
+
+  copyToClipboard(text, html) {
+    this.copyTextToClipboard(text);
   }
 }
 

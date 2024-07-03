@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
  * @category Controller
  */
 
+const Mousetrap = require('mousetrap');
 const Dropbox = require('dropbox');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
@@ -91,6 +92,7 @@ module.exports.init = function() {
 module.exports.showDbSyncConfigDialog = async function() {
   await initDbSync();
 
+  Mousetrap.bind('esc', () => { $('#db-sync-box').dialog("close"); });
   $('#db-sync-box').dialog("open");
 };
 

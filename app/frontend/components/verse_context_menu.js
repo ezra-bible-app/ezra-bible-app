@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -73,12 +73,7 @@ class VerseContextMenu extends HTMLElement {
       this.hideVerseContextMenuButton(tabIndex);
     });
 
-    eventController.subscribe('on-note-created', () => {
-      let selection = { 'selectedElements' : app_controller.verse_selection.getSelectedVerseBoxes() };
-      this.toggleButtons(selection);
-    });
-
-    eventController.subscribe('on-note-deleted', () => {
+    eventController.subscribeMultiple(['on-note-created', 'on-note-deleted'], () => {
       let selection = { 'selectedElements' : app_controller.verse_selection.getSelectedVerseBoxes() };
       this.toggleButtons(selection);
     });
@@ -102,13 +97,18 @@ class VerseContextMenu extends HTMLElement {
       }
 
       const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
-      const firstVerseBox = selectedVerseBoxes[0];
 
-      if (firstVerseBox != null) {
-        const notesInfo = firstVerseBox.querySelector('.notes-info');
-        
-        if (notesInfo.classList.contains('visible')) {
-          this.enableDeleteNoteButton();
+      if (selectedVerseBoxes.length > 0) {
+        const firstVerseBox = selectedVerseBoxes[0];
+
+        if (firstVerseBox != null && typeof(firstVerseBox.querySelector) == 'function') {
+          const notesInfo = firstVerseBox.querySelector('.notes-info');
+          
+          if (notesInfo.classList != null && notesInfo.classList.contains('visible')) {
+            this.enableDeleteNoteButton();
+          } else {
+            this.disableDeleteNoteButton();
+          }
         } else {
           this.disableDeleteNoteButton();
         }

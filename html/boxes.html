@@ -16,11 +16,6 @@
   </div>
 </div>
 
-<div id="book-tag-statistics-box" class="scrollable">
-  <div id="book-tag-statistics-box-content">
-  </div>
-</div>
-
 <div id="info-popup">
   <div id="info-popup-content" style="height: 100%">
   </div>
@@ -31,6 +26,8 @@
   </div>
 </div>
 
+<div id="privacy-options-box"></div>
+
 <div id="new-release-info-box">
   <div id="new-release-info-box-content">
   </div>
@@ -38,6 +35,56 @@
 
 <div id="strongs-box">
   <div id="strongs-box-content">
+  </div>
+</div>
+
+<div id="config-typeface-box">
+  <div id="config-typeface-box-content" style="padding-top: 1em;">
+
+    <label for="font-family-select"
+           style="width: 12em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;"
+           i18n="general.type-face.bible-text-font-family">
+    </label>
+    
+    <select is="select-option"
+            id="font-family-select"
+            settingsKey="bibleTextFontFamily"
+            width="20em">
+
+      <option value="sans-serif" label="general.type-face.sans-serif"></option>
+      <option value="serif" label="general.type-face.serif"></option>
+      <option id="custom-font-family-option" value="custom" label="general.type-face.custom"></option>
+
+    </select>
+
+    <br/>
+    <div id="system-font-select-box">
+      <label for="system-font-select"
+             style="width: 12em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;"
+             i18n="general.type-face.custom-bible-text-font"> 
+      </label>
+
+      <select is="select-option"
+              id="system-font-select"
+              settingsKey="bibleTextSystemFont"
+              autoLoad="false"
+              autoSave="false"
+              width="20em"
+              disabled="disabled">
+      </select>
+    </div>
+
+    <div id="bible-font-sample-text"
+         style="height: 12em;
+                margin-left: 1em;
+                margin-right: 1em;
+                margin-top: 2em;
+                padding: 1em;
+                border: 1px solid lightgray;
+                border-radius: 3px;
+                font-size: 130%;">
+    </div>
+
   </div>
 </div>
 
@@ -89,7 +136,7 @@
 </div>
 
 <div id="search-results-box">
-  <div class="verse-list-header">
+  <div class="verse-list-header verse-list-content">
   </div>
     
   <div class='verse-statistics-chart-container'>

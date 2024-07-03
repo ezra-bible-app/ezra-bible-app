@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -42,14 +42,21 @@ if (process.platform === 'win32') {
   if (require('electron-squirrel-startup')) app.quit();
 }
 
-if (!isDev) {
-  global.Sentry = require('@sentry/electron/main');
+global.sendCrashReports = global.ipc.ipcSettingsHandler.getConfig().get('sendCrashReports', true);
 
+if (!isDev && !global.sendCrashReports) {
+  console.log("Not configuring Sentry based on opt-out.");
+}
+
+if (!isDev && global.sendCrashReports) {
+  global.Sentry = require('@sentry/electron/main');
+  
   Sentry.init({
     debug: false,
     dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
     enableNative: true,
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV,
+    beforeSend: (event) => global.sendCrashReports ? event : null
   });
 } else {
   global.Sentry = {
@@ -75,9 +82,10 @@ try {
 }
 
 function shouldUseDarkMode() {
-  var useDarkMode = false;
+  let useDarkMode = false;
+  const useSystemTheme = global.ipc.ipcSettingsHandler.getConfig().get('useSystemTheme', false);
 
-  if (platformHelper.isMacOsMojaveOrLater()) {
+  if (platformHelper.isMacOsMojaveOrLater() && useSystemTheme) {
     if (nativeTheme.shouldUseDarkColors) {
       useDarkMode = true;
     }
@@ -114,7 +122,7 @@ async function createWindow(firstStart=true) {
   console.time('Startup');
 
   var preloadScript = '';
-  if (!isDev) {
+  if (!isDev && global.sendCrashReports) {
     preloadScript = path.join(__dirname, 'app/frontend/helpers/sentry.js');
   }
 

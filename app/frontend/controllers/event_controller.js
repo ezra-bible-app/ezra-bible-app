@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -51,8 +51,30 @@ function notCreated(event) {
  * @param {SubscribedCallback} callback Function to call when when event is published
  * @returns {Subscription} subscription
  */
-module.exports.subscribePrioritized = function subscribe(event, callback) {
-  this.subscribe(event, callback, true);
+module.exports.subscribePrioritized = function (event, callback) {
+  return this.subscribe(event, callback, true);
+};
+
+/**
+ * This function subscribes on multiple events, so that the callback function gets
+ * called when any of those future events are published.
+ * @param {[EzraEvent]} eventList Event keys to be notified for on publish
+ * @param {SubscribedCallback} callback Function to call when events are published
+ * @returns {Subscription} subscription
+ */
+module.exports.subscribeMultiple = function (eventList, callback) {
+  if (typeof(eventList) != 'object') {
+    throw new Error('subscribeMultiple expects array as first parameter!');
+  }
+
+  let returnObjects = [];
+
+  eventList.forEach((ezraEvent) => {
+    let subscription = this.subscribe(ezraEvent, callback);
+    returnObjects.push(subscription);
+  });
+
+  return returnObjects;
 };
 
 /**
@@ -62,7 +84,7 @@ module.exports.subscribePrioritized = function subscribe(event, callback) {
  * @param {Boolean} prioritize Whether or not this callback should be prioritized when the event is published
  * @returns {Subscription} subscription
  */
-module.exports.subscribe = function subscribe(event, callback, prioritize=false) {
+module.exports.subscribe = function (event, callback, prioritize=false) {
   if (notCreated(event)) {
     subscribers[event] = [];
   }
@@ -89,7 +111,7 @@ module.exports.subscribe = function subscribe(event, callback, prioritize=false)
  * @param {Boolean} waitAsync Whether or not the function should wait for the subscribers (default: false)
  * @returns {[]} Array of callback results
  */
-module.exports.publish = async function publish(event, payload=undefined, waitAsync=false) {
+module.exports.publish = async function (event, payload=undefined, waitAsync=false) {
   var results = [];
 
   if (notCreated(event)) {
@@ -113,7 +135,7 @@ module.exports.publish = async function publish(event, payload=undefined, waitAs
  * @param {*} payload 
  * @returns {Promise<[]>} Promise that resolves to array of callback results
  */
-module.exports.publishAsync = async function publishAsync(event, payload=undefined) {
+module.exports.publishAsync = async function (event, payload=undefined) {
 
   const promisifiedResults = await this.publish(event, payload, true);
 
@@ -134,7 +156,7 @@ module.exports.publishAsync = async function publishAsync(event, payload=undefin
  * This function unsubscribes all callbacks from the specific event
  * @param { EzraEvent | RegExp } event Event key to unsubscribe, can be a RegExp
  */
-module.exports.unsubscribeAll = function unsubscribeAll(event) {
+module.exports.unsubscribeAll = function (event) {
   if (typeof event === 'string') {
     subscribers[event] = [];
 

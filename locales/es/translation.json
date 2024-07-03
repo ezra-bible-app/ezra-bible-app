@@ -7,6 +7,7 @@
     "tags": "Etiquetas",
     "search": "Buscar",
     "options": "Opciones",
+    "verse-context-actions": "Acciones en contexto del verso",
     "export": "Exportar a un documento de texto",
     "show-module-info": "Mostrar información del módulo",
     "fullscreen": "Cambiar a pantalla completa",
@@ -115,9 +116,10 @@
     "module-sync-header": "Instalando módulos adicionales"
   },
   "general": {
+    "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "Acerca de Ezra Bible App",
     "general-app-info": "La información general acerca de Ezra Bible App puede ser encontrada en el sitio web oficial.<br>La información técnica sobre el desarrollo de Ezra Bible App puede ser encontrada en GitHub.",
-    "website": "Website",
+    "website": "Sitio web",
     "chapter-verse-separator": ":",
     "module-application-info": "Información del módulo y la aplicación",
     "application-info": "Información de la aplicación",
@@ -199,7 +201,28 @@
     "configure-translations": "Configurar traducciones",
     "configure-dicts": "Configurar diccionarios",
     "configure-commentaries": "Configurar commentarios",
-    "context": "Contexto"
+    "context": "Contexto",
+    "general-options": "Opciones Generales",
+    "check-new-releases": "Buscar nuevas versiones",
+    "send-crash-reports": "Enviar reporte de errores",
+    "welcome-to-ezra-bible-app": "Bienvenido a Ezra Bible App!",
+    "type-face": {
+      "configure-typeface": "Configurar tipografía del texto bíblico",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Personalizada",
+      "bible-text-font-family": "Familia de fuentes del texto bíblico",
+      "custom-bible-text-font": "Fuente Personalizada del texto biblico"
+    }
+  },
+  "data-privacy": {
+    "confirm-privacy-options": "Confirme preferencias sobre la privacidad de datos",
+    "data-privacy-options": "Preferencias de privacidad",
+    "please-confirm-options": "Por favor confirme las preferencias siguientes sobre la privacidad de sus datos. Estas preferencias requieren acceso a Internet. Además podrá cambiar sus preferencias después en el menú Opciones.",
+    "check-new-releases-hint": "Ezra Bible App puede revisar en busca de actualizaciones al iniciar. Esto requiere una corta interacción con <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, donde las nuevas versiones son publicadas.",
+    "send-crash-reports-hint-part1": "Ezra Bible App puede enviar reportes automáticamente a la plataforma <a class='external' href='https://sentry.io'>Sentry.io</a> cuando un error es detectado.",
+    "send-crash-reports-hint-part2": "Esto le permite al equipo de desarrollo estar al tanto de los errores más rápidamente y por tanto a mejorar Ezra Bible App.",
+    "send-crash-reports-hint-part3": "Nótese que el reporte solo contiene información técnica y no consumirá mucho ancho de banda."
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar a trabajar con las etiquetas, debe crear la primera pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y agreguelos a la etiqueta que acaba de crear.",
@@ -215,10 +238,13 @@
       "font-section-title": "Tipos de letra",
       "current-tab-search-section-title": "Buscar en la Pestaña Actual",
       "miscellaneous-section-title": "Miscelánea",
+      "previous-chapter": "Previous chapter",
+      "next-chapter": "Next chapter",
       "in-tab-search": "Abrir Resultado en Pestaña Actual",
       "hide-in-tab-search-form": "Ocultar Búsqueda en Pestaña Actual",
       "jump-to-next-search-occurance": "Ir al resultado siguiente",
       "jump-to-previous-occurance": "Ir al resultado anterior",
+      "select-all-verses": "Seleccionar todos los versículos",
       "copy-selected-verses-to-clipboard": "Copiar los versos seleccionados al portapapeles",
       "toggle-fullscreen-only-Win-Linux": "Pantalla completa",
       "enable-dynamic-strongs-display": "Habilitar números Strong dinámicos",
@@ -233,6 +259,9 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "previous-chapter": "Left",
+      "next-chapter": "Right",
+      "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
       "enable-dynamic-strongs-display": "Shift + cursor sobre el versículo",
@@ -243,6 +272,7 @@
     }
   },
   "tags": {
+    "tag": "Etiqueta",
     "new-tag": "Nueva etiqueta",
     "create-tag": "Crear etiqueta",
     "delete-tag": "Borrar etiqueta",
@@ -309,6 +339,8 @@
     "select-all-search-results": "Seleccionar todos los resultados de la búsqueda",
     "all-search-results": "Todos los resultados de la búsqueda",
     "some-search-results": "Algunos resultados de la búsqueda",
+    "select-all-verses": "Seleccionar todos los versículos",
+    "all-verses": "Todos los versículos",
     "module-configuration": "Configuración de módulo",
     "display": "Pantalla",
     "text-options": "Opciones del texto",
@@ -333,6 +365,7 @@
     "limit-notes-display-size": "Limitar el tamaño de las notas",
     "use-tags-column": "Usar columna de etiquetas",
     "select-chapter-before-loading": "Abrir libro en el capítulo seleccionado",
+    "use-system-theme": "System theme",
     "use-night-mode": "Modo Noche",
     "keep-screen-on": "Mantener la pantalla activa",
     "comparing-translations-for": "Comparar traducciones de",
@@ -349,8 +382,19 @@
     "copy": "Copiar",
     "copy-table-to-clipboard": "Copiar la tabla al portapapeles",
     "copy-table-to-clipboard-success": "Tabla copiada al portapapeles!",
+    "copy-verse-text-to-clipboard": "Copiar el texto del versículo al portapapeles",
+    "copy-verse-text-to-clipboard-success": "Texto del versículo copiado al portapapeles!",
     "edit-note": "Editar nota",
-    "delete-note": "Eliminar nota"
+    "delete-note": "Eliminar nota",
+    "transchange" : {
+      "added" : "Estas palabras se añadieron en las traducciones",
+      "amplified" : "Estas palabras amplian lo explicado en el texto del código fuente",
+      "changed" : "Estas palabras fueron cambiadas en la traducción",
+      "deleted" : "Algunas palabras en el texto de origen no están disponibles en la traducción",
+      "implied" : "Estas palabras fueron cambiadas o añadidas para incluir información implícita en el texto de origen",
+      "moved" : "Estas palabras estaban en otro lugar en el texto fuente",
+      "tense-change": "El tiempo gramatical de estas palabras fue cambiado para facilitar la traducción"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Diccionario Griego",
@@ -359,15 +403,19 @@
     "help-instruction-intro": "Como mostrar las entradas de diccionario aquí:",
     "help-instruction-part1": "Asegúrese de que los diccionarios Strong's (Hebreo y Griego) estén instalados. Estado: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Abra una traducción con números Strongs.",
-    "help-instruction-part3": "Mientras mantiene pulsada la tecla SHIFT usted puede mover el cursor sobre palabras individuales o frases para ver las entradas en el diccionario.",
+    "help-instruction-part3": "Una vez seleccionado el versículo usted puede mover su cursor sobre palabras o frases para ver entradas en el diccionario aquí.",
     "help-instruction-part3-cordova": "Toque y mantenga pulsado sobre palabras o frases hasta que vea las entradas del diccionario aquí.",
+    "help-instruction-part4-desktop": "Mantenga presionada la tecla Shift para permitir ejecutar la función sobre los versículos en que se posicione el cursor.",
     "find-all-occurrences": "Encontrar todas las coincidencias",
     "open-in-blueletter": "Abrir en Blue Letter Bible",
     "related-strongs": "Números Strongs relacionados"
   },
   "tag-statistics-panel": {
     "default-header": "Estadística de etiquetas",
-    "help-instruction": "Aquí usted podrá consultar estadísticas basadas en cuantas ocasiones se usa una etiqueta en un libro.<br><br> Actualmente no hay etiquetas asignadas a este libro. Cuando usted comience a asignarlas, las estadísticas se actualizarán automáticamente."
+    "help-instruction-part1": "Aquí usted podrá consultar estadísticas basadas en cuantas ocasiones se usa una etiqueta en un libro.",
+    "help-instruction-part2": "Actualmente no hay etiquetas asignadas a este libro.",
+    "help-instruction-part2-tag-group": "No hay etiquetas asignadas actualmente a este libro en relación con el grupo de etiquetas seleccionado.",
+    "help-instruction-part3": "Cuando usted comience a asignarlas, las estadísticas se actualizarán automáticamente."
   },
   "compare-panel": {
     "default-header": "<b>Comparar traducciones</b>",
@@ -379,6 +427,8 @@
     "default-header": "<b>Comentario bíblico</b>",
     "commentaries-for": "Comentarios para",
     "show-commentaries": "Mostrar comentarios",
+    "copy-commentary-to-clipboard": "Copiar comentario al portapapeles",
+    "copy-commentary-to-clipboard-success": "Comentario copiado al portapapeles!",
     "help-instruction": "Para mostrar el contenido del comentario, seleccione un verso.<br><br> Esta área mostrará entonces una lista con todos los comentarios disponibles para el versículo seleccionado.",
     "help-instruction-no-commentaries": "No hay  comentarios instalados, aún. Necesita instalar al menos un comentario para usar esta funcionalidad.",
     "help-instruction-no-kjv": "La versión KJV de la Biblia no ha sido instalada, aún. La biblia KJV es necesaria para mostrar correctamente los comentarios en inglés. Usted puede solucionar esto así:<ul><li> Instalando la biblia KJV desde el repositorio CrossWire</li><li>Instalando un comentario (la Biblia KJV será automáticamente instalada en este caso)</li></ul>",
@@ -401,7 +451,6 @@
     }
   },
   "cordova" : {
-    "welcome-to-ezra-bible-app": "Bienvenido a Ezra Bible App!",
     "storage-justification": "Ezra Bible App necesita permiso para acceder al almacenamiento del dispositivo para guardar módulos SWORD y su base de datos.<br><br>Después de presionar el botón que aparece debajo, se le preguntará si desea permitir a Ezra Bible App tener acceso a los archivos en su dispositivo.",
     "enable-storage-access": "Permitir acceso al almacenamiento del dispositivo",
     "storage-permission-denied": "Usted a decidido denegar el acceso al almacenamiento.<br>Puede modificar su elección presionando el botón de abajo!",
@@ -416,7 +465,6 @@
     "waiting-app-ready": "Espere a que la app esté lista"
   },
   "dropbox": {
-    "database-dropbox-sync": "Sincronización con Dropbox",
     "setup-db-sync": "Configurar la sincronización con Dropbox",
     "dropbox-sync-explanation-part1": "La sincronización con Dropbox será usada para sincronizar su base de datos de Ezra&nbsp;Bible&nbsp;App con múltiples dispositivos.",
     "dropbox-sync-explanation-part2": "La base de datos se sincronizará en las acciones siguientes:",

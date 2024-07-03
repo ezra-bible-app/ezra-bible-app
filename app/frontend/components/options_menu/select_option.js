@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -79,6 +79,11 @@ class SelectOption extends HTMLSelectElement {
     } else {
       this.initSelectMenu();
     }
+
+    this._autoSave = true;
+    if (this.hasAttribute('autoSave') && this.getAttribute('autoSave') == "false") {
+      this._autoSave = false;
+    }
   }
 
   initSelectMenu() {
@@ -104,10 +109,10 @@ class SelectOption extends HTMLSelectElement {
 
   async loadOptionFromSettings() {
     var optionValue = await ipcSettings.get(this._settingsKey);
-    this.updatedSelectedValue(optionValue, false);
+    this.updateSelectedValue(optionValue, false);
   }
 
-  updatedSelectedValue(value, updateSettings=true) {
+  updateSelectedValue(value, updateSettings=true) {
     if (value !== false) {
       this._selectedValue = value;
 
@@ -135,7 +140,7 @@ class SelectOption extends HTMLSelectElement {
    * @param value - The value that shall be used for the update.
    */
   set selectedValue(value) {
-    this.updatedSelectedValue(value);
+    this.updateSelectedValue(value, this._autoSave);
   }
 
   /**

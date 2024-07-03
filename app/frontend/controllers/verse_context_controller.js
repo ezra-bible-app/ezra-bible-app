@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -47,14 +47,15 @@ class VerseContextController {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
     var current_reference = null;
+    let selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
 
     if (viaMouseOver) {
 
       current_reference = $(app_controller.verse_context_controller.current_mouseover_verse_reference);
 
-    } else if (app_controller.verse_selection.selected_verse_box_elements.length == 1) {
+    } else if (selectedVerseBoxes.length == 1) {
 
-      current_reference = $(app_controller.verse_selection.selected_verse_box_elements[0]).find('.verse-reference');
+      current_reference = $(selectedVerseBoxes[0]).find('.verse-reference');
 
     } else {
 
@@ -110,16 +111,10 @@ class VerseContextController {
     // Replace the verse with its full context
     $(app_controller.verse_context_controller.context_verse).replaceWith(verse_list);
 
-    // Clear the potentially existing verse selection
-    app_controller.verse_selection.clearVerseSelection();
-
     // Select/highlight the tagged verse
-    var selected_verse_box = $('.verse-reference-id-' + context_verse_id);
-    app_controller.verse_selection.selected_verse_box_elements.push(selected_verse_box);
-    selected_verse_box.find('.verse-text').addClass('ui-selected');
-
-    // Update the tags view after the selection
-    tags_controller.updateTagsViewAfterVerseSelection(true);
+    let selected_verse_box = $('.verse-reference-id-' + context_verse_id);
+    let currentVerseText = selected_verse_box.find('.verse-text')[0];
+    app_controller.verse_selection.setVerseAsSelection(currentVerseText);
 
     verseListController.bindEventsAfterBibleTextLoaded(undefined, true);
     app_controller.dictionary_controller.bindAfterBibleTextLoaded();

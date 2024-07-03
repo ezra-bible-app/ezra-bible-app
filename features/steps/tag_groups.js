@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -137,7 +137,7 @@ Given('I select the tag {string} to be added to the current tag group', async fu
 When('I add the selected tags to the group', async function () {
   let addTagsToGroupButton = await spectronHelper.getWebClient().$('#add-tags-to-group-button');
   await addTagsToGroupButton.click();
-  await spectronHelper.sleep(1000);
+  await spectronHelper.sleep(2000);
 });
 
 Then('the following tags are assigned to the tag group {string}', async function (tagGroup, dataTable) {

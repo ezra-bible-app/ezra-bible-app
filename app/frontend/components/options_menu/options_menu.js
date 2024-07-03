@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ const referenceVerseController = require('../../controllers/reference_verse_cont
 const verseListController = require('../../controllers/verse_list_controller.js');
 const dbSyncController = require('../../controllers/db_sync_controller.js');
 const moduleUpdateController = require('../../controllers/module_update_controller.js');
+const typeFaceSettings = require('../type_face_settings.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -59,6 +60,11 @@ class OptionsMenu {
 
     $('#show-commentary-settings-button').bind('click', function() {
       app_controller.openModuleSettingsAssistant('COMMENTARY'); 
+    });
+
+    $('#show-typeface-settings-button').bind('click', () => {
+      this.hideDisplayMenu();
+      typeFaceSettings.showTypeFaceSettingsDialog();
     });
 
     $('#show-module-update-button').bind('click', async () => {
@@ -112,6 +118,8 @@ class OptionsMenu {
     this._adjustSidePanelTextSizeOption = this.initConfigOption('adjustSidePanelTextSizeOption', () => { app_controller.textSizeSettings.updateSidePanel(this._adjustSidePanelTextSizeOption.isChecked); });
     this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {});
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
+    this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
+    this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
@@ -135,27 +143,56 @@ class OptionsMenu {
   }
 
   async initNightModeOption() {
-    this._nightModeOption = this.initConfigOption('useNightModeOption', async () => {
+    let handleThemeChange = async (systemTheme=false) => {
       this.hideDisplayMenu();
       uiHelper.showGlobalLoadingIndicator();
-      theme_controller.useNightModeBasedOnOption();
 
-      if (this.platformHelper.isCordova()) {
-        // On Cordova we persist a basic night mode style in a CSS file 
-        // which is then loaded on startup again
-        await ipcSettings.storeNightModeCss();
+      if (systemTheme) {
+        theme_controller.initMacOsEventHandler();
+        theme_controller.toggleDarkModeIfNeeded();
+      } else {
+        theme_controller.useNightModeBasedOnOption();
+      }
+
+      const isMojaveOrLater = this.platformHelper.isMacOsMojaveOrLater();
+      const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
+
+      if (isMojaveOrLater) {
+        if (useSystemTheme) {
+          // On macOS Mojave and later we can use the system theme if that's what the user wants.
+          $(this._nightModeOption).hide();
+        } else {
+          $(this._nightModeOption).show();
+        }
       }
 
       await waitUntilIdle();
       uiHelper.hideGlobalLoadingIndicator();
+    };
+
+    this._nightModeOption = this.initConfigOption('useNightModeOption', () => {
+      handleThemeChange();
+    });
+
+    this._systemThemeOption = this.initConfigOption('useSystemTheme', () => {
+      handleThemeChange(true);
     });
 
     this._nightModeOption.checked = await theme_controller.isNightModeUsed();
 
-    var isMojaveOrLater = await this.platformHelper.isMacOsMojaveOrLater();
+    const isMojaveOrLater = this.platformHelper.isMacOsMojaveOrLater();
+    const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
+
     if (isMojaveOrLater) {
-      // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
-      $(this._nightModeOption).hide();
+      if (useSystemTheme) {
+        // On macOS Mojave and later we can use the system theme if that's what the user wants.
+        $(this._nightModeOption).hide();
+      } else {
+        $(this._nightModeOption).show();
+      }
+    } else {
+      // Hide system theme option on all systems except macOS Mojave+
+      $(this._systemThemeOption).hide();
     }
   }
 
@@ -163,7 +200,8 @@ class OptionsMenu {
     this._localeSwitchOption = document.querySelector('#localeSwitchOption');
 
     this._localeSwitchOption.addEventListener('localeChanged', async (e) => {
-      this.slowlyHideDisplayMenu();
+      this.hideDisplayMenu();
+      await waitUntilIdle();
       await i18nController.changeLocale(e.detail.locale);
     });
 
@@ -511,6 +549,11 @@ class OptionsMenu {
         currentVerseList.removeClass('verse-list-tags-column');
       }
     }
+  }
+
+  async toggleCrashReportsBasedOnOption() {
+    window.sendCrashReports = this._sendCrashReportsOption.isChecked;
+    await ipcGeneral.setSendCrashReports(window.sendCrashReports);
   }
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {

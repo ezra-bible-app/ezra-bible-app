@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Mousetrap = require('mousetrap');
 const exportController = require('./export_controller.js');
 const exportHelper = require('../../helpers/export_helper.js');
 const { html } = require('../../helpers/ezra_helper.js');
@@ -180,6 +181,8 @@ async function agreeDisclaimerDialog(moduleId) {
     };
 
     const title = i18n.t('menu.export') + ' &mdash; ' + i18n.t('general.module-copyright');
+
+    Mousetrap.bind('esc', () => { $dialogBox.dialog("close"); });
   
     $dialogBox.dialog({
       width,

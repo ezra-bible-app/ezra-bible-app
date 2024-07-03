@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -347,8 +347,10 @@ class TextController {
         if (bookHasHeaders) {
           bookIntroduction = await ipcNsi.getBookIntroduction(currentBibleTranslationId, bookShortTitle);
 
-          var sanitizeHtml = require('sanitize-html');
-          bookIntroduction = sanitizeHtml(bookIntroduction);
+          if (this.platformHelper.isElectron()) {
+            const sanitizeHtml = require('sanitize-html');
+            bookIntroduction = sanitizeHtml(bookIntroduction);
+          }
         }
       } catch (e) {
         console.log("Could not retrieve book introduction for module " + currentBibleTranslationId);
@@ -691,7 +693,9 @@ class TextController {
                         append=false, 
                         hasNotes=false) {
     
-    await eventController.publishAsync('on-verse-list-init', tabIndex);
+    if (!append) {
+      await eventController.publishAsync('on-verse-list-init', tabIndex);
+    }
 
     verseListController.hideVerseListLoadingIndicator();
     verseListController.hideSearchProgressBar();
@@ -741,13 +745,24 @@ class TextController {
         app_controller.docxExport.enableExportButton(tabIndex, 'TAGS');
       }
 
-      if (!currentTab.hasReferenceVerse()) {
-        var tagTitleList = currentTab.getTagTitleList();
-        var headerText = `<h2><span i18n="tags.verses-tagged-with">${i18n.t('tags.verses-tagged-with')}</span> <i>${tagTitleList}</i></h2>`;
-        var verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
+      let verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
+      let selectAllVersesButtonContainer = verseListHeader[0];
+
+      if (currentTab.hasReferenceVerse()) {
+        let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
+        selectAllVersesButtonContainer = verseListFrame.find('.reference-verse');
+      } else {
+        let tagTitleList = currentTab.getTagTitleList();
+        let headerText = `<h2><span i18n="tags.verses-tagged-with">${i18n.t('tags.verses-tagged-with')}</span> <i>${tagTitleList}</i></h2>`;
         verseListHeader.html(headerText);
         verseListHeader.show();
       }
+
+      uiHelper.addButton(selectAllVersesButtonContainer, 'select-all-verses-button', 'bible-browser.select-all-verses', () => {
+        this.selectAllVerses();
+      });
+
+      uiHelper.configureButtonStyles('select-all-verses-button');
 
       target.removeClass('verse-list-book');
 
@@ -800,9 +815,9 @@ class TextController {
 
       if (listType == 'tagged_verses') {
         let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
-        let verseList = verseListController.getCurrentVerseList(tabIndex)[0];
         let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
-        tagDistributionMatrix.input = verseList;
+        let verseList = verseListController.getCurrentVerseList(tabIndex)[0];
+        await tagDistributionMatrix.setInputAndRefresh(verseList, tabIndex);
 
         let tagDistributionMatrixWrapper = verseListFrame.find('.tag-distribution-matrix-wrapper')[0];
         tagDistributionMatrixWrapper.style.removeProperty('display');
@@ -815,7 +830,7 @@ class TextController {
 
       let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
       let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
-      tagDistributionMatrix.input = '';
+      tagDistributionMatrix.reset();
 
       let tagDistributionMatrixWrapper = verseListFrame.find('.tag-distribution-matrix-wrapper')[0];
       tagDistributionMatrixWrapper.style.display = 'none';
@@ -848,6 +863,10 @@ class TextController {
 
       uiHelper.hideTextLoadingIndicator();
     }
+  }
+
+  selectAllVerses() {
+    app_controller.verse_selection.selectAllVerses('bible-browser.all-verses');
   }
 }
 

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ class VerseBox {
     this.verseBoxElement = verseBoxElement;
   }
 
-  getVerseObject() {
+  getVerseObject(referenceSeparator=window.reference_separator) {
     var isBookNoteVerse = this.isBookNoteVerse();
     var verse = undefined;
 
@@ -42,8 +42,8 @@ class VerseBox {
       verse = new Verse(
         this.getBibleBookShortTitle(),
         this.getAbsoluteVerseNumber(),
-        this.getChapter(),
-        this.getVerseNumber(),
+        this.getChapter(referenceSeparator),
+        this.getVerseNumber(referenceSeparator),
         isBookNoteVerse
       );
     }
@@ -83,11 +83,26 @@ class VerseBox {
     }
   }
 
+  getReference() {
+    if (this.verseBoxElement == null) {
+      return null;
+    } else {
+      var verseReferenceElement = this.verseBoxElement.querySelector('.verse-reference-content');
+      var verseReference = null;
+      
+      if (verseReferenceElement != null) {
+        verseReference = verseReferenceElement.innerText;
+      }
+
+      return verseReference;
+    }
+  }
+
   getSplittedReference(referenceSeparator=window.reference_separator) {
     if (this.verseBoxElement == null) {
       return null;
     } else {
-      var verseReference = this.verseBoxElement.querySelector('.verse-reference-content').innerText;
+      var verseReference = this.getReference();
       var splittedReference = verseReference.split(referenceSeparator);
       return splittedReference;
     }

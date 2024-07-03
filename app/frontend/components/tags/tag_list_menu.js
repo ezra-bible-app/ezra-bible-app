@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -211,6 +211,17 @@ class TagListMenu extends HTMLElement {
       }
     });
 
+    eventController.subscribe(this._tagGroupLinkEvent, () => {
+      this.hideTagGroupDisplay();
+      this.getTagGroupListLink().classList.add('list-tag-groups');
+
+      if (this._addElementButtons) {
+        this.showAddTagGroupButton();
+      }
+
+      this.hideAddTagButton();
+    });
+
     this.localize();
 
     this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', async function(event) {
@@ -229,14 +240,6 @@ class TagListMenu extends HTMLElement {
   }
 
   onTagGroupListLinkClicked() {
-    this.hideTagGroupDisplay();
-    this.getTagGroupListLink().classList.add('list-tag-groups');
-
-    if (this._addElementButtons) {
-      this.showAddTagGroupButton();
-    }
-
-    this.hideAddTagButton();
     eventController.publishAsync(this._tagGroupLinkEvent);
   }
 

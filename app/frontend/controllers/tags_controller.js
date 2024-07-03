@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -140,11 +140,7 @@ class TagsController {
       this.refreshTagDialogs();
     });
 
-    eventController.subscribe('on-translation-added', async () => {
-      await this.updateTagUiBasedOnTagAvailability();
-    });
-
-    eventController.subscribe('on-translation-removed', async () => {
+    eventController.subscribeMultiple(['on-translation-added', 'on-translation-removed'], async () => {
       await this.updateTagUiBasedOnTagAvailability();
     });
 
@@ -168,6 +164,8 @@ class TagsController {
       this.currentTagGroupId = tagGroupId;
       this.currentTagGroupTitle = tagGroup ? tagGroup.title : null;
 
+      ipcSettings.set('lastUsedTagGroupId', tagGroupId);
+
       document.getElementById('tags-search-input').style.removeProperty('display');
       document.getElementById('tag-list-filter-button').style.removeProperty('display');
       document.getElementById('tag-panel-tag-group-list').style.display = 'none';
@@ -183,7 +181,7 @@ class TagsController {
       }
     });
 
-    eventController.subscribe('on-db-refresh', async () => {
+    eventController.subscribeMultiple(['on-db-refresh', 'on-all-translations-removed'], async () => {
       const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
       document.getElementById('tags-content-global').innerHTML = "";
       await this.updateTagsView(currentTabIndex, true);
@@ -896,9 +894,9 @@ class TagsController {
 
     if (isActive) {
       tag_button.classList.remove('active');
+      tag_button.classList.add('no-hl');
 
       if (platformHelper.isElectron()) {
-        tag_button.classList.add('no-hl');
         tag_button.addEventListener('mouseleave', tags_controller.removeTagButtonNoHl);
       }
     } else {

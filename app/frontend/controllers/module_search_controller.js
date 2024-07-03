@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -502,9 +502,11 @@ class ModuleSearchController {
       }
 
       try {
-        Sentry.addBreadcrumb({category: "app",
-                              message: `Performing module search in ${currentBibleTranslationId}`,
-                              level: "info"});
+        if (window.Sentry != null) {
+          Sentry.addBreadcrumb({category: "app",
+                                message: `Performing module search in ${currentBibleTranslationId}`,
+                                level: "info"});
+        }
 
         var searchResults = await ipcNsi.getModuleSearchResults(
           (progress) => {
@@ -635,7 +637,7 @@ class ModuleSearchController {
 
     if (!showSearchResultsInPopup && currentSearchResults != null && currentSearchResults.length > 0) {
       uiHelper.addButton(moduleSearchHeader,
-                         'select-all-search-results-button',
+                         'select-all-verses-button',
                          'bible-browser.select-all-search-results',
                          this.selectAllSearchResults,
                          this.searchResultsExceedPerformanceLimit(tabIndex));
@@ -649,7 +651,7 @@ class ModuleSearchController {
   }
 
   selectAllSearchResults() {
-    verseListController.selectAllVerses('bible-browser.all-search-results');
+    app_controller.verse_selection.selectAllVerses('bible-browser.all-search-results');
   }
 
   getBibleBookStatsFromSearchResults(search_results) {

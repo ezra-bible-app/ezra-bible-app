@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -279,13 +279,23 @@ function renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleC
 function renderVerse(verse) {
 
   let currentVerseContent = "";
-  const fixedContent = verse.content.replace(/<([a-z]+)(\s?[^>]*?)\/>/g, '<$1$2></$1>'); // replace self clothing tags FIXME: Should it be in the NSI?
+  let fixedContent = verse.content.replace(/<([a-z]+)(\s?[^>]*?)\/>/g, '<$1$2></$1>'); // replace self closing tags FIXME: Should it be in the NSI?
+  fixedContent = fixedContent.replace(/&nbsp;/g, ' ');
   const currentVerseNodes = Array.from(parseHTML(fixedContent).childNodes);
 
   currentVerseContent = currentVerseNodes.reduce((prevContent, currentNode) => {
-    // We export everything that is not a DIV
+    let textContent = currentNode.textContent;
+    let validElement = true;
+
+    // We export everything that is not a DIV (except .sword-quote-jesus)
     // DIV elements contain markup that should not be in the word document
-    return currentNode.nodeName !== 'DIV' ? prevContent + currentNode.textContent : prevContent;
+    if (currentNode.nodeName == 'DIV' && currentNode.classList.contains('sword-quote-jesus')) {
+      textContent = currentNode.innerText;
+    } else if (currentNode.nodeName == 'DIV') {
+      validElement = false;
+    }
+
+    return validElement ? prevContent + textContent : prevContent;
   }, "");
 
   return new docx.Paragraph({

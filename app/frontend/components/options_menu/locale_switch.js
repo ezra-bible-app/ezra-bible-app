@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,10 +29,12 @@ const template = html`
     #locale-switch-box {
       margin-top: 2em;
     }
+
     .locale-switch-container {
       width: 100%;
       display: flex;
     }
+
     .locale-detect {
       line-height: 2.1em;
       padding: 0 0.8em;
@@ -41,21 +43,26 @@ const template = html`
       justify-content: center;
       width: calc(100% - ${LOCALE_SELECT_WIDTH});
     }
+
     .locale-detect i.fas+[i18n] {
       margin-left: 0.8em;
     }
+
     .locale-switch-container .ui-selectmenu {
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
       width: auto;
     }
+
     #locale-switch-box .locale-switch-container .ui-selectmenu-menu-dropdown {
       font-size: 1em;
       text-align: left;
       background-color: #deedf7;
       width: 240px !important;
       box-shadow: 2px 2px 3px #a0a0a088;
+      max-height: 250px;
     }
+
     .darkmode--activated #locale-switch-box .locale-switch-container .ui-selectmenu-menu-dropdown {
       background-color: #1e1e1e;
     }

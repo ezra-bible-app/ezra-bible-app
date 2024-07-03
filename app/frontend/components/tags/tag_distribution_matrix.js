@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -163,17 +163,14 @@ class TagDistributionMatrix extends HTMLElement {
     });
   }
 
-  set input(value) {
-    this._input = value;
-
-    if (this._input == '') {
-      this.reset();
-    } else {
-      this.refresh();
-    }
+  async setInputAndRefresh(input, tabIndex=undefined) {
+    this._input = input;
+    await this.refresh(tabIndex);
   }
 
   reset() {
+    this._input = '';
+
     let headerRow = this.shadowRoot.getElementById('header-row');
     headerRow.innerHTML = '';
 

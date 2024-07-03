@@ -7,6 +7,7 @@
     "tags": "Etiquetas",
     "search": "Busca",
     "options": "Opções",
+    "verse-context-actions": "Verse context actions",
     "export": "Exportar como texto",
     "show-module-info": "Mostrar informação do módulo",
     "fullscreen": "Alternar para tela cheia",
@@ -115,6 +116,7 @@
     "module-sync-header": "Instalando módulos adicionais"
   },
   "general": {
+    "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "Sobre o Aplicativo Bíblia Esdras",
     "general-app-info": "Informações gerais sobre o Aplicativo Bíblia Esdras podem ser encontradas no site.<br>Informações técnicas sobre o desenvolvimento do Aplicativo Bíblia Esdras podem ser encontradas no GitHub.",
     "website": "Website",
@@ -199,7 +201,28 @@
     "configure-translations": "Configurar traduções",
     "configure-dicts": "Configurar dicionários",
     "configure-commentaries": "Configurar comentários",
-    "context": "Contexto"
+    "context": "Contexto",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Bem vindo ao aplicativo Bíblia Esdras!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
+  },
+  "data-privacy": {
+    "confirm-privacy-options": "Confirm data privacy options",
+    "data-privacy-options": "Data privacy options",
+    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access. You can also make changes in the Options menu later.",
+    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, where new releases are published.",
+    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
+    "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
+    "send-crash-reports-hint-part3": "Note that the error reports only contain technical information and do not require much data bandwidth."
   },
   "help": {
     "help-text-no-tags-book-opened": "Para começar a trabalhar com etiquetas, crie a primeira clicando no botão <i>Nova&nbsp;etiqueta</i>.<br/><br/>Depois disso, você pode navegar pelo texto da Bíblia e clicar, ou arrastar, e selecionar versículos - e em seguida, atribua a etiqueta que você acabou de criar.",
@@ -215,10 +238,13 @@
       "font-section-title": "Fonte",
       "current-tab-search-section-title": "Aba de busca atual",
       "miscellaneous-section-title": "Diversos",
+      "previous-chapter": "Previous chapter",
+      "next-chapter": "Next chapter",
       "in-tab-search": "Abrir atual aba de busca",
       "hide-in-tab-search-form": "Ocultar o formulário da atual aba de busca",
       "jump-to-next-search-occurance": "Saltar para a próxima ocorrência da busca",
       "jump-to-previous-occurance": "Saltar para ocorrência anterior",
+      "select-all-verses": "Select all verses",
       "copy-selected-verses-to-clipboard": "Copiar versículos selecionados para o clipboard",
       "toggle-fullscreen-only-Win-Linux": "Alternar para tela cheia",
       "enable-dynamic-strongs-display": "Habilita apresentação dinâmica dos Strong's",
@@ -233,6 +259,9 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "previous-chapter": "Left",
+      "next-chapter": "Right",
+      "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
       "enable-dynamic-strongs-display": "Shift + mouse sobre o versículo",
@@ -243,6 +272,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "Nova etiqueta",
     "create-tag": "Criar etiqueta",
     "delete-tag": "Apagar etiqueta",
@@ -309,6 +339,8 @@
     "select-all-search-results": "Selecionar todos os resultados da pesquisa",
     "all-search-results": "Todos os resultados da busca",
     "some-search-results": "Alguns resultados da busca",
+    "select-all-verses": "Select all verses",
+    "all-verses": "All verses",
     "module-configuration": "Configuração do Módulo",
     "display": "Tela",
     "text-options": "Opções de texto",
@@ -333,6 +365,7 @@
     "limit-notes-display-size": "Limitar o tamanho da janela de notas",
     "use-tags-column": "Utilizar coluna de etiquetas",
     "select-chapter-before-loading": "Abrir livros com seleção por capítulo",
+    "use-system-theme": "System theme",
     "use-night-mode": "Modo noturno",
     "keep-screen-on": "Manter tela ativa",
     "comparing-translations-for": "Comparando traduções para",
@@ -349,8 +382,19 @@
     "copy": "Copiar",
     "copy-table-to-clipboard": "Copiar tabela para o clipboard",
     "copy-table-to-clipboard-success": "Tabela copiada para o clipboard!",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Editar nota",
-    "delete-note": "Apagar nota"
+    "delete-note": "Apagar nota",
+    "transchange" : {
+      "added" : "These words were added in translation",
+      "amplified" : "These words are amplifications of information in the source text",
+      "changed" : "These words were changed in translation",
+      "deleted" : "Some words in the source text are not present in the translation",
+      "implied" : "These words were added or changed to translate information implied by the source text",
+      "moved" : "These words were in another location in the source text",
+      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Dicionário de Grego",
@@ -359,15 +403,19 @@
     "help-instruction-intro": "Como mostrar entradas de dicionário aqui:",
     "help-instruction-part1": "Certifique-se de que os dicionários de Strong (Hebraico e Grego) estão instalados. Status: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Abra uma tradução com recurso Strong.",
-    "help-instruction-part3": "Enquanto pressiona a tecla SHIFT, você pode mover o mouse sobre palavras específicas ou frases para ver as entradas do dicionário aqui.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Toque e segure palavras individuais ou frases até ver as entradas do dicionário aqui.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-occurrences": "Encontrar todas as ocorrências",
     "open-in-blueletter": "Abrir na Bíblia Blue Letter",
     "related-strongs": "Strong's relacionados"
   },
   "tag-statistics-panel": {
     "default-header": "Estatísticas de etiquetas",
-    "help-instruction": "Aqui você verá estatísticas das etiquetas com base na frequência em que são utilizadas em cada livro.<br><br> No momento, não etiquetas atribuídas a este livro. Uma vez que você começar a atribuir etiquetas, as estatísticas serão atualizadas automaticamente."
+    "help-instruction-part1": "Aqui você verá estatísticas das etiquetas com base na frequência em que são utilizadas em cada livro.",
+    "help-instruction-part2": "No momento, não etiquetas atribuídas a este livro.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Uma vez que você começar a atribuir etiquetas, as estatísticas serão atualizadas automaticamente."
   },
   "compare-panel": {
     "default-header": "<b>Comparar traduções</b>",
@@ -379,6 +427,8 @@
     "default-header": "<b>Comentário bíblico</b>",
     "commentaries-for": "Comentários para",
     "show-commentaries": "Mostrar comentários",
+    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
+    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "Para mostrar o conteúdo do comentário, selecione um versículo.<br><br> Esta área listará automaticamente todos os comentários disponíveis do versículo selecionado.",
     "help-instruction-no-commentaries": "Nenhum comentário foi instalado ainda. Você precisa instalar pelo menos um comentário para que este recurso funcione.",
     "help-instruction-no-kjv": "A tradução KJV ainda não foi instalada. A KJV é necessária para mostrar corretamente os comentários bíblicos baseados na divisão de versículos em inglês. Você pode corrigir isso:<ul><li>Instalando o KJV do repositório CrossWire</li><li>Instalando um comentário (A tradução KJV é instalada automaticamente neste caso)</li></ul>",
@@ -401,7 +451,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Bem vindo ao aplicativo Bíblia Esdras!",
     "storage-justification": "A Bíblia Esdras precisa ter acesso a área de armazenamento do dispositivo para salvar módulos The SWORD e armazenar seu banco de dados.<br><br>Após pressionar o botão abaixo, você será deverá conceder permissão para que a Bíblia Esdras acesse os arquivos em seu dispositivo.",
     "enable-storage-access": "Permitir acesso ao armazenamento do dispositivo",
     "storage-permission-denied": "Você decidiu negar o acesso ao armazenamento.<br>Você pode alterar isso pressionando o botão abaixo!",
@@ -416,7 +465,6 @@
     "waiting-app-ready": "Aguardando aplicativo ficar pronto"
   },
   "dropbox": {
-    "database-dropbox-sync": "Sincronização do banco de dados via Dropbox",
     "setup-db-sync": "Configurar sincronização via Dropbox",
     "dropbox-sync-explanation-part1": "A sincronização via Dropbox pode ser usada para sincronizar o banco de dados do aplicativo Bíblia Esdras em vários dispositivos.",
     "dropbox-sync-explanation-part2": "O banco de dados será sincronizado nos seguintes eventos:",

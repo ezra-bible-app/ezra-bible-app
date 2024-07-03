@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -126,6 +126,17 @@ class IpcGeneralHandler {
       return bookNames;
     });
 
+    this._ipcMain.add('general_getSystemFonts', async() => {
+      let fonts = [];
+
+      if (this._platformHelper.isElectronMain()) {
+        const fontList = require('font-list');
+        fonts = await fontList.getFonts();
+      }
+
+      return fonts;
+    });
+
     this._ipcMain.add('general_startDropboxAuthServer', async() => {
       console.log('Starting express server, listening on port 9999');
 
@@ -172,6 +183,12 @@ class IpcGeneralHandler {
       for (const [key, value] of Object.entries(global.callCounters)) {
         global.callCounters[key] = 0;
       }
+    });
+
+    this._ipcMain.add('general_setSendCrashReports', async(sendCrashReports) => {
+      global.sendCrashReports = sendCrashReports;
+
+      console.log(`sendCrashReports: ${global.sendCrashReports}`);
     });
   }
 }

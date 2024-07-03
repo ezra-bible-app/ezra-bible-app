@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -115,6 +115,21 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
+    if (!created) {
+      // Rewrite the chapter and verseNr in case the existing values are null
+      // This may be the case due to a bug that existed in the frontend (see #979)
+      // We cannot undo the wrongful saving of verse references, but we can rewrite the verse reference
+      // if we encounter one that has missing chapter / verseNr attributes.
+
+      if (verseReference.dataValues.chapter == null) {
+        verseReference.chapter = chapter;
+      } else if (verseReference.dataValues.verseNr == null) {
+        verseReference.verseNr = verseNr;
+      }
+
+      await verseReference.save();
+    }
+
     return verseReference;
   };
 
@@ -196,7 +211,7 @@ module.exports = (sequelize, DataTypes) => {
     var query = `SELECT vr.*, 
                  b.shortTitle as bibleBookShortTitle,
                  b.longTitle AS bibleBookLongTitle,
-                 GROUP_CONCAT(t.title, ';') AS tagList,
+                 REPLACE(GROUP_CONCAT(DISTINCT t.title), ',', ';') AS tagList,
                  REPLACE(GROUP_CONCAT(DISTINCT tg.title), ',', ';') AS tagGroupList,
                  n.text AS noteText
                  FROM VerseReferences vr

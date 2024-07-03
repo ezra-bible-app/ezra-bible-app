@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -70,6 +70,10 @@ class IpcGeneral {
     return await this._ipcRenderer.call('general_getBookNames', bibleBooks, localeCode);
   }
 
+  async getSystemFonts() {
+    return await this._ipcRenderer.call('general_getSystemFonts');
+  }
+
   /**
    * This can be used to check which functions are called how often as a basis for performance optimization.
    * Returns an object where the keys are function names and values call counts.
@@ -91,6 +95,10 @@ class IpcGeneral {
    */
   async resetIpcCallStats() {
     return await this._ipcRenderer.call('general_resetIpcCallStats');
+  }
+
+  async setSendCrashReports(sendCrashReports) {
+    return await this._ipcRenderer.call('general_setSendCrashReports', sendCrashReports);
   }
 }
 

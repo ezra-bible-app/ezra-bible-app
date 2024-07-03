@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -182,9 +182,11 @@ class BookSelectionMenu {
       return;
     }
 
-    Sentry.addBreadcrumb({category: "app",
-                          message: `Selected book ${bookCode} using translation ${this.currentBibleTranslationId}`,
-                          level: "info"});
+    if (window.Sentry != null) {
+      Sentry.addBreadcrumb({category: "app",
+                            message: `Selected book ${bookCode} using translation ${this.currentBibleTranslationId}`,
+                            level: "info"});
+    }
     
     var books = await ipcNsi.getBookList(this.currentBibleTranslationId);
     if (!books.includes(bookCode)) {

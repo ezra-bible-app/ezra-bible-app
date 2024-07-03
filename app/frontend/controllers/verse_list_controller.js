@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@ const wheelnavController = require('../controllers/wheelnav_controller.js');
 const eventController = require('../controllers/event_controller.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const Hammer = require('../../../lib/hammerjs/hammer.js');
+const Mousetrap = require('mousetrap');
 
 /**
  * This controller provides an API for the verse list as well as event handlers for clicks within the verse list.
@@ -42,10 +43,12 @@ module.exports.init = function init() {
     let platformHelper = new PlatformHelper();
     if (platformHelper.isCordova()) {
       this.initSwipeEvents(tabIndex);
+    } else {
+      this.initNavigationEvents(tabIndex);
     }
   });
 
-  eventController.subscribe('on-tag-group-filter-enabled', async () => {
+  eventController.subscribeMultiple(['on-tag-group-filter-enabled', 'on-tag-group-members-changed'], async () => {
     this.applyTagGroupFilter(tags_controller.currentTagGroupId);
   });
 
@@ -58,10 +61,6 @@ module.exports.init = function init() {
       this.applyTagGroupFilter(tagGroup.id);
     }
   });
-
-  eventController.subscribe('on-tag-group-members-changed', async() => {
-    this.applyTagGroupFilter(tags_controller.currentTagGroupId);
-  });
 };
 
 module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
@@ -72,8 +71,8 @@ module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
 
 module.exports.getCurrentVerseList = function(tabIndex=undefined) {
   var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-  var verseList = currentVerseListFrame[0].querySelector('.verse-list');
-  return $(verseList);
+  var verseList = currentVerseListFrame.find('.verse-list');
+  return verseList;
 };
 
 module.exports.getCurrentVerseListHeader = function(tabIndex=undefined) {
@@ -248,8 +247,12 @@ module.exports.resetVerseListView = function() {
   }
 
   let verseListFrame = this.getCurrentVerseListFrame();
+
+  let verseListHeader = verseListFrame.find('.verse-list-header');
+  verseListHeader.hide();
+
   let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
-  tagDistributionMatrix.input = '';
+  tagDistributionMatrix.reset();
 
   app_controller.docxExport.disableExportButton();
 };
@@ -352,6 +355,23 @@ module.exports.initSwipeEvents = async function(tabIndex) {
     });
 
     hammerTime.on('swipeleft', () => { 
+      this.goToNextChapter();
+    });
+  }
+};
+
+module.exports.initNavigationEvents = async function(tabIndex) {
+  let currentTab = app_controller.tab_controller.getTab(tabIndex);
+  const currentTranslationId = currentTab.getBibleTranslationId();
+  const currentBook = currentTab.getBook();
+  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentBook);
+
+  if (!isInstantLoadingBook) {
+    Mousetrap.bind('left', () => {
+      this.goToPreviousChapter();
+    });
+
+    Mousetrap.bind('right', () => {
       this.goToNextChapter();
     });
   }
@@ -523,24 +543,14 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
   // Update visibility of verse tag indicators
   verseBoxes.forEach((verseBox) => {
     let visibleTagCount = verseBox.querySelectorAll('.tag:not(.hidden)').length;
-
     let tagIndicator = verseBox.querySelector('.tag-info');
-    if (visibleTagCount > 0) {
-      tagIndicator.classList.add('visible');
-    } else {
-      tagIndicator.classList.remove('visible');
+
+    if (tagIndicator != null) {
+      if (visibleTagCount > 0) {
+        tagIndicator.classList.add('visible');
+      } else {
+        tagIndicator.classList.remove('visible');
+      }
     }
   });
-};
-
-module.exports.selectAllVerses = function(selectionLocaleText) {
-  const currentVerseListFrame = this.getCurrentVerseListFrame();
-
-  let allVerseTextElements = currentVerseListFrame[0].querySelectorAll('.verse-text');
-  allVerseTextElements.forEach((verseTextElement) => {
-    verseTextElement.classList.add('ui-selected');
-  });
-
-  app_controller.verse_selection.updateSelected();
-  app_controller.verse_selection.updateViewsAfterVerseSelection(i18n.t(selectionLocaleText));
 };

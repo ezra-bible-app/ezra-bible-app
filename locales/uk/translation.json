@@ -7,6 +7,7 @@
     "tags": "Міти",
     "search": "Пошук",
     "options": "Налаштування",
+    "verse-context-actions": "Дії по обранному віршу",
     "export": "Вивіз у текстовий документ",
     "show-module-info": "Показати відомості про модуль та застосунок",
     "fullscreen": "Переключити у повноекранний режим",
@@ -115,9 +116,10 @@
     "module-sync-header": "Встановлення додаткових модулів"
   },
   "general": {
+    "ezra-bible-app": "Біблійний Застосунок Єздри",
     "about-ezra-bible-app": "Про Біблійний застосунок Єздри",
-    "general-app-info": "Загальні відомості щодо Біблійного застосунку Єздри знаходяться на сайті застосунку.<br>Технічні подробиці щодо розробки Біблійного застосунку Єздри можна знайти на GitHub.",
-    "website": "Website",
+    "general-app-info": "Загальні відомості щодо Біблійного застосунку Єздри знаходяться на мережці застосунку.<br>Технічні подробиці щодо розробки Біблійного застосунку Єздри можна знайти на GitHub.",
+    "website": "Мережець",
     "chapter-verse-separator": ":",
     "module-application-info": "Відомості про переклад Біблії та застосунок",
     "application-info": "Відомості застосунку",
@@ -199,7 +201,28 @@
     "configure-translations": "Переклади Біблії",
     "configure-dicts": "Словники",
     "configure-commentaries": "Коментарі",
-    "context": "Контекст"
+    "context": "Контекст",
+    "general-options": "Загальні налаштування",
+    "check-new-releases": "Перевіряти наявність оновлень",
+    "send-crash-reports": "Відсилати звіти щодо помилок",
+    "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!",
+    "type-face": {
+      "configure-typeface": "Налаштування черенків тексту Біблії",
+      "sans-serif": "Без зарубок",
+      "serif": "Із зарубками",
+      "custom": "Довільні",
+      "bible-text-font-family": "Черенки тексту Біблії",
+      "custom-bible-text-font": "Довільні черенки тексту Біблії"
+    }
+  },
+  "data-privacy": {
+    "confirm-privacy-options": "Підтвердіть налаштування конфеденційности даних",
+    "data-privacy-options": "Налаштування конфеденційности даних",
+    "please-confirm-options": "Будь ласка, підтвердіть настпупні опції стосовно конфеденційности даних. Ці опції потребують з'єднання з інтернетом якщо обрані. Ці налаштування можна змінити пізніше.",
+    "check-new-releases-hint": "Біблйний застосунок Єздри може перевіряти наявність оновлень при кожному запуску. Це вимагає короткострокового з'єднання з <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, де опубліковані оновлення застосунку.",
+    "send-crash-reports-hint-part1": "Біблйний застосунок Єздри може автоматично відсилати звіти щодо помилок на майданчик помилкових звітів <a class='external' href='https://sentry.io'>Sentry.io</a> відразу, щойно виникла помилка.",
+    "send-crash-reports-hint-part2": "Це допоможе команді розробників швидше зрозуміти наявність помилки, тобто вносить вклад у розвиток Біблійного застосунку Єздри.",
+    "send-crash-reports-hint-part3": "Зауважте, що такі звіти щодо помилок містять суто технічну інформацію та не потребують швидкого з'єднання з інтернетом."
   },
   "help": {
     "help-text-no-tags-book-opened": "Щоб розпочати роботу з мітами, створіть свою першу міту, натиснувши кнопку <i>Нова&nbsp;міта</i>. <br/><br/>Після цього ви можете переглядати текст Біблії, клацати або перетягувати вірші, щоб призначати щойно створену міту.",
@@ -215,10 +238,13 @@
       "font-section-title": "Текст Біблії",
       "current-tab-search-section-title": "Пошук у поточній вкладці",
       "miscellaneous-section-title": "Інше",
+      "previous-chapter": "Previous chapter",
+      "next-chapter": "Next chapter",
       "in-tab-search": "Відобразити форму пошуку",
       "hide-in-tab-search-form": "Сховати форму пошуку",
       "jump-to-next-search-occurance": "Перейти до наступного результату",
       "jump-to-previous-occurance": "Перейти до попереднього результату",
+      "select-all-verses": "Обрати усі вірші",
       "copy-selected-verses-to-clipboard": "Копіювати вибраний уривок до кишені",
       "toggle-fullscreen-only-Win-Linux": "Переключити у повноекранний режим",
       "enable-dynamic-strongs-display": "Показати статтю словника за числом Стронга",
@@ -233,6 +259,9 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "previous-chapter": "Left",
+      "next-chapter": "Right",
+      "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
       "enable-dynamic-strongs-display": "Shift + наведення мишею над словом",
@@ -243,6 +272,7 @@
     }
   },
   "tags": {
+    "tag": "Міта",
     "new-tag": "Нова міта",
     "create-tag": "Створити міту",
     "delete-tag": "Видалити міту",
@@ -310,6 +340,8 @@
     "select-all-search-results": "Вибрати всі результати пошуку",
     "all-search-results": "Усі результати пошуку",
     "some-search-results": "Деякі результати пошуку",
+    "select-all-verses": "Вибрати всі вірші",
+    "all-verses": "Всі вірші",
     "module-configuration": "Керування модулями",
     "display": "Параметри відображення",
     "text-options": "Параметри тексту",
@@ -334,6 +366,7 @@
     "limit-notes-display-size": "Обмежити висоту нотаток",
     "use-tags-column": "Міти у окремому стовпці",
     "select-chapter-before-loading": "Обирати розділ при відкритті книг",
+    "use-system-theme": "System theme",
     "use-night-mode": "Нічний режим",
     "keep-screen-on": "Тримати екран включеним",
     "comparing-translations-for": "Порівняння перекладів",
@@ -347,11 +380,22 @@
     "open-complete-book": "Відкривати книги повністю",
     "open-chapters-large-books": "Відкривати за розділом великі книги",
     "open-chapters-all-books": "Відкривати за розділом усі книги",
-    "copy": "Зкопіювати",
-    "copy-table-to-clipboard": "Зкопіювати таблицю до буферу обміну",
-    "copy-table-to-clipboard-success": "Таблицю зкопійовано до буферу обміну!",
+    "copy": "Сколити",
+    "copy-table-to-clipboard": "Сколити таблицю до кишені",
+    "copy-table-to-clipboard-success": "Таблицю сколено до кишені!",
+    "copy-verse-text-to-clipboard": "Сколити текст вірша до кишені",
+    "copy-verse-text-to-clipboard-success": "Текст вірша сколено до кишені!",
     "edit-note": "Редагувати нотатку",
-    "delete-note": "Видалити нотатку"
+    "delete-note": "Видалити нотатку",
+    "transchange" : {
+      "added" : "Ці слова було додано при перекладі",
+      "amplified" : "Ці слова підсилюють інформацію з першоджерела",
+      "changed" : "Ці слова було змінено при перекладі",
+      "deleted" : "Деякі слова першоджерела відсутні у перекладі",
+      "implied" : "Ці слова додано або змінено при перекладі інформації, що зрозуміла з першоджерела",
+      "moved" : "Ці слова містяться в іншому місці першоджерела",
+      "tense-change": "Граматичний зворот цих слів змінено при перекладі"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Словник грецької",
@@ -360,15 +404,19 @@
     "help-instruction-intro": "Як відобразити словникові записи:",
     "help-instruction-part1": "Переконайтеся, що встановленно словники Стронга (івриту та грецької). Поточний стан: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Відкрийте переклад, що містить числа Стронга.",
-    "help-instruction-part3": "Затиснюючи клавішу SHIFT, переміщуйте мишу повз окремі слова та фрази, щоб побачити тут словникові записи.",
+    "help-instruction-part3": "Якщо обрано вірш, можливо навести вказівником миші на певні слова чи фрази, щоб побачити словникові записи у цьому вікні.",
     "help-instruction-part3-cordova": "Торкніться та утримуйте на певному слові або фразі аж поки словникові записи не відобразяться в цьому вікні.",
+    "help-instruction-part4-desktop": "Утримуйте клавішу SHIFT для перегляду статей по наведенню вказівника миші у будь-якому вірші.",
     "find-all-occurrences": "Знайти всі випадки",
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
     "related-strongs": "Пов'язані числа Стронга"
   },
   "tag-statistics-panel": {
     "default-header": "Перелік міт",
-    "help-instruction": "Тут буде відображенно перелік міт за частотою їх вживання у поточній книзі.<br><br> Наразі відкрита книга не містить помічених віршів. Щойно ви почнете прикріпляти міти до віршів, цей перелік міт автоматично оновиться."
+    "help-instruction-part1": "Тут буде відображенно перелік міт за частотою їх вживання у поточній книзі.",
+    "help-instruction-part2": "Наразі відкрита книга не містить помічених віршів.",
+    "help-instruction-part2-tag-group": "Наразі перелік міт у поточній групі відсутній для цієї книги.",
+    "help-instruction-part3": "Щойно ви почнете прикріпляти міти до віршів, цей перелік міт автоматично оновиться."
   },
   "compare-panel": {
     "default-header": "<b>Порівняти переклади</b>",
@@ -380,6 +428,8 @@
     "default-header": "<b>Коментар Біблії</b>",
     "commentaries-for": "Коментар до",
     "show-commentaries": "Відображати коментарі",
+    "copy-commentary-to-clipboard": "Сколити коментар до кишені",
+    "copy-commentary-to-clipboard-success": "Коментар сколено до кишені!",
     "help-instruction": "Щоб відобразити зміст коментаря, виберіть вірш.<br><br> Ця область автоматично відобразить всі наявні коментарі до цього вірша.",
     "help-instruction-no-commentaries": "Наразі коментарі ще не встановленні. Необхідно встановити принаймні один коментар.",
     "help-instruction-no-kjv": "Переклад Біблії KJV ще не встановлено. Цей переклад необхідний, щоб відображати коментарі засновані на англомовному поділі на вірші та розділи. Для виправлення:<ul><li>Встановіть переклад Біблії KJV зі сховища CrossWire</li><li>Встановіть коментар (у цьому випадку KJV буде автоматично встановленно)</li></ul>",
@@ -402,7 +452,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!",
     "storage-justification": "Біблійний застосунок Єздри потребує доступу до сховища вашого пристрою для зберігання модулів SWORD та власної бази даних.<br><br>Після натискання цієї кнопки буде запит на дозвіл Ezra Bible App до файлів на вашому пристрої.",
     "enable-storage-access": "Надайте дозвіл на доступ до сховища пристрою",
     "storage-permission-denied": "Ви заборонили доступ до сховища пристрою.<br>Ви можете змінити це, натиснувши кнопку нижче!",
@@ -417,7 +466,6 @@
     "waiting-app-ready": "Очікування готовності застосунку"
   },
   "dropbox": {
-    "database-dropbox-sync": "Позгода бази даних з Dropbox",
     "setup-db-sync": "Налаштувати позгоду з Dropbox",
     "dropbox-sync-explanation-part1": "Позгода з Dropbox може узгодити вашу базу даних Біблійного&nbsp;застосунку&nbsp;Єздри між різними пристроями.",
     "dropbox-sync-explanation-part2": "Базу даних буде узгоджено у наступних випадках:",

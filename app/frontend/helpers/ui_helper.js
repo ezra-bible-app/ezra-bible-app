@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,7 +33,8 @@ class UiHelper {
       throw new Error('context should be HTMLElement, css selector string or null for the document context');
     }
   
-    var buttons = context.querySelectorAll('.fg-button');
+    if (context == null) { return; }
+    let buttons = context.querySelectorAll('.fg-button');
   
     for (let i = 0; i < buttons.length; i++) {
       const currentButton = buttons[i];
@@ -267,7 +268,6 @@ class UiHelper {
 
   addButton(containerElement, cssClass, localeId, onClickFunction, isDisabled=false) {
     let button = document.createElement('button');
-    button.setAttribute('style', 'margin: 0.5em;');
     button.classList.add(cssClass);
     button.classList.add('fg-button');
     button.classList.add('ui-corner-all');
@@ -281,13 +281,13 @@ class UiHelper {
     button.setAttribute('i18n', localeId);
     containerElement.append(button);
 
-    button.onclick = () => {
+    button.addEventListener('click', () => {
       if (button.classList.contains('ui-state-disabled')){
         return;
       }
       
       onClickFunction();
-    };
+    });
   }
 }
 

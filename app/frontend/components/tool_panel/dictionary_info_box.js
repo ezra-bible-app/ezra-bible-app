@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -83,11 +83,13 @@ class DictionaryInfoBox {
 
     let helpInstructionPart2 = i18n.t("dictionary-panel.help-instruction-part2");
     let helpInstructionPart3 = "";
+    let helpInstructionPart4 = "";
    
     if (platformHelper.isCordova()) {
       helpInstructionPart3 = i18n.t("dictionary-panel.help-instruction-part3-cordova");
     } else {
       helpInstructionPart3 = i18n.t("dictionary-panel.help-instruction-part3");
+      helpInstructionPart4 = `<li>${i18n.t("dictionary-panel.help-instruction-part4-desktop")}</li>`;
     }
     
     let helpInstruction = html`
@@ -96,6 +98,7 @@ class DictionaryInfoBox {
         <li>${helpInstructionPart1}</li>
         <li>${helpInstructionPart2}</li>
         <li>${helpInstructionPart3}</li>
+        ${helpInstructionPart4}
       </ol>
     `;
 
@@ -368,7 +371,7 @@ class DictionaryInfoBox {
       <div class='bold' style='margin-bottom: 1em'>Strong's
       ${moduleInfoButton} 
       </div>
-      <pre class='strongs-definition'>${strongsEntry.definition}</pre>
+      <div class='strongs-definition'>${strongsEntry.definition}</div>
       ${relatedStrongsContent}`;
 
     return extendedStrongsInfo;
@@ -438,11 +441,15 @@ class DictionaryInfoBox {
   }
 
   async findAllOccurrences(strongsKey, bibleTranslationId) {
-    // Add a new tab. Set the default bible translation to the given one to ensure that the translation in the
-    // newly opened tab matches the one in the current tab
-    app_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
 
-    // Set search options for the new tab
+    if (!showSearchResultsInPopup) {
+      // Add a new tab. Set the default bible translation to the given one to ensure that the translation in the
+      // newly opened tab matches the one in the current tab
+      app_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
+    }
+
+    // Set search options
     var currentTab = app_controller.tab_controller.getTab();
     currentTab.setSearchOptions('strongsNumber', false);
 
@@ -450,8 +457,10 @@ class DictionaryInfoBox {
     app_controller.tab_controller.setTabSearch(strongsKey);
     app_controller.module_search_controller.populateSearchMenu();
 
-    // Prepare for the next text to be loaded
-    await app_controller.text_controller.prepareForNewText(true, true);
+    if (!showSearchResultsInPopup) {
+      // Prepare for the next text to be loaded
+      await app_controller.text_controller.prepareForNewText(true, true);
+    }
 
     // Perform the Strong's search
     await app_controller.module_search_controller.startSearch(/* event */      null,

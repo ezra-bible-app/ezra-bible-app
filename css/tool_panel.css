@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@
 
 @media (min-width: 1200px) {
   #tool-panel {
-    min-width: 30em;
+    min-width: 33em;
   }
 
   .Android #tool-panel #tag-list-stats {
@@ -227,19 +227,22 @@
   margin: 0.1em 0 0 0;
 }
 
+.panel-wrapper .fg-button {
+  font-size: 0.9em !important;
+}
+
+#tag-statistics-panel-wrapper {
+  padding: 0 !important;
+  height: calc(100% - 2.9em);
+}
+
 .strongs-short-info {
   font-weight: bold;
 }
 
 #dictionary-panel-content .strongs-definition {
   margin-top: 0;
-  font-size: 110%;
-  white-space: pre-wrap;
   color: black;
-}
-
-.OSX #dictionary-panel-content .strongs-definition {
-  font-size: 120%;
 }
 
 .darkmode--activated #dictionary-panel-content .strongs-definition {
@@ -335,7 +338,7 @@ tr.td-underline td {
   margin: 0.1em 0 0 0;
   padding: 0.5em;
   user-select: none;
-  height: calc(100% - 5.8em);
+  height: calc(100% - 5.5em) !important;
   box-sizing: border-box;
 }
 
@@ -423,15 +426,18 @@ input.tag-cb {
   border-radius: calc(var(--border-radius) - 2px);
   background-color: var(--background-color);
 }
+
 .darkmode--activated .button-small {
   color: var(--button-color-dark);
 }
+
 .button-small.active, 
 .button-small.button-small:hover:not(.disabled):not(.no-hl) {
   color: white;
   background-color: var(--accent-color);
   border-color: var(--highlight-border-color);
 }
+
 .button-small.disabled {
   color: var(--disabled-button-color);
   border-color: var(--disabled-button-color);
@@ -442,8 +448,12 @@ input.tag-cb {
 .Android .button-small {
   width: 24px;
   height: 24px;
-  margin-right: 1em;
   font-size: 1em;
+}
+
+.Android #tag-group-list-content .button-small,
+.Android #tags-content-global .button-small {
+  margin-right: 1em;
 }
 
 .edit-button {

@@ -24,11 +24,6 @@
       <button id="show-module-update-button" class="fg-button ui-corner-all ui-state-default" i18n="general.update-modules"></button>
   </div>
 
-  <div class="options-header" i18n="dropbox.database-dropbox-sync"></div>
-  <div class="switch-box">
-    <button id="setup-db-sync-button" class="fg-button ui-corner-all ui-state-default" i18n="dropbox.setup-db-sync"></button>
-  </div>
-
   <locale-switch id="localeSwitchOption" settingsKey="appLocale" label="general.app-language"></locale-switch>
 </div>
 
@@ -48,6 +43,7 @@
 <div class="options-group" style="clear: both;">
   <div class="options-header" i18n="bible-browser.display"></div>
 
+  <config-option id="useSystemTheme" settingsKey="useSystemTheme" label="bible-browser.use-system-theme" checkedByDefault="true" autoLoad="false"></config-option>
   <config-option id="useNightModeOption" settingsKey="useNightMode" label="bible-browser.use-night-mode" checkedByDefault="false" autoLoad="false"></config-option>
   <config-option id="keepScreenAwakeOption" settingsKey="keepScreenAwake" label="bible-browser.keep-screen-on" checkedByDefault="false"></config-option>
   <config-option id="selectChapterBeforeLoadingOption" settingsKey="selectChapterBeforeLoading" label="bible-browser.select-chapter-before-loading" checkedByDefault="false"></config-option>
@@ -74,4 +70,19 @@
   <config-option id="showFootnotesOption" settingsKey="showFootnotes" label="bible-browser.show-footnotes" checkedByDefault="false"></config-option>
   <config-option id="showParagraphsOption" settingsKey="showParagraphs" label="bible-browser.show-paragraphs" checkedByDefault="false"></config-option>
   <config-option id="redLetterOption" settingsKey="redLetters" label="bible-browser.red-letters" checkedByDefault="true"></config-option>
+
+  <div class="switch-box">
+    <button id="show-typeface-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="general.type-face.configure-typeface"></button>
+  </div>
+</div>
+
+<div class="options-group" style="clear: both;">
+  <div class="options-header" i18n="general.general-options"></div>
+
+  <config-option id="checkNewReleasesOption" settingsKey="checkNewReleases" label="general.check-new-releases" checkedByDefault="true"></config-option>
+  <config-option id="sendCrashReportsOption" settingsKey="sendCrashReports" label="general.send-crash-reports" checkedByDefault="true"></config-option>
+
+  <div class="switch-box">
+    <button id="setup-db-sync-button" class="fg-button ui-corner-all ui-state-default" i18n="dropbox.setup-db-sync"></button>
+  </div>
 </div>

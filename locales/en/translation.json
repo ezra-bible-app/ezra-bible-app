@@ -7,6 +7,7 @@
     "tags": "Tags",
     "search": "Search",
     "options": "Options",
+    "verse-context-actions": "Verse context actions",
     "export": "Export to text document",
     "show-module-info": "Show module info",
     "fullscreen": "Toggle full screen mode",
@@ -115,6 +116,7 @@
     "module-sync-header": "Installing additional modules"
   },
   "general": {
+    "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "About Ezra Bible App",
     "general-app-info": "General information about Ezra Bible App can be found on the website.<br>Technical information about the development of Ezra Bible App can be found on GitHub.",
     "website": "Website",
@@ -199,7 +201,28 @@
     "configure-translations": "Configure translations",
     "configure-dicts": "Configure dictionaries",
     "configure-commentaries": "Configure commentaries",
-    "context": "Context"
+    "context": "Context",
+    "general-options": "General options",
+    "check-new-releases": "Check for new releases",
+    "send-crash-reports": "Send error reports",
+    "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!",
+    "type-face": {
+      "configure-typeface": "Configure Bible text typeface",
+      "sans-serif": "Sans serif",
+      "serif": "Serif",
+      "custom": "Custom",
+      "bible-text-font-family": "Bible text font family",
+      "custom-bible-text-font": "Custom Bible text font"
+    }
+  },
+  "data-privacy": {
+    "confirm-privacy-options": "Confirm data privacy options",
+    "data-privacy-options": "Data privacy options",
+    "please-confirm-options": "Please confirm the following data privacy options. These options require internet access. You can also make changes in the Options menu later.",
+    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, where new releases are published.",
+    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
+    "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
+    "send-crash-reports-hint-part3": "Note that the error reports only contain technical information and do not require much data bandwidth."
   },
   "help": {
     "help-text-no-tags-book-opened": "To start working with tags, create your first tag by clicking on the button <i>New&nbsp;tag</i>.<br/><br/>After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.",
@@ -215,10 +238,13 @@
       "font-section-title": "Font",
       "current-tab-search-section-title": "Current Tab Search",
       "miscellaneous-section-title": "Miscellaneous",
+      "previous-chapter": "Previous chapter",
+      "next-chapter": "Next chapter",
       "in-tab-search": "Open current tab search",
       "hide-in-tab-search-form": "Hide current tab search form",
       "jump-to-next-search-occurance": "Jump to next search occurance",
       "jump-to-previous-occurance": "Jump to previous occurance",
+      "select-all-verses": "Select all verses",
       "copy-selected-verses-to-clipboard": "Copy selected verses to clipboard",
       "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen",
       "enable-dynamic-strongs-display": "Enable dynamic Strong's display",
@@ -233,6 +259,9 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "previous-chapter": "Left",
+      "next-chapter": "Right",
+      "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
       "enable-dynamic-strongs-display": "Shift + mouse over verse",
@@ -243,6 +272,7 @@
     }
   },
   "tags": {
+    "tag": "Tag",
     "new-tag": "New tag",
     "create-tag": "Create tag",
     "delete-tag": "Delete tag",
@@ -309,6 +339,8 @@
     "select-all-search-results": "Select all search results",
     "all-search-results": "All search results",
     "some-search-results": "Some search results",
+    "select-all-verses": "Select all verses",
+    "all-verses": "All verses",
     "module-configuration": "Module configuration",
     "display": "Display",
     "text-options": "Text options",
@@ -333,6 +365,7 @@
     "limit-notes-display-size": "Limit notes display size",
     "use-tags-column": "Use tags column",
     "select-chapter-before-loading": "Open books with chapter selection",
+    "use-system-theme": "System theme",
     "use-night-mode": "Night mode",
     "keep-screen-on": "Keep screen on",
     "comparing-translations-for": "Comparing translations for",
@@ -349,8 +382,19 @@
     "copy": "Copy",
     "copy-table-to-clipboard": "Copy table to clipboard",
     "copy-table-to-clipboard-success": "Table copied to clipboard!",
+    "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
+    "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
     "edit-note": "Edit note",
-    "delete-note": "Delete note"
+    "delete-note": "Delete note",
+    "transchange" : {
+      "added" : "These words were added in translation",
+      "amplified" : "These words are amplifications of information in the source text",
+      "changed" : "These words were changed in translation",
+      "deleted" : "Some words in the source text are not present in the translation",
+      "implied" : "These words were added or changed to translate information implied by the source text",
+      "moved" : "These words were in another location in the source text",
+      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+    }
   },
   "dictionary-panel": {
     "greek-dict": "Greek Dictionary",
@@ -359,15 +403,19 @@
     "help-instruction-intro": "How to show dictionary entries here:",
     "help-instruction-part1": "Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Open a translation with the Strong's feature.",
-    "help-instruction-part3": "While you press the SHIFT key you can move your mouse over the individual words and phrases to see dictionary entries here.",
+    "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
+    "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
     "find-all-occurrences": "Find all occurrences",
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's"
   },
   "tag-statistics-panel": {
     "default-header": "Tag statistics",
-    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+    "help-instruction-part1": "Here you will see statistics of tags based on how frequently they are used in a book.",
+    "help-instruction-part2": "There are currently no tag assignments in this book.",
+    "help-instruction-part2-tag-group": "There are currently no tag assignments in this book based on the current tag group.",
+    "help-instruction-part3": "Once you start assigning tags, the tag statistics will refresh automatically."
   },
   "compare-panel": {
     "default-header": "<b>Compare translations</b>",
@@ -379,6 +427,8 @@
     "default-header": "<b>Bible commentary</b>",
     "commentaries-for": "Commentaries for",
     "show-commentaries": "Show commentaries",
+    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
+    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
     "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
     "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
@@ -401,7 +451,6 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Welcome to the Ezra Bible App!",
     "storage-justification": "Ezra Bible App needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible App to access files on your device.",
     "enable-storage-access": "Enable access to device storage",
     "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",
@@ -416,7 +465,6 @@
     "waiting-app-ready": "Waiting for app to get ready"
   },
   "dropbox": {
-    "database-dropbox-sync": "Database Dropbox sync",
     "setup-db-sync": "Setup Dropbox synchronization",
     "dropbox-sync-explanation-part1": "The Dropbox synchronization can be used to synchronize your Ezra&nbsp;Bible&nbsp;App database across multiple devices.",
     "dropbox-sync-explanation-part2": "The database will be synchronized in the following events:",

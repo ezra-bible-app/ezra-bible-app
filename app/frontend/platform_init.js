@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,9 +41,6 @@ window.initPlatform = function() {
     if (webViewVersion) {
       if (webViewVersion >= CHROMIUM_VERSION_MIN) {
         loadScript('cordova.js');
-
-        console.log("Using customizable theme.css!");
-        document.getElementById("cordova-theme-css").href = "file:///sdcard/Android/data/net.ezrabibleapp.cordova/theme.css";
 
         window.isDev = false;
 

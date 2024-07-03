@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -46,6 +46,8 @@ class TagGroupManager extends ItemListManager {
           deleteHintI18n,
           virtualItems);
 
+    this._bookFilter = null;
+
     eventController.subscribe('on-tag-group-renamed', async (tagGroupId) => {
       await this.refreshItemList();
       await waitUntilIdle();
@@ -61,8 +63,20 @@ class TagGroupManager extends ItemListManager {
     });
   }
 
+  setBookFilter(bookFilter) {
+    this._bookFilter = bookFilter;
+  }
+
   async getDbItems() {
-    let dbItems = await ipcDb.getAllTagGroups();
+    var bibleBook = null;
+    var bibleBookId = 0;
+
+    if (this._bookFilter != null) {
+      bibleBook = await ipcDb.getBibleBook(this._bookFilter);
+      bibleBookId = bibleBook.id;
+    }
+
+    let dbItems = await ipcDb.getAllTagGroups(bibleBookId);
     return dbItems;
   }
 }

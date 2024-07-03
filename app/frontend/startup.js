@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2023 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-
+const Mousetrap = require('mousetrap');
 const PlatformHelper = require('../lib/platform_helper.js');
 const IpcGeneral = require('./ipc/ipc_general.js');
 const IpcI18n = require('./ipc/ipc_i18n.js');
@@ -26,12 +26,13 @@ const IpcSettings = require('./ipc/ipc_settings.js');
 const i18nController = require('./controllers/i18n_controller.js');
 const dbSyncController = require('./controllers/db_sync_controller.js');
 const eventController = require('./controllers/event_controller.js');
+const cacheController = require('./controllers/cache_controller.js');
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
 
-const { waitUntilIdle } = require('./helpers/ezra_helper.js');
+const { html, waitUntilIdle, getPlatform } = require('./helpers/ezra_helper.js');
 
 /**
  * The Startup class has the purpose to start up the application.
@@ -51,6 +52,10 @@ class Startup {
 
     window.app_controller = null;
     window.tags_controller = null;
+
+    if (window.sendCrashReports == null) {
+      window.sendCrashReports = false;
+    }
   }
 
   async initTest() {
@@ -107,10 +112,9 @@ class Startup {
 
     this.loadWebComponents();
 
-    const fs = require('fs');
-
     var bookSelectionMenu = null;
     var tagSelectionMenu = null;
+    var toolPanel = null;
     var tagPanel = null;
     var moduleSearchMenu = null;
     var displayOptionsMenu = null;
@@ -126,6 +130,7 @@ class Startup {
 
       bookSelectionMenu = loadFile('html/book_selection_menu.html');
       tagSelectionMenu = loadFile('html/tag_selection_menu.html');
+      toolPanel = loadFile('html/tool_panel.html');
       tagPanel = loadFile('html/tag_panel.html');
       moduleSearchMenu = loadFile('html/module_search_menu.html');
       displayOptionsMenu = loadFile('html/display_options_menu.html');
@@ -140,8 +145,11 @@ class Startup {
       // Note that for Cordova these readFileSync calls are all inlined, which means the content of those files
       // becomes part of the bundle when bundling up the sources with Browserify.
 
+      const fs = require('fs');
+
       bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
       tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
+      toolPanel = fs.readFileSync('html/tool_panel.html');
       tagPanel = fs.readFileSync('html/tag_panel.html');
       moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
       displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
@@ -151,6 +159,7 @@ class Startup {
   
     document.getElementById('book-selection-menu-book-list').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
+    document.getElementById('tool-panel').innerHTML = toolPanel;
     document.getElementById('tag-panel').innerHTML = tagPanel;
     document.getElementById('module-search-menu').innerHTML = moduleSearchMenu;
     document.getElementById('display-options-menu').innerHTML = displayOptionsMenu;
@@ -228,6 +237,95 @@ class Startup {
     });
   }
 
+  async confirmPrivacyOptions() {
+    const dialogBoxTemplate = html`
+      <div id='privacy-options-box-content'>
+        <h2 i18n='data-privacy.data-privacy-options'></h2>
+        <p i18n='general.welcome-to-ezra-bible-app'></p>
+
+        <p i18n='[html]data-privacy.please-confirm-options'></p>
+
+        <div id='check-new-releases-box'>
+          <h3 i18n='general.check-new-releases'></h3>
+          <p i18n='[html]data-privacy.check-new-releases-hint'></p>
+
+          <div style='width: 18em;'>
+            <config-option id="checkNewReleasesPrivacyOption" settingsKey="checkNewReleases" label="general.check-new-releases" checkedByDefault="true"></config-option>
+          </div>
+        </div>
+
+        <div id='send-crash-reports-box'>
+          <h3 i18n='general.send-crash-reports'></h3>
+          <p>
+            <span i18n='[html]data-privacy.send-crash-reports-hint-part1'></span>
+            <span i18n='[html]data-privacy.send-crash-reports-hint-part2'></span>
+            <span i18n='[html]data-privacy.send-crash-reports-hint-part3'></span> 
+          </p>
+
+          <div style='width: 18em;'>
+            <config-option id="sendCrashReportsPrivacyOption" settingsKey="sendCrashReports" label="general.send-crash-reports" checkedByDefault="true"></config-option>
+          </div>
+        </div>
+      </div>
+    `;
+
+    return new Promise((resolve) => {
+      document.querySelector('#privacy-options-box').appendChild(dialogBoxTemplate.content);
+      const $dialogBox = $('#privacy-options-box');
+      $dialogBox.localize();
+
+      let checkNewReleasesOption = document.getElementById('checkNewReleasesPrivacyOption');
+      let checkNewReleasesMenuOption = document.getElementById('checkNewReleasesOption');
+      checkNewReleasesOption.addEventListener("optionChanged", async () => {
+        await checkNewReleasesMenuOption.loadOptionFromSettings();
+      });
+
+      let sendCrashReportsOption = document.getElementById('sendCrashReportsPrivacyOption');
+      let sendCrashReportsMenuOption = document.getElementById('sendCrashReportsOption');
+      sendCrashReportsOption.addEventListener("optionChanged", async () => {
+        await sendCrashReportsMenuOption.loadOptionFromSettings();
+        await app_controller.optionsMenu.toggleCrashReportsBasedOnOption();
+      });
+
+      uiHelper.configureButtonStyles('#privacy-options-box');
+      
+      const width = 800;
+      const height = 600;
+      const offsetLeft = ($(window).width() - width)/2;
+
+      let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 80]);
+
+      var buttons = {};
+      buttons[i18n.t('general.ok')] = function() {
+        $(this).dialog('close');
+      };
+
+      let title = '';
+
+      if (this._platformHelper.isElectron()) { 
+        title = i18n.t('data-privacy.confirm-privacy-options');
+      } else if (this._platformHelper.isCordova()) {
+        title = i18n.t('general.ezra-bible-app') + ' - ' + i18n.t('data-privacy.confirm-privacy-options');
+      }
+
+      dialogOptions.buttons = buttons;
+      dialogOptions.title = title;
+      dialogOptions.resizable = false;
+      dialogOptions.modal = true;
+      dialogOptions.dialogClass = 'ezra-dialog privacy-options-dialog';
+      dialogOptions.close = () => {
+        $dialogBox.dialog('destroy');
+        $dialogBox.remove();
+        resolve();
+      };
+
+      Mousetrap.bind('esc', () => { $dialogBox.dialog("close"); });
+      $dialogBox.dialog(dialogOptions);
+      
+      $('.privacy-options-dialog').find('.ui-dialog-titlebar-close').hide();
+    });
+  }
+
   async initApplication() {
     console.time("application-startup");
 
@@ -265,6 +363,16 @@ class Startup {
     await this.initIpcClients();
 
     console.log("Initializing i18n ...");
+
+    // Initialize the localize function as empty first on unsupported platforms.
+    // This helps to have a functioning JavaScript environment
+    // when opening the index.html file just like that.
+    if (window.jQuery && !this._platformHelper.isSupportedPlatform()) {
+      jQuery.fn.extend({
+        localize: function() { return null; }
+      });
+    }
+
     if (this._platformHelper.isElectron()) {
       await i18nController.initI18N();
     } else if (this._platformHelper.isCordova()) {
@@ -349,8 +457,24 @@ class Startup {
       ipcRenderer.invoke("startupCompleted");
     }
 
-    // Automatically open module assistant to install Bible translations if no translations are installed yet.
+    console.timeEnd("application-startup");
 
+    // Save some meta data about versions used
+
+    cacheController.saveLastUsedVersion();
+
+    if (platformHelper.isCordova()) {
+      ipcSettings.set('lastUsedAndroidVersion', getPlatform().getAndroidVersion());
+    }
+
+    // Confirm privacy options at first startup
+    const firstStartDone = await ipcSettings.has('firstStartDone');
+    if (!this._platformHelper.isTest() && this._platformHelper.isSupportedPlatform() && !firstStartDone) {
+      await this.confirmPrivacyOptions();
+      await ipcSettings.set('firstStartDone', true);
+    }
+
+    // Automatically open module assistant to install Bible translations if no translations are installed yet.
     if (!this._platformHelper.isTest()) {
       const translationCount = app_controller.translation_controller.getTranslationCount();
       if (translationCount == 0) {
@@ -358,11 +482,11 @@ class Startup {
       }
     }
 
-    console.timeEnd("application-startup");
-
     //await app_controller.translation_controller.installStrongsIfNeeded();
 
-    if (this._platformHelper.isElectron()) {
+    let checkNewReleasesOption = app_controller.optionsMenu._checkNewReleasesOption;
+
+    if (this._platformHelper.isElectron() && checkNewReleasesOption.isChecked) {
       console.log("Checking for latest release ...");
       const NewReleaseChecker = require('./helpers/new_release_checker.js');
       var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
@@ -387,8 +511,6 @@ class Startup {
       loadingSubtitleElement.textContent = i18nController.getStringForStartup("cordova.starting-app", "Starting app");
     }
   }
-  
-  
 }
 
 module.exports = Startup;
