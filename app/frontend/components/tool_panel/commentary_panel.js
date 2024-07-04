@@ -56,10 +56,43 @@ class CommentaryPanel {
     });
 
     this._verseBoxHelper = new VerseBoxHelper();
+
+    this.initializeCopyButton(); // copy button functionality
   }
 
   getBoxContent() {
     return document.getElementById('commentary-panel-content');
+  }
+
+  updateCopyButtonState(copyButton) {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
+      copyButton.classList.remove('disabled');
+    } else {
+      copyButton.classList.add('disabled');
+    }
+  }
+
+  copySelectedTextToClipboard() {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
+      const selectedText = selection.toString();
+      navigator.clipboard.writeText(selectedText).then(() => {
+        // eslint-disable-next-line no-undef
+        iziToast.success({
+          message: i18n.t('commentary-panel.copy-commentary-to-clipboard-success'),
+          position: 'bottomRight',
+          timeout: 2000
+        });
+      }).catch(err => {
+        // eslint-disable-next-line no-undef
+        iziToast.error({
+          message: i18n.t('commentary-panel.copy-commentary-to-clipboard-fail'),
+          position: 'bottomRight',
+          timeout: 2000
+        });
+      });
+    }
   }
 
   showLoadingIndicator() {
