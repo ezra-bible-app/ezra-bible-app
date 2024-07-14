@@ -123,6 +123,7 @@ const TAG_GROUP_ALL_TAGS = -1;
  * - persist: A Boolean attribute that determines whether changes of the list shall be written to the database or not.
  * - activation-event: The event used for populating the list and then showing it.
  * - selection-event: The event that shall be fired when an item is selected.
+ * - select-all-event: The event used for quickly navigating to the "All tags" item.
  * - show-tag-count: A Boolean attribute that determines whether the tag count shall be shown behind each tag group.
  * - hide-top-border: A Boolean attribute that determines whether the top border shall be hidden.
  * - rounded-corners: A Boolean attribute that determines whether the borders of the box shall be rounded.
@@ -225,6 +226,10 @@ class TagGroupList extends HTMLElement {
       await this.updateTagCountAndRefreshList(currentBook);
     });
 
+    eventController.subscribe(this._selectAllEvent, async() => {
+      await this.selectTagGroup(TAG_GROUP_ALL_TAGS);
+    });
+
     if (this._bookFilter) {
       eventController.subscribe('on-verse-list-init', async (tabIndex) => {
         const currentBook = this.getCurrentBook(tabIndex);
@@ -298,6 +303,10 @@ class TagGroupList extends HTMLElement {
 
     if (this.hasAttribute('selection-event')) {
       this._selectionEvent = this.getAttribute('selection-event');
+    }
+
+    if (this.hasAttribute('select-all-event')) {
+      this._selectAllEvent = this.getAttribute('select-all-event')
     }
 
     if (this.hasAttribute('show-tag-count')) {

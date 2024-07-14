@@ -9,7 +9,8 @@
 <!--<div class="book-selection-menu-footer">Hint: Recently opened books are highlighted with <span class="bold">bold</span> font</div>-->
 
 <tag-list-menu tag-group-link-event="on-tag-selection-menu-group-list-activated"
-               tag-group-selection-event="on-tag-selection-menu-group-selected">
+               tag-group-selection-event="on-tag-selection-menu-group-selected"
+               tag-group-select-all-event="on-tag-selection-menu-all-tags-selected">
 </tag-list-menu>
 
 <div id="tag-selection-filter" style="margin-bottom: 0.8em;">
@@ -31,6 +32,7 @@
                 show-tag-count="true"
                 activation-event="on-tag-selection-menu-group-list-activated"
                 selection-event="on-tag-selection-menu-group-selected"
+                select-all-event="on-tag-selection-menu-all-tags-selected"
                 rounded-corners="true"
                 style="height: 524px; display: none;">
 </tag-group-list>
