@@ -63,6 +63,15 @@ const template = html`
   margin-right: 0.3em;
 }
 
+#all-tags-link {
+  margin-left: 1em;
+  display: none;
+}
+
+#tag-list-menu.tag-group-selected #all-tags-link {
+  display: unset;
+}
+
 .darkmode--activated #tag-list-menu {
   border: 1px solid #555555;
 }
@@ -134,6 +143,8 @@ const template = html`
     </div> 
     <span id="tag-group-label" i18n="tags.all-tags"></span>
   </div>
+
+  <a id="all-tags-link" href="" i18n="tags.all-tags"></a>
 
   <button id="add-tag-group-button" i18n="tags.add-tag-group" class="add-element-button fg-button ui-state-default ui-corner-all"></button>
 
@@ -220,6 +231,26 @@ class TagListMenu extends HTMLElement {
       }
 
       this.hideAddTagButton();
+    });
+
+    eventController.subscribe(this._tagGroupSelectionEvent, (tagGroup) => {
+      if (tagGroup == null) {
+        return;
+      }
+
+      let tagGroupId = tagGroup.id;
+      const tagListMenu = this.shadowRoot.getElementById('tag-list-menu');
+
+      if (tagGroupId != -1) {
+        tagListMenu.classList.add('tag-group-selected');
+      } else {
+        tagListMenu.classList.remove('tag-group-selected');
+      }
+    });
+
+    eventController.subscribe(this._tagGroupLinkEvent, () => {
+      const tagListMenu = this.shadowRoot.getElementById('tag-list-menu');
+      tagListMenu.classList.remove('tag-group-selected');
     });
 
     this.localize();
