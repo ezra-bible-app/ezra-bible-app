@@ -48,7 +48,7 @@ module.exports.init = function init() {
     }
   });
 
-  eventController.subscribeMultiple(['on-tag-group-filter-enabled', 'on-tag-group-members-changed'], async () => {
+  eventController.subscribeMultiple(['on-tag-group-filter-enabled', 'on-tag-group-member-changed'], async () => {
     this.applyTagGroupFilter(tags_controller.currentTagGroupId);
   });
 
