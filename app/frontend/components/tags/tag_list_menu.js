@@ -167,6 +167,7 @@ const template = html`
  * - tag-group-link-event: Fired when the user clicks on the "Tag Groups" link.
  * - tag-group-creation-event: Fired when the user creates a new tag group.
  * - tag-group-selection-event: The component will subscribe to this event and react once it gets fired.
+ * - tag-group-select-all-event: Fired when the user clicks the All tags link.
  */
 class TagListMenu extends HTMLElement {
   constructor() {
@@ -194,6 +195,7 @@ class TagListMenu extends HTMLElement {
     this._tagGroupLinkEvent = this.getAttribute('tag-group-link-event');
     this._tagGroupCreationEvent = this.getAttribute('tag-group-creation-event');
     this._tagGroupSelectionEvent = this.getAttribute('tag-group-selection-event');
+    this._tagGroupSelectAllEvent = this.getAttribute('tag-group-select-all-event');
 
     if (this.getAttribute('box') == 'true') {
       rootElement.classList.add('box-style');
@@ -257,6 +259,14 @@ class TagListMenu extends HTMLElement {
 
     this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', async function(event) {
       setTimeout(() => { tags_controller.handleNewTagButtonClick(event); }, 100);
+    });
+
+    this.shadowRoot.getElementById('all-tags-link').addEventListener('click', async (event) => {
+      event.preventDefault();
+
+      if (this._tagGroupSelectAllEvent != null) {
+        eventController.publishAsync(this._tagGroupSelectAllEvent);
+      }
     });
 
     this.uiHelper.configureButtonStyles(this.shadowRoot.getElementById('tag-list-menu'));

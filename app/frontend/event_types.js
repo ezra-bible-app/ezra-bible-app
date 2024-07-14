@@ -51,7 +51,7 @@
  * @typedef { "on-note-created" | "on-note-deleted" } NoteEvents
  */
 /**
- * @typedef { "on-tag-group-list-activated" | "on-tag-selection-menu-group-list-activated" | "on-tag-selection-menu-group-selected" | "on-tag-group-selected" | "on-tag-group-creation" | "on-tag-group-created" | "on-tag-group-members-changed" | "on-tag-group-renamed" | "on-tag-group-deleted" | "on-tag-group-filter-enabled" | "on-tag-group-filter-disabled" } TagGroupEvents
+ * @typedef { "on-tag-group-list-activated" | "on-tag-selection-menu-group-list-activated" | "on-tag-selection-menu-group-selected" | "on-tag-selection-menu-all-tags-selected" | "on-tag-group-selected" | "on-tag-group-all-selected" | "on-tag-group-creation" | "on-tag-group-created" | "on-tag-group-members-changed" | "on-tag-group-renamed" | "on-tag-group-deleted" | "on-tag-group-filter-enabled" | "on-tag-group-filter-disabled" } TagGroupEvents
  */
 /**
  * @typedef { "on-module-search-started" } ModuleSearchEvents
