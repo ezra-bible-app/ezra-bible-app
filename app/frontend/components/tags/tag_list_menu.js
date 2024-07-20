@@ -64,12 +64,12 @@ const template = html`
 }
 
 #all-tags-link {
-  margin-left: 1em;
+  margin-left: 1.5em;
   display: none;
 }
 
 #tag-list-menu.tag-group-selected #all-tags-link {
-  display: unset;
+  display: inline-block;
 }
 
 .darkmode--activated #tag-list-menu {
@@ -144,7 +144,10 @@ const template = html`
     <span id="tag-group-label" i18n="tags.all-tags"></span>
   </div>
 
-  <a id="all-tags-link" href="" i18n="tags.all-tags"></a>
+  <div id="all-tags-link">
+    <i class="fa-solid fa-angle-double-left"></i>
+    <a href="" i18n="tags.all-tags"></a>
+  </div>
 
   <button id="add-tag-group-button" i18n="tags.add-tag-group" class="add-element-button fg-button ui-state-default ui-corner-all"></button>
 
@@ -261,7 +264,7 @@ class TagListMenu extends HTMLElement {
       setTimeout(() => { tags_controller.handleNewTagButtonClick(event); }, 100);
     });
 
-    this.shadowRoot.getElementById('all-tags-link').addEventListener('click', async (event) => {
+    this.shadowRoot.getElementById('all-tags-link').querySelector('a').addEventListener('click', async (event) => {
       event.preventDefault();
 
       if (this._tagGroupSelectAllEvent != null) {
