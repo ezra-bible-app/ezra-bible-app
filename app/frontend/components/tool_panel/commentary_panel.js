@@ -138,11 +138,17 @@ class CommentaryPanel {
 
     let helpBox = this.getHelpBox();
     helpBox.classList.remove('hidden');
+
+    const copyButton = document.getElementById('copy-selected-commentary-button');
+    copyButton.style.display = 'none';
   }
 
   hideHelpBox() {
     let helpBox = this.getHelpBox();
     helpBox.classList.add('hidden');
+
+    const copyButton = document.getElementById('copy-selected-commentary-button');
+    copyButton.style.display = 'unset';
   }
 
   async performRefresh(selectedVerseBoxes) {
