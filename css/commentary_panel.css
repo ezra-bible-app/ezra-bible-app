@@ -18,6 +18,7 @@
 
 #commentary-panel-content {
   padding: 0.5em;
+  user-select: text; /* Enable text selection */
 }
 
 #commentary-panel-content div.commentary:first-of-type {
@@ -78,4 +79,12 @@
 
 .darkmode--activated .warning-text {
   color: var(--text-color-red-darkmode);
+}
+
+#copy-selected-commentary-button {
+  margin-left: 0.5em;
+  margin-top: 0.5em;
+  padding: 0.2em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }

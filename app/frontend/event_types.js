@@ -56,8 +56,6 @@
 /**
  * @typedef { "on-module-search-started" } ModuleSearchEvents
  */
-
-
 /**
  * @typedef { BibleTextEvents | TabEvents | TabSearchEvents | ModuleAssistantEvents | RepoUpdateEvents | I18nEvents | AppEvents | PanelEvents | TagEvents | TagGroupEvents | NoteEvents | ModuleSearchEvents } EzraEvent
  */

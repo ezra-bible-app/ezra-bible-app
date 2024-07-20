@@ -432,7 +432,8 @@
     "help-instruction": "Pentru a afișa conținutul comentariilor, selectează un verset.<br><br> Această zonă va lista automat versetul selectat din toate comentariile disponibile.",
     "help-instruction-no-commentaries": "Încă nu au fost instalate comentarii. Trebuie să instalezi cel puțin un comentariu pentru ca această funcționalitate să fie utilă.",
     "help-instruction-no-kjv": "Traducerea KJV nu a fost instalată, încă. Aceasta este necesară petnru a afișa corect comentarii Biblice pe baza versificării în limba engleză. Poți remedia asta prin:<ul><li>Instalarea traducerii KJV din depozitul CrossWire</li><li>Instalarea unui comentariu (versiunea KJV este instalată automat în acest caz)</li></ul>",
-    "no-commentaries-available-for-this-verse": "Nu există comentarii disponibile pentru acest verset."
+    "no-commentaries-available-for-this-verse": "Nu există comentarii disponibile pentru acest verset.",
+    "copy-button": "Copiază comentariul"
   },
   "emoji": {
     "search": "Căută emoji ...",
