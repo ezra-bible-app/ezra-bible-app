@@ -33,8 +33,7 @@ class CommentaryPanel {
     });
 
     let refreshWithSelection = () => {
-      let selectedVerseBoxes =
-        app_controller.verse_selection.getSelectedElements();
+      let selectedVerseBoxes = app_controller.verse_selection.getSelectedElements();
       this.performRefresh(selectedVerseBoxes);
     };
 
@@ -86,6 +85,7 @@ class CommentaryPanel {
 
   updateCopyButtonState(copyButton) {
     const selection = window.getSelection();
+
     if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
       copyButton.classList.remove('ui-state-disabled');
     } else {
@@ -95,6 +95,7 @@ class CommentaryPanel {
 
   copySelectedTextToClipboard() {
     const selection = window.getSelection();
+
     if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
       const selectedText = selection.toString();
       navigator.clipboard
@@ -214,7 +215,7 @@ class CommentaryPanel {
     }
   }
 
-  async performContentRefresh(selectedVerseBoxes = undefined) {
+  async performContentRefresh(selectedVerseBoxes=undefined) {
     let commentaryContent = await this.getCommentaryContent(selectedVerseBoxes);
 
     if (platformHelper.isCordova()) {
@@ -255,19 +256,15 @@ class CommentaryPanel {
   }
 
   handleModuleInfoButtonClick(event) {
-    let moduleCode = event.target
-      .closest('.module-info-button')
-      .getAttribute('module');
+    let moduleCode = event.target.closest('.module-info-button').getAttribute('module');
     app_controller.info_popup.showAppInfo(moduleCode);
   }
 
   async handleCopyCommentaryButtonClick(event) {
-    let verseLabelText =
-      await app_controller.verse_selection.getSelectedVerseLabelText();
+    let verseLabelText = await app_controller.verse_selection.getSelectedVerseLabelText();
 
     const commentaryDiv = event.target.closest('.commentary');
-    const commentaryName =
-      commentaryDiv.querySelector('.commentary-name').innerText;
+    const commentaryName = commentaryDiv.querySelector('.commentary-name').innerText;
     const commentaryContentBox = commentaryDiv.querySelector('.commentary-content');
 
     let commentaryContent = commentaryContentBox.innerText;
@@ -298,33 +295,21 @@ class CommentaryPanel {
     processedHtml = processedHtml.replaceAll('</reference', '</span');
     processedHtml = processedHtml.replaceAll('<hi', '<span');
     processedHtml = processedHtml.replaceAll('</hi>', '</span>');
-    processedHtml = processedHtml.replaceAll(
-      'class="bold"',
-      'style="font-weight: bold;"'
-    );
-    processedHtml = processedHtml.replaceAll(
-      'class="italic"',
-      'style="font-style: italic;"'
-    );
-    processedHtml = processedHtml.replaceAll(
-      'sword-section-title"',
-      'sword-section-title"; style="font-weight: bold;"'
-    );
-    processedHtml = processedHtml.replaceAll(
-      '<div class="sword-markup sword-sid sword-paragraph',
-      '<br/><div class="sword-markup sword-sid sword-paragraph'
-    );
+    processedHtml = processedHtml.replaceAll('class="bold"', 'style="font-weight: bold;"');
+    processedHtml = processedHtml.replaceAll('class="italic"', 'style="font-style: italic;"');
+    processedHtml = processedHtml.replaceAll('sword-section-title"', 'sword-section-title"; style="font-weight: bold;"');
+    processedHtml = processedHtml.replaceAll('<div class="sword-markup sword-sid sword-paragraph', '<br/><div class="sword-markup sword-sid sword-paragraph');
 
     return processedHtml;
   }
 
-  performDelayedContentRefresh(selectedVerseBoxes = undefined) {
+  performDelayedContentRefresh(selectedVerseBoxes=undefined) {
     setTimeout(async () => {
       await this.performContentRefresh(selectedVerseBoxes);
     }, 50);
   }
 
-  async getCommentaryContent(selectedVerseBoxes = undefined) {
+  async getCommentaryContent(selectedVerseBoxes=undefined) {
     let commentaryContent = "";
 
     if (selectedVerseBoxes != null) {
@@ -361,21 +346,17 @@ class CommentaryPanel {
             commentaryContent += `
             <div class='commentary module-code-${currentCommentary.name.toLowerCase()}'>
               <h3>
-                <span class='commentary-name'>${
-                  currentCommentary.description
-                }</span>
+                <span class='commentary-name'>${currentCommentary.description}</span>
 
                 <div class='module-info-button fg-button ui-corner-all ui-state-default'
-                    i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${
-              currentCommentary.name
-            }' style='margin-left: 10px; margin-top: 5px;'>
+                     i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}'
+                     module='${currentCommentary.name}' style='margin-left: 10px; margin-top: 5px;'>
                   <i class='fas fa-info'></i>
                 </div>
 
                 <div class='commentary-copy-button fg-button ui-corner-all ui-state-default'
-                  i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${
-              currentCommentary.name
-            }' style='margin-left: 10px; margin-top: 5px;'>
+                  i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}'
+                  module='${currentCommentary.name}' style='margin-left: 10px; margin-top: 5px;'>
                   <i class='fas fa-copy copy-icon'></i>
                 </div>
               </h3>
@@ -389,11 +370,8 @@ class CommentaryPanel {
         }
 
         if (commentaryContent.length == 0) {
-          commentaryContent =
-            "<div style='margin-top: 0.5em;'>" +
-            i18n.t(
-              "commentary-panel.no-commentaries-available-for-this-verse"
-            ) +
+          commentaryContent = "<div style='margin-top: 0.5em;'>" +
+            i18n.t("commentary-panel.no-commentaries-available-for-this-verse") +
             "</div>";
         }
       }
@@ -414,8 +392,7 @@ class CommentaryPanel {
 
     let referenceVerseBox = new VerseBox(verseBox[0]);
     let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    let mappedAbsoluteVerseNumber =
-      await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceTranslationId, targetTranslationId);
+    let mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceTranslationId, targetTranslationId);
 
     let kjvVerses = await ipcNsi.getBookText(targetTranslationId, bibleBookShortTitle, mappedAbsoluteVerseNumber, 1);
     let verse = kjvVerses[0];
