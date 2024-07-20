@@ -443,7 +443,8 @@
     "help-instruction": "Pour afficher le contenu des commentaires, sélectionnez un verset.<br><br> Cette zone listera alors automatiquement le verset sélectionné parmi tous les commentaires disponibles.",
     "help-instruction-no-commentaries": "Aucun commentaire n'a encore été installé. Vous devez installer au moins un commentaire pour que cette fonctionnalité fonctionne.",
     "help-instruction-no-kjv": "La traduction KJV n'a pas encore été installée. Le KJV est nécessaire pour afficher correctement les commentaires bibliques basés sur la versification anglaise. Vous pouvez résoudre ce problème en :<ul><li>installant la KJV du dépôt CrossWire</li><li>installant un commentaire (le KJV est automatiquement installé dans ce cas)</li></ul>",
-    "no-commentaries-available-for-this-verse": "Il n'y a pas de commentaires disponibles pour ce verset."
+    "no-commentaries-available-for-this-verse": "Il n'y a pas de commentaires disponibles pour ce verset.",
+    "copy-commentary-to-clipboard-fail": "Échec de la copie du commentaire dans le presse-papiers."
   },
   "emoji": {
     "search": "Rechercher des emojis...",
