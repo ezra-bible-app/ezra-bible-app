@@ -63,7 +63,7 @@ class CommentaryPanel {
 
     this._verseBoxHelper = new VerseBoxHelper();
 
-    this.initializeCopyButton(); // copy button functionality
+    this.initializeCopyButton();
   }
 
   getBoxContent() {
@@ -91,6 +91,8 @@ class CommentaryPanel {
     } else {
       copyButton.classList.add('ui-state-disabled');
     }
+
+    uiHelper.configureButtonStyles('#commentary-panel-wrapper');
   }
 
   copySelectedTextToClipboard() {
