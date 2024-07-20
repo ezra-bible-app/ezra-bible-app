@@ -433,7 +433,6 @@
     "help-instruction-no-commentaries": "Zaenkrat še ni nameščen noben komentar. Za delovanje te funkcionalnosti morate namestiti vsaj en komentar.",
     "help-instruction-no-kjv": "Prevod KJV še ni bil nameščen. KJV je potreben za pravilen prikaz svetopisemskih komentarjev, ki temeljijo na angleški verzifikaciji. To lahko popravite tako, da:<ul><li>namestite prevod KJV iz spletne shrambe CrossWire</li><li>namestite komentar (v tem primeru se KJV namesti samodejno)</li></ul>",
     "no-commentaries-available-for-this-verse": "Za to vrstico ni na voljo nobenih komentarjev.",
-    "copy-commentary-to-clipboard-fail": "Napaka pri kopiranju komentarja v odložišče.",
     "copy-button": "Kopiraj komentar"
   },
   "emoji": {

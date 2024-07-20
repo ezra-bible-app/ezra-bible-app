@@ -100,24 +100,15 @@ class CommentaryPanel {
 
     if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
       const selectedText = selection.toString();
-      navigator.clipboard
-        .writeText(selectedText)
-        .then(() => {
-          // eslint-disable-next-line no-undef
-          iziToast.success({
-            message: i18n.t('commentary-panel.copy-commentary-to-clipboard-success'),
-            position: 'bottomRight',
-            timeout: 2000,
-          });
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-undef
-          iziToast.error({
-            message: i18n.t('commentary-panel.copy-commentary-to-clipboard-fail'),
-            position: 'bottomRight',
-            timeout: 2000,
-          });
-        });
+
+      getPlatform().copyToClipboard(selectedText, selectedText);
+
+      // eslint-disable-next-line no-undef
+      iziToast.success({
+        message: i18n.t('commentary-panel.copy-commentary-to-clipboard-success'),
+        position: 'bottomRight',
+        timeout: 2000,
+      });
     }
   }
 
@@ -273,9 +264,7 @@ class CommentaryPanel {
     let lineBreak = this._verseBoxHelper.getLineBreak(false);
     let commentaryText = `${commentaryName} - ${verseLabelText} ${lineBreak}${lineBreak} ${commentaryContent}`;
 
-    let commentaryTextHtml = this.processCommentaryHtml(
-      commentaryContentBox.innerHTML
-    );
+    let commentaryTextHtml = this.processCommentaryHtml(commentaryContentBox.innerHTML);
     lineBreak = this._verseBoxHelper.getLineBreak(true);
     commentaryTextHtml = `<b>${commentaryName} - ${verseLabelText}</b> ${lineBreak}${lineBreak} ${commentaryTextHtml}`;
 
@@ -326,9 +315,7 @@ class CommentaryPanel {
         });
 
         const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
-        const copyCommentaryButtonTitle = i18n.t(
-          "commentary-panel.copy-commentary-to-clipboard"
-        );
+        const copyCommentaryButtonTitle = i18n.t("commentary-panel.copy-commentary-to-clipboard");
 
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
@@ -339,10 +326,7 @@ class CommentaryPanel {
           }
 
           let firstVerseBox = $(selectedVerseBoxes[0]);
-          let verseCommentary = await this.getCommentaryForVerse(
-            currentCommentary.name,
-            firstVerseBox
-          );
+          let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
 
           if (verseCommentary != null && verseCommentary.length != 0) {
             commentaryContent += `
