@@ -145,7 +145,7 @@ const template = html`
   </div>
 
   <div id="all-tags-link">
-    <i class="fa-solid fa-angle-double-left"></i>
+    <i class="fa-solid fa-circle-left"></i>
     <a href="" i18n="tags.all-tags"></a>
   </div>
 
