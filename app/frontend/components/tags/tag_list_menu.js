@@ -64,7 +64,7 @@ const template = html`
 }
 
 #all-tags-link {
-  margin-left: 1.5em;
+  margin-left: 1em;
   display: none;
 }
 
@@ -97,6 +97,13 @@ const template = html`
   color: black;
   text-decoration: none;
   cursor: default;
+}
+
+#tag-group-label {
+  max-width: 14em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .darkmode--activated #tag-group-list-link.list-tag-groups:link,
