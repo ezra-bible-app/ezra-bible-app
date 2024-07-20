@@ -71,7 +71,7 @@ class CommentaryPanel {
   }
 
   initializeCopyButton() {
-    const copyButton = document.getElementById('copy-commentary-button');
+    const copyButton = document.getElementById('copy-selected-commentary-button');
     copyButton.addEventListener("click", () => {
       this.copySelectedTextToClipboard();
     });
@@ -233,7 +233,7 @@ class CommentaryPanel {
       });
     });
 
-    let commentaryCopyButtons = this.getBoxContent().querySelectorAll('.commentary-copy-button');
+    let commentaryCopyButtons = this.getBoxContent().querySelectorAll('.copy-commentary-button');
     commentaryCopyButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
         this.handleCopyCommentaryButtonClick(event);
@@ -350,13 +350,13 @@ class CommentaryPanel {
 
                 <div class='module-info-button fg-button ui-corner-all ui-state-default'
                      i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}'
-                     module='${currentCommentary.name}' style='margin-left: 10px; margin-top: 5px;'>
+                     module='${currentCommentary.name}'>
                   <i class='fas fa-info'></i>
                 </div>
 
-                <div class='commentary-copy-button fg-button ui-corner-all ui-state-default'
+                <div class='copy-commentary-button fg-button ui-corner-all ui-state-default'
                   i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}'
-                  module='${currentCommentary.name}' style='margin-left: 10px; margin-top: 5px;'>
+                  module='${currentCommentary.name}'>
                   <i class='fas fa-copy copy-icon'></i>
                 </div>
               </h3>

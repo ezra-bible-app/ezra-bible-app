@@ -80,8 +80,3 @@
 .darkmode--activated .warning-text {
   color: var(--text-color-red-darkmode);
 }
-
-.commentary-copy-button {
-  margin-left: 10px;
-  margin-top: 5px;
-}
