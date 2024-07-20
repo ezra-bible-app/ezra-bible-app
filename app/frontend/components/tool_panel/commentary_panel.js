@@ -72,9 +72,12 @@ class CommentaryPanel {
 
   initCopyButton() {
     const copyButton = document.getElementById('copy-selected-commentary-button');
+
     copyButton.addEventListener("click", () => {
       this.copySelectedTextToClipboard();
     });
+
+    copyButton.title = i18n.t('commentary-panel.copy-commentary-to-clipboard');
 
     document.addEventListener("selectionchange", () => {
       this.updateCopyButtonState(copyButton);
