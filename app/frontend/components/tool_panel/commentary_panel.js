@@ -63,14 +63,14 @@ class CommentaryPanel {
 
     this._verseBoxHelper = new VerseBoxHelper();
 
-    this.initializeCopyButton();
+    this.initCopyButton();
   }
 
   getBoxContent() {
     return document.getElementById('commentary-panel-content');
   }
 
-  initializeCopyButton() {
+  initCopyButton() {
     const copyButton = document.getElementById('copy-selected-commentary-button');
     copyButton.addEventListener("click", () => {
       this.copySelectedTextToClipboard();
