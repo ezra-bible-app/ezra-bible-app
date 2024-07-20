@@ -436,7 +436,7 @@
     "help-instruction-no-kjv": "De KJV-vertaling is nog niet geïnstalleerd. De KJV is nodig om bijbelcommentaren correct weer te geven op basis van de Engelse versificatie. U kunt dit oplossen door:<ul><li>de KJV te installeren vanuit het CrossWire-depot</li><li>een commentaar te installeren (de KJV wordt in dit geval automatisch geïnstalleerd)</li></ul>",
     "no-commentaries-available-for-this-verse": "Er zijn geen commentaren beschikbaar voor dit vers.",
     "copy-commentary-to-clipboard-fail": "Kon commentaar niet naar het klembord kopiëren.",
-    "commentary-panel.copy-button": "Kopieer Commentary"
+    "copy-button": "Kopieer commentaar"
   },
   "emoji": {
     "search": "Zoek emojis...",

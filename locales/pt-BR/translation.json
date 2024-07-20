@@ -434,7 +434,7 @@
     "help-instruction-no-kjv": "A tradução KJV ainda não foi instalada. A KJV é necessária para mostrar corretamente os comentários bíblicos baseados na divisão de versículos em inglês. Você pode corrigir isso:<ul><li>Instalando o KJV do repositório CrossWire</li><li>Instalando um comentário (A tradução KJV é instalada automaticamente neste caso)</li></ul>",
     "no-commentaries-available-for-this-verse": "Não comentários disponíveis para este versículo.",
     "copy-commentary-to-clipboard-fail": "Falha ao copiar o comentário para a área de transferência.",
-    "commentary-panel.copy-button": "Copiar Comentário"
+    "copy-button": "Copy commentary"
   },
   "emoji": {
     "search": "Buscar emojis...",
