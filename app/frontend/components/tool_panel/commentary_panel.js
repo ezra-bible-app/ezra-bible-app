@@ -87,9 +87,9 @@ class CommentaryPanel {
   updateCopyButtonState(copyButton) {
     const selection = window.getSelection();
     if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
-      copyButton.classList.remove('disabled');
+      copyButton.classList.remove('ui-state-disabled');
     } else {
-      copyButton.classList.add('disabled');
+      copyButton.classList.add('ui-state-disabled');
     }
   }
 
@@ -102,20 +102,16 @@ class CommentaryPanel {
         .then(() => {
           // eslint-disable-next-line no-undef
           iziToast.success({
-            message: i18n.t(
-              "commentary-panel.copy-commentary-to-clipboard-success"
-            ),
-            position: "bottomRight",
+            message: i18n.t('commentary-panel.copy-commentary-to-clipboard-success'),
+            position: 'bottomRight',
             timeout: 2000,
           });
         })
         .catch((err) => {
           // eslint-disable-next-line no-undef
           iziToast.error({
-            message: i18n.t(
-              "commentary-panel.copy-commentary-to-clipboard-fail"
-            ),
-            position: "bottomRight",
+            message: i18n.t('commentary-panel.copy-commentary-to-clipboard-fail'),
+            position: 'bottomRight',
             timeout: 2000,
           });
         });
@@ -123,17 +119,13 @@ class CommentaryPanel {
   }
 
   showLoadingIndicator() {
-    let loadingIndicator = document.getElementById(
-      'commentary-panel-loading-indicator'
-    );
+    let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
     loadingIndicator.querySelector('.loader').style.display = 'block';
     loadingIndicator.style.display = 'block';
   }
 
   hideLoadingIndicator() {
-    let loadingIndicator = document.getElementById(
-      'commentary-panel-loading-indicator'
-    );
+    let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
     loadingIndicator.style.display = 'none';
   }
 
@@ -164,12 +156,8 @@ class CommentaryPanel {
       return;
     }
 
-    let helpMessageNoCommentariesInstalled = document.getElementById(
-      'commentary-panel-help-no-commentaries'
-    );
-    let helpMessageNoKjvInstalled = document.getElementById(
-      'commentary-panel-help-no-kjv'
-    );
+    let helpMessageNoCommentariesInstalled = document.getElementById('commentary-panel-help-no-commentaries');
+    let helpMessageNoKjvInstalled = document.getElementById('commentary-panel-help-no-kjv');
     let installPreconditionsFulfilled = true;
 
     let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
@@ -207,21 +195,18 @@ class CommentaryPanel {
       selectedVerseBoxElements.length > 0
     ) {
       panelTitle =
-        i18n.t("commentary-panel.commentaries-for") +
-        " " +
-        (await app_controller.verse_selection.getSelectedVerseLabelText());
-
+        i18n.t('commentary-panel.commentaries-for') + ' ' + (await app_controller.verse_selection.getSelectedVerseLabelText());
       this.hideHelpBox();
     } else {
-      panelTitle = i18n.t("commentary-panel.default-header");
+      panelTitle = i18n.t('commentary-panel.default-header');
 
       this.showHelpBox();
     }
 
-    panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
+    panelHeader.innerHTML = '<b>' + panelTitle + '</b>';
 
     if (platformHelper.isCordova()) {
-      this.getBoxContent().innerHTML = "";
+      this.getBoxContent().innerHTML = '';
       this.showLoadingIndicator();
       this.performDelayedContentRefresh(selectedVerseBoxes);
     } else {
@@ -240,18 +225,14 @@ class CommentaryPanel {
 
     this.applyParagraphs();
 
-    let moduleInfoButtons = this.getBoxContent().querySelectorAll(
-      ".module-info-button"
-    );
+    let moduleInfoButtons = this.getBoxContent().querySelectorAll('.module-info-button');
     moduleInfoButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
         this.handleModuleInfoButtonClick(event);
       });
     });
 
-    let commentaryCopyButtons = this.getBoxContent().querySelectorAll(
-      ".commentary-copy-button"
-    );
+    let commentaryCopyButtons = this.getBoxContent().querySelectorAll('.commentary-copy-button');
     commentaryCopyButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
         this.handleCopyCommentaryButtonClick(event);
@@ -287,9 +268,7 @@ class CommentaryPanel {
     const commentaryDiv = event.target.closest('.commentary');
     const commentaryName =
       commentaryDiv.querySelector('.commentary-name').innerText;
-    const commentaryContentBox = commentaryDiv.querySelector(
-      '.commentary-content'
-    );
+    const commentaryContentBox = commentaryDiv.querySelector('.commentary-content');
 
     let commentaryContent = commentaryContentBox.innerText;
     let lineBreak = this._verseBoxHelper.getLineBreak(false);
@@ -389,14 +368,14 @@ class CommentaryPanel {
                 <div class='module-info-button fg-button ui-corner-all ui-state-default'
                     i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${
               currentCommentary.name
-            }'>
+            }' style='margin-left: 10px; margin-top: 5px;'>
                   <i class='fas fa-info'></i>
                 </div>
 
                 <div class='commentary-copy-button fg-button ui-corner-all ui-state-default'
                   i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${
               currentCommentary.name
-            }'>
+            }' style='margin-left: 10px; margin-top: 5px;'>
                   <i class='fas fa-copy copy-icon'></i>
                 </div>
               </h3>
@@ -436,28 +415,16 @@ class CommentaryPanel {
     let referenceVerseBox = new VerseBox(verseBox[0]);
     let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
     let mappedAbsoluteVerseNumber =
-      await referenceVerseBox.getMappedAbsoluteVerseNumber(
-        sourceTranslationId,
-        targetTranslationId
-      );
+      await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceTranslationId, targetTranslationId);
 
-    let kjvVerses = await ipcNsi.getBookText(
-      targetTranslationId,
-      bibleBookShortTitle,
-      mappedAbsoluteVerseNumber,
-      1
-    );
+    let kjvVerses = await ipcNsi.getBookText(targetTranslationId, bibleBookShortTitle, mappedAbsoluteVerseNumber, 1);
     let verse = kjvVerses[0];
     let commentary = "";
 
     if (verse != null) {
-      let reference =
-        bibleBookShortTitle + " " + verse.chapter + ":" + verse.verseNr;
+      let reference = bibleBookShortTitle + " " + verse.chapter + ":" + verse.verseNr;
 
-      let commentaryEntry = await ipcNsi.getReferenceText(
-        commentaryId,
-        reference
-      );
+      let commentaryEntry = await ipcNsi.getReferenceText(commentaryId, reference);
       commentary = commentaryEntry.content;
     }
 
