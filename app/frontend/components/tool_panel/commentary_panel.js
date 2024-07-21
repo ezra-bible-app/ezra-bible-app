@@ -189,16 +189,11 @@ class CommentaryPanel {
     let selectedVerseBoxElements = null;
 
     if (app_controller.verse_selection != null) {
-      selectedVerseBoxElements =
-        app_controller.verse_selection.getSelectedVerseBoxes();
+      selectedVerseBoxElements = app_controller.verse_selection.getSelectedVerseBoxes();
     }
 
-    if (
-      selectedVerseBoxElements != null &&
-      selectedVerseBoxElements.length > 0
-    ) {
-      panelTitle =
-        i18n.t('commentary-panel.commentaries-for') + ' ' + (await app_controller.verse_selection.getSelectedVerseLabelText());
+    if (selectedVerseBoxElements != null && selectedVerseBoxElements.length > 0) {
+      panelTitle = i18n.t('commentary-panel.commentaries-for') + ' ' + (await app_controller.verse_selection.getSelectedVerseLabelText());
       this.hideHelpBox();
     } else {
       panelTitle = i18n.t('commentary-panel.default-header');
