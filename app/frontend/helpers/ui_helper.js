@@ -289,6 +289,18 @@ class UiHelper {
       onClickFunction();
     });
   }
+
+  openLinkInBrowser(link) {
+    if (platformHelper.isElectron()) {
+
+      require("electron").shell.openExternal(link);
+
+    } else if (platformHelper.isCordova()) {
+
+      window.open(link, '_system');
+
+    }
+  }
 }
 
 module.exports = UiHelper;
