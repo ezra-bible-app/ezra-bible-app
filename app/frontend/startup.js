@@ -225,15 +225,7 @@ class Startup {
       event.preventDefault();
       let link = event.target.href;
 
-      if (platformHelper.isElectron()) {
-
-        require("electron").shell.openExternal(link);
-
-      } else if (platformHelper.isCordova()) {
-
-        window.open(link, '_system');
-
-      }
+      window.uiHelper.openLinkInBrowser(link);
     });
   }
 
