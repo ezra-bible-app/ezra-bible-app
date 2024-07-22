@@ -148,7 +148,12 @@ class IpcGeneralHandler {
         //console.log('Got request at ' + url);
 
         // Send a script that closes the window immediately
-        res.send('<html><head><script type="text/javascript">window.close();</script></head><body></body></html>');
+        const message = "<html><head><title>Connection to Dropbox account established!</title></head>" +
+                        "<body style='text-align: center; padding-top: 5em;'>" +
+                        "<p>The connection to your Dropbox account has been established!</p>" +
+                        "<p>You may close this Browser window and return to Ezra Bible App to complete the process.</p>"
+                        "</body></html>";
+        res.send(message);
 
         global.mainWindow.webContents.send('dropbox-auth-callback', url);
         expressServer.close();
