@@ -379,6 +379,8 @@ class TagsController {
   }
 
   async addTagsToGroup(tagGroupId, tagList) {
+    let successCount = 0;
+
     for (let i = 0; i < tagList.length; i++) {
       let tagId = tagList[i];
       let tag = await this.tag_store.getTag(tagId);
@@ -395,12 +397,18 @@ class TagsController {
         uiHelper.hideTextLoadingIndicator();
         return;
       } else {
-        await eventController.publishAsync('on-tag-group-members-changed', {
+        successCount += 1;
+
+        await eventController.publishAsync('on-tag-group-member-changed', {
           tagId: tagId,
           addTagGroups: [ tagGroupId ],
           removeTagGroups: []
         });
       }
+    }
+
+    if (successCount >= 1) {
+      await eventController.publishAsync('on-tag-group-multiple-members-changed');
     }
 
     if (this.tagGroupUsed()) {
@@ -597,11 +605,13 @@ class TagsController {
     }
 
     if (addTagGroups.length > 0 || removeTagGroups.length > 0) {
-      await eventController.publishAsync('on-tag-group-members-changed', {
+      await eventController.publishAsync('on-tag-group-member-changed', {
         tagId: tags_controller.edit_tag_id,
         addTagGroups,
         removeTagGroups
       });
+
+      await eventController.publishAsync('on-tag-group-multiple-members-changed');
 
       if (this.tagGroupUsed()) {
         const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
@@ -659,11 +669,13 @@ class TagsController {
     await eventController.publishAsync('on-tag-created', result.dbObject.id);
 
     if (this.tagGroupUsed()) {
-      await eventController.publishAsync('on-tag-group-members-changed', {
+      await eventController.publishAsync('on-tag-group-member-changed', {
         tagId: result.dbObject.id,
         addTagGroups: [ this.currentTagGroupId ],
         removeTagGroups: []
       });
+
+      await eventController.publishAsync('on-tag-group-multiple-members-changed');
     }
 
     await eventController.publishAsync('on-latest-tag-changed', {
@@ -820,11 +832,14 @@ class TagsController {
       await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
 
       if (tags_controller.tagGroupUsed()) {
-        await eventController.publishAsync('on-tag-group-members-changed', {
+        await eventController.publishAsync('on-tag-group-member-changed', {
           tagId: tags_controller.tag_to_be_deleted,
           addTagGroups: [],
           removeTagGroups: [ this.currentTagGroupId ]
         });
+
+        await eventController.publishAsync('on-tag-group-multiple-members-changed');
+
       } else {
         await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
       }

@@ -33,8 +33,7 @@ class CommentaryPanel {
     });
 
     let refreshWithSelection = () => {
-      let selectedVerseBoxes =
-        app_controller.verse_selection.getSelectedElements();
+      let selectedVerseBoxes = app_controller.verse_selection.getSelectedElements();
       this.performRefresh(selectedVerseBoxes);
     };
 
@@ -64,18 +63,21 @@ class CommentaryPanel {
 
     this._verseBoxHelper = new VerseBoxHelper();
 
-    this.initializeCopyButton(); // copy button functionality
+    this.initCopyButton();
   }
 
   getBoxContent() {
     return document.getElementById('commentary-panel-content');
   }
 
-  initializeCopyButton() {
-    const copyButton = document.getElementById('copy-commentary-button');
+  initCopyButton() {
+    const copyButton = document.getElementById('copy-selected-commentary-button');
+
     copyButton.addEventListener("click", () => {
       this.copySelectedTextToClipboard();
     });
+
+    copyButton.title = i18n.t('commentary-panel.copy-commentary-to-clipboard');
 
     document.addEventListener("selectionchange", () => {
       this.updateCopyButtonState(copyButton);
@@ -86,35 +88,30 @@ class CommentaryPanel {
 
   updateCopyButtonState(copyButton) {
     const selection = window.getSelection();
+
     if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
       copyButton.classList.remove('ui-state-disabled');
     } else {
       copyButton.classList.add('ui-state-disabled');
     }
+
+    uiHelper.configureButtonStyles('#commentary-panel-wrapper');
   }
 
   copySelectedTextToClipboard() {
     const selection = window.getSelection();
+
     if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
       const selectedText = selection.toString();
-      navigator.clipboard
-        .writeText(selectedText)
-        .then(() => {
-          // eslint-disable-next-line no-undef
-          iziToast.success({
-            message: i18n.t('commentary-panel.copy-commentary-to-clipboard-success'),
-            position: 'bottomRight',
-            timeout: 2000,
-          });
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-undef
-          iziToast.error({
-            message: i18n.t('commentary-panel.copy-commentary-to-clipboard-fail'),
-            position: 'bottomRight',
-            timeout: 2000,
-          });
-        });
+
+      getPlatform().copyToClipboard(selectedText, selectedText);
+
+      // eslint-disable-next-line no-undef
+      iziToast.success({
+        message: i18n.t('commentary-panel.copy-commentary-to-clipboard-success'),
+        position: 'bottomRight',
+        timeout: 2000,
+      });
     }
   }
 
@@ -144,11 +141,17 @@ class CommentaryPanel {
 
     let helpBox = this.getHelpBox();
     helpBox.classList.remove('hidden');
+
+    const copyButton = document.getElementById('copy-selected-commentary-button');
+    copyButton.style.display = 'none';
   }
 
   hideHelpBox() {
     let helpBox = this.getHelpBox();
     helpBox.classList.add('hidden');
+
+    const copyButton = document.getElementById('copy-selected-commentary-button');
+    copyButton.style.display = 'unset';
   }
 
   async performRefresh(selectedVerseBoxes) {
@@ -186,16 +189,11 @@ class CommentaryPanel {
     let selectedVerseBoxElements = null;
 
     if (app_controller.verse_selection != null) {
-      selectedVerseBoxElements =
-        app_controller.verse_selection.getSelectedVerseBoxes();
+      selectedVerseBoxElements = app_controller.verse_selection.getSelectedVerseBoxes();
     }
 
-    if (
-      selectedVerseBoxElements != null &&
-      selectedVerseBoxElements.length > 0
-    ) {
-      panelTitle =
-        i18n.t('commentary-panel.commentaries-for') + ' ' + (await app_controller.verse_selection.getSelectedVerseLabelText());
+    if (selectedVerseBoxElements != null && selectedVerseBoxElements.length > 0) {
+      panelTitle = i18n.t('commentary-panel.commentaries-for') + ' ' + (await app_controller.verse_selection.getSelectedVerseLabelText());
       this.hideHelpBox();
     } else {
       panelTitle = i18n.t('commentary-panel.default-header');
@@ -214,7 +212,7 @@ class CommentaryPanel {
     }
   }
 
-  async performContentRefresh(selectedVerseBoxes = undefined) {
+  async performContentRefresh(selectedVerseBoxes=undefined) {
     let commentaryContent = await this.getCommentaryContent(selectedVerseBoxes);
 
     if (platformHelper.isCordova()) {
@@ -232,7 +230,7 @@ class CommentaryPanel {
       });
     });
 
-    let commentaryCopyButtons = this.getBoxContent().querySelectorAll('.commentary-copy-button');
+    let commentaryCopyButtons = this.getBoxContent().querySelectorAll('.copy-commentary-button');
     commentaryCopyButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
         this.handleCopyCommentaryButtonClick(event);
@@ -255,28 +253,22 @@ class CommentaryPanel {
   }
 
   handleModuleInfoButtonClick(event) {
-    let moduleCode = event.target
-      .closest('.module-info-button')
-      .getAttribute('module');
+    let moduleCode = event.target.closest('.module-info-button').getAttribute('module');
     app_controller.info_popup.showAppInfo(moduleCode);
   }
 
   async handleCopyCommentaryButtonClick(event) {
-    let verseLabelText =
-      await app_controller.verse_selection.getSelectedVerseLabelText();
+    let verseLabelText = await app_controller.verse_selection.getSelectedVerseLabelText();
 
     const commentaryDiv = event.target.closest('.commentary');
-    const commentaryName =
-      commentaryDiv.querySelector('.commentary-name').innerText;
+    const commentaryName = commentaryDiv.querySelector('.commentary-name').innerText;
     const commentaryContentBox = commentaryDiv.querySelector('.commentary-content');
 
     let commentaryContent = commentaryContentBox.innerText;
     let lineBreak = this._verseBoxHelper.getLineBreak(false);
     let commentaryText = `${commentaryName} - ${verseLabelText} ${lineBreak}${lineBreak} ${commentaryContent}`;
 
-    let commentaryTextHtml = this.processCommentaryHtml(
-      commentaryContentBox.innerHTML
-    );
+    let commentaryTextHtml = this.processCommentaryHtml(commentaryContentBox.innerHTML);
     lineBreak = this._verseBoxHelper.getLineBreak(true);
     commentaryTextHtml = `<b>${commentaryName} - ${verseLabelText}</b> ${lineBreak}${lineBreak} ${commentaryTextHtml}`;
 
@@ -298,33 +290,21 @@ class CommentaryPanel {
     processedHtml = processedHtml.replaceAll('</reference', '</span');
     processedHtml = processedHtml.replaceAll('<hi', '<span');
     processedHtml = processedHtml.replaceAll('</hi>', '</span>');
-    processedHtml = processedHtml.replaceAll(
-      'class="bold"',
-      'style="font-weight: bold;"'
-    );
-    processedHtml = processedHtml.replaceAll(
-      'class="italic"',
-      'style="font-style: italic;"'
-    );
-    processedHtml = processedHtml.replaceAll(
-      'sword-section-title"',
-      'sword-section-title"; style="font-weight: bold;"'
-    );
-    processedHtml = processedHtml.replaceAll(
-      '<div class="sword-markup sword-sid sword-paragraph',
-      '<br/><div class="sword-markup sword-sid sword-paragraph'
-    );
+    processedHtml = processedHtml.replaceAll('class="bold"', 'style="font-weight: bold;"');
+    processedHtml = processedHtml.replaceAll('class="italic"', 'style="font-style: italic;"');
+    processedHtml = processedHtml.replaceAll('sword-section-title"', 'sword-section-title"; style="font-weight: bold;"');
+    processedHtml = processedHtml.replaceAll('<div class="sword-markup sword-sid sword-paragraph', '<br/><div class="sword-markup sword-sid sword-paragraph');
 
     return processedHtml;
   }
 
-  performDelayedContentRefresh(selectedVerseBoxes = undefined) {
+  performDelayedContentRefresh(selectedVerseBoxes=undefined) {
     setTimeout(async () => {
       await this.performContentRefresh(selectedVerseBoxes);
     }, 50);
   }
 
-  async getCommentaryContent(selectedVerseBoxes = undefined) {
+  async getCommentaryContent(selectedVerseBoxes=undefined) {
     let commentaryContent = "";
 
     if (selectedVerseBoxes != null) {
@@ -339,9 +319,7 @@ class CommentaryPanel {
         });
 
         const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
-        const copyCommentaryButtonTitle = i18n.t(
-          "commentary-panel.copy-commentary-to-clipboard"
-        );
+        const copyCommentaryButtonTitle = i18n.t("commentary-panel.copy-commentary-to-clipboard");
 
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
@@ -352,30 +330,23 @@ class CommentaryPanel {
           }
 
           let firstVerseBox = $(selectedVerseBoxes[0]);
-          let verseCommentary = await this.getCommentaryForVerse(
-            currentCommentary.name,
-            firstVerseBox
-          );
+          let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
 
           if (verseCommentary != null && verseCommentary.length != 0) {
             commentaryContent += `
             <div class='commentary module-code-${currentCommentary.name.toLowerCase()}'>
               <h3>
-                <span class='commentary-name'>${
-                  currentCommentary.description
-                }</span>
+                <span class='commentary-name'>${currentCommentary.description}</span>
 
                 <div class='module-info-button fg-button ui-corner-all ui-state-default'
-                    i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${
-              currentCommentary.name
-            }' style='margin-left: 10px; margin-top: 5px;'>
+                     i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}'
+                     module='${currentCommentary.name}'>
                   <i class='fas fa-info'></i>
                 </div>
 
-                <div class='commentary-copy-button fg-button ui-corner-all ui-state-default'
-                  i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${
-              currentCommentary.name
-            }' style='margin-left: 10px; margin-top: 5px;'>
+                <div class='copy-commentary-button fg-button ui-corner-all ui-state-default'
+                  i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}'
+                  module='${currentCommentary.name}'>
                   <i class='fas fa-copy copy-icon'></i>
                 </div>
               </h3>
@@ -389,11 +360,8 @@ class CommentaryPanel {
         }
 
         if (commentaryContent.length == 0) {
-          commentaryContent =
-            "<div style='margin-top: 0.5em;'>" +
-            i18n.t(
-              "commentary-panel.no-commentaries-available-for-this-verse"
-            ) +
+          commentaryContent = "<div style='margin-top: 0.5em;'>" +
+            i18n.t("commentary-panel.no-commentaries-available-for-this-verse") +
             "</div>";
         }
       }
@@ -414,8 +382,7 @@ class CommentaryPanel {
 
     let referenceVerseBox = new VerseBox(verseBox[0]);
     let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    let mappedAbsoluteVerseNumber =
-      await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceTranslationId, targetTranslationId);
+    let mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceTranslationId, targetTranslationId);
 
     let kjvVerses = await ipcNsi.getBookText(targetTranslationId, bibleBookShortTitle, mappedAbsoluteVerseNumber, 1);
     let verse = kjvVerses[0];

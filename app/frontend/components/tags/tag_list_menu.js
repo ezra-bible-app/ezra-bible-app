@@ -63,6 +63,15 @@ const template = html`
   margin-right: 0.3em;
 }
 
+#all-tags-link {
+  margin-left: 1em;
+  display: none;
+}
+
+#tag-list-menu.tag-group-selected #all-tags-link {
+  display: inline-block;
+}
+
 .darkmode--activated #tag-list-menu {
   border: 1px solid #555555;
 }
@@ -88,6 +97,13 @@ const template = html`
   color: black;
   text-decoration: none;
   cursor: default;
+}
+
+#tag-group-label {
+  max-width: 14em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .darkmode--activated #tag-group-list-link.list-tag-groups:link,
@@ -135,6 +151,11 @@ const template = html`
     <span id="tag-group-label" i18n="tags.all-tags"></span>
   </div>
 
+  <div id="all-tags-link">
+    <i class="fa-solid fa-circle-left"></i>
+    <a href="" i18n="tags.all-tags"></a>
+  </div>
+
   <button id="add-tag-group-button" i18n="tags.add-tag-group" class="add-element-button fg-button ui-state-default ui-corner-all"></button>
 
   <div id="new-standard-tag-button" i18n="[title]tags.new-tag" class="add-element-button button-small">
@@ -156,6 +177,7 @@ const template = html`
  * - tag-group-link-event: Fired when the user clicks on the "Tag Groups" link.
  * - tag-group-creation-event: Fired when the user creates a new tag group.
  * - tag-group-selection-event: The component will subscribe to this event and react once it gets fired.
+ * - tag-group-select-all-event: Fired when the user clicks the All tags link.
  */
 class TagListMenu extends HTMLElement {
   constructor() {
@@ -183,6 +205,7 @@ class TagListMenu extends HTMLElement {
     this._tagGroupLinkEvent = this.getAttribute('tag-group-link-event');
     this._tagGroupCreationEvent = this.getAttribute('tag-group-creation-event');
     this._tagGroupSelectionEvent = this.getAttribute('tag-group-selection-event');
+    this._tagGroupSelectAllEvent = this.getAttribute('tag-group-select-all-event');
 
     if (this.getAttribute('box') == 'true') {
       rootElement.classList.add('box-style');
@@ -222,10 +245,38 @@ class TagListMenu extends HTMLElement {
       this.hideAddTagButton();
     });
 
+    eventController.subscribe(this._tagGroupSelectionEvent, (tagGroup) => {
+      if (tagGroup == null) {
+        return;
+      }
+
+      let tagGroupId = tagGroup.id;
+      const tagListMenu = this.shadowRoot.getElementById('tag-list-menu');
+
+      if (tagGroupId != -1) {
+        tagListMenu.classList.add('tag-group-selected');
+      } else {
+        tagListMenu.classList.remove('tag-group-selected');
+      }
+    });
+
+    eventController.subscribe(this._tagGroupLinkEvent, () => {
+      const tagListMenu = this.shadowRoot.getElementById('tag-list-menu');
+      tagListMenu.classList.remove('tag-group-selected');
+    });
+
     this.localize();
 
     this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', async function(event) {
       setTimeout(() => { tags_controller.handleNewTagButtonClick(event); }, 100);
+    });
+
+    this.shadowRoot.getElementById('all-tags-link').querySelector('a').addEventListener('click', async (event) => {
+      event.preventDefault();
+
+      if (this._tagGroupSelectAllEvent != null) {
+        eventController.publishAsync(this._tagGroupSelectAllEvent);
+      }
     });
 
     this.uiHelper.configureButtonStyles(this.shadowRoot.getElementById('tag-list-menu'));
