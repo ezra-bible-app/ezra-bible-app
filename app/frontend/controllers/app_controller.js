@@ -265,7 +265,7 @@ class AppController {
         if (this.dictionary_controller.isSelectionActive()) {
             this.dictionary_controller.copySelectedTextToClipboard();
         } else {
-            await this.verse_selection.copySelectedVerseTextToClipboard();
+            this.verse_selection.copySelectedVerseTextToClipboard();
         }
         return false;
     });
