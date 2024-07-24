@@ -62,7 +62,6 @@ class AppController {
   constructor() {
     this.verseContextMenuOpened = false;
     this.startupCompleted = false;
-    this.dictionarySelectionActive = false;
   }
 
   isDictionarySelectionActive() {
@@ -264,7 +263,7 @@ class AppController {
 
     Mousetrap.bind(shortCut, async () => {
         if (this.dictionary_controller.isSelectionActive()) {
-            await this.dictionary_controller.copySelectedTextToClipboard();
+            this.dictionary_controller.copySelectedTextToClipboard();
         } else {
             await this.verse_selection.copySelectedVerseTextToClipboard();
         }
