@@ -62,6 +62,15 @@ class AppController {
   constructor() {
     this.verseContextMenuOpened = false;
     this.startupCompleted = false;
+    this.dictionarySelectionActive = false;
+  }
+
+  isDictionarySelectionActive() {
+    return this.dictionarySelectionActive;
+  }
+
+  setDictionarySelectionActive(active) {
+    this.dictionarySelectionActive = active;
   }
 
   isStartupCompleted() {
@@ -250,61 +259,65 @@ class AppController {
   initGlobalShortCuts() {
     let shortCut = 'ctrl+c';
     if (platformHelper.isMac()) {
-      shortCut = 'command+c';
+        shortCut = 'command+c';
     }
 
     Mousetrap.bind(shortCut, async () => {
-      await this.verse_selection.copySelectedVerseTextToClipboard();
-      return false;
+        if (this.dictionary_controller.isSelectionActive()) {
+            await this.dictionary_controller.copySelectedTextToClipboard();
+        } else {
+            await this.verse_selection.copySelectedVerseTextToClipboard();
+        }
+        return false;
     });
 
     let searchShortCut = 'ctrl+f';
     if (platformHelper.isMac()) {
-      searchShortCut = 'command+f';
+        searchShortCut = 'command+f';
     }
 
     let selectAllShortCut = 'ctrl+a';
     if (platformHelper.isMac()) {
-      selectAllShortCut = 'command+a';
+        selectAllShortCut = 'command+a';
     }
 
     Mousetrap.bind(searchShortCut, () => {
-      let currentTab = app_controller.tab_controller.getTab();
-      currentTab.tab_search.show();
-      currentTab.tab_search.focus();
-      return false;
+        let currentTab = app_controller.tab_controller.getTab();
+        currentTab.tab_search.show();
+        currentTab.tab_search.focus();
+        return false;
     });
 
     Mousetrap.bind(selectAllShortCut, () => {
-      this.selectAllVerses();
-      return false;
+        this.selectAllVerses();
+        return false;
     });
 
     Mousetrap.bind('esc', () => {
-      let currentTab = app_controller.tab_controller.getTab();
-      currentTab.tab_search.resetSearch();
-      return false;
+        let currentTab = app_controller.tab_controller.getTab();
+        currentTab.tab_search.resetSearch();
+        return false;
     });
 
     Mousetrap.bind('enter', () => {
-      let currentTab = app_controller.tab_controller.getTab();
-      // We need to notify the TabSearch component that there has been a mouse trap event.
-      // This is to avoid double event processing, because the TabSearch also listens for key press events.
-      currentTab.tab_search.mouseTrapEvent = true;
-      currentTab.tab_search.jumpToNextOccurance();
-      return false;
+        let currentTab = app_controller.tab_controller.getTab();
+        // We need to notify the TabSearch component that there has been a mouse trap event.
+        // This is to avoid double event processing, because the TabSearch also listens for key press events.
+        currentTab.tab_search.mouseTrapEvent = true;
+        currentTab.tab_search.jumpToNextOccurance();
+        return false;
     });
 
     Mousetrap.bind('shift+enter', () => {
-      let currentTab = app_controller.tab_controller.getTab();
-      // We need to notify the TabSearch component that there has been a mouse trap event.
-      // This is to avoid double event processing, because the TabSearch also listens for key press events.
-      currentTab.tab_search.mouseTrapEvent = true;
-      currentTab.tab_search.shiftKeyPressed = true;
-      currentTab.tab_search.jumpToNextOccurance(false);
-      return false;
+        let currentTab = app_controller.tab_controller.getTab();
+        // We need to notify the TabSearch component that there has been a mouse trap event.
+        // This is to avoid double event processing, because the TabSearch also listens for key press events.
+        currentTab.tab_search.mouseTrapEvent = true;
+        currentTab.tab_search.shiftKeyPressed = true;
+        currentTab.tab_search.jumpToNextOccurance(false);
+        return false;
     });
-  }
+}
 
   selectAllVerses() {
     let currentTab = app_controller.tab_controller.getTab();
