@@ -433,8 +433,7 @@
     "help-instruction-no-commentaries": "No hay  comentarios instalados, aún. Necesita instalar al menos un comentario para usar esta funcionalidad.",
     "help-instruction-no-kjv": "La versión KJV de la Biblia no ha sido instalada, aún. La biblia KJV es necesaria para mostrar correctamente los comentarios en inglés. Usted puede solucionar esto así:<ul><li> Instalando la biblia KJV desde el repositorio CrossWire</li><li>Instalando un comentario (la Biblia KJV será automáticamente instalada en este caso)</li></ul>",
     "no-commentaries-available-for-this-verse": "No hay comentarios disponibles para el versículo seleccionado.",
-    "copy-commentary-to-clipboard-fail": "Error al copiar el comentario al portapapeles.",
-    "commentary-panel.copy-button": "Copiar Comentario"
+    "copy-button": "Copiar Comentario"
   },
   "emoji": {
     "search": "Buscar emojis...",

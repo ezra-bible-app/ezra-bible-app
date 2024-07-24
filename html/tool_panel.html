@@ -7,7 +7,8 @@
   <div id="tag-statistics-panel-wrapper">
     <tag-list-menu box="true"
                    tag-group-link-event="on-tag-group-list-activated"
-                   tag-group-selection-event="on-tag-group-selected">
+                   tag-group-selection-event="on-tag-group-selected"
+                   tag-group-select-all-event="on-tag-group-all-selected">
     </tag-list-menu>
 
     <tag-group-list id="tag-statistics-panel-tag-group-list"
@@ -16,6 +17,7 @@
                     show-tag-count="true"
                     activation-event="on-tag-group-list-activated"
                     selection-event="on-tag-group-selected"
+                    select-all-event="on-tag-group-all-selected"
                     hide-top-border="true"
                     rounded-bottom-corners="true"
                     book-filter="true"
@@ -44,7 +46,6 @@
   </h3>
 
   <div id="commentary-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
-    <button id="copy-commentary-button" class="fg-button ui-corner-all ui-state-default" i18n="commentary-panel.copy-button"></button>
     <div id="commentary-panel-loading-indicator">
       <div style="float: left;" i18n="bible-browser.loading-commentaries"></div>
 
@@ -64,6 +65,11 @@
           i18n="[html]commentary-panel.help-instruction-no-kjv"
           style="display: none;"></p>
     </div>
+
+    <button id="copy-selected-commentary-button"
+            class="fg-button ui-corner-all ui-state-default"
+            i18n="commentary-panel.copy-button"
+            style="display: none;"></button>
 
     <div id="commentary-panel-content"></div>
   </div>

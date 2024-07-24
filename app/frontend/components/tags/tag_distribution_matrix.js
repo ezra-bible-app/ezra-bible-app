@@ -61,6 +61,13 @@ const template = html`
     padding: 0;
   }
 
+  #copy-table-to-clipboard {
+    padding: 0.2em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    cursor: pointer;
+  }
+
   /* Mobile styles */
   @media screen and (max-width: 450px), (max-height: 450px) {
     #tag-distribution-matrix {
@@ -161,6 +168,8 @@ class TagDistributionMatrix extends HTMLElement {
         this._uiHelper.switchToRegularTheme(this.shadowRoot, 'tag-distribution-matrix');
       }
     });
+
+    this._uiHelper.configureButtonStyles(this.shadowRoot.getElementById('tag-distribution-matrix'));
   }
 
   async setInputAndRefresh(input, tabIndex=undefined) {
