@@ -62,6 +62,7 @@ class AppController {
   constructor() {
     this.verseContextMenuOpened = false;
     this.startupCompleted = false;
+    this.isDictionarySelectionActive = false;
   }
 
   isDictionarySelectionActive() {
@@ -70,6 +71,15 @@ class AppController {
 
   setDictionarySelectionActive(active) {
     this.dictionarySelectionActive = active;
+  }
+
+   /**
+   * Checks if a text selection is active
+   * @returns {boolean} True if there is an active text selection, false otherwise
+   */
+   isSelectionActive() {
+    const selection = window.getSelection();
+    return selection && selection.toString().length > 0;
   }
 
   isStartupCompleted() {
@@ -262,7 +272,7 @@ class AppController {
     }
 
     Mousetrap.bind(shortCut, async () => {
-        if (this.dictionary_controller.isSelectionActive()) {
+        if (this.isSelectionActive()) {
             this.dictionary_controller.copySelectedTextToClipboard();
         } else {
             this.verse_selection.copySelectedVerseTextToClipboard();
