@@ -18,7 +18,7 @@
 
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
-const DropboxSync = require('../db_sync/dropbox_sync.js');
+const DropboxSyncFactory = require('../db_sync/dropbox_sync_factory.js');
 const path = require('path');
 const fs = require('fs');
 
@@ -81,25 +81,23 @@ class IpcDbHandler {
       return;
     }
 
-    let dropboxToken = this._config.get('dropboxToken');
-    if (dropboxToken == "" || dropboxToken == null) {
-      return;
-    }
-
-    const dropboxRefreshToken = this._config.get('dropboxRefreshToken');
-    if (dropboxRefreshToken == "" || dropboxRefreshToken == null) {
-      return;
-    }
-
     if (this._dropboxSyncInProgress) {
       return;
     }
 
-    this._dropboxSyncInProgress = true;
-
     console.log('Synchronizing database with Dropbox!');
 
-    const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
+    this._dropboxSyncInProgress = true;
+    let authenticated = false;
+    const dropboxSync = await DropboxSyncFactory.createDropboxSync();
+
+    try {
+      await dropboxSync.testAuthentication();
+      authenticated = true;
+    } catch (e) {
+      console.log(e);
+    }
+
     const dropboxFolder = this._config.get('dropboxFolder', 'ezra');
     const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
     const databaseFilePath = this.getDatabaseFilePath();
@@ -110,31 +108,7 @@ class IpcDbHandler {
       prioritizeRemote = true;
     }
 
-    let dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
-
-    let authenticated = false;
     let lastDropboxSyncResult = null;
-
-    try {
-      let refreshedAccessToken = await dropboxSync.refreshAccessToken();
-
-      if (refreshedAccessToken == dropboxToken) {
-        console.log('Existing Dropbox token valid!');
-      } else {
-        console.log('Refreshed Dropbox access token!');
-        dropboxToken = refreshedAccessToken;
-        this._config.set('dropboxToken', refreshedAccessToken);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-
-    try {
-      await dropboxSync.testAuthentication();
-      authenticated = true;
-    } catch (e) {
-      console.log(e);
-    }
 
     if (authenticated) {
       console.log(`Dropbox authenticated! Attempting to synchronize local file ${databaseFilePath} with Dropbox!`);
