@@ -230,12 +230,20 @@ class DictionaryController {
    * @returns {Array} an array of Strongs Ids or an empty array 
    */
   getStrongsIdsFromStrongsElement(strongsElement) {
-    var strongsIds = [];
+    let strongsIds = [];
 
     if (strongsElement) {
       strongsElement.classList.forEach(cls => {
         if (cls.startsWith('strong:')) {
-          const strongsId = cls.slice(7);
+          let strongsId = cls.slice(7);
+
+          // In some translations like the KJV, the Hebrew Strong's id markup in the text contains
+          // leading zeros in front of the actual Strong's number. Here we check for that
+          // condition and fix the strongsId accordingly.
+          if (strongsId.startsWith('H0')) {
+            strongsId = strongsId.replace('H0', 'H');
+          }
+
           strongsIds.push(strongsId);
         }
       });
