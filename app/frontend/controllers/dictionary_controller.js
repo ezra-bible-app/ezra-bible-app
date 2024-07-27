@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const DictionaryInfoBox = require('../components/tool_panel/dictionary_info_box.js');
+const DictionaryPanel = require('../components/tool_panel/dictionary_panel.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 
@@ -45,7 +45,7 @@ class DictionaryController {
     this.strongsBox = $('#strongs-box');
     this.shiftKeyPressed = false;
     this.strongsAvailable = false;
-    this._dictionaryInfoBox = new DictionaryInfoBox(this);
+    this._dictionaryPanel = new DictionaryPanel(this);
     this._lastSelection = null;
 
     this.bindEvents();
@@ -132,7 +132,7 @@ class DictionaryController {
     this.strongsAvailable = await ipcNsi.strongsAvailable();
 
     if (this.strongsAvailable != oldStatus) {
-      this._dictionaryInfoBox.clearDictInfoBox();
+      this._dictionaryPanel.clear();
     }
   }
 
@@ -145,7 +145,7 @@ class DictionaryController {
   }
 
   clearInfoBox() {
-    this._dictionaryInfoBox.clearDictInfoBox();
+    this._dictionaryPanel.clear();
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {
@@ -317,7 +317,7 @@ class DictionaryController {
       }
 
       this.strongsBox.html(strongsShortInfo);
-      this._dictionaryInfoBox.updateDictInfoBox(firstStrongsEntry, additionalStrongsEntries, true);
+      this._dictionaryPanel.update(firstStrongsEntry, additionalStrongsEntries, true);
     } catch (e) {
       console.log(e);
     }
