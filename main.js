@@ -242,38 +242,47 @@ async function createWindow(firstStart=true) {
   });
 }
 
-if (process.platform === 'win32' || process.platform === 'linux') {
-  // see https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app#windows-and-linux-code
-
-  const lock = app.requestSingleInstanceLock();
-
-  if (!lock) {
-    app.quit();
-  } else {
-    app.on('second-instance', (event, commandLine, workingDirectory) => {
-      // Someone tried to run a second instance, we should focus our window.
-      if (global.mainWindow) {
-        if (global.mainWindow.isMinimized()) global.mainWindow.restore();
-
-        global.mainWindow.focus();
-      }
-
-      // the commandLine is array of strings in which last element is deep link url
-      dialog.showErrorBox('Welcome Back', `You arrived from: ${commandLine.pop()}`);
-    });
+function handleAuthUrl(url) {
+  if (url.indexOf('ezrabible') != -1) {
+    global.mainWindow.webContents.send('dropbox-auth-callback', url);
   }
-
-} else if (process.platform === 'darwin') {
-  // Handle the protocol. In this case, we choose to show an Error Box.
-  app.on('open-url', (event, url) => {
-    dialog.showErrorBox('Welcome Back', `You arrived from: ${url}`);
-  });
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
+
+  if (process.platform === 'win32' || process.platform === 'linux') {
+    // see https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app#windows-and-linux-code
+
+    const lock = app.requestSingleInstanceLock();
+
+    if (!lock) {
+
+      app.quit();
+      return;
+
+    } else {
+      app.on('second-instance', (event, commandLine, workingDirectory) => {
+        let url = commandLine.pop();
+        handleAuthUrl(url);
+
+        // Someone tried to run a second instance, we should focus our window.
+        if (global.mainWindow) {
+          if (global.mainWindow.isMinimized()) global.mainWindow.restore();
+
+          global.mainWindow.focus();
+        }
+      });
+    }
+
+  } else if (process.platform === 'darwin') {
+    app.on('open-url', (event, url) => {
+      handleAuthUrl(url);
+    });
+  }
+
   await createWindow();
 });
 
