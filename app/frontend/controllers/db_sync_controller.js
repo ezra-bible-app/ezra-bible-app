@@ -290,8 +290,8 @@ function updateDropboxLinkStatusLabel(resetLink=false) {
 
 // Parses the url and gets the access token if it is in the urls hash
 function getCodeFromUrl(url) {
-  const replacementString = 'ezrabible://app?code=';
-  let code = url.replace(replacementString, '');
+  const replacementRegex = /ezrabible.*code=/;
+  let code = url.replace(replacementRegex, '');
   return code;
 }
 
