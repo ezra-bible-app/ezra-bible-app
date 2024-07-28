@@ -309,11 +309,7 @@ function hasRedirectedFromAuth(url) {
 }
 
 function getRedirectUri() {
-  if (platformHelper.isCordova()) {
-    return 'ezrabible://app';
-  } else if (platformHelper.isElectron()) {
-    return 'http://localhost:9999/dropbox_auth';
-  }
+  return 'ezrabible://app';
 }
 
 function handleRedirect(url) {
