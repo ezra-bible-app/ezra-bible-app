@@ -82,14 +82,6 @@ class IpcGeneral {
     return await this._ipcRenderer.call('general_getIpcCallStats');
   }
 
-  async startDropboxAuthServer() {
-    return await this._ipcRenderer.call('general_startDropboxAuthServer');
-  }
-
-  async stopDropboxAuthServer() {
-    return await this._ipcRenderer.call('general_stopDropboxAuthServer');
-  }
-
   /**
    * Resets the IPC call statistics.
    */

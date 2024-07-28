@@ -18,8 +18,6 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
-let expressApp = null;
-let expressServer = null;
 
 global.connectionType = undefined;
 
@@ -135,39 +133,6 @@ class IpcGeneralHandler {
       }
 
       return fonts;
-    });
-
-    this._ipcMain.add('general_startDropboxAuthServer', async() => {
-      console.log('Starting express server, listening on port 9999');
-
-      const express = require('express');
-      expressApp = express();
-
-      expressApp.get('/dropbox_auth', function(req, res){
-        let url = req.url;
-        //console.log('Got request at ' + url);
-
-        // Send a script that closes the window immediately
-        const message = "<html><head><title>Connection to Dropbox account established!</title></head>" +
-                        "<body style='text-align: center; padding-top: 5em;'>" +
-                        "<p>The connection to your Dropbox account has been established!</p>" +
-                        "<p>You may close this Browser window and return to Ezra Bible App to complete the process.</p>"
-                        "</body></html>";
-        res.send(message);
-
-        global.mainWindow.webContents.send('dropbox-auth-callback', url);
-        expressServer.close();
-        expressServer = null;
-      });
-
-      expressServer = expressApp.listen(9999);
-    });
-
-    this._ipcMain.add('general_stopDropboxAuthServer', async() => {
-      if (expressServer != null) {
-        expressServer.close();
-        expressServer = null;
-      }
     });
 
     this._ipcMain.add('general_getIpcCallStats', async() => {
