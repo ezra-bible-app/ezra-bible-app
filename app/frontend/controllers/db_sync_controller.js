@@ -158,7 +158,7 @@ function initAuthCallbacks() {
   } else if (platformHelper.isElectron()) {
 
     require('electron').ipcRenderer.on('dropbox-auth-callback', (event, url) => {
-      console.log('Got Dropbox auth callback with url: ' + url);
+      //console.log('Got Dropbox auth callback with url: ' + url);
       handleRedirect(url);
     });
 
@@ -334,14 +334,6 @@ async function setupDropboxAuthentication() {
 
   //console.log('Starting Dropbox authentication with this REDIRECT_URI: ' + REDIRECT_URI);
 
-  /*if (platformHelper.isElectron()) {
-    // On Electron the authentication code will come back through a local web server that we start here.
-    // Once the user approves the Dropbox access, Dropbox will redirect the user to a web site served
-    // by this local server. The code is then read in the backend (see ipc_general_handler.js) and
-    // sent back via IPC on the channel dropbox-auth-callback, see the code in initAuthCallbacks().
-    await ipcGeneral.startDropboxAuthServer();
-  }*/
-
   dbxAuth.getAuthenticationUrl(REDIRECT_URI, undefined, 'code', 'offline', undefined, undefined, true)
     .then(authUrl => {
       window.sessionStorage.clear();
@@ -352,18 +344,6 @@ async function setupDropboxAuthentication() {
       // Open the Dropbox authentication url in the system web browser.
       // The next step after this will be a redirect which will be handled by handleRedirect().
       uiHelper.openLinkInBrowser(authUrl);
-
-      /*if (platformHelper.isElectron()) {
-        // On Electron we need to observe whether the user is closing the popup so that we can also stop the 
-        // Dropbox auth server again. This would usually happen in the backend when the authentication / linking
-        // is successfully, but if the user aborts (closes the window) we need to handle it manually.
-        let timer = setInterval(() => { 
-          if(popup.closed) {
-            clearInterval(timer);
-            ipcGeneral.stopDropboxAuthServer();
-          }
-        }, 500);
-      }*/
     })
     .catch((error) => console.error(error));
 }
