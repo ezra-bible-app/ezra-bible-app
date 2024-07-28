@@ -158,7 +158,7 @@ function initAuthCallbacks() {
   } else if (platformHelper.isElectron()) {
 
     require('electron').ipcRenderer.on('dropbox-auth-callback', (event, url) => {
-      //console.log('Got Dropbox auth callback with url: ' + url);
+      console.log('Got Dropbox auth callback with url: ' + url);
       handleRedirect(url);
     });
 
@@ -290,14 +290,7 @@ function updateDropboxLinkStatusLabel(resetLink=false) {
 
 // Parses the url and gets the access token if it is in the urls hash
 function getCodeFromUrl(url) {
-  let replacementString = null;
-
-  if (platformHelper.isCordova()) {
-    replacementString = 'ezrabible://app?code=';
-  } else if (platformHelper.isElectron()) {
-    replacementString = '/dropbox_auth?code=';
-  }
-
+  const replacementString = 'ezrabible://app?code=';
   let code = url.replace(replacementString, '');
   return code;
 }
@@ -341,13 +334,13 @@ async function setupDropboxAuthentication() {
 
   //console.log('Starting Dropbox authentication with this REDIRECT_URI: ' + REDIRECT_URI);
 
-  if (platformHelper.isElectron()) {
+  /*if (platformHelper.isElectron()) {
     // On Electron the authentication code will come back through a local web server that we start here.
     // Once the user approves the Dropbox access, Dropbox will redirect the user to a web site served
     // by this local server. The code is then read in the backend (see ipc_general_handler.js) and
     // sent back via IPC on the channel dropbox-auth-callback, see the code in initAuthCallbacks().
     await ipcGeneral.startDropboxAuthServer();
-  }
+  }*/
 
   dbxAuth.getAuthenticationUrl(REDIRECT_URI, undefined, 'code', 'offline', undefined, undefined, true)
     .then(authUrl => {
