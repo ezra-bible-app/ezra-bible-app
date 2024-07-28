@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const path = require('path');
 const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
 
 global.isDev = !app.isPackaged;
@@ -31,6 +32,16 @@ app.allowRendererProcessReuse = false;
 
 // Disable security warnings
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
+
+const URL_SCHEME = 'ezrabible';
+
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient(URL_SCHEME, process.execPath, [path.resolve(process.argv[1])]);
+  }
+} else {
+  app.setAsDefaultProtocolClient(URL_SCHEME);
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -228,6 +239,34 @@ async function createWindow(firstStart=true) {
 
   global.mainWindow.on('leave-full-screen', function () {
     global.mainWindow.webContents.send('fullscreen-changed');
+  });
+}
+
+if (process.platform === 'win32' || process.platform === 'linux') {
+  // see https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app#windows-and-linux-code
+
+  const lock = app.requestSingleInstanceLock();
+
+  if (!lock) {
+    app.quit();
+  } else {
+    app.on('second-instance', (event, commandLine, workingDirectory) => {
+      // Someone tried to run a second instance, we should focus our window.
+      if (global.mainWindow) {
+        if (global.mainWindow.isMinimized()) global.mainWindow.restore();
+
+        global.mainWindow.focus();
+      }
+
+      // the commandLine is array of strings in which last element is deep link url
+      dialog.showErrorBox('Welcome Back', `You arrived from: ${commandLine.pop()}`);
+    });
+  }
+
+} else if (process.platform === 'darwin') {
+  // Handle the protocol. In this case, we choose to show an Error Box.
+  app.on('open-url', (event, url) => {
+    dialog.showErrorBox('Welcome Back', `You arrived from: ${url}`);
   });
 }
 
