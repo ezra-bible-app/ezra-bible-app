@@ -1,6 +1,18 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.14.1 - 2024-08-03]
+
+### Fixes
+
+* Dropbox feedback: OAuth authorization flow processed inside web view. ([#1079][i1079])
+* Search results for Strongs Hebrew #'s lack highlight. ([#1085][i1085])
+* Translations with leading zeros in Strong's #s (eg. H07225) cause the function "Find all occurances" to always return zero results. ([#1086][i1086])
+
+[i1079]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1079
+[i1085]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1085
+[i1086]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1086
+
 ## [1.14.0 - 2024-06-30]
 
 ### Enhancements
