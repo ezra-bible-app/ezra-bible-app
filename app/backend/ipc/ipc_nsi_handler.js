@@ -29,6 +29,27 @@ class IpcNsiHandler {
 
     this.initNSI(customSwordDir);
     this.initIpcInterface();
+
+    this._useWebApi = true;
+    this._WEB_API_ROOT = 'http://localhost:3000';
+  }
+
+  async getFromWebApi(URL) {
+    try {
+      const response = await fetch(this._WEB_API_ROOT + URL);
+
+      if (!response.ok) {
+        console.error('Network response was not ok ' + response.statusText);
+        return -1;
+      }
+
+      const data = await response.json(); // Parsing the JSON from the response
+      return data;
+
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+      return -1;
+    }
   }
 
   initNSI(customSwordDir=undefined) {
@@ -96,16 +117,28 @@ class IpcNsiHandler {
       return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
     
-    this._ipcMain.add('nsi_getRepoNames', () => {
-      return this._nsi.getRepoNames();
+    this._ipcMain.add('nsi_getRepoNames', async () => {
+      if (!this._useWebApi) {
+        return this._nsi.getRepoNames();
+      } else {
+        return await this.getFromWebApi('/repository/names');
+      }
     });
 
-    this._ipcMain.add('nsi_getRepoLanguages', (repositoryName, moduleType) => {
-      return this._nsi.getRepoLanguages(repositoryName, moduleType);
+    this._ipcMain.add('nsi_getRepoLanguages', async (repositoryName, moduleType) => {
+      if (!this._useWebApi) {
+        return this._nsi.getRepoLanguages(repositoryName, moduleType);
+      } else {
+        return await this.getFromWebApi(`/repository/${repositoryName}/languages/${moduleType}`);
+      }
     });
 
-    this._ipcMain.add('nsi_getAllRepoModules', (repositoryName, moduleType) => {
-      return this._nsi.getAllRepoModules(repositoryName, moduleType);
+    this._ipcMain.add('nsi_getAllRepoModules', async (repositoryName, moduleType) => {
+      if (!this._useWebApi) {
+        return this._nsi.getAllRepoModules(repositoryName, moduleType);
+      } else {
+        return await this.getFromWebApi(`/repository/${repositoryName}/modules/${moduleType}`);
+      }
     });
 
     this._ipcMain.add('nsi_getRepoModulesByLang', (repositoryName, language, moduleType, headersFilter, strongsFilter, hebrewStrongsKeys, greekStrongsKeys) => {
@@ -126,8 +159,12 @@ class IpcNsiHandler {
       }
     });
 
-    this._ipcMain.add('nsi_getAllLocalModules', (moduleType='BIBLE') => {
-      return this._nsi.getAllLocalModules(moduleType);
+    this._ipcMain.add('nsi_getAllLocalModules', async (moduleType='BIBLE') => {
+      if (!this._useWebApi) {
+        return this._nsi.getAllLocalModules(moduleType);
+      } else {
+        return await this.getFromWebApi(`/local/modules/${moduleType}`);
+      }
     });
 
     this._ipcMain.addSync('nsi_getAllLocalModulesSync', (moduleType='BIBLE') => {
@@ -203,12 +240,20 @@ class IpcNsiHandler {
       return this._nsi.getReferenceText(moduleCode, key);
     });
 
-    this._ipcMain.add('nsi_getChapterText', (moduleCode, bookCode, chapter) => {
-      return this._nsi.getChapterText(moduleCode, bookCode, chapter);
+    this._ipcMain.add('nsi_getChapterText', async (moduleCode, bookCode, chapter) => {
+      if (!this._useWebApi) {
+        return this._nsi.getChapterText(moduleCode, bookCode, chapter);
+      } else {
+        return await this.getFromWebApi(`/module/${moduleCode}/chapter/${bookCode}/${chapter}`);
+      }
     });
 
-    this._ipcMain.add('nsi_getBookText', (moduleCode, bookCode, startVerseNr=-1, verseCount=-1) => {
-      return this._nsi.getBookText(moduleCode, bookCode, startVerseNr, verseCount);
+    this._ipcMain.add('nsi_getBookText', async (moduleCode, bookCode, startVerseNr=-1, verseCount=-1) => {
+      if (!this._useWebApi) {
+        return this._nsi.getBookText(moduleCode, bookCode, startVerseNr, verseCount);
+      } else {
+        return await this.getFromWebApi(`/module/${moduleCode}/book/${bookCode}/${startVerseNr}/${verseCount}`);
+      }
     });
 
     this._ipcMain.add('nsi_getVersesFromReferences', (moduleCode, references) => {
