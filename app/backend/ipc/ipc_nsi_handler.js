@@ -244,7 +244,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getChapterText(moduleCode, bookCode, chapter);
       } else {
-        return await this.getFromWebApi(`/module/${moduleCode}/chapter/${bookCode}/${chapter}`);
+        return await this.getFromWebApi(`/module/${moduleCode}/chaptertext/${bookCode}/${chapter}`);
       }
     });
 
@@ -252,7 +252,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getBookText(moduleCode, bookCode, startVerseNr, verseCount);
       } else {
-        return await this.getFromWebApi(`/module/${moduleCode}/book/${bookCode}/${startVerseNr}/${verseCount}`);
+        return await this.getFromWebApi(`/module/${moduleCode}/booktext/${bookCode}/${startVerseNr}/${verseCount}`);
       }
     });
 
@@ -264,16 +264,29 @@ class IpcNsiHandler {
       return this._nsi.getReferencesFromReferenceRange(referenceRange);
     });
 
-    this._ipcMain.add('nsi_getBookList', (moduleCode) => {
-      return this._nsi.getBookList(moduleCode);
+    this._ipcMain.add('nsi_getBookList', async (moduleCode) => {
+      if (!this._useWebApi) {
+        return this._nsi.getBookList(moduleCode);
+      } else {
+        return await this.getFromWebApi(`/module/${moduleCode}/books`);
+      }
     });
 
-    this._ipcMain.add('nsi_getBookChapterCount', (moduleCode, bookCode) => {
-      return this._nsi.getBookChapterCount(moduleCode, bookCode);
+    this._ipcMain.add('nsi_getBookChapterCount', async (moduleCode, bookCode) => {
+      if (!this._useWebApi) {
+        return this._nsi.getBookChapterCount(moduleCode, bookCode);
+      } else {
+        return parseInt(await this.getFromWebApi(`/module/${moduleCode}/bookchaptercount/${bookCode}`));
+      }
     });
 
-    this._ipcMain.add('nsi_getBookVerseCount', (moduleCode, bookCode) => {
-      var bookChapterCount = this._nsi.getBookChapterCount(moduleCode, bookCode);
+    this._ipcMain.add('nsi_getBookVerseCount', async (moduleCode, bookCode) => {
+      let bookChapterCount = null;
+      if (!this._useWebApi) {
+        bookChapterCount = this._nsi.getBookChapterCount(moduleCode, bookCode);
+      } else {
+        bookChapterCount = parseInt(await this.getFromWebApi(`/module/${moduleCode}/bookchaptercount/${bookCode}`));
+      }
 
       let verseCount = 0;
 
@@ -285,8 +298,12 @@ class IpcNsiHandler {
       return verseCount;
     });
 
-    this._ipcMain.add('nsi_getChapterVerseCount', (moduleCode, bookCode, chapter) => {
-      return this._nsi.getChapterVerseCount(moduleCode, bookCode, chapter);
+    this._ipcMain.add('nsi_getChapterVerseCount', async (moduleCode, bookCode, chapter) => {
+      if (!this._useWebApi) {
+        return this._nsi.getChapterVerseCount(moduleCode, bookCode, chapter);
+      } else {
+        return parseInt(await this.getFromWebApi(`/module/${moduleCode}/chapterversecount/${bookCode}/${chapter}`));
+      }
     });
 
     this._ipcMain.add('nsi_getAllChapterVerseCounts', (moduleCode, bookCode) => {
@@ -301,12 +318,22 @@ class IpcNsiHandler {
       return chapterVerseCounts;
     });
 
-    this._ipcMain.add('nsi_getBookIntroduction', (moduleCode, bookCode) => {
-      return this._nsi.getBookIntroduction(moduleCode, bookCode);
+    this._ipcMain.add('nsi_getBookIntroduction', async (moduleCode, bookCode) => {
+      if (!this._useWebApi) {
+        return this._nsi.getBookIntroduction(moduleCode, bookCode);
+      } else {
+        return await this.getFromWebApi(`/module/${moduleCode}/bookintro/${bookCode}`)
+      }
     });
 
-    this._ipcMain.add('nsi_getBookHeaderList', (moduleCode, bookCode, startVerseNumber=-1, verseCount=-1) => {
-      var bookTextJson = this._nsi.getBookText(moduleCode, bookCode, startVerseNumber, verseCount);
+    this._ipcMain.add('nsi_getBookHeaderList', async (moduleCode, bookCode, startVerseNumber=-1, verseCount=-1) => {
+      let bookTextJson = null;
+
+      if (!this._useWebApi) {
+        bookTextJson = this._nsi.getBookText(moduleCode, bookCode, startVerseNumber, verseCount);
+      } else {
+        bookTextJson = await this.getFromWebApi(`/module/${moduleCode}/booktext/${bookCode}/${startVerseNr}/${verseCount}`);
+      }
 
       var bookTextHtml = "<div>";
       bookTextJson.forEach((verse) => { bookTextHtml += verse.content; });
