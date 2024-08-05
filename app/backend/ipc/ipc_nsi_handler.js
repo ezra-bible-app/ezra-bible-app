@@ -39,7 +39,7 @@ class IpcNsiHandler {
       const response = await fetch(this._WEB_API_ROOT + URL);
 
       if (!response.ok) {
-        console.error('Network response was not ok ' + response.statusText);
+        console.error('Network response was not ok for ' + URL + ': ' + response.statusText);
         return -1;
       }
 
@@ -434,20 +434,36 @@ class IpcNsiHandler {
       return this._nsi.terminateModuleSearch();
     });
 
-    this._ipcMain.add('nsi_hebrewStrongsAvailable', () => {
-      return this._nsi.hebrewStrongsAvailable();
+    this._ipcMain.add('nsi_hebrewStrongsAvailable', async () => {
+      if (!this._useWebApi) {
+        return this._nsi.hebrewStrongsAvailable();
+      } else {
+        return await this.getFromWebApi('/local/hebrewstrongsavailable');
+      }
     });
 
-    this._ipcMain.add('nsi_greekStrongsAvailable', () => {
-      return this._nsi.greekStrongsAvailable();
+    this._ipcMain.add('nsi_greekStrongsAvailable', async () => {
+      if (!this._useWebApi) {
+        return this._nsi.greekStrongsAvailable();
+      } else {
+        return await this.getFromWebApi('/local/greekstrongsavailable');
+      }
     });
 
-    this._ipcMain.add('nsi_strongsAvailable', () => {
-      return this._nsi.strongsAvailable();
+    this._ipcMain.add('nsi_strongsAvailable', async () => {
+      if (!this._useWebApi) {
+        return this._nsi.strongsAvailable();
+      } else {
+        return await this.getFromWebApi('/local/strongsavailable');
+      }
     });
 
-    this._ipcMain.add('nsi_getStrongsEntry', (strongsKey) => {
-      return this._nsi.getStrongsEntry(strongsKey);
+    this._ipcMain.add('nsi_getStrongsEntry', async (strongsKey) => {
+      if (!this._useWebApi) {
+        return this._nsi.getStrongsEntry(strongsKey);
+      } else {
+        return await this.getFromWebApi(`/local/strongsentry/${strongsKey}`);
+      }
     });
 
     this._ipcMain.add('nsi_getLocalModule', (moduleCode) => {
