@@ -131,6 +131,14 @@ class IpcNsiHandler {
     }
   }
 
+  async getBookList(moduleCode) {
+    if (!this._useWebApi) {
+      return this._nsi.getBookList(moduleCode);
+    } else {
+      return await this.getFromWebApi(`/module/${moduleCode}/books`);
+    }
+  }
+
   /**
    * SWORD uses an underscore as a separator (like pt_BR), while i18next uses a hyphen.
    * So here we replace any hyphen in the localeCode with an underscore, so that this works with SWORD.
@@ -310,11 +318,7 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getBookList', async (moduleCode) => {
-      if (!this._useWebApi) {
-        return this._nsi.getBookList(moduleCode);
-      } else {
-        return await this.getFromWebApi(`/module/${moduleCode}/books`);
-      }
+      return await this.getBookList(moduleCode);
     });
 
     this._ipcMain.add('nsi_getBookChapterCount', async (moduleCode, bookCode) => {
@@ -412,8 +416,8 @@ class IpcNsiHandler {
       return await this.moduleHasBook(moduleCode, bookCode);
     });
 
-    this._ipcMain.add('nsi_moduleHasApocryphalBooks', (moduleCode) => {
-      const books = this._nsi.getBookList(moduleCode);
+    this._ipcMain.add('nsi_moduleHasApocryphalBooks', async (moduleCode) => {
+      const books = await this.getBookList(moduleCode);
 
       for (let i = 0; i < books.length; i++) {
         let bookId = books[i];
