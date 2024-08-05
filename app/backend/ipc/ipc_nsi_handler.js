@@ -232,8 +232,12 @@ class IpcNsiHandler {
       return this._nsi.isModuleReadable(moduleCode);
     });
 
-    this._ipcMain.add('nsi_getRawModuleEntry', (moduleCode, key) => {
-      return this._nsi.getRawModuleEntry(moduleCode, key);
+    this._ipcMain.add('nsi_getRawModuleEntry', async (moduleCode, key) => {
+      if (!this._useWebApi) {
+        return this._nsi.getRawModuleEntry(moduleCode, key);
+      } else {
+        return await this.getFromWebApi(`/module/${moduleCode}/raw/${key}`);
+      }
     });
 
     this._ipcMain.add('nsi_getReferenceText', (moduleCode, key) => {
