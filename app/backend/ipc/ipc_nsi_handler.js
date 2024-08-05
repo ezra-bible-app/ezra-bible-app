@@ -295,7 +295,13 @@ class IpcNsiHandler {
       let verseCount = 0;
 
       for (let i = 1; i <= bookChapterCount; i++) {
-        let chapterVerseCount = this._nsi.getChapterVerseCount(moduleCode, bookCode, i);
+        let chapterVerseCount = 0;
+        if (!this._useWebApi) {
+          chapterVerseCount = this._nsi.getChapterVerseCount(moduleCode, bookCode, i);
+        } else {
+          chapterVerseCount = parseInt(await this.getFromWebApi(`/module/${moduleCode}/chapterversecount/${bookCode}/${i}`));
+        }
+
         verseCount += chapterVerseCount;
       }
 
