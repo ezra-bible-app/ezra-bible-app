@@ -123,6 +123,14 @@ class IpcNsiHandler {
     }
   }
 
+  async moduleHasBook(moduleCode, bookCode) {
+    if (!this._useWebApi) {
+      return this._nsi.moduleHasBook(moduleCode, bookCode);
+    } else {
+      return await this.getFromWebApi(`/module/${moduleCode}/hasbook/${bookCode}`);
+    }
+  }
+
   /**
    * SWORD uses an underscore as a separator (like pt_BR), while i18next uses a hyphen.
    * So here we replace any hyphen in the localeCode with an underscore, so that this works with SWORD.
@@ -400,8 +408,8 @@ class IpcNsiHandler {
       return sectionHeaders;
     });
 
-    this._ipcMain.add('nsi_moduleHasBook', (moduleCode, bookCode) => {
-      return this._nsi.moduleHasBook(moduleCode, bookCode);
+    this._ipcMain.add('nsi_moduleHasBook', async (moduleCode, bookCode) => {
+      return await this.moduleHasBook(moduleCode, bookCode);
     });
 
     this._ipcMain.add('nsi_moduleHasApocryphalBooks', (moduleCode) => {
@@ -420,13 +428,18 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getModuleBookStatus', async (bookCode) => {
-      var allModules = await this.getAllLocalModules('BIBLE');
-      var moduleBookStatus = {};
+      let moduleBookStatus = {};
 
-      for (let i = 0; i < allModules.length; i++) {
-        const currentModuleName = allModules[i].name;
-        const currentModuleHasBook = this._nsi.moduleHasBook(currentModuleName, bookCode);
-        moduleBookStatus[currentModuleName] = currentModuleHasBook;
+      if (!this._useWebApi) {
+        const allModules = this._nsi.getAllLocalModules('BIBLE');
+  
+        for (let i = 0; i < allModules.length; i++) {
+          const currentModuleName = allModules[i].name;
+          const currentModuleHasBook = this._nsi.moduleHasBook(currentModuleName, bookCode);
+          moduleBookStatus[currentModuleName] = currentModuleHasBook;
+        }
+      } else {
+        moduleBookStatus = await this.getFromWebApi(`/local/modulebookstatus/${bookCode}`);
       }
 
       return moduleBookStatus;
