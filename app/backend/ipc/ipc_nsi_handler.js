@@ -268,8 +268,12 @@ class IpcNsiHandler {
       return this._nsi.getVersesFromReferences(moduleCode, references);
     });
 
-    this._ipcMain.add('nsi_getReferencesFromReferenceRange', (referenceRange) => {
-      return this._nsi.getReferencesFromReferenceRange(referenceRange);
+    this._ipcMain.add('nsi_getReferencesFromReferenceRange', async (referenceRange) => {
+      if (!this._useWebApi) {
+        return this._nsi.getReferencesFromReferenceRange(referenceRange);
+      } else {
+        return await this.getFromWebApi(`/local/referencesfromrange/${referenceRange}`);
+      }
     });
 
     this._ipcMain.add('nsi_getBookList', async (moduleCode) => {
