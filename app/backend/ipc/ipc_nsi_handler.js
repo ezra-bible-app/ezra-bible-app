@@ -240,8 +240,12 @@ class IpcNsiHandler {
       }
     });
 
-    this._ipcMain.add('nsi_getReferenceText', (moduleCode, key) => {
-      return this._nsi.getReferenceText(moduleCode, key);
+    this._ipcMain.add('nsi_getReferenceText', async (moduleCode, key) => {
+      if (!this._useWebApi) {
+        return this._nsi.getReferenceText(moduleCode, key);
+      } else {
+        return await this.getFromWebApi(`/module/${moduleCode}/text/${key}`);
+      }
     });
 
     this._ipcMain.add('nsi_getChapterText', async (moduleCode, bookCode, chapter) => {
