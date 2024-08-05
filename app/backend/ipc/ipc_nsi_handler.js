@@ -31,6 +31,7 @@ class IpcNsiHandler {
     this.initIpcInterface();
 
     this._useWebApi = true;
+    //this._WEB_API_ROOT = 'http://ec2-13-48-148-192.eu-north-1.compute.amazonaws.com';
     this._WEB_API_ROOT = 'http://localhost:3000';
   }
 
