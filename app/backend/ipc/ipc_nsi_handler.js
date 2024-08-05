@@ -88,6 +88,14 @@ class IpcNsiHandler {
     return this._nsi;
   }
 
+  async getAllLocalModules(moduleType) {
+    if (!this._useWebApi) {
+      return this._nsi.getAllLocalModules(moduleType);
+    } else {
+      return await this.getFromWebApi(`/local/modules/${moduleType}`);
+    }
+  }
+
   getLanguageModuleCount(selectedRepos, language, moduleType) {
     var count = 0;
 
@@ -97,6 +105,22 @@ class IpcNsiHandler {
     }
 
     return count;
+  }
+
+  async getBookChapterCount(moduleCode, bookCode) {
+    if (!this._useWebApi) {
+      return this._nsi.getBookChapterCount(moduleCode, bookCode);
+    } else {
+      return parseInt(await this.getFromWebApi(`/module/${moduleCode}/bookchaptercount/${bookCode}`));
+    }
+  }
+
+  async getChapterVerseCount(moduleCode, bookCode, chapter) {
+    if (!this._useWebApi) {
+      return this._nsi.getChapterVerseCount(moduleCode, bookCode, chapter);
+    } else {
+      return parseInt(await this.getFromWebApi(`/module/${moduleCode}/chapterversecount/${bookCode}/${chapter}`));
+    }
   }
 
   /**
@@ -160,11 +184,7 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getAllLocalModules', async (moduleType='BIBLE') => {
-      if (!this._useWebApi) {
-        return this._nsi.getAllLocalModules(moduleType);
-      } else {
-        return await this.getFromWebApi(`/local/modules/${moduleType}`);
-      }
+      return await this.getAllLocalModules(moduleType);
     });
 
     this._ipcMain.addSync('nsi_getAllLocalModulesSync', (moduleType='BIBLE') => {
@@ -290,31 +310,15 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getBookChapterCount', async (moduleCode, bookCode) => {
-      if (!this._useWebApi) {
-        return this._nsi.getBookChapterCount(moduleCode, bookCode);
-      } else {
-        return parseInt(await this.getFromWebApi(`/module/${moduleCode}/bookchaptercount/${bookCode}`));
-      }
+      return await this.getBookChapterCount(moduleCode, bookCode);
     });
 
     this._ipcMain.add('nsi_getBookVerseCount', async (moduleCode, bookCode) => {
-      let bookChapterCount = null;
-      if (!this._useWebApi) {
-        bookChapterCount = this._nsi.getBookChapterCount(moduleCode, bookCode);
-      } else {
-        bookChapterCount = parseInt(await this.getFromWebApi(`/module/${moduleCode}/bookchaptercount/${bookCode}`));
-      }
-
+      let bookChapterCount = await this.getBookChapterCount(moduleCode, bookCode);
       let verseCount = 0;
 
       for (let i = 1; i <= bookChapterCount; i++) {
-        let chapterVerseCount = 0;
-        if (!this._useWebApi) {
-          chapterVerseCount = this._nsi.getChapterVerseCount(moduleCode, bookCode, i);
-        } else {
-          chapterVerseCount = parseInt(await this.getFromWebApi(`/module/${moduleCode}/chapterversecount/${bookCode}/${i}`));
-        }
-
+        let chapterVerseCount = await this.getChapterVerseCount(moduleCode, bookCode, i);
         verseCount += chapterVerseCount;
       }
 
@@ -322,11 +326,7 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getChapterVerseCount', async (moduleCode, bookCode, chapter) => {
-      if (!this._useWebApi) {
-        return this._nsi.getChapterVerseCount(moduleCode, bookCode, chapter);
-      } else {
-        return parseInt(await this.getFromWebApi(`/module/${moduleCode}/chapterversecount/${bookCode}/${chapter}`));
-      }
+      return await this.getChapterVerseCount(moduleCode, bookCode, chapter);
     });
 
     this._ipcMain.add('nsi_getAllChapterVerseCounts', (moduleCode, bookCode) => {
@@ -419,8 +419,8 @@ class IpcNsiHandler {
       return false;
     });
 
-    this._ipcMain.add('nsi_getModuleBookStatus', (bookCode) => {
-      var allModules = this._nsi.getAllLocalModules('BIBLE');
+    this._ipcMain.add('nsi_getModuleBookStatus', async (bookCode) => {
+      var allModules = await this.getAllLocalModules('BIBLE');
       var moduleBookStatus = {};
 
       for (let i = 0; i < allModules.length; i++) {
