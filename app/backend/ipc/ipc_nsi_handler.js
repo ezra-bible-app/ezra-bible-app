@@ -264,8 +264,13 @@ class IpcNsiHandler {
       }
     });
 
-    this._ipcMain.add('nsi_getVersesFromReferences', (moduleCode, references) => {
-      return this._nsi.getVersesFromReferences(moduleCode, references);
+    this._ipcMain.add('nsi_getVersesFromReferences', async (moduleCode, references) => {
+      if (!this._useWebApi) {
+        return this._nsi.getVersesFromReferences(moduleCode, references);
+      } else {
+        const referenceString = references.join(',');
+        return await this.getFromWebApi(`/module/${moduleCode}/versesfromreferences/${referenceString}`);
+      }
     });
 
     this._ipcMain.add('nsi_getReferencesFromReferenceRange', async (referenceRange) => {
