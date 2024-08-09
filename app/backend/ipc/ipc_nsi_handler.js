@@ -314,6 +314,7 @@ class IpcNsiHandler {
       return await this.getBookChapterCount(moduleCode, bookCode);
     });
 
+    // Port this fully to web api
     this._ipcMain.add('nsi_getBookVerseCount', async (moduleCode, bookCode) => {
       let bookChapterCount = await this.getBookChapterCount(moduleCode, bookCode);
       let verseCount = 0;
