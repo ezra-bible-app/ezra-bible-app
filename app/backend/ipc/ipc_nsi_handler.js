@@ -159,27 +159,15 @@ class IpcNsiHandler {
     }, 'nsi_updateRepoConfigProgress');
     
     this._ipcMain.add('nsi_getRepoNames', async () => {
-      if (!this._useWebApi) {
-        return this._nsi.getRepoNames();
-      } else {
-        return await this.getFromWebApi('/repository/names');
-      }
+      return this._nsi.getRepoNames();
     });
 
     this._ipcMain.add('nsi_getRepoLanguages', async (repositoryName, moduleType) => {
-      if (!this._useWebApi) {
-        return this._nsi.getRepoLanguages(repositoryName, moduleType);
-      } else {
-        return await this.getFromWebApi(`/repository/${repositoryName}/languages/${moduleType}`);
-      }
+      return this._nsi.getRepoLanguages(repositoryName, moduleType);
     });
 
     this._ipcMain.add('nsi_getAllRepoModules', async (repositoryName, moduleType) => {
-      if (!this._useWebApi) {
-        return this._nsi.getAllRepoModules(repositoryName, moduleType);
-      } else {
-        return await this.getFromWebApi(`/repository/${repositoryName}/modules/${moduleType}`);
-      }
+      return this._nsi.getAllRepoModules(repositoryName, moduleType);
     });
 
     this._ipcMain.add('nsi_getRepoModulesByLang', (repositoryName, language, moduleType, headersFilter, strongsFilter, hebrewStrongsKeys, greekStrongsKeys) => {
@@ -479,7 +467,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.hebrewStrongsAvailable();
       } else {
-        return await this.getFromWebApi('/local/hebrewstrongsavailable');
+        return await this.getFromWebApi('/strongs/hebrewstrongsavailable');
       }
     });
 
@@ -487,7 +475,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.greekStrongsAvailable();
       } else {
-        return await this.getFromWebApi('/local/greekstrongsavailable');
+        return await this.getFromWebApi('/strongs/greekstrongsavailable');
       }
     });
 
@@ -495,7 +483,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.strongsAvailable();
       } else {
-        return await this.getFromWebApi('/local/strongsavailable');
+        return await this.getFromWebApi('/strongs/strongsavailable');
       }
     });
 
@@ -503,7 +491,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getStrongsEntry(strongsKey);
       } else {
-        return await this.getFromWebApi(`/local/strongsentry/${strongsKey}`);
+        return await this.getFromWebApi(`/strongs/strongsentry/${strongsKey}`);
       }
     });
 
