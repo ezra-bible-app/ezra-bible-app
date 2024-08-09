@@ -19,6 +19,7 @@
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
+const webApi = require('node-sword-web-api');
 const fs = require('fs');
 
 class IpcNsiHandler {
@@ -93,7 +94,7 @@ class IpcNsiHandler {
     if (!this._useWebApi) {
       return this._nsi.getAllLocalModules(moduleType);
     } else {
-      return await this.getFromWebApi(`/local/modules/${moduleType}`);
+      return await webApi.getAllLocalModules(moduleType);
     }
   }
 
@@ -112,7 +113,7 @@ class IpcNsiHandler {
     if (!this._useWebApi) {
       return this._nsi.getBookChapterCount(moduleCode, bookCode);
     } else {
-      return parseInt(await this.getFromWebApi(`/module/${moduleCode}/bookchaptercount/${bookCode}`));
+      return await webApi.getBookChapterCount(moduleCode, bookCode);
     }
   }
 
@@ -120,7 +121,7 @@ class IpcNsiHandler {
     if (!this._useWebApi) {
       return this._nsi.getChapterVerseCount(moduleCode, bookCode, chapter);
     } else {
-      return parseInt(await this.getFromWebApi(`/module/${moduleCode}/chapterversecount/${bookCode}/${chapter}`));
+      return await webApi.getChapterVerseCount(moduleCode, bookCode, chapter);
     }
   }
 
@@ -128,7 +129,7 @@ class IpcNsiHandler {
     if (!this._useWebApi) {
       return this._nsi.moduleHasBook(moduleCode, bookCode);
     } else {
-      return await this.getFromWebApi(`/module/${moduleCode}/hasbook/${bookCode}`);
+      return await webApi.moduleHasBook(moduleCode, bookCode);
     }
   }
 
@@ -136,7 +137,7 @@ class IpcNsiHandler {
     if (!this._useWebApi) {
       return this._nsi.getBookList(moduleCode);
     } else {
-      return await this.getFromWebApi(`/module/${moduleCode}/books`);
+      return await webApi.getBookList(moduleCode);
     }
   }
 
@@ -261,7 +262,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getRawModuleEntry(moduleCode, key);
       } else {
-        return await this.getFromWebApi(`/module/${moduleCode}/raw/${key}`);
+        return await webApi.getRawModuleEntry(moduleCode, key);
       }
     });
 
@@ -269,7 +270,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getReferenceText(moduleCode, key);
       } else {
-        return await this.getFromWebApi(`/module/${moduleCode}/text/${key}`);
+        return await webApi.getReferenceText(moduleCode, key);
       }
     });
 
@@ -277,7 +278,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getChapterText(moduleCode, bookCode, chapter);
       } else {
-        return await this.getFromWebApi(`/module/${moduleCode}/chaptertext/${bookCode}/${chapter}`);
+        return await webApi.getChapterText(moduleCode, bookCode, chapter);
       }
     });
 
@@ -285,7 +286,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getBookText(moduleCode, bookCode, startVerseNr, verseCount);
       } else {
-        return await this.getFromWebApi(`/module/${moduleCode}/booktext/${bookCode}/${startVerseNr}/${verseCount}`);
+        return await webApi.getBookText(moduleCode, bookCode, startVerseNr, verseCount);
       }
     });
 
@@ -293,8 +294,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getVersesFromReferences(moduleCode, references);
       } else {
-        const referenceString = references.join(',');
-        return await this.getFromWebApi(`/module/${moduleCode}/versesfromreferences/${referenceString}`);
+        return await webApi.getVersesFromReferences(moduleCode, references);
       }
     });
 
@@ -302,7 +302,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getReferencesFromReferenceRange(referenceRange);
       } else {
-        return await this.getFromWebApi(`/local/referencesfromrange/${referenceRange}`);
+        return await webApi.getReferencesFromReferenceRange(referenceRange);
       }
     });
 
@@ -346,7 +346,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getBookIntroduction(moduleCode, bookCode);
       } else {
-        return await this.getFromWebApi(`/module/${moduleCode}/bookintro/${bookCode}`)
+        return await webApi.getBookIntroduction(moduleCode, bookCode);
       }
     });
 
@@ -356,7 +356,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         bookTextJson = this._nsi.getBookText(moduleCode, bookCode, startVerseNumber, verseCount);
       } else {
-        bookTextJson = await this.getFromWebApi(`/module/${moduleCode}/booktext/${bookCode}/${startVerseNr}/${verseCount}`);
+        bookTextJson = await webApi.getBookText(moduleCode, bookCode, startVerseNumber, verseCount);
       }
 
       var bookTextHtml = "<div>";
@@ -432,7 +432,7 @@ class IpcNsiHandler {
           moduleBookStatus[currentModuleName] = currentModuleHasBook;
         }
       } else {
-        moduleBookStatus = await this.getFromWebApi(`/local/modulebookstatus/${bookCode}`);
+        moduleBookStatus = await webApi.getModuleBookStatus(bookCode);
       }
 
       return moduleBookStatus;
@@ -467,7 +467,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.hebrewStrongsAvailable();
       } else {
-        return await this.getFromWebApi('/strongs/hebrewstrongsavailable');
+        return await webApi.hebrewStrongsAvailable();
       }
     });
 
@@ -475,7 +475,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.greekStrongsAvailable();
       } else {
-        return await this.getFromWebApi('/strongs/greekstrongsavailable');
+        return await webApi.greekStrongsAvailable();
       }
     });
 
@@ -483,7 +483,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.strongsAvailable();
       } else {
-        return await this.getFromWebApi('/strongs/strongsavailable');
+        return await webApi.strongsAvailable();
       }
     });
 
@@ -491,7 +491,7 @@ class IpcNsiHandler {
       if (!this._useWebApi) {
         return this._nsi.getStrongsEntry(strongsKey);
       } else {
-        return await this.getFromWebApi(`/strongs/strongsentry/${strongsKey}`);
+        return await webApi.getStrongsEntry(strongsKey);
       }
     });
 
