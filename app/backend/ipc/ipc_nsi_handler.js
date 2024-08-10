@@ -314,23 +314,19 @@ class IpcNsiHandler {
       return await this.getBookChapterCount(moduleCode, bookCode);
     });
 
-    // Port this fully to web api
     this._ipcMain.add('nsi_getBookVerseCount', async (moduleCode, bookCode) => {
-      let bookChapterCount = await this.getBookChapterCount(moduleCode, bookCode);
-      let verseCount = 0;
-
-      for (let i = 1; i <= bookChapterCount; i++) {
-        let chapterVerseCount = await this.getChapterVerseCount(moduleCode, bookCode, i);
-        verseCount += chapterVerseCount;
+      if (!this._useWebApi) {
+        return nsi.getBookVerseCount(moduleCode, bookCode);
+      } else {
+        return await webApi.getBookVerseCount(moduleCode, bookCode);
       }
-
-      return verseCount;
     });
 
     this._ipcMain.add('nsi_getChapterVerseCount', async (moduleCode, bookCode, chapter) => {
       return await this.getChapterVerseCount(moduleCode, bookCode, chapter);
     });
 
+    // Port this to web api
     this._ipcMain.add('nsi_getAllChapterVerseCounts', (moduleCode, bookCode) => {
       var chapterVerseCounts = [];
 
