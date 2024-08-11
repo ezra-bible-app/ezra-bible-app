@@ -97,7 +97,7 @@
     "mousetrap": "^1.6.5",
     "node-html-parser": "^6.1.1",
     "node-sword-interface": "^1.0.24",
-    "node-sword-web-api": "0.0.2",
+    "node-sword-web-api": "0.0.3",
     "pug": "^3.0.0",
     "remove-markdown": "^0.3.0",
     "sanitize-html": "^2.3.3",
