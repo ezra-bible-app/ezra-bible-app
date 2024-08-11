@@ -310,17 +310,12 @@ class IpcNsiHandler {
       return await this.getChapterVerseCount(moduleCode, bookCode, chapter);
     });
 
-    // Port this to web api
-    this._ipcMain.add('nsi_getAllChapterVerseCounts', (moduleCode, bookCode) => {
-      var chapterVerseCounts = [];
-
-      var bookChapterCount = this._nsi.getBookChapterCount(moduleCode, bookCode);
-      for (let i = 0; i < bookChapterCount; i++) {
-        let currentChapterVerseCount = this._nsi.getChapterVerseCount(moduleCode, bookCode, i);
-        chapterVerseCounts.push(currentChapterVerseCount);
+    this._ipcMain.add('nsi_getAllChapterVerseCounts', async (moduleCode, bookCode) => {
+      if (!this._useWebApi) {
+        return this._nsi.getAllChapterVerseCounts(moduleCode, bookCode);
+      } else {
+        return await webApi.getAllChapterVerseCounts(moduleCode, bookCode);
       }
-
-      return chapterVerseCounts;
     });
 
     this._ipcMain.add('nsi_getBookIntroduction', async (moduleCode, bookCode) => {
