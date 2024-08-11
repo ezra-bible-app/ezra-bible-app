@@ -32,26 +32,10 @@ class IpcNsiHandler {
     this.initIpcInterface();
 
     this._useWebApi = true;
-    //this._WEB_API_ROOT = 'http://ec2-13-48-148-192.eu-north-1.compute.amazonaws.com';
-    this._WEB_API_ROOT = 'http://localhost:3000';
-  }
+    this._WEB_API_ROOT = 'http://ec2-13-48-148-192.eu-north-1.compute.amazonaws.com';
+    //this._WEB_API_ROOT = 'http://localhost:3000';
 
-  async getFromWebApi(URL) {
-    try {
-      const response = await fetch(this._WEB_API_ROOT + URL);
-
-      if (!response.ok) {
-        console.error('Network response was not ok for ' + URL + ': ' + response.statusText);
-        return -1;
-      }
-
-      const data = await response.json(); // Parsing the JSON from the response
-      return data;
-
-    } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
-      return -1;
-    }
+    webApi.setApiRoot(this._WEB_API_ROOT);
   }
 
   initNSI(customSwordDir=undefined) {
