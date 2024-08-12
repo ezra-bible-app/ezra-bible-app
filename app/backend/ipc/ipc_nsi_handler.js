@@ -328,9 +328,9 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getBookHeaderList', async (moduleCode, bookCode, startVerseNumber=-1, verseCount=-1) => {
       if (!this._useWebApi) {
-        return this._nsi.getBookHeaders(moduleCode, bookCode, startVerseNumber, verseCount);
+        return this._nsi.getBookHeaderList(moduleCode, bookCode, startVerseNumber, verseCount);
       } else {
-        return await webApi.getBookHeaders(moduleCode, bookCode, startVerseNumber, verseCount);
+        return await webApi.getBookHeaderList(moduleCode, bookCode, startVerseNumber, verseCount);
       }
     });
 
