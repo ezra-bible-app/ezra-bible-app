@@ -327,54 +327,11 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getBookHeaderList', async (moduleCode, bookCode, startVerseNumber=-1, verseCount=-1) => {
-      let bookTextJson = null;
-
       if (!this._useWebApi) {
-        bookTextJson = this._nsi.getBookText(moduleCode, bookCode, startVerseNumber, verseCount);
+        return this._nsi.getBookHeaders(moduleCode, bookCode, startVerseNumber, verseCount);
       } else {
-        bookTextJson = await webApi.getBookText(moduleCode, bookCode, startVerseNumber, verseCount);
+        return await webApi.getBookHeaders(moduleCode, bookCode, startVerseNumber, verseCount);
       }
-
-      var bookTextHtml = "<div>";
-      bookTextJson.forEach((verse) => { bookTextHtml += verse.content; });
-      bookTextHtml += "</div>";
-
-      var HTMLParser = require('node-html-parser');
-      var root = HTMLParser.parse(bookTextHtml);
-      var rawSectionHeaders = root.querySelectorAll('.sword-section-title');
-      var sectionHeaders = [];
-
-      rawSectionHeaders.forEach((header) => {
-        let newSectionHeader = {};
-
-        newSectionHeader['moduleCode'] = moduleCode;
-        newSectionHeader['bibleBookShortTitle'] = bookCode;
-        newSectionHeader['type'] = header._attrs.type;
-        newSectionHeader['subType'] = header._attrs.subtype;
-        newSectionHeader['chapter'] = header._attrs.chapter;
-        newSectionHeader['verseNr'] = header._attrs.verse;
-
-        let content = "";
-
-        // You may expect that a header only has one child node (the text). But there are modules like the NET Bible
-        // where the header actually contains several child nodes and some of them are Strongs elements.
-        // Therefore, we have to go through individually and also differentiate between text nodes and other types of nodes.
-        for (let i = 0; i < header.childNodes.length; i++) {
-          let currentNode = header.childNodes[i];
-
-          if (currentNode.nodeType == HTMLParser.NodeType.TEXT_NODE) {
-            content += currentNode._rawText;
-          } else {
-            content += currentNode.firstChild._rawText;
-          }
-        }
-
-        newSectionHeader['content'] = content;
-
-        sectionHeaders.push(newSectionHeader);
-      });
-
-      return sectionHeaders;
     });
 
     this._ipcMain.add('nsi_moduleHasBook', async (moduleCode, bookCode) => {
