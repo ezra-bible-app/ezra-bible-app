@@ -119,6 +119,10 @@ class VerseStatisticsChart {
 
     const [labels, values] = await ipcNsi.getSearchStatisticChartData(currentTranslation, bookList, bibleBookStats);
 
+    if (labels == -1 || labels.length == 0 || values == -1 || values.length == 0) {
+      return;
+    }
+
     var data = {
       labels: labels,
       datasets: [{
