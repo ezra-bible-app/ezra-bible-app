@@ -439,11 +439,13 @@ class IpcNsiHandler {
       }
     });
 
-    this._ipcMain.add('nsi_getLocalModule', (moduleCode) => {
+    this._ipcMain.add('nsi_getLocalModule', async (moduleCode) => {
       if (moduleCode == null) {
         return null;
-      } else {
+      } else if (!this._useWebApi) {
         return this._nsi.getLocalModule(moduleCode);
+      } else {
+        return await webApi.getLocalModule(moduleCode);
       }
     });
 
