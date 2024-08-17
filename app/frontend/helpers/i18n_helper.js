@@ -49,11 +49,6 @@ module.exports.getSwordTranslation = async function(originalString) {
   return await ipcNsi.getSwordTranslation(originalString, i18nController.getLocale());
 };
 
-module.exports.getBookAbbreviation = async function(bookCode) {
-  var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-  return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18nController.getLocale());
-};
-
 module.exports.getSpecificTranslation = function(lang, key) {
   var specificTranslation = i18n.t(key, { lng: lang }); // https://www.i18next.com/translation-function/essentials
 

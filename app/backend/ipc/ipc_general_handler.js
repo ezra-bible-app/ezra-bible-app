@@ -61,56 +61,7 @@ class IpcGeneralHandler {
       return this._platformHelper.isTest();
     });
 
-    this._ipcMain.add('general_getSearchStatisticChartData', async(bibleTranslationId, languageCode, bookList, bibleBookStats) => {
-      var labels = [];
-      var values = [];
-      var ntOnly = true;
-      var otOnly = true;
 
-      for (let book in bibleBookStats) {
-        let isNtBook = global.models.BibleBook.isNtBook(book);
-
-        if (!isNtBook) {
-          ntOnly = false;
-        }
-
-        let isOtBook = global.models.BibleBook.isOtBook(book);
-        if (!isOtBook) {
-          otOnly = false;
-        }
-      }
-
-      var nsi = global.ipcNsiHandler.getNSI();
-
-      for (let i = 0; i < bookList.length; i++) {
-        let book = bookList[i];
-        let includeCurrentBook = false;
-        let isNtBook = global.models.BibleBook.isNtBook(book);
-        let isOtBook = global.models.BibleBook.isOtBook(book);
-
-        if (ntOnly && isNtBook) {
-          includeCurrentBook = true;
-        } else if (otOnly && isOtBook) {
-          includeCurrentBook = true;
-        } else if (!otOnly && !ntOnly) {
-          includeCurrentBook = true;
-        }
-
-        if (includeCurrentBook) {
-          let translatedBook = nsi.getBookAbbreviation(bibleTranslationId, book, languageCode);
-          labels.push(translatedBook);
-
-          var value = 0;
-          if (book in bibleBookStats) {
-            value = bibleBookStats[book];
-          }
-
-          values.push(value);
-        }
-      }
-
-      return [labels, values];
-    });
 
     this._ipcMain.add('general_getBookNames', async(bibleBooks, languageCode) => {
       var bookNames = {};

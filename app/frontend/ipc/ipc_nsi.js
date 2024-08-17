@@ -19,6 +19,7 @@
 const IpcRenderer = require('./ipc_renderer.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const HierarchicalObjectCache = require('./hierarchical_object_cache.js');
+const i18nController = require('../controllers/i18n_controller.js');
 
 class IpcNsi {
   constructor() {
@@ -281,6 +282,10 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, localeCode=i18nController.getLocale()) {
+    return await this._ipcRenderer.call('nsi_getSearchStatisticChartData', bibleTranslationId, localeCode, bookList, bibleBookStats);
+  } 
+
   async terminateModuleSearch() {
     var returnValue = this._ipcRenderer.call('nsi_terminateModuleSearch');
     return returnValue;
@@ -318,11 +323,6 @@ class IpcNsi {
 
   async getSwordTranslation(originalString, localeCode) {
     var returnValue = this._ipcRenderer.call('nsi_getSwordTranslation', originalString, localeCode);
-    return returnValue;
-  }
-
-  async getBookAbbreviation(moduleCode, bookCode, localeCode) {
-    var returnValue = this._ipcRenderer.call('nsi_getBookAbbreviation', moduleCode, bookCode, localeCode);
     return returnValue;
   }
 

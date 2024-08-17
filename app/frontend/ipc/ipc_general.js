@@ -62,10 +62,6 @@ class IpcGeneral {
     return await this._ipcRenderer.call('general_isTest');
   }
 
-  async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, localeCode=i18nController.getLocale()) {
-    return await this._ipcRenderer.call('general_getSearchStatisticChartData', bibleTranslationId, localeCode, bookList, bibleBookStats);
-  } 
-
   async getBookNames(bibleBooks, localeCode=i18nController.getLocale()) {
     return await this._ipcRenderer.call('general_getBookNames', bibleBooks, localeCode);
   }

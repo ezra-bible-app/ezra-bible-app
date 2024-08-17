@@ -403,6 +403,65 @@ class IpcNsiHandler {
       'nsi_updateSearchProgress'
     );
 
+    this._ipcMain.add('nsi_getSearchStatisticChartData', async (bibleTranslationId, languageCode, bookList, bibleBookStats) => {
+      var labels = [];
+      var values = [];
+      var ntOnly = true;
+      var otOnly = true;
+
+      for (let book in bibleBookStats) {
+        let isNtBook = global.models.BibleBook.isNtBook(book);
+
+        if (!isNtBook) {
+          ntOnly = false;
+        }
+
+        let isOtBook = global.models.BibleBook.isOtBook(book);
+        if (!isOtBook) {
+          otOnly = false;
+        }
+      }
+
+      let includedBooks = [];
+
+      for (let i = 0; i < bookList.length; i++) {
+        let book = bookList[i];
+        let includeCurrentBook = false;
+        let isNtBook = global.models.BibleBook.isNtBook(book);
+        let isOtBook = global.models.BibleBook.isOtBook(book);
+
+        if (ntOnly && isNtBook) {
+          includeCurrentBook = true;
+        } else if (otOnly && isOtBook) {
+          includeCurrentBook = true;
+        } else if (!otOnly && !ntOnly) {
+          includeCurrentBook = true;
+        }
+
+        if (includeCurrentBook) {
+          includedBooks.push(book);
+
+          var value = 0;
+          if (book in bibleBookStats) {
+            value = bibleBookStats[book];
+          }
+
+          values.push(value);
+        }
+      }
+
+      if (!this._useWebApi) {
+        for (let i = 0; i < includedBooks.length; i++) {
+          let abbreviation = this._nsi.getBookAbbreviation(bibleTranslationId, includedBooks[i], languageCode);
+          labels.push(abbreviation);
+        }
+      } else {
+        labels = await webApi.getBookAbbreviations(bibleTranslationId, includedBooks.join(','), languageCode);
+      }
+
+      return [labels, values];
+    });
+
     this._ipcMain.add('nsi_terminateModuleSearch', () => {
       return this._nsi.terminateModuleSearch();
     });
@@ -458,13 +517,12 @@ class IpcNsiHandler {
       return this._nsi.getSwordTranslation(originalString, localeCode);
     });
 
-    this._ipcMain.add('nsi_getBookAbbreviation', (moduleCode, bookCode, localeCode) => {
-      localeCode = this.getSwordLocaleCode(localeCode);
-      return this._nsi.getBookAbbreviation(moduleCode, bookCode, localeCode);
-    });
-
-    this._ipcMain.add('nsi_getSwordVersion', () => {
-      return this._nsi.getSwordVersion();
+    this._ipcMain.add('nsi_getSwordVersion', async () => {
+      if (!this._useWebApi) {
+        return this._nsi.getSwordVersion();
+      } else {
+        return await webApi.getSwordVersion();
+      }
     });
 
     this._ipcMain.add('nsi_getSwordPath', () => {
