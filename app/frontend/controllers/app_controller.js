@@ -413,15 +413,17 @@ class AppController {
   }
 
   async getXrefVerses(xrefs) {
-    var currentTabId = this.tab_controller.getSelectedTabId();
-    var currentVerseList = verseListController.getCurrentVerseList();
+    const currentTabId = this.tab_controller.getSelectedTabId();
+    const currentVerseList = verseListController.getCurrentVerseList();
 
-    var currentTab = this.tab_controller.getTab();
-    currentTab.tab_search.setVerseList(currentVerseList);
+    const currentTab = this.tab_controller.getTab();
+    if (currentTab.tab_search != null) {
+      currentTab.tab_search.setVerseList(currentVerseList);
+    }
 
     if (xrefs.length > 0) {
       // Only reset the view if the current text type has changed
-      var resetView = this.tab_controller.getTab().hasTextTypeChanged();
+      let resetView = this.tab_controller.getTab().hasTextTypeChanged();
 
       await this.text_controller.prepareForNewText(resetView, false);
       this.text_controller.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
