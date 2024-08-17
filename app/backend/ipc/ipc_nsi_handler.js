@@ -32,8 +32,8 @@ class IpcNsiHandler {
     this.initIpcInterface();
 
     this._useWebApi = true;
-    this._WEB_API_ROOT = 'http://ec2-13-48-148-192.eu-north-1.compute.amazonaws.com';
-    //this._WEB_API_ROOT = 'http://localhost:3000';
+    //this._WEB_API_ROOT = 'http://ec2-13-48-148-192.eu-north-1.compute.amazonaws.com';
+    this._WEB_API_ROOT = 'http://localhost:3000';
 
     webApi.setApiRoot(this._WEB_API_ROOT);
   }
@@ -381,13 +381,24 @@ class IpcNsiHandler {
              isCaseSensitive,
              useExtendedVerseBoundaries) => {
 
-        return await this._nsi.getModuleSearchResults(moduleCode,
-                                                      searchTerm,
-                                                      progressCB,
-                                                      searchType,
-                                                      searchScope,
-                                                      isCaseSensitive,
-                                                      useExtendedVerseBoundaries);
+        if (!this._useWebApi) {
+          return await this._nsi.getModuleSearchResults(moduleCode,
+                                                        searchTerm,
+                                                        progressCB,
+                                                        searchType,
+                                                        searchScope,
+                                                        isCaseSensitive,
+                                                        useExtendedVerseBoundaries);
+        } else {
+          return await webApi.getModuleSearchResults(moduleCode,
+                                                     searchTerm,
+                                                     progressCB,
+                                                     searchType,
+                                                     searchScope,
+                                                     isCaseSensitive,
+                                                     useExtendedVerseBoundaries);
+        }
+
       },
       'nsi_updateSearchProgress'
     );
