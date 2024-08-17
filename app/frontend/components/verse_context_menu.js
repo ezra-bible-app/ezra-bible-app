@@ -122,26 +122,29 @@ class VerseContextMenu extends HTMLElement {
   }
 
   set currentTabIndex(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex)[0];
 
-    $(verseContextMenuButton).unbind('click').bind('click', (event) => {
-      event.stopPropagation();
+    if (currentVerseListMenu != null) {
+      var verseContextMenuButton = currentVerseListMenu.querySelector('.verse-context-menu-button');
 
-      var verseContextMenu = $('#verse-context-menu');
+      $(verseContextMenuButton).unbind('click').bind('click', (event) => {
+        event.stopPropagation();
 
-      if (!event.target.closest('.fg-button').classList.contains('ui-state-disabled')) {
-        if (this.verseContextMenuOpened) {
-          this.hidden = true;
-          this.verseContextMenuOpened = false;
-        } else {
-          app_controller.hideAllMenus();
-          uiHelper.showButtonMenu($(verseContextMenuButton), verseContextMenu);
-          uiHelper.configureButtonStyles(document.getElementById('verse-context-menu'));
-          this.verseContextMenuOpened = true;
+        var verseContextMenu = $('#verse-context-menu');
+
+        if (!event.target.closest('.fg-button').classList.contains('ui-state-disabled')) {
+          if (this.verseContextMenuOpened) {
+            this.hidden = true;
+            this.verseContextMenuOpened = false;
+          } else {
+            app_controller.hideAllMenus();
+            uiHelper.showButtonMenu($(verseContextMenuButton), verseContextMenu);
+            uiHelper.configureButtonStyles(document.getElementById('verse-context-menu'));
+            this.verseContextMenuOpened = true;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   set hidden(value) {
