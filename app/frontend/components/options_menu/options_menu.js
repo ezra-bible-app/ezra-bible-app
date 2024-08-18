@@ -571,9 +571,8 @@ class OptionsMenu {
     await ipcGeneral.setSendCrashReports(window.sendCrashReports);
   }
 
-  async toggleRemoteSwordOption() {
+  async toggleModuleButtonsBasedOnOption() {
     const useRemoteSword = this._useRemoteSwordOption.isChecked;
-    ipcNsi.setRemoteSwordEnabled(useRemoteSword);
 
     let buttons = [];
     buttons.push(document.getElementById('show-translation-settings-button'));
@@ -588,6 +587,24 @@ class OptionsMenu {
         button.classList.remove('ui-state-disabled');
       }
     });
+  }
+
+  async toggleRemoteSwordOption() {
+    const useRemoteSword = this._useRemoteSwordOption.isChecked;
+    ipcNsi.setRemoteSwordEnabled(useRemoteSword);
+    this.toggleModuleButtonsBasedOnOption();
+
+    const oldBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    await eventController.publishAsync('on-translation-removed');
+
+    const installedModules = await app_controller.translation_controller.getInstalledModules();
+    if (!installedModules.includes(oldBibleTranslationId)) {
+      const newBibleTranslationId = app_controller.translation_controller.getFirstBibleTranslationId();
+
+      if (newBibleTranslationId != oldBibleTranslationId) {
+        await app_controller.translation_controller.changeBibleTranslation(oldBibleTranslationId, newBibleTranslationId);
+      }
+    }
   }
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {
@@ -608,7 +625,7 @@ class OptionsMenu {
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.keepScreenAwakeBasedOnOption();
     theme_controller.useNightModeBasedOnOption();
-    this.toggleRemoteSwordOption();
+    this.toggleModuleButtonsBasedOnOption();
   }
 }
 
