@@ -50,26 +50,37 @@ class OptionsMenu {
   }
 
   async init() {
-    $('#show-translation-settings-button').bind('click', function() {
-      app_controller.openModuleSettingsAssistant('BIBLE'); 
+    $('#show-translation-settings-button').bind('click', (event) => {
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        this.hideDisplayMenu();
+        app_controller.openModuleSettingsAssistant('BIBLE'); 
+      }
     });
   
-    $('#show-dict-settings-button').bind('click', function() {
-      app_controller.openModuleSettingsAssistant('DICT'); 
+    $('#show-dict-settings-button').bind('click', (event) => {
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        this.hideDisplayMenu();
+        app_controller.openModuleSettingsAssistant('DICT'); 
+      }
     });
 
-    $('#show-commentary-settings-button').bind('click', function() {
-      app_controller.openModuleSettingsAssistant('COMMENTARY'); 
+    $('#show-commentary-settings-button').bind('click', (event) => {
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        this.hideDisplayMenu();
+        app_controller.openModuleSettingsAssistant('COMMENTARY'); 
+      }
+    });
+
+    $('#show-module-update-button').bind('click', async (event) => {
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        this.hideDisplayMenu();
+        await moduleUpdateController.showModuleUpdateDialog();
+      }
     });
 
     $('#show-typeface-settings-button').bind('click', () => {
       this.hideDisplayMenu();
       typeFaceSettings.showTypeFaceSettingsDialog();
-    });
-
-    $('#show-module-update-button').bind('click', async () => {
-      this.hideDisplayMenu();
-      await moduleUpdateController.showModuleUpdateDialog();
     });
 
     $('#setup-db-sync-button').bind('click', async () => {
@@ -120,7 +131,7 @@ class OptionsMenu {
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
-    this._useRemoteSwordOption = this.initConfigOption('useRemoteSwordOption', () => { this.toggleRemoteSwordOption(); });
+    this._useRemoteSwordOption = this.initConfigOption('useRemoteSwordOption', () => { this.toggleRemoteSwordOption(); }, false, false);
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
@@ -231,13 +242,16 @@ class OptionsMenu {
     currentVerseListMenu.find('.display-options-button').unbind('click').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
-  initConfigOption(configOptionId, eventHandler, checkedByDefault=false) {
+  initConfigOption(configOptionId, eventHandler, checkedByDefault=false, hideAfterClick=true) {
     var option = document.getElementById(configOptionId);
     option.checkedByDefault = checkedByDefault;
 
     option.addEventListener("optionChanged", async () => {
       await eventHandler();
-      this.slowlyHideDisplayMenu();
+
+      if (hideAfterClick) {
+        this.slowlyHideDisplayMenu();
+      }
     });
 
     return option;
@@ -560,6 +574,20 @@ class OptionsMenu {
   async toggleRemoteSwordOption() {
     const useRemoteSword = this._useRemoteSwordOption.isChecked;
     ipcNsi.setRemoteSwordEnabled(useRemoteSword);
+
+    let buttons = [];
+    buttons.push(document.getElementById('show-translation-settings-button'));
+    buttons.push(document.getElementById('show-dict-settings-button'));
+    buttons.push(document.getElementById('show-commentary-settings-button'));
+    buttons.push(document.getElementById('show-module-update-button'));
+
+    buttons.forEach((button) => {
+      if (useRemoteSword) {
+        button.classList.add('ui-state-disabled');
+      } else {
+        button.classList.remove('ui-state-disabled');
+      }
+    });
   }
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {
@@ -580,6 +608,7 @@ class OptionsMenu {
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.keepScreenAwakeBasedOnOption();
     theme_controller.useNightModeBasedOnOption();
+    this.toggleRemoteSwordOption();
   }
 }
 
