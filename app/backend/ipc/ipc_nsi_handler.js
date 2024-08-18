@@ -16,11 +16,11 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const IpcMain = require('./ipc_main.js');
-const PlatformHelper = require('../../lib/platform_helper.js');
+const fs = require('fs');
 const NodeSwordInterface = require('node-sword-interface');
 const webApi = require('node-sword-web-api');
-const fs = require('fs');
+const IpcMain = require('./ipc_main.js');
+const PlatformHelper = require('../../lib/platform_helper.js');
 
 class IpcNsiHandler {
   constructor(customSwordDir=undefined) {
