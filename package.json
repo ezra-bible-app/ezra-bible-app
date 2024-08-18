@@ -119,6 +119,7 @@
     "electron": "^17.1.0",
     "@electron/osx-sign": "^1.0.5",
     "electron-packager": "^17.0.0",
+    "electron-winstaller": "^5.2.1",
     "@electron/rebuild": "^3.6.0",
     "eslint": "^9.6.0",
     "git-to-json": "^2.1.4",
