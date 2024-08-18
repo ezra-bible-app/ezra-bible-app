@@ -628,8 +628,8 @@ class OptionsMenu {
     this.fixNotesHeightBasedOnOption(tabIndex);
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.keepScreenAwakeBasedOnOption();
-    theme_controller.useNightModeBasedOnOption();
     this.toggleModuleButtonsBasedOnOption();
+    theme_controller.useNightModeBasedOnOption();
   }
 }
 
