@@ -120,6 +120,7 @@ class OptionsMenu {
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
+    this._useRemoteSwordOption = this.initConfigOption('useRemoteSwordOption', () => { this.toggleRemoteSwordOption(); });
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
@@ -554,6 +555,11 @@ class OptionsMenu {
   async toggleCrashReportsBasedOnOption() {
     window.sendCrashReports = this._sendCrashReportsOption.isChecked;
     await ipcGeneral.setSendCrashReports(window.sendCrashReports);
+  }
+
+  async toggleRemoteSwordOption() {
+    const useRemoteSword = this._useRemoteSwordOption.isChecked;
+    ipcNsi.setRemoteSwordEnabled(useRemoteSword);
   }
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {

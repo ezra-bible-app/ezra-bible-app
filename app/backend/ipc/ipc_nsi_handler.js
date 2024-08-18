@@ -27,15 +27,31 @@ class IpcNsiHandler {
     this._ipcMain = new IpcMain();
     this._platformHelper = new PlatformHelper();
     this._nsi = null;
+    this._useWebApi = false;
 
     this.initNSI(customSwordDir);
     this.initIpcInterface();
+    this.initWebApi();
 
-    this._useWebApi = true;
-    //this._WEB_API_ROOT = 'http://ec2-13-48-148-192.eu-north-1.compute.amazonaws.com';
-    this._WEB_API_ROOT = 'http://localhost:3000';
+  }
 
-    webApi.setApiRoot(this._WEB_API_ROOT);
+  initWebApi() {
+    const WEB_API_ROOT = 'http://ec2-13-48-148-192.eu-north-1.compute.amazonaws.com';
+    //const WEB_API_ROOT = 'http://localhost:3000';
+
+    webApi.setApiRoot(WEB_API_ROOT);
+
+    let useRemoteSword = false;
+    let config = global.ipc.ipcSettingsHandler.getConfig();
+
+    if (config !== undefined && config.has('useRemoteSword')) {
+      useRemoteSword = config.get('useRemoteSword', false);
+      this._useWebApi = useRemoteSword;
+
+      if (useRemoteSword) {
+        console.log(`Using remote SWORD access based on ${WEB_API_ROOT}`);
+      }
+    }
   }
 
   initNSI(customSwordDir=undefined) {
@@ -527,6 +543,10 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getSwordPath', () => {
       return this._nsi.getSwordPath();
+    });
+
+    this._ipcMain.add('nsi_setRemoteSwordEnabled', (remoteSwordOption) => {
+      this._useWebApi = remoteSwordOption;
     });
   }
 

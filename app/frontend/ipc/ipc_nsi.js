@@ -335,6 +335,10 @@ class IpcNsi {
     var returnValue = this._ipcRenderer.call('nsi_getSwordPath');
     return returnValue;
   }
+
+  async setRemoteSwordEnabled(remoteSwordOption) {
+    this._ipcRenderer.call('nsi_setRemoteSwordEnabled', remoteSwordOption);
+  }
 }
 
 module.exports = IpcNsi;
