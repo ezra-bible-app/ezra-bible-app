@@ -598,12 +598,16 @@ class OptionsMenu {
     await eventController.publishAsync('on-translation-removed');
 
     const installedModules = await app_controller.translation_controller.getInstalledModules();
-    if (!installedModules.includes(oldBibleTranslationId)) {
-      const newBibleTranslationId = app_controller.translation_controller.getFirstBibleTranslationId();
+    if (installedModules.length > 0) {
+      if (oldBibleTranslationId != null && !installedModules.includes(oldBibleTranslationId)) {
+        const newBibleTranslationId = app_controller.translation_controller.getFirstBibleTranslationId();
 
-      if (newBibleTranslationId != oldBibleTranslationId) {
-        await app_controller.translation_controller.changeBibleTranslation(oldBibleTranslationId, newBibleTranslationId);
+        if (newBibleTranslationId != null && newBibleTranslationId != oldBibleTranslationId) {
+          await app_controller.translation_controller.changeBibleTranslation(oldBibleTranslationId, newBibleTranslationId);
+        }
       }
+    } else {
+      await eventController.publishAsync('on-all-translations-removed');
     }
   }
 

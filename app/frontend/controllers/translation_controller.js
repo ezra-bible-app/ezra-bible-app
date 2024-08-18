@@ -220,8 +220,12 @@ class TranslationController {
   getFirstBibleTranslationId() {
     const currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     const bibleSelect = currentVerseListMenu.find('select.bible-select');
-    const bibleTranslationId = bibleSelect[0].options[0].value;
-    return bibleTranslationId;
+    if (bibleSelect[0].options.length > 0) {
+      const bibleTranslationId = bibleSelect[0].options[0].value;
+      return bibleTranslationId;
+    } else {
+      return null;
+    }
   }
 
   getSelectedBibleTranslationId() {
