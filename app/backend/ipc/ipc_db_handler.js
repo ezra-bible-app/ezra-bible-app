@@ -66,11 +66,39 @@ class IpcDbHandler {
     await dbHelper.initDatabase(this.dbDir, androidVersion);
 
     if (this.hasValidDropboxConfig()) {
-      // We run this operation asynchronously, so that startup is not blocked in case of issues (like if there is no internet connection)
-      this.syncDatabaseWithDropbox(connectionType);
+
+      let dropboxConfigValid = true;
+      let lastUsedVersion = this._config.get('lastUsedVersion', '');
+      if (lastUsedVersion != '') {
+        lastUsedVersion = lastUsedVersion.split('.');
+        let lastMajorVersion = parseInt(lastUsedVersion[0]);
+        let lastMinorVersion = parseInt(lastUsedVersion[1]);
+
+        if (lastMajorVersion == 1 && lastMinorVersion < 15) {
+          console.log('Resetting dropbox configuration, since this version of Ezra Bible App uses a new way to connect with Dropbox.');
+          this.resetDropboxConfig();
+          dropboxConfigValid = false;
+        }
+      }
+      
+      if (dropboxConfigValid) {
+        // We run this operation asynchronously, so that startup is not blocked in case of issues (like if there is no internet connection)
+        this.syncDatabaseWithDropbox(connectionType);
+      }
     }
 
     global.models = require('../database/models')(this.dbDir);
+  }
+
+  resetDropboxConfig() {
+    this._config.set('lastDropboxSyncResult', null);
+    this._config.set('lastDropboxSyncTime', null);
+    this._config.set('lastDropboxDownloadTime', null);
+    this._config.set('lastDropboxUploadTime', null);
+    this._config.set('firstDropboxSyncDone', false);
+    this._config.set('dropboxToken', null);
+    this._config.set('dropboxRefreshToken', null);
+    this._config.set('dropboxLinkStatus', null);
   }
 
   async syncDatabaseWithDropbox(connectionType=undefined, notifyFrontend=false) {
