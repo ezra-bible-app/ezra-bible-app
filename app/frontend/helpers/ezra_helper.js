@@ -105,7 +105,7 @@ module.exports.removeItemFromArray = function(arr, value) {
  * @param {string} message The message that shall be displayed
  * @returns {Promise} A promise that resolves when the user confirms/closes the dialog
  */
-module.exports.showDialog = async function(dialogTitle, message) {
+module.exports.showDialog = async function(dialogTitle, message, width=500, height=300) {
   const dialogBoxTemplate = module.exports.html`
   <div id="info-dialog">
     <div id="info-dialog-content" style="padding-top: 2em;">
@@ -120,8 +120,6 @@ module.exports.showDialog = async function(dialogTitle, message) {
     const $dialogBox = $('#info-dialog');
     
     var confirmed = false;
-    const width = 500;
-    const height = 300;
     const offsetLeft = ($(window).width() - width)/2;
 
     let dialogOptions = window.uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
