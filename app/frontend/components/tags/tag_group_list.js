@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html, showErrorDialog } = require('../../helpers/ezra_helper.js');
+const { html, showDialog } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 const TagGroupManager = require('./tag_group_manager.js');
 const tagGroupValidator = require('./tag_group_validator.js');
@@ -350,7 +350,7 @@ class TagGroupList extends HTMLElement {
                      ${result.exception}<br><br>
                      Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       return null;
     }
 
@@ -462,7 +462,7 @@ class TagGroupList extends HTMLElement {
                      ${result.exception}<br><br>
                      Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       return;
     } else {
       await eventController.publishAsync('on-tag-group-renamed', tagGroupId);
@@ -529,7 +529,7 @@ class TagGroupList extends HTMLElement {
                      ${result.exception}<br><br>
                      Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       return;
     } else {
       await eventController.publishAsync('on-tag-group-deleted', tagGroupId);

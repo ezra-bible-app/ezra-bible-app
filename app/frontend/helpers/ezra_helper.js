@@ -99,17 +99,17 @@ module.exports.removeItemFromArray = function(arr, value) {
 };
 
 /**
- * This function shows a modal error dialog to the user.
+ * This function shows a modal dialog to the user.
  *  
  * @param {string} dialogTitle The title of the dialog
- * @param {string} errorMessage The message that shall be displayed
+ * @param {string} message The message that shall be displayed
  * @returns {Promise} A promise that resolves when the user confirms/closes the dialog
  */
-module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
+module.exports.showDialog = async function(dialogTitle, message) {
   const dialogBoxTemplate = module.exports.html`
-  <div id="error-dialog">
-    <div id="error-dialog-content" style="padding-top: 2em;">
-    ${errorMessage}
+  <div id="info-dialog">
+    <div id="info-dialog-content" style="padding-top: 2em;">
+    ${message}
     </div>
   </div>
   `;
@@ -117,7 +117,7 @@ module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
   return new Promise((resolve) => {
 
     document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
-    const $dialogBox = $('#error-dialog');
+    const $dialogBox = $('#info-dialog');
     
     var confirmed = false;
     const width = 500;
@@ -125,7 +125,7 @@ module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
     const offsetLeft = ($(window).width() - width)/2;
 
     let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
-    dialogOptions.dialogClass = 'ezra-dialog error-dialog';
+    dialogOptions.dialogClass = 'ezra-dialog info-dialog';
     dialogOptions.title = dialogTitle;
     dialogOptions.buttons = {};
     dialogOptions.close = () => {
@@ -140,6 +140,6 @@ module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
     };
   
     $dialogBox.dialog(dialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('error-dialog');
+    uiHelper.fixDialogCloseIconOnAndroid('info-dialog');
   });
 };
