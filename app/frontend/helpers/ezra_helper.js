@@ -124,7 +124,7 @@ module.exports.showDialog = async function(dialogTitle, message) {
     const height = 300;
     const offsetLeft = ($(window).width() - width)/2;
 
-    let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
+    let dialogOptions = window.uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
     dialogOptions.dialogClass = 'ezra-dialog info-dialog';
     dialogOptions.title = dialogTitle;
     dialogOptions.buttons = {};
