@@ -490,6 +490,14 @@
     "last-dropbox-upload-time": "Zadnje nalaganje",
     "sync-msg-title": "Dropbox sinhronizacija",
     "sync-success-msg": "Uspešno sinhronizirana zbirka podatkov s storitvijo Dropbox ({{date}}).",
-    "sync-failed-msg": "Ni uspelo sinhronizirati zbirke podatkov s storitvijo Dropbox ({{date}})."
+    "sync-failed-msg": "Ni uspelo sinhronizirati zbirke podatkov s storitvijo Dropbox ({{date}}).",
+    "access-method-change": "Change of Dropbox access method",
+    "access-method-message-part1": "The Dropbox access method has changed!<br/><br/>Previously a custom folder was used for Dropbox access.<br/>",
+    "access-method-message-part2": "From Ezra Bible App 1.15, app folder access is used.<br/>",
+    "access-method-message-part3": "The Dropbox folder used now is /Apps/Ezra Bible App.<br/><br/>",
+    "access-method-message-part4": "The link of Ezra Bible App to your Dropbox account has been reset.<br/>",
+    "access-method-message-part5": "These are the actions you need to take now:",
+    "access-method-message-part6": "Re-configure the Dropbox account link.",
+    "access-method-message-part7": "Upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same."
   }
 }
