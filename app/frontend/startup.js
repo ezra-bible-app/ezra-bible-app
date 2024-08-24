@@ -494,9 +494,10 @@ class Startup {
       const message = i18n.t('dropbox.access-method-message-part1') +
                       i18n.t('dropbox.access-method-message-part2') +
                       i18n.t('dropbox.access-method-message-part3') +
+                      i18n.t('dropbox.access-method-message-part4') +
                       `<ul>
-                        <li>${i18n.t('dropbox.access-method-message-part4')}</li>
                         <li>${i18n.t('dropbox.access-method-message-part5')}</li>
+                        <li>${i18n.t('dropbox.access-method-message-part6')}</li>
                       </ul>`;
 
       await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
