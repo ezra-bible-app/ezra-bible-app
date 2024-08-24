@@ -486,7 +486,6 @@
     "dropbox-link-status-linking-failed": "Привязка не удалась!",
     "only-sync-on-wifi": "Синхронизация только по WiFi",
     "sync-after-changes": "Синхронизировать базу данных после изменений",
-    "dropbox-sync-folder": "Папка в Dropbox",
     "dropbox-sync-info": "Информация о синхронизации Dropbox",
     "last-dropbox-sync-time": "Синхронизированно",
     "last-dropbox-sync-result": "Результат последней синхронизации",
