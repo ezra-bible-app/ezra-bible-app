@@ -494,7 +494,7 @@ class Startup {
       const message = 'The Dropbox access method has changed!<br/><br/>' +
                       'Previously a custom folder was used for Dropbox access.<br/>From Ezra Bible App 1.15, app folder access is used.<br/><br/>' +
                       'The link of Ezra Bible App to your Dropbox account has been reset (No need to worry about data loss!)<br/><br/>' +
-                      '<ul>'
+                      '<ul>' +
                       '<li>Please re-configure the Dropbox account link.</li>' +
                       '<li>You need to upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same.</li>' +
                       '</ul>';
