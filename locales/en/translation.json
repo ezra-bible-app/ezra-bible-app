@@ -495,7 +495,7 @@
     "access-method-message-part1": "The Dropbox access method has changed!<br/><br/>Previously a custom folder was used for Dropbox access.<br/>",
     "access-method-message-part2": "From Ezra Bible App 1.15, app folder access is used.<br/><br/>The link of Ezra Bible App to your Dropbox account has been reset.<br/>",
     "access-method-message-part3": "These are the actions you need to take now:",
-    "access-method-message-part4": "Please re-configure the Dropbox account link.",
-    "access-method-message-part5": "You need to upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same."
+    "access-method-message-part4": "Re-configure the Dropbox account link.",
+    "access-method-message-part5": "Upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same."
   }
 }
