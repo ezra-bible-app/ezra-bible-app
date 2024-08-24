@@ -33,6 +33,7 @@ class IpcDbHandler {
     this._config = ipc.ipcSettingsHandler.getConfig();
     this._dropboxSyncTimeout = null;
     this._dropboxSyncInProgress = false;
+    this._dropboxAccessUpgradeNeeded = false;
 
     this.initIpcInterface();
   }
@@ -78,6 +79,7 @@ class IpcDbHandler {
           console.log('WARNING: Resetting dropbox configuration, since this version of Ezra Bible App uses a new way to connect with Dropbox!');
           this.resetDropboxConfig();
           dropboxConfigValid = false;
+          this._dropboxAccessUpgradeNeeded = true;
         }
       }
       
@@ -256,6 +258,10 @@ class IpcDbHandler {
       if (this.hasValidDropboxConfig()) {
         await this.syncDatabaseWithDropbox(connectionType);
       }
+    });
+
+    this._ipcMain.add('db_isDropboxAccessUpgradeNeeded', async() => {
+      return this._dropboxAccessUpgradeNeeded;
     });
 
     this._ipcMain.add('db_getDatabasePath', async() => {

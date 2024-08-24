@@ -48,6 +48,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_syncDropbox', connectionType);
   }
 
+  async dropboxAccessUpgradeNeeded() {
+    return await this._ipcRenderer.call('db_isDropboxAccessUpgradeNeeded');
+  }
+
   async getDatabasePath() {
     return await this._ipcRenderer.call('db_getDatabasePath');
   }
