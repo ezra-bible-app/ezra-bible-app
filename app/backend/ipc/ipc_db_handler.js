@@ -99,11 +99,10 @@ class IpcDbHandler {
 
     console.log('Synchronizing database with Dropbox!');
 
-    const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
-    const dropboxFolder = this._config.get('dropboxFolder', 'ezra');
+    const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
     const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
     const databaseFilePath = this.getDatabaseFilePath();
-    const dropboxFilePath = `/${dropboxFolder}/ezra.sqlite`;
+    const dropboxFilePath = `/ezra.sqlite`;
 
     let prioritizeRemote = false;
     if (!firstDropboxSyncDone) {

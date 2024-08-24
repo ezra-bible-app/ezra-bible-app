@@ -29,7 +29,7 @@ const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
 const eventController = require('./event_controller.js');
 
-const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
+const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
 const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
 const DROPBOX_REFRESH_TOKEN_SETTINGS_KEY = 'dropboxRefreshToken';
 const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
