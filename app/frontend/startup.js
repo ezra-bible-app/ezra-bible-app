@@ -491,16 +491,17 @@ class Startup {
       // The Dropbox access level has changed from full access to app folder access in version 1.15.
       // Here we inform the user about this change.
 
-      const message = 'The Dropbox access method has changed!<br/><br/>' +
-                      'Previously a custom folder was used for Dropbox access.<br/>From Ezra Bible App 1.15, app folder access is used.<br/><br/>' +
-                      'The link of Ezra Bible App to your Dropbox account has been reset.<br/>' +
-                      'These are the actions you need to take now:' +
-                      '<ul>' +
-                      '<li>Please re-configure the Dropbox account link.</li>' +
-                      '<li>You need to upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same.</li>' +
-                      '</ul>';
+      const message = ```
+      ${i18n.t('dropbox.access-method-message-part1')}
+      ${i18n.t('dropbox.access-method-message-part2')}
+      ${i18n.t('dropbox.access-method-message-part3')}
+      <ul>
+        <li>${i18n.t('dropbox.access-method-message-part4')}</li>
+        <li>${i18n.t('dropbox.access-method-message-part5')}</li>
+      </ul>
+      ```;
 
-      await showDialog('Change of Dropbox access method', message, 600, 450);
+      await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
     }
 
     await eventController.publishAsync('on-startup-completed');
