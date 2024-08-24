@@ -75,7 +75,7 @@ class IpcDbHandler {
         let lastMinorVersion = parseInt(lastUsedVersion[1]);
 
         if (lastMajorVersion == 1 && lastMinorVersion < 15) {
-          console.log('Resetting dropbox configuration, since this version of Ezra Bible App uses a new way to connect with Dropbox.');
+          console.log('WARNING: Resetting dropbox configuration, since this version of Ezra Bible App uses a new way to connect with Dropbox!');
           this.resetDropboxConfig();
           dropboxConfigValid = false;
         }
