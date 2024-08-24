@@ -493,14 +493,14 @@ class Startup {
 
       const message = 'The Dropbox access method has changed!<br/><br/>' +
                       'Previously a custom folder was used for Dropbox access.<br/>From Ezra Bible App 1.15, app folder access is used.<br/><br/>' +
-                      'The link of Ezra Bible App to your Dropbox account has been reset (No need to worry about data loss!).<br/>' +
+                      'The link of Ezra Bible App to your Dropbox account has been reset.<br/>' +
                       'These are the actions you need to take now:' +
                       '<ul>' +
                       '<li>Please re-configure the Dropbox account link.</li>' +
                       '<li>You need to upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same.</li>' +
                       '</ul>';
 
-      await showDialog('Change of Dropbox access method', message, 600, 500);
+      await showDialog('Change of Dropbox access method', message, 600, 450);
     }
 
     await eventController.publishAsync('on-startup-completed');
