@@ -496,6 +496,8 @@ class Startup {
                       'The link to your dropbox account has been reset.<br/>Please re-configure the Dropbox account link.'
 
       await showDialog('Change of Dropbox Configuration', message);
+    } else {
+      console.log('Dropbox upgrade is not needed ...');
     }
 
     await eventController.publishAsync('on-startup-completed');
