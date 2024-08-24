@@ -126,6 +126,7 @@ module.exports.showDialog = async function(dialogTitle, message, width=500, heig
     dialogOptions.dialogClass = 'ezra-dialog info-dialog';
     dialogOptions.title = dialogTitle;
     dialogOptions.buttons = {};
+    dialogOptions.modal = true;
     dialogOptions.close = () => {
       $dialogBox.dialog('destroy');
       $dialogBox.remove();
