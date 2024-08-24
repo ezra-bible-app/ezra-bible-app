@@ -491,15 +491,13 @@ class Startup {
       // The Dropbox access level has changed from full access to app folder access in version 1.15.
       // Here we inform the user about this change.
 
-      const message = ```
-      ${i18n.t('dropbox.access-method-message-part1')}
-      ${i18n.t('dropbox.access-method-message-part2')}
-      ${i18n.t('dropbox.access-method-message-part3')}
-      <ul>
-        <li>${i18n.t('dropbox.access-method-message-part4')}</li>
-        <li>${i18n.t('dropbox.access-method-message-part5')}</li>
-      </ul>
-      ```;
+      const message = i18n.t('dropbox.access-method-message-part1') +
+                      i18n.t('dropbox.access-method-message-part2') +
+                      i18n.t('dropbox.access-method-message-part3') +
+                      `<ul>
+                        <li>${i18n.t('dropbox.access-method-message-part4')}</li>
+                        <li>${i18n.t('dropbox.access-method-message-part5')}</li>
+                      </ul>`;
 
       await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
     }
