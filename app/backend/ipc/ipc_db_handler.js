@@ -93,13 +93,13 @@ class IpcDbHandler {
   }
 
   resetDropboxConfig() {
-    this._config.set('lastDropboxSyncResult', null);
-    this._config.set('lastDropboxSyncTime', null);
-    this._config.set('lastDropboxDownloadTime', null);
-    this._config.set('lastDropboxUploadTime', null);
+    this._config.set('lastDropboxSyncResult', '');
+    this._config.set('lastDropboxSyncTime', '');
+    this._config.set('lastDropboxDownloadTime', '');
+    this._config.set('lastDropboxUploadTime', '');
     this._config.set('firstDropboxSyncDone', false);
-    this._config.set('dropboxToken', null);
-    this._config.set('dropboxRefreshToken', null);
+    this._config.set('dropboxToken', '');
+    this._config.set('dropboxRefreshToken', '');
     this._config.set('dropboxLinkStatus', null);
   }
 
