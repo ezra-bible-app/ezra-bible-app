@@ -139,6 +139,6 @@ module.exports.showDialog = async function(dialogTitle, message, width=500, heig
     };
   
     $dialogBox.dialog(dialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('info-dialog');
+    window.uiHelper.fixDialogCloseIconOnAndroid('info-dialog');
   });
 };
