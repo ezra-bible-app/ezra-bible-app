@@ -131,7 +131,7 @@ class InfoPopup {
     if (await ipcSettings.has('lastDropboxDownloadTime')) {
       let rawDropboxDownloadTime = await ipcSettings.get('lastDropboxDownloadTime', '--');
 
-      if (rawDropboxDownloadTime != '--' && rawDropboxDownloadTime != '') {
+      if (rawDropboxDownloadTime != '--' && rawDropboxDownloadTime != '' && rawDropboxDownloadTime != null) {
         lastDropboxDownloadTime = new Date(rawDropboxDownloadTime);
         lastDropboxDownloadTime = this.getFormattedTimestamp(lastDropboxDownloadTime);
       }
@@ -141,13 +141,16 @@ class InfoPopup {
     if (await ipcSettings.has('lastDropboxUploadTime')) {
       let rawDropboxUploadTime = await ipcSettings.get('lastDropboxUploadTime', '--');
 
-      if (rawDropboxUploadTime != '--' && rawDropboxUploadTime != '') {
+      if (rawDropboxUploadTime != '--' && rawDropboxUploadTime != '' && rawDropboxUploadTime != null) {
         lastDropboxUploadTime = new Date(rawDropboxUploadTime);
         lastDropboxUploadTime = this.getFormattedTimestamp(lastDropboxUploadTime);
       }
     }
 
-    const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '--');
+    let lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '--');
+    if (lastDropboxSyncResult == null) {
+      lastDropboxSyncResult = '--'
+    }
 
     const moduleDescription = await swordModuleHelper.getModuleDescription(currentModuleId);
     const moduleInfo = await swordModuleHelper.getModuleInfo(currentModuleId, false, false);
