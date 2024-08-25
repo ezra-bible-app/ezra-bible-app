@@ -27,6 +27,7 @@ const i18nController = require('./controllers/i18n_controller.js');
 const dbSyncController = require('./controllers/db_sync_controller.js');
 const eventController = require('./controllers/event_controller.js');
 const cacheController = require('./controllers/cache_controller.js');
+const { showDialog } = require('./helpers/ezra_helper.js');
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
@@ -452,7 +453,6 @@ class Startup {
     console.timeEnd("application-startup");
 
     // Save some meta data about versions used
-
     cacheController.saveLastUsedVersion();
 
     if (platformHelper.isCordova()) {
@@ -483,6 +483,25 @@ class Startup {
       const NewReleaseChecker = require('./helpers/new_release_checker.js');
       var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
       newReleaseChecker.check();
+    }
+
+    const isDropboxAccessUpgradeNeeded = await ipcDb.isDropboxAccessUpgradeNeeded();
+
+    if (isDropboxAccessUpgradeNeeded) {
+      // The Dropbox access level has changed from full access to app folder access in version 1.15.
+      // Here we inform the user about this change.
+
+      const message = i18n.t('dropbox.access-method-message-part1') +
+                      i18n.t('dropbox.access-method-message-part2') +
+                      i18n.t('dropbox.access-method-message-part3') +
+                      i18n.t('dropbox.access-method-message-part4') +
+                      i18n.t('dropbox.access-method-message-part5') +
+                      `<ul>
+                        <li>${i18n.t('dropbox.access-method-message-part6')}</li>
+                        <li>${i18n.t('dropbox.access-method-message-part7')}</li>
+                      </ul>`;
+
+      await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
     }
 
     await eventController.publishAsync('on-startup-completed');

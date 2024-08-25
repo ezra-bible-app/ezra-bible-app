@@ -24,7 +24,7 @@ require('../components/emoji_button_trigger.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
-const { showErrorDialog } = require('../helpers/ezra_helper.js');
+const { showDialog } = require('../helpers/ezra_helper.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -393,7 +393,7 @@ class TagsController {
                       ${result.exception}<br><br>
                       Please restart the app.`;
 
-        await showErrorDialog('Database Error', message);
+        await showDialog('Database Error', message);
         uiHelper.hideTextLoadingIndicator();
         return;
       } else {
@@ -582,7 +582,7 @@ class TagsController {
                      ${result.exception}<br><br>
                      Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       uiHelper.hideTextLoadingIndicator();
       return;
     }
@@ -661,7 +661,7 @@ class TagsController {
                      ${result.exception}<br><br>
                      Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       uiHelper.hideTextLoadingIndicator();
       return;
     }
@@ -824,7 +824,7 @@ class TagsController {
                       ${result.exception}<br><br>
                       Please restart the app.`;
 
-        await showErrorDialog('Database Error', message);
+        await showDialog('Database Error', message);
         uiHelper.hideTextLoadingIndicator();
         return;
       }
@@ -1003,7 +1003,7 @@ class TagsController {
                       ${result.exception}<br><br>
                       Please restart the app.`;
 
-        await showErrorDialog('Database Error', message);
+        await showDialog('Database Error', message);
         uiHelper.hideTextLoadingIndicator();
         return;
       }
@@ -1142,7 +1142,7 @@ class TagsController {
                     ${result.exception}<br><br>
                     Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       uiHelper.hideTextLoadingIndicator();
       return;
     }

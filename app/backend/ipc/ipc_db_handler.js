@@ -33,6 +33,7 @@ class IpcDbHandler {
     this._config = ipc.ipcSettingsHandler.getConfig();
     this._dropboxSyncTimeout = null;
     this._dropboxSyncInProgress = false;
+    this._dropboxAccessUpgradeNeeded = false;
 
     this.initIpcInterface();
   }
@@ -66,11 +67,40 @@ class IpcDbHandler {
     await dbHelper.initDatabase(this.dbDir, androidVersion);
 
     if (this.hasValidDropboxConfig()) {
-      // We run this operation asynchronously, so that startup is not blocked in case of issues (like if there is no internet connection)
-      this.syncDatabaseWithDropbox(connectionType);
+
+      let dropboxConfigValid = true;
+      let lastUsedVersion = this._config.get('lastUsedVersion', '');
+      if (lastUsedVersion != '') {
+        lastUsedVersion = lastUsedVersion.split('.');
+        let lastMajorVersion = parseInt(lastUsedVersion[0]);
+        let lastMinorVersion = parseInt(lastUsedVersion[1]);
+
+        if (lastMajorVersion == 1 && lastMinorVersion < 15) {
+          console.log('WARNING: Resetting dropbox configuration, since this version of Ezra Bible App uses a new way to connect with Dropbox!');
+          this.resetDropboxConfig();
+          dropboxConfigValid = false;
+          this._dropboxAccessUpgradeNeeded = true;
+        }
+      }
+      
+      if (dropboxConfigValid) {
+        // We run this operation asynchronously, so that startup is not blocked in case of issues (like if there is no internet connection)
+        this.syncDatabaseWithDropbox(connectionType);
+      }
     }
 
     global.models = require('../database/models')(this.dbDir);
+  }
+
+  resetDropboxConfig() {
+    this._config.set('lastDropboxSyncResult', '');
+    this._config.set('lastDropboxSyncTime', '');
+    this._config.set('lastDropboxDownloadTime', '');
+    this._config.set('lastDropboxUploadTime', '');
+    this._config.set('firstDropboxSyncDone', false);
+    this._config.set('dropboxToken', '');
+    this._config.set('dropboxRefreshToken', '');
+    this._config.set('dropboxLinkStatus', null);
   }
 
   async syncDatabaseWithDropbox(connectionType=undefined, notifyFrontend=false) {
@@ -99,11 +129,10 @@ class IpcDbHandler {
 
     console.log('Synchronizing database with Dropbox!');
 
-    const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
-    const dropboxFolder = this._config.get('dropboxFolder', 'ezra');
+    const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
     const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
     const databaseFilePath = this.getDatabaseFilePath();
-    const dropboxFilePath = `/${dropboxFolder}/ezra.sqlite`;
+    const dropboxFilePath = `/ezra.sqlite`;
 
     let prioritizeRemote = false;
     if (!firstDropboxSyncDone) {
@@ -229,6 +258,10 @@ class IpcDbHandler {
       if (this.hasValidDropboxConfig()) {
         await this.syncDatabaseWithDropbox(connectionType);
       }
+    });
+
+    this._ipcMain.add('db_isDropboxAccessUpgradeNeeded', async() => {
+      return this._dropboxAccessUpgradeNeeded;
     });
 
     this._ipcMain.add('db_getDatabasePath', async() => {

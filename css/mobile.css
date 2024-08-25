@@ -473,10 +473,6 @@ Librem 5/Pinephone etc.
     margin-bottom: 1em !important;
   }
 
-  #dropbox-sync-folder {
-    width: 8em;
-  }
-
   /* Hide keyboard shortcuts on mobile */
   #app-info-tabs-3-nav, #app-info-tabs-3 {
     display: none !important;

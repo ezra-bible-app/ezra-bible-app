@@ -1572,8 +1572,7 @@ li.book-unavailable a:focus,
 .tab-search-input,
 .tab-search-type,
 #search-type,
-#search-scope,
-#dropbox-sync-folder {
+#search-scope {
   border: 1px solid lightgray;
   border-radius: 4px;
 }

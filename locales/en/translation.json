@@ -483,7 +483,6 @@
     "dropbox-link-status-linking-failed": "Linking failed!",
     "only-sync-on-wifi": "Only sync on WiFi",
     "sync-after-changes": "Sync database after changes",
-    "dropbox-sync-folder": "Dropbox sync folder",
     "dropbox-sync-info": "Dropbox synchronization info",
     "last-dropbox-sync-time": "Last sync",
     "last-dropbox-sync-result": "Last sync result",
@@ -491,6 +490,14 @@
     "last-dropbox-upload-time": "Last upload",
     "sync-msg-title": "Dropbox sync",
     "sync-success-msg": "Successfully synchronized database with Dropbox ({{date}}).",
-    "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}})."
+    "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}}).",
+    "access-method-change": "Change of Dropbox access method",
+    "access-method-message-part1": "The Dropbox access method has changed!<br/><br/>Previously a custom folder was used for Dropbox access.<br/>",
+    "access-method-message-part2": "From Ezra Bible App 1.15, app folder access is used.<br/>",
+    "access-method-message-part3": "The new Dropbox folder is /Apps/Ezra Bible App.<br/><br/>",
+    "access-method-message-part4": "The link of Ezra Bible App to your Dropbox account has been reset.<br/>",
+    "access-method-message-part5": "These are the actions you need to take now:",
+    "access-method-message-part6": "Re-configure the Dropbox account link.",
+    "access-method-message-part7": "Upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same."
   }
 }

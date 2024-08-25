@@ -483,7 +483,6 @@
     "dropbox-link-status-linking-failed": "Conectare eșuată!",
     "only-sync-on-wifi": "Sincronizare doar prin WiFi",
     "sync-after-changes": "Sincronizează bază de date după modificări",
-    "dropbox-sync-folder": "Folder-ul de sincronizarea Dropbox",
     "dropbox-sync-info": "Info sincronizre Dropbox",
     "last-dropbox-sync-time": "Ultima sincronizare",
     "last-dropbox-sync-result": "Rezultat ultima sincronizare",
@@ -491,6 +490,14 @@
     "last-dropbox-upload-time": "Ultima încărcare",
     "sync-msg-title": "Sincronizare Dropbox",
     "sync-success-msg": "Baza de date a fost sincronizată cu Dropbox cu succes ({{date}}).",
-    "sync-failed-msg": "Nu s-a putut sincroniza baza de date cu Dropbox ({{date}})."
+    "sync-failed-msg": "Nu s-a putut sincroniza baza de date cu Dropbox ({{date}}).",
+    "access-method-change": "Change of Dropbox access method",
+    "access-method-message-part1": "The Dropbox access method has changed!<br/><br/>Previously a custom folder was used for Dropbox access.<br/>",
+    "access-method-message-part2": "From Ezra Bible App 1.15, app folder access is used.<br/>",
+    "access-method-message-part3": "The new Dropbox folder is /Apps/Ezra Bible App.<br/><br/>",
+    "access-method-message-part4": "The link of Ezra Bible App to your Dropbox account has been reset.<br/>",
+    "access-method-message-part5": "These are the actions you need to take now:",
+    "access-method-message-part6": "Re-configure the Dropbox account link.",
+    "access-method-message-part7": "Upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same."
   }
 }
