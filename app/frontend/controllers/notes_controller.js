@@ -351,8 +351,10 @@ class NotesController {
                 currentNotes = targetVerseBox.querySelector('.verse-notes');
               }
 
-              currentNotes.setAttribute('notes-content', changedValue.noteValue);
-              this._updateNoteDate(targetVerseBox, changedValue.timestamp);
+              if (currentNotes != null) {
+                currentNotes.setAttribute('notes-content', changedValue.noteValue);
+                this._updateNoteDate(targetVerseBox, changedValue.timestamp);
+              }
             }
           );
         }
