@@ -103,6 +103,7 @@ class OptionsMenu {
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
+    this._strongsInlineOption = this.initConfigOption('showStrongsInlineOption', () => { this.showOrHideInlineStrongsBasedOnOption(); });
     this._paragraphsOption = this.initConfigOption('showParagraphsOption', () => { this.showOrHideParagraphsBasedOnOption(); });
     this._redLetterOption = this.initConfigOption('redLetterOption', () => { this.renderRedLettersBasedOnOption(); });
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, bookChapterNavDefault);
@@ -385,6 +386,24 @@ class OptionsMenu {
     }
   }
 
+  showOrHideInlineStrongsBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+    var tagBoxVerseList = $('#verse-list-popup-verse-list');
+
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._strongsInlineOption.isChecked) {
+        currentReferenceVerse.removeClass('verse-list-without-inline-strongs');
+        currentVerseList.removeClass('verse-list-without-inline-strongs');
+        tagBoxVerseList.removeClass('verse-list-without-inline-strongs');
+      } else {
+        currentReferenceVerse.addClass('verse-list-without-inline-strongs');
+        currentVerseList.addClass('verse-list-without-inline-strongs');
+        tagBoxVerseList.addClass('verse-list-without-inline-strongs');
+      }
+    }
+  }
+
   showOrHideParagraphsBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
@@ -581,6 +600,7 @@ class OptionsMenu {
     this.showOrHideTabSearchFormBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
+    this.showOrHideInlineStrongsBasedOnOption(tabIndex);
     this.showOrHideParagraphsBasedOnOption(tabIndex);
     this.renderRedLettersBasedOnOption(tabIndex);
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);

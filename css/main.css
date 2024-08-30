@@ -2074,6 +2074,10 @@ transchange {
   display: none;
 }
 
+.verse-list-without-inline-strongs sup.strongs {
+  display: none;
+}
+
 .strongs-hl {
   background-color: var(--highlight-bg-color);
 }
