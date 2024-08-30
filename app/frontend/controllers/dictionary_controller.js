@@ -80,7 +80,7 @@ class DictionaryController {
       this.runAvailabilityCheck();
     });
 
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => { 
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
       this.bindAfterBibleTextLoaded(tabIndex);
     });
 
@@ -199,6 +199,18 @@ class DictionaryController {
         currentTab.tab_search.blurInputField();
         await this._handleShiftMouseMove(e);
       });
+
+      if (!wElement.classList.contains('strongsInitDone')) {
+        let strongsIds = this.getStrongsIdsFromStrongsElement(wElement);
+        for (let i = strongsIds.length - 1; i >= 0; i--) {
+          let strongsSup = document.createElement('sup');
+          strongsSup.classList.add('strongs');
+          strongsSup.innerText = strongsIds[i];
+          wElement.insertAdjacentElement('afterend', strongsSup);
+        }
+
+        wElement.classList.add('strongsInitDone');
+      }
     });
   }
 
