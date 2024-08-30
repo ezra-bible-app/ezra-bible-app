@@ -2094,3 +2094,8 @@ transchange {
 s {
   text-decoration: none;
 }
+
+sup.strongs {
+  margin-left: 0.2em;
+  font-size: 70%;
+}
