@@ -481,7 +481,7 @@ class VerseSelection {
     const currentVerseList = verseListController.getCurrentVerseList();
     let someVersesSelected = false;
 
-    if (currentVerseList != null) {
+    if (currentVerseList != null && currentVerseList[0] != null) {
       let allSelectedElements = currentVerseList[0].querySelectorAll('.ui-selected');
       someVersesSelected = allSelectedElements.length > MAX_VERSES_FOR_DETAILED_LABEL;
     }
