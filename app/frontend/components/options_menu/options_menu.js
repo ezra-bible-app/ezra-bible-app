@@ -50,26 +50,37 @@ class OptionsMenu {
   }
 
   async init() {
-    $('#show-translation-settings-button').bind('click', function() {
-      app_controller.openModuleSettingsAssistant('BIBLE'); 
+    $('#show-translation-settings-button').bind('click', (event) => {
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        this.hideDisplayMenu();
+        app_controller.openModuleSettingsAssistant('BIBLE'); 
+      }
     });
   
-    $('#show-dict-settings-button').bind('click', function() {
-      app_controller.openModuleSettingsAssistant('DICT'); 
+    $('#show-dict-settings-button').bind('click', (event) => {
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        this.hideDisplayMenu();
+        app_controller.openModuleSettingsAssistant('DICT'); 
+      }
     });
 
-    $('#show-commentary-settings-button').bind('click', function() {
-      app_controller.openModuleSettingsAssistant('COMMENTARY'); 
+    $('#show-commentary-settings-button').bind('click', (event) => {
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        this.hideDisplayMenu();
+        app_controller.openModuleSettingsAssistant('COMMENTARY'); 
+      }
+    });
+
+    $('#show-module-update-button').bind('click', async (event) => {
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        this.hideDisplayMenu();
+        await moduleUpdateController.showModuleUpdateDialog();
+      }
     });
 
     $('#show-typeface-settings-button').bind('click', () => {
       this.hideDisplayMenu();
       typeFaceSettings.showTypeFaceSettingsDialog();
-    });
-
-    $('#show-module-update-button').bind('click', async () => {
-      this.hideDisplayMenu();
-      await moduleUpdateController.showModuleUpdateDialog();
     });
 
     $('#setup-db-sync-button').bind('click', async () => {
@@ -120,6 +131,7 @@ class OptionsMenu {
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
+    this._useRemoteSwordOption = this.initConfigOption('useRemoteSwordOption', () => { this.toggleRemoteSwordOption(); }, false, false);
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
@@ -230,13 +242,16 @@ class OptionsMenu {
     currentVerseListMenu.find('.display-options-button').unbind('click').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
-  initConfigOption(configOptionId, eventHandler, checkedByDefault=false) {
+  initConfigOption(configOptionId, eventHandler, checkedByDefault=false, hideAfterClick=true) {
     var option = document.getElementById(configOptionId);
     option.checkedByDefault = checkedByDefault;
 
     option.addEventListener("optionChanged", async () => {
       await eventHandler();
-      this.slowlyHideDisplayMenu();
+
+      if (hideAfterClick) {
+        this.slowlyHideDisplayMenu();
+      }
     });
 
     return option;
@@ -556,6 +571,48 @@ class OptionsMenu {
     await ipcGeneral.setSendCrashReports(window.sendCrashReports);
   }
 
+  async toggleModuleButtonsBasedOnOption() {
+    const useRemoteSword = this._useRemoteSwordOption.isChecked;
+
+    let buttons = [];
+    buttons.push(document.getElementById('show-translation-settings-button'));
+    buttons.push(document.getElementById('show-dict-settings-button'));
+    buttons.push(document.getElementById('show-commentary-settings-button'));
+    buttons.push(document.getElementById('show-module-update-button'));
+
+    buttons.forEach((button) => {
+      if (useRemoteSword) {
+        button.classList.add('ui-state-disabled');
+      } else {
+        button.classList.remove('ui-state-disabled');
+      }
+    });
+  }
+
+  async toggleRemoteSwordOption() {
+    const useRemoteSword = this._useRemoteSwordOption.isChecked;
+    ipcNsi.setRemoteSwordEnabled(useRemoteSword);
+    this.toggleModuleButtonsBasedOnOption();
+
+    const oldBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    await eventController.publishAsync('on-translation-removed');
+
+    const installedModules = await app_controller.translation_controller.getInstalledModules();
+    if (installedModules.length > 0) {
+      const newBibleTranslationId = app_controller.translation_controller.getFirstBibleTranslationId();
+
+      if (oldBibleTranslationId != null && !installedModules.includes(oldBibleTranslationId)) {
+        if (newBibleTranslationId != null && newBibleTranslationId != oldBibleTranslationId) {
+          await app_controller.translation_controller.changeBibleTranslation(oldBibleTranslationId, newBibleTranslationId);
+        }
+      }
+
+      await eventController.publish('on-translation-changed', {from: oldBibleTranslationId, to: newBibleTranslationId});
+    } else {
+      await eventController.publishAsync('on-all-translations-removed');
+    }
+  }
+
   async refreshViewBasedOnOptions(tabIndex=undefined) {
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
@@ -573,6 +630,7 @@ class OptionsMenu {
     this.fixNotesHeightBasedOnOption(tabIndex);
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.keepScreenAwakeBasedOnOption();
+    this.toggleModuleButtonsBasedOnOption();
     theme_controller.useNightModeBasedOnOption();
   }
 }

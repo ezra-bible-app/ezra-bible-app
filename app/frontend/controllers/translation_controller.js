@@ -202,17 +202,11 @@ class TranslationController {
           uiHelper.showTextLoadingIndicator();
         }
 
-        var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
-        var bibleSelect = currentVerseListMenu.find('select.bible-select');
 
         var oldBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-        var newBibleTranslationId = bibleSelect[0].value;
+        var newBibleTranslationId = this.getSelectedBibleTranslationId();
 
-        ipcSettings.set('bibleTranslation', newBibleTranslationId);
-
-        setTimeout(() => {
-          eventController.publish('on-translation-changed', {from: oldBibleTranslationId, to: newBibleTranslationId});
-        }, 50);
+        this.changeBibleTranslation(oldBibleTranslationId, newBibleTranslationId);
       }
     });
 
@@ -221,6 +215,29 @@ class TranslationController {
     $('.bible-select-block').find('.ui-selectmenu').bind('click', () => {
       app_controller.hideAllMenus();
     });
+  }
+
+  getFirstBibleTranslationId() {
+    const currentVerseListMenu = app_controller.getCurrentVerseListMenu();
+    const bibleSelect = currentVerseListMenu.find('select.bible-select');
+    if (bibleSelect[0].options.length > 0) {
+      const bibleTranslationId = bibleSelect[0].options[0].value;
+      return bibleTranslationId;
+    } else {
+      return null;
+    }
+  }
+
+  getSelectedBibleTranslationId() {
+    const currentVerseListMenu = app_controller.getCurrentVerseListMenu();
+    const bibleSelect = currentVerseListMenu.find('select.bible-select');
+    const bibleTranslationId = bibleSelect[0].value;
+    return bibleTranslationId;
+  }
+
+  async changeBibleTranslation(oldBibleTranslationId, newBibleTranslationId) {
+    ipcSettings.set('bibleTranslation', newBibleTranslationId);
+    await eventController.publish('on-translation-changed', {from: oldBibleTranslationId, to: newBibleTranslationId});
   }
 
   hasCurrentTranslationHeaderElements(tabIndex=undefined) {

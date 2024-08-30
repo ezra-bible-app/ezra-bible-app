@@ -394,7 +394,8 @@
       "implied" : "These words were added or changed to translate information implied by the source text",
       "moved" : "These words were in another location in the source text",
       "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
-    }
+    },
+    "use-remote-sword": "Use SWORD online"
   },
   "dictionary-panel": {
     "greek-dict": "Greek Dictionary",

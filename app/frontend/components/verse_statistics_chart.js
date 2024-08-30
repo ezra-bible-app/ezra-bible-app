@@ -117,7 +117,11 @@ class VerseStatisticsChart {
     var currentTranslation = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
     var bookList = await ipcNsi.getBookList(currentTranslation);
 
-    const [labels, values] = await ipcGeneral.getSearchStatisticChartData(currentTranslation, bookList, bibleBookStats);
+    const [labels, values] = await ipcNsi.getSearchStatisticChartData(currentTranslation, bookList, bibleBookStats);
+
+    if (labels == -1 || labels.length == 0 || values == -1 || values.length == 0) {
+      return;
+    }
 
     var data = {
       labels: labels,
