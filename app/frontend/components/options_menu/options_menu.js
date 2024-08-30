@@ -47,6 +47,9 @@ class OptionsMenu {
       var CordovaPlatform = require('../../platform/cordova_platform.js');
       this.cordovaPlatform = new CordovaPlatform();
     }
+
+    this.MINIMUM_REFRESH_DISTANCE = 2000;
+    this.lastRefreshViewTime = Date.now() - this.MINIMUM_REFRESH_DISTANCE - 1;
   }
 
   async init() {
@@ -556,7 +559,22 @@ class OptionsMenu {
     await ipcGeneral.setSendCrashReports(window.sendCrashReports);
   }
 
+  
+
   async refreshViewBasedOnOptions(tabIndex=undefined) {
+    const now = Date.now();
+    let timeSinceLastRefresh = 0;
+    
+    if (this.lastRefreshViewTime != 0) {
+      timeSinceLastRefresh = now - this.lastRefreshViewTime;
+    }
+
+    if (timeSinceLastRefresh < this.MINIMUM_REFRESH_DISTANCE) {
+      return;
+    }
+
+    this.lastRefreshViewTime = now;
+
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
