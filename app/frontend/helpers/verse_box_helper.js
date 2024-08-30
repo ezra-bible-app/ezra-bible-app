@@ -275,6 +275,7 @@ class VerseBoxHelper {
         }
 
         currentText.find('.sword-markup').filter(":not('.sword-quote-jesus, .sword-quote')").remove();
+        currentText.find('sup.strongs').remove();
 
         if (html) {
           this.convertTransChangeToItalic(currentText);
