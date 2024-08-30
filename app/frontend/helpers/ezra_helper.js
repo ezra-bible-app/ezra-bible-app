@@ -16,8 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const uiHelper = require('./ui_helper.js');
-
 /**
  * This module contains utility functions that are used through the app
  * @module ezraHelper
