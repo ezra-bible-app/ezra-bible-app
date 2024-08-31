@@ -163,7 +163,8 @@ async function createWindow(firstStart=true) {
 
     // eslint-disable-next-line no-unused-vars
     ipcMain.handle('initIpc', async (event, arg) => {
-      await global.ipc.init(isDev, global.mainWindow);
+      let returnCode = await global.ipc.init(isDev, global.mainWindow);
+      return returnCode;
     });
 
     // eslint-disable-next-line no-unused-vars
