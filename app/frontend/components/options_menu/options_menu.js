@@ -393,13 +393,13 @@ class OptionsMenu {
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._strongsOption.isChecked) {
-        currentReferenceVerse.removeClass('verse-list-without-inline-strongs');
-        currentVerseList.removeClass('verse-list-without-inline-strongs');
-        tagBoxVerseList.removeClass('verse-list-without-inline-strongs');
+        currentReferenceVerse.removeClass('verse-list-without-strongs');
+        currentVerseList.removeClass('verse-list-without-strongs');
+        tagBoxVerseList.removeClass('verse-list-without-strongs');
       } else {
-        currentReferenceVerse.addClass('verse-list-without-inline-strongs');
-        currentVerseList.addClass('verse-list-without-inline-strongs');
-        tagBoxVerseList.addClass('verse-list-without-inline-strongs');
+        currentReferenceVerse.addClass('verse-list-without-strongs');
+        currentVerseList.addClass('verse-list-without-strongs');
+        tagBoxVerseList.addClass('verse-list-without-strongs');
       }
     }
   }

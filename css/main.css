@@ -2074,7 +2074,7 @@ transchange {
   display: none;
 }
 
-.verse-list-without-inline-strongs sup.strongs {
+.verse-list-without-strongs sup.strongs {
   display: none;
 }
 
