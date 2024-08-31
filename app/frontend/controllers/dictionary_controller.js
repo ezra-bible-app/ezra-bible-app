@@ -200,18 +200,33 @@ class DictionaryController {
         await this._handleShiftMouseMove(e);
       });
 
-      if (!wElement.classList.contains('strongsInitDone')) {
-        let strongsIds = this.getStrongsIdsFromStrongsElement(wElement);
-        for (let i = strongsIds.length - 1; i >= 0; i--) {
-          let strongsSup = document.createElement('sup');
-          strongsSup.classList.add('strongs');
-          strongsSup.innerText = strongsIds[i];
-          wElement.insertAdjacentElement('afterend', strongsSup);
-        }
-
-        wElement.classList.add('strongsInitDone');
-      }
+      this.initStrongsSup(wElement);
     });
+  }
+
+  initStrongsForContainer(container) {
+    if (container == null) {
+      return;
+    }
+
+    let wElements = container.querySelectorAll('w');
+    wElements.forEach(wElement => {
+      this.initStrongsSup(wElement);
+    });
+  }
+
+  initStrongsSup(wElement) {
+    if (!wElement.classList.contains('strongsInitDone')) {
+      let strongsIds = this.getStrongsIdsFromStrongsElement(wElement);
+      for (let i = strongsIds.length - 1; i >= 0; i--) {
+        let strongsSup = document.createElement('sup');
+        strongsSup.classList.add('strongs');
+        strongsSup.innerText = strongsIds[i];
+        wElement.insertAdjacentElement('afterend', strongsSup);
+      }
+
+      wElement.classList.add('strongsInitDone');
+    }
   }
 
   async getStrongsEntryWithRawKey(rawKey, normalizedKey=undefined) {
