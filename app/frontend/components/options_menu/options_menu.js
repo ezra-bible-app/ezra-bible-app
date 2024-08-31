@@ -350,22 +350,38 @@ class OptionsMenu {
     }
   }
 
+  toggleCssClassBasedOnOption(elementList, option, cssClassDisplayNone, addClassWhenOptionChecked=false) {
+    if (elementList == null || elementList.length == 0 || option == null || cssClassDisplayNone == null) {
+      return;
+    }
+
+    elementList.forEach(element => {
+      if (element != null) {
+        if (addClassWhenOptionChecked) {
+          if (option.isChecked) {
+            element.classList.add(cssClassDisplayNone);
+          } else {
+            element.classList.remove(cssClassDisplayNone);
+          }
+        } else {
+          if (option.isChecked) {
+            element.classList.remove(cssClassDisplayNone);
+          } else {
+            element.classList.add(cssClassDisplayNone);
+          }
+        }
+      }
+    });
+  }
+
   showOrHideXrefsBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._xrefsOption.isChecked) {
-        currentReferenceVerse.removeClass('verse-list-without-xrefs');
-        currentVerseList.removeClass('verse-list-without-xrefs');
-        tagBoxVerseList.removeClass('verse-list-without-xrefs');
-      } else {
-        currentReferenceVerse.addClass('verse-list-without-xrefs');
-        currentVerseList.addClass('verse-list-without-xrefs');
-        tagBoxVerseList.addClass('verse-list-without-xrefs');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], tagBoxVerseList[0]],
+                                     this._xrefsOption,
+                                     'verse-list-without-xrefs');
   }
 
   showOrHideFootnotesBasedOnOption(tabIndex=undefined) {
@@ -373,17 +389,9 @@ class OptionsMenu {
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._footnotesOption.isChecked) {
-        currentReferenceVerse.removeClass('verse-list-without-footnotes');
-        currentVerseList.removeClass('verse-list-without-footnotes');
-        tagBoxVerseList.removeClass('verse-list-without-footnotes');
-      } else {
-        currentReferenceVerse.addClass('verse-list-without-footnotes');
-        currentVerseList.addClass('verse-list-without-footnotes');
-        tagBoxVerseList.addClass('verse-list-without-footnotes');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], tagBoxVerseList[0]],
+                                     this._footnotesOption,
+                                     'verse-list-without-footnotes');
   }
 
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
@@ -391,17 +399,9 @@ class OptionsMenu {
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._strongsOption.isChecked) {
-        currentReferenceVerse.removeClass('verse-list-without-strongs');
-        currentVerseList.removeClass('verse-list-without-strongs');
-        tagBoxVerseList.removeClass('verse-list-without-strongs');
-      } else {
-        currentReferenceVerse.addClass('verse-list-without-strongs');
-        currentVerseList.addClass('verse-list-without-strongs');
-        tagBoxVerseList.addClass('verse-list-without-strongs');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], tagBoxVerseList[0]],
+                                     this._strongsOption,
+                                     'verse-list-without-strongs');
   }
 
   showOrHideParagraphsBasedOnOption(tabIndex=undefined) {
@@ -409,17 +409,10 @@ class OptionsMenu {
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._paragraphsOption.isChecked) {
-        currentReferenceVerse.addClass('verse-list-with-paragraphs');
-        currentVerseList.addClass('verse-list-with-paragraphs');
-        tagBoxVerseList.addClass('verse-list-with-paragraphs');
-      } else {
-        currentReferenceVerse.removeClass('verse-list-with-paragraphs');
-        currentVerseList.removeClass('verse-list-with-paragraphs');
-        tagBoxVerseList.removeClass('verse-list-with-paragraphs');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], tagBoxVerseList[0]],
+                                     this._paragraphsOption,
+                                     'verse-list-with-paragraphs',
+                                     true);
   }
 
   renderRedLettersBasedOnOption(tabIndex=undefined) {
@@ -428,19 +421,10 @@ class OptionsMenu {
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
     var comparePanel = $('#compare-panel');
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._redLetterOption.isChecked) {
-        currentReferenceVerse.addClass('verse-list-with-red-letters');
-        currentVerseList.addClass('verse-list-with-red-letters');
-        tagBoxVerseList.addClass('verse-list-with-red-letters');
-        comparePanel.addClass('verse-list-with-red-letters');
-      } else {
-        currentReferenceVerse.removeClass('verse-list-with-red-letters');
-        currentVerseList.removeClass('verse-list-with-red-letters');
-        tagBoxVerseList.removeClass('verse-list-with-red-letters');
-        comparePanel.removeClass('verse-list-with-red-letters');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], tagBoxVerseList[0], comparePanel[0]],
+                                     this._redLetterOption,
+                                     'verse-list-with-red-letters',
+                                     true);
   }
 
   showOrHideBookChapterNavigationBasedOnOption(tabIndex=undefined) {
@@ -479,32 +463,18 @@ class OptionsMenu {
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._userDataIndicatorOption.isChecked) {
-        currentReferenceVerse.removeClass('verse-list-without-user-data-indicators');
-        currentVerseList.removeClass('verse-list-without-user-data-indicators');
-        currentNavigationPane.addClass('with-tag-indicators');
-      } else {
-        currentReferenceVerse.addClass('verse-list-without-user-data-indicators');
-        currentVerseList.addClass('verse-list-without-user-data-indicators');
-        currentNavigationPane.removeClass('with-tag-indicators');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], currentNavigationPane[0]],
+                                     this._userDataIndicatorOption,
+                                     'verse-list-without-user-data-indicators');
   }
 
   showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._tagsOption.isChecked) {
-        currentReferenceVerse.removeClass('verse-list-without-tags');
-        currentVerseList.removeClass('verse-list-without-tags');
-      } else {
-        currentReferenceVerse.addClass('verse-list-without-tags');
-        currentVerseList.addClass('verse-list-without-tags');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._tagsOption,
+                                     'verse-list-without-tags');
   }
 
   applyTagGroupFilterBasedOnOption() {
@@ -519,31 +489,20 @@ class OptionsMenu {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._verseNotesOption.isChecked) {
-        currentReferenceVerse.addClass('verse-list-with-notes');
-        currentVerseList.addClass('verse-list-with-notes');
-      } else {
-        app_controller.notes_controller.restoreCurrentlyEditedNotes();
-        currentReferenceVerse.removeClass('verse-list-with-notes');
-        currentVerseList.removeClass('verse-list-with-notes');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._verseNotesOption,
+                                     'verse-list-with-notes',
+                                     true);
   }
 
   fixNotesHeightBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._verseNotesFixedHeightOption.isChecked) {
-        currentReferenceVerse.addClass('verse-list-scroll-notes');
-        currentVerseList.addClass('verse-list-scroll-notes');
-      } else {
-        currentReferenceVerse.removeClass('verse-list-scroll-notes');
-        currentVerseList.removeClass('verse-list-scroll-notes');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._verseNotesFixedHeightOption,
+                                     'verse-list-scroll-notes',
+                                     true);
   }
 
   keepScreenAwakeBasedOnOption() {
@@ -562,23 +521,16 @@ class OptionsMenu {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._tagsColumnOption.isChecked) {
-        currentReferenceVerse.addClass('verse-list-tags-column');
-        currentVerseList.addClass('verse-list-tags-column');
-      } else {
-        currentReferenceVerse.removeClass('verse-list-tags-column');
-        currentVerseList.removeClass('verse-list-tags-column');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._tagsColumnOption,
+                                     'verse-list-tags-column',
+                                     true);
   }
 
   async toggleCrashReportsBasedOnOption() {
     window.sendCrashReports = this._sendCrashReportsOption.isChecked;
     await ipcGeneral.setSendCrashReports(window.sendCrashReports);
   }
-
-  
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {
     const now = Date.now();
