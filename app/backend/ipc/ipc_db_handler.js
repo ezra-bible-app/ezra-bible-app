@@ -90,6 +90,7 @@ class IpcDbHandler {
 
     try {
       await dbHelper.initDatabase(this.dbDir, androidVersion);
+      await dbHelper.createDatabaseBackup();
 
     } catch (exception) {
       console.error(`Could not initialize database at ${this.dbDir} (${exception.name}). Attempting a reset of the database while keeping the potentially corrupt file.`);
