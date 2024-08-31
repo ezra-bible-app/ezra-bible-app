@@ -103,7 +103,7 @@ class OptionsMenu {
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
-    this._strongsInlineOption = this.initConfigOption('showStrongsInlineOption', () => { this.showOrHideInlineStrongsBasedOnOption(); });
+    this._strongsOption = this.initConfigOption('showStrongsInlineOption', () => { this.showOrHideStrongsBasedOnOption(); });
     this._paragraphsOption = this.initConfigOption('showParagraphsOption', () => { this.showOrHideParagraphsBasedOnOption(); });
     this._redLetterOption = this.initConfigOption('redLetterOption', () => { this.renderRedLettersBasedOnOption(); });
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, bookChapterNavDefault);
@@ -386,13 +386,13 @@ class OptionsMenu {
     }
   }
 
-  showOrHideInlineStrongsBasedOnOption(tabIndex=undefined) {
+  showOrHideStrongsBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._strongsInlineOption.isChecked) {
+      if (this._strongsOption.isChecked) {
         currentReferenceVerse.removeClass('verse-list-without-inline-strongs');
         currentVerseList.removeClass('verse-list-without-inline-strongs');
         tagBoxVerseList.removeClass('verse-list-without-inline-strongs');
@@ -600,7 +600,7 @@ class OptionsMenu {
     this.showOrHideTabSearchFormBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
-    this.showOrHideInlineStrongsBasedOnOption(tabIndex);
+    this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideParagraphsBasedOnOption(tabIndex);
     this.renderRedLettersBasedOnOption(tabIndex);
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);
