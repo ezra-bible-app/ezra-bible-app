@@ -53,6 +53,16 @@ class DbHelper {
     await this.migrateDatabase(databaseDir);
   }
 
+  async createDatabaseBackup() {
+    const dbFileName = 'ezra.sqlite';
+    const backupDbFileName = 'ezra-backup.sqlite';
+    const dbPath = path.join(this.userDataDir, dbFileName);
+    const backupDbPath = path.join(this.userDataDir, backupDbFileName);
+
+    console.log(`Creating database backup at ${backupDbPath}`);
+    fs.copySync(dbPath, backupDbPath);
+  }
+
   initDbInUserDir(androidVersion=undefined) {
     const dbFileName = 'ezra.sqlite';
     const dbPath = path.join(this.userDataDir, dbFileName);
