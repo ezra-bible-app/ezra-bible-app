@@ -56,6 +56,8 @@ class IPC {
   }
 
   async init(isDebug, electronMainWindow=undefined, androidVersion=undefined) {
+    let returnCode = 0;
+
     if (!global.ipcInitialized) {
       global.ipcInitialized = true;
       let customSwordDir = undefined;
@@ -78,14 +80,17 @@ class IPC {
       if (this.platformHelper.isElectron()) {
         global.ipcNsiHandler.setMainWindow(electronMainWindow);
 
-        await this.initDatabase(isDebug);
+        returnCode = await this.initDatabase(isDebug);
       }
     }
+
+    return returnCode;
   }
 
   async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {
     global.ipcDbHandler = new IpcDbHandler();
-    await global.ipcDbHandler.initDatabase(isDebug, androidVersion, connectionType);
+    let returnCode = await global.ipcDbHandler.initDatabase(isDebug, androidVersion, connectionType);
+    return returnCode;
   }
 
   async closeDatabase() {

@@ -35,29 +35,33 @@ class DbHelper {
     this.userDataDir = userDataDir;
   }
 
-  async initDatabase(databaseDir, androidVersion=undefined) {
+  async initDatabase(databaseDir, androidVersion=undefined, reset=false) {
+    const dbFileName = 'ezra.sqlite';
+    const dbPath = path.join(this.userDataDir, dbFileName);
+
+    if (fs.existsSync(dbPath) && reset) {
+      const now = Date.now();
+      let dbBackupFileName = `ezra-${now}.sqlite`;
+      let dbBackupPath = path.join(this.userDataDir, dbBackupFileName);
+
+      console.warn('Resetting database.')
+      console.log(`Renaming corrupt database file to ${dbBackupPath}`);
+      fs.moveSync(dbPath, dbBackupPath);
+    }
+
     this.initDbInUserDir(androidVersion);
     await this.migrateDatabase(databaseDir);
   }
 
   initDbInUserDir(androidVersion=undefined) {
-    var dbFileName = 'ezra.sqlite';
-    var dbPath = path.join(this.userDataDir, dbFileName);
-
-    var oldUserDataDir = this.platformHelper.getUserDataPath(true, androidVersion);
-    var oldDbPath = path.join(oldUserDataDir, dbFileName);
+    const dbFileName = 'ezra.sqlite';
+    const dbPath = path.join(this.userDataDir, dbFileName);
 
     if (!fs.existsSync(dbPath)) {
       console.log('Database not yet existing in user directory!');
-  
-      if (fs.existsSync(oldDbPath)) {
-        console.log(`Copying database from previously used application directory ${oldDbPath}.`);
-        fs.copySync(oldDbPath, dbPath);
-      } else {
-        console.log('Setting up empty database from template.');
-        var templatePath = path.join(__dirname, '../../../ezra.sqlite');
-        fs.copySync(templatePath, dbPath);
-      }
+      console.log('Setting up empty database from template.');
+      const templatePath = path.join(__dirname, '../../../ezra.sqlite');
+      fs.copySync(templatePath, dbPath);
     }
   }
 

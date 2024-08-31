@@ -64,10 +64,7 @@ class IpcDbHandler {
       }
     }
 
-    await dbHelper.initDatabase(this.dbDir, androidVersion);
-
     if (this.hasValidDropboxConfig()) {
-
       let dropboxConfigValid = true;
       let lastUsedVersion = this._config.get('lastUsedVersion', '');
       if (lastUsedVersion != '') {
@@ -89,7 +86,26 @@ class IpcDbHandler {
       }
     }
 
+    let returnCode = 0;
+
+    try {
+      await dbHelper.initDatabase(this.dbDir, androidVersion);
+
+    } catch (exception) {
+      console.error(`Could not initialize database at ${this.dbDir} (${exception.name}). Attempting a reset of the database while keeping the potentially corrupt file.`);
+      returnCode = -1;
+
+      try {
+        await dbHelper.initDatabase(this.dbDir, androidVersion, true);
+      } catch (exception) {
+        console.log(exception);
+        console.error(`Database initialization failed even based on reset (${exception.name}).`)
+        returnCode = -2;
+      }
+    }
+
     global.models = require('../database/models')(this.dbDir);
+    return returnCode;
   }
 
   resetDropboxConfig() {
