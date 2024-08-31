@@ -343,7 +343,18 @@ class Startup {
       await ipcRenderer.send('manageWindowState');
 
       console.log("Initializing IPC handlers ...");
-      await ipcRenderer.invoke('initIpc');
+      let initResult = await ipcRenderer.invoke('initIpc');
+
+      if (initResult < 0) {
+        console.log("WARNING: An error happened during the initialization.");
+
+        if (initResult == -1) {
+          console.error("WARNING: The database file has been reset after corruption.")
+          // Todo: Give a warning message to the user based on this event.
+        } else if (initResult == -2) {
+          console.error("FATAL: The database could not be initialized, even after resetting it due to corruption.");
+        }
+      }
     }
 
     var loadingIndicator = $('#startup-loading-indicator');
