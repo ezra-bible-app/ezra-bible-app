@@ -69,8 +69,8 @@ class DbHelper {
     const backupDbPath = path.join(this.userDataDir, DB_BACKUP_FILE_NAME);
 
     if (fs.existsSync(backupDbPath)) {
-      console.log(`Restoring database backup from ${backupDbPath} at ${dbPath}`);
 
+      console.log(`Restoring database backup from ${backupDbPath} at ${dbPath}`);
       fs.copySync(backupDbPath, dbPath);
 
       return true;
