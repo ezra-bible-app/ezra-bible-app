@@ -444,6 +444,8 @@ class DictionaryPanel {
     const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
 
     if (!showSearchResultsInPopup) {
+      app_controller.tab_controller.saveTabScrollPosition();
+
       // Add a new tab. Set the default bible translation to the given one to ensure that the translation in the
       // newly opened tab matches the one in the current tab
       app_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
