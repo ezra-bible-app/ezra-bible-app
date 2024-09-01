@@ -24,6 +24,9 @@ const Sequelize = require('sequelize');
 const Umzug = require("umzug");
 const PlatformHelper = require("../../lib/platform_helper.js");
 
+const DB_FILE_NAME = 'ezra.sqlite'
+const DB_BACKUP_FILE_NAME = 'ezra-backup.sqlite'
+
 class DbHelper {
   constructor(userDataDir) {
     this.platformHelper = new PlatformHelper();
@@ -35,37 +38,49 @@ class DbHelper {
     this.userDataDir = userDataDir;
   }
 
-  async initDatabase(databaseDir, androidVersion=undefined, reset=false) {
-    const dbFileName = 'ezra.sqlite';
-    const dbPath = path.join(this.userDataDir, dbFileName);
-
-    if (fs.existsSync(dbPath) && reset) {
-      const now = Date.now();
-      let dbBackupFileName = `ezra-${now}.sqlite`;
-      let dbBackupPath = path.join(this.userDataDir, dbBackupFileName);
-
-      console.warn('Resetting database.')
-      console.log(`Renaming corrupt database file to ${dbBackupPath}`);
-      fs.moveSync(dbPath, dbBackupPath);
-    }
-
+  async initDatabase(databaseDir, androidVersion=undefined) {
     this.initDbInUserDir(androidVersion);
     await this.migrateDatabase(databaseDir);
   }
 
   async createDatabaseBackup() {
-    const dbFileName = 'ezra.sqlite';
-    const backupDbFileName = 'ezra-backup.sqlite';
-    const dbPath = path.join(this.userDataDir, dbFileName);
-    const backupDbPath = path.join(this.userDataDir, backupDbFileName);
+    const dbPath = path.join(this.userDataDir, DB_FILE_NAME);
+    const backupDbPath = path.join(this.userDataDir, DB_BACKUP_FILE_NAME);
 
     console.log(`Creating database backup at ${backupDbPath}`);
-    fs.copySync(dbPath, backupDbPath);
+    return fs.copy(dbPath, backupDbPath);
+  }
+
+  renameCorruptDatabase(iteration) {
+    const dbPath = path.join(this.userDataDir, DB_FILE_NAME);
+
+    if (fs.existsSync(dbPath)) {
+      const now = Date.now();
+      let dbBackupFileName = `ezra-${now}-${iteration}.sqlite`;
+      let dbBackupPath = path.join(this.userDataDir, dbBackupFileName);
+
+      console.log(`Renaming corrupt database file to ${dbBackupPath}`);
+      fs.moveSync(dbPath, dbBackupPath);
+    }
+  }
+
+  restoreDatabaseBackup() {
+    const dbPath = path.join(this.userDataDir, DB_FILE_NAME);
+    const backupDbPath = path.join(this.userDataDir, DB_BACKUP_FILE_NAME);
+
+    if (fs.existsSync(backupDbPath)) {
+      console.log(`Restoring database backup from ${backupDbPath} at ${dbPath}`);
+
+      fs.copySync(backupDbPath, dbPath);
+
+      return true;
+    } else {
+      return false;
+    }
   }
 
   initDbInUserDir(androidVersion=undefined) {
-    const dbFileName = 'ezra.sqlite';
-    const dbPath = path.join(this.userDataDir, dbFileName);
+    const dbPath = path.join(this.userDataDir, DB_FILE_NAME);
 
     if (!fs.existsSync(dbPath)) {
       console.log('Database not yet existing in user directory!');
@@ -100,7 +115,7 @@ class DbHelper {
   }
 
   getDbFilePath(databaseDir) {
-    var dbPath = path.join(databaseDir, 'ezra.sqlite');
+    var dbPath = path.join(databaseDir, DB_FILE_NAME);
     return dbPath;
   }
 

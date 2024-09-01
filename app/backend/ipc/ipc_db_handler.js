@@ -64,6 +64,54 @@ class IpcDbHandler {
       }
     }
 
+    let returnCode = 0;
+
+    try {
+      await dbHelper.initDatabase(this.dbDir, androidVersion);
+
+      // Asynchronously create a database backup in case we have an issue with the production database in the future
+      dbHelper.createDatabaseBackup();
+
+    } catch (exception) {
+      console.error(`ERROR: Could not initialize database at ${this.dbDir} (${exception.name}). Attempting to restore last backup while keeping the potentially corrupt file.`);
+      returnCode = -1;
+
+      let backupRestored = false;
+
+      try {
+
+        dbHelper.renameCorruptDatabase(1);
+        backupRestored = dbHelper.restoreDatabaseBackup();
+
+        if (!backupRestored) {
+          console.log('No backup available. Restoring from template.')
+        }
+
+        await dbHelper.initDatabase(this.dbDir, androidVersion);
+
+      } catch (exception) {
+
+        if (backupRestored) {
+          console.error(`ERROR: Database initialization failed even based on restoring backup (${exception.name}). Resetting database from empty template while keeping the potentially corrupt file.`)
+          returnCode = -2;
+        } else {
+          console.error(`FATAL: Resetting database from empty template failed!`);
+          returnCode = -3;
+        }
+
+        if (backupRestored) {
+          try {
+            dbHelper.renameCorruptDatabase(2);
+            await dbHelper.initDatabase(this.dbDir, androidVersion);
+
+          } catch (exception) {
+            console.error(`FATAL: Resetting database from empty template failed!`);
+            returnCode = -3;
+          }
+        }
+      }
+    }
+
     if (this.hasValidDropboxConfig()) {
       let dropboxConfigValid = true;
       let lastUsedVersion = this._config.get('lastUsedVersion', '');
@@ -83,25 +131,6 @@ class IpcDbHandler {
       if (dropboxConfigValid) {
         // We run this operation asynchronously, so that startup is not blocked in case of issues (like if there is no internet connection)
         this.syncDatabaseWithDropbox(connectionType);
-      }
-    }
-
-    let returnCode = 0;
-
-    try {
-      await dbHelper.initDatabase(this.dbDir, androidVersion);
-      await dbHelper.createDatabaseBackup();
-
-    } catch (exception) {
-      console.error(`Could not initialize database at ${this.dbDir} (${exception.name}). Attempting a reset of the database while keeping the potentially corrupt file.`);
-      returnCode = -1;
-
-      try {
-        await dbHelper.initDatabase(this.dbDir, androidVersion, true);
-      } catch (exception) {
-        console.log(exception);
-        console.error(`Database initialization failed even based on reset (${exception.name}).`)
-        returnCode = -2;
       }
     }
 
