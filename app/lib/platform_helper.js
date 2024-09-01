@@ -302,7 +302,17 @@ class PlatformHelper {
     } else if (this.isCordova()) {
       return 100;
     } 
-  } 
+  }
+
+  getIziPosition() {
+    let msgPosition = 'bottomRight';
+
+    if (this.isCordova()) {
+      msgPosition = 'topCenter';
+    }
+
+    return msgPosition;
+  }
 }
 
 module.exports = PlatformHelper;

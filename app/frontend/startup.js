@@ -336,6 +336,8 @@ class Startup {
       };
     }
 
+    let initResult = 0;
+
     if (this._platformHelper.isElectron()) {
       window.app = require('@electron/remote').app;
 
@@ -343,18 +345,7 @@ class Startup {
       await ipcRenderer.send('manageWindowState');
 
       console.log("Initializing IPC handlers ...");
-      let initResult = await ipcRenderer.invoke('initIpc');
-
-      if (initResult < 0) {
-        console.log("WARNING: An error happened during the initialization.");
-
-        if (initResult == -1) {
-          console.error("WARNING: The database file has been reset after corruption.")
-          // Todo: Give a warning message to the user based on this event.
-        } else if (initResult == -2) {
-          console.error("FATAL: The database could not be initialized, even after resetting it due to corruption.");
-        }
-      }
+      initResult = await ipcRenderer.invoke('initIpc');
     }
 
     var loadingIndicator = $('#startup-loading-indicator');
@@ -515,8 +506,55 @@ class Startup {
       await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
     }
 
+    if (platformHelper.isElectron()) {
+      this.showDatabaseErrorsIfAny(initResult);
+    }
+
     await eventController.publishAsync('on-startup-completed');
     app_controller.startupCompleted = true;
+  }
+
+  showDatabaseErrorsIfAny(initResult) {
+    if (initResult < 0) {
+      console.log("WARNING: An error happened during the initialization.");
+
+      if (initResult == -1) {
+
+        const message = "The database file has been restored from the last backup after corruption.";
+        console.error(message);
+
+        iziToast.warning({
+          title: "WARNING - Database issue",
+          message: message,
+          position: platformHelper.getIziPosition(),
+          timeout: 30000
+        });
+
+      } else if (initResult == -2) {
+
+        const message = "The database file was corrupted. A new database has been restored from the initial, empty template.";
+        console.error(message);
+
+        iziToast.error({
+          title: "FATAL - Database issue",
+          message: message,
+          position: platformHelper.getIziPosition(),
+          timeout: 30000
+        });
+
+      } else if (initResult == -3) {
+
+        const message = "The database could not be initialized, even after resetting it due to corruption. You should reinstall the app.";
+        console.error(message);
+
+        iziToast.error({
+          title: "FATAL - Database issue",
+          message: message,
+          position: platformHelper.getIziPosition(),
+          timeout: 30000
+        });
+      }
+    }
   }
 
   /** 
