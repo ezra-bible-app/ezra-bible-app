@@ -494,7 +494,7 @@
     "last-dropbox-upload-time": "Последняя загрузка",
     "sync-msg-title": "Синхронизация Dropbox",
     "sync-success-msg": "Синхронизация базы данных с Dropbox успешна ({{date}}).",
-    "sync-failed-msg": "Не удалось синхронизировать базу данных с Dropbox ({{date}}).",
+    "sync-failed-msg": "Не удалось синхронизировать базу данных с Dropbox ({{date}}: {{syncResult}}).",
     "access-method-change": "Change of Dropbox access method",
     "access-method-message-part1": "The Dropbox access method has changed!<br/><br/>Previously a custom folder was used for Dropbox access.<br/>",
     "access-method-message-part2": "From Ezra Bible App 1.15, app folder access is used.<br/>",
