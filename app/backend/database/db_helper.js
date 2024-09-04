@@ -38,8 +38,8 @@ class DbHelper {
     this.userDataDir = userDataDir;
   }
 
-  async initDatabase(databaseDir, androidVersion=undefined) {
-    this.initDbInUserDir(androidVersion);
+  async initDatabase(databaseDir) {
+    this.initDbInUserDir();
     await this.migrateDatabase(databaseDir);
   }
 
@@ -79,7 +79,7 @@ class DbHelper {
     }
   }
 
-  initDbInUserDir(androidVersion=undefined) {
+  initDbInUserDir() {
     const dbPath = path.join(this.userDataDir, DB_FILE_NAME);
 
     if (!fs.existsSync(dbPath)) {
