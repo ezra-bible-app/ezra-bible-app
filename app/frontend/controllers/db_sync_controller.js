@@ -61,11 +61,19 @@ module.exports.init = function() {
       module.exports.showSyncResultMessage();
     });
 
+    require('electron').ipcRenderer.on('database-updated', () => {
+      eventController.publishAsync('on-db-refresh');
+    });
+
   } else if (platformHelper.isCordova()) {
 
     // eslint-disable-next-line no-undef
     nodejs.channel.on('dropbox-synced', () => {
       module.exports.showSyncResultMessage();
+    });
+
+    nodejs.channel.on('database-updated', () => {
+      eventController.publishAsync('on-db-refresh');
     });
 
     const CONNECTION_MONITORING_CYCLE_MS = 5000;
@@ -108,6 +116,7 @@ module.exports.showSyncResultMessage = async function() {
   }
 
   const lastDropboxSyncResult = await ipcSettings.get(DROPBOX_LAST_SYNC_RESULT_KEY, '');
+  console.log(`Last Dropbox sync result: ${lastDropboxSyncResult}`);
 
   if (lastDropboxSyncResult != null && lastDropboxSyncResult != "" && lastDropboxSyncResult != "NONE") {
     let msgPosition = 'bottomRight';
@@ -116,13 +125,13 @@ module.exports.showSyncResultMessage = async function() {
       msgPosition = 'topCenter';
     }
 
-    if (lastDropboxSyncResult == 'FAILED') {
+    if (lastDropboxSyncResult.indexOf('FAILED') != -1) {
       // eslint-disable-next-line no-undef
       iziToast.error({
         title: i18n.t('dropbox.sync-msg-title'),
-        message: i18n.t('dropbox.sync-failed-msg', { date: lastDropboxSyncTime }),
+        message: i18n.t('dropbox.sync-failed-msg', { date: lastDropboxSyncTime, syncResult: lastDropboxSyncResult }),
         position: msgPosition,
-        timeout: 8000
+        timeout: 10000
       });
     } else {
       // eslint-disable-next-line no-undef
@@ -130,7 +139,7 @@ module.exports.showSyncResultMessage = async function() {
         title: i18n.t('dropbox.sync-msg-title'),
         message: i18n.t('dropbox.sync-success-msg', { date: lastDropboxSyncTime }),
         position: msgPosition,
-        timeout: 3000
+        timeout: 5000
       });
     }
   }
