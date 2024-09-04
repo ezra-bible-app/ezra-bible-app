@@ -41,7 +41,7 @@ class Main {
 
     const dataDir = cordova.app.datadir();
 
-    cordova.channel.send(`nodejs: main.js loaded / data dir: ${dataDir}`);
+    cordova.channel.send(`nodejs: cordova_main.js loaded / data dir: ${dataDir}`);
   }
 
   initSentry() {
