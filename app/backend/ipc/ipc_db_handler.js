@@ -67,7 +67,7 @@ class IpcDbHandler {
     let returnCode = 0;
 
     try {
-      await dbHelper.initDatabase(this.dbDir, androidVersion);
+      await dbHelper.initDatabase(this.dbDir);
 
       // Asynchronously create a database backup in case we have an issue with the production database in the future
       dbHelper.createDatabaseBackup();
@@ -87,7 +87,7 @@ class IpcDbHandler {
           console.log('No backup available. Restoring from template.')
         }
 
-        await dbHelper.initDatabase(this.dbDir, androidVersion);
+        await dbHelper.initDatabase(this.dbDir);
 
       } catch (exception) {
 
@@ -102,7 +102,7 @@ class IpcDbHandler {
         if (backupRestored) {
           try {
             dbHelper.renameCorruptDatabase(2);
-            await dbHelper.initDatabase(this.dbDir, androidVersion);
+            await dbHelper.initDatabase(this.dbDir);
 
           } catch (exception) {
             console.error(`FATAL: Resetting database from empty template failed!`);
@@ -130,12 +130,22 @@ class IpcDbHandler {
       
       if (dropboxConfigValid) {
         // We run this operation asynchronously, so that startup is not blocked in case of issues (like if there is no internet connection)
-        this.syncDatabaseWithDropbox(connectionType);
+        this.syncDatabaseWithDropbox(connectionType).then((result) => {
+          console.log(`Last Dropbox sync result: ${result}`);
+        });
       }
     }
 
-    global.models = require('../database/models')(this.dbDir);
+    this.initModels();
     return returnCode;
+  }
+
+  initModels() {
+    if (this.dbDir != null) {
+      global.models = require('../database/models')(this.dbDir);
+    } else {
+      console.error('ERROR: dbDir is null! Cannot init models.')
+    }
   }
 
   resetDropboxConfig() {
@@ -151,6 +161,11 @@ class IpcDbHandler {
 
   async syncDatabaseWithDropbox(connectionType=undefined, notifyFrontend=false) {
     let onlySyncOnWifi = this._config.get('dropboxOnlyWifi', false);
+
+    if (this.dbDir == null) {
+      console.error('ERROR: dbDir is null! Cannot sync database with Dropbox');
+      return;
+    }
 
     if (connectionType !== undefined && onlySyncOnWifi && connectionType != 'wifi') {
       console.log(`Configured to only sync Dropbox on Wifi. Not syncing, since we are currently on ${connectionType}.`);
@@ -214,17 +229,56 @@ class IpcDbHandler {
     if (authenticated) {
       console.log(`Dropbox authenticated! Attempting to synchronize local file ${databaseFilePath} with Dropbox!`);
 
+      const initialLocalHash = await dropboxSync.getLocalFileHash(databaseFilePath);
+
       let result = await dropboxSync.syncFileTwoWay(databaseFilePath, dropboxFilePath, prioritizeRemote);
+
+      const finalLocalHash = await dropboxSync.getLocalFileHash(databaseFilePath);
+      const fileHasChanged = finalLocalHash != initialLocalHash;
 
       if (result == 1) {
         lastDropboxSyncResult = 'DOWNLOAD';
         this._config.set('lastDropboxDownloadTime', new Date());
+
+        try {
+          await dbHelper.initDatabase(this.dbDir);
+
+        } catch (exception) {
+
+          console.error('ERROR: Received Dropbox file appears corrupt. Initiating measures for recovery.')
+          lastDropboxSyncResult = await this.handleCorruptDropboxFileDownload();
+        }
+
+        // Reload models after 
+        this.initModels();
+        this.triggerDatabaseReload();
+
       } else if (result == 2) {
         lastDropboxSyncResult = 'UPLOAD';
         this._config.set('lastDropboxUploadTime', new Date());
       } else if (result == 0) {
         lastDropboxSyncResult = 'NONE';
-      } else if (result < 0) {
+      } else if (result == -1) {
+        lastDropboxSyncResult = 'DOWNLOAD FAILED';
+
+        console.error('ERROR: The Dropbox download has failed.');
+
+        if (fileHasChanged) {
+          console.log('Since the database was changed based on a failed download: Initiate measures for recovery.');
+          lastDropboxSyncResult = await this.handleFailedDropboxDownload();
+
+          // Reload models after 
+          this.initModels();
+          this.triggerDatabaseReload();
+        }
+
+      } else if (result == -2) {
+        lastDropboxSyncResult = 'UPLOAD FAILED';
+      } else if (result == -3) {
+        lastDropboxSyncResult = 'SYNC FAILED';
+      } else if (result == -4) {
+        lastDropboxSyncResult = 'UPLOAD FAILED | DROPBOX FILE CORRUPTED';
+      } else if (result < -4) {
         lastDropboxSyncResult = 'FAILED';
       }
 
@@ -233,7 +287,7 @@ class IpcDbHandler {
       }
     } else {
       console.warn('Dropbox could not be authenticated!');
-      lastDropboxSyncResult = 'FAILED';
+      lastDropboxSyncResult = 'AUTH FAILED';
     }
 
     this._config.set('lastDropboxSyncResult', lastDropboxSyncResult);
@@ -248,6 +302,77 @@ class IpcDbHandler {
         cordova.channel.post('dropbox-synced', '');
       }
     }
+
+    return lastDropboxSyncResult;
+  }
+
+  triggerDatabaseReload() {
+    if (this.platformHelper.isElectron()) {
+      global.mainWindow.webContents.send('database-updated');
+    } else if (this.platformHelper.isCordova()) {
+      cordova.channel.post('database-updated', '');
+    }
+  }
+
+  async handleCorruptDropboxFileDownload() {
+    let lastDropboxSyncResult = null;
+
+    dbHelper.renameCorruptDatabase(1);
+    let backupRestored = dbHelper.restoreDatabaseBackup();
+
+    if (backupRestored) {
+      lastDropboxSyncResult = 'DOWNLOAD FAILED | DROPBOX FILE CORRUPTED';
+    } else {
+      lastDropboxSyncResult = 'DOWNLOAD FAILED | LOCAL DB CORRUPTED | DATABASE RESET';
+      dbHelper.renameCorruptDatabase(2);
+    }
+
+    try {
+      await dbHelper.initDatabase(this.dbDir);
+    } catch (exception) {
+      lastDropboxSyncResult = 'DOWNLOAD FAILED | LOCAL DB CORRUPTED | DATABASE RESET FAILED';
+    }
+
+    return lastDropboxSyncResult;
+  }
+
+  async handleFailedDropboxDownload() {
+    let lastDropboxSyncResult = null;
+
+    // The download has failed - we attempt to restore the backup database.
+    let backupRestored = dbHelper.restoreDatabaseBackup();
+
+    if (backupRestored) {
+      try {
+        await dbHelper.initDatabase(this.dbDir);
+
+      } catch (exception) {
+        dbHelper.renameCorruptDatabase(1);
+
+        try {
+          await dbHelper.initDatabase(this.dbDir);
+          lastDropboxSyncResult = 'DOWNLOAD FAILED | DATABASE RESET';
+
+        } catch (exception) {
+          lastDropboxSyncResult = 'DOWNLOAD FAILED | DATABASE RESET FAILED';
+        }
+      }
+    } else {
+      lastDropboxSyncResult = 'DOWNLOAD FAILED | LOCAL DB CORRUPTED | DATABASE RESET';
+
+      dbHelper.renameCorruptDatabase(2);
+
+      try {
+        await dbHelper.initDatabase(this.dbDir);
+      } catch (exception) {
+        lastDropboxSyncResult = 'DOWNLOAD FAILED | LOCAL DB CORRUPTED | DATABASE RESET FAILED';
+      }
+    }
+
+    // Reload models after 
+    this.initModels();
+
+    return lastDropboxSyncResult;
   }
 
   async closeDatabase() {
@@ -258,7 +383,8 @@ class IpcDbHandler {
       global.sequelize = null;
     }
 
-    await this.syncDatabaseWithDropbox(global.connectionType);
+    let result = await this.syncDatabaseWithDropbox(global.connectionType);
+    console.log(`Last Dropbox sync result: ${result}`);
   }
 
   getDatabaseFilePath() {
@@ -283,7 +409,9 @@ class IpcDbHandler {
     console.log(`Starting new Dropbox sync in ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
     this._dropboxSyncTimeout = setTimeout(async () => {
       console.log(`Syncing Dropbox based on timeout after ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
-      this.syncDatabaseWithDropbox(global.connectionType, true);
+      this.syncDatabaseWithDropbox(global.connectionType, true).then((result) => {
+        console.log(`Last Dropbox sync result: ${result}`);
+      });
     }, DROPBOX_SYNC_TIMEOUT_MS);
   }
 
@@ -302,7 +430,8 @@ class IpcDbHandler {
 
     this._ipcMain.add('db_syncDropbox', async(connectionType) => {
       if (this.hasValidDropboxConfig()) {
-        await this.syncDatabaseWithDropbox(connectionType);
+        let result = await this.syncDatabaseWithDropbox(connectionType);
+        console.log(`Last Dropbox sync result: ${result}`);
       }
     });
 
