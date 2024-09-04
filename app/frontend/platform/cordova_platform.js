@@ -269,7 +269,7 @@ class CordovaPlatform {
 
     nodejs.startWithScript(`
 
-      const Main = require('main.js');
+      const Main = require('cordova_main.js');
 
       global.main = new Main();
       main.init(${isDebug});
