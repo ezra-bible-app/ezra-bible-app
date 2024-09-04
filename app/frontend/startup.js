@@ -445,7 +445,10 @@ class Startup {
     // FIXME: Also highlight the last navigation element in the navigation pane and scroll to it
 
     dbSyncController.init();
-    dbSyncController.showSyncResultMessage();
+
+    setTimeout(() => {
+      dbSyncController.showSyncResultMessage();
+    }, 3000);
 
     if (this._platformHelper.isElectron()) {
       const { ipcRenderer } = require('electron');
