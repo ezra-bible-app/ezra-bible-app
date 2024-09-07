@@ -1,6 +1,31 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.15.0 - 2024-09-21]
+
+### Enhancements
+
+* Make Darkmode configurable on macOS. ([#1042][i1042])
+* Navigate chapters with left/right keys on Desktop. ([#1057][i1057])
+* Add quick link "All tags" in tag list menu to navigate back to All tags after selecting tag group. ([#1072][i1072])
+* Copy selected text from commentaries to clipboard. ([#1078][i1078])
+* Option to show Strong's #'s inline with text and/or search results. ([#1087][i1087])
+
+### Fixes
+
+* Dropbox feedback: Change Dropbox access level to app folder access. ([#1090][i1090])
+* Cannot automatically recover from database corruption. ([#1096][i1096])
+* Scroll position of source tab not saved when "finding all occurrences". ([#1101][i1101])
+
+[i1042]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1042
+[i1057]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1057
+[i1072]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1072
+[i1078]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1078
+[i1087]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1087
+[i1090]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1090
+[i1096]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1096
+[i1101]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1101
+
 ## [1.14.1 - 2024-08-03]
 
 ### Fixes
