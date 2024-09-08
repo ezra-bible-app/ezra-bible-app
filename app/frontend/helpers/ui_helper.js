@@ -301,6 +301,17 @@ class UiHelper {
 
     }
   }
+
+  showSuccessMessage(message, timeout=3000) {
+    const position = platformHelper.getIziPosition();
+
+    // eslint-disable-next-line no-undef
+    iziToast.success({
+      message: message,
+      position: position,
+      timeout: timeout
+    });
+  }
 }
 
 module.exports = UiHelper;

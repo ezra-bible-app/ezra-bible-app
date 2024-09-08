@@ -224,12 +224,7 @@ class CommentaryPanel {
 
     getPlatform().copyToClipboard(commentaryText, commentaryTextHtml);
 
-    // eslint-disable-next-line no-undef
-    iziToast.success({
-      message: i18n.t('commentary-panel.copy-commentary-to-clipboard-success'),
-      position: 'bottomRight',
-      timeout: 2000
-    });
+    uiHelper.showSuccessMessage(i18n.t('commentary-panel.copy-commentary-to-clipboard-success'));
   }
 
   processCommentaryHtml(htmlInput) {

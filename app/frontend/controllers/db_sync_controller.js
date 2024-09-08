@@ -119,11 +119,7 @@ module.exports.showSyncResultMessage = async function() {
   console.log(`Last Dropbox sync result: ${lastDropboxSyncResult}`);
 
   if (lastDropboxSyncResult != null && lastDropboxSyncResult != "" && lastDropboxSyncResult != "NONE") {
-    let msgPosition = 'bottomRight';
-
-    if (platformHelper.isCordova()) {
-      msgPosition = 'topCenter';
-    }
+    let msgPosition = platformHelper.getIziPosition();
 
     if (lastDropboxSyncResult.indexOf('FAILED') != -1) {
       // eslint-disable-next-line no-undef

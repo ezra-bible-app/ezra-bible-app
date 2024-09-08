@@ -394,12 +394,7 @@ class VerseSelection {
 
     getPlatform().copyToClipboard(selectedVerseText, selectedVerseTextHtml);
 
-    // eslint-disable-next-line no-undef
-    iziToast.success({
-      message: i18n.t('bible-browser.copy-verse-text-to-clipboard-success'),
-      position: 'bottomRight',
-      timeout: 3000
-    });
+    uiHelper.showSuccessMessage(i18n.t('bible-browser.copy-verse-text-to-clipboard-success'));
   }
 
   getCurrentSelectionTags() {
