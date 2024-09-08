@@ -153,12 +153,7 @@ class TagDistributionMatrix extends HTMLElement {
       const platform = getPlatform();
       platform.copyHtmlToClipboard(tableHtml);
 
-      // eslint-disable-next-line no-undef
-      iziToast.success({
-        message: i18n.t('bible-browser.copy-table-to-clipboard-success'),
-        position: 'bottomRight',
-        timeout: 3000
-      });
+      window.uiHelper.showSuccessMessage(i18n.t('bible-browser.copy-table-to-clipboard-success'));
     });
 
     eventController.subscribe('on-theme-changed', (theme) => {
