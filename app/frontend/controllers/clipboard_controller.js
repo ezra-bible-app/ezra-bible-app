@@ -32,6 +32,11 @@ module.exports.init = function() {
 
     eventController.subscribe('on-verses-selected', (selectionDetails) => {
       this.toggleButton(selectionDetails);
+
+      const versesSelected = selectionDetails.selectedElements.length > 0;
+      if (!versesSelected) {
+        this.clearTextSelection();
+      }
     });
 };
 
@@ -67,6 +72,11 @@ module.exports.isTextSelected = function() {
   const selection = window.getSelection();
   return selection && selection.rangeCount > 0 && !selection.isCollapsed;
 }
+
+module.exports.clearTextSelection = function() {
+  const selection = window.getSelection();
+  selection.empty();
+};
 
 module.exports.toggleButton = function(verseSelectionDetails) {
   const versesSelected = verseSelectionDetails.selectedElements.length > 0;
