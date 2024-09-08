@@ -41,6 +41,7 @@ function initGlobals() {
   // Disable security warnings
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 
+  // Flag used in connection with before-quit handler to ensure the before-quit code is only executed once
   global.exitComplete = false;
 }
 
