@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const path = require('path');
+const url = require('url');
 const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
 const IPC = require('./app/backend/ipc/ipc.js');
 const PlatformHelper = require('./app/lib/platform_helper.js');
@@ -38,13 +39,13 @@ function initGlobals() {
   global.mainWindow = null;
   global.mainWindowState = null;
 
-  global.sendCrashReports = global.ipc.ipcSettingsHandler.getConfig().get('sendCrashReports', true);
-
   // Disable security warnings
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
+
+  global.exitComplete = false;
 }
 
-function initProtocolClient() {
+function initDropboxProtocolClient() {
   const URL_SCHEME = 'ezrabible';
 
   if (process.defaultApp) {
@@ -56,7 +57,9 @@ function initProtocolClient() {
   }
 }
 
-function initSentry() {
+function initSentryCrashReports() {
+  global.sendCrashReports = global.ipc.ipcSettingsHandler.getConfig().get('sendCrashReports', true);
+
   if (!global.isDev && !global.sendCrashReports) {
     console.log("Not configuring Sentry based on opt-out.");
   }
@@ -97,13 +100,6 @@ function initElectronDebug() {
   }
 }
 
-function init() {
-  initGlobals();
-  initProtocolClient();
-  initSentry();
-  initElectronDebug();
-}
-
 function shouldUseDarkMode() {
   let useDarkMode = false;
   const useSystemTheme = global.ipc.ipcSettingsHandler.getConfig().get('useSystemTheme', false);
@@ -138,24 +134,7 @@ function updateMacOsMenu(labels=undefined) {
   Menu.setApplicationMenu(menu);
 }
 
-async function createWindow(firstStart=true) {
-  const path = require('path');
-  const url = require('url');
-
-  console.time('Startup');
-
-  var preloadScript = '';
-  if (!global.isDev && global.sendCrashReports) {
-    preloadScript = path.join(__dirname, 'app/frontend/helpers/sentry.js');
-  }
-
-  const windowStateKeeper = require('electron-window-state');
-
-  global.mainWindowState = windowStateKeeper({
-    defaultWidth: 1200,
-    defaultHeight: 800
-  });
-
+function initIpcHandlers() {
   if (!global.ipcHandlersRegistered) {
     // This ensures that we do not register ipc handlers twice, which is not possible.
     // This can happen on macOS, when the window is first closed and then opened another time.
@@ -189,8 +168,15 @@ async function createWindow(firstStart=true) {
       updateMacOsMenu(menuLabels);
     });
   }
+}
 
-  var bgColor = '#ffffff';
+function initMainWindow() {
+  let preloadScript = '';
+  if (!global.isDev && global.sendCrashReports) {
+    preloadScript = path.join(__dirname, 'app/frontend/helpers/sentry.js');
+  }
+
+  let bgColor = '#ffffff';
 
   if (shouldUseDarkMode()) {
     bgColor = '#1e1e1e';
@@ -215,29 +201,9 @@ async function createWindow(firstStart=true) {
     icon: path.join(__dirname, `icons/${platformHelper.isWin() ? 'ezra.ico' : 'ezra.png'}`),
     backgroundColor: bgColor
   });
+}
 
-  if (firstStart) { // electron remote can only be initialized once, on macOS this function may run multiple times
-    require('@electron/remote/main').initialize();
-  }
-
-  require("@electron/remote/main").enable(global.mainWindow.webContents);
- 
-  // The default menu will be created automatically if the app does not set one.
-  // It contains standard items such as File, Edit, View, Window and Help.
-  // We disable the menu by default and in a second step we enable it with minimal entries and only on macOS.
-  Menu.setApplicationMenu(null);
-
-  if (platformHelper.isMac()) {
-    updateMacOsMenu();
-  }
-
-  // and load the index.html of the app.
-  global.mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
-
+function initWindowEventHandlers() {
   // Emitted when the window is closed.
   global.mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
@@ -255,17 +221,48 @@ async function createWindow(firstStart=true) {
   });
 }
 
+async function createWindow(firstStart=true) {
+  const windowStateKeeper = require('electron-window-state');
+  global.mainWindowState = windowStateKeeper({
+    defaultWidth: 1200,
+    defaultHeight: 800
+  });
+
+  initIpcHandlers();
+  initMainWindow();
+
+  if (firstStart) { // electron remote can only be initialized once, on macOS this function may run multiple times
+    require('@electron/remote/main').initialize();
+  }
+
+  require("@electron/remote/main").enable(global.mainWindow.webContents);
+ 
+  // The default menu will be created automatically if the app does not set one.
+  // It contains standard items such as File, Edit, View, Window and Help.
+  // We disable the menu by default and in a second step we enable it with minimal entries and only on macOS.
+  Menu.setApplicationMenu(null);
+
+  if (platformHelper.isMac()) {
+    updateMacOsMenu();
+  }
+
+  initWindowEventHandlers();
+
+  // and load the index.html of the app.
+  global.mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'index.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
+}
+
 function handleDropboxAuthUrl(url) {
   if (url.indexOf('ezrabible') != -1) {
     global.mainWindow.webContents.send('dropbox-auth-callback', url);
   }
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', async () => {
-
+async function appReady() {
   if (process.platform === 'win32' || process.platform === 'linux') {
     // see https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app#windows-and-linux-code
 
@@ -297,34 +294,58 @@ app.on('ready', async () => {
   }
 
   await createWindow();
-});
+}
 
-let exitComplete = false;
+function initAppEventHandlers() {
+  // This method will be called when Electron has finished
+  // initialization and is ready to create browser windows.
+  // Some APIs can only be used after this event occurs.
+  app.on('ready', async () => {
+    appReady();
+  });
 
-app.on('before-quit', async (event) => {
-  if (!exitComplete) {
-    event.preventDefault();
-    await global.ipc.closeDatabase();
-    exitComplete = true;
-    app.quit();
-  }
-});
+  app.on('before-quit', async (event) => {
+    if (!global.exitComplete) {
+      event.preventDefault();
+      await global.ipc.closeDatabase();
+      global.exitComplete = true;
+      app.quit();
+    }
+  });
 
-// Quit when all windows are closed.
-app.on('window-all-closed', async function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
+  // Quit when all windows are closed.
+  app.on('window-all-closed', async function () {
+    // On OS X it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
+  });
 
-app.on('activate', async () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (global.mainWindow === null) {
-    await createWindow(false);
-  }
-});
+  app.on('activate', async () => {
+    // On OS X it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (global.mainWindow === null) {
+      await createWindow(false);
+    }
+  });
+}
+
+function init() {
+  console.time('Startup');
+
+  initGlobals();
+
+  // Make the app window respond to calls coming from a browser window based on the Dropbox oauth process
+  initDropboxProtocolClient();
+
+  initSentryCrashReports();
+
+  // Enables the Electron dev tools which can be opened using CTRL + SHIFT + i (Linux/Windows) or CMD + SHIFT + i (macOS)
+  initElectronDebug();
+
+  // This will eventually launch the app - based on the app ready event and the appReady handler function.
+  initAppEventHandlers();
+}
 
 init();
