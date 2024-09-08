@@ -1088,6 +1088,7 @@ main.content {
 }
 
 .verse-list-menu .display-options-button,
+.verse-list-menu .copy-button,
 .verse-list-menu .app-info-button,
 .verse-list-menu .export-docx-button,
 .module-info-button,
@@ -1140,6 +1141,7 @@ main.content {
 .tag-select-button .ui-icon,
 .module-search-button .ui-icon,
 .display-options-button .ui-icon,
+.copy-button .ui-icon,
 .assign-tag-menu-button .ui-icon {
   float: right;
 }
