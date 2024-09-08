@@ -386,6 +386,7 @@
     "copy-table-to-clipboard-success": "Таблицю сколено до кишені!",
     "copy-verse-text-to-clipboard": "Сколити текст вірша до кишені",
     "copy-verse-text-to-clipboard-success": "Текст вірша сколено до кишені!",
+    "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Редагувати нотатку",
     "delete-note": "Видалити нотатку",
     "transchange" : {

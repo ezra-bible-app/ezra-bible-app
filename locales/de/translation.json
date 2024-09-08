@@ -381,6 +381,7 @@
     "copy-table-to-clipboard-success": "Tabelle in Zwischenablage kopiert!",
     "copy-verse-text-to-clipboard": "Verstext in Zwischenablage kopieren",
     "copy-verse-text-to-clipboard-success": "Verstext in Zwischenablage kopiert!",
+    "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Notiz ändern",
     "delete-note": "Notiz löschen",
     "transchange" : {

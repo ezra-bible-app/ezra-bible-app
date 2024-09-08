@@ -385,6 +385,7 @@
     "copy-table-to-clipboard-success": "Tabuľka bola skopírovaná do schránky!",
     "copy-verse-text-to-clipboard": "Skopírujte text verša do schránky",
     "copy-verse-text-to-clipboard-success": "Text verša bol skopírovaný do schránky!",
+    "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Upraviť poznámku",
     "delete-note": "Vymazať poznámku",
     "transchange" : {
