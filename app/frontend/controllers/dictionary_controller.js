@@ -347,6 +347,11 @@ class DictionaryController {
         }
       });
 
+      let position = "center top";
+      if (platformHelper.isCordova()) {
+        position = "left top";
+      }
+
       if (showStrongsBox) {
         this.strongsBox.show().position({
           my: "bottom",
