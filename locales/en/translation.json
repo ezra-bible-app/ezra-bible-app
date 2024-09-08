@@ -385,6 +385,7 @@
     "copy-table-to-clipboard-success": "Table copied to clipboard!",
     "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
     "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
+    "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Edit note",
     "delete-note": "Delete note",
     "transchange" : {
