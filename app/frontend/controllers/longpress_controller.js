@@ -19,6 +19,8 @@
 
 /* inspired by https://github.com/john-doherty/long-press-event */
 
+/* NOT USED ANYMORE */
+
 const LONG_PRESS_DELAY = 500;
 const MAX_TOUCH_SHIFT = 10;
 
