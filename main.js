@@ -339,6 +339,7 @@ function init() {
   // Make the app window respond to calls coming from a browser window based on the Dropbox oauth process
   initDropboxProtocolClient();
 
+  // Enable the Sentry crash report system based on the sendCrashReports option
   initSentryCrashReports();
 
   // Enables the Electron dev tools which can be opened using CTRL + SHIFT + i (Linux/Windows) or CMD + SHIFT + i (macOS)
