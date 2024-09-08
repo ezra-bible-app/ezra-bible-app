@@ -31,7 +31,7 @@ const Mousetrap = require('mousetrap');
  * @category Controller
  */
 
-module.exports.init = function init() {
+module.exports.init = function() {
   eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
 
   eventController.subscribe('on-verse-list-init', async (tabIndex) => { this.updateVerseListClasses(tabIndex); });
