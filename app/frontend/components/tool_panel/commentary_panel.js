@@ -180,7 +180,7 @@ class CommentaryPanel {
       });
     });
 
-    let commentaryCopyButtons = this.getBoxContent().querySelectorAll('.commentary-copy-button');
+    let commentaryCopyButtons = this.getBoxContent().querySelectorAll('.copy-commentary-button');
     commentaryCopyButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
         this.handleCopyCommentaryButtonClick(event);
@@ -293,8 +293,8 @@ class CommentaryPanel {
                   <i class='fas fa-info'></i>
                 </div>
 
-                <div class='commentary-copy-button fg-button ui-corner-all ui-state-default'
-                  i18n='[title]commentary-panel:copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${currentCommentary.name}'>
+                <div class='copy-commentary-button fg-button ui-corner-all ui-state-default'
+                  i18n='[title]commentary-panel.copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${currentCommentary.name}'>
                   <i class='fas fa-copy copy-icon'></i>
                 </div>
               </h3>
