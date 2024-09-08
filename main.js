@@ -32,7 +32,6 @@ function initGlobals() {
   global.ipc = new IPC();
   global.ipcHandlersRegistered = false;
   global.platformHelper = new PlatformHelper();
-  app.allowRendererProcessReuse = false;
 
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
