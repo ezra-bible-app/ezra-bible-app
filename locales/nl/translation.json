@@ -387,6 +387,7 @@
     "copy-table-to-clipboard-success": "Tabel gekopieerd naar klembord!",
     "copy-verse-text-to-clipboard": "Kopieer verstekst naar klembord",
     "copy-verse-text-to-clipboard-success": "Verstekst gekopieerd naar klembord!",
+    "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Notitie aanpassen",
     "delete-note": "Notitie verwijderen",
     "transchange" : {

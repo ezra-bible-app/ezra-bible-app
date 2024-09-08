@@ -388,6 +388,7 @@
     "copy-table-to-clipboard-success": "Таблица скопированна в буфер обмена!",
     "copy-verse-text-to-clipboard": "Скопировать текст стиха в буфер обмена",
     "copy-verse-text-to-clipboard-success": "Текст стиха скопирован в буфер обмена!",
+    "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Редактировать заметку",
     "delete-note": "Удалить заметку",
     "transchange" : {

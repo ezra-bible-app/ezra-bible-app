@@ -385,6 +385,7 @@
     "copy-table-to-clipboard-success": "Tabla copiada al portapapeles!",
     "copy-verse-text-to-clipboard": "Copiar el texto del versículo al portapapeles",
     "copy-verse-text-to-clipboard-success": "Texto del versículo copiado al portapapeles!",
+    "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Editar nota",
     "delete-note": "Eliminar nota",
     "transchange" : {

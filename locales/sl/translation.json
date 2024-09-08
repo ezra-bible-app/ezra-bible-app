@@ -385,6 +385,7 @@
     "copy-table-to-clipboard-success": "Tabela kopirana v odložišče!",
     "copy-verse-text-to-clipboard": "Kopirajte besedilo vrstice v odložišče",
     "copy-verse-text-to-clipboard-success": "Besedilo vrstice je bilo prekopirano v odložišče!",
+    "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Uredi opombo",
     "delete-note": "Izbriši opombo",
     "transchange" : {

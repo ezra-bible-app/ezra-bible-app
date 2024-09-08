@@ -385,6 +385,7 @@
     "copy-table-to-clipboard-success": "Tabelul copiat în clipboard!",
     "copy-verse-text-to-clipboard": "Copiază textul versetului în clipboard",
     "copy-verse-text-to-clipboard-success": "Textul versetului copiat în clipboard!",
+    "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Editează nota",
     "delete-note": "Șterge nota",
     "transchange" : {
