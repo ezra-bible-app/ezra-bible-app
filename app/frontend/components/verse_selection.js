@@ -398,7 +398,7 @@ class VerseSelection {
     iziToast.success({
       message: i18n.t('bible-browser.copy-verse-text-to-clipboard-success'),
       position: 'bottomRight',
-      timeout: 2000
+      timeout: 3000
     });
   }
 
