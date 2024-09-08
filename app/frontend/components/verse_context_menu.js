@@ -46,11 +46,6 @@ const template = html`
   <span i18n="bible-browser.delete-note"></span>
 </div>
 
-<div class="copy-clipboard-button fg-button ui-state-default ui-corner-all ui-state-disabled">
-  <i class="fas fa-clipboard"></i>
-  <span i18n="bible-browser.copy"></span>
-</div>
-
 <div class="show-context-button fg-button ui-state-default ui-corner-all ui-state-disabled">
   <i class="fas fa-arrows-alt-v"></i><i class="fas fa-align-justify"></i>
   <span i18n="general.context"></span>
@@ -169,10 +164,8 @@ class VerseContextMenu extends HTMLElement {
     var verseContextMenu = document.getElementById('verse-context-menu');
     var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
     var deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
-    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
     editNoteButton.classList.remove('ui-state-disabled');
     deleteNoteButton.classList.remove('ui-state-disabled');
-    copyButton.classList.remove('ui-state-disabled');
   }
 
   disableVerseButtons() {
@@ -180,12 +173,10 @@ class VerseContextMenu extends HTMLElement {
 
     var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
     var deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
-    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
     var contextButton = verseContextMenu.querySelector('.show-context-button');
 
     editNoteButton.classList.add('ui-state-disabled');
     deleteNoteButton.classList.add('ui-state-disabled');
-    copyButton.classList.add('ui-state-disabled');
     contextButton.classList.remove('ui-state-disabled');
   }
 
@@ -221,7 +212,6 @@ class VerseContextMenu extends HTMLElement {
     var verseContextMenu = document.getElementById('verse-context-menu');
     var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
     var deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
-    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
 
     editNoteButton.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -238,15 +228,6 @@ class VerseContextMenu extends HTMLElement {
       if (!event.target.classList.contains('ui-state-disabled')) {
         app_controller.hideAllMenus();
         app_controller.notes_controller.deleteVerseNotesForCurrentlySelectedVerse();
-      }
-    });
-
-    copyButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-
-      if (!event.target.classList.contains('ui-state-disabled')) {
-        app_controller.hideAllMenus();
-        app_controller.verse_selection.copySelectedVerseTextToClipboard();
       }
     });
 
