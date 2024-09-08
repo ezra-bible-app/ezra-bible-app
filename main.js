@@ -243,7 +243,7 @@ async function createWindow(firstStart=true) {
   });
 }
 
-function handleAuthUrl(url) {
+function handleDropboxAuthUrl(url) {
   if (url.indexOf('ezrabible') != -1) {
     global.mainWindow.webContents.send('dropbox-auth-callback', url);
   }
@@ -267,7 +267,7 @@ app.on('ready', async () => {
     } else {
       app.on('second-instance', (event, commandLine, workingDirectory) => {
         let url = commandLine.pop();
-        handleAuthUrl(url);
+        handleDropboxAuthUrl(url);
 
         // Someone tried to run a second instance, we should focus our window.
         if (global.mainWindow) {
@@ -280,7 +280,7 @@ app.on('ready', async () => {
 
   } else if (process.platform === 'darwin') {
     app.on('open-url', (event, url) => {
-      handleAuthUrl(url);
+      handleDropboxAuthUrl(url);
     });
   }
 
