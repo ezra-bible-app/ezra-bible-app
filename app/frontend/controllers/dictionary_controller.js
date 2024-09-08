@@ -181,7 +181,7 @@ class DictionaryController {
     wElements.forEach(wElement => { 
       wElement.classList.remove('strongs-hl');
 
-      if (platformHelper.isCordova()) {
+      /*if (platformHelper.isCordova()) {
         longpressController.subscribe(wElement, (el) => {
           if (!this._isDictionaryOpen) {
             return;
@@ -192,7 +192,7 @@ class DictionaryController {
           app_controller.verse_selection.setVerseAsSelection(currentVerseText);
           this._handleStrongsWord(el);
         });
-      } 
+      }*/
 
       wElement.addEventListener('mousemove', async (e) => {
         let currentTab = app_controller.tab_controller.getTab();
