@@ -80,11 +80,3 @@
 .darkmode--activated .warning-text {
   color: var(--text-color-red-darkmode);
 }
-
-#copy-selected-commentary-button {
-  margin-left: 0.5em;
-  margin-top: 0.5em;
-  padding: 0.2em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-}
