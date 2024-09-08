@@ -613,6 +613,10 @@ a.chapter-nav:hover {
   flex: 1 1;
 }
 
+.verse-text.ui-selected {
+  user-select: text;
+}
+
 .verse-list-rtl .verse-text {
   direction: rtl;
 }
