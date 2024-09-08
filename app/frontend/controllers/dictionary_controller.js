@@ -171,28 +171,10 @@ class DictionaryController {
       this.highlightStrongsInVerse(verseElement);
     }));
 
-    var longpressController;
-    if (platformHelper.isCordova()) {
-      longpressController = require('./longpress_controller.js');
-    }
-    
     const wElements = currentVerseListFrame.querySelectorAll('w');
 
     wElements.forEach(wElement => { 
       wElement.classList.remove('strongs-hl');
-
-      /*if (platformHelper.isCordova()) {
-        longpressController.subscribe(wElement, (el) => {
-          if (!this._isDictionaryOpen) {
-            return;
-          }
-
-          // TODO: Remove the previous strong's highlighting
-          let currentVerseText = el.closest('.verse-text');
-          app_controller.verse_selection.setVerseAsSelection(currentVerseText);
-          this._handleStrongsWord(el);
-        });
-      }*/
 
       wElement.addEventListener('mousemove', async (e) => {
         let currentTab = app_controller.tab_controller.getTab();
