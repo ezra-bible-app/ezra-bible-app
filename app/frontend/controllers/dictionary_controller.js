@@ -76,6 +76,15 @@ class DictionaryController {
       this.hideStrongsBox();
     });
 
+    window.addEventListener('selectionchange', () => {
+      const selection = window.getSelection();
+      let textSelected = selection && selection.rangeCount > 0 && !selection.isCollapsed;
+
+      if (textSelected) {
+        this.hideStrongsBox();
+      }
+    });
+
     eventController.subscribe('on-dictionary-added', () => {
       this.runAvailabilityCheck();
     });
