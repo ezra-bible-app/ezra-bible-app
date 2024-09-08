@@ -278,7 +278,7 @@ class CommentaryPanel {
     iziToast.success({
       message: i18n.t("commentary-panel.copy-commentary-to-clipboard-success"),
       position: "bottomRight",
-      timeout: 2000,
+      timeout: 3000,
     });
   }
 
