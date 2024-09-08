@@ -39,11 +39,15 @@ module.exports.handleCopyButtonClick = function(event) {
   event.stopPropagation();
 
   if (!event.target.classList.contains('ui-state-disabled')) {
-    if (this.isTextSelected()) {
-      this.copySelectedTextToClipboard();
-    } else {
-      app_controller.verse_selection.copySelectedVerseTextToClipboard();
-    }
+    this.copyTextToClipboard();
+  }
+};
+
+module.exports.copyTextToClipboard = function() {
+  if (this.isTextSelected()) {
+    this.copySelectedTextToClipboard();
+  } else {
+    app_controller.verse_selection.copySelectedVerseTextToClipboard();
   }
 };
 
