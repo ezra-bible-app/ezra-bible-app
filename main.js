@@ -18,78 +18,90 @@
 
 const path = require('path');
 const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
-
-global.isDev = !app.isPackaged;
-
 const IPC = require('./app/backend/ipc/ipc.js');
-global.ipc = new IPC();
-global.ipcHandlersRegistered = false;
-
 const PlatformHelper = require('./app/lib/platform_helper.js');
-global.platformHelper = new PlatformHelper();
-
-app.allowRendererProcessReuse = false;
-
-// Disable security warnings
-process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
-
-const URL_SCHEME = 'ezrabible';
-
-if (process.defaultApp) {
-  if (process.argv.length >= 2) {
-    app.setAsDefaultProtocolClient(URL_SCHEME, process.execPath, [path.resolve(process.argv[1])]);
-  }
-} else {
-  app.setAsDefaultProtocolClient(URL_SCHEME);
-}
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-global.mainWindow = null;
-let mainWindowState;
 
 if (process.platform === 'win32') {
   // This is only needed for making the Windows installer work properly
   if (require('electron-squirrel-startup')) app.quit();
 }
 
-global.sendCrashReports = global.ipc.ipcSettingsHandler.getConfig().get('sendCrashReports', true);
+function initGlobals() {
+  global.isDev = !app.isPackaged;
+  global.ipc = new IPC();
+  global.ipcHandlersRegistered = false;
+  global.platformHelper = new PlatformHelper();
+  app.allowRendererProcessReuse = false;
 
-if (!isDev && !global.sendCrashReports) {
-  console.log("Not configuring Sentry based on opt-out.");
+  // Keep a global reference of the window object, if you don't, the window will
+  // be closed automatically when the JavaScript object is garbage collected.
+  global.mainWindow = null;
+  global.mainWindowState = null;
+
+  global.sendCrashReports = global.ipc.ipcSettingsHandler.getConfig().get('sendCrashReports', true);
+
+  // Disable security warnings
+  process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 }
 
-if (!isDev && global.sendCrashReports) {
-  global.Sentry = require('@sentry/electron/main');
-  
-  Sentry.init({
-    debug: false,
-    dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
-    enableNative: true,
-    environment: process.env.NODE_ENV,
-    beforeSend: (event) => global.sendCrashReports ? event : null
-  });
-} else {
-  global.Sentry = {
-    addBreadcrumb: function() {},
-    captureMessage: function() {},
-    Severity: {
-      Info: ''
+function initProtocolClient() {
+  const URL_SCHEME = 'ezrabible';
+
+  if (process.defaultApp) {
+    if (process.argv.length >= 2) {
+      app.setAsDefaultProtocolClient(URL_SCHEME, process.execPath, [path.resolve(process.argv[1])]);
     }
-  };
+  } else {
+    app.setAsDefaultProtocolClient(URL_SCHEME);
+  }
 }
 
-try {
-  // Loading electron-debug in a try/catch block, because we have observed failures related to this step
-  // If it fails ... startup is broken. Why it failed? Unclear!
+function initSentry() {
+  if (!global.isDev && !global.sendCrashReports) {
+    console.log("Not configuring Sentry based on opt-out.");
+  }
 
-  require('electron-debug')({
-    isEnabled: true,
-    showDevTools: false,
-    devToolsMode: 'bottom'
-  });
-} catch (e) {
-  console.log('Could not load electron-debug');
+  if (!global.isDev && global.sendCrashReports) {
+    global.Sentry = require('@sentry/electron/main');
+    
+    Sentry.init({
+      debug: false,
+      dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
+      enableNative: true,
+      environment: process.env.NODE_ENV,
+      beforeSend: (event) => global.sendCrashReports ? event : null
+    });
+  } else {
+    global.Sentry = {
+      addBreadcrumb: function() {},
+      captureMessage: function() {},
+      Severity: {
+        Info: ''
+      }
+    };
+  }
+}
+
+function initElectronDebug() {
+  try {
+    // Loading electron-debug in a try/catch block, because we have observed failures related to this step
+    // If it fails ... startup is broken. Why it failed? Unclear!
+
+    require('electron-debug')({
+      isEnabled: true,
+      showDevTools: false,
+      devToolsMode: 'bottom'
+    });
+  } catch (e) {
+    console.log('Could not load electron-debug');
+  }
+}
+
+function init() {
+  initGlobals();
+  initProtocolClient();
+  initSentry();
+  initElectronDebug();
 }
 
 function shouldUseDarkMode() {
@@ -107,7 +119,7 @@ function shouldUseDarkMode() {
   return useDarkMode;
 }
 
-function updateMenu(labels=undefined) {
+function updateMacOsMenu(labels=undefined) {
   var quitAppLabel = 'Quit Ezra Bible App';
 
   if (labels !== undefined) {
@@ -133,13 +145,13 @@ async function createWindow(firstStart=true) {
   console.time('Startup');
 
   var preloadScript = '';
-  if (!isDev && global.sendCrashReports) {
+  if (!global.isDev && global.sendCrashReports) {
     preloadScript = path.join(__dirname, 'app/frontend/helpers/sentry.js');
   }
 
   const windowStateKeeper = require('electron-window-state');
 
-  mainWindowState = windowStateKeeper({
+  global.mainWindowState = windowStateKeeper({
     defaultWidth: 1200,
     defaultHeight: 800
   });
@@ -154,7 +166,7 @@ async function createWindow(firstStart=true) {
       // Register listeners on the window, so we can update the state
       // automatically (the listeners will be removed when the window is closed)
       // and restore the maximized or full screen state
-      mainWindowState.manage(global.mainWindow);
+      global.mainWindowState.manage(global.mainWindow);
     });
 
     ipcMain.on('log', async (event, message) => {
@@ -163,7 +175,7 @@ async function createWindow(firstStart=true) {
 
     // eslint-disable-next-line no-unused-vars
     ipcMain.handle('initIpc', async (event, arg) => {
-      let returnCode = await global.ipc.init(isDev, global.mainWindow);
+      let returnCode = await global.ipc.init(global.isDev, global.mainWindow);
       return returnCode;
     });
 
@@ -174,7 +186,7 @@ async function createWindow(firstStart=true) {
 
     // eslint-disable-next-line no-unused-vars
     ipcMain.handle('localizeMenu', async (event, menuLabels) => {
-      updateMenu(menuLabels);
+      updateMacOsMenu(menuLabels);
     });
   }
 
@@ -186,13 +198,13 @@ async function createWindow(firstStart=true) {
 
   // Create the browser window.
   global.mainWindow = new BrowserWindow({
-    x: mainWindowState.x,
-    y: mainWindowState.y,
-    width: mainWindowState.width,
-    height: mainWindowState.height,
+    x: global.mainWindowState.x,
+    y: global.mainWindowState.y,
+    width: global.mainWindowState.width,
+    height: global.mainWindowState.height,
     show: true,
     frame: true,
-    title: "Ezra Bible App " + app.getVersion() + (isDev ? ` [${app.getLocale()}]` : ''),
+    title: "Ezra Bible App " + app.getVersion() + (global.isDev ? ` [${app.getLocale()}]` : ''),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -216,7 +228,7 @@ async function createWindow(firstStart=true) {
   Menu.setApplicationMenu(null);
 
   if (platformHelper.isMac()) {
-    updateMenu();
+    updateMacOsMenu();
   }
 
   // and load the index.html of the app.
@@ -314,3 +326,5 @@ app.on('activate', async () => {
     await createWindow(false);
   }
 });
+
+init();
