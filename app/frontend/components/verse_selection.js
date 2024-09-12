@@ -80,7 +80,9 @@ class VerseSelection {
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {
-      this.clearVerseSelection(true, tabIndex);
+      let verseList = verseListController.getCurrentVerseList(tabIndex);
+      this.updateSelected(verseList);
+      this.updateViewsAfterVerseSelection();
     });
 
     eventController.subscribe('on-all-translations-removed', () => {
