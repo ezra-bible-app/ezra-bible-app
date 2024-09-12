@@ -949,8 +949,8 @@ class TagsController {
     var cb_label = checkboxTag.find('.cb-label').html();
     var tag_button_is_active = tag_button.classList.contains('active');
 
-    var current_verse_selection = app_controller.verse_selection.current_verse_selection_as_xml(); 
-    var current_verse_reference_ids = app_controller.verse_selection.current_verse_selection_as_verse_reference_ids();
+    var current_verse_selection = app_controller.verse_selection.getCurrentVerseSelectionAsXml(); 
+    var current_verse_reference_ids = app_controller.verse_selection.getCurrentVerseSelectionAsVerseReferenceIds();
 
     checkboxTag.find('.cb-label').removeClass('underline');
     checkboxTag.find('.cb-label-postfix').html('');

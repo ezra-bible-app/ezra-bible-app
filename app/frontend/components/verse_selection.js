@@ -311,13 +311,13 @@ class VerseSelection {
     return xml_verse_list;
   }
 
-  current_verse_selection_as_xml() {
+  getCurrentVerseSelectionAsXml() {
     var selected_verse_elements = this.selectedVerseBoxElements;
 
     return (this.element_list_to_xml_verse_list(selected_verse_elements));
   }
 
-  current_verse_selection_as_verse_reference_ids() {
+  getCurrentVerseSelectionAsVerseReferenceIds() {
     var selected_verse_ids = new Array;
     var selected_verse_elements = this.selectedVerseBoxElements;
     
