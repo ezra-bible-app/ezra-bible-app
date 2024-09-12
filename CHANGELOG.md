@@ -8,8 +8,10 @@ All notable changes to Ezra Bible App are documented in this file.
 * Make Darkmode configurable on macOS. ([#1042][i1042])
 * Navigate chapters with left/right keys on Desktop. ([#1057][i1057])
 * Add quick link "All tags" in tag list menu to navigate back to All tags after selecting tag group. ([#1072][i1072])
-* Copy selected text from commentaries to clipboard. ([#1078][i1078])
 * Option to show Strong's #'s inline with text and/or search results. ([#1087][i1087])
+* Save verse selection per tab on desktop. ([#1095][i1095])
+* Enable text selection for verses that are selected. ([#1104][i1104])
+* Copy current selection (text) or currently selected verse(s) via copy button. ([#1102][i1102])
 
 ### Fixes
 
@@ -23,8 +25,11 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1078]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1078
 [i1087]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1087
 [i1090]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1090
+[i1095]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1095
 [i1096]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1096
 [i1101]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1101
+[i1102]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1102
+[i1104]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1104
 
 ## [1.14.1 - 2024-08-03]
 
