@@ -413,7 +413,7 @@
     "greek-dict": "Dictionnaire grec",
     "hebrew-dict": "Dictionnaire hébreu",
     "default-header": "<b>Dictionnaire</b>",
-    "help-instruction": "Comment afficher les entrées de dictionnaire ici :",
+    "help-instruction-intro": "Comment afficher les entrées de dictionnaire ici :",
     "help-instruction-part1": "Vérifiez que les dictionnaires Strong (hébreu et grec) sont installés. Statut: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Ouvrez ensuite une traduction avec la fonctionnalité des nombres de Strong.",
     "help-instruction-part3": "Une fois que vous avez sélectionné un verset, vous pouvez déplacer votre souris sur les mots et expressions individuels pour voir ici les entrées du dictionnaire.",
