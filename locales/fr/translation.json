@@ -403,7 +403,7 @@
        "amplified" : "Ces mots sont des amplifications d'informations dans le texte source",
        "changed" : "Ces mots ont été modifiés lors de la traduction",
        "deleted" : "Certains mots du texte source ne sont pas présents dans la traduction",
-       "implicite" : "Ces mots ont été ajoutés ou modifiés pour traduire des informations impliquées par le texte source",
+       "implied" : "Ces mots ont été ajoutés ou modifiés pour traduire des informations impliquées par le texte source",
        "moved" : "Ces mots se trouvaient à un autre endroit dans le texte source",
        "tense-change": "Le temps grammatical de ces mots a été modifié afin de faciliter la traduction"
 
