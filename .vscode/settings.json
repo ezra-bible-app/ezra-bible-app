@@ -1,5 +1,6 @@
 {
   "editor.autoIndent": "full",
   "editor.formatOnSaveMode": "modifications",
-  "i18n-ally.localesPaths": "locales"
+  "i18n-ally.localesPaths": "locales",
+  "i18n-ally.keystyle": "nested"
 }
