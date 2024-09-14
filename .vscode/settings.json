@@ -1,4 +1,5 @@
 {
   "editor.autoIndent": "full",
-  "editor.formatOnSaveMode": "modifications"
+  "editor.formatOnSaveMode": "modifications",
+  "i18n-ally.localesPaths": "locales"
 }
