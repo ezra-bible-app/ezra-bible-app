@@ -18,6 +18,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Dropbox feedback: Change Dropbox access level to app folder access. ([#1090][i1090])
 * Cannot automatically recover from database corruption. ([#1096][i1096])
 * Scroll position of source tab not saved when "finding all occurrences". ([#1101][i1101])
+* Languages with region code not shown correctly in Language selection. ([#1109][i1109])
 
 [i1042]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1042
 [i1057]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1057
@@ -30,6 +31,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1101]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1101
 [i1102]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1102
 [i1104]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1104
+[i1109]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1109
 
 ## [1.14.1 - 2024-08-03]
 
