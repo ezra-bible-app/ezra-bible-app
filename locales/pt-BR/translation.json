@@ -475,6 +475,7 @@
     "dropbox-sync-explanation-part3d": "Após alterações (caso configuradas).",
     "dropbox-sync-explanation-part3e": "Após ligar o Wi-Fi (apenas no Android, caso opção esteja configurada).",
     "dropbox-sync-explanation-part4": "Para começar a usar a sincronização via Dropbox, primeiro você precisa vincular a sua conta do Dropbox ao Aplicativo Bíblia Esdras.",
+    "link-dropbox-account": "Vincular conta do Dropbox",
     "reset-dropbox-account-link": "Redefinir vínculo",
     "dropbox-link-status": "Status do vínculo do Dropbox",
     "dropbox-link-status-not-linked": "Não conectado",
