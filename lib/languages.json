@@ -311,8 +311,18 @@
     "uk": "Болгарська"
   },
   "bh": {
-    "en": "Bihari languages",
-    "name": "भोजपुरी"
+    "en": "Bhojpuri",
+    "name": "भोजपुरी",
+    "de": "Bhodschpuri",
+    "es": "Bhoyapurí",
+    "fr": "Bhodjpouri",
+    "nl": "Bhojpuri",
+    "pt-BR": "Bhojpuri",
+    "ro": "Bhojpuri",
+    "ru": "Бходжпури",
+    "sk": "Bhódžpurčina",
+    "sl": "Bodžpuri",
+    "uk": "Бходжпурі"
   },
   "bi": {
     "name": "Bislama",
@@ -678,7 +688,7 @@
     "ru": "Мальдивский",
     "sk": "Maldivčina",
     "sl": "Diveščina",
-    "uk": "Дівехі"
+    "uk": "Дивехі"
   },
   "dz": {
     "name": "རྫོང་ཁ",
@@ -898,7 +908,7 @@
     "iso6392B": "ful",
     "iso6392T": "ful",
     "iso6391": "ff",
-    "en": "Fulah",
+    "en": "Fula",
     "de": "Ful",
     "es": "Fula",
     "fr": "Peul",
@@ -1521,7 +1531,7 @@
     "ru": "Инуктитут",
     "sk": "Inuktitut",
     "sl": "Inuktitutščina",
-    "uk": "Інуктітут"
+    "uk": "Інуктитут"
   },
   "iw": {
     "en": "Hebrew",
@@ -1832,7 +1842,7 @@
     ],
     "en": "Kashmiri",
     "de": "Kaschmiri",
-    "es": "Cachemiro",
+    "es": "Cachemir",
     "fr": "Cachemiri",
     "nl": "Kasjmiri",
     "pt-BR": "Caxemira",
@@ -2159,8 +2169,8 @@
     "iso6392B": "mao",
     "iso6392T": "mri",
     "iso6391": "mi",
-    "en": "Maori",
-    "de": "Maori",
+    "en": "Māori",
+    "de": "Māori",
     "es": "Maorí",
     "fr": "Maori",
     "nl": "Maori",
@@ -2201,7 +2211,7 @@
     "iso6391": "ml",
     "en": "Malayalam",
     "de": "Malayalam",
-    "es": "Malayalam",
+    "es": "Malayálam",
     "fr": "Malayalam",
     "nl": "Malayalam",
     "pt-BR": "Malaiala",
@@ -2935,7 +2945,7 @@
     "iso6391": "sd",
     "en": "Sindhi",
     "de": "Sindhi",
-    "es": "Sindhi",
+    "es": "Sindi",
     "fr": "Sindhi",
     "nl": "Sindhi",
     "pt-BR": "Sindi",
@@ -2991,17 +3001,17 @@
     "scope": "macrolanguage",
     "iso6393": "hbs",
     "iso6391": "sh",
-    "en": "Serbo-Croatian",
-    "de": "Serbo-Kroatisch",
-    "es": "Serbocroata",
-    "fr": "Serbo-croate",
-    "nl": "Servo-Kroatisch",
-    "pt-BR": "Servo-croata",
-    "ro": "Sârbo-croată",
-    "ru": "Сербскохорватский",
-    "sk": "Srbochorvátčina",
-    "sl": "Srbohrvaščina",
-    "uk": "Сербсько-хорватська"
+    "en": "Serbian (Latin)",
+    "de": "Serbisch (Lateinisch)",
+    "es": "Serbio (latino)",
+    "fr": "Serbe (latin)",
+    "nl": "Servisch (Latijns)",
+    "pt-BR": "Sérvio (latim)",
+    "ro": "Sârbă (latină)",
+    "ru": "Сербский (латиница)",
+    "sk": "Srbčina (latinka)",
+    "sl": "Srbščina (latinica)",
+    "uk": "Сербська (латиниця)"
   },
   "si": {
     "name": "සිංහල",
@@ -3185,7 +3195,7 @@
     "ru": "Свази",
     "sk": "Svazijčina",
     "sl": "Svazijščina",
-    "uk": "Сісваті"
+    "uk": "Сисваті"
   },
   "st": {
     "name": "Sesotho",
@@ -3405,20 +3415,20 @@
     "iso6392B": "tgl",
     "iso6392T": "tgl",
     "iso6391": "tl",
-    "en": "Tagalog",
+    "en": "Filipino",
     "scripts": [
       "Tglg"
     ],
-    "de": "Tagalog",
-    "es": "Tagalo",
-    "fr": "Tagalog",
-    "nl": "Tagalog",
-    "pt-BR": "Tagalo",
-    "ro": "Tagalog",
-    "ru": "Тагалог",
-    "sk": "Tagalčina",
-    "sl": "Tagalogščina",
-    "uk": "Тагальська"
+    "de": "Filipino",
+    "es": "Filipino",
+    "fr": "Filipino",
+    "nl": "Filipijns",
+    "pt-BR": "Filipino",
+    "ro": "Filipineză",
+    "ru": "Филиппинский",
+    "sk": "Filipínčina",
+    "sl": "Filipinščina",
+    "uk": "Філіппінська"
   },
   "tn": {
     "name": "Setswana",
@@ -3532,17 +3542,17 @@
     "iso6392B": "twi",
     "iso6392T": "twi",
     "iso6391": "tw",
-    "en": "Twi",
-    "de": "Twi",
-    "es": "Twi",
-    "fr": "Twi",
-    "nl": "Twi",
-    "pt-BR": "Twi",
-    "ro": "Twi",
-    "ru": "Тви",
-    "sk": "Twi",
-    "sl": "Tvi",
-    "uk": "Тві"
+    "en": "Akan",
+    "de": "Akan",
+    "es": "Akan",
+    "fr": "Akan",
+    "nl": "Akan",
+    "pt-BR": "Akan",
+    "ro": "Akan",
+    "ru": "Акан",
+    "sk": "Akančina",
+    "sl": "Akanščina",
+    "uk": "Акан"
   },
   "ty": {
     "name": "Reo Mā'ohi",
@@ -4238,7 +4248,7 @@
     "iso6392T": "ace",
     "en": "Achinese",
     "de": "Aceh",
-    "es": "Acehnés",
+    "es": "Achenés",
     "fr": "Aceh",
     "nl": "Atjehs",
     "pt-BR": "Achém",
@@ -5285,21 +5295,35 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ajp",
-    "en": "South Levantine Arabic"
+    "en": "South Levantine Arabic",
+    "nl": "Zuid-Levantijns-Arabisch"
   },
   "ajt": {
     "name": "Judeo-Tunisian Arabic",
     "type": "living",
     "scope": "individual",
     "iso6393": "ajt",
-    "en": "Judeo-Tunisian Arabic"
+    "en": "Tunisian Arabic",
+    "de": "Tunesisches Arabisch",
+    "fr": "Arabe tunisien",
+    "nl": "Tunesisch Arabisch"
   },
   "aju": {
     "name": "Judeo-Moroccan Arabic",
     "type": "living",
     "scope": "individual",
     "iso6393": "aju",
-    "en": "Judeo-Moroccan Arabic"
+    "en": "Judeo-Arabic",
+    "de": "Jüdisch-Arabisch",
+    "es": "Judeo-árabe",
+    "fr": "Judéo-arabe",
+    "nl": "Judeo-Arabisch",
+    "pt-BR": "Judaico-arábico",
+    "ro": "Iudeo-arabă",
+    "ru": "Еврейско-арабский",
+    "sk": "Židovská arabčina",
+    "sl": "Judovska arabščina",
+    "uk": "Юдео-арабська"
   },
   "ajw": {
     "name": "Ajawa",
@@ -5634,7 +5658,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "als",
-    "en": "Tosk Albanian"
+    "en": "Albanian",
+    "de": "Albanisch",
+    "es": "Albanés",
+    "fr": "Albanais",
+    "nl": "Albanees",
+    "pt-BR": "Albanês",
+    "ro": "Albaneză",
+    "ru": "Албанский",
+    "sk": "Albánčina",
+    "sl": "Albanščina",
+    "uk": "Албанська"
   },
   "alt": {
     "name": "Тÿштÿк алтай",
@@ -5986,7 +6020,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ann",
-    "en": "Obolo"
+    "en": "Obolo",
+    "de": "Obolo",
+    "es": "Obolo",
+    "fr": "Obolo",
+    "nl": "Obolo",
+    "pt-BR": "Obolo",
+    "ro": "Obolo",
+    "ru": "Оболо",
+    "sk": "Obolo",
+    "sl": "Obolo",
+    "uk": "Оболо"
   },
   "ano": {
     "name": "Andoque",
@@ -6228,7 +6272,8 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "apc",
-    "en": "North Levantine Arabic"
+    "en": "North Levantine Arabic",
+    "nl": "Levantijns-Arabisch"
   },
   "apd": {
     "name": "Sudanese Arabic",
@@ -6437,7 +6482,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "arb",
-    "en": "Standard Arabic"
+    "en": "Arabic",
+    "de": "Arabisch",
+    "es": "Árabe",
+    "fr": "Arabe",
+    "nl": "Arabisch",
+    "pt-BR": "Árabe",
+    "ro": "Arabă",
+    "ru": "Арабский",
+    "sk": "Arabčina",
+    "sl": "Arabščina",
+    "uk": "Арабська"
   },
   "arc": {
     "name": "ܐܪܡܝܐ",
@@ -6508,7 +6563,18 @@
     "en": "Arabela"
   },
   "arm": {
-    "name": "Հայերեն"
+    "name": "Հայերեն",
+    "de": "Armenisch",
+    "en": "Armenian",
+    "es": "Armenio",
+    "fr": "Arménien",
+    "nl": "Armeens",
+    "pt-BR": "Armênio",
+    "ro": "Armeană",
+    "ru": "Армянский",
+    "sk": "Arménčina",
+    "sl": "Armenščina",
+    "uk": "Вірменська"
   },
   "arn": {
     "name": "Mapudungun",
@@ -6591,6 +6657,7 @@
     "ro": "Arabă najdi",
     "ru": "Недждийский арабский",
     "sk": "Arabčina (nadždská)",
+    "sl": "Nadždska arabščina",
     "uk": "Надждійська арабська"
   },
   "art": {
@@ -6910,7 +6977,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "atj",
-    "en": "Atikamekw"
+    "en": "Atikamekw",
+    "de": "Atikamekw",
+    "es": "Atikamekw",
+    "fr": "Atikamekw",
+    "nl": "Atikamekw",
+    "pt-BR": "Atikamekw",
+    "ro": "Atikamekw",
+    "ru": "Атикамек",
+    "sk": "Atikamekwčina",
+    "sl": "Atikamekwščina",
+    "uk": "Атикамек"
   },
   "atk": {
     "name": "Ati",
@@ -7558,7 +7635,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ayr",
-    "en": "Central Aymara"
+    "en": "Aymara",
+    "de": "Aymara",
+    "es": "Aimara",
+    "fr": "Aymara",
+    "nl": "Aymara",
+    "pt-BR": "Aimará",
+    "ro": "Aymara",
+    "ru": "Аймара",
+    "sk": "Aymarčina",
+    "sl": "Ajmarščina",
+    "uk": "Аймара"
   },
   "ays": {
     "name": "Sorsogon Ayta",
@@ -7628,12 +7715,22 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "azj",
-    "en": "North Azerbaijani",
+    "en": "Azerbaijani",
     "scripts": [
       "Arab",
       "Cyrl",
       "Latn"
-    ]
+    ],
+    "de": "Aserbaidschanisch",
+    "es": "Azerbaiyano",
+    "fr": "Azerbaïdjanais",
+    "nl": "Azerbeidzjaans",
+    "pt-BR": "Azerbaijano",
+    "ro": "Azeră",
+    "ru": "Азербайджанский",
+    "sk": "Azerbajdžančina",
+    "sl": "Azerbajdžanščina",
+    "uk": "Азербайджанська"
   },
   "azm": {
     "name": "Ipalapa Amuzgo",
@@ -8081,7 +8178,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "bcc",
-    "en": "Southern Balochi"
+    "en": "Baluchi",
+    "de": "Belutschisch",
+    "es": "Baluchi",
+    "fr": "Baloutchi",
+    "nl": "Beloetsji",
+    "pt-BR": "Balúchi",
+    "ro": "Baluchi",
+    "ru": "Белуджский",
+    "sk": "Balúčtina",
+    "sl": "Beludžijščina",
+    "uk": "Балучі"
   },
   "bcd": {
     "name": "North Babar",
@@ -8144,7 +8251,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "bcl",
-    "en": "Central Bicolano"
+    "en": "Bikol",
+    "de": "Bikol",
+    "es": "Bicol",
+    "fr": "Bikol",
+    "nl": "Bikol",
+    "pt-BR": "Bikol",
+    "ro": "Bikol",
+    "ru": "Бикольский",
+    "sk": "Bikolčina",
+    "sl": "Bikolski jezik",
+    "uk": "Бікольська"
   },
   "bcm": {
     "name": "Bannoni",
@@ -8581,7 +8698,7 @@
     "en": "Betawi",
     "de": "Betawi",
     "fr": "Betawi",
-    "nl": "Betawi",
+    "nl": "Bataviaans",
     "uk": "Бетаві"
   },
   "bex": {
@@ -8815,7 +8932,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "bgc",
-    "en": "Haryanvi"
+    "en": "Haryanvi",
+    "de": "Haryanvi",
+    "es": "Haryanvi",
+    "fr": "Haryanvi",
+    "nl": "Haryanvi",
+    "pt-BR": "Hariani",
+    "ro": "Haryanvi",
+    "ru": "Харианви",
+    "sk": "Haryanvi",
+    "sl": "Harjanščina",
+    "uk": "Харʼянві"
   },
   "bgd": {
     "name": "Rathwi Bareli",
@@ -9720,7 +9847,7 @@
     "iso6393": "bla",
     "iso6392B": "bla",
     "iso6392T": "bla",
-    "en": "Siksika",
+    "en": "Siksiká",
     "de": "Blackfoot",
     "es": "Siksika",
     "fr": "Siksika",
@@ -9772,7 +9899,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "blg",
-    "en": "Balau"
+    "en": "Iban",
+    "de": "Iban",
+    "es": "Iban",
+    "fr": "Iban",
+    "nl": "Iban",
+    "pt-BR": "Iban",
+    "ro": "Iban",
+    "ru": "Ибанский",
+    "sk": "Ibančina",
+    "sl": "Ibanščina",
+    "uk": "Ібанська"
   },
   "blh": {
     "name": "Kuwaa",
@@ -11915,7 +12052,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "bxk",
-    "en": "Bukusu"
+    "en": "Luyia",
+    "de": "Luhya",
+    "es": "Luyia",
+    "fr": "Luyia",
+    "nl": "Luyia",
+    "pt-BR": "Luyia",
+    "ro": "Luyia",
+    "ru": "Лухья",
+    "sk": "Luhja",
+    "sl": "Luhijščina",
+    "uk": "Луйя"
   },
   "bxl": {
     "name": "Jalkunan",
@@ -11964,7 +12111,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "bxr",
-    "en": "Russia Buriat"
+    "en": "Buriat",
+    "de": "Burjatisch",
+    "es": "Buriato",
+    "fr": "Bouriate",
+    "nl": "Boerjatisch",
+    "pt-BR": "Buriato",
+    "ro": "Buriat",
+    "ru": "Бурятский",
+    "sk": "Buriatčina",
+    "sl": "Burjatščina",
+    "uk": "Бурятська"
   },
   "bxs": {
     "name": "Busam",
@@ -12563,6 +12720,7 @@
     "ro": "Cayuga",
     "ru": "Кайюга",
     "sk": "Kajugčina",
+    "sl": "Kajuščina",
     "uk": "Кайюга"
   },
   "caz": {
@@ -13190,7 +13348,7 @@
     "ru": "Чипевьян",
     "sk": "Čipevajčina",
     "sl": "Čipevščina",
-    "uk": "Чіпевʼян"
+    "uk": "Чипевʼян"
   },
   "chq": {
     "name": "Quiotepec Chinantec",
@@ -13461,9 +13619,9 @@
     "nl": "Soranî",
     "pt-BR": "Curdo central",
     "ro": "Kurdă centrală",
-    "ru": "Сорани",
+    "ru": "Центральнокурдский",
     "sk": "Kurdčina (sorání)",
-    "sl": "Soranska kurdščina",
+    "sl": "Osrednja kurdščina",
     "uk": "Центральнокурдська"
   },
   "ckh": {
@@ -13565,14 +13723,34 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "clc",
-    "en": "Chilcotin"
+    "en": "Chilcotin",
+    "de": "Chilcotin",
+    "es": "Chilcotin",
+    "fr": "Chilcotin",
+    "nl": "Chilcotin",
+    "pt-BR": "Chilcotin",
+    "ro": "Chilcotin",
+    "ru": "Чилкотин",
+    "sk": "Chilcotin",
+    "sl": "Čilkotinščina",
+    "uk": "Чилкотін"
   },
   "cld": {
     "name": "Chaldean Neo-Aramaic",
     "type": "living",
     "scope": "individual",
     "iso6393": "cld",
-    "en": "Chaldean Neo-Aramaic"
+    "en": "Syriac",
+    "de": "Syrisch",
+    "es": "Siriaco",
+    "fr": "Syriaque",
+    "nl": "Syrisch",
+    "pt-BR": "Siríaco",
+    "ro": "Siriacă",
+    "ru": "Сирийский",
+    "sk": "Sýrčina",
+    "sl": "Sirščina",
+    "uk": "Сирійська"
   },
   "cle": {
     "name": "Lealao Chinantec",
@@ -13697,7 +13875,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "cmn",
-    "en": "Mandarin Chinese"
+    "en": "Chinese",
+    "de": "Chinesisch",
+    "es": "Chino",
+    "fr": "Chinois",
+    "nl": "Chinees",
+    "pt-BR": "Chinês",
+    "ro": "Chineză",
+    "ru": "Китайский",
+    "sk": "Čínština",
+    "sl": "Kitajščina",
+    "uk": "Китайська"
   },
   "cmo": {
     "name": "Central Mnong",
@@ -14128,7 +14316,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "crg",
-    "en": "Michif"
+    "en": "Michif",
+    "de": "Michif",
+    "es": "Michif",
+    "fr": "Mitchif",
+    "nl": "Michif",
+    "pt-BR": "Michif",
+    "ro": "Michif",
+    "ru": "Мичиф",
+    "sk": "Michif",
+    "sl": "Mičifščina",
+    "uk": "Мічиф"
   },
   "crh": {
     "name": "къырымтатар тили",
@@ -14137,15 +14335,15 @@
     "iso6393": "crh",
     "iso6392B": "crh",
     "iso6392T": "crh",
-    "en": "Crimean Turkish",
+    "en": "Crimean Tatar",
     "scripts": [
       "Cyrl"
     ],
     "de": "Krimtatarisch",
     "es": "Tártaro de Crimea",
-    "fr": "Turc de Crimée",
+    "fr": "Tatar de Crimée",
     "nl": "Krim-Tataars",
-    "pt-BR": "Turco da Crimeia",
+    "pt-BR": "Tártara da Crimeia",
     "ro": "Turcă crimeeană",
     "ru": "Крымско-татарский",
     "sk": "Krymská tatárčina",
@@ -14164,28 +14362,68 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "crj",
-    "en": "Southern East Cree"
+    "en": "Southern East Cree",
+    "de": "Südost-Cree",
+    "es": "Cree suroriental",
+    "fr": "Cri de l’Est (dialecte du Sud)",
+    "nl": "Zuidoost-Cree",
+    "pt-BR": "Cree do sudeste",
+    "ro": "Cree de sud-est",
+    "ru": "Юго-восточный кри",
+    "sk": "Cree (juhovýchod)",
+    "sl": "Jugovzhodna krijščina",
+    "uk": "Південно-східна крі"
   },
   "crk": {
     "name": "Plains Cree",
     "type": "living",
     "scope": "individual",
     "iso6393": "crk",
-    "en": "Plains Cree"
+    "en": "Plains Cree",
+    "de": "Plains-Cree",
+    "es": "Cree de las llanuras",
+    "fr": "Cri des plaines",
+    "nl": "Plains Cree",
+    "pt-BR": "Cree das planícies",
+    "ro": "Cree (Prerii)",
+    "ru": "Равнинный кри",
+    "sk": "Plains cree",
+    "sl": "Nižinska krijščina",
+    "uk": "Рівнинна крі"
   },
   "crl": {
     "name": "Northern East Cree",
     "type": "living",
     "scope": "individual",
     "iso6393": "crl",
-    "en": "Northern East Cree"
+    "en": "Northern East Cree",
+    "de": "Northern East Cree",
+    "es": "Cree nororiental",
+    "fr": "Cri de l’Est (dialecte du Nord)",
+    "nl": "Noordoost-Cree",
+    "pt-BR": "Cree do nordeste",
+    "ro": "Cree de nord-est",
+    "ru": "Северо-восточный кри",
+    "sk": "Northern east cree",
+    "sl": "Severovzhodna krijščina",
+    "uk": "Північна іст-крі"
   },
   "crm": {
     "name": "Moose Cree",
     "type": "living",
     "scope": "individual",
     "iso6393": "crm",
-    "en": "Moose Cree"
+    "en": "Moose Cree",
+    "de": "Moose Cree",
+    "es": "Cree moose",
+    "fr": "Cri de Moose",
+    "nl": "Moose Cree",
+    "pt-BR": "Moose cree",
+    "ro": "Cree (Moose)",
+    "ru": "Мусский кри",
+    "sk": "Moose cree",
+    "sl": "Moose-krijščina",
+    "uk": "Муз-крі"
   },
   "crn": {
     "name": "El Nayar Cora",
@@ -14216,7 +14454,17 @@
     "type": "extinct",
     "scope": "individual",
     "iso6393": "crr",
-    "en": "Carolina Algonquian"
+    "en": "Carolina Algonquian",
+    "de": "Carolina-Algonkin",
+    "es": "Algonquino de Carolina",
+    "fr": "Algonquin de Caroline",
+    "nl": "Carolina Algonkisch",
+    "pt-BR": "Algonquiano Carolina",
+    "ro": "Algonquiană Carolina",
+    "ru": "Каролинский алгонкинский",
+    "sk": "Karolínska algonkčina",
+    "sl": "Karolinska algonkinščina",
+    "uk": "Каролінська алгонкінська"
   },
   "crs": {
     "name": "Créole français Seselwa",
@@ -14423,7 +14671,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "csw",
-    "en": "Swampy Cree"
+    "en": "Swampy Cree",
+    "de": "Swampy Cree",
+    "es": "Cree de los pantanos",
+    "fr": "Cri des marais",
+    "nl": "Swampy Cree",
+    "pt-BR": "Cree swampy",
+    "ro": "Cree (Mlaștini)",
+    "ru": "Болотный кри",
+    "sk": "Swampy cree",
+    "sl": "Močvirska krijščina",
+    "uk": "Свампі-крі"
   },
   "csy": {
     "name": "Siyin Chin",
@@ -14702,7 +14960,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "cwd",
-    "en": "Woods Cree"
+    "en": "Cree",
+    "de": "Cree",
+    "es": "Cree",
+    "fr": "Cree",
+    "nl": "Cree",
+    "pt-BR": "Cree",
+    "ro": "Cree",
+    "ru": "Кри",
+    "sk": "Krí",
+    "sl": "Krijščina",
+    "uk": "Крі"
   },
   "cwe": {
     "name": "Kwere",
@@ -14941,7 +15209,7 @@
     "ru": "Таита",
     "sk": "Taita",
     "sl": "Taitajščina",
-    "uk": "Таіта"
+    "uk": "Таїта"
   },
   "daw": {
     "name": "Davawenyo",
@@ -15390,7 +15658,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "dgo",
-    "en": "Dogri (individual language)"
+    "en": "Dogri",
+    "de": "Dogri",
+    "es": "Dogri",
+    "fr": "Dogri",
+    "nl": "Dogri",
+    "pt-BR": "Dogri",
+    "ro": "Dogri",
+    "ru": "Догри",
+    "sk": "Dógrí",
+    "sl": "Dogri",
+    "uk": "Догрі"
   },
   "dgr": {
     "name": "Dogrib",
@@ -15443,7 +15721,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "dhd",
-    "en": "Dhundari"
+    "en": "Marwari",
+    "de": "Marwari",
+    "es": "Marwari",
+    "fr": "Marwarî",
+    "nl": "Marwari",
+    "pt-BR": "Marwari",
+    "ro": "Marwari",
+    "ru": "Марвари",
+    "sk": "Marwari",
+    "sl": "Marvarščina",
+    "uk": "Марварі"
   },
   "dhg": {
     "name": "Dhangu-Djangu",
@@ -15590,7 +15878,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "dik",
-    "en": "Southwestern Dinka"
+    "en": "Dinka",
+    "de": "Dinka",
+    "es": "Dinka",
+    "fr": "Dinka",
+    "nl": "Dinka",
+    "pt-BR": "Dinka",
+    "ro": "Dinka",
+    "ru": "Динка",
+    "sk": "Dinkčina",
+    "sl": "Dinka",
+    "uk": "Дінка"
   },
   "dil": {
     "name": "Dilling",
@@ -15644,7 +15942,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "diq",
-    "en": "Dimli (individual language)"
+    "en": "Zaza",
+    "de": "Zaza",
+    "es": "Zazaki",
+    "fr": "Zazaki",
+    "nl": "Zaza",
+    "pt-BR": "Zazaki",
+    "ro": "Zaza",
+    "ru": "Заза",
+    "sk": "Zaza",
+    "sl": "Zazajščina",
+    "uk": "Зазакі"
   },
   "dir": {
     "name": "Dirim",
@@ -16251,7 +16559,17 @@
     "en": "Rungus"
   },
   "drh": {
-    "en": "Darkhat"
+    "en": "Mongolian",
+    "de": "Mongolisch",
+    "es": "Mongol",
+    "fr": "Mongol",
+    "nl": "Mongools",
+    "pt-BR": "Mongol",
+    "ro": "Mongolă",
+    "ru": "Монгольский",
+    "sk": "Mongolčina",
+    "sl": "Mongolščina",
+    "uk": "Монгольська"
   },
   "dri": {
     "name": "C'Lela",
@@ -16313,7 +16631,17 @@
     "en": "Rukai"
   },
   "drw": {
-    "en": "Darwazi"
+    "en": "Dari",
+    "de": "Dari",
+    "es": "Darí",
+    "fr": "Dari",
+    "nl": "Dari",
+    "pt-BR": "Dari",
+    "ro": "Dari",
+    "ru": "Дари",
+    "sk": "Daríjčina",
+    "sl": "Darijščina",
+    "uk": "Дарі"
   },
   "dry": {
     "name": "Darai",
@@ -17063,7 +17391,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ekk",
-    "en": "Standard Estonian"
+    "en": "Estonian",
+    "de": "Estnisch",
+    "es": "Estonio",
+    "fr": "Estonien",
+    "nl": "Estisch",
+    "pt-BR": "Estoniano",
+    "ro": "Estonă",
+    "ru": "Эстонский",
+    "sk": "Estónčina",
+    "sl": "Estonščina",
+    "uk": "Естонська"
   },
   "ekl": {
     "name": "Kol (Bangladesh)",
@@ -17218,7 +17556,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "emk",
-    "en": "Eastern Maninkakan"
+    "en": "Mandingo",
+    "de": "Malinke",
+    "es": "Mandingo",
+    "fr": "Mandingue",
+    "nl": "Mandingo",
+    "pt-BR": "Mandinga",
+    "ro": "Mandingo",
+    "ru": "Мандинго",
+    "sk": "Mandingo",
+    "sl": "Mandingo",
+    "uk": "Мандінго"
   },
   "emm": {
     "name": "Mamulique",
@@ -17492,7 +17840,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "esk",
-    "en": "Northwest Alaska Inupiatun"
+    "en": "Inupiaq",
+    "de": "Inupiak",
+    "es": "Inupiaq",
+    "fr": "Inupiaq",
+    "nl": "Inupiaq",
+    "pt-BR": "Inupiaque",
+    "ro": "Inupiak",
+    "ru": "Инупиак",
+    "sk": "Inupik",
+    "sl": "Inupiaščina",
+    "uk": "Інупіак"
   },
   "esl": {
     "name": "Egypt Sign Language",
@@ -17819,17 +18177,17 @@
     "iso6393": "fat",
     "iso6392B": "fat",
     "iso6392T": "fat",
-    "en": "Fanti",
-    "de": "Fanti",
-    "es": "Fanti",
-    "fr": "Fanti",
-    "nl": "Fanti",
-    "pt-BR": "Fanti",
-    "ro": "Fanti",
-    "ru": "Фанти",
-    "sk": "Fanti",
-    "sl": "Fantijščina",
-    "uk": "Фанті"
+    "en": "Akan",
+    "de": "Akan",
+    "es": "Akan",
+    "fr": "Akan",
+    "nl": "Akan",
+    "pt-BR": "Akan",
+    "ro": "Akan",
+    "ru": "Акан",
+    "sk": "Akančina",
+    "sl": "Akanščina",
+    "uk": "Акан"
   },
   "fau": {
     "name": "Fayu",
@@ -18129,7 +18487,7 @@
     "pt-BR": "Francês cajun",
     "ro": "Franceză cajun",
     "ru": "Каджунский французский",
-    "sk": "Francúzština (Cajun)",
+    "sk": "Francúzština (cajunská)",
     "sl": "Cajunska francoščina",
     "uk": "Кажунська французька"
   },
@@ -18213,7 +18571,7 @@
     "en": "Northern Frisian",
     "de": "Nordfriesisch",
     "es": "Frisón septentrional",
-    "fr": "Frison du Nord",
+    "fr": "Frison septentrional",
     "nl": "Noord-Fries",
     "pt-BR": "Frísio setentrional",
     "ro": "Frizonă nordică",
@@ -18281,7 +18639,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "fuc",
-    "en": "Pulaar"
+    "en": "Fula",
+    "de": "Ful",
+    "es": "Fula",
+    "fr": "Peul",
+    "nl": "Fulah",
+    "pt-BR": "Fula",
+    "ro": "Fulah",
+    "ru": "Фулах",
+    "sk": "Fulbčina",
+    "sl": "Fulščina",
+    "uk": "Фула"
   },
   "fud": {
     "name": "East Futuna",
@@ -18631,7 +18999,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "gaz",
-    "en": "West Central Oromo"
+    "en": "Oromo",
+    "de": "Oromo",
+    "es": "Oromo",
+    "fr": "Oromo",
+    "nl": "Afaan Oromo",
+    "pt-BR": "Oromo",
+    "ro": "Oromo",
+    "ru": "Оромо",
+    "sk": "Oromčina",
+    "sl": "Oromo",
+    "uk": "Оромо"
   },
   "gba": {
     "name": "Gbaya (Central African Republic)",
@@ -18744,7 +19122,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "gbo",
-    "en": "Northern Grebo"
+    "en": "Grebo",
+    "de": "Grebo",
+    "es": "Grebo",
+    "fr": "Grebo",
+    "nl": "Grebo",
+    "pt-BR": "Grebo",
+    "ro": "Grebo",
+    "ru": "Гребо",
+    "sk": "Grebo",
+    "sl": "Grebščina",
+    "uk": "Гребо"
   },
   "gbp": {
     "name": "Gbaya-Bossangoa",
@@ -19075,7 +19463,18 @@
     "en": "Germanic languages"
   },
   "geo": {
-    "name": "ქართული"
+    "name": "ქართული",
+    "de": "Georgisch",
+    "en": "Georgian",
+    "es": "Georgiano",
+    "fr": "Géorgien",
+    "nl": "Georgisch",
+    "pt-BR": "Georgiano",
+    "ro": "Georgiană",
+    "ru": "Грузинский",
+    "sk": "Gruzínčina",
+    "sl": "Gruzijščina",
+    "uk": "Грузинська"
   },
   "geq": {
     "name": "Geme",
@@ -19755,7 +20154,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "gno",
-    "en": "Northern Gondi"
+    "en": "Gondi",
+    "de": "Gondi",
+    "es": "Gondi",
+    "fr": "Gondi",
+    "nl": "Gondi",
+    "pt-BR": "Gondi",
+    "ro": "Gondi",
+    "ru": "Гонди",
+    "sk": "Góndčina",
+    "sl": "Gondi",
+    "uk": "Гонді"
   },
   "gnq": {
     "name": "Gana",
@@ -20307,7 +20716,7 @@
     "ru": "Швейцарский немецкий",
     "sk": "Nemčina (švajčiarska)",
     "sl": "Nemščina (Švica)",
-    "uk": "Швейцарська німецька"
+    "uk": "Німецька (Швейцарія)"
   },
   "gta": {
     "name": "Guató",
@@ -20369,7 +20778,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "gug",
-    "en": "Paraguayan Guaraní"
+    "en": "Guarani",
+    "de": "Guaraní",
+    "es": "Guaraní",
+    "fr": "Guarani",
+    "nl": "Guaraní",
+    "pt-BR": "Guarani",
+    "ro": "Guarani",
+    "ru": "Гуарани",
+    "sk": "Guaraníjčina",
+    "sl": "Gvaranijščina",
+    "uk": "Гуарані"
   },
   "guh": {
     "name": "Guahibo",
@@ -20720,7 +21139,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "gya",
-    "en": "Northwest Gbaya"
+    "en": "Gbaya",
+    "de": "Gbaya",
+    "es": "Gbaya",
+    "fr": "Gbaya",
+    "nl": "Gbaya",
+    "pt-BR": "Gbaia",
+    "ro": "Gbaya",
+    "ru": "Гбая",
+    "sk": "Gbaja",
+    "sl": "Gbajščina",
+    "uk": "Гбайя"
   },
   "gyb": {
     "name": "Garus",
@@ -20886,7 +21315,7 @@
     "en": "Haida",
     "de": "Haida",
     "es": "Haida",
-    "fr": "Haida",
+    "fr": "Haïda",
     "nl": "Haida",
     "pt-BR": "Haida",
     "ro": "Haida",
@@ -21004,7 +21433,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "hax",
-    "en": "Southern Haida"
+    "en": "Southern Haida",
+    "de": "Süd-Haida",
+    "es": "Haida meridional",
+    "fr": "Haïda du Sud",
+    "nl": "Zuid-Haida",
+    "pt-BR": "Haida do sul",
+    "ro": "Haida de sud",
+    "ru": "Южный хайда",
+    "sk": "Haida (juh)",
+    "sl": "Južna haidščina",
+    "uk": "Південна гайда"
   },
   "hay": {
     "name": "Haya",
@@ -21074,7 +21513,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "hdn",
-    "en": "Northern Haida"
+    "en": "Haida",
+    "de": "Haida",
+    "es": "Haida",
+    "fr": "Haïda",
+    "nl": "Haida",
+    "pt-BR": "Haida",
+    "ro": "Haida",
+    "ru": "Хайда",
+    "sk": "Haida",
+    "sl": "Haidščina",
+    "uk": "Хайда"
   },
   "hds": {
     "name": "Honduras Sign Language",
@@ -21095,7 +21544,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "hea",
-    "en": "Northern Qiandong Miao"
+    "en": "Hmong",
+    "de": "Miao",
+    "es": "Hmong",
+    "fr": "Hmong",
+    "nl": "Hmong",
+    "pt-BR": "Hmong",
+    "ro": "Hmong",
+    "ru": "Хмонг",
+    "sk": "Hmongčina",
+    "sl": "Hmonščina",
+    "uk": "Хмонг"
   },
   "hed": {
     "name": "Herdé",
@@ -22061,7 +22520,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "hur",
-    "en": "Halkomelem"
+    "en": "Halkomelem",
+    "de": "Halkomelem",
+    "es": "Halkomelem",
+    "fr": "Halkomelem",
+    "nl": "Halkomelem",
+    "pt-BR": "Halkomelem",
+    "ro": "Halkomelem",
+    "ru": "Халкомелем",
+    "sk": "Halkomelem",
+    "sl": "Halkomelenščina",
+    "uk": "Галкомелем"
   },
   "hus": {
     "name": "Tenek",
@@ -22609,7 +23078,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ike",
-    "en": "Eastern Canadian Inuktitut"
+    "en": "Inuktitut",
+    "de": "Inuktitut",
+    "es": "Inuktitut",
+    "fr": "Inuktitut",
+    "nl": "Inuktitut",
+    "pt-BR": "Inuktitut",
+    "ro": "Inuktitut",
+    "ru": "Инуктитут",
+    "sk": "Inuktitut",
+    "sl": "Inuktitutščina",
+    "uk": "Інуктитут"
   },
   "iki": {
     "name": "Iko",
@@ -22651,7 +23130,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ikt",
-    "en": "Western Canadian Inuktitut"
+    "en": "Western Canadian Inuktitut",
+    "de": "Westkanadisches Inuktitut",
+    "es": "Inuit del oeste de Canadá",
+    "fr": "Inuktitut de l’Ouest canadien",
+    "nl": "Westelijk Canadees Inuktitut",
+    "pt-BR": "Inuktitut canadense ocidental",
+    "ro": "Inuktitut canadiană occidentală",
+    "ru": "Восточноканадский инуктитут",
+    "sk": "Inuktitut (západná Kanada)",
+    "sl": "Zahodna kanadska inuktituščina",
+    "uk": "Західноканадська інуктитут"
   },
   "ikv": {
     "name": "Iku-Gora-Ankwa",
@@ -24274,7 +24763,7 @@
     "iso6392T": "kab",
     "en": "Kabyle",
     "de": "Kabylisch",
-    "es": "Cabila",
+    "es": "Cabileño",
     "fr": "Kabyle",
     "nl": "Kabylisch",
     "pt-BR": "Kabyle",
@@ -25521,8 +26010,15 @@
     "iso6393": "kgp",
     "en": "Kaingang",
     "de": "Kaingang",
+    "es": "Káingang",
     "fr": "Caingangue",
-    "nl": "Kaingang"
+    "nl": "Kaingang",
+    "pt-BR": "Caingangue",
+    "ro": "Kaingang",
+    "ru": "Каинганг",
+    "sk": "Kaingang",
+    "sl": "Kaingangščina",
+    "uk": "Кайнґанґ"
   },
   "kgq": {
     "name": "Kamoro",
@@ -25670,7 +26166,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "khk",
-    "en": "Halh Mongolian"
+    "en": "Mongolian",
+    "de": "Mongolisch",
+    "es": "Mongol",
+    "fr": "Mongol",
+    "nl": "Mongools",
+    "pt-BR": "Mongol",
+    "ro": "Mongolă",
+    "ru": "Монгольский",
+    "sk": "Mongolčina",
+    "sl": "Mongolščina",
+    "uk": "Монгольська"
   },
   "khl": {
     "name": "Lusi",
@@ -25727,7 +26233,7 @@
     "ru": "Койра чиини",
     "sk": "Západná songhajčina",
     "sl": "Koyra chiini",
-    "uk": "Койра чіїні"
+    "uk": "Койра чиїні"
   },
   "khr": {
     "name": "Kharia",
@@ -26647,11 +27153,21 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "kmr",
-    "en": "Northern Kurdish",
+    "en": "Kurdish",
     "scripts": [
       "Cyrl",
       "Latn"
-    ]
+    ],
+    "de": "Kurdisch",
+    "es": "Kurdo",
+    "fr": "Kurde",
+    "nl": "Koerdisch",
+    "pt-BR": "Curdo",
+    "ro": "Kurdă",
+    "ru": "Курдский",
+    "sk": "Kurdčina",
+    "sl": "Kurdščina",
+    "uk": "Курдська"
   },
   "kms": {
     "name": "Kamasau",
@@ -26729,7 +27245,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "knc",
-    "en": "Central Kanuri"
+    "en": "Kanuri",
+    "de": "Kanuri",
+    "es": "Kanuri",
+    "fr": "Kanouri",
+    "nl": "Kanuri",
+    "pt-BR": "Canúri",
+    "ro": "Kanuri",
+    "ru": "Канури",
+    "sk": "Kanurijčina",
+    "sl": "Kanurščina",
+    "uk": "Канурі"
   },
   "knd": {
     "name": "Konda",
@@ -26757,7 +27283,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "kng",
-    "en": "Koongo"
+    "en": "Kongo",
+    "de": "Kongolesisch",
+    "es": "Kongo",
+    "fr": "Kikongo",
+    "nl": "Kongo",
+    "pt-BR": "Congolês",
+    "ro": "Congoleză",
+    "ru": "Конго",
+    "sk": "Kongčina",
+    "sl": "Kongovščina",
+    "uk": "Конґолезька"
   },
   "kni": {
     "name": "Kanufi",
@@ -26799,7 +27335,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "knn",
-    "en": "Konkani (individual language)"
+    "en": "Konkani",
+    "de": "Konkani",
+    "es": "Konkaní",
+    "fr": "Konkani",
+    "nl": "Konkani",
+    "pt-BR": "Concani",
+    "ro": "Konkani",
+    "ru": "Конкани",
+    "sk": "Konkánčina",
+    "sl": "Konkanščina",
+    "uk": "Конкані"
   },
   "kno": {
     "name": "Kono (Sierra Leone)",
@@ -27225,7 +27771,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "kpv",
-    "en": "Komi-Zyrian"
+    "en": "Komi",
+    "de": "Komi",
+    "es": "Komi",
+    "fr": "Komi",
+    "nl": "Komi",
+    "pt-BR": "Komi",
+    "ro": "Komi",
+    "ru": "Коми",
+    "sk": "Komijčina",
+    "sl": "Komijščina",
+    "uk": "Комі"
   },
   "kpw": {
     "name": "Kobon",
@@ -28481,7 +29037,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "kwk",
-    "en": "Kwakiutl"
+    "en": "Kwakʼwala",
+    "de": "Kwakʼwala",
+    "es": "Kwakʼwala",
+    "fr": "Kwak’wala",
+    "nl": "Kwakʼwala",
+    "pt-BR": "Kwakʼwala",
+    "ro": "Kwakʼwala",
+    "ru": "Квакиутль",
+    "sk": "Kwakʼwala",
+    "sl": "Kvakvala",
+    "uk": "Кваквала"
   },
   "kwl": {
     "name": "Kofyar",
@@ -28651,7 +29217,17 @@
     "en": "Zayein Karen"
   },
   "kxl": {
-    "en": "Nepali Kurux"
+    "en": "Kurukh",
+    "de": "Oraon",
+    "es": "Kurukh",
+    "fr": "Kouroukh",
+    "nl": "Kurukh",
+    "pt-BR": "Kurukh",
+    "ro": "Kurukh",
+    "ru": "Курух",
+    "sk": "Kuruchčina",
+    "sl": "Kuruk",
+    "uk": "Курукх"
   },
   "kxm": {
     "name": "Northern Khmer",
@@ -29143,7 +29719,7 @@
     "ru": "Ладино",
     "sk": "Židovská španielčina",
     "sl": "Ladinščina",
-    "uk": "Ладіно"
+    "uk": "Ладино"
   },
   "lae": {
     "name": "Pattani",
@@ -29183,7 +29759,7 @@
     "iso6393": "lah",
     "iso6392B": "lah",
     "iso6392T": "lah",
-    "en": "Lahnda",
+    "en": "Western Panjabi",
     "de": "Lahnda",
     "es": "Lahnda",
     "fr": "Lahnda",
@@ -30071,7 +30647,9 @@
     "en": "Ligurian",
     "de": "Ligurisch",
     "fr": "Ligure",
-    "nl": "Ligurisch"
+    "nl": "Ligurisch",
+    "ro": "Liguriană",
+    "uk": "Лігурійська"
   },
   "lik": {
     "name": "Lika",
@@ -30085,7 +30663,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "lil",
-    "en": "Lillooet"
+    "en": "Lillooet",
+    "de": "Lillooet",
+    "es": "Lillooet",
+    "fr": "Lillooet",
+    "nl": "Lillooet",
+    "pt-BR": "Lillooet",
+    "ro": "Lillooet",
+    "ru": "Лиллуэт",
+    "sk": "Lillooet",
+    "sl": "Lilovetščina",
+    "uk": "Лілуетська"
   },
   "lin": {
     "name": "Lingála",
@@ -30555,8 +31143,11 @@
     "iso6393": "lmo",
     "en": "Lombard",
     "de": "Lombardisch",
+    "es": "Lombardo",
     "fr": "Lombard",
-    "nl": "Lombardisch"
+    "nl": "Lombardisch",
+    "pt-BR": "Lombardo",
+    "uk": "Ломбардська"
   },
   "lmp": {
     "name": "Limbum",
@@ -31117,7 +31708,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "lsm",
-    "en": "Saamia"
+    "en": "Saamia",
+    "de": "Saamia",
+    "es": "Samia",
+    "fr": "Samia",
+    "nl": "Saamia",
+    "pt-BR": "Saamia",
+    "ro": "Saamia",
+    "ru": "Саамиа",
+    "sk": "Saamia",
+    "sl": "Saamijščina",
+    "uk": "Самія"
   },
   "lso": {
     "name": "Laos Sign Language",
@@ -31684,7 +32285,7 @@
     "name": "മലയാളം",
     "en": "Malayalam",
     "de": "Malayalam",
-    "es": "Malayalam",
+    "es": "Malayálam",
     "fr": "Malayalam",
     "nl": "Malayalam",
     "pt-BR": "Malaiala",
@@ -33073,7 +33674,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "mhr",
-    "en": "Eastern Mari"
+    "en": "Mari",
+    "de": "Mari",
+    "es": "Marí",
+    "fr": "Mari",
+    "nl": "Mari",
+    "pt-BR": "Mari",
+    "ro": "Mari",
+    "ru": "Марийский",
+    "sk": "Marijčina",
+    "sl": "Marijščina",
+    "uk": "Марійська"
   },
   "mhs": {
     "name": "Buru (Indonesia)",
@@ -33145,7 +33756,7 @@
     "iso6393": "mic",
     "iso6392B": "mic",
     "iso6392T": "mic",
-    "en": "Mi'kmaq",
+    "en": "Mi'kmaw",
     "de": "Micmac",
     "es": "Micmac",
     "fr": "Micmac",
@@ -34070,7 +34681,7 @@
     "iso6392T": "mni",
     "en": "Manipuri",
     "de": "Meithei",
-    "es": "Manipuri",
+    "es": "Manipurí",
     "fr": "Manipuri",
     "nl": "Meitei",
     "pt-BR": "Manipuri",
@@ -34092,7 +34703,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "mnk",
-    "en": "Mandinka"
+    "en": "Mandingo",
+    "de": "Malinke",
+    "es": "Mandingo",
+    "fr": "Mandingue",
+    "nl": "Mandingo",
+    "pt-BR": "Mandinga",
+    "ro": "Mandingo",
+    "ru": "Мандинго",
+    "sk": "Mandingo",
+    "sl": "Mandingo",
+    "uk": "Мандінго"
   },
   "mnl": {
     "name": "Tiale",
@@ -34217,7 +34838,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "moe",
-    "en": "Montagnais"
+    "en": "Innu-aimun",
+    "de": "Innu-Aimun",
+    "es": "Innu-aimun",
+    "fr": "Innu-aimun",
+    "nl": "Innu-aimun",
+    "pt-BR": "Innu-aimun",
+    "ro": "Innu-aimun",
+    "ru": "Инну-аймун",
+    "sk": "Innu-aimunčina",
+    "sl": "Inuaimunščina",
+    "uk": "Інну-аймун"
   },
   "mof": {
     "en": "Mohegan-Montauk-Narragansett"
@@ -35370,7 +36001,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "mup",
-    "en": "Malvi"
+    "en": "Rajasthani",
+    "de": "Rajasthani",
+    "es": "Rajasthani",
+    "fr": "Rajasthani",
+    "nl": "Rajasthani",
+    "pt-BR": "Rajastani",
+    "ro": "Rajasthani",
+    "ru": "Раджастхани",
+    "sk": "Radžastančina",
+    "sl": "Radžastanščina",
+    "uk": "Раджастхані"
   },
   "muq": {
     "name": "Eastern Xiangxi Miao",
@@ -37171,7 +37812,7 @@
     "iso6392T": "new",
     "en": "Newari",
     "de": "Newari",
-    "es": "Newari",
+    "es": "Nevarí",
     "fr": "Newari",
     "nl": "Newari",
     "pt-BR": "Newari",
@@ -38723,7 +39364,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "npi",
-    "en": "Nepali (individual language)"
+    "en": "Nepali",
+    "de": "Nepalesisch",
+    "es": "Nepalí",
+    "fr": "Népalais",
+    "nl": "Nepalees",
+    "pt-BR": "Nepalês",
+    "ro": "Nepaleză",
+    "ru": "Непальский",
+    "sk": "Nepálčina",
+    "sl": "Nepalščina",
+    "uk": "Непальська"
   },
   "npl": {
     "name": "Southeastern Puebla Nahuatl",
@@ -40017,21 +40668,51 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ojb",
-    "en": "Northwestern Ojibwa"
+    "en": "Northwestern Ojibwa",
+    "de": "Nordwest-Ojibwe",
+    "es": "Ojibwa noroccidental",
+    "fr": "Ojibwé du Nord-Ouest",
+    "nl": "Noordwest-Ojibwe",
+    "pt-BR": "Ojibwa do noroeste",
+    "ro": "Ojibwa de nord-vest",
+    "ru": "Северо-западный оджибве",
+    "sk": "Northwestern ojibwa",
+    "sl": "Severozahodna očipvejščina",
+    "uk": "Північно-західна оджибве"
   },
   "ojc": {
     "name": "Central Ojibwa",
     "type": "living",
     "scope": "individual",
     "iso6393": "ojc",
-    "en": "Central Ojibwa"
+    "en": "Central Ojibwa",
+    "de": "Zentral-Ojibwe",
+    "es": "Ojibwa central",
+    "fr": "Ojibwé central",
+    "nl": "Centraal Ojibwa",
+    "pt-BR": "Ojibwa central",
+    "ro": "Ojibwa centrală",
+    "ru": "Центральный оджибве",
+    "sk": "Centrálna odžibvejčina",
+    "sl": "Osrednja očipvejščina",
+    "uk": "Центральна оджибве"
   },
   "ojg": {
     "name": "Eastern Ojibwa",
     "type": "living",
     "scope": "individual",
     "iso6393": "ojg",
-    "en": "Eastern Ojibwa"
+    "en": "Ojibwa",
+    "de": "Ojibwa",
+    "es": "Ojibwa",
+    "fr": "Ojibwa",
+    "nl": "Ojibwa",
+    "pt-BR": "Ojibwa",
+    "ro": "Ojibwa",
+    "ru": "Оджибва",
+    "sk": "Odžibva",
+    "sl": "Anašinabščina",
+    "uk": "Оджібва"
   },
   "ojp": {
     "name": "Old Japanese",
@@ -40045,7 +40726,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ojs",
-    "en": "Severn Ojibwa"
+    "en": "Oji-Cree",
+    "de": "Oji-Cree",
+    "es": "Oji-cree",
+    "fr": "Oji-cri",
+    "nl": "Oji-Cree",
+    "pt-BR": "Oji-cree",
+    "ro": "Oji-cree",
+    "ru": "Оджи-кри",
+    "sk": "Oji-cree",
+    "sl": "Oči-krijščina",
+    "uk": "Оджи-крі"
   },
   "ojv": {
     "name": "Ontong Java",
@@ -40059,14 +40750,34 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ojw",
-    "en": "Western Ojibwa"
+    "en": "Western Ojibwa",
+    "de": "West-Ojibwe",
+    "es": "Ojibwa occidental",
+    "fr": "Ojibwé occidental",
+    "nl": "West-Ojibwe",
+    "pt-BR": "Ojibwa ocidental",
+    "ro": "Ojibwa de vest",
+    "ru": "Западный оджибве",
+    "sk": "Ojibwa (západ)",
+    "sl": "Zahodna očipvejščina",
+    "uk": "Західна оджибве"
   },
   "oka": {
     "name": "Okanagan",
     "type": "living",
     "scope": "individual",
     "iso6393": "oka",
-    "en": "Okanagan"
+    "en": "Okanagan",
+    "de": "Okanagan",
+    "es": "Okanagan",
+    "fr": "Colville-okanagan",
+    "nl": "Okanagan",
+    "pt-BR": "Okanagan",
+    "ro": "Okanagan",
+    "ru": "Оканаган",
+    "sk": "Okanagan",
+    "sl": "Okanaganščina",
+    "uk": "Оканаганська"
   },
   "okb": {
     "name": "Okobo",
@@ -40628,7 +41339,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ory",
-    "en": "Oriya (individual language)"
+    "en": "Odia",
+    "de": "Oriya",
+    "es": "Oriya",
+    "fr": "Odia",
+    "nl": "Odia",
+    "pt-BR": "Oriá",
+    "ro": "Odia",
+    "ru": "Ория",
+    "sk": "Uríjčina",
+    "sl": "Odijščina",
+    "uk": "Одія"
   },
   "orz": {
     "name": "Ormu",
@@ -41259,7 +41980,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "pbu",
-    "en": "Northern Pashto"
+    "en": "Pashto",
+    "de": "Paschtu",
+    "es": "Pastún",
+    "fr": "Pachto",
+    "nl": "Pasjtoe",
+    "pt-BR": "Pashto",
+    "ro": "Paștună",
+    "ru": "Пушту",
+    "sk": "Paštčina",
+    "sl": "Paštunščina",
+    "uk": "Пушту"
   },
   "pbv": {
     "name": "Pnar",
@@ -41583,7 +42314,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "pes",
-    "en": "Western Farsi"
+    "en": "Persian",
+    "de": "Persisch",
+    "es": "Persa",
+    "fr": "Persan",
+    "nl": "Perzisch",
+    "pt-BR": "Persa",
+    "ro": "Persană",
+    "ru": "Персидский",
+    "sk": "Perzština",
+    "sl": "Perzijščina",
+    "uk": "Перська"
   },
   "pev": {
     "name": "Pémono",
@@ -41926,7 +42667,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "pis",
-    "en": "Pijin"
+    "en": "Pijin",
+    "de": "Pijin",
+    "es": "Pidgin salomonense",
+    "fr": "Pijin",
+    "nl": "Pijin",
+    "pt-BR": "Pijin",
+    "ro": "Pijin",
+    "ru": "Соломонский пиджин",
+    "sk": "Pidžin",
+    "sl": "Pidžin",
+    "uk": "Піджин"
   },
   "pit": {
     "name": "Pitta Pitta",
@@ -42184,7 +42935,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "plt",
-    "en": "Plateau Malagasy"
+    "en": "Malagasy",
+    "de": "Malagasy",
+    "es": "Malgache",
+    "fr": "Malgache",
+    "nl": "Malagassisch",
+    "pt-BR": "Malgaxe",
+    "ro": "Malgașă",
+    "ru": "Малагасийский",
+    "sk": "Malgaština",
+    "sl": "Malgaščina",
+    "uk": "Малагасійська"
   },
   "plu": {
     "name": "Palikúr",
@@ -42382,7 +43143,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "pnb",
-    "en": "Western Panjabi"
+    "en": "Western Panjabi",
+    "de": "Lahnda",
+    "es": "Lahnda",
+    "fr": "Lahnda",
+    "nl": "Lahnda",
+    "pt-BR": "Lahnda",
+    "ro": "Lahnda",
+    "ru": "Лахнда",
+    "sk": "Lahandčina",
+    "sl": "Landa",
+    "uk": "Ланда"
   },
   "pnc": {
     "name": "Pannei",
@@ -42770,7 +43541,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "pqm",
-    "en": "Malecite-Passamaquoddy"
+    "en": "Maliseet-Passamaquoddy",
+    "de": "Maliseet-Passamaquoddy",
+    "es": "Maliseet-passamaquoddy",
+    "fr": "Malécite-passamaquoddy",
+    "nl": "Maliseet-Passamaquoddy",
+    "pt-BR": "Malecite–passamaquoddy",
+    "ro": "Maliseet-passamaquoddy",
+    "ru": "Малесит-пассамакводди",
+    "sk": "Maliseet-passamaquoddy",
+    "sl": "Maliseet-passamaquoddščina",
+    "uk": "Малесіт-пасамакводі"
   },
   "pqw": {
     "en": "Western Malayo-Polynesian languages"
@@ -42913,7 +43694,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "prs",
-    "en": "Dari"
+    "en": "Dari",
+    "de": "Dari",
+    "es": "Darí",
+    "fr": "Dari",
+    "nl": "Dari",
+    "pt-BR": "Dari",
+    "ro": "Dari",
+    "ru": "Дари",
+    "sk": "Daríjčina",
+    "sl": "Darijščina",
+    "uk": "Дарі"
   },
   "prt": {
     "name": "Phai",
@@ -43579,7 +44370,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "quz",
-    "en": "Cusco Quechua"
+    "en": "Quechua",
+    "de": "Quechua",
+    "es": "Quechua",
+    "fr": "Quechua",
+    "nl": "Quechua",
+    "pt-BR": "Quíchua",
+    "ro": "Quechua",
+    "ru": "Кечуа",
+    "sk": "Kečuánčina",
+    "sl": "Kečuanščina",
+    "uk": "Кечуа"
   },
   "qva": {
     "name": "Ambo-Pasco Quechua",
@@ -44216,7 +45017,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "rhg",
-    "en": "Rohingya"
+    "en": "Rohingya",
+    "de": "Rohingyalisch",
+    "es": "Rohinyá",
+    "fr": "Rohingya",
+    "nl": "Rohingya",
+    "pt-BR": "Ruainga",
+    "ro": "Rohingya",
+    "ru": "Рохинджа",
+    "sk": "Rohingčina",
+    "sl": "Rohinščina",
+    "uk": "Рогінджа"
   },
   "rhp": {
     "name": "Yahang",
@@ -44511,7 +45322,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "rmy",
-    "en": "Vlax Romani"
+    "en": "Romany",
+    "de": "Romani",
+    "es": "Romaní",
+    "fr": "Romani",
+    "nl": "Romani",
+    "pt-BR": "Romani",
+    "ro": "Romani",
+    "ru": "Цыганский",
+    "sk": "Rómčina",
+    "sl": "Romščina",
+    "uk": "Циганська"
   },
   "rmz": {
     "name": "Marma",
@@ -45000,7 +45821,7 @@
     "iso6393": "sah",
     "iso6392B": "sah",
     "iso6392T": "sah",
-    "en": "Sakha",
+    "en": "Yakut",
     "scripts": [
       "Cyrl"
     ],
@@ -46758,7 +47579,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "slh",
-    "en": "Southern Puget Sound Salish"
+    "en": "Southern Lushootseed",
+    "de": "Süd-Lushootseed",
+    "es": "Lushootseed meridional",
+    "fr": "Lushootseed du Sud",
+    "nl": "Zuid-Lushootseed",
+    "pt-BR": "Lushootseed do sul",
+    "ro": "Lushootseed de usd",
+    "ru": "Южный лушуцид",
+    "sk": "Lushootseed (juh)",
+    "sl": "Južna lušucidščina",
+    "uk": "Південна лушуцид"
   },
   "sli": {
     "name": "Lower Silesian",
@@ -46909,7 +47740,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "smd",
-    "en": "Sama"
+    "en": "Kimbundu",
+    "de": "Kimbundu",
+    "es": "Kimbundu",
+    "fr": "Kimboundou",
+    "nl": "Kimbundu",
+    "pt-BR": "Quimbundo",
+    "ro": "Kimbundu",
+    "ru": "Кимбунду",
+    "sk": "Kimbundu",
+    "sl": "Kimbundu",
+    "uk": "Кімбунду"
   },
   "smf": {
     "name": "Auwe",
@@ -47088,7 +47929,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "snb",
-    "en": "Sebuyau"
+    "en": "Iban",
+    "de": "Iban",
+    "es": "Iban",
+    "fr": "Iban",
+    "nl": "Iban",
+    "pt-BR": "Iban",
+    "ro": "Iban",
+    "ru": "Ибанский",
+    "sk": "Ibančina",
+    "sl": "Ibanščina",
+    "uk": "Ібанська"
   },
   "snc": {
     "name": "Sinaugoro",
@@ -47547,7 +48398,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "spy",
-    "en": "Sabaot"
+    "en": "Kalenjin",
+    "de": "Kalenjin",
+    "es": "Kalenjin",
+    "fr": "Kalendjin",
+    "nl": "Kalenjin",
+    "pt-BR": "Kalenjin",
+    "ro": "Kalenjin",
+    "ru": "Календжин",
+    "sk": "Kalendžin",
+    "sl": "Kalenjinščina",
+    "uk": "Календжин"
   },
   "sqa": {
     "name": "Shama-Sambuga",
@@ -47641,7 +48502,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "src",
-    "en": "Logudorese Sardinian"
+    "en": "Sardinian",
+    "de": "Sardisch",
+    "es": "Sardo",
+    "fr": "Sarde",
+    "nl": "Sardijns",
+    "pt-BR": "Sardo",
+    "ro": "Sardiniană",
+    "ru": "Сардинский",
+    "sk": "Sardínčina",
+    "sl": "Sardinščina",
+    "uk": "Сардинська"
   },
   "sre": {
     "name": "Sara",
@@ -48108,7 +48979,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "str",
-    "en": "Straits Salish"
+    "en": "Straits Salish",
+    "de": "Straits Salish",
+    "es": "Salish de los estrechos",
+    "fr": "Salish des détroits",
+    "nl": "Straits Salish",
+    "pt-BR": "Salish do estreito norte",
+    "ro": "Salish (Strâmtori)",
+    "ru": "Стрейтс салиш",
+    "sk": "Straits salish",
+    "sl": "Ožinska sališčina",
+    "uk": "Саліська стрейт"
   },
   "sts": {
     "name": "Shumashti",
@@ -48380,7 +49261,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "swc",
-    "en": "Congo Swahili"
+    "en": "Congo Swahili",
+    "de": "Kongo-Swahili",
+    "es": "Suajili del Congo",
+    "fr": "Swahili du Congo",
+    "nl": "Swahili (Congo-Kinshasa)",
+    "pt-BR": "Suaíli do Congo",
+    "ro": "Swahili (R.D. Congo)",
+    "ru": "Конголезский суахили",
+    "sk": "Svahilčina (konžská)",
+    "sl": "Kongoški svahili",
+    "uk": "Суахілі (Конго)"
   },
   "swf": {
     "name": "Sere",
@@ -48401,8 +49292,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "swh",
-    "en": "Swahili (individual language)",
-    "fr": "Swahili (Langue individuelle)"
+    "en": "Swahili",
+    "fr": "Swahili",
+    "de": "Suaheli",
+    "es": "Suajili",
+    "nl": "Swahili",
+    "pt-BR": "Suaíli",
+    "ro": "Swahili",
+    "ru": "Суахили",
+    "sk": "Swahilčina",
+    "sl": "Svahili",
+    "uk": "Суахілі"
   },
   "swi": {
     "name": "Sui",
@@ -49176,7 +50076,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "tce",
-    "en": "Southern Tutchone"
+    "en": "Southern Tutchone",
+    "de": "Südliches Tutchone",
+    "es": "Tutchone meridional",
+    "fr": "Tutchone du Sud",
+    "nl": "Zuid-Tutchone",
+    "pt-BR": "Tutchone do sul",
+    "ro": "Tutchone de sud",
+    "ru": "Южный тутчоне",
+    "sk": "Tutchone (juh)",
+    "sl": "Južna tučonščina",
+    "uk": "Південна тутчон"
   },
   "tcf": {
     "name": "Malinaltepec Me'phaa",
@@ -49821,7 +50731,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "tgx",
-    "en": "Tagish"
+    "en": "Tagish",
+    "de": "Tagish",
+    "es": "Tagish",
+    "fr": "Tagish",
+    "nl": "Tagish",
+    "pt-BR": "Tagish",
+    "ro": "Tagish",
+    "ru": "Тагиш",
+    "sk": "Tagiš",
+    "sl": "Tagiščina",
+    "uk": "Тагіш"
   },
   "tgy": {
     "name": "Togoyo",
@@ -49929,7 +50849,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "tht",
-    "en": "Tahltan"
+    "en": "Tahltan",
+    "de": "Tahltan",
+    "es": "Tahltan",
+    "fr": "Tahltan",
+    "nl": "Tahltan",
+    "pt-BR": "Tahltan",
+    "ro": "Tahltan",
+    "ru": "Талтан",
+    "sk": "Tahltan",
+    "sl": "Taltanščina",
+    "uk": "Талтан"
   },
   "thu": {
     "name": "Thuri",
@@ -50752,7 +51682,17 @@
     "en": "Tinoc Kallahan"
   },
   "tnf": {
-    "en": "Tangshewi"
+    "en": "Dari",
+    "de": "Dari",
+    "es": "Darí",
+    "fr": "Dari",
+    "nl": "Dari",
+    "pt-BR": "Dari",
+    "ro": "Dari",
+    "ru": "Дари",
+    "sk": "Daríjčina",
+    "sl": "Darijščina",
+    "uk": "Дарі"
   },
   "tng": {
     "name": "Tobanga",
@@ -51745,7 +52685,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ttm",
-    "en": "Northern Tutchone"
+    "en": "Northern Tutchone",
+    "de": "Nördliches Tutchone",
+    "es": "Tutchone septentrional",
+    "fr": "Tutchone du Nord",
+    "nl": "Noord-Tutchone",
+    "pt-BR": "Tutchone setentrional",
+    "ro": "Tutchone de nord",
+    "ru": "Северный тутчоне",
+    "sk": "Northern tutchone",
+    "sl": "Severna tučonščina",
+    "uk": "Північна тутчон"
   },
   "ttn": {
     "name": "Towei",
@@ -51773,7 +52723,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ttq",
-    "en": "Tawallammat Tamajaq"
+    "en": "Tamashek",
+    "de": "Tamaseq",
+    "es": "Tamashek",
+    "fr": "Tamacheq",
+    "nl": "Tamashek",
+    "pt-BR": "Tamaxeque",
+    "ro": "Tamashek",
+    "ru": "Тамашек",
+    "sk": "Tuaregčina",
+    "sl": "Tamajaščina",
+    "uk": "Тамашек"
   },
   "ttr": {
     "name": "Tera",
@@ -53004,7 +53964,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "umu",
-    "en": "Munsee"
+    "en": "Delaware",
+    "de": "Delaware",
+    "es": "Delaware",
+    "fr": "Delaware",
+    "nl": "Delaware",
+    "pt-BR": "Delaware",
+    "ro": "Delaware",
+    "ru": "Делаварский",
+    "sk": "Delawarčina",
+    "sl": "Delavarščina",
+    "uk": "Делаварська"
   },
   "una": {
     "name": "North Watut",
@@ -53393,7 +54363,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "uzn",
-    "en": "Northern Uzbek"
+    "en": "Uzbek",
+    "de": "Usbekisch",
+    "es": "Uzbeko",
+    "fr": "Ouzbek",
+    "nl": "Oezbeeks",
+    "pt-BR": "Uzbeque",
+    "ro": "Uzbecă",
+    "ru": "Узбекский",
+    "sk": "Uzbečtina",
+    "sl": "Uzbeščina",
+    "uk": "Узбецька"
   },
   "uzs": {
     "name": "Southern Uzbek",
@@ -53548,7 +54528,8 @@
     "en": "Venetian",
     "de": "Venetisch",
     "fr": "Vénitien",
-    "nl": "Venetiaans"
+    "nl": "Venetiaans",
+    "ro": "Venetă"
   },
   "ved": {
     "name": "Veddah",
@@ -55501,8 +56482,10 @@
     "nl": "Wuyu",
     "pt-BR": "Wu",
     "ro": "Chineză wu",
-    "ru": "Ву",
-    "uk": "Уська китайська"
+    "ru": "У",
+    "sk": "Čínština (wu)",
+    "sl": "Wu-kitajščina",
+    "uk": "Китайська уська"
   },
   "wuv": {
     "name": "Wuvulu-Aua",
@@ -56741,7 +57724,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "xpe",
-    "en": "Liberia Kpelle"
+    "en": "Kpelle",
+    "de": "Kpelle",
+    "es": "Kpelle",
+    "fr": "Kpellé",
+    "nl": "Kpelle",
+    "pt-BR": "Kpelle",
+    "ro": "Kpelle",
+    "ru": "Кпелле",
+    "sk": "Kpelle",
+    "sl": "Kpelejščina",
+    "uk": "Кпеллє"
   },
   "xpg": {
     "name": "Phrygian",
@@ -56965,7 +57958,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "xsl",
-    "en": "South Slavey"
+    "en": "Slave",
+    "de": "Slave",
+    "es": "Slave",
+    "fr": "Esclave",
+    "nl": "Slavey",
+    "pt-BR": "Slave",
+    "ro": "Slave",
+    "ru": "Слейви",
+    "sk": "Slavé",
+    "sl": "Slavejščina",
+    "uk": "Слейв"
   },
   "xsm": {
     "name": "Kasem",
@@ -57738,7 +58741,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "ydd",
-    "en": "Eastern Yiddish"
+    "en": "Yiddish",
+    "de": "Jiddisch",
+    "es": "Yidis",
+    "fr": "Yiddish",
+    "nl": "Jiddisch",
+    "pt-BR": "Iídiche",
+    "ro": "Idiș",
+    "ru": "Идиш",
+    "sk": "Jidiš",
+    "sl": "Jidiš",
+    "uk": "Їдиш"
   },
   "yde": {
     "name": "Yangum Dey",
@@ -58568,8 +59581,15 @@
     "iso6393": "yrl",
     "en": "Nheengatu",
     "de": "Nheengatu",
+    "es": "Ñe’engatú",
     "fr": "Nheengatou",
-    "nl": "Nheengatu"
+    "nl": "Nheengatu",
+    "pt-BR": "Nheengatu",
+    "ro": "Nheengatu",
+    "ru": "Ньенгату",
+    "sk": "Nheengatu",
+    "sl": "Nheengatu",
+    "uk": "Ньєнґату"
   },
   "yrn": {
     "name": "Yerong",
@@ -58995,7 +60015,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "zai",
-    "en": "Isthmus Zapotec"
+    "en": "Zapotec",
+    "de": "Zapotekisch",
+    "es": "Zapoteco",
+    "fr": "Zapotèque",
+    "nl": "Zapotec",
+    "pt-BR": "Zapoteco",
+    "ro": "Zapotecă",
+    "ru": "Сапотекский",
+    "sk": "Zapotéčtina",
+    "sl": "Zapoteščina",
+    "uk": "Сапотекська"
   },
   "zaj": {
     "name": "Zaramo",
@@ -60005,7 +61035,17 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "zsm",
-    "en": "Standard Malay"
+    "en": "Malay",
+    "de": "Malaiisch",
+    "es": "Malayo",
+    "fr": "Malais",
+    "nl": "Maleis",
+    "pt-BR": "Malaio",
+    "ro": "Malaeză",
+    "ru": "Малайский",
+    "sk": "Malajčina",
+    "sl": "Malajščina",
+    "uk": "Малайська"
   },
   "zsr": {
     "name": "Southern Rincon Zapotec",
@@ -60164,7 +61204,16 @@
     "type": "living",
     "scope": "individual",
     "iso6393": "zyb",
-    "en": "Yongbei Zhuang"
+    "en": "Zhuang",
+    "de": "Zhuang",
+    "es": "Zhuang",
+    "fr": "Zhuang",
+    "nl": "Zhuang",
+    "pt-BR": "Zhuang",
+    "ro": "Zhuang",
+    "ru": "Чжуань",
+    "sk": "Čuangčina",
+    "uk": "Чжуан"
   },
   "zyg": {
     "name": "Yang Zhuang",
@@ -60244,6 +61293,7 @@
     "fr": "araméen impérial",
     "nl": "Keizerlijk Aramees",
     "pt-BR": "armi",
+    "ro": "aramaică imperială",
     "ru": "арамейская",
     "sl": "imperialno-aramejski",
     "uk": "армі"
@@ -60268,6 +61318,7 @@
     "fr": "avestique",
     "nl": "Avestaans",
     "pt-BR": "avéstico",
+    "ro": "avestică",
     "ru": "авестийская",
     "sl": "avestanski",
     "uk": "авестійський"
@@ -60290,6 +61341,7 @@
     "de": "Bamun",
     "nl": "Bamoun",
     "pt-BR": "bamum",
+    "ro": "bamum",
     "ru": "бамум",
     "uk": "бамум"
   },
@@ -60300,6 +61352,7 @@
     "fr": "batak",
     "nl": "Batak",
     "pt-BR": "bataque",
+    "ro": "batak",
     "ru": "батакская",
     "sl": "bataški",
     "uk": "батак"
@@ -60348,6 +61401,7 @@
     "fr": "brâhmî",
     "nl": "Brahmi",
     "pt-BR": "brahmi",
+    "ro": "brahmanică",
     "ru": "брахми",
     "sl": "bramanski",
     "uk": "брахмі"
@@ -60372,6 +61426,7 @@
     "fr": "bouguis",
     "nl": "Buginees",
     "pt-BR": "buginês",
+    "ro": "bugineză",
     "ru": "бугинизийская",
     "sl": "buginski",
     "uk": "бугійський"
@@ -60383,6 +61438,7 @@
     "fr": "bouhide",
     "nl": "Buhid",
     "pt-BR": "buhid",
+    "ro": "buhidă",
     "ru": "бухид",
     "sl": "buhidski",
     "uk": "бухід"
@@ -60390,10 +61446,14 @@
   "Cakm": {
     "en": "Chakma",
     "de": "Chakma",
+    "es": "chakma",
     "fr": "chakma",
     "nl": "Chakma",
     "pt-BR": "cakm",
+    "ro": "chakma",
     "ru": "чакмийская",
+    "sk": "čakma",
+    "sl": "čakmajski",
     "uk": "чакма"
   },
   "Cans": {
@@ -60405,6 +61465,7 @@
     "pt-BR": "escrita silábica unificada dos aborígenes canadenses",
     "ro": "silabică aborigenă canadiană unificată",
     "ru": "канадское слоговое письмо",
+    "sk": "zjednotené kanadské domorodé slabiky",
     "sl": "poenotena zlogovna pisava kanadskih staroselcev",
     "uk": "уніфіковані символи канадських тубільців"
   },
@@ -60415,26 +61476,31 @@
     "fr": "carien",
     "nl": "Carisch",
     "pt-BR": "cariano",
+    "ro": "cariană",
     "ru": "карийская",
     "uk": "каріанський"
   },
   "Cham": {
     "en": "Cham",
+    "de": "Cham",
     "es": "cham",
     "fr": "cham",
     "nl": "Cham",
     "pt-BR": "cham",
+    "ro": "cham",
     "ru": "чамская",
     "uk": "хамітський"
   },
   "Cher": {
     "en": "Cherokee",
     "de": "Cherokee",
-    "es": "cherokee",
+    "es": "cheroqui",
     "fr": "cherokee",
     "nl": "Cherokee",
     "pt-BR": "cherokee",
+    "ro": "cherokee",
     "ru": "чероки",
+    "sk": "čerokézčina",
     "sl": "čerokeški",
     "uk": "черокі"
   },
@@ -60640,7 +61706,7 @@
   "Gujr": {
     "en": "Gujarati",
     "de": "Gujarati",
-    "es": "gujarati",
+    "es": "guyaratí",
     "fr": "goudjarâtî",
     "nl": "Gujarati",
     "pt-BR": "guzerate",
@@ -60696,6 +61762,7 @@
     "fr": "hanounóo",
     "nl": "Hanunoo",
     "pt-BR": "hanunoo",
+    "ro": "hanunoo",
     "ru": "хануну",
     "sl": "hanunski",
     "uk": "хануну"
@@ -60708,7 +61775,7 @@
     "nl": "vereenvoudigd",
     "pt-BR": "simplificado",
     "ro": "simplificată",
-    "ru": "упрощенная китайская",
+    "ru": "упрощенная",
     "sk": "zjednodušené",
     "sl": "poenostavljena pisava",
     "uk": "спрощена"
@@ -60721,7 +61788,7 @@
     "nl": "traditioneel",
     "pt-BR": "tradicional",
     "ro": "tradițională",
-    "ru": "традиционная китайская",
+    "ru": "традиционная",
     "sk": "tradičné",
     "sl": "tradicionalna pisava",
     "uk": "традиційна"
@@ -60759,6 +61826,7 @@
     "fr": "pahawh hmong",
     "nl": "Pahawh Hmong",
     "pt-BR": "pahawh hmong",
+    "ro": "pahawh hmong",
     "ru": "пахау хмонг",
     "sl": "pahavhmonska zlogovna pisava",
     "uk": "пахау хмонг"
@@ -60844,6 +61912,7 @@
     "fr": "kayah li",
     "nl": "Kayah Li",
     "pt-BR": "kayah li",
+    "ro": "kayah li",
     "ru": "кайа",
     "sl": "karenski",
     "uk": "кая лі"
@@ -60868,6 +61937,7 @@
     "fr": "kharochthî",
     "nl": "Kharoshthi",
     "pt-BR": "kharoshthi",
+    "ro": "kharosthi",
     "ru": "кхароштхи",
     "sl": "gandarski",
     "uk": "кхароштхі"
@@ -60917,6 +61987,7 @@
     "fr": "kaithî",
     "nl": "Kaithi",
     "pt-BR": "kthi",
+    "ro": "kaithi",
     "ru": "кайтхи",
     "sl": "kajatski",
     "uk": "каїті"
@@ -60928,6 +61999,7 @@
     "fr": "lanna",
     "nl": "Lanna",
     "pt-BR": "lanna",
+    "ro": "lanna",
     "ru": "ланна",
     "uk": "ланна"
   },
@@ -60988,6 +62060,7 @@
     "fr": "lepcha",
     "nl": "Lepcha",
     "pt-BR": "lepcha",
+    "ro": "lepcha",
     "ru": "лепха",
     "sl": "lepški",
     "uk": "лепча"
@@ -60999,6 +62072,7 @@
     "fr": "limbou",
     "nl": "Limbu",
     "pt-BR": "limbu",
+    "ro": "limbu",
     "ru": "лимбу",
     "sl": "limbuški",
     "uk": "лімбу"
@@ -61034,6 +62108,7 @@
     "de": "Fraser",
     "nl": "Fraser",
     "pt-BR": "lisu",
+    "ro": "fraser",
     "ru": "лису",
     "uk": "абетка Фрейзера"
   },
@@ -61044,6 +62119,7 @@
     "fr": "lycien",
     "nl": "Lycisch",
     "pt-BR": "lício",
+    "ro": "liciană",
     "ru": "лициан",
     "sl": "licijski",
     "uk": "лікійський"
@@ -61067,6 +62143,7 @@
     "fr": "mandéen",
     "nl": "Mandaeans",
     "pt-BR": "mandaico",
+    "ro": "mandeană",
     "ru": "мандейская",
     "sl": "mandanski",
     "uk": "мандейський"
@@ -61077,6 +62154,7 @@
     "fr": "manichéen",
     "nl": "Manicheaans",
     "pt-BR": "maniqueano",
+    "ro": "maniheeană",
     "ru": "манихейская",
     "sl": "manihejski",
     "uk": "маніхейський"
@@ -61101,6 +62179,7 @@
     "fr": "méroïtique",
     "nl": "Meroïtisch",
     "pt-BR": "meroítico",
+    "ro": "meroitică",
     "ru": "мероитская",
     "sl": "meroitski",
     "uk": "мероїтський"
@@ -61144,15 +62223,15 @@
   },
   "Mtei": {
     "en": "Meitei Mayek",
-    "de": "Meitei Mayek",
-    "es": "manipuri",
+    "de": "Meitei-Mayek",
+    "es": "meitei",
     "fr": "meitei mayek",
     "nl": "Meitei",
     "pt-BR": "meitei mayek",
     "ro": "meitei mayek",
     "ru": "манипури",
     "sk": "mejtej majek (manipurské)",
-    "sl": "manipurski",
+    "sl": "meiteiski",
     "uk": "мейтей майєк"
   },
   "Mymr": {
@@ -61181,7 +62260,10 @@
     "fr": "n’ko",
     "nl": "N’Ko",
     "pt-BR": "n’ko",
+    "ro": "n’ko",
     "ru": "нко",
+    "sk": "bambarčina",
+    "sl": "nkojski",
     "uk": "нко"
   },
   "Ogam": {
@@ -61191,6 +62273,7 @@
     "fr": "ogam",
     "nl": "Ogham",
     "pt-BR": "ogâmico",
+    "ro": "ogham",
     "ru": "огамическая",
     "sl": "ogamski",
     "uk": "огамічний"
@@ -61198,15 +62281,15 @@
   "Olck": {
     "en": "Ol Chiki",
     "de": "Ol Chiki",
-    "es": "ol ciki",
-    "fr": "ol tchiki",
+    "es": "ol chiki",
+    "fr": "ol-chiki",
     "nl": "Ol Chiki",
     "pt-BR": "ol chiki",
     "ro": "ol chiki",
     "ru": "ол чики",
     "sk": "santálske (ol chiki)",
     "sl": "santalski",
-    "uk": "сантальський"
+    "uk": "ол-чикі"
   },
   "Orkh": {
     "en": "Orkhon",
@@ -61215,6 +62298,7 @@
     "fr": "orkhon",
     "nl": "Orkhon",
     "pt-BR": "orkhon",
+    "ro": "orhon",
     "ru": "орхоно-енисейская",
     "sl": "orkonski",
     "uk": "орхонський"
@@ -61239,6 +62323,7 @@
     "fr": "osmanais",
     "nl": "Osmanya",
     "pt-BR": "osmania",
+    "ro": "osmanya",
     "ru": "османская",
     "sk": "osmanský",
     "sl": "osmanski",
@@ -61251,6 +62336,7 @@
     "fr": "ancien permien",
     "nl": "Oudpermisch",
     "pt-BR": "pérmico antigo",
+    "ro": "permică veche",
     "ru": "древнепермская",
     "sl": "staropermijski",
     "uk": "давньопермський"
@@ -61262,6 +62348,7 @@
     "fr": "phags pa",
     "nl": "Phags-pa",
     "pt-BR": "phags-pa",
+    "ro": "phags-pa",
     "ru": "пагспа",
     "sl": "pagpajski",
     "uk": "пхагс-па"
@@ -61272,6 +62359,7 @@
     "fr": "pehlevi des inscriptions",
     "nl": "Inscriptioneel Pahlavi",
     "pt-BR": "phli",
+    "ro": "pahlavi pentru inscripții",
     "ru": "пехлевийская",
     "sl": "vrezani napisi pahlavi",
     "uk": "пехлеві написів"
@@ -61282,6 +62370,7 @@
     "fr": "pehlevi des psautiers",
     "nl": "Psalmen Pahlavi",
     "pt-BR": "phlp",
+    "ro": "pahlavi pentru psaltire",
     "ru": "пахлави псалтирная",
     "sl": "psalmski pahlavi",
     "uk": "пехлеві релігійний"
@@ -61315,6 +62404,7 @@
     "fr": "phonétique de Pollard",
     "nl": "Pollard-fonetisch",
     "pt-BR": "fonético pollard",
+    "ro": "pollardă fonetică",
     "ru": "поллардовская фонетика",
     "sl": "Pollardova fonetska pisava",
     "uk": "писемність Полларда"
@@ -61325,6 +62415,7 @@
     "fr": "parthe des inscriptions",
     "nl": "Inscriptioneel Parthisch",
     "pt-BR": "prti",
+    "ro": "partă pentru inscripții",
     "ru": "парфянская",
     "uk": "парфянський"
   },
@@ -61335,6 +62426,7 @@
     "fr": "rejang",
     "nl": "Rejang",
     "pt-BR": "rejang",
+    "ro": "rejang",
     "ru": "реджангская",
     "uk": "реджанг"
   },
@@ -61368,6 +62460,7 @@
     "fr": "samaritain",
     "nl": "Samaritaans",
     "pt-BR": "samaritano",
+    "ro": "samariteană",
     "ru": "самаритянская",
     "sl": "samaritanski",
     "uk": "самаритянський"
@@ -61387,6 +62480,7 @@
     "en": "Old South Arabian",
     "de": "Altsüdarabisch",
     "nl": "Oud Zuid-Arabisch",
+    "ro": "arabă veche din sud",
     "ru": "староюжноарабская"
   },
   "Saur": {
@@ -61396,6 +62490,7 @@
     "fr": "saurashtra",
     "nl": "Saurashtra",
     "pt-BR": "saurashtra",
+    "ro": "saurashtra",
     "ru": "саураштра",
     "uk": "саураштра"
   },
@@ -61406,6 +62501,7 @@
     "fr": "écriture des signes",
     "nl": "SignWriting",
     "pt-BR": "signwriting",
+    "ro": "scrierea simbolică",
     "ru": "язык знаков",
     "sl": "znakovna pisava",
     "uk": "знаковий"
@@ -61417,6 +62513,7 @@
     "fr": "shavien",
     "nl": "Shavian",
     "pt-BR": "shaviano",
+    "ro": "savă",
     "ru": "алфавит Шоу",
     "sl": "šojevski",
     "uk": "шоу"
@@ -61441,9 +62538,11 @@
     "fr": "sundanais",
     "nl": "Soendanees",
     "pt-BR": "sundanês",
+    "ro": "sundaneză",
     "ru": "сунданская",
+    "sk": "sundčina",
     "sl": "sundanski",
-    "uk": "сунданський"
+    "uk": "сунданська"
   },
   "Sylo": {
     "en": "Syloti Nagri",
@@ -61452,6 +62551,7 @@
     "fr": "sylotî nâgrî",
     "nl": "Syloti Nagri",
     "pt-BR": "syloti nagri",
+    "ro": "syloti nagri",
     "ru": "силоти нагри",
     "sl": "siletsko-nagarijski",
     "uk": "сілоті нагрі"
@@ -61465,8 +62565,9 @@
     "pt-BR": "siríaco",
     "ro": "siriacă",
     "ru": "сирийская",
+    "sk": "sýrčina",
     "sl": "sirijski",
-    "uk": "сирійський"
+    "uk": "сирійська"
   },
   "Syre": {
     "en": "Estrangelo Syriac",
@@ -61510,6 +62611,7 @@
     "fr": "tagbanoua",
     "nl": "Tagbanwa",
     "pt-BR": "tagbanwa",
+    "ro": "tagbanwa",
     "ru": "тагбанва",
     "sl": "tagbanski",
     "uk": "тагбанва"
@@ -61521,6 +62623,7 @@
     "fr": "taï-le",
     "nl": "Tai Le",
     "pt-BR": "tai Le",
+    "ro": "tai le",
     "ru": "тайский ле",
     "uk": "тай-лі"
   },
@@ -61531,6 +62634,7 @@
     "fr": "nouveau taï-lue",
     "nl": "Nieuw Tai Lue",
     "pt-BR": "novo tai lue",
+    "ro": "tai le nouă",
     "ru": "новый тайский ле",
     "uk": "новий тайський луе"
   },
@@ -61553,6 +62657,7 @@
     "fr": "taï viêt",
     "nl": "Tai Viet",
     "pt-BR": "tavt",
+    "ro": "tai viet",
     "ru": "тай-вьет",
     "sl": "tajsko-vietnamski",
     "uk": "тай-вʼєт"
@@ -61588,8 +62693,9 @@
     "fr": "tifinagh",
     "nl": "Tifinagh",
     "pt-BR": "tifinagh",
-    "ro": "berberă",
+    "ro": "tifinagh",
     "ru": "древнеливийская",
+    "sk": "tifinagh",
     "sl": "tifinajski",
     "uk": "тифінаг"
   },
@@ -61600,6 +62706,7 @@
     "fr": "tagal",
     "nl": "Tagalog",
     "pt-BR": "tagalo",
+    "ro": "tagalog",
     "ru": "тагалог",
     "sl": "tagaloški",
     "uk": "тагальський"
@@ -61650,6 +62757,7 @@
     "fr": "ougaritique",
     "nl": "Ugaritisch",
     "pt-BR": "ugarítico",
+    "ro": "ugaritică",
     "ru": "угаритская",
     "sl": "ugaritski",
     "uk": "угаритський"
@@ -61661,7 +62769,9 @@
     "fr": "vaï",
     "nl": "Vai",
     "pt-BR": "vai",
+    "ro": "vai",
     "ru": "вайская",
+    "sk": "vai",
     "sl": "zlogovna pisava vai",
     "uk": "ваї"
   },
@@ -61707,7 +62817,10 @@
     "fr": "yi",
     "nl": "Yi",
     "pt-BR": "yi",
+    "ro": "yi",
     "ru": "и",
+    "sk": "yi",
+    "sl": "jiški",
     "uk": "йї"
   },
   "aluku": {
