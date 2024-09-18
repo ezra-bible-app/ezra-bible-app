@@ -58,14 +58,14 @@
     "repository_plural": "Spletne shrambe",
     "installation": "Namestitev",
     "removal": "Odstranitev",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Podatki o spletni shrambi so bili nazadnje posodobljeni dne {{date}}.",
       "update-now": "Posodobi zdaj",
       "updating-repository-data": "Posodabljanje podatkov o spletnih shrambah! To bo trajalo nekaj sekund ...",
       "update-failed": "Posodobitev ni uspela",
       "update-repository-data-failed": "Posodabljanje podatkov o spletni shrambi ni uspelo! Ali ste brez povezave?"
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Izberite vsaj enega od naslednjih jezikov.",
       "total-modules-language": "Ob vsakem jeziku je število {{module_type}}, ki so na voljo v SWORD-ovih spletnih shrambah.",
       "loading-languages": "Nalaganje jezikov ...",
@@ -84,7 +84,7 @@
       "repo-recommended": "Ta spletna shramba je dobro mesto za začetek",
       "more-repo-information-needed": "Če potrebujete več informacij o teh spletnih shrambah, si oglejte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Prosimo, izberite {{module_type}} za namestitev.",
       "module-display-preferences": "Prednosti filtriranja:",
       "module-with": "{{module_type, capitalize}} s {{feature_type, instrumental}}",
@@ -99,7 +99,7 @@
       "downloading": "Prenašanje",
       "part-of-total": "od"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Izberite {{module_type, accusative}}, ki ga želite odstraniti.",
       "disable-remove-note": "Ta {{module_type, singular}} ni nameščen v uporabnikovem imeniku ali pa je bistven za delovanje Ezra Bible aplikacije.",
       "removing-modules": "Odstranjevanje {{module_type, accusative}}",
@@ -110,7 +110,7 @@
       "unlock-key": "Ključ za odklepanje",
       "enter-unlock-key": "{{moduleId, singular}} je zaščiten z licenco. Prosimo, vnesite ključ za odklepanje!",
       "unlock-failed": "Odklenitev ni uspela! Prosimo, vnesite pravilen ključ za odklepanje."
-    }  
+    }
   },
   "module-sync": {
     "module-sync-header": "Namestitev dodatnih modulov"
@@ -233,8 +233,7 @@
   "shortcuts": {
     "tab-title": "Bližnjice na tipkovnici",
     "description": "Uporabite lahko naslednje bližnjice:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Pisava",
       "current-tab-search-section-title": "Iskanje na trenutnem zavihku",
       "miscellaneous-section-title": "Razno",
@@ -253,14 +252,13 @@
       "decrease-current-font-size": "Zmanjšaj velikost pisave",
       "reset-font-size-to-default": "Ponastavi privzeto velikost pisave"
     },
-
     "shortcut": {
       "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
-      "previous-chapter": "Left",
-      "next-chapter": "Right",
+      "previous-chapter": "levo",
+      "next-chapter": "prav",
       "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
@@ -388,13 +386,13 @@
     "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Uredi opombo",
     "delete-note": "Izbriši opombo",
-    "transchange" : {
-      "added" : "Te besede so bile dodane v prevodu",
-      "amplified" : "Te besede so razširitve informacij v izvornem besedilu",
-      "changed" : "Te besede so bile v prevodu spremenjene",
-      "deleted" : "Nekatere besede v izvirnem besedilu niso prisotne v prevodu",
-      "implied" : "Te besede so bile dodane ali spremenjene za prevod informacij, ki jih vsebuje izvorno besedilo",
-      "moved" : "Te besede so bile v izvornem besedilu na drugem mestu",
+    "transchange": {
+      "added": "Te besede so bile dodane v prevodu",
+      "amplified": "Te besede so razširitve informacij v izvornem besedilu",
+      "changed": "Te besede so bile v prevodu spremenjene",
+      "deleted": "Nekatere besede v izvirnem besedilu niso prisotne v prevodu",
+      "implied": "Te besede so bile dodane ali spremenjene za prevod informacij, ki jih vsebuje izvorno besedilo",
+      "moved": "Te besede so bile v izvornem besedilu na drugem mestu",
       "tense-change": "Slovnični čas teh besed je bil spremenjen, da bi olajšali prevod"
     }
   },
