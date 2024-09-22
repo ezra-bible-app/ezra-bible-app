@@ -19,16 +19,16 @@
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
 let sampleTextStylesheet = null;
-let bibleTextStylesheet = null;
+let textStylesheet = null;
 
 module.exports.init = async function() {
   let sampleTextStyleEl = $('<style id="sample-text-font" />');
   $("head").append(sampleTextStyleEl);
   sampleTextStylesheet = sampleTextStyleEl[0].sheet;
 
-  let bibleTextStyleEl = $('<style id="bible-text-font" />');
-  $("head").append(bibleTextStyleEl);
-  bibleTextStylesheet = bibleTextStyleEl[0].sheet;
+  let textStyleEl = $('<style id="text-font" />');
+  $("head").append(textStyleEl);
+  textStylesheet = textStyleEl[0].sheet;
 
   const fontFamilySelect = document.getElementById('font-family-select');
   const systemFontSelect = document.getElementById('system-font-select');
@@ -149,19 +149,19 @@ function handleFontFamilyChange(fontFamily, apply=false, persist=false) {
 
 function applyFontChange(selectedFont=undefined, apply=false) {
   let sampleTextCss = undefined;
-  let bibleTextCss = undefined;
+  let textCss = undefined;
   let sampleTextId = '#bible-font-sample-text';
-  let bibleTextId = '.verse-text, .sword-section-title';
+  let textClasses = '.verse-text, .sword-section-title, .commentary-content, .commentary-name, .dictionary-title, .dictionary-content, .book-intro';
 
   if (selectedFont != null) {
     sampleTextCss = `${sampleTextId} { font-family: "${selectedFont}" }`;
-    bibleTextCss = `${bibleTextId} { font-family: "${selectedFont}" }`;
+    textCss = `${textClasses} { font-family: "${selectedFont}" }`;
   }
 
   saveCssRules(sampleTextStylesheet, sampleTextCss);
 
   if (apply) {
-    saveCssRules(bibleTextStylesheet, bibleTextCss);
+    saveCssRules(textStylesheet, textCss);
   }
 }
 

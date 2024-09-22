@@ -365,13 +365,13 @@ class DictionaryPanel {
     let moduleInfoButton = this.getModuleInfoButton(moduleInfoButtonTitle, moduleCode);
 
     let extendedStrongsInfo = `
-      <b>${this.getShortInfo(strongsEntry, lemma)}</b>
-      <p>${this.getFindAllLink(strongsEntry)} | ${this.getBlueletterLink(strongsEntry)}</p>
+      <div class='bold dictionary-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
+      <p class='dictionary-content'>${this.getFindAllLink(strongsEntry)} | ${this.getBlueletterLink(strongsEntry)}</p>
       ${extraDictContent}
-      <div class='bold' style='margin-bottom: 1em'>Strong's
+      <div class='bold dictionary-title' style='margin-bottom: 1em'>Strong's
       ${moduleInfoButton} 
       </div>
-      <div class='strongs-definition'>${strongsEntry.definition}</div>
+      <div class='strongs-definition dictionary-content'>${strongsEntry.definition}</div>
       ${relatedStrongsContent}`;
 
     return extendedStrongsInfo;
@@ -389,10 +389,12 @@ class DictionaryPanel {
 
     const relatedStrongsContent = `
       <hr/>
-      <b>${i18n.t("dictionary-panel.related-strongs")}:</b><br/>
-      <table class="strongs-refs">
-      ${relatedStrongsRows}
-      </table>`;
+      <div class='bold dictionary-title'>${i18n.t("dictionary-panel.related-strongs")}</div>
+      <div class='dictionary-content'>
+        <table class="strongs-refs">
+        ${relatedStrongsRows}
+        </table>
+      </div>`;
 
     return relatedStrongsContent;
   }
@@ -512,10 +514,12 @@ class DictionaryPanel {
 
         let dictHeader = `
           <div class='bold' style='margin-bottom: 1em'>
-            <span>${dict.description}</span>
+            <span class='dictionary-title'>${dict.description}</span>
             ${moduleInfoButton}
             </div>
-          </div> ${currentDictContent} <hr></hr>
+          </div>
+          <div class='dictionary-content'>${currentDictContent}</div>
+          <hr></hr>
         `;
 
         extraDictContent += dictHeader;
