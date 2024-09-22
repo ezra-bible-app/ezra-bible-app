@@ -99,7 +99,7 @@
     "node-sword-interface": "^1.0.22",
     "pug": "^3.0.0",
     "remove-markdown": "^0.3.0",
-    "sanitize-html": "^2.3.3",
+    "sanitize-html": "^2.13.0",
     "sequelize": "^5.22.4",
     "simple-emoji-button": "^4.6.2",
     "sqlite3": "^5.0.2",
