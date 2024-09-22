@@ -339,6 +339,10 @@ class CommentaryPanel {
       commentary = commentaryEntry.content;
     }
 
+    if (platformHelper.isElectron()) {
+      commentary = this._verseBoxHelper.sanitizeHtmlCode(commentary);
+    }
+
     return commentary;
   }
 }
