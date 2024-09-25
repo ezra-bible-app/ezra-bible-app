@@ -221,10 +221,9 @@ class VerseBoxHelper {
     const sanitizeHtml = require('sanitize-html');
 
     htmlCode = sanitizeHtml(htmlCode, {
-      allowedTags: ['i', 'span', 'br', 'sup'],
-      allowedAttributes: {
-        'span': ['style']
-      },
+      allowedTags: ['i', 'span', 'br', 'sup', 'b', 'div', 'reference'],
+      /* Allow all attributes */
+      allowedAttributes: false,
       allowedStyles: {
         '*': {
           // Match HEX and RGB
@@ -275,6 +274,7 @@ class VerseBoxHelper {
         }
 
         currentText.find('.sword-markup').filter(":not('.sword-quote-jesus, .sword-quote')").remove();
+        currentText.find('sup.strongs').remove();
 
         if (html) {
           this.convertTransChangeToItalic(currentText);

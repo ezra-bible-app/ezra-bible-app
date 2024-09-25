@@ -36,7 +36,7 @@ jobs:
           run: Get-ChildItem release\packages\*Setup.exe | rename-item -NewName { "ezra-bible-app_win32_setup_latest.exe" }
           shell: pwsh
         - name: Upload installer
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_win32_latest
             path: release\packages\ezra-bible-app_win32_setup_latest.exe
@@ -53,7 +53,7 @@ jobs:
 #        - name: Generate dmg
 #          run: npm install electron-installer-dmg macos-alias ds-store && npm run dmg-mac
 #        - name: Upload dmg
-#          uses: actions/upload-artifact@v1.0.0
+#          uses: actions/upload-artifact@v4.4.0
 #          with:
 #            name: ezra-bible-app_macos_latest
 #            path: release/ezra-bible-app.dmg
@@ -68,7 +68,7 @@ jobs:
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload deb file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_ubuntu1804_latest
             path: ezra-bible-app_latest.deb
@@ -83,7 +83,7 @@ jobs:
         env:
           SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Upload deb file
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4.4.0
         with:
           name: ezra-bible-app_ubuntu2004_latest
           path: ezra-bible-app_latest.deb
@@ -98,7 +98,7 @@ jobs:
         env:
           SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Upload deb file
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4.4.0
         with:
           name: ezra-bible-app_ubuntu2204_latest
           path: ezra-bible-app_latest.deb
@@ -113,7 +113,7 @@ jobs:
         env:
           SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Upload deb file
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4.4.0
         with:
           name: ezra-bible-app_ubuntu2404_latest
           path: ezra-bible-app_latest.deb
@@ -128,7 +128,7 @@ jobs:
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload deb file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_mint18_latest
             path: ezra-bible-app_latest.deb
@@ -143,7 +143,7 @@ jobs:
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload deb file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_debian10_latest
             path: ezra-bible-app_latest.deb
@@ -158,7 +158,7 @@ jobs:
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload deb file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_debian11_latest
             path: ezra-bible-app_latest.deb
@@ -173,7 +173,7 @@ jobs:
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload deb file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_debian12_latest
             path: ezra-bible-app_latest.deb
@@ -188,7 +188,7 @@ jobs:
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload rpm file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_fedora31_latest
             path: ezra-bible-app_latest.rpm
@@ -212,7 +212,7 @@ jobs:
         - name: Rename package
           run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
         - name: Upload rpm file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_fedora33_latest
             path: ezra-bible-app_latest.rpm
@@ -236,7 +236,7 @@ jobs:
         - name: Rename package
           run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
         - name: Upload rpm file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_fedora35_latest
             path: ezra-bible-app_latest.rpm
@@ -260,7 +260,7 @@ jobs:
         - name: Rename package
           run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
         - name: Upload rpm file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_fedora37_latest
             path: ezra-bible-app_latest.rpm
@@ -275,7 +275,7 @@ jobs:
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload rpm file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_centos8_latest
             path: ezra-bible-app_latest.rpm
@@ -290,7 +290,7 @@ jobs:
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload rpm file
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_opensuse_leap_15.2_latest
             path: ezra-bible-app_latest.rpm

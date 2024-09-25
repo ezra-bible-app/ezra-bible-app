@@ -58,14 +58,14 @@
     "repository_plural": "Spletne shrambe",
     "installation": "Namestitev",
     "removal": "Odstranitev",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Podatki o spletni shrambi so bili nazadnje posodobljeni dne {{date}}.",
       "update-now": "Posodobi zdaj",
       "updating-repository-data": "Posodabljanje podatkov o spletnih shrambah! To bo trajalo nekaj sekund ...",
       "update-failed": "Posodobitev ni uspela",
       "update-repository-data-failed": "Posodabljanje podatkov o spletni shrambi ni uspelo! Ali ste brez povezave?"
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Izberite vsaj enega od naslednjih jezikov.",
       "total-modules-language": "Ob vsakem jeziku je število {{module_type}}, ki so na voljo v SWORD-ovih spletnih shrambah.",
       "loading-languages": "Nalaganje jezikov ...",
@@ -84,7 +84,7 @@
       "repo-recommended": "Ta spletna shramba je dobro mesto za začetek",
       "more-repo-information-needed": "Če potrebujete več informacij o teh spletnih shrambah, si oglejte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Prosimo, izberite {{module_type}} za namestitev.",
       "module-display-preferences": "Prednosti filtriranja:",
       "module-with": "{{module_type, capitalize}} s {{feature_type, instrumental}}",
@@ -99,7 +99,7 @@
       "downloading": "Prenašanje",
       "part-of-total": "od"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Izberite {{module_type, accusative}}, ki ga želite odstraniti.",
       "disable-remove-note": "Ta {{module_type, singular}} ni nameščen v uporabnikovem imeniku ali pa je bistven za delovanje Ezra Bible aplikacije.",
       "removing-modules": "Odstranjevanje {{module_type, accusative}}",
@@ -110,7 +110,7 @@
       "unlock-key": "Ključ za odklepanje",
       "enter-unlock-key": "{{moduleId, singular}} je zaščiten z licenco. Prosimo, vnesite ključ za odklepanje!",
       "unlock-failed": "Odklenitev ni uspela! Prosimo, vnesite pravilen ključ za odklepanje."
-    }  
+    }
   },
   "module-sync": {
     "module-sync-header": "Namestitev dodatnih modulov"
@@ -207,12 +207,12 @@
     "send-crash-reports": "Pošlji poročila o napakah",
     "welcome-to-ezra-bible-app": "Dobrodošli v Ezra Bible aplikaciji!",
     "type-face": {
-      "configure-typeface": "Configure Bible text typeface",
+      "configure-typeface": "Nastavi pisavo",
       "sans-serif": "Sans serif",
       "serif": "Serif",
-      "custom": "Custom",
-      "bible-text-font-family": "Bible text font family",
-      "custom-bible-text-font": "Custom Bible text font"
+      "custom": "Po meri",
+      "bible-text-font-family": "Družina pisav",
+      "custom-bible-text-font": "Pisava po meri"
     }
   },
   "data-privacy": {
@@ -233,11 +233,12 @@
   "shortcuts": {
     "tab-title": "Bližnjice na tipkovnici",
     "description": "Uporabite lahko naslednje bližnjice:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Pisava",
       "current-tab-search-section-title": "Iskanje na trenutnem zavihku",
       "miscellaneous-section-title": "Razno",
+      "previous-chapter": "Prejšnje poglavje",
+      "next-chapter": "Naslednje poglavje",
       "in-tab-search": "Iskanje odprite v trenutnem zavihku",
       "hide-in-tab-search-form": "Skrij obrazec za iskanje v trenutnem zavihku",
       "jump-to-next-search-occurance": "Skok na naslednje iskanje",
@@ -251,12 +252,13 @@
       "decrease-current-font-size": "Zmanjšaj velikost pisave",
       "reset-font-size-to-default": "Ponastavi privzeto velikost pisave"
     },
-
     "shortcut": {
       "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "previous-chapter": "Levo",
+      "next-chapter": "Desno",
       "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
@@ -268,7 +270,7 @@
     }
   },
   "tags": {
-    "tag": "Tag",
+    "tag": "Oznaka",
     "new-tag": "Nova oznaka",
     "create-tag": "Ustvari oznako",
     "delete-tag": "Brisanje oznake",
@@ -336,7 +338,7 @@
     "all-search-results": "Vsi rezultati iskanja",
     "some-search-results": "Nekateri rezultati iskanja",
     "select-all-verses": "Izberite vse vrstice",
-    "all-verses": "All verses",
+    "all-verses": "Vse vrstie",
     "module-configuration": "Konfiguracija modula",
     "display": "Prikaz",
     "text-options": "Možnosti besedila",
@@ -346,6 +348,7 @@
     "show-section-titles": "Prikaži naslove poglavij",
     "show-xrefs": "Prikaži navzkrižne reference",
     "show-footnotes": "Prikaži opombe pod črto",
+    "show-strongs": "Pokaži Strongove številke",
     "show-paragraphs": "Prikaži odstavke",
     "red-letters": "Z rdečo barvo označi Jezusove besede",
     "show-dictionary": "Prikaži slovar",
@@ -361,6 +364,7 @@
     "limit-notes-display-size": "Omejitev velikosti prikaza opomb",
     "use-tags-column": "Uporabi stolpec z oznakami",
     "select-chapter-before-loading": "Odpri knjige z izbiro poglavja",
+    "use-system-theme": "Sistemska tema",
     "use-night-mode": "Nočni način",
     "keep-screen-on": "Ohrani zaslon vklopljen",
     "comparing-translations-for": "Primerjava prevodov za",
@@ -379,15 +383,16 @@
     "copy-table-to-clipboard-success": "Tabela kopirana v odložišče!",
     "copy-verse-text-to-clipboard": "Kopirajte besedilo vrstice v odložišče",
     "copy-verse-text-to-clipboard-success": "Besedilo vrstice je bilo prekopirano v odložišče!",
+    "copy-selected-text-to-clipboard-success": "Izbrano besedilo kopiraj v odložišče!",
     "edit-note": "Uredi opombo",
     "delete-note": "Izbriši opombo",
-    "transchange" : {
-      "added" : "Te besede so bile dodane v prevodu",
-      "amplified" : "Te besede so razširitve informacij v izvornem besedilu",
-      "changed" : "Te besede so bile v prevodu spremenjene",
-      "deleted" : "Nekatere besede v izvirnem besedilu niso prisotne v prevodu",
-      "implied" : "Te besede so bile dodane ali spremenjene za prevod informacij, ki jih vsebuje izvorno besedilo",
-      "moved" : "Te besede so bile v izvornem besedilu na drugem mestu",
+    "transchange": {
+      "added": "Te besede so bile dodane v prevodu",
+      "amplified": "Te besede so razširitve informacij v izvornem besedilu",
+      "changed": "Te besede so bile v prevodu spremenjene",
+      "deleted": "Nekatere besede v izvirnem besedilu niso prisotne v prevodu",
+      "implied": "Te besede so bile dodane ali spremenjene za prevod informacij, ki jih vsebuje izvorno besedilo",
+      "moved": "Te besede so bile v izvornem besedilu na drugem mestu",
       "tense-change": "Slovnični čas teh besed je bil spremenjen, da bi olajšali prevod"
     }
   },
@@ -422,12 +427,13 @@
     "default-header": "<b>Komentar Svetega pisma</b>",
     "commentaries-for": "Komentarji za",
     "show-commentaries": "Prikaži komentarje",
-    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
-    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
+    "copy-commentary-to-clipboard": "Komentarje kopiraj na odložišče",
+    "copy-commentary-to-clipboard-success": "Komentarji kopirani na odložišče!",
     "help-instruction": "Za prikaz vsebine komentarja izberite vrstico.<br><br> To področje bo nato samodejno prikazalo seznam izbrane vrstice iz vseh razpoložljivih komentarjev.",
     "help-instruction-no-commentaries": "Zaenkrat še ni nameščen noben komentar. Za delovanje te funkcionalnosti morate namestiti vsaj en komentar.",
     "help-instruction-no-kjv": "Prevod KJV še ni bil nameščen. KJV je potreben za pravilen prikaz svetopisemskih komentarjev, ki temeljijo na angleški verzifikaciji. To lahko popravite tako, da:<ul><li>namestite prevod KJV iz spletne shrambe CrossWire</li><li>namestite komentar (v tem primeru se KJV namesti samodejno)</li></ul>",
-    "no-commentaries-available-for-this-verse": "Za to vrstico ni na voljo nobenih komentarjev."
+    "no-commentaries-available-for-this-verse": "Za to vrstico ni na voljo nobenih komentarjev.",
+    "copy-button": "Kopiraj komentar"
   },
   "emoji": {
     "search": "Iskanje emojev...",
@@ -477,7 +483,6 @@
     "dropbox-link-status-linking-failed": "Povezovanje ni uspelo!",
     "only-sync-on-wifi": "Sinhronizira se samo na brezžičnem omrežju WiFi",
     "sync-after-changes": "Po spremembah sinhroniziraj podatkovno zbirko",
-    "dropbox-sync-folder": "Dropbox sync folder",
     "dropbox-sync-info": "Informacije o sinhronizaciji Dropboxa",
     "last-dropbox-sync-time": "Zadnja sinhronizacija",
     "last-dropbox-sync-result": "Rezultat zadnje sinhronizacije",
@@ -485,6 +490,14 @@
     "last-dropbox-upload-time": "Zadnje nalaganje",
     "sync-msg-title": "Dropbox sinhronizacija",
     "sync-success-msg": "Uspešno sinhronizirana zbirka podatkov s storitvijo Dropbox ({{date}}).",
-    "sync-failed-msg": "Ni uspelo sinhronizirati zbirke podatkov s storitvijo Dropbox ({{date}})."
+    "sync-failed-msg": "Ni uspelo sinhronizirati zbirke podatkov s storitvijo Dropbox ({{date}}: {{syncResult}}).",
+    "access-method-change": "Sprememba načina dostopa do Dropboxa",
+    "access-method-message-part1": "Način dostopa do Dropboxa se je spremenil!<br/><br/>Prej je bila za dostop do Dropboxa uporabljena mapa po meri.<br/>",
+    "access-method-message-part2": "Od Ezra Bible App 1.15 se uporablja dostop do mape aplikacij.<br/>",
+    "access-method-message-part3": "Nova mapa Dropbox je /Apps/Ezra Bible App.<br/><br/>",
+    "access-method-message-part4": "Povezava aplikacije Ezra Bible z vašim računom Dropbox je bila ponastavljena.<br/>",
+    "access-method-message-part5": "To so dejanja, ki jih morate zdaj izvesti:",
+    "access-method-message-part6": "Znova konfigurirajte povezavo do računa Dropbox.",
+    "access-method-message-part7": "Nadgradite Ezra Bible App na vse svoje naprave, da zagotovite, da bo metoda sinhronizacije Dropbox enaka."
   }
 }

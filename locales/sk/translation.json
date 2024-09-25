@@ -207,12 +207,12 @@
     "send-crash-reports": "Odoslať chybové hlásenia",
     "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
     "type-face": {
-      "configure-typeface": "Configure Bible text typeface",
+      "configure-typeface": "Konfigurácia písma textu Biblie",
       "sans-serif": "Sans serif",
       "serif": "Serif",
-      "custom": "Custom",
-      "bible-text-font-family": "Bible text font family",
-      "custom-bible-text-font": "Custom Bible text font"
+      "custom": "Vlastné",
+      "bible-text-font-family": "Rodina písiem textu Biblie",
+      "custom-bible-text-font": "Vlastné písmo textu Biblie"
     }
   },
   "data-privacy": {
@@ -238,6 +238,8 @@
       "font-section-title": "Písmo",
       "current-tab-search-section-title": "Vyhľadávanie na aktuálnej karte",
       "miscellaneous-section-title": "Rôzne",
+      "previous-chapter": "Predchádzajúca kapitola",
+      "next-chapter": "Nasledujúca kapitola",
       "in-tab-search": "Otvoriť vyhľadávanie na aktuálnej karte",
       "hide-in-tab-search-form": "Skryť vzhľadávanie na aktuálnej karte",
       "jump-to-next-search-occurance": "Preskočiť na ďalší výskyt",
@@ -257,6 +259,8 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "previous-chapter": "Vľavo",
+      "next-chapter": "Vpravo",
       "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
@@ -346,6 +350,7 @@
     "show-section-titles": "Zobraziť názvy sekcií",
     "show-xrefs": "Zobraziť krížové odkazy",
     "show-footnotes": "Zobraziť poznámky pod čiarou",
+    "show-strongs": "Zobraziť strongy",
     "show-paragraphs": "Zobraziť odseky",
     "red-letters": "Zvýraznite Ježišove slová červenou farbou",
     "show-dictionary": "Zobraziť slovník",
@@ -361,6 +366,7 @@
     "limit-notes-display-size": "Obmedzte veľkosť zobrazenia poznámok",
     "use-tags-column": "Použite stĺpec značiek",
     "select-chapter-before-loading": "Otvoriť knihy s výberom kapitol",
+    "use-system-theme": "Systémová téma",
     "use-night-mode": "Nočný mód",
     "keep-screen-on": "Ponechať zapnutý displej",
     "comparing-translations-for": "Porovnanie prekladov pre",
@@ -379,6 +385,7 @@
     "copy-table-to-clipboard-success": "Tabuľka bola skopírovaná do schránky!",
     "copy-verse-text-to-clipboard": "Skopírujte text verša do schránky",
     "copy-verse-text-to-clipboard-success": "Text verša bol skopírovaný do schránky!",
+    "copy-selected-text-to-clipboard-success": "Vybratý text bol skopírovaný do schránky!",
     "edit-note": "Upraviť poznámku",
     "delete-note": "Vymazať poznámku",
     "transchange" : {
@@ -422,12 +429,13 @@
     "default-header": "<b>Biblický komentár</b>",
     "commentaries-for": "Komentáre pre",
     "show-commentaries": "Zobraziť komentáre",
-    "copy-commentary-to-clipboard": "Copy commentary to clipboard",
-    "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
+    "copy-commentary-to-clipboard": "Kopírovať komentár do schránky",
+    "copy-commentary-to-clipboard-success": "Komentár bol skopírovaný do schránky!",
     "help-instruction": "Ak chcete zobraziť obsah komentára, vyberte verš.<br><br> Táto oblasť potom automaticky zobrazí vybratý verš zo všetkých dostupných komentárov.",
     "help-instruction-no-commentaries": "Zatiaľ neboli nainštalované žiadne komentáre. Aby táto funkcia fungovala, musíte nainštalovať aspoň jeden komentár.",
     "help-instruction-no-kjv": "Preklad KJV ešte nebol nainštalovaný. KJV je potrebný na správne zobrazenie biblických komentárov založených na anglickej verzii. Môžete to vyriešiť:<ul><li>Inštaláciou KJV z úložiska CrossWire</li><li>Inštaláciou komentára (v tomto prípade sa KJV nainštaluje automaticky)</li></ul>",
-    "no-commentaries-available-for-this-verse": "K tomuto veršu nie sú dostupné žiadne komentáre."
+    "no-commentaries-available-for-this-verse": "K tomuto veršu nie sú dostupné žiadne komentáre.",
+    "copy-button": "Kopírovať komentár"
   },
   "emoji": {
     "search": "Vyhľadajte emodži...",
@@ -477,7 +485,6 @@
     "dropbox-link-status-linking-failed": "Prepojenie zlyhalo",
     "only-sync-on-wifi": "Synchronizácia len cez WiFi",
     "sync-after-changes": "Synchronizovať databázu po zmenách",
-    "dropbox-sync-folder": "Synchronizačný priečinok Dropbox",
     "dropbox-sync-info": "Informácie o synchronizácii Dropboxu",
     "last-dropbox-sync-time": "Posledná synchronizácia",
     "last-dropbox-sync-result": "Výsledok poslednej synchronizácie",
@@ -485,6 +492,14 @@
     "last-dropbox-upload-time": "Posledné nahranie",
     "sync-msg-title": "Synchronizácia Dropboxu",
     "sync-success-msg": "Databáza bola úspešne synchronizovaná s Dropboxom ({{date}}).",
-    "sync-failed-msg": "Synchronizácia databázy s Dropboxom zlyhala ({{date}})."
+    "sync-failed-msg": "Synchronizácia databázy s Dropboxom zlyhala ({{date}}: {{syncResult}}).",
+    "access-method-change": "Zmena spôsobu prístupu k Dropboxu",
+    "access-method-message-part1": "Spôsob prístupu k Dropboxu sa zmenil!<br/><br/>Predtým sa na prístup k Dropboxu používal vlastný priečinok.<br/>",
+    "access-method-message-part2": "Od aplikácie Ezra Bible App 1.15 sa používa prístup k priečinkom aplikácie.<br/>",
+    "access-method-message-part3": "Nový priečinok Dropbox je /Apps/Ezra Bible App.<br/><br/>",
+    "access-method-message-part4": "Prepojenie aplikácie Ezra Bible s vaším účtom Dropbox bolo obnovené.<br/>",
+    "access-method-message-part5": "Teraz musíte vykonať tieto akcie:",
+    "access-method-message-part6": "Znova nakonfigurujte prepojenie účtu Dropbox.",
+    "access-method-message-part7": "Inovujte aplikáciu Ezra Bible na všetkých svojich zariadeniach, aby ste zaistili, že metóda synchronizácie Dropbox bude rovnaká."
   }
 }

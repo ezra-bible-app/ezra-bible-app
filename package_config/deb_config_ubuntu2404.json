@@ -20,5 +20,6 @@
   "homepage": "https://github.com/ezra-bible-app/ezra-bible-app",
   "lintianOverrides": [
     "changelog-file-missing-in-native-package"
-  ]
+  ],
+  "desktopTemplate": "ezra-bible-app.desktop"
 }

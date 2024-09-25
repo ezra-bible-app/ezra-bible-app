@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const DictionaryInfoBox = require('../components/tool_panel/dictionary_info_box.js');
+const DictionaryPanel = require('../components/tool_panel/dictionary_panel.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 
@@ -45,7 +45,7 @@ class DictionaryController {
     this.strongsBox = $('#strongs-box');
     this.shiftKeyPressed = false;
     this.strongsAvailable = false;
-    this._dictionaryInfoBox = new DictionaryInfoBox(this);
+    this._dictionaryPanel = new DictionaryPanel(this);
     this._lastSelection = null;
 
     this.bindEvents();
@@ -76,11 +76,20 @@ class DictionaryController {
       this.hideStrongsBox();
     });
 
+    window.addEventListener('selectionchange', () => {
+      const selection = window.getSelection();
+      let textSelected = selection && selection.rangeCount > 0 && !selection.isCollapsed;
+
+      if (textSelected) {
+        this.hideStrongsBox();
+      }
+    });
+
     eventController.subscribe('on-dictionary-added', () => {
       this.runAvailabilityCheck();
     });
 
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => { 
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
       this.bindAfterBibleTextLoaded(tabIndex);
     });
 
@@ -132,7 +141,7 @@ class DictionaryController {
     this.strongsAvailable = await ipcNsi.strongsAvailable();
 
     if (this.strongsAvailable != oldStatus) {
-      this._dictionaryInfoBox.clearDictInfoBox();
+      this._dictionaryPanel.clear();
     }
   }
 
@@ -145,7 +154,7 @@ class DictionaryController {
   }
 
   clearInfoBox() {
-    this._dictionaryInfoBox.clearDictInfoBox();
+    this._dictionaryPanel.clear();
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {
@@ -171,35 +180,44 @@ class DictionaryController {
       this.highlightStrongsInVerse(verseElement);
     }));
 
-    var longpressController;
-    if (platformHelper.isCordova()) {
-      longpressController = require('./longpress_controller.js');
-    }
-    
     const wElements = currentVerseListFrame.querySelectorAll('w');
 
     wElements.forEach(wElement => { 
       wElement.classList.remove('strongs-hl');
-
-      if (platformHelper.isCordova()) {
-        longpressController.subscribe(wElement, (el) => {
-          if (!this._isDictionaryOpen) {
-            return;
-          }
-
-          // TODO: Remove the previous strong's highlighting
-          let currentVerseText = el.closest('.verse-text');
-          app_controller.verse_selection.setVerseAsSelection(currentVerseText);
-          this._handleStrongsWord(el);
-        });
-      } 
 
       wElement.addEventListener('mousemove', async (e) => {
         let currentTab = app_controller.tab_controller.getTab();
         currentTab.tab_search.blurInputField();
         await this._handleShiftMouseMove(e);
       });
+
+      this.initStrongsSup(wElement);
     });
+  }
+
+  initStrongsForContainer(container) {
+    if (container == null) {
+      return;
+    }
+
+    let wElements = container.querySelectorAll('w');
+    wElements.forEach(wElement => {
+      this.initStrongsSup(wElement);
+    });
+  }
+
+  initStrongsSup(wElement) {
+    if (!wElement.classList.contains('strongsInitDone')) {
+      let strongsIds = this.getStrongsIdsFromStrongsElement(wElement);
+      for (let i = strongsIds.length - 1; i >= 0; i--) {
+        let strongsSup = document.createElement('sup');
+        strongsSup.classList.add('strongs');
+        strongsSup.innerText = strongsIds[i];
+        wElement.insertAdjacentElement('afterend', strongsSup);
+      }
+
+      wElement.classList.add('strongsInitDone');
+    }
   }
 
   async getStrongsEntryWithRawKey(rawKey, normalizedKey=undefined) {
@@ -230,12 +248,20 @@ class DictionaryController {
    * @returns {Array} an array of Strongs Ids or an empty array 
    */
   getStrongsIdsFromStrongsElement(strongsElement) {
-    var strongsIds = [];
+    let strongsIds = [];
 
     if (strongsElement) {
       strongsElement.classList.forEach(cls => {
         if (cls.startsWith('strong:')) {
-          const strongsId = cls.slice(7);
+          let strongsId = cls.slice(7);
+
+          // In some translations like the KJV, the Hebrew Strong's id markup in the text contains
+          // leading zeros in front of the actual Strong's number. Here we check for that
+          // condition and fix the strongsId accordingly.
+          if (strongsId.startsWith('H0')) {
+            strongsId = strongsId.replace('H0', 'H');
+          }
+
           strongsIds.push(strongsId);
         }
       });
@@ -309,7 +335,7 @@ class DictionaryController {
       }
 
       this.strongsBox.html(strongsShortInfo);
-      this._dictionaryInfoBox.updateDictInfoBox(firstStrongsEntry, additionalStrongsEntries, true);
+      this._dictionaryPanel.update(firstStrongsEntry, additionalStrongsEntries, true);
     } catch (e) {
       console.log(e);
     }

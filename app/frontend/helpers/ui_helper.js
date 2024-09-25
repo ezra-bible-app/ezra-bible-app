@@ -289,6 +289,29 @@ class UiHelper {
       onClickFunction();
     });
   }
+
+  openLinkInBrowser(link) {
+    if (platformHelper.isElectron()) {
+
+      require("electron").shell.openExternal(link);
+
+    } else if (platformHelper.isCordova()) {
+
+      window.open(link, '_system');
+
+    }
+  }
+
+  showSuccessMessage(message, timeout=3000) {
+    const position = platformHelper.getIziPosition();
+
+    // eslint-disable-next-line no-undef
+    iziToast.success({
+      message: message,
+      position: position,
+      timeout: timeout
+    });
+  }
 }
 
 module.exports = UiHelper;

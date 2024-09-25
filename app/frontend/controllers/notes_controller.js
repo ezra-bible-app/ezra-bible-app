@@ -24,7 +24,7 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
-const { showErrorDialog, sleep } = require('../helpers/ezra_helper.js');
+const { showDialog, sleep } = require('../helpers/ezra_helper.js');
 require('../components/emoji_button_trigger.js');
 
 let CodeMirror = null;
@@ -319,7 +319,7 @@ class NotesController {
                         ${result.exception}<br><br>
                         Please restart the app.`;
 
-          await showErrorDialog('Database Error', message);
+          await showDialog('Database Error', message);
           this._focusEditor();
           return false;
         }
@@ -351,8 +351,10 @@ class NotesController {
                 currentNotes = targetVerseBox.querySelector('.verse-notes');
               }
 
-              currentNotes.setAttribute('notes-content', changedValue.noteValue);
-              this._updateNoteDate(targetVerseBox, changedValue.timestamp);
+              if (currentNotes != null) {
+                currentNotes.setAttribute('notes-content', changedValue.noteValue);
+                this._updateNoteDate(targetVerseBox, changedValue.timestamp);
+              }
             }
           );
         }

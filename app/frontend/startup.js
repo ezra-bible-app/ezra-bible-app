@@ -27,6 +27,7 @@ const i18nController = require('./controllers/i18n_controller.js');
 const dbSyncController = require('./controllers/db_sync_controller.js');
 const eventController = require('./controllers/event_controller.js');
 const cacheController = require('./controllers/cache_controller.js');
+const { showDialog } = require('./helpers/ezra_helper.js');
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
@@ -225,15 +226,7 @@ class Startup {
       event.preventDefault();
       let link = event.target.href;
 
-      if (platformHelper.isElectron()) {
-
-        require("electron").shell.openExternal(link);
-
-      } else if (platformHelper.isCordova()) {
-
-        window.open(link, '_system');
-
-      }
+      window.uiHelper.openLinkInBrowser(link);
     });
   }
 
@@ -326,7 +319,7 @@ class Startup {
     });
   }
 
-  async initApplication() {
+  async initApplication(initDbResult=0) {
     console.time("application-startup");
 
     // Wait for the UI to render
@@ -350,7 +343,7 @@ class Startup {
       await ipcRenderer.send('manageWindowState');
 
       console.log("Initializing IPC handlers ...");
-      await ipcRenderer.invoke('initIpc');
+      initDbResult = await ipcRenderer.invoke('initIpc');
     }
 
     var loadingIndicator = $('#startup-loading-indicator');
@@ -450,7 +443,10 @@ class Startup {
     // FIXME: Also highlight the last navigation element in the navigation pane and scroll to it
 
     dbSyncController.init();
-    dbSyncController.showSyncResultMessage();
+
+    setTimeout(() => {
+      dbSyncController.showSyncResultMessage();
+    }, 3000);
 
     if (this._platformHelper.isElectron()) {
       const { ipcRenderer } = require('electron');
@@ -460,7 +456,6 @@ class Startup {
     console.timeEnd("application-startup");
 
     // Save some meta data about versions used
-
     cacheController.saveLastUsedVersion();
 
     if (platformHelper.isCordova()) {
@@ -493,8 +488,72 @@ class Startup {
       newReleaseChecker.check();
     }
 
+    const isDropboxAccessUpgradeNeeded = await ipcDb.isDropboxAccessUpgradeNeeded();
+
+    if (isDropboxAccessUpgradeNeeded) {
+      // The Dropbox access level has changed from full access to app folder access in version 1.15.
+      // Here we inform the user about this change.
+
+      const message = i18n.t('dropbox.access-method-message-part1') +
+                      i18n.t('dropbox.access-method-message-part2') +
+                      i18n.t('dropbox.access-method-message-part3') +
+                      i18n.t('dropbox.access-method-message-part4') +
+                      i18n.t('dropbox.access-method-message-part5') +
+                      `<ul>
+                        <li>${i18n.t('dropbox.access-method-message-part6')}</li>
+                        <li>${i18n.t('dropbox.access-method-message-part7')}</li>
+                      </ul>`;
+
+      await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
+    }
+
+    this.showDatabaseErrorsIfAny(initDbResult);
+
     await eventController.publishAsync('on-startup-completed');
     app_controller.startupCompleted = true;
+  }
+
+  showDatabaseErrorsIfAny(initDbResult) {
+    if (initDbResult < 0) {
+      console.log("WARNING: An error happened during the initialization.");
+
+      if (initDbResult == -1) {
+
+        const message = "The database file has been restored from the last backup after corruption.";
+        console.error(message);
+
+        iziToast.warning({
+          title: "WARNING - Database issue",
+          message: message,
+          position: platformHelper.getIziPosition(),
+          timeout: 30000
+        });
+
+      } else if (initDbResult == -2) {
+
+        const message = "The database file was corrupted. A new database has been restored from the initial, empty template.";
+        console.error(message);
+
+        iziToast.error({
+          title: "FATAL - Database issue",
+          message: message,
+          position: platformHelper.getIziPosition(),
+          timeout: 30000
+        });
+
+      } else if (initDbResult == -3) {
+
+        const message = "The database could not be initialized, even after resetting it due to corruption. You should reinstall the app.";
+        console.error(message);
+
+        iziToast.error({
+          title: "FATAL - Database issue",
+          message: message,
+          position: platformHelper.getIziPosition(),
+          timeout: 30000
+        });
+      }
+    }
   }
 
   /** 

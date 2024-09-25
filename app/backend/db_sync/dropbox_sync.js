@@ -91,7 +91,7 @@ class DropboxSync {
   async syncFileTwoWay(filePath, dropboxPath, prioritizeRemote=false) {
     if (!fs.existsSync(filePath)) {
       console.warn(`File ${filePath} does not exist!`);
-      return -4;
+      return -5;
     }
 
     let isSynced = null;
@@ -101,7 +101,7 @@ class DropboxSync {
     } catch (e) {
       console.log(e);
       console.warn(`Could not determine sync status for ${filePath}`);
-      return -5;
+      return -6;
     }
 
     let returnValue = null;
@@ -152,13 +152,20 @@ class DropboxSync {
           returnValue = -2;
         }
       }
-        
+
       if (this.isFileSynced(filePath, dropboxPath)) {
         console.log(`Local file ${filePath} in sync with Dropbox file at ${dropboxPath}.`);
       } else {
         console.warn(`Error syncing local file ${filePath} to Dropbox file at ${dropboxPath}`);
         if (returnValue == null) {
           returnValue = -3;
+        }
+
+        if (returnValue == 2 || returnValue == -2) {
+          // We performed an upload and afterwards the file was detected as not in sync.
+          // This indicates that there has been a serious issue while uploading the file.
+          // The file on Dropbox may be corrupted.
+          returnValue = -4;
         }
       }
     }

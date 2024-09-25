@@ -51,6 +51,7 @@ const moduleUpdateController = require('./module_update_controller.js');
 const transChangeTitles = require('../components/trans_change_titles.js');
 const sectionLabelHelper = require('../helpers/section_label_helper.js');
 const typeFaceSettings = require('../components/type_face_settings.js');
+const clipboardController = require('./clipboard_controller.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -128,6 +129,7 @@ class AppController {
     verseListController.init();
     moduleUpdateController.init();
     transChangeTitles.init();
+    clipboardController.init();
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
@@ -219,13 +221,14 @@ class AppController {
   }
 
   async initCurrentVerseListMenu(tabIndex=undefined) {
-    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex)[0];
+    const currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex)[0];
 
     currentVerseListMenu.querySelectorAll('.fg-button').forEach((el) => el.classList.remove('events-configured'));
-    var bookSelectButton = currentVerseListMenu.querySelector('.book-select-button');
-    var moduleSearchButton = currentVerseListMenu.querySelector('.module-search-button');
+    let bookSelectButton = currentVerseListMenu.querySelector('.book-select-button');
+    let moduleSearchButton = currentVerseListMenu.querySelector('.module-search-button');
+    let copyButton = currentVerseListMenu.querySelector('.copy-button');
 
-    var bibleTranslations = await ipcNsi.getAllLocalModules();
+    let bibleTranslations = await ipcNsi.getAllLocalModules();
     if (bibleTranslations != null && bibleTranslations.length > 0) {
       bookSelectButton.classList.remove('ui-state-disabled');
       moduleSearchButton.classList.remove('ui-state-disabled');
@@ -238,10 +241,14 @@ class AppController {
       this.book_selection_menu.handleBookMenuClick(event);
     });
 
-    var verseContextMenu = document.getElementById('verse-context-menu');
+    $(copyButton).unbind('click').bind('click', (event) => {
+      clipboardController.handleCopyButtonClick(event);
+    });
+
+    let verseContextMenu = document.getElementById('verse-context-menu');
     verseContextMenu.currentTabIndex = tabIndex;
 
-    var tabId = this.tab_controller.getSelectedTabId(tabIndex);
+    let tabId = this.tab_controller.getSelectedTabId(tabIndex);
     if (tabId !== undefined) {
       uiHelper.configureButtonStyles('#' + tabId);
     }
@@ -254,7 +261,7 @@ class AppController {
     }
 
     Mousetrap.bind(shortCut, async () => {
-      await this.verse_selection.copySelectedVerseTextToClipboard();
+      clipboardController.copyTextToClipboard();
       return false;
     });
 
@@ -413,15 +420,17 @@ class AppController {
   }
 
   async getXrefVerses(xrefs) {
-    var currentTabId = this.tab_controller.getSelectedTabId();
-    var currentVerseList = verseListController.getCurrentVerseList();
+    const currentTabId = this.tab_controller.getSelectedTabId();
+    const currentVerseList = verseListController.getCurrentVerseList();
 
-    var currentTab = this.tab_controller.getTab();
-    currentTab.tab_search.setVerseList(currentVerseList);
+    const currentTab = this.tab_controller.getTab();
+    if (currentTab.tab_search != null) {
+      currentTab.tab_search.setVerseList(currentVerseList);
+    }
 
     if (xrefs.length > 0) {
       // Only reset the view if the current text type has changed
-      var resetView = this.tab_controller.getTab().hasTextTypeChanged();
+      let resetView = this.tab_controller.getTab().hasTextTypeChanged();
 
       await this.text_controller.prepareForNewText(resetView, false);
       this.text_controller.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);

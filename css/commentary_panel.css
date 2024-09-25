@@ -18,6 +18,7 @@
 
 #commentary-panel-content {
   padding: 0.5em;
+  user-select: text; /* Enable text selection */
 }
 
 #commentary-panel-content div.commentary:first-of-type {

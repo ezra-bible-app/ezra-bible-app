@@ -234,6 +234,8 @@
       "font-section-title": "Schriftgröße",
       "current-tab-search-section-title": "Suche für aktuellen Tab",
       "miscellaneous-section-title": "Verschiedene",
+      "previous-chapter": "Vorheriges Kapitel",
+      "next-chapter": "Nächstes Kapitel",
       "in-tab-search": "Suche für aktuellen Tab öffnen",
       "hide-in-tab-search-form": "Suche für aktuellen Tab ausblenden",
       "jump-to-next-search-occurance": "Zum nächsten Suchergebnis springen",
@@ -253,6 +255,8 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "previous-chapter": "Links",
+      "next-chapter": "Rechts",
       "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Strg/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
@@ -342,6 +346,7 @@
     "show-section-titles": "Zeige Überschriften",
     "show-xrefs": "Zeige Parallelstellen",
     "show-footnotes": "Zeige Fußnoten",
+    "show-strongs": "Zeige Strongs",
     "show-paragraphs": "Zeige Absätze",
     "red-letters": "Jesu Worte in rot hervorheben",
     "show-dictionary": "Wörterbuch zeigen",
@@ -357,6 +362,7 @@
     "limit-notes-display-size": "Limitiere Notizgröße",
     "use-tags-column": "Tags in Spalte",
     "select-chapter-before-loading": "Öffne Bücher mit Kapitelauswahl",
+    "use-system-theme": "Systemfarbschema",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Display angeschaltet lassen",
     "comparing-translations-for": "Vergleiche Übersetzungen für",
@@ -375,6 +381,7 @@
     "copy-table-to-clipboard-success": "Tabelle in Zwischenablage kopiert!",
     "copy-verse-text-to-clipboard": "Verstext in Zwischenablage kopieren",
     "copy-verse-text-to-clipboard-success": "Verstext in Zwischenablage kopiert!",
+    "copy-selected-text-to-clipboard-success": "Ausgewählter Text in Zwischenablage kopiert!",
     "edit-note": "Notiz ändern",
     "delete-note": "Notiz löschen",
     "transchange" : {
@@ -423,7 +430,8 @@
     "help-instruction": "Um Bibelkommentare zu zeigen wählen Sie einen Vers aus.<br><br> Dieser Bereich wird dann automatisch alle verfügbaren Bibelkommentare anzeigen.",
     "help-instruction-no-commentaries": "Sie haben bisher keine Bibelkommentare installiert. Sie müssen mindestens einen Bibelkommentar installieren damit dieser Teil des Programms funktioniert.",
     "help-instruction-no-kjv": "Die KJV Übersetzung wurde nocht nicht installiert. Die KJV Übersetzung wird benötigt um Bibelkommentare basierend auf englischer Verszählung korrekt anzuzeigen. Sie können das tun indem Sie:<ul><li>Die KJV aus dem CrossWire Repository installieren.</li><li>Einen Bibelkommentar installieren (Die KJV wird dann automatisch installiert).</li></ul>",
-    "no-commentaries-available-for-this-verse": "Es sind keine Bibelkommentare für diesen Vers verfügbar."
+    "no-commentaries-available-for-this-verse": "Es sind keine Bibelkommentare für diesen Vers verfügbar.",
+    "copy-button": "Bibelkommentar kopieren"
   },
   "emoji": {
     "search": "Durchsuche Emojis...",
@@ -473,7 +481,6 @@
     "dropbox-link-status-linking-failed": "Verbindung fehlgeschlagen!",
     "only-sync-on-wifi": "Nur bei WLAN Verbindung synchronisieren",
     "sync-after-changes": "Datenbank nach Änderungen synchronisieren",
-    "dropbox-sync-folder": "Dropbox Verzeichnis",
     "dropbox-sync-info": "Informationen zur Dropbox Synchronisation",
     "last-dropbox-sync-time": "Zuletzt synchronisiert",
     "last-dropbox-sync-result": "Letztes Synchronisationsergebnis",
@@ -481,6 +488,14 @@
     "last-dropbox-upload-time": "Zuletzt hochgeladen",
     "sync-msg-title": "Dropbox Synchronisation",
     "sync-success-msg": "Datenbank erfolgreich mit Dropbox synchronisiert ({{date}}).",
-    "sync-failed-msg": "Synchronisation mit Dropbox fehlgeschlagen ({{date}})."
+    "sync-failed-msg": "Synchronisation mit Dropbox fehlgeschlagen ({{date}}: {{syncResult}}).",
+    "access-method-change": "Änderung des Dropbox Ordners",
+    "access-method-message-part1": "Der Dropbox Ordner hat sich geändert!<br/><br/>Bis zuletzt wurde ein konfigurierbarer Ordner verwendet.<br/>",
+    "access-method-message-part2": "Ab Ezra Bible App 1.15 kommt ein standardisierter App Ordner zum Einsatz.<br/>",
+    "access-method-message-part3": "Der neue Dropbox Ordner ist /Apps/Ezra Bible App.<br/><br/>",
+    "access-method-message-part4": "Die Verbindung von Ezra Bible App zu Ihrer Dropbox wurde zurückgesetzt.<br/>",
+    "access-method-message-part5": "Sie müssen jetzt folgende Schritte vornehmen:",
+    "access-method-message-part6": "Konfigurieren Sie die Dropbox Verbindung erneut.",
+    "access-method-message-part7": "Aktualisieren Sie Ezra Bible App auf allen Ihren Geräten, um sicherzustellen dass die Synchronisation auf allen Geräten einheitlich funktioniert."
   }
 }

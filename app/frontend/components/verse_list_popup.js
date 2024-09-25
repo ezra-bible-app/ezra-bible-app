@@ -461,6 +461,10 @@ class VerseListPopup {
       $('#verse-list-popup-verse-list').addClass('verse-list-without-footnotes');
     }
 
+    if (!app_controller.optionsMenu._strongsOption.isChecked) {
+      $('#verse-list-popup-verse-list').addClass('verse-list-without-strongs');
+    }
+
     $('#verse-list-popup-verse-list').html(htmlVerses);
 
     if (this.getCurrentTextType() == 'book') {
@@ -469,7 +473,10 @@ class VerseListPopup {
       bookTaggedVersesCountLabel.text(` (${currentBookVerseCount})`);
     }
 
-    app_controller.sword_notes.initForContainer(document.getElementById('verse-list-popup-verse-list'));
+    const verseList = document.getElementById('verse-list-popup-verse-list');
+    app_controller.sword_notes.initForContainer(verseList);
+    app_controller.dictionary_controller.initStrongsForContainer(verseList);
+
     $('#verse-list-popup-verse-list').show();
   }
 }

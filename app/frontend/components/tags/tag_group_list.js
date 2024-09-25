@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html, showErrorDialog } = require('../../helpers/ezra_helper.js');
+const { html, showDialog } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 const TagGroupManager = require('./tag_group_manager.js');
 const tagGroupValidator = require('./tag_group_validator.js');
@@ -123,6 +123,7 @@ const TAG_GROUP_ALL_TAGS = -1;
  * - persist: A Boolean attribute that determines whether changes of the list shall be written to the database or not.
  * - activation-event: The event used for populating the list and then showing it.
  * - selection-event: The event that shall be fired when an item is selected.
+ * - select-all-event: The event used for quickly navigating to the "All tags" item.
  * - show-tag-count: A Boolean attribute that determines whether the tag count shall be shown behind each tag group.
  * - hide-top-border: A Boolean attribute that determines whether the top border shall be hidden.
  * - rounded-corners: A Boolean attribute that determines whether the borders of the box shall be rounded.
@@ -225,6 +226,10 @@ class TagGroupList extends HTMLElement {
       await this.updateTagCountAndRefreshList(currentBook);
     });
 
+    eventController.subscribe(this._selectAllEvent, async() => {
+      await this.selectTagGroup(TAG_GROUP_ALL_TAGS);
+    });
+
     if (this._bookFilter) {
       eventController.subscribe('on-verse-list-init', async (tabIndex) => {
         const currentBook = this.getCurrentBook(tabIndex);
@@ -300,6 +305,10 @@ class TagGroupList extends HTMLElement {
       this._selectionEvent = this.getAttribute('selection-event');
     }
 
+    if (this.hasAttribute('select-all-event')) {
+      this._selectAllEvent = this.getAttribute('select-all-event')
+    }
+
     if (this.hasAttribute('show-tag-count')) {
       this._showTagCount = this.getAttribute('show-tag-count') == "true";
     }
@@ -341,7 +350,7 @@ class TagGroupList extends HTMLElement {
                      ${result.exception}<br><br>
                      Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       return null;
     }
 
@@ -453,7 +462,7 @@ class TagGroupList extends HTMLElement {
                      ${result.exception}<br><br>
                      Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       return;
     } else {
       await eventController.publishAsync('on-tag-group-renamed', tagGroupId);
@@ -520,7 +529,7 @@ class TagGroupList extends HTMLElement {
                      ${result.exception}<br><br>
                      Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       return;
     } else {
       await eventController.publishAsync('on-tag-group-deleted', tagGroupId);

@@ -23,6 +23,7 @@ const wheelnavController = require('../controllers/wheelnav_controller.js');
 const eventController = require('../controllers/event_controller.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const Hammer = require('../../../lib/hammerjs/hammer.js');
+const Mousetrap = require('mousetrap');
 
 /**
  * This controller provides an API for the verse list as well as event handlers for clicks within the verse list.
@@ -30,7 +31,7 @@ const Hammer = require('../../../lib/hammerjs/hammer.js');
  * @category Controller
  */
 
-module.exports.init = function init() {
+module.exports.init = function() {
   eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
 
   eventController.subscribe('on-verse-list-init', async (tabIndex) => { this.updateVerseListClasses(tabIndex); });
@@ -42,10 +43,12 @@ module.exports.init = function init() {
     let platformHelper = new PlatformHelper();
     if (platformHelper.isCordova()) {
       this.initSwipeEvents(tabIndex);
+    } else {
+      this.initNavigationEvents(tabIndex);
     }
   });
 
-  eventController.subscribeMultiple(['on-tag-group-filter-enabled', 'on-tag-group-members-changed'], async () => {
+  eventController.subscribeMultiple(['on-tag-group-filter-enabled', 'on-tag-group-member-changed'], async () => {
     this.applyTagGroupFilter(tags_controller.currentTagGroupId);
   });
 
@@ -357,6 +360,23 @@ module.exports.initSwipeEvents = async function(tabIndex) {
   }
 };
 
+module.exports.initNavigationEvents = async function(tabIndex) {
+  let currentTab = app_controller.tab_controller.getTab(tabIndex);
+  const currentTranslationId = currentTab.getBibleTranslationId();
+  const currentBook = currentTab.getBook();
+  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentBook);
+
+  if (!isInstantLoadingBook) {
+    Mousetrap.bind('left', () => {
+      this.goToPreviousChapter();
+    });
+
+    Mousetrap.bind('right', () => {
+      this.goToNextChapter();
+    });
+  }
+};
+
 module.exports.getCurrentChapter = function() {
   let verseList = this.getCurrentVerseList();
   let firstVerseBox = new VerseBox(verseList[0].querySelector('.verse-box'));
@@ -523,12 +543,14 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
   // Update visibility of verse tag indicators
   verseBoxes.forEach((verseBox) => {
     let visibleTagCount = verseBox.querySelectorAll('.tag:not(.hidden)').length;
-
     let tagIndicator = verseBox.querySelector('.tag-info');
-    if (visibleTagCount > 0) {
-      tagIndicator.classList.add('visible');
-    } else {
-      tagIndicator.classList.remove('visible');
+
+    if (tagIndicator != null) {
+      if (visibleTagCount > 0) {
+        tagIndicator.classList.add('visible');
+      } else {
+        tagIndicator.classList.remove('visible');
+      }
     }
   });
 };

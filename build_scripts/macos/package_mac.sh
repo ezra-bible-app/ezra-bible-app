@@ -12,4 +12,6 @@ node_modules/.bin/electron-packager . 'Ezra Bible App' \
 --executable-name='Ezra Bible App' \
 --app-bundle-id='net.ezrabibleapp.electron' \
 --app-category-type='public.app-category.education' \
+--protocol=ezrabible \
+--protocol-name='Ezra Bible App' \
 --icon=icons/ezra.icns

@@ -240,6 +240,8 @@
       "font-section-title": "Lettertype",
       "current-tab-search-section-title": "Zoeken in huidig tabblad",
       "miscellaneous-section-title": "Diversen",
+      "previous-chapter": "Vorig hoofdstuk",
+      "next-chapter": "Volgend hoofdstuk",
       "in-tab-search": "Open zoeken in huidig tabblad",
       "hide-in-tab-search-form": "Zoekformulier voor huidig tabblad verbergen",
       "jump-to-next-search-occurance": "Spring naar volgend zoekresultaat",
@@ -259,6 +261,8 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "previous-chapter": "Links",
+      "next-chapter": "Rechts",
       "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
@@ -348,6 +352,7 @@
     "show-section-titles": "Toon sectietitels",
     "show-xrefs": "Toon kruisverwijzingen",
     "show-footnotes": "Toon voetnoten",
+    "show-strongs": "Toon Strongs nummers",
     "show-paragraphs": "Toon alinea's",
     "red-letters": "Markeer de woorden van Jezus met rood",
     "show-dictionary": "Toon woordenboek",
@@ -363,6 +368,7 @@
     "limit-notes-display-size": "Beperk grootte van aantekeningen",
     "use-tags-column": "Gebruik tags-kolom",
     "select-chapter-before-loading": "Open boeken met hoofdstukselectie",
+    "use-system-theme": "Systeemsthema",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Houd het beeldscherm ingeschakeld",
     "comparing-translations-for": "Vertalingen vergelijken voor",
@@ -381,6 +387,7 @@
     "copy-table-to-clipboard-success": "Tabel gekopieerd naar klembord!",
     "copy-verse-text-to-clipboard": "Kopieer verstekst naar klembord",
     "copy-verse-text-to-clipboard-success": "Verstekst gekopieerd naar klembord!",
+    "copy-selected-text-to-clipboard-success": "Geselecteerde tekst gekopieerd naar klembord!",
     "edit-note": "Notitie aanpassen",
     "delete-note": "Notitie verwijderen",
     "transchange" : {
@@ -429,7 +436,8 @@
     "help-instruction": "Selecteer een vers om de commentaarinhoud weer te geven.<br><br> Dit gebied zal dan automatisch het geselecteerde vers uit alle beschikbare commentaren weergeven.",
     "help-instruction-no-commentaries": "Er zijn nog geen commentaren geïnstalleerd. U moet ten minste één commentaar installeren om deze functionaliteit te laten werken.",
     "help-instruction-no-kjv": "De KJV-vertaling is nog niet geïnstalleerd. De KJV is nodig om bijbelcommentaren correct weer te geven op basis van de Engelse versificatie. U kunt dit oplossen door:<ul><li>de KJV te installeren vanuit het CrossWire-depot</li><li>een commentaar te installeren (de KJV wordt in dit geval automatisch geïnstalleerd)</li></ul>",
-    "no-commentaries-available-for-this-verse": "Er zijn geen commentaren beschikbaar voor dit vers."
+    "no-commentaries-available-for-this-verse": "Er zijn geen commentaren beschikbaar voor dit vers.",
+    "copy-button": "Kopieer commentaar"
   },
   "emoji": {
     "search": "Zoek emojis...",
@@ -479,7 +487,6 @@
     "dropbox-link-status-linking-failed": "Koppeling gefaald!",
     "only-sync-on-wifi": "Alleen synchroniseren op WiFi",
     "sync-after-changes": "Synchroniseer databank na wijzigingen",
-    "dropbox-sync-folder": "Dropbox-synchronisatiemap",
     "dropbox-sync-info": "Info over Dropbox-synchronisatie",
     "last-dropbox-sync-time": "Laatste synchronisatie",
     "last-dropbox-sync-result": "Laatste synchronisatieresultaat",
@@ -487,6 +494,14 @@
     "last-dropbox-upload-time": "Laatste upload",
     "sync-msg-title": "Dropbox-synchronisatie",
     "sync-success-msg": "Synchronisatie van database met Dropbox is gelukt ({{date}}).",
-    "sync-failed-msg": "Synchronisatie van database met Dropbox is mislukt ({{date}})."
+    "sync-failed-msg": "Synchronisatie van database met Dropbox is mislukt ({{date}}: {{syncResult}}).",
+    "access-method-change": "Wijziging van Dropbox-toegangsmethode",
+    "access-method-message-part1": "De Dropbox-toegangsmethode is gewijzigd!<br/><br/>Voorheen werd een aangepaste map gebruikt voor Dropbox-toegang.<br/>",
+    "access-method-message-part2": "Vanaf Ezra Bible App 1.15 wordt app-maptoegang gebruikt.<br/>",
+    "access-method-message-part3": "De nieuwe Dropbox-map is /Apps/Ezra Bible App.<br/><br/>",
+    "access-method-message-part4": "De koppeling van Ezra Bible App naar uw Dropbox-account is opnieuw ingesteld.<br/>",
+    "access-method-message-part5": "Dit zijn de acties die u nu moet uitvoeren:",
+    "access-method-message-part6": "Configureer de Dropbox-accountkoppeling opnieuw.",
+    "access-method-message-part7": "Werk de Ezra Bijbel-app op al uw apparaten bij om ervoor te zorgen dat de Dropbox-synchronisatiemethode hetzelfde is."
   }
 }

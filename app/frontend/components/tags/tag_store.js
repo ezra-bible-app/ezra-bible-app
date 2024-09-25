@@ -45,7 +45,7 @@ class TagStore {
       await this.renameTag(tagId, newTitle);
     });
 
-    eventController.subscribePrioritized('on-tag-group-members-changed', async ({ tagId, addTagGroups, removeTagGroups }) => {
+    eventController.subscribePrioritized('on-tag-group-member-changed', async ({ tagId, addTagGroups, removeTagGroups }) => {
       await this.updateTagGroups(tagId, addTagGroups, removeTagGroups);
     });
   }

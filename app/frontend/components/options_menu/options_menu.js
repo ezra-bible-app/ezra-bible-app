@@ -47,6 +47,9 @@ class OptionsMenu {
       var CordovaPlatform = require('../../platform/cordova_platform.js');
       this.cordovaPlatform = new CordovaPlatform();
     }
+
+    this.MINIMUM_REFRESH_DISTANCE = 2000;
+    this.lastRefreshViewTime = Date.now() - this.MINIMUM_REFRESH_DISTANCE - 1;
   }
 
   async init() {
@@ -100,6 +103,7 @@ class OptionsMenu {
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
+    this._strongsOption = this.initConfigOption('showStrongsInlineOption', () => { this.showOrHideStrongsBasedOnOption(); });
     this._paragraphsOption = this.initConfigOption('showParagraphsOption', () => { this.showOrHideParagraphsBasedOnOption(); });
     this._redLetterOption = this.initConfigOption('redLetterOption', () => { this.renderRedLettersBasedOnOption(); });
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, bookChapterNavDefault);
@@ -143,21 +147,56 @@ class OptionsMenu {
   }
 
   async initNightModeOption() {
-    this._nightModeOption = this.initConfigOption('useNightModeOption', async () => {
+    let handleThemeChange = async (systemTheme=false) => {
       this.hideDisplayMenu();
       uiHelper.showGlobalLoadingIndicator();
-      theme_controller.useNightModeBasedOnOption();
+
+      if (systemTheme) {
+        theme_controller.initMacOsEventHandler();
+        theme_controller.toggleDarkModeIfNeeded();
+      } else {
+        theme_controller.useNightModeBasedOnOption();
+      }
+
+      const isMojaveOrLater = this.platformHelper.isMacOsMojaveOrLater();
+      const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
+
+      if (isMojaveOrLater) {
+        if (useSystemTheme) {
+          // On macOS Mojave and later we can use the system theme if that's what the user wants.
+          $(this._nightModeOption).hide();
+        } else {
+          $(this._nightModeOption).show();
+        }
+      }
 
       await waitUntilIdle();
       uiHelper.hideGlobalLoadingIndicator();
+    };
+
+    this._nightModeOption = this.initConfigOption('useNightModeOption', () => {
+      handleThemeChange();
+    });
+
+    this._systemThemeOption = this.initConfigOption('useSystemTheme', () => {
+      handleThemeChange(true);
     });
 
     this._nightModeOption.checked = await theme_controller.isNightModeUsed();
 
-    var isMojaveOrLater = await this.platformHelper.isMacOsMojaveOrLater();
+    const isMojaveOrLater = this.platformHelper.isMacOsMojaveOrLater();
+    const useSystemTheme = await ipcSettings.get('useSystemTheme', false);
+
     if (isMojaveOrLater) {
-      // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
-      $(this._nightModeOption).hide();
+      if (useSystemTheme) {
+        // On macOS Mojave and later we can use the system theme if that's what the user wants.
+        $(this._nightModeOption).hide();
+      } else {
+        $(this._nightModeOption).show();
+      }
+    } else {
+      // Hide system theme option on all systems except macOS Mojave+
+      $(this._systemThemeOption).hide();
     }
   }
 
@@ -311,22 +350,38 @@ class OptionsMenu {
     }
   }
 
+  toggleCssClassBasedOnOption(elementList, option, cssClassDisplayNone, addClassWhenOptionChecked=false) {
+    if (elementList == null || elementList.length == 0 || option == null || cssClassDisplayNone == null) {
+      return;
+    }
+
+    elementList.forEach(element => {
+      if (element != null) {
+        if (addClassWhenOptionChecked) {
+          if (option.isChecked) {
+            element.classList.add(cssClassDisplayNone);
+          } else {
+            element.classList.remove(cssClassDisplayNone);
+          }
+        } else {
+          if (option.isChecked) {
+            element.classList.remove(cssClassDisplayNone);
+          } else {
+            element.classList.add(cssClassDisplayNone);
+          }
+        }
+      }
+    });
+  }
+
   showOrHideXrefsBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._xrefsOption.isChecked) {
-        currentReferenceVerse.removeClass('verse-list-without-xrefs');
-        currentVerseList.removeClass('verse-list-without-xrefs');
-        tagBoxVerseList.removeClass('verse-list-without-xrefs');
-      } else {
-        currentReferenceVerse.addClass('verse-list-without-xrefs');
-        currentVerseList.addClass('verse-list-without-xrefs');
-        tagBoxVerseList.addClass('verse-list-without-xrefs');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], tagBoxVerseList[0]],
+                                     this._xrefsOption,
+                                     'verse-list-without-xrefs');
   }
 
   showOrHideFootnotesBasedOnOption(tabIndex=undefined) {
@@ -334,17 +389,19 @@ class OptionsMenu {
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._footnotesOption.isChecked) {
-        currentReferenceVerse.removeClass('verse-list-without-footnotes');
-        currentVerseList.removeClass('verse-list-without-footnotes');
-        tagBoxVerseList.removeClass('verse-list-without-footnotes');
-      } else {
-        currentReferenceVerse.addClass('verse-list-without-footnotes');
-        currentVerseList.addClass('verse-list-without-footnotes');
-        tagBoxVerseList.addClass('verse-list-without-footnotes');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], tagBoxVerseList[0]],
+                                     this._footnotesOption,
+                                     'verse-list-without-footnotes');
+  }
+
+  showOrHideStrongsBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+    var tagBoxVerseList = $('#verse-list-popup-verse-list');
+
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], tagBoxVerseList[0]],
+                                     this._strongsOption,
+                                     'verse-list-without-strongs');
   }
 
   showOrHideParagraphsBasedOnOption(tabIndex=undefined) {
@@ -352,17 +409,10 @@ class OptionsMenu {
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._paragraphsOption.isChecked) {
-        currentReferenceVerse.addClass('verse-list-with-paragraphs');
-        currentVerseList.addClass('verse-list-with-paragraphs');
-        tagBoxVerseList.addClass('verse-list-with-paragraphs');
-      } else {
-        currentReferenceVerse.removeClass('verse-list-with-paragraphs');
-        currentVerseList.removeClass('verse-list-with-paragraphs');
-        tagBoxVerseList.removeClass('verse-list-with-paragraphs');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], tagBoxVerseList[0]],
+                                     this._paragraphsOption,
+                                     'verse-list-with-paragraphs',
+                                     true);
   }
 
   renderRedLettersBasedOnOption(tabIndex=undefined) {
@@ -371,19 +421,10 @@ class OptionsMenu {
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
     var comparePanel = $('#compare-panel');
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._redLetterOption.isChecked) {
-        currentReferenceVerse.addClass('verse-list-with-red-letters');
-        currentVerseList.addClass('verse-list-with-red-letters');
-        tagBoxVerseList.addClass('verse-list-with-red-letters');
-        comparePanel.addClass('verse-list-with-red-letters');
-      } else {
-        currentReferenceVerse.removeClass('verse-list-with-red-letters');
-        currentVerseList.removeClass('verse-list-with-red-letters');
-        tagBoxVerseList.removeClass('verse-list-with-red-letters');
-        comparePanel.removeClass('verse-list-with-red-letters');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], tagBoxVerseList[0], comparePanel[0]],
+                                     this._redLetterOption,
+                                     'verse-list-with-red-letters',
+                                     true);
   }
 
   showOrHideBookChapterNavigationBasedOnOption(tabIndex=undefined) {
@@ -422,32 +463,18 @@ class OptionsMenu {
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._userDataIndicatorOption.isChecked) {
-        currentReferenceVerse.removeClass('verse-list-without-user-data-indicators');
-        currentVerseList.removeClass('verse-list-without-user-data-indicators');
-        currentNavigationPane.addClass('with-tag-indicators');
-      } else {
-        currentReferenceVerse.addClass('verse-list-without-user-data-indicators');
-        currentVerseList.addClass('verse-list-without-user-data-indicators');
-        currentNavigationPane.removeClass('with-tag-indicators');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0], currentNavigationPane[0]],
+                                     this._userDataIndicatorOption,
+                                     'verse-list-without-user-data-indicators');
   }
 
   showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._tagsOption.isChecked) {
-        currentReferenceVerse.removeClass('verse-list-without-tags');
-        currentVerseList.removeClass('verse-list-without-tags');
-      } else {
-        currentReferenceVerse.addClass('verse-list-without-tags');
-        currentVerseList.addClass('verse-list-without-tags');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._tagsOption,
+                                     'verse-list-without-tags');
   }
 
   applyTagGroupFilterBasedOnOption() {
@@ -462,31 +489,20 @@ class OptionsMenu {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._verseNotesOption.isChecked) {
-        currentReferenceVerse.addClass('verse-list-with-notes');
-        currentVerseList.addClass('verse-list-with-notes');
-      } else {
-        app_controller.notes_controller.restoreCurrentlyEditedNotes();
-        currentReferenceVerse.removeClass('verse-list-with-notes');
-        currentVerseList.removeClass('verse-list-with-notes');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._verseNotesOption,
+                                     'verse-list-with-notes',
+                                     true);
   }
 
   fixNotesHeightBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._verseNotesFixedHeightOption.isChecked) {
-        currentReferenceVerse.addClass('verse-list-scroll-notes');
-        currentVerseList.addClass('verse-list-scroll-notes');
-      } else {
-        currentReferenceVerse.removeClass('verse-list-scroll-notes');
-        currentVerseList.removeClass('verse-list-scroll-notes');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._verseNotesFixedHeightOption,
+                                     'verse-list-scroll-notes',
+                                     true);
   }
 
   keepScreenAwakeBasedOnOption() {
@@ -505,15 +521,10 @@ class OptionsMenu {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._tagsColumnOption.isChecked) {
-        currentReferenceVerse.addClass('verse-list-tags-column');
-        currentVerseList.addClass('verse-list-tags-column');
-      } else {
-        currentReferenceVerse.removeClass('verse-list-tags-column');
-        currentVerseList.removeClass('verse-list-tags-column');
-      }
-    }
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._tagsColumnOption,
+                                     'verse-list-tags-column',
+                                     true);
   }
 
   async toggleCrashReportsBasedOnOption() {
@@ -522,12 +533,26 @@ class OptionsMenu {
   }
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {
+    const now = Date.now();
+    let timeSinceLastRefresh = 0;
+    
+    if (this.lastRefreshViewTime != 0) {
+      timeSinceLastRefresh = now - this.lastRefreshViewTime;
+    }
+
+    if (timeSinceLastRefresh < this.MINIMUM_REFRESH_DISTANCE) {
+      return;
+    }
+
+    this.lastRefreshViewTime = now;
+
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
     this.showOrHideTabSearchFormBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
+    this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideParagraphsBasedOnOption(tabIndex);
     this.renderRedLettersBasedOnOption(tabIndex);
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);

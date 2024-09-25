@@ -1,6 +1,50 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.15.0 - 2024-09-21]
+
+### Enhancements
+
+* Make Darkmode configurable on macOS. ([#1042][i1042])
+* Navigate chapters with left/right keys on Desktop. ([#1057][i1057])
+* Add quick link "All tags" in tag list menu to navigate back to All tags after selecting tag group. ([#1072][i1072])
+* Option to show Strong's #'s inline with text and/or search results. ([#1087][i1087])
+* Save verse selection per tab on desktop. ([#1095][i1095])
+* Enable text selection for verses that are selected. ([#1104][i1104])
+* Copy current selection (text) or currently selected verse(s) via copy button. ([#1102][i1102])
+
+### Fixes
+
+* Dropbox feedback: Change Dropbox access level to app folder access. ([#1090][i1090])
+* Cannot automatically recover from database corruption. ([#1096][i1096])
+* Scroll position of source tab not saved when "finding all occurrences". ([#1101][i1101])
+* Languages with region code not shown correctly in Language selection. ([#1109][i1109])
+
+[i1042]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1042
+[i1057]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1057
+[i1072]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1072
+[i1078]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1078
+[i1087]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1087
+[i1090]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1090
+[i1095]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1095
+[i1096]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1096
+[i1101]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1101
+[i1102]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1102
+[i1104]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1104
+[i1109]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1109
+
+## [1.14.1 - 2024-08-03]
+
+### Fixes
+
+* Dropbox feedback: OAuth authorization flow processed inside web view. ([#1079][i1079])
+* Search results for Strongs Hebrew #'s lack highlight. ([#1085][i1085])
+* Translations with leading zeros in Strong's #s (eg. H07225) cause the function "Find all occurances" to always return zero results. ([#1086][i1086])
+
+[i1079]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1079
+[i1085]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1085
+[i1086]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1086
+
 ## [1.14.0 - 2024-06-30]
 
 ### Enhancements
@@ -15,6 +59,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Bible commentaries and dictionaries do not render paragraphs correctly. ([#1016][i1016])
 * Dictionary side panel stops working if any SWORD module is uninstalled. ([#1045][i1045])
 * Blocking JavaScript errors after turning off error reporting option. ([#1048][i1048])
+* Showing search results in a popup generates an empty new tab if triggered via Dictionary Panel strongs search. ([#1056][i1056])
 
 ### Enablers
 
@@ -28,6 +73,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1045]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1045
 [i1048]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1048
 [i1051]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1051
+[i1056]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1056
 
 ## [1.13.0 - 2024-01-20]
 

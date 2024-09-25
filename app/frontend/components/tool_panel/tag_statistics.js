@@ -155,10 +155,12 @@ class TagStatistics {
       var currentTag = tag_list[i];
       var currentTagStatistics = tag_statistics[currentTag.id];
 
-      var is_used_in_current_book = (currentTagStatistics.bookAssignmentCount > 0) ? true : false;
+      if (currentTagStatistics != null) {
+        var is_used_in_current_book = (currentTagStatistics.bookAssignmentCount > 0) ? true : false;
 
-      if (current_book != null && is_used_in_current_book) {
-        book_tag_statistics[currentTag.title] = parseInt(currentTagStatistics.bookAssignmentCount);
+        if (current_book != null && is_used_in_current_book) {
+          book_tag_statistics[currentTag.title] = parseInt(currentTagStatistics.bookAssignmentCount);
+        }
       }
     }
 

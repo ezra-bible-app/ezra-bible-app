@@ -29,11 +29,10 @@ const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
 const eventController = require('./event_controller.js');
 
-const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
+const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
 const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
 const DROPBOX_REFRESH_TOKEN_SETTINGS_KEY = 'dropboxRefreshToken';
 const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
-const DROPBOX_FOLDER_SETTINGS_KEY = 'dropboxFolder';
 const DROPBOX_ONLY_WIFI_SETTINGS_KEY = 'dropboxOnlyWifi';
 const DROPBOX_SYNC_AFTER_CHANGES_KEY = 'dropboxSyncAfterChanges';
 const DROPBOX_LAST_SYNC_RESULT_KEY = 'lastDropboxSyncResult';
@@ -46,7 +45,6 @@ let dbSyncInitDone = false;
 let dbSyncDropboxToken = null;
 let dbSyncDropboxRefreshToken = null;
 let dbSyncDropboxLinkStatus = null;
-let dbSyncDropboxFolder = null;
 let dbSyncOnlyWifi = false;
 let dbSyncAfterChanges = false;
 let dbSyncFirstSyncDone = false;
@@ -63,11 +61,19 @@ module.exports.init = function() {
       module.exports.showSyncResultMessage();
     });
 
+    require('electron').ipcRenderer.on('database-updated', () => {
+      eventController.publishAsync('on-db-refresh');
+    });
+
   } else if (platformHelper.isCordova()) {
 
     // eslint-disable-next-line no-undef
     nodejs.channel.on('dropbox-synced', () => {
       module.exports.showSyncResultMessage();
+    });
+
+    nodejs.channel.on('database-updated', () => {
+      eventController.publishAsync('on-db-refresh');
     });
 
     const CONNECTION_MONITORING_CYCLE_MS = 5000;
@@ -110,21 +116,18 @@ module.exports.showSyncResultMessage = async function() {
   }
 
   const lastDropboxSyncResult = await ipcSettings.get(DROPBOX_LAST_SYNC_RESULT_KEY, '');
+  console.log(`Last Dropbox sync result: ${lastDropboxSyncResult}`);
 
   if (lastDropboxSyncResult != null && lastDropboxSyncResult != "" && lastDropboxSyncResult != "NONE") {
-    let msgPosition = 'bottomRight';
+    let msgPosition = platformHelper.getIziPosition();
 
-    if (platformHelper.isCordova()) {
-      msgPosition = 'topCenter';
-    }
-
-    if (lastDropboxSyncResult == 'FAILED') {
+    if (lastDropboxSyncResult.indexOf('FAILED') != -1) {
       // eslint-disable-next-line no-undef
       iziToast.error({
         title: i18n.t('dropbox.sync-msg-title'),
-        message: i18n.t('dropbox.sync-failed-msg', { date: lastDropboxSyncTime }),
+        message: i18n.t('dropbox.sync-failed-msg', { date: lastDropboxSyncTime, syncResult: lastDropboxSyncResult }),
         position: msgPosition,
-        timeout: 8000
+        timeout: 10000
       });
     } else {
       // eslint-disable-next-line no-undef
@@ -132,7 +135,7 @@ module.exports.showSyncResultMessage = async function() {
         title: i18n.t('dropbox.sync-msg-title'),
         message: i18n.t('dropbox.sync-success-msg', { date: lastDropboxSyncTime }),
         position: msgPosition,
-        timeout: 3000
+        timeout: 5000
       });
     }
   }
@@ -169,12 +172,10 @@ async function initDbSync() {
   dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxRefreshToken = await ipcSettings.get(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
-  dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_FOLDER_SETTINGS_KEY, 'ezra');
   dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
   dbSyncAfterChanges = await ipcSettings.get(DROPBOX_SYNC_AFTER_CHANGES_KEY, false);
   dbSyncFirstSyncDone = await ipcSettings.get(DROPBOX_FIRST_SYNC_DONE_KEY, false);
 
-  $('#dropbox-sync-folder').val(dbSyncDropboxFolder);
   document.getElementById('only-sync-on-wifi').checked = dbSyncOnlyWifi;
   document.getElementById('sync-dropbox-after-changes').checked = dbSyncAfterChanges;
   updateDropboxLinkStatusLabel();
@@ -231,7 +232,6 @@ async function initDbSync() {
 async function handleDropboxConfigurationSave() {
   $('#db-sync-box').dialog("close");
 
-  dbSyncDropboxFolder = $('#dropbox-sync-folder').val();
   dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
   dbSyncAfterChanges = document.getElementById('sync-dropbox-after-changes').checked;
 
@@ -254,7 +254,6 @@ async function handleDropboxConfigurationSave() {
   }
 
   await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
-  await ipcSettings.set(DROPBOX_FOLDER_SETTINGS_KEY, dbSyncDropboxFolder);
   await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
   await ipcSettings.set(DROPBOX_SYNC_AFTER_CHANGES_KEY, dbSyncAfterChanges);
 
@@ -290,15 +289,8 @@ function updateDropboxLinkStatusLabel(resetLink=false) {
 
 // Parses the url and gets the access token if it is in the urls hash
 function getCodeFromUrl(url) {
-  let replacementString = null;
-
-  if (platformHelper.isCordova()) {
-    replacementString = 'ezrabible://app?code=';
-  } else if (platformHelper.isElectron()) {
-    replacementString = '/dropbox_auth?code=';
-  }
-
-  let code = url.replace(replacementString, '');
+  const replacementRegex = /ezrabible.*code=/;
+  let code = url.replace(replacementRegex, '');
   return code;
 }
 
@@ -309,11 +301,7 @@ function hasRedirectedFromAuth(url) {
 }
 
 function getRedirectUri() {
-  if (platformHelper.isCordova()) {
-    return 'ezrabible://app';
-  } else if (platformHelper.isElectron()) {
-    return 'http://localhost:9999/dropbox_auth';
-  }
+  return 'ezrabible://app';
 }
 
 function handleRedirect(url) {
@@ -345,14 +333,6 @@ async function setupDropboxAuthentication() {
 
   //console.log('Starting Dropbox authentication with this REDIRECT_URI: ' + REDIRECT_URI);
 
-  if (platformHelper.isElectron()) {
-    // On Electron the authentication code will come back through a local web server that we start here.
-    // Once the user approves the Dropbox access, Dropbox will redirect the user to a web site served
-    // by this local server. The code is then read in the backend (see ipc_general_handler.js) and
-    // sent back via IPC on the channel dropbox-auth-callback, see the code in initAuthCallbacks().
-    await ipcGeneral.startDropboxAuthServer();
-  }
-
   dbxAuth.getAuthenticationUrl(REDIRECT_URI, undefined, 'code', 'offline', undefined, undefined, true)
     .then(authUrl => {
       window.sessionStorage.clear();
@@ -362,19 +342,7 @@ async function setupDropboxAuthentication() {
 
       // Open the Dropbox authentication url in the system web browser.
       // The next step after this will be a redirect which will be handled by handleRedirect().
-      let popup = window.open(authUrl, '_system', "width=1024, height=768");
-
-      if (platformHelper.isElectron()) {
-        // On Electron we need to observe whether the user is closing the popup so that we can also stop the 
-        // Dropbox auth server again. This would usually happen in the backend when the authentication / linking
-        // is successfully, but if the user aborts (closes the window) we need to handle it manually.
-        let timer = setInterval(() => { 
-          if(popup.closed) {
-            clearInterval(timer);
-            ipcGeneral.stopDropboxAuthServer();
-          }
-        }, 500);
-      }
+      uiHelper.openLinkInBrowser(authUrl);
     })
     .catch((error) => console.error(error));
 }

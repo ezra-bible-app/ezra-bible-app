@@ -16,5 +16,6 @@
       "libcurl4"
   ],
   "icon": "icons/ezra.png",
-  "homepage": "https://github.com/tobias-klein/ezra-project"
+  "homepage": "https://github.com/ezra-bible-app/ezra-bible-app",
+  "desktopTemplate": "ezra-bible-app.desktop"
 }

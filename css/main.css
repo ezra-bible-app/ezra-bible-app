@@ -613,6 +613,10 @@ a.chapter-nav:hover {
   flex: 1 1;
 }
 
+.verse-text.ui-selected {
+  user-select: text;
+}
+
 .verse-list-rtl .verse-text {
   direction: rtl;
 }
@@ -1073,7 +1077,7 @@ main.content {
   padding: 0 0.8em;
 }
 
-.module-info-button, .commentary-copy-button {
+.module-info-button, .copy-commentary-button {
   display: inline-block;
   width: 1em;
   padding: 0.2em;
@@ -1082,16 +1086,17 @@ main.content {
   font-size: 0.9em;
 }
 
-.commentary-copy-button {
+.copy-commentary-button {
   padding-left: 0.5em !important;
   padding-right: 0.3em !important;
 }
 
 .verse-list-menu .display-options-button,
+.verse-list-menu .copy-button,
 .verse-list-menu .app-info-button,
 .verse-list-menu .export-docx-button,
 .module-info-button,
-.commentary-copy-button {
+.copy-commentary-button {
   justify-content: center;
 }
 
@@ -1140,6 +1145,7 @@ main.content {
 .tag-select-button .ui-icon,
 .module-search-button .ui-icon,
 .display-options-button .ui-icon,
+.copy-button .ui-icon,
 .assign-tag-menu-button .ui-icon {
   float: right;
 }
@@ -1572,8 +1578,7 @@ li.book-unavailable a:focus,
 .tab-search-input,
 .tab-search-type,
 #search-type,
-#search-scope,
-#dropbox-sync-folder {
+#search-scope {
   border: 1px solid lightgray;
   border-radius: 4px;
 }
@@ -2075,6 +2080,10 @@ transchange {
   display: none;
 }
 
+.verse-list-without-strongs sup.strongs {
+  display: none;
+}
+
 .strongs-hl {
   background-color: var(--highlight-bg-color);
 }
@@ -2094,4 +2103,10 @@ transchange {
 /* This element only occurs in the NA28 sword module */
 s {
   text-decoration: none;
+}
+
+sup.strongs {
+  margin-left: 0.2em;
+  font-size: 70%;
+  display: inline-block;
 }

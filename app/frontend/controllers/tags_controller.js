@@ -24,7 +24,7 @@ require('../components/emoji_button_trigger.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
-const { showErrorDialog } = require('../helpers/ezra_helper.js');
+const { showDialog } = require('../helpers/ezra_helper.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -379,6 +379,8 @@ class TagsController {
   }
 
   async addTagsToGroup(tagGroupId, tagList) {
+    let successCount = 0;
+
     for (let i = 0; i < tagList.length; i++) {
       let tagId = tagList[i];
       let tag = await this.tag_store.getTag(tagId);
@@ -391,16 +393,22 @@ class TagsController {
                       ${result.exception}<br><br>
                       Please restart the app.`;
 
-        await showErrorDialog('Database Error', message);
+        await showDialog('Database Error', message);
         uiHelper.hideTextLoadingIndicator();
         return;
       } else {
-        await eventController.publishAsync('on-tag-group-members-changed', {
+        successCount += 1;
+
+        await eventController.publishAsync('on-tag-group-member-changed', {
           tagId: tagId,
           addTagGroups: [ tagGroupId ],
           removeTagGroups: []
         });
       }
+    }
+
+    if (successCount >= 1) {
+      await eventController.publishAsync('on-tag-group-multiple-members-changed');
     }
 
     if (this.tagGroupUsed()) {
@@ -574,7 +582,7 @@ class TagsController {
                      ${result.exception}<br><br>
                      Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       uiHelper.hideTextLoadingIndicator();
       return;
     }
@@ -597,11 +605,13 @@ class TagsController {
     }
 
     if (addTagGroups.length > 0 || removeTagGroups.length > 0) {
-      await eventController.publishAsync('on-tag-group-members-changed', {
+      await eventController.publishAsync('on-tag-group-member-changed', {
         tagId: tags_controller.edit_tag_id,
         addTagGroups,
         removeTagGroups
       });
+
+      await eventController.publishAsync('on-tag-group-multiple-members-changed');
 
       if (this.tagGroupUsed()) {
         const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
@@ -651,7 +661,7 @@ class TagsController {
                      ${result.exception}<br><br>
                      Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       uiHelper.hideTextLoadingIndicator();
       return;
     }
@@ -659,11 +669,13 @@ class TagsController {
     await eventController.publishAsync('on-tag-created', result.dbObject.id);
 
     if (this.tagGroupUsed()) {
-      await eventController.publishAsync('on-tag-group-members-changed', {
+      await eventController.publishAsync('on-tag-group-member-changed', {
         tagId: result.dbObject.id,
         addTagGroups: [ this.currentTagGroupId ],
         removeTagGroups: []
       });
+
+      await eventController.publishAsync('on-tag-group-multiple-members-changed');
     }
 
     await eventController.publishAsync('on-latest-tag-changed', {
@@ -812,7 +824,7 @@ class TagsController {
                       ${result.exception}<br><br>
                       Please restart the app.`;
 
-        await showErrorDialog('Database Error', message);
+        await showDialog('Database Error', message);
         uiHelper.hideTextLoadingIndicator();
         return;
       }
@@ -820,11 +832,14 @@ class TagsController {
       await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
 
       if (tags_controller.tagGroupUsed()) {
-        await eventController.publishAsync('on-tag-group-members-changed', {
+        await eventController.publishAsync('on-tag-group-member-changed', {
           tagId: tags_controller.tag_to_be_deleted,
           addTagGroups: [],
           removeTagGroups: [ this.currentTagGroupId ]
         });
+
+        await eventController.publishAsync('on-tag-group-multiple-members-changed');
+
       } else {
         await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
       }
@@ -934,8 +949,8 @@ class TagsController {
     var cb_label = checkboxTag.find('.cb-label').html();
     var tag_button_is_active = tag_button.classList.contains('active');
 
-    var current_verse_selection = app_controller.verse_selection.current_verse_selection_as_xml(); 
-    var current_verse_reference_ids = app_controller.verse_selection.current_verse_selection_as_verse_reference_ids();
+    var current_verse_selection = app_controller.verse_selection.getCurrentVerseSelectionAsXml(); 
+    var current_verse_reference_ids = app_controller.verse_selection.getCurrentVerseSelectionAsVerseReferenceIds();
 
     checkboxTag.find('.cb-label').removeClass('underline');
     checkboxTag.find('.cb-label-postfix').html('');
@@ -988,7 +1003,7 @@ class TagsController {
                       ${result.exception}<br><br>
                       Please restart the app.`;
 
-        await showErrorDialog('Database Error', message);
+        await showDialog('Database Error', message);
         uiHelper.hideTextLoadingIndicator();
         return;
       }
@@ -1127,7 +1142,7 @@ class TagsController {
                     ${result.exception}<br><br>
                     Please restart the app.`;
 
-      await showErrorDialog('Database Error', message);
+      await showDialog('Database Error', message);
       uiHelper.hideTextLoadingIndicator();
       return;
     }

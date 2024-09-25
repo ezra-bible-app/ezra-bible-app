@@ -269,7 +269,7 @@ class CordovaPlatform {
 
     nodejs.startWithScript(`
 
-      const Main = require('main.js');
+      const Main = require('cordova_main.js');
 
       global.main = new Main();
       main.init(${isDebug});
@@ -311,9 +311,9 @@ class CordovaPlatform {
     await ipcGeneral.initPersistentIpc(androidVersion);
 
     uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
-    await ipcGeneral.initDatabase(androidVersion, navigator.connection.type);
+    let initDbResult = await ipcGeneral.initDatabase(androidVersion, navigator.connection.type);
 
-    await startup.initApplication();
+    await startup.initApplication(initDbResult);
   }
 
   mainProcessListener(message) {

@@ -46,11 +46,6 @@ const template = html`
   <span i18n="bible-browser.delete-note"></span>
 </div>
 
-<div class="copy-clipboard-button fg-button ui-state-default ui-corner-all ui-state-disabled">
-  <i class="fas fa-clipboard"></i>
-  <span i18n="bible-browser.copy"></span>
-</div>
-
 <div class="show-context-button fg-button ui-state-default ui-corner-all ui-state-disabled">
   <i class="fas fa-arrows-alt-v"></i><i class="fas fa-align-justify"></i>
   <span i18n="general.context"></span>
@@ -122,26 +117,29 @@ class VerseContextMenu extends HTMLElement {
   }
 
   set currentTabIndex(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex)[0];
 
-    $(verseContextMenuButton).unbind('click').bind('click', (event) => {
-      event.stopPropagation();
+    if (currentVerseListMenu != null) {
+      var verseContextMenuButton = currentVerseListMenu.querySelector('.verse-context-menu-button');
 
-      var verseContextMenu = $('#verse-context-menu');
+      $(verseContextMenuButton).unbind('click').bind('click', (event) => {
+        event.stopPropagation();
 
-      if (!event.target.closest('.fg-button').classList.contains('ui-state-disabled')) {
-        if (this.verseContextMenuOpened) {
-          this.hidden = true;
-          this.verseContextMenuOpened = false;
-        } else {
-          app_controller.hideAllMenus();
-          uiHelper.showButtonMenu($(verseContextMenuButton), verseContextMenu);
-          uiHelper.configureButtonStyles(document.getElementById('verse-context-menu'));
-          this.verseContextMenuOpened = true;
+        var verseContextMenu = $('#verse-context-menu');
+
+        if (!event.target.closest('.fg-button').classList.contains('ui-state-disabled')) {
+          if (this.verseContextMenuOpened) {
+            this.hidden = true;
+            this.verseContextMenuOpened = false;
+          } else {
+            app_controller.hideAllMenus();
+            uiHelper.showButtonMenu($(verseContextMenuButton), verseContextMenu);
+            uiHelper.configureButtonStyles(document.getElementById('verse-context-menu'));
+            this.verseContextMenuOpened = true;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   set hidden(value) {
@@ -166,10 +164,8 @@ class VerseContextMenu extends HTMLElement {
     var verseContextMenu = document.getElementById('verse-context-menu');
     var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
     var deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
-    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
     editNoteButton.classList.remove('ui-state-disabled');
     deleteNoteButton.classList.remove('ui-state-disabled');
-    copyButton.classList.remove('ui-state-disabled');
   }
 
   disableVerseButtons() {
@@ -177,12 +173,10 @@ class VerseContextMenu extends HTMLElement {
 
     var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
     var deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
-    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
     var contextButton = verseContextMenu.querySelector('.show-context-button');
 
     editNoteButton.classList.add('ui-state-disabled');
     deleteNoteButton.classList.add('ui-state-disabled');
-    copyButton.classList.add('ui-state-disabled');
     contextButton.classList.remove('ui-state-disabled');
   }
 
@@ -218,7 +212,6 @@ class VerseContextMenu extends HTMLElement {
     var verseContextMenu = document.getElementById('verse-context-menu');
     var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
     var deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
-    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
 
     editNoteButton.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -235,15 +228,6 @@ class VerseContextMenu extends HTMLElement {
       if (!event.target.classList.contains('ui-state-disabled')) {
         app_controller.hideAllMenus();
         app_controller.notes_controller.deleteVerseNotesForCurrentlySelectedVerse();
-      }
-    });
-
-    copyButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-
-      if (!event.target.classList.contains('ui-state-disabled')) {
-        app_controller.hideAllMenus();
-        app_controller.verse_selection.copySelectedVerseTextToClipboard();
       }
     });
 

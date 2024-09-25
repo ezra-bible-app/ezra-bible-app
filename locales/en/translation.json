@@ -238,6 +238,8 @@
       "font-section-title": "Font",
       "current-tab-search-section-title": "Current Tab Search",
       "miscellaneous-section-title": "Miscellaneous",
+      "previous-chapter": "Previous chapter",
+      "next-chapter": "Next chapter",
       "in-tab-search": "Open current tab search",
       "hide-in-tab-search-form": "Hide current tab search form",
       "jump-to-next-search-occurance": "Jump to next search occurance",
@@ -257,6 +259,8 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
+      "previous-chapter": "Left",
+      "next-chapter": "Right",
       "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
@@ -346,6 +350,7 @@
     "show-section-titles": "Show section titles",
     "show-xrefs": "Show cross references",
     "show-footnotes": "Show footnotes",
+    "show-strongs": "Show strongs",
     "show-paragraphs": "Show paragraphs",
     "red-letters": "Highlight Jesus' words in red",
     "show-dictionary": "Show dictionary",
@@ -361,6 +366,7 @@
     "limit-notes-display-size": "Limit notes display size",
     "use-tags-column": "Use tags column",
     "select-chapter-before-loading": "Open books with chapter selection",
+    "use-system-theme": "System theme",
     "use-night-mode": "Night mode",
     "keep-screen-on": "Keep screen on",
     "comparing-translations-for": "Comparing translations for",
@@ -379,6 +385,7 @@
     "copy-table-to-clipboard-success": "Table copied to clipboard!",
     "copy-verse-text-to-clipboard": "Copy verse text to clipboard",
     "copy-verse-text-to-clipboard-success": "Verse text copied to clipboard!",
+    "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Edit note",
     "delete-note": "Delete note",
     "transchange" : {
@@ -427,7 +434,8 @@
     "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
     "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
     "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
-    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse."
+    "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse.",
+    "copy-button": "Copy commentary"
   },
   "emoji": {
     "search": "Search emojis...",
@@ -477,7 +485,6 @@
     "dropbox-link-status-linking-failed": "Linking failed!",
     "only-sync-on-wifi": "Only sync on WiFi",
     "sync-after-changes": "Sync database after changes",
-    "dropbox-sync-folder": "Dropbox sync folder",
     "dropbox-sync-info": "Dropbox synchronization info",
     "last-dropbox-sync-time": "Last sync",
     "last-dropbox-sync-result": "Last sync result",
@@ -485,6 +492,14 @@
     "last-dropbox-upload-time": "Last upload",
     "sync-msg-title": "Dropbox sync",
     "sync-success-msg": "Successfully synchronized database with Dropbox ({{date}}).",
-    "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}})."
+    "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}}: {{syncResult}}).",
+    "access-method-change": "Change of Dropbox access method",
+    "access-method-message-part1": "The Dropbox access method has changed!<br/><br/>Previously a custom folder was used for Dropbox access.<br/>",
+    "access-method-message-part2": "From Ezra Bible App 1.15, app folder access is used.<br/>",
+    "access-method-message-part3": "The new Dropbox folder is /Apps/Ezra Bible App.<br/><br/>",
+    "access-method-message-part4": "The link of Ezra Bible App to your Dropbox account has been reset.<br/>",
+    "access-method-message-part5": "These are the actions you need to take now:",
+    "access-method-message-part6": "Re-configure the Dropbox account link.",
+    "access-method-message-part7": "Upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same."
   }
 }

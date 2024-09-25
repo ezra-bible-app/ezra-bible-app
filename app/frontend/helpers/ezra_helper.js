@@ -16,8 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const uiHelper = require('./ui_helper.js');
-
 /**
  * This module contains utility functions that are used through the app
  * @module ezraHelper
@@ -99,17 +97,17 @@ module.exports.removeItemFromArray = function(arr, value) {
 };
 
 /**
- * This function shows a modal error dialog to the user.
+ * This function shows a modal dialog to the user.
  *  
  * @param {string} dialogTitle The title of the dialog
- * @param {string} errorMessage The message that shall be displayed
+ * @param {string} message The message that shall be displayed
  * @returns {Promise} A promise that resolves when the user confirms/closes the dialog
  */
-module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
+module.exports.showDialog = async function(dialogTitle, message, width=500, height=300) {
   const dialogBoxTemplate = module.exports.html`
-  <div id="error-dialog">
-    <div id="error-dialog-content" style="padding-top: 2em;">
-    ${errorMessage}
+  <div id="info-dialog">
+    <div id="info-dialog-content" style="padding-top: 2em;">
+    ${message}
     </div>
   </div>
   `;
@@ -117,17 +115,16 @@ module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
   return new Promise((resolve) => {
 
     document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
-    const $dialogBox = $('#error-dialog');
+    const $dialogBox = $('#info-dialog');
     
     var confirmed = false;
-    const width = 500;
-    const height = 300;
     const offsetLeft = ($(window).width() - width)/2;
 
-    let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
-    dialogOptions.dialogClass = 'ezra-dialog error-dialog';
+    let dialogOptions = window.uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
+    dialogOptions.dialogClass = 'ezra-dialog info-dialog';
     dialogOptions.title = dialogTitle;
     dialogOptions.buttons = {};
+    dialogOptions.modal = true;
     dialogOptions.close = () => {
       $dialogBox.dialog('destroy');
       $dialogBox.remove();
@@ -140,6 +137,6 @@ module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
     };
   
     $dialogBox.dialog(dialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('error-dialog');
+    window.uiHelper.fixDialogCloseIconOnAndroid('info-dialog');
   });
 };

@@ -248,6 +248,8 @@
       "font-section-title": "Police",
       "current-tab-search-section-title": "Recherche dans l’onglet actuel",
       "miscellaneous-section-title": "Divers",
+      "previous-chapter": "Chapitre précédent",
+      "next-chapter": "Chapitre suivant",
       "in-tab-search": "Ouvrir la recherche dans l’onglet actuel",
       "hide-in-tab-search-form": "Masquer le formulaire de recherche de l’onglet actuel",
       "jump-to-next-search-occurance": "Passer à la prochaine occurrence de recherche",
@@ -267,6 +269,8 @@
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Entrée",
       "jump-to-previous-occurance": "Maj + Entrée",
+      "previous-chapter": "Gauche",
+      "next-chapter": "Droite",
       "select-all-verses": "Ctrl/Cmd + a",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
@@ -356,6 +360,7 @@
     "show-section-titles": "Montrer les titres de sections",
     "show-xrefs": "Montrer les références croisées",
     "show-footnotes": "Afficher les notes de bas de page",
+    "show-strongs": "Afficher les chiffres de Strong",
     "show-paragraphs": "Afficher les paragraphes",
     "red-letters": "Surligner les paroles de Jésus en rouge",
     "show-dictionary": "Afficher le dictionnaire",
@@ -371,6 +376,7 @@
     "limit-notes-display-size": "Limiter la taille des notes",
     "use-tags-column": "Utiliser des colonnes d’étiquettes",
     "select-chapter-before-loading": "Ouvrir les livres avec sélection de chapitre",
+    "use-system-theme": "Thème du système",
     "use-night-mode": "Mode nuit",
     "keep-screen-on": "Garder l’écran allumé",
     "comparing-translations-for": "Comparaison des traductions pour",
@@ -389,6 +395,7 @@
     "copy-table-to-clipboard-success": "Le tableau est copié dans le presse-papiers !",
     "copy-verse-text-to-clipboard": "Copier le texte du verset dans le presse-papiers",
     "copy-verse-text-to-clipboard-success": "Texte du verset copié dans le presse-papiers !",
+    "copy-selected-text-to-clipboard-success": "Texte sélectionné copié dans le presse-papiers !",
     "edit-note": "Modifier la note",
     "delete-note": "Supprimer la note",
     "transchange" : {
@@ -396,7 +403,7 @@
        "amplified" : "Ces mots sont des amplifications d'informations dans le texte source",
        "changed" : "Ces mots ont été modifiés lors de la traduction",
        "deleted" : "Certains mots du texte source ne sont pas présents dans la traduction",
-       "implicite" : "Ces mots ont été ajoutés ou modifiés pour traduire des informations impliquées par le texte source",
+       "implied" : "Ces mots ont été ajoutés ou modifiés pour traduire des informations impliquées par le texte source",
        "moved" : "Ces mots se trouvaient à un autre endroit dans le texte source",
        "tense-change": "Le temps grammatical de ces mots a été modifié afin de faciliter la traduction"
 
@@ -406,7 +413,7 @@
     "greek-dict": "Dictionnaire grec",
     "hebrew-dict": "Dictionnaire hébreu",
     "default-header": "<b>Dictionnaire</b>",
-    "help-instruction": "Comment afficher les entrées de dictionnaire ici :",
+    "help-instruction-intro": "Comment afficher les entrées de dictionnaire ici :",
     "help-instruction-part1": "Vérifiez que les dictionnaires Strong (hébreu et grec) sont installés. Statut: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Ouvrez ensuite une traduction avec la fonctionnalité des nombres de Strong.",
     "help-instruction-part3": "Une fois que vous avez sélectionné un verset, vous pouvez déplacer votre souris sur les mots et expressions individuels pour voir ici les entrées du dictionnaire.",
@@ -438,7 +445,8 @@
     "help-instruction": "Pour afficher le contenu des commentaires, sélectionnez un verset.<br><br> Cette zone listera alors automatiquement le verset sélectionné parmi tous les commentaires disponibles.",
     "help-instruction-no-commentaries": "Aucun commentaire n'a encore été installé. Vous devez installer au moins un commentaire pour que cette fonctionnalité fonctionne.",
     "help-instruction-no-kjv": "La traduction KJV n'a pas encore été installée. Le KJV est nécessaire pour afficher correctement les commentaires bibliques basés sur la versification anglaise. Vous pouvez résoudre ce problème en :<ul><li>installant la KJV du dépôt CrossWire</li><li>installant un commentaire (le KJV est automatiquement installé dans ce cas)</li></ul>",
-    "no-commentaries-available-for-this-verse": "Il n'y a pas de commentaires disponibles pour ce verset."
+    "no-commentaries-available-for-this-verse": "Il n'y a pas de commentaires disponibles pour ce verset.",
+    "copy-button": "Copier le commentaire"
   },
   "emoji": {
     "search": "Rechercher des emojis...",
@@ -488,7 +496,6 @@
     "dropbox-link-status-linking-failed": "Échec de la liaison !",
     "only-sync-on-wifi": "Synchroniser uniquement sur WiFi",
     "sync-after-changes": "Synchroniser la base de données après les modifications",
-    "dropbox-sync-folder": "Dossier de synchronisation Dropbox",
     "dropbox-sync-info": "Informations de synchronisation Dropbox",
     "last-dropbox-sync-time": "Dernière synchronisation",
     "last-dropbox-sync-result": "Résultat de la dernière synchronisation",
@@ -496,6 +503,14 @@
     "last-dropbox-upload-time": "Dernier mise en ligne",
     "sync-msg-title": "Synchronisation Dropbox",
     "sync-success-msg": "Base de données synchronisée avec succès avec Dropbox ({{date}}).",
-    "sync-failed-msg": "La synchronisation de la base de données avec Dropbox a réussi ({{date}})."
+    "sync-failed-msg": "La synchronisation de la base de données avec Dropbox a réussi ({{date}}: {{syncResult}}).",
+    "access-method-change": "Changement de méthode d'accès à Dropbox",
+    "access-method-message-part1": "La méthode d'accès à Dropbox a changé !<br/><br/>Auparavant, un dossier personnalisé était utilisé pour l'accès à Dropbox.<br/>",
+    "access-method-message-part2": "À partir d'Ezra Bible App 1.15, l'accès au dossier d'application est utilisé.<br/>",
+    "access-method-message-part3": "Le nouveau dossier Dropbox est /Apps/Ezra Bible App.<br/><br/>",
+    "access-method-message-part4": "Le lien d'Ezra Bible App à votre compte Dropbox a été réinitialisé.<br/>",
+    "access-method-message-part5": "Vous devez effectuer ces actions maintenant :",
+    "access-method-message-part6": "Reconfigurer le lien du compte Dropbox.",
+    "access-method-message-part7": "Mettre à niveau Ezra Bible App sur tous vos appareils pour garantir que la méthode de synchronisation Dropbox est la même."
   }
 }

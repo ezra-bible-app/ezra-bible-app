@@ -80,7 +80,9 @@ class VerseSelection {
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {
-      this.clearVerseSelection(true, tabIndex);
+      let verseList = verseListController.getCurrentVerseList(tabIndex);
+      this.updateSelected(verseList);
+      this.updateViewsAfterVerseSelection();
     });
 
     eventController.subscribe('on-all-translations-removed', () => {
@@ -99,7 +101,7 @@ class VerseSelection {
 
     verseList.selectable({
       filter: '.verse-text',
-      cancel: '.verse-reference-content, .sword-xref-marker, .verse-notes, .tag-box, .tag, .load-book-results, .select-all-verses-button, tag-distribution-matrix',
+      cancel: '.ui-selected, .verse-reference-content, .sword-xref-marker, .verse-notes, .tag-box, .tag, .load-book-results, .select-all-verses-button, tag-distribution-matrix',
 
       // eslint-disable-next-line no-unused-vars
       start: (event, ui) => {
@@ -311,13 +313,13 @@ class VerseSelection {
     return xml_verse_list;
   }
 
-  current_verse_selection_as_xml() {
+  getCurrentVerseSelectionAsXml() {
     var selected_verse_elements = this.selectedVerseBoxElements;
 
     return (this.element_list_to_xml_verse_list(selected_verse_elements));
   }
 
-  current_verse_selection_as_verse_reference_ids() {
+  getCurrentVerseSelectionAsVerseReferenceIds() {
     var selected_verse_ids = new Array;
     var selected_verse_elements = this.selectedVerseBoxElements;
     
@@ -394,12 +396,7 @@ class VerseSelection {
 
     getPlatform().copyToClipboard(selectedVerseText, selectedVerseTextHtml);
 
-    // eslint-disable-next-line no-undef
-    iziToast.success({
-      message: i18n.t('bible-browser.copy-verse-text-to-clipboard-success'),
-      position: 'bottomRight',
-      timeout: 2000
-    });
+    uiHelper.showSuccessMessage(i18n.t('bible-browser.copy-verse-text-to-clipboard-success'));
   }
 
   getCurrentSelectionTags() {
@@ -481,7 +478,7 @@ class VerseSelection {
     const currentVerseList = verseListController.getCurrentVerseList();
     let someVersesSelected = false;
 
-    if (currentVerseList != null) {
+    if (currentVerseList != null && currentVerseList[0] != null) {
       let allSelectedElements = currentVerseList[0].querySelectorAll('.ui-selected');
       someVersesSelected = allSelectedElements.length > MAX_VERSES_FOR_DETAILED_LABEL;
     }
