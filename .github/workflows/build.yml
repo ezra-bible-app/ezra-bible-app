@@ -382,6 +382,9 @@ jobs:
         with:
           name: ezra-bible-app_opensuse_leap_15.2_latest
 
+      - name: Display structure of downloaded files
+        run: ls -R
+
       - name: Rename artifacts for publishing
         shell: bash
         run: |
