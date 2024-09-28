@@ -308,8 +308,12 @@ class IpcDbHandler {
 
   triggerDatabaseReload() {
     if (this.platformHelper.isElectron()) {
-      console.log('Triggering database reload ...');
-      global.mainWindow.webContents.send('database-updated');
+      setTimeout(() => {
+        console.log('Triggering database reload ...');
+        if (global.mainWindow != null) {
+          global.mainWindow.webContents.send('database-updated');
+        }
+      }, 2000);
     } else if (this.platformHelper.isCordova()) {
       setTimeout(() => {
         console.log('Triggering database reload ...');
