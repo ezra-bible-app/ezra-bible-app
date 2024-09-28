@@ -308,77 +308,77 @@ jobs:
 
       steps:
       - name: Download win32 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_win32_latest
 
       - name: Download ubuntu-1804 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_ubuntu1804_latest
 
       - name: Download ubuntu-2004 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_ubuntu2004_latest
 
       - name: Download ubuntu-2204 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_ubuntu2204_latest
 
       - name: Download ubuntu-2404 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_ubuntu2404_latest
 
       - name: Download mint18 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_mint18_latest
 
       - name: Download debian10 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_debian10_latest
 
       - name: Download debian11 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_debian11_latest
 
       - name: Download debian12 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_debian12_latest
 
       - name: Download fedora31 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_fedora31_latest
 
       - name: Download fedora33 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_fedora33_latest
 
       - name: Download fedora35 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_fedora35_latest
 
       - name: Download fedora37 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_fedora37_latest
 
       - name: Download centos8 package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_centos8_latest
 
       - name: Download opensuse leap package
-        uses: actions/download-artifact@v1.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ezra-bible-app_opensuse_leap_15.2_latest
 
