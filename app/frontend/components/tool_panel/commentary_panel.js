@@ -20,6 +20,7 @@ const eventController = require('../../controllers/event_controller.js');
 const VerseBox = require("../../ui_models/verse_box.js");
 const { getPlatform } = require('../../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
+const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 
 /**
  * The CommentaryPanel component implements a tool panel that shows Bible commentaries for selected verses
@@ -238,16 +239,32 @@ class CommentaryPanel {
     uiHelper.showSuccessMessage(i18n.t('commentary-panel.copy-commentary-to-clipboard-success'));
   }
 
-  handleReferenceClick(event) {
+  async handleReferenceClick(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log('Handle reference click');
-
     const commentaryPanelReferenceBox = this.getReferenceBox();
+    const referenceText = event.target.textContent.trim();
     const osisRef = event.target.getAttribute('osisref');
 
-    commentaryPanelReferenceBox.textContent = osisRef;
+    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
+    let verses = await ipcNsi.getVersesFromReferences(bibleTranslationId, splitOsisRefs);
+
+    let multipleVerses = verses.length > 1;
+    let verseContent = "";
+
+    verses.forEach((verse) => {
+      if (multipleVerses) {
+        verseContent += `<sup>${verse.verseNr}</sup>`;
+      }
+
+      verseContent += verse.content + "<br/>";
+    });
+
+    verseContent += `<div>${referenceText}</div>`;
+
+    commentaryPanelReferenceBox.innerHTML = verseContent;
   }
 
   processCommentaryHtml(htmlInput) {
