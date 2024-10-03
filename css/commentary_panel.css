@@ -43,7 +43,7 @@
 #commentary-panel-reference-box .close-icon {
   display: block;
   text-align: right;
-  margin-top: -0.5em;
+  margin-top: -0.8em;
   margin-right: -0.5em;
   cursor: pointer;
 }
@@ -151,10 +151,10 @@
 /* PORTRAIT */
 @media screen and (max-aspect-ratio: 13/10) {
   #commentary-panel-main-content.with-reference-box {
-    height: calc(100% - 8em) !important;
+    height: calc(100% - 10em) !important;
   }
 
   #commentary-panel-reference-box {
-    height: 5.3em;
+    height: 6em;
   }
 }
