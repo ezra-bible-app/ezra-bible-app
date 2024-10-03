@@ -16,6 +16,19 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+#commentary-panel-wrapper {
+  height: 100%;
+}
+
+#commentary-panel-main-content {
+  height: calc(100% - 15em) !important;
+}
+
+#commentary-panel-reference-box {
+  height: 13.8em;
+  border-top: unset !important;
+}
+
 #commentary-panel-content {
   padding: 0.5em;
   user-select: text; /* Enable text selection */
@@ -66,6 +79,17 @@
   display: inline-block;
 }
 
+#commentary-panel-content reference,
+#commentary-panel-content .sword-scripref {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+#commentary-panel-content reference:hover,
+#commentary-panel-content .sword-scripref:hover {
+  text-decoration: underline;
+}
+
 #commentary-panel-content .sword-section-title {
   font-weight: bold;
   display: block !important;
@@ -79,4 +103,15 @@
 
 .darkmode--activated .warning-text {
   color: var(--text-color-red-darkmode);
+}
+
+/* PORTRAIT */
+@media screen and (max-aspect-ratio: 13/10) {
+  #commentary-panel-main-content {
+    height: calc(100% - 8em) !important;
+  }
+
+  #commentary-panel-reference-box {
+    height: 5.8em;
+  }
 }
