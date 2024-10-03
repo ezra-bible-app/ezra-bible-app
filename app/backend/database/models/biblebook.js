@@ -367,13 +367,25 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleBook.findByXrefs = function(xrefs) {
-    var bibleBooks = [];
-    for (var i = 0; i < xrefs.length; i++) {
-      var currentBook = "'" + xrefs[i].split('.')[0] + "'";
+    let bibleBooks = [];
+
+    for (let i = 0; i < xrefs.length; i++) {
+      let currentBookShortName = xrefs[i].split('.')[0];
+
+      for (let j = 0; j < global.bible_books.length; j++) {
+        let currentBookFromMap = global.bible_books[j];
+
+        if (currentBookFromMap.short_title.indexOf(currentBookShortName) != -1) {
+          currentBookShortName = currentBookFromMap.short_title;
+          break;
+        }
+      }
+
+      currentBook = "'" + currentBookShortName + "'";
       bibleBooks.push(currentBook);
     }
 
-    var query = "SELECT * FROM BibleBooks b" +
+    let query = "SELECT * FROM BibleBooks b" +
                 " WHERE b.shortTitle IN (" + bibleBooks.join(',') + ")" +
                 " ORDER BY b.number ASC";
     
