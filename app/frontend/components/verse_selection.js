@@ -182,6 +182,14 @@ class VerseSelection {
     });
   }
 
+  getFirstSelectedVerseBox() {
+    if (this.selectedVerseBoxElements != null && this.selectedVerseBoxElements.length > 0) {
+      return this.selectedVerseBoxElements[0];
+    } else {
+      return null;
+    }
+  }
+
   getFirstSelectedVerseReferenceId() {
     if (this.selectedVerseBoxElements != null && this.selectedVerseBoxElements.length > 0) {
       return this.selectedVerseBoxElements[0].getAttribute('verse-reference-id');
@@ -271,7 +279,7 @@ class VerseSelection {
     }
   }
 
-  async getSelectedBooks() {
+  getSelectedBooks() {
     var selectedBooks = [];
 
     for (var i = 0; i < this.selectedVerseBoxElements.length; i++) {
