@@ -59,6 +59,10 @@ class CommentaryPanel {
     this._verseBoxHelper = new VerseBoxHelper();
   }
 
+  getMainContent() {
+    return document.getElementById('commentary-panel-main-content');
+  }
+
   getBoxContent() {
     return document.getElementById('commentary-panel-content');
   }
@@ -175,6 +179,8 @@ class CommentaryPanel {
     }
 
     this.getBoxContent().innerHTML = commentaryContent;
+    this.hideReferenceBox();
+    this.getReferenceBox().innerHTML = "";
 
     this.applyParagraphs();
 
@@ -244,7 +250,6 @@ class CommentaryPanel {
     event.stopPropagation();
 
     const commentaryPanelReferenceBox = this.getReferenceBox();
-    const referenceText = event.target.textContent.trim();
     const osisRef = event.target.getAttribute('osisref');
 
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
@@ -262,9 +267,21 @@ class CommentaryPanel {
       verseContent += verse.content + "<br/>";
     });
 
-    verseContent += `<div>${referenceText}</div>`;
+    verseContent += `<div>${osisRef}</div>`;
 
     commentaryPanelReferenceBox.innerHTML = verseContent;
+
+    this.showReferenceBox();
+  }
+
+  showReferenceBox() {
+    this.getMainContent().classList.add('with-reference-box');
+    this.getReferenceBox().style.display = 'block';
+  }
+
+  hideReferenceBox() {
+    this.getMainContent().classList.remove('with-reference-box');
+    this.getReferenceBox().style.display = 'none';
   }
 
   processCommentaryHtml(htmlInput) {
