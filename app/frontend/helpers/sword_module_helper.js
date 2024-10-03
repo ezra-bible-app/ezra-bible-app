@@ -371,6 +371,28 @@ module.exports.sortModules = function(a,b) {
   }
 };
 
+module.exports.getReferencesFromOsisRef = async function(osisRef) {
+  let references = [];
+
+  if (osisRef != null) {
+    if (osisRef.indexOf('-') != -1) {
+      // We have gotten a range (like Gal.1.15-Gal.1.16)
+      // We need to first turn into a list of individual references using node-sword-interface
+      let referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
+
+      referenceList.forEach((ref) => {
+        references.push(ref);
+      });
+
+    } else {
+      // We have got one single verse reference
+      references.push(osisRef);
+    }
+  }
+
+  return references;
+};
+
 function urlify(text) {
   // replace urls in text with <a> html tag
   var aTagRegex = /(<a href.*?>.*?<\/a>)/g;
