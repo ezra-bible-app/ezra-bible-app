@@ -45,28 +45,37 @@
     <a href="#" id="commentary-panel-header" i18n="[html]commentary-panel.default-header"></a>
   </h3>
 
-  <div id="commentary-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
-    <div id="commentary-panel-loading-indicator">
-      <div style="float: left;" i18n="bible-browser.loading-commentaries"></div>
+  <div id="commentary-panel-wrapper" class="">
+    <div id="commentary-panel-main-content" class="scrollable
+                                                   panel-wrapper
+                                                   ui-accordion-content
+                                                   ui-helper-reset
+                                                   ui-widget-content
+                                                   ui-accordion-content-active">
+      <div id="commentary-panel-loading-indicator">
+        <div style="float: left;" i18n="bible-browser.loading-commentaries"></div>
 
-      <div class="loader">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
+        <div class="loader">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
       </div>
+
+      <div id="commentary-panel-help" style="padding-left: 0.5em;">
+        <p i18n="[html]commentary-panel.help-instruction"></p>
+        <p id="commentary-panel-help-no-commentaries" class="warning-text"
+            i18n="[html]commentary-panel.help-instruction-no-commentaries"
+            style="display: none;"></p>
+        <p id="commentary-panel-help-no-kjv" class="warning-text"
+            i18n="[html]commentary-panel.help-instruction-no-kjv"
+            style="display: none;"></p>
+      </div>
+
+      <div id="commentary-panel-content"></div>
     </div>
 
-    <div id="commentary-panel-help" style="padding-left: 0.5em;">
-      <p i18n="[html]commentary-panel.help-instruction"></p>
-      <p id="commentary-panel-help-no-commentaries" class="warning-text"
-          i18n="[html]commentary-panel.help-instruction-no-commentaries"
-          style="display: none;"></p>
-      <p id="commentary-panel-help-no-kjv" class="warning-text"
-          i18n="[html]commentary-panel.help-instruction-no-kjv"
-          style="display: none;"></p>
-    </div>
-
-    <div id="commentary-panel-content"></div>
+    <div id="commentary-panel-reference-box" class="ui-corner-bottom ui-widget-content"></div>
   </div>
 </section>
 
