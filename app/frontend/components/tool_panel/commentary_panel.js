@@ -198,10 +198,17 @@ class CommentaryPanel {
       });
     });
 
-    let references = this.getBoxContent().querySelectorAll('reference');
-    references.forEach((reference) => {
+    let referenceElements = this.getBoxContent().querySelectorAll('reference');
+    referenceElements.forEach((reference) => {
       reference.addEventListener('click', (event) => {
         this.handleReferenceClick(event);
+      });
+    });
+
+    let scripRefElements = this.getBoxContent().querySelectorAll('.sword-scripref');
+    scripRefElements.forEach((scripRef) => {
+      scripRef.addEventListener('click', (event) => {
+        this.handleScripRefClick(event);
       });
     });
 
@@ -249,27 +256,76 @@ class CommentaryPanel {
     event.preventDefault();
     event.stopPropagation();
 
-    const commentaryPanelReferenceBox = this.getReferenceBox();
     const osisRef = event.target.getAttribute('osisref');
-
-    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
-    let verses = await ipcNsi.getVersesFromReferences(bibleTranslationId, splitOsisRefs);
+
+    this.renderReferenceVerses(osisRef, splitOsisRefs);
+  }
+
+  async handleScripRefClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const referenceString = event.target.innerText;
+    const references = referenceString.split(';');
+    const parsedReferences = [];
+    let selectedBooks = app_controller.verse_selection.getSelectedBooks();
+    let currentBook = selectedBooks[0];
+    let firstSelectedVerseBox = app_controller.verse_selection.getFirstSelectedVerseBox();
+    let currentChapter = new VerseBox(firstSelectedVerseBox).getChapter();
+
+    for (let i = 0; i < references.length; i++) {
+      let currentReference = references[i].trim();
+
+      if (currentReference.indexOf(' ') == -1) {
+        // Reference does not contain a space. We need to add the book in front of the reference.
+
+        if (currentReference.indexOf(':') == -1) {
+          // Add the chapter if it is missing
+          currentReference = currentChapter + ':' + currentReference;
+        }
+
+        currentReference = currentBook + ' ' + currentReference;
+        let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(currentReference);
+        parsedReferences.push(...splitOsisRefs);
+      } else {
+        currentBook = currentReference.split(' ')[0];
+        let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(currentReference);
+        parsedReferences.push(...splitOsisRefs);
+      }
+    }
+
+    this.renderReferenceVerses(referenceString, parsedReferences);
+  }
+
+  async renderReferenceVerses(referenceLabel, references) {
+    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    let verses = await ipcNsi.getVersesFromReferences(bibleTranslationId, references);
+    let bibleBookStats = app_controller.text_controller.getBibleBookStatsFromVerses(verses);
+    let multipleBooks = Object.keys(bibleBookStats).length > 1;
 
     let multipleVerses = verses.length > 1;
     let verseContent = "";
 
     verses.forEach((verse) => {
-      if (multipleVerses) {
+      if (multipleVerses && !multipleBooks) {
         verseContent += `<sup>${verse.verseNr}</sup>`;
       }
 
       verseContent += verse.content + "<br/>";
+      if (multipleBooks) {
+        let verseReference = verse.bibleBookShortTitle + ' ' + verse.chapter + window.reference_separator + verse.verseNr;
+        verseContent += verseReference + "<br/><br/>";
+      }
     });
 
-    verseContent += `<div>${osisRef}</div>`;
+    if (!multipleBooks) {
+      verseContent += `<div>${referenceLabel}</div>`;
+    }
+
     let closeIcon = '<div class="close-icon"><i class="fa-solid fa-rectangle-xmark"></i></div>';
 
+    const commentaryPanelReferenceBox = this.getReferenceBox();
     commentaryPanelReferenceBox.innerHTML = closeIcon + verseContent;
     commentaryPanelReferenceBox.querySelector('.close-icon').addEventListener('click', (event) => {
       this.hideReferenceBox();
