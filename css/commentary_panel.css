@@ -22,14 +22,28 @@
 
 #commentary-panel-main-content {
   height: calc(100% - 15em) !important;
+  border-bottom: 4px solid #dddddd;
 }
 
 #commentary-panel-reference-box {
-  height: 13.4em;
+  height: 10.5em;
   border-top: unset !important;
-  padding-top: 0.5em;
-  padding-left: 1em;
-  padding-right: 1em;    
+  padding: 1em;
+  padding-bottom: 0.5em;
+  overflow-y: scroll;
+  width: unset !important;
+}
+
+#commentary-panel-reference-box .sword-markup {
+  display: unset;
+}
+
+#commentary-panel-reference-box .sword-note {
+  display: none;
+}
+
+#commentary-panel-reference-box sup {
+  margin-right: 0.2em;
 }
 
 #commentary-panel-content {
