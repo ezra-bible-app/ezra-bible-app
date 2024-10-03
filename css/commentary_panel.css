@@ -30,7 +30,7 @@
   border-top: unset !important;
   padding: 1em;
   padding-bottom: 0.5em;
-  overflow-y: scroll;
+  overflow: auto;
   width: unset !important;
 }
 
