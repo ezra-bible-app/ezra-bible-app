@@ -35,6 +35,26 @@
   width: unset !important;
 }
 
+#commentary-panel-reference-box .close-icon {
+  display: block;
+  text-align: right;
+  margin-top: -0.5em;
+  margin-right: -0.5em;
+  cursor: pointer;
+}
+
+#commentary-panel-reference-box .close-icon i {
+  color: var(--button-color);
+}
+
+.darkmode--activated #commentary-panel-reference-box .close-icon i {
+  color: var(--button-color-dark);
+}
+
+#commentary-panel-reference-box .close-icon i:hover {
+  color: var(--accent-color);
+}
+
 #commentary-panel-reference-box .sword-markup {
   display: unset;
 }
