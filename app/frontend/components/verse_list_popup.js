@@ -167,11 +167,14 @@ class VerseListPopup {
   }
 
   async openVerseListInNewTab() {
-    // 1) Open a new tab
-    var currentTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    // 1) Save the current tab's scroll position
+    app_controller.tab_controller.saveTabScrollPosition();
+
+    // 2) Open a new tab
+    const currentTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     app_controller.tab_controller.addTab(undefined, false, currentTranslationId);
 
-    // 2) Load the verse list in the new tab
+    // 3) Load the verse list in the new tab
     if (this.currentReferenceType == 'TAGGED_VERSES') {
 
       app_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
@@ -181,7 +184,7 @@ class VerseListPopup {
       app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
 
-    // 3) Run the on-tab-selected actions at the end, because we added a tab
+    // 4) Run the on-tab-selected actions at the end, because we added a tab
     const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     await eventController.publishAsync('on-tab-selected', tabIndex);
   }
