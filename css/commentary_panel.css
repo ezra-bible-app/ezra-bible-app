@@ -25,8 +25,11 @@
 }
 
 #commentary-panel-reference-box {
-  height: 13.8em;
+  height: 13.4em;
   border-top: unset !important;
+  padding-top: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;    
 }
 
 #commentary-panel-content {
@@ -112,6 +115,6 @@
   }
 
   #commentary-panel-reference-box {
-    height: 5.8em;
+    height: 5.3em;
   }
 }

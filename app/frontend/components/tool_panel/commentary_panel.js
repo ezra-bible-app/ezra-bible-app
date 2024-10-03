@@ -62,6 +62,10 @@ class CommentaryPanel {
     return document.getElementById('commentary-panel-content');
   }
 
+  getReferenceBox() {
+    return document.getElementById('commentary-panel-reference-box');
+  }
+
   showLoadingIndicator() {
     let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
     loadingIndicator.querySelector('.loader').style.display = 'block';
@@ -163,7 +167,7 @@ class CommentaryPanel {
   }
 
   async performContentRefresh(selectedVerseBoxes=undefined) {
-    let commentaryContent = await this.getCommentaryContent(selectedVerseBoxes);
+    const commentaryContent = await this.getCommentaryContent(selectedVerseBoxes);
 
     if (platformHelper.isCordova()) {
       this.hideLoadingIndicator();
@@ -184,6 +188,13 @@ class CommentaryPanel {
     commentaryCopyButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
         this.handleCopyCommentaryButtonClick(event);
+      });
+    });
+
+    let references = this.getBoxContent().querySelectorAll('reference');
+    references.forEach((reference) => {
+      reference.addEventListener('click', (event) => {
+        this.handleReferenceClick(event);
       });
     });
 
@@ -225,6 +236,18 @@ class CommentaryPanel {
     getPlatform().copyToClipboard(commentaryText, commentaryTextHtml);
 
     uiHelper.showSuccessMessage(i18n.t('commentary-panel.copy-commentary-to-clipboard-success'));
+  }
+
+  handleReferenceClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('Handle reference click');
+
+    const commentaryPanelReferenceBox = this.getReferenceBox();
+    const osisRef = event.target.getAttribute('osisref');
+
+    commentaryPanelReferenceBox.textContent = osisRef;
   }
 
   processCommentaryHtml(htmlInput) {
