@@ -259,8 +259,8 @@ class CommentaryPanel {
 
     const osisRef = event.target.getAttribute('osisref');
     let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
-
-    this.renderReferenceVerses(osisRef, splitOsisRefs);
+    await this.renderReferenceVerses(splitOsisRefs);
+    event.target.scrollIntoView({ block: "nearest" });
   }
 
   async handleScripRefClick(event) {
@@ -296,10 +296,12 @@ class CommentaryPanel {
       }
     }
 
-    this.renderReferenceVerses(referenceString, parsedReferences);
+    await this.renderReferenceVerses(parsedReferences);
+
+    event.target.scrollIntoView({ block: "nearest" });
   }
 
-  async renderReferenceVerses(referenceLabel, references) {
+  async renderReferenceVerses(references) {
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     let verses = await ipcNsi.getVersesFromReferences(bibleTranslationId, references);
     let verseReferences = [];
@@ -405,7 +407,7 @@ class CommentaryPanel {
 
           if (verseCommentary != null && verseCommentary.length != 0) {
             commentaryContent += `
-            <div class='commentary module-code-${currentCommentary.name.toLowerCase()}'>
+            <div class='commentary module-code-${currentCommentary.name.toLowerCase()}' module='${currentCommentary.name}'>
               <h3>
                 <span class='commentary-name'>${currentCommentary.description}</span>
 
