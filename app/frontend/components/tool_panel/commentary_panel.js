@@ -268,8 +268,12 @@ class CommentaryPanel {
     });
 
     verseContent += `<div>${osisRef}</div>`;
+    let closeIcon = '<div class="close-icon"><i class="fa-solid fa-rectangle-xmark"></i></div>';
 
-    commentaryPanelReferenceBox.innerHTML = verseContent;
+    commentaryPanelReferenceBox.innerHTML = closeIcon + verseContent;
+    commentaryPanelReferenceBox.querySelector('.close-icon').addEventListener('click', (event) => {
+      this.hideReferenceBox();
+    });
 
     this.showReferenceBox();
   }
