@@ -384,6 +384,22 @@ module.exports.getReferencesFromOsisRef = async function(osisRef) {
         references.push(ref);
       });
 
+    } else if (osisRef.indexOf(',') != -1) {
+      // We have gotten a list of non-contiguous verses (like Ps 32:5,7)
+
+      // First split with chapter/verse separator
+      let splittedOsisRef = osisRef.split(':');
+      let verseList = splittedOsisRef[1];
+
+      // Now split the verses
+      let verses = verseList.split(',');
+
+      // Now build several individual osisRefs based on the verse list
+      for (let i = 0; i < verses.length; i++) {
+        let currentRef = splittedOsisRef[0] + ':' + verses[i];
+        references.push(currentRef);
+      }
+
     } else {
       // We have got one single verse reference
       references.push(osisRef);

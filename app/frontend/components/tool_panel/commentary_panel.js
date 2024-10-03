@@ -273,6 +273,9 @@ class CommentaryPanel {
     event.preventDefault();
     event.stopPropagation();
 
+    app_controller.verse_list_popup.openVerseListPopup(event, 'COMMENTARY_XREFS');
+    return;
+
     const referenceString = event.target.innerText;
     const references = referenceString.split(';');
     const parsedReferences = [];

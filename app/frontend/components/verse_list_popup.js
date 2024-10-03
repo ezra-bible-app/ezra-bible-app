@@ -253,6 +253,40 @@ class VerseListPopup {
     }
   }
 
+  async initCurrentCommentaryXrefs(clickedElement) {
+    this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_XREFS");
+    this.currentReferenceVerseBox = null;
+    this.currentXrefs = [];
+
+    const referenceString = clickedElement.innerText;
+    const references = referenceString.split(';');
+    let selectedBooks = app_controller.verse_selection.getSelectedBooks();
+    let currentBook = selectedBooks[0];
+    let firstSelectedVerseBox = app_controller.verse_selection.getFirstSelectedVerseBox();
+    let currentChapter = new VerseBox(firstSelectedVerseBox).getChapter();
+
+    for (let i = 0; i < references.length; i++) {
+      let currentReference = references[i].trim();
+
+      if (currentReference.indexOf(' ') == -1) {
+
+        if (currentReference.indexOf(':') == -1) {
+          // Add the chapter if it is missing
+          currentReference = currentChapter + ':' + currentReference;
+        }
+
+        // Reference does not contain a space and is therefore missing a book. We need to add the book in front of the reference.
+        currentReference = currentBook + ' ' + currentReference;
+        let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(currentReference);
+        this.currentXrefs.push(...splitOsisRefs);
+      } else {
+        currentBook = currentReference.split(' ')[0];
+        let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(currentReference);
+        this.currentXrefs.push(...splitOsisRefs);
+      }
+    }
+  }
+
   async loadXrefs(clickedElement, currentTabId, currentTabIndex) {
     await this.initCurrentXrefs(clickedElement);
 
@@ -270,6 +304,25 @@ class VerseListPopup {
         false
       );
     }, 50);
+  }
+
+  async loadCommentaryXrefs(clickedElement, currentTabId, currentTabIndex) {
+    await this.initCurrentCommentaryXrefs(clickedElement);
+
+    const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
+    const currentTranslationId = currentTab.getBibleTranslationId();
+    const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(currentTranslationId);
+ 
+    setTimeout(() => {
+      app_controller.text_controller.requestVersesForXrefs(
+        currentTabIndex,
+        currentTabId,
+        this.currentXrefs,
+        (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount, moduleIsRightToLeft); },
+        'html',
+        false
+      );
+    }, 50);   
   }
 
   toggleBookFilter(referenceType) {
@@ -294,10 +347,13 @@ class VerseListPopup {
   async getPopupTitle(clickedElement, referenceType) {
     var popupTitle = '';
     var localizedReference = '';
-    const verseBox = $(clickedElement).closest('.verse-box');
 
-    if (verseBox.length != 0) {
-      localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox[0]);
+    if (referenceType == "TAGGED_VERSES" || referenceType == "XREFS") {
+      const verseBox = $(clickedElement).closest('.verse-box');
+
+      if (verseBox.length != 0) {
+        localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox[0]);
+      }
     }
 
     if (referenceType == "TAGGED_VERSES") {
@@ -308,6 +364,10 @@ class VerseListPopup {
     } else if (referenceType == "XREFS") {
 
       popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
+
+    } else if (referenceType == "COMMENTARY_XREFS") {
+
+      popupTitle = "Commentary cross references";
     }
 
     return popupTitle;
@@ -315,7 +375,7 @@ class VerseListPopup {
 
   /**
    * @param event The click event
-   * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS")
+   * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS" or "COMMENTARY_XREFS")
    */
   async openVerseListPopup(event, referenceType, onlyCurrentBook=false) {
     if (!this.dialogInitDone) {
@@ -327,14 +387,24 @@ class VerseListPopup {
     this.currentReferenceType = referenceType;
     this.currentPopupTitle = await this.getPopupTitle(event.target, referenceType);
 
-    var verse_box = $(event.target).closest('.verse-box');
-    var currentTabId = app_controller.tab_controller.getSelectedTabId();
-    var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    const currentTabId = app_controller.tab_controller.getSelectedTabId();
+    const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    let loadingIndicatorMessage = document.getElementById('verse-list-popup-loading-indicator-message');
 
     if (referenceType == "TAGGED_VERSES") {
+
+      loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-tagged-verses');
       await this.loadTaggedVerses(event.target, currentTabId, currentTabIndex, onlyCurrentBook);
+
     } else if (referenceType == "XREFS") {
+
+      loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-verses');
       await this.loadXrefs(event.target, currentTabId, currentTabIndex);
+
+    } else if (referenceType == "COMMENTARY_XREFS") {
+
+      loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-verses');
+      await this.loadCommentaryXrefs(event.target, currentTabId, currentTabIndex);
     }
 
     var dialogOptions = {
@@ -347,8 +417,12 @@ class VerseListPopup {
     if (!platformHelper.isMobile()) {
       dialogOptions.width = uiHelper.getMaxDialogWidth();
 
-      if (verse_box.length != 0) {
-        dialogOptions.position = this.getOverlayVerseBoxPosition(verse_box);
+      if (referenceType != "COMMENTARY_XREFS") {
+        var verse_box = $(event.target).closest('.verse-box');
+
+        if (verse_box.length != 0) {
+          dialogOptions.position = this.getOverlayVerseBoxPosition(verse_box);
+        }
       }
     }
 
