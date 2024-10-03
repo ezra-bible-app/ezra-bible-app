@@ -247,24 +247,9 @@ class VerseListPopup {
 
     for (let i = 0; i < references.length; i++) {
       let currentReference = references[i];
-
       let osisRef = currentReference.getAttribute('osisref');
-
-      if (osisRef != null) {
-        if (osisRef.indexOf('-') != -1) {
-          // We have gotten a range (like Gal.1.15-Gal.1.16)
-          // We need to first turn into a list of individual references using node-sword-interface
-          let referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
-
-          referenceList.forEach((ref) => {
-            this.currentXrefs.push(ref);
-          });
-
-        } else {
-          // We have got one single verse reference
-          this.currentXrefs.push(osisRef);
-        }
-      }
+      let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
+      this.currentXrefs.push(...splitOsisRefs);
     }
   }
 
