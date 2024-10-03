@@ -258,6 +258,12 @@ class CommentaryPanel {
     event.stopPropagation();
 
     const osisRef = event.target.getAttribute('osisref');
+    const closestCommentary = event.target.closest('.commentary').getAttribute('module');
+    if (osisRef.indexOf(closestCommentary) != -1) {
+      // If the reference is to another entry in the commentary then that's a situation we cannot handle at the moment.
+      return;
+    }
+
     let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
     await this.renderReferenceVerses(splitOsisRefs);
     event.target.scrollIntoView({ block: "nearest" });
