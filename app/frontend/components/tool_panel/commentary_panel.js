@@ -88,8 +88,8 @@ class CommentaryPanel {
   }
 
   showHelpBox() {
-    let panelContent = document.getElementById('commentary-panel-content');
-    panelContent.innerHTML = "";
+    this.getBoxContent().innerHTML = "";
+    this.getReferenceBox().innerHTML = "";
 
     let helpBox = this.getHelpBox();
     helpBox.classList.remove('hidden');
