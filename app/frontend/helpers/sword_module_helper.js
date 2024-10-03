@@ -232,13 +232,13 @@ module.exports.getVersification = async function(moduleId) {
   try {
     psalm3Verses = await ipcNsi.getChapterText(moduleId, 'Psa', 3);
   } catch (e) {
-    console.log("TranslationController.getVersification: Could not retrieve chapter text for Psalm 3 of " + moduleId);
+    console.log("sword_module_helper.getVersification: Could not retrieve chapter text for Psalm 3 of " + moduleId);
   }
 
   try {
     revelation12Verses = await ipcNsi.getChapterText(moduleId, 'Rev', 12);
   } catch (e) {
-    console.log("TranslationController.getVersification: Could not retrieve chapter text for Revelation 12 of " + moduleId);
+    console.log("sword_module_helper.getVersification: Could not retrieve chapter text for Revelation 12 of " + moduleId);
   }
 
   if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
