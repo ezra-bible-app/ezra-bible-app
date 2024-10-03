@@ -371,6 +371,12 @@ module.exports.sortModules = function(a,b) {
   }
 };
 
+function transformReferenceToOsis(reference) {
+  reference = reference.replace(' ', '.');
+  reference = reference.replace(':', '.');
+  return reference;
+}
+
 module.exports.getReferencesFromOsisRef = async function(osisRef) {
   let references = [];
 
@@ -381,6 +387,7 @@ module.exports.getReferencesFromOsisRef = async function(osisRef) {
       let referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
 
       referenceList.forEach((ref) => {
+        ref = transformReferenceToOsis(ref);
         references.push(ref);
       });
 
@@ -397,11 +404,13 @@ module.exports.getReferencesFromOsisRef = async function(osisRef) {
       // Now build several individual osisRefs based on the verse list
       for (let i = 0; i < verses.length; i++) {
         let currentRef = splittedOsisRef[0] + ':' + verses[i];
+        currentRef = transformReferenceToOsis(currentRef);
         references.push(currentRef);
       }
 
     } else {
       // We have got one single verse reference
+      osisRef = transformReferenceToOsis(osisRef);
       references.push(osisRef);
     }
   }
