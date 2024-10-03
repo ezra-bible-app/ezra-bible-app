@@ -21,6 +21,7 @@ const VerseBox = require("../../ui_models/verse_box.js");
 const { getPlatform } = require('../../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+const sectionLabelHelper = require('../../helpers/section_label_helper.js');
 
 /**
  * The CommentaryPanel component implements a tool panel that shows Bible commentaries for selected verses
@@ -278,13 +279,13 @@ class CommentaryPanel {
       let currentReference = references[i].trim();
 
       if (currentReference.indexOf(' ') == -1) {
-        // Reference does not contain a space. We need to add the book in front of the reference.
 
         if (currentReference.indexOf(':') == -1) {
           // Add the chapter if it is missing
           currentReference = currentChapter + ':' + currentReference;
         }
 
+        // Reference does not contain a space and is therefore missing a book. We need to add the book in front of the reference.
         currentReference = currentBook + ' ' + currentReference;
         let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(currentReference);
         parsedReferences.push(...splitOsisRefs);
@@ -301,6 +302,7 @@ class CommentaryPanel {
   async renderReferenceVerses(referenceLabel, references) {
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     let verses = await ipcNsi.getVersesFromReferences(bibleTranslationId, references);
+    let verseReferences = [];
     let bibleBookStats = app_controller.text_controller.getBibleBookStatsFromVerses(verses);
     let multipleBooks = Object.keys(bibleBookStats).length > 1;
 
@@ -313,14 +315,21 @@ class CommentaryPanel {
       }
 
       verseContent += verse.content + "<br/>";
+
       if (multipleBooks) {
         let verseReference = verse.bibleBookShortTitle + ' ' + verse.chapter + window.reference_separator + verse.verseNr;
         verseContent += verseReference + "<br/><br/>";
       }
+
+      let shortVerseReference = verse.chapter + window.reference_separator + verse.verseNr;
+      verseReferences.push(shortVerseReference);
     });
 
     if (!multipleBooks) {
-      verseContent += `<div>${referenceLabel}</div>`;
+      let currentBook = Object.keys(bibleBookStats)[0];
+      let formattedVerseList = await sectionLabelHelper.formatVerseList(verseReferences, currentBook, window.reference_separator);
+
+      verseContent += `<div>${currentBook} ${formattedVerseList}</div>`;
     }
 
     let closeIcon = '<div class="close-icon"><i class="fa-solid fa-rectangle-xmark"></i></div>';
