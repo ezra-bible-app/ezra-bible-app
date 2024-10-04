@@ -201,7 +201,8 @@ global.bible_books = [
   { long_title : 'Ephesians',
     short_title : "Eph" },
   { long_title : 'Philippians',
-    short_title : "Phil" },
+    short_title : "Phil",
+    alternative_short_title : "Php" },
   { long_title : 'Colossians',
     short_title : "Col" },
   { long_title : 'I Thessalonians',
@@ -376,6 +377,11 @@ module.exports = (sequelize, DataTypes) => {
         let currentBookFromMap = global.bible_books[j];
 
         if (currentBookFromMap.short_title.indexOf(currentBookShortName) != -1) {
+          currentBookShortName = currentBookFromMap.short_title;
+          break;
+        }
+
+        if (currentBookFromMap.alternative_short_title && currentBookFromMap.alternative_short_title.indexOf(currentBookShortName) != -1) {
           currentBookShortName = currentBookFromMap.short_title;
           break;
         }
