@@ -297,7 +297,7 @@ class VerseSelection {
     return selectedBooks;
   }
 
-  element_list_to_xml_verse_list(element_list) {
+  elementListToXmlVerseList(element_list) {
     var xml_verse_list = "<verse-list>";
 
     for (let i = 0; i < element_list.length; i++) {
@@ -327,7 +327,7 @@ class VerseSelection {
   getCurrentVerseSelectionAsXml() {
     var selected_verse_elements = this.selectedVerseBoxElements;
 
-    return (this.element_list_to_xml_verse_list(selected_verse_elements));
+    return (this.elementListToXmlVerseList(selected_verse_elements));
   }
 
   getCurrentVerseSelectionAsVerseReferenceIds() {
