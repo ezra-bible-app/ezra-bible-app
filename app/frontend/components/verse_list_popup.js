@@ -182,6 +182,9 @@ class VerseListPopup {
     } else if (this.currentReferenceType == 'XREFS') {
 
       app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
+    } else if (this.currentReferenceType == 'COMMENTARY_XREFS') {
+
+      app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
 
     // 4) Run the on-tab-selected actions at the end, because we added a tab
@@ -255,7 +258,7 @@ class VerseListPopup {
 
   async initCurrentCommentaryXrefs(clickedElement) {
     this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_XREFS");
-    this.currentReferenceVerseBox = null;
+    this.currentReferenceVerseBox = $(app_controller.verse_selection.getSelectedVerseBoxes()[0]);
 
     if (clickedElement.hasAttribute('osisref')) {
       const osisRef = clickedElement.getAttribute('osisref');
