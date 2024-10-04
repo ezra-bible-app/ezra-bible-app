@@ -381,6 +381,30 @@ module.exports.getReferencesFromOsisRef = async function(osisRef) {
   let references = [];
 
   if (osisRef != null) {
+    let splittedOsisRef = osisRef.split(' ');
+
+    if (splittedOsisRef.length > 2) {
+      // We have gotten an osisRef consisting of multiple references (like joh 1:3-5 joh 1:9 joh 1:14-18)
+      
+      for (let i = 0; i < splittedOsisRef.length; i+=2) {
+        let currentOsisRef = splittedOsisRef[i] + ' ' + splittedOsisRef[i+1];
+        let parsedReferences = await this.getReferencesFromIndividualOsisRef(currentOsisRef);
+
+        references.push(...parsedReferences);
+      }
+
+    } else {
+      references = await this.getReferencesFromIndividualOsisRef(osisRef);
+    }
+  }
+
+  return references;
+}
+
+module.exports.getReferencesFromIndividualOsisRef = async function(osisRef) {
+  let references = [];
+
+  if (osisRef != null) {
     if (osisRef.indexOf('-') != -1) {
       // We have gotten a range (like Gal.1.15-Gal.1.16)
       // We need to first turn into a list of individual references using node-sword-interface
@@ -416,6 +440,34 @@ module.exports.getReferencesFromOsisRef = async function(osisRef) {
   }
 
   return references;
+};
+
+module.exports.getReferencesFromScripRef = async function(referenceString, book, chapter) {
+  const xrefs = [];
+  const references = referenceString.split(';');
+
+  for (let i = 0; i < references.length; i++) {
+    let currentReference = references[i].trim();
+
+    if (currentReference.indexOf(' ') == -1) {
+
+      if (currentReference.indexOf(':') == -1) {
+        // Add the chapter if it is missing
+        currentReference = chapter + ':' + currentReference;
+      }
+
+      // Reference does not contain a space and is therefore missing a book. We need to add the book in front of the reference.
+      currentReference = book + ' ' + currentReference;
+      let splitOsisRefs = await this.getReferencesFromOsisRef(currentReference);
+      xrefs.push(...splitOsisRefs);
+    } else {
+      book = currentReference.split(' ')[0];
+      let splitOsisRefs = await this.getReferencesFromOsisRef(currentReference);
+      xrefs.push(...splitOsisRefs);
+    }
+  }
+
+  return xrefs;
 };
 
 function urlify(text) {
