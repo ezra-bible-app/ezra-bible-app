@@ -526,7 +526,7 @@ class TabController {
     return selectedTabsPanelId;
   }
 
-  addTab(metaTab = undefined, interactive = true, bibleTranslationId = undefined) {
+  async addTab(metaTab = undefined, interactive = true, bibleTranslationId = undefined) {
     var initialLoading = true;
     if (metaTab === undefined) {
       initialLoading = false;
@@ -564,7 +564,7 @@ class TabController {
     this.updateFirstTabCloseButton();
 
     if (!initialLoading) {
-      eventController.publish('on-tab-added', newTabIndex);
+      await eventController.publish('on-tab-added', newTabIndex);
     }
   }
 
