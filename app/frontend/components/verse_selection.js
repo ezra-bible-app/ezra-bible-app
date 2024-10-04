@@ -251,7 +251,7 @@ class VerseSelection {
     this.selectedVerseBoxElements = verseListFrame.find('.ui-selected').closest('.verse-box');
     var selectedVerseReferences = [];
 
-    for (var i = 0; i < this.selectedVerseBoxElements.length; i++) {
+    for (let i = 0; i < this.selectedVerseBoxElements.length; i++) {
       var verseBox = $(this.selectedVerseBoxElements[i]);
       var currentVerseReferenceAnchor = verseBox.find('a:first').attr('name');
 
@@ -285,7 +285,7 @@ class VerseSelection {
   getSelectedBooks() {
     var selectedBooks = [];
 
-    for (var i = 0; i < this.selectedVerseBoxElements.length; i++) {
+    for (let i = 0; i < this.selectedVerseBoxElements.length; i++) {
       var currentVerseBox = this.selectedVerseBoxElements[i];
       var currentBookShortName = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
@@ -300,7 +300,7 @@ class VerseSelection {
   element_list_to_xml_verse_list(element_list) {
     var xml_verse_list = "<verse-list>";
 
-    for (var i = 0; i < element_list.length; i++) {
+    for (let i = 0; i < element_list.length; i++) {
       var verse_box_element = $(element_list[i]).closest('.verse-box')[0];
       var verse_reference = verse_box_element.querySelector('.verse-reference-content').innerText;
       var verse_reference_id = "";
@@ -334,7 +334,7 @@ class VerseSelection {
     var selected_verse_ids = new Array;
     var selected_verse_elements = this.selectedVerseBoxElements;
     
-    for (var i = 0; i < selected_verse_elements.length; i++) {
+    for (let i = 0; i < selected_verse_elements.length; i++) {
       var verse_box_element = selected_verse_elements[i];
       var verse_box = new VerseBox(verse_box_element);
       var verse_reference_id = verse_box.getVerseReferenceId();
