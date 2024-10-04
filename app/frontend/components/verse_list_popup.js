@@ -275,6 +275,7 @@ class VerseListPopup {
       this.currentXrefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
 
     } else {
+      // We are dealing with scripref elements.
 
       const referenceString = clickedElement.innerText;
       let selectedBooks = app_controller.verse_selection.getSelectedBooks();
