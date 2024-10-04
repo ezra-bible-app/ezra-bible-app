@@ -172,24 +172,32 @@ class VerseListPopup {
 
     // 2) Open a new tab
     const currentTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    app_controller.tab_controller.addTab(undefined, false, currentTranslationId);
+    await app_controller.tab_controller.addTab(undefined, false, currentTranslationId);
 
     // 3) Load the verse list in the new tab
     if (this.currentReferenceType == 'TAGGED_VERSES') {
 
-      app_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
+      await app_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
 
     } else if (this.currentReferenceType == 'XREFS') {
 
-      app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
+      await app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
+
     } else if (this.currentReferenceType == 'COMMENTARY_XREFS') {
 
-      app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
+      await app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
 
     // 4) Run the on-tab-selected actions at the end, because we added a tab
     const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     await eventController.publishAsync('on-tab-selected', tabIndex);
+
+    // 5) Select the reference verse
+    if (this.currentReferenceVerseBox != null) {
+      let currentReferenceVerse = verseListController.getCurrentVerseListFrame().find('.reference-verse');
+      let verseText = currentReferenceVerse[0].querySelector('.verse-text');
+      app_controller.verse_selection.setVerseAsSelection(verseText);
+    }
   }
 
   getSelectedTagFromClickedElement(clickedElement) {

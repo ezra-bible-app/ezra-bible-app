@@ -234,7 +234,9 @@ class VerseSelection {
       verseText.classList.add('ui-selectee');
       this.selectedVerseBoxElements.push(verseText);
 
-      this.updateSelected();
+      let verseList = $(verseText.closest('.verse-list-content'));
+
+      this.updateSelected(verseList);
       this.updateViewsAfterVerseSelection();
       this.publishVersesSelected();
     }
