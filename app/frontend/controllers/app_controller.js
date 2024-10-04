@@ -441,7 +441,7 @@ class AppController {
       let resetView = this.tab_controller.getTab().hasTextTypeChanged();
 
       await this.text_controller.prepareForNewText(resetView, false);
-      this.text_controller.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
+      await this.text_controller.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
     }
   }
 
