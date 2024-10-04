@@ -80,8 +80,8 @@ class VerseSelection {
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {
-      let verseList = verseListController.getCurrentVerseList(tabIndex);
-      this.updateSelected(verseList);
+      let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
+      this.updateSelected(verseListFrame);
       this.updateViewsAfterVerseSelection();
       this.publishVersesSelected();
     });
@@ -243,12 +243,12 @@ class VerseSelection {
     }
   }
 
-  updateSelected(verseList=undefined) {
-    if (verseList == undefined) {
-      verseList = verseListController.getCurrentVerseList();
+  updateSelected(verseListFrame=undefined) {
+    if (verseListFrame == undefined) {
+      verseListFrame = verseListController.getCurrentVerseListFrame();
     }
 
-    this.selectedVerseBoxElements = verseList.find('.ui-selected').closest('.verse-box');
+    this.selectedVerseBoxElements = verseListFrame.find('.ui-selected').closest('.verse-box');
     var selectedVerseReferences = [];
 
     for (var i = 0; i < this.selectedVerseBoxElements.length; i++) {
