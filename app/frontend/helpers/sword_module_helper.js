@@ -449,7 +449,7 @@ module.exports.getReferencesFromScripRef = async function(referenceString, book,
   const xrefs = [];
 
   // We fix weird references that look like this: 1Thes 2:9,10,
-  referenceString = referenceString.replace(', ', ' ');
+  referenceString = referenceString.replace(', ', ';');
 
   const references = referenceString.split(';');
 
