@@ -256,34 +256,26 @@ class VerseListPopup {
   async initCurrentCommentaryXrefs(clickedElement) {
     this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_XREFS");
     this.currentReferenceVerseBox = null;
-    this.currentXrefs = [];
 
-    const referenceString = clickedElement.innerText;
-    const references = referenceString.split(';');
-    let selectedBooks = app_controller.verse_selection.getSelectedBooks();
-    let currentBook = selectedBooks[0];
-    let firstSelectedVerseBox = app_controller.verse_selection.getFirstSelectedVerseBox();
-    let currentChapter = new VerseBox(firstSelectedVerseBox).getChapter();
-
-    for (let i = 0; i < references.length; i++) {
-      let currentReference = references[i].trim();
-
-      if (currentReference.indexOf(' ') == -1) {
-
-        if (currentReference.indexOf(':') == -1) {
-          // Add the chapter if it is missing
-          currentReference = currentChapter + ':' + currentReference;
-        }
-
-        // Reference does not contain a space and is therefore missing a book. We need to add the book in front of the reference.
-        currentReference = currentBook + ' ' + currentReference;
-        let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(currentReference);
-        this.currentXrefs.push(...splitOsisRefs);
-      } else {
-        currentBook = currentReference.split(' ')[0];
-        let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(currentReference);
-        this.currentXrefs.push(...splitOsisRefs);
+    if (clickedElement.hasAttribute('osisref')) {
+      const osisRef = clickedElement.getAttribute('osisref');
+      const closestCommentary = clickedElement.closest('.commentary').getAttribute('module');
+      if (osisRef.indexOf(closestCommentary) != -1) {
+        // If the reference is to another entry in the commentary then that's a situation we cannot handle at the moment.
+        return;
       }
+
+      this.currentXrefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
+
+    } else {
+
+      const referenceString = clickedElement.innerText;
+      let selectedBooks = app_controller.verse_selection.getSelectedBooks();
+      const currentBook = selectedBooks[0];
+      let firstSelectedVerseBox = app_controller.verse_selection.getFirstSelectedVerseBox();
+      const currentChapter = new VerseBox(firstSelectedVerseBox).getChapter();
+
+      this.currentXrefs = await swordModuleHelper.getReferencesFromScripRef(referenceString, currentBook, currentChapter);
     }
   }
 
@@ -307,7 +299,7 @@ class VerseListPopup {
   }
 
   async loadCommentaryXrefs(clickedElement, currentTabId, currentTabIndex) {
-    await this.initCurrentCommentaryXrefs(clickedElement);
+    //await this.initCurrentCommentaryXrefs(clickedElement);
 
     const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
     const currentTranslationId = currentTab.getBibleTranslationId();

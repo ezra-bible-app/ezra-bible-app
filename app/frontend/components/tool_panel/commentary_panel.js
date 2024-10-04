@@ -209,7 +209,7 @@ class CommentaryPanel {
     let scripRefElements = this.getBoxContent().querySelectorAll('.sword-scripref');
     scripRefElements.forEach((scripRef) => {
       scripRef.addEventListener('click', (event) => {
-        this.handleScripRefClick(event);
+        this.handleReferenceClick(event);
       });
     });
 
@@ -257,57 +257,15 @@ class CommentaryPanel {
     event.preventDefault();
     event.stopPropagation();
 
-    const osisRef = event.target.getAttribute('osisref');
-    const closestCommentary = event.target.closest('.commentary').getAttribute('module');
-    if (osisRef.indexOf(closestCommentary) != -1) {
-      // If the reference is to another entry in the commentary then that's a situation we cannot handle at the moment.
-      return;
+    await app_controller.verse_list_popup.initCurrentCommentaryXrefs(event.target);
+
+    if (app_controller.verse_list_popup.currentXrefs.length > 2) {
+      this.hideReferenceBox();
+      await app_controller.verse_list_popup.openVerseListPopup(event, 'COMMENTARY_XREFS');
+    } else if (app_controller.verse_list_popup.currentXrefs.length > 0) {
+      await this.renderReferenceVerses(app_controller.verse_list_popup.currentXrefs);
+      event.target.scrollIntoView({ block: "nearest" });
     }
-
-    let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
-    await this.renderReferenceVerses(splitOsisRefs);
-    event.target.scrollIntoView({ block: "nearest" });
-  }
-
-  async handleScripRefClick(event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    app_controller.verse_list_popup.openVerseListPopup(event, 'COMMENTARY_XREFS');
-    return;
-
-    const referenceString = event.target.innerText;
-    const references = referenceString.split(';');
-    const parsedReferences = [];
-    let selectedBooks = app_controller.verse_selection.getSelectedBooks();
-    let currentBook = selectedBooks[0];
-    let firstSelectedVerseBox = app_controller.verse_selection.getFirstSelectedVerseBox();
-    let currentChapter = new VerseBox(firstSelectedVerseBox).getChapter();
-
-    for (let i = 0; i < references.length; i++) {
-      let currentReference = references[i].trim();
-
-      if (currentReference.indexOf(' ') == -1) {
-
-        if (currentReference.indexOf(':') == -1) {
-          // Add the chapter if it is missing
-          currentReference = currentChapter + ':' + currentReference;
-        }
-
-        // Reference does not contain a space and is therefore missing a book. We need to add the book in front of the reference.
-        currentReference = currentBook + ' ' + currentReference;
-        let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(currentReference);
-        parsedReferences.push(...splitOsisRefs);
-      } else {
-        currentBook = currentReference.split(' ')[0];
-        let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(currentReference);
-        parsedReferences.push(...splitOsisRefs);
-      }
-    }
-
-    await this.renderReferenceVerses(parsedReferences);
-
-    event.target.scrollIntoView({ block: "nearest" });
   }
 
   async renderReferenceVerses(references) {
