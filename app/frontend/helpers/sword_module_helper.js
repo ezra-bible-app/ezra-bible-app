@@ -380,6 +380,9 @@ function transformReferenceToOsis(reference) {
 module.exports.getReferencesFromOsisRef = async function(osisRef) {
   let references = [];
 
+  // We fix weird references that look like this: 1Th 2. 1-20 
+  osisRef = osisRef.replace('. ', ':');
+
   if (osisRef != null) {
     let splittedOsisRef = osisRef.split(' ');
 
@@ -444,6 +447,10 @@ module.exports.getReferencesFromIndividualOsisRef = async function(osisRef) {
 
 module.exports.getReferencesFromScripRef = async function(referenceString, book, chapter) {
   const xrefs = [];
+
+  // We fix weird references that look like this: 1Thes 2:9,10,
+  referenceString = referenceString.replace(', ', ' ');
+
   const references = referenceString.split(';');
 
   for (let i = 0; i < references.length; i++) {
@@ -461,6 +468,8 @@ module.exports.getReferencesFromScripRef = async function(referenceString, book,
       let splitOsisRefs = await this.getReferencesFromOsisRef(currentReference);
       xrefs.push(...splitOsisRefs);
     } else {
+      // Reference contains a space
+
       book = currentReference.split(' ')[0];
       let splitOsisRefs = await this.getReferencesFromOsisRef(currentReference);
       xrefs.push(...splitOsisRefs);
