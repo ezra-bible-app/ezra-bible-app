@@ -179,11 +179,7 @@ class VerseListPopup {
 
       await app_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
 
-    } else if (this.currentReferenceType == 'XREFS') {
-
-      await app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
-
-    } else if (this.currentReferenceType == 'COMMENTARY_XREFS') {
+    } else if (this.currentReferenceType == 'XREFS' || this.currentReferenceType == 'COMMENTARY_XREFS') {
 
       await app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
@@ -291,7 +287,9 @@ class VerseListPopup {
   }
 
   async loadXrefs(clickedElement, currentTabId, currentTabIndex) {
-    await this.initCurrentXrefs(clickedElement);
+    if (clickedElement != null) {
+      await this.initCurrentXrefs(clickedElement);
+    }
 
     const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
     const currentTranslationId = currentTab.getBibleTranslationId();
@@ -307,25 +305,6 @@ class VerseListPopup {
         false
       );
     }, 50);
-  }
-
-  async loadCommentaryXrefs(clickedElement, currentTabId, currentTabIndex) {
-    //await this.initCurrentCommentaryXrefs(clickedElement);
-
-    const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
-    const currentTranslationId = currentTab.getBibleTranslationId();
-    const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(currentTranslationId);
- 
-    setTimeout(() => {
-      app_controller.text_controller.requestVersesForXrefs(
-        currentTabIndex,
-        currentTabId,
-        this.currentXrefs,
-        (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount, moduleIsRightToLeft); },
-        'html',
-        false
-      );
-    }, 50);   
   }
 
   toggleBookFilter(referenceType) {
@@ -407,7 +386,7 @@ class VerseListPopup {
     } else if (referenceType == "COMMENTARY_XREFS") {
 
       loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-verses');
-      await this.loadCommentaryXrefs(event.target, currentTabId, currentTabIndex);
+      await this.loadXrefs(null, currentTabId, currentTabIndex);
     }
 
     var dialogOptions = {
