@@ -83,6 +83,7 @@ class VerseSelection {
       let verseList = verseListController.getCurrentVerseList(tabIndex);
       this.updateSelected(verseList);
       this.updateViewsAfterVerseSelection();
+      this.publishVersesSelected();
     });
 
     eventController.subscribe('on-all-translations-removed', () => {
