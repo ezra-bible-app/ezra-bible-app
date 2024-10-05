@@ -301,6 +301,8 @@ class CommentaryPanel {
       verseContent += `<div>${currentBook} ${formattedVerseList}</div>`;
     }
 
+    verseContent = '<div class="verse-text">' + verseContent + '</div>';
+
     let closeIcon = '<div class="close-icon"><i class="fa-solid fa-rectangle-xmark"></i></div>';
 
     const commentaryPanelReferenceBox = this.getReferenceBox();
