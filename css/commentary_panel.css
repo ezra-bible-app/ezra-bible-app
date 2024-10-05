@@ -16,6 +16,60 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+#commentary-panel-wrapper {
+  height: 100%;
+}
+
+#commentary-panel-main-content:not(.with-reference-box) {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+#commentary-panel-main-content.with-reference-box {
+  height: calc(100% - 16em) !important;
+  border-bottom: 4px solid #dddddd;
+}
+
+#commentary-panel-reference-box {
+  display: none;
+  height: 12em;
+  border-top: unset !important;
+  padding: 1em;
+  padding-bottom: 0em;
+  overflow: auto;
+  width: unset !important;
+}
+
+#commentary-panel-reference-box .close-icon {
+  display: block;
+  text-align: right;
+  cursor: pointer;
+}
+
+#commentary-panel-reference-box .close-icon i {
+  color: var(--button-color);
+}
+
+.darkmode--activated #commentary-panel-reference-box .close-icon i {
+  color: var(--button-color-dark);
+}
+
+#commentary-panel-reference-box .close-icon i:hover {
+  color: var(--accent-color);
+}
+
+#commentary-panel-reference-box .sword-markup {
+  display: unset;
+}
+
+#commentary-panel-reference-box .sword-note {
+  display: none;
+}
+
+#commentary-panel-reference-box sup {
+  margin-right: 0.2em;
+}
+
 #commentary-panel-content {
   padding: 0.5em;
   user-select: text; /* Enable text selection */
@@ -66,6 +120,17 @@
   display: inline-block;
 }
 
+#commentary-panel-content reference,
+#commentary-panel-content .sword-scripref {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+#commentary-panel-content reference:hover,
+#commentary-panel-content .sword-scripref:hover {
+  text-decoration: underline;
+}
+
 #commentary-panel-content .sword-section-title {
   font-weight: bold;
   display: block !important;
@@ -79,4 +144,15 @@
 
 .darkmode--activated .warning-text {
   color: var(--text-color-red-darkmode);
+}
+
+/* PORTRAIT */
+@media screen and (max-aspect-ratio: 13/10) {
+  #commentary-panel-main-content.with-reference-box {
+    height: calc(100% - 10em) !important;
+  }
+
+  #commentary-panel-reference-box {
+    height: 6em;
+  }
 }

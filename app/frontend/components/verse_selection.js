@@ -80,9 +80,10 @@ class VerseSelection {
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {
-      let verseList = verseListController.getCurrentVerseList(tabIndex);
-      this.updateSelected(verseList);
+      let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
+      this.updateSelected(verseListFrame);
       this.updateViewsAfterVerseSelection();
+      this.publishVersesSelected();
     });
 
     eventController.subscribe('on-all-translations-removed', () => {
@@ -182,6 +183,14 @@ class VerseSelection {
     });
   }
 
+  getFirstSelectedVerseBox() {
+    if (this.selectedVerseBoxElements != null && this.selectedVerseBoxElements.length > 0) {
+      return this.selectedVerseBoxElements[0];
+    } else {
+      return null;
+    }
+  }
+
   getFirstSelectedVerseReferenceId() {
     if (this.selectedVerseBoxElements != null && this.selectedVerseBoxElements.length > 0) {
       return this.selectedVerseBoxElements[0].getAttribute('verse-reference-id');
@@ -226,21 +235,23 @@ class VerseSelection {
       verseText.classList.add('ui-selectee');
       this.selectedVerseBoxElements.push(verseText);
 
-      this.updateSelected();
+      let verseList = $(verseText.closest('.verse-list-content'));
+
+      this.updateSelected(verseList);
       this.updateViewsAfterVerseSelection();
       this.publishVersesSelected();
     }
   }
 
-  updateSelected(verseList=undefined) {
-    if (verseList == undefined) {
-      verseList = verseListController.getCurrentVerseList();
+  updateSelected(verseListFrame=undefined) {
+    if (verseListFrame == undefined) {
+      verseListFrame = verseListController.getCurrentVerseListFrame();
     }
 
-    this.selectedVerseBoxElements = verseList.find('.ui-selected').closest('.verse-box');
+    this.selectedVerseBoxElements = verseListFrame.find('.ui-selected').closest('.verse-box');
     var selectedVerseReferences = [];
 
-    for (var i = 0; i < this.selectedVerseBoxElements.length; i++) {
+    for (let i = 0; i < this.selectedVerseBoxElements.length; i++) {
       var verseBox = $(this.selectedVerseBoxElements[i]);
       var currentVerseReferenceAnchor = verseBox.find('a:first').attr('name');
 
@@ -271,10 +282,10 @@ class VerseSelection {
     }
   }
 
-  async getSelectedBooks() {
+  getSelectedBooks() {
     var selectedBooks = [];
 
-    for (var i = 0; i < this.selectedVerseBoxElements.length; i++) {
+    for (let i = 0; i < this.selectedVerseBoxElements.length; i++) {
       var currentVerseBox = this.selectedVerseBoxElements[i];
       var currentBookShortName = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
@@ -286,10 +297,10 @@ class VerseSelection {
     return selectedBooks;
   }
 
-  element_list_to_xml_verse_list(element_list) {
+  elementListToXmlVerseList(element_list) {
     var xml_verse_list = "<verse-list>";
 
-    for (var i = 0; i < element_list.length; i++) {
+    for (let i = 0; i < element_list.length; i++) {
       var verse_box_element = $(element_list[i]).closest('.verse-box')[0];
       var verse_reference = verse_box_element.querySelector('.verse-reference-content').innerText;
       var verse_reference_id = "";
@@ -316,14 +327,14 @@ class VerseSelection {
   getCurrentVerseSelectionAsXml() {
     var selected_verse_elements = this.selectedVerseBoxElements;
 
-    return (this.element_list_to_xml_verse_list(selected_verse_elements));
+    return (this.elementListToXmlVerseList(selected_verse_elements));
   }
 
   getCurrentVerseSelectionAsVerseReferenceIds() {
     var selected_verse_ids = new Array;
     var selected_verse_elements = this.selectedVerseBoxElements;
     
-    for (var i = 0; i < selected_verse_elements.length; i++) {
+    for (let i = 0; i < selected_verse_elements.length; i++) {
       var verse_box_element = selected_verse_elements[i];
       var verse_box = new VerseBox(verse_box_element);
       var verse_reference_id = verse_box.getVerseReferenceId();

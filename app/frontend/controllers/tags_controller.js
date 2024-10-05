@@ -869,7 +869,7 @@ class TagsController {
 
     if (!tags_controller.tagGroupUsed()) {
       var verse_list = $.create_xml_doc(
-        app_controller.verse_selection.element_list_to_xml_verse_list(tag_data_elements)
+        app_controller.verse_selection.elementListToXmlVerseList(tag_data_elements)
       );
 
       tags_controller.changeVerseListTagInfo(tag_id, tag_title, verse_list, "remove");

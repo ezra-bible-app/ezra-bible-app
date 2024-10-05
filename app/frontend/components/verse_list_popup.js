@@ -172,21 +172,28 @@ class VerseListPopup {
 
     // 2) Open a new tab
     const currentTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    app_controller.tab_controller.addTab(undefined, false, currentTranslationId);
+    await app_controller.tab_controller.addTab(undefined, false, currentTranslationId);
 
     // 3) Load the verse list in the new tab
     if (this.currentReferenceType == 'TAGGED_VERSES') {
 
-      app_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
+      await app_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
 
-    } else if (this.currentReferenceType == 'XREFS') {
+    } else if (this.currentReferenceType == 'XREFS' || this.currentReferenceType == 'COMMENTARY_XREFS') {
 
-      app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
+      await app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
 
     // 4) Run the on-tab-selected actions at the end, because we added a tab
     const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     await eventController.publishAsync('on-tab-selected', tabIndex);
+
+    // 5) Select the reference verse
+    if (this.currentReferenceVerseBox != null) {
+      let currentReferenceVerse = verseListController.getCurrentVerseListFrame().find('.reference-verse');
+      let verseText = currentReferenceVerse[0].querySelector('.verse-text');
+      app_controller.verse_selection.setVerseAsSelection(verseText);
+    }
   }
 
   getSelectedTagFromClickedElement(clickedElement) {
@@ -247,29 +254,43 @@ class VerseListPopup {
 
     for (let i = 0; i < references.length; i++) {
       let currentReference = references[i];
-
       let osisRef = currentReference.getAttribute('osisref');
+      let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
+      this.currentXrefs.push(...splitOsisRefs);
+    }
+  }
 
-      if (osisRef != null) {
-        if (osisRef.indexOf('-') != -1) {
-          // We have gotten a range (like Gal.1.15-Gal.1.16)
-          // We need to first turn into a list of individual references using node-sword-interface
-          let referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
+  async initCurrentCommentaryXrefs(clickedElement) {
+    this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_XREFS");
+    this.currentReferenceVerseBox = $(app_controller.verse_selection.getSelectedVerseBoxes()[0]);
 
-          referenceList.forEach((ref) => {
-            this.currentXrefs.push(ref);
-          });
-
-        } else {
-          // We have got one single verse reference
-          this.currentXrefs.push(osisRef);
-        }
+    if (clickedElement.hasAttribute('osisref')) {
+      const osisRef = clickedElement.getAttribute('osisref');
+      const closestCommentary = clickedElement.closest('.commentary').getAttribute('module');
+      if (osisRef.indexOf(closestCommentary) != -1) {
+        // If the reference is to another entry in the commentary then that's a situation we cannot handle at the moment.
+        return;
       }
+
+      this.currentXrefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
+
+    } else {
+      // We are dealing with scripref elements.
+
+      const referenceString = clickedElement.innerText;
+      let selectedBooks = app_controller.verse_selection.getSelectedBooks();
+      const currentBook = selectedBooks[0];
+      let firstSelectedVerseBox = app_controller.verse_selection.getFirstSelectedVerseBox();
+      const currentChapter = new VerseBox(firstSelectedVerseBox).getChapter();
+
+      this.currentXrefs = await swordModuleHelper.getReferencesFromScripRef(referenceString, currentBook, currentChapter);
     }
   }
 
   async loadXrefs(clickedElement, currentTabId, currentTabIndex) {
-    await this.initCurrentXrefs(clickedElement);
+    if (clickedElement != null) {
+      await this.initCurrentXrefs(clickedElement);
+    }
 
     const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
     const currentTranslationId = currentTab.getBibleTranslationId();
@@ -309,10 +330,13 @@ class VerseListPopup {
   async getPopupTitle(clickedElement, referenceType) {
     var popupTitle = '';
     var localizedReference = '';
-    const verseBox = $(clickedElement).closest('.verse-box');
 
-    if (verseBox.length != 0) {
-      localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox[0]);
+    if (referenceType == "TAGGED_VERSES" || referenceType == "XREFS") {
+      const verseBox = $(clickedElement).closest('.verse-box');
+
+      if (verseBox.length != 0) {
+        localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox[0]);
+      }
     }
 
     if (referenceType == "TAGGED_VERSES") {
@@ -323,6 +347,10 @@ class VerseListPopup {
     } else if (referenceType == "XREFS") {
 
       popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
+
+    } else if (referenceType == "COMMENTARY_XREFS") {
+
+      popupTitle = "Commentary cross references";
     }
 
     return popupTitle;
@@ -330,7 +358,7 @@ class VerseListPopup {
 
   /**
    * @param event The click event
-   * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS")
+   * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS" or "COMMENTARY_XREFS")
    */
   async openVerseListPopup(event, referenceType, onlyCurrentBook=false) {
     if (!this.dialogInitDone) {
@@ -342,14 +370,24 @@ class VerseListPopup {
     this.currentReferenceType = referenceType;
     this.currentPopupTitle = await this.getPopupTitle(event.target, referenceType);
 
-    var verse_box = $(event.target).closest('.verse-box');
-    var currentTabId = app_controller.tab_controller.getSelectedTabId();
-    var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    const currentTabId = app_controller.tab_controller.getSelectedTabId();
+    const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    let loadingIndicatorMessage = document.getElementById('verse-list-popup-loading-indicator-message');
 
     if (referenceType == "TAGGED_VERSES") {
+
+      loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-tagged-verses');
       await this.loadTaggedVerses(event.target, currentTabId, currentTabIndex, onlyCurrentBook);
+
     } else if (referenceType == "XREFS") {
+
+      loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-verses');
       await this.loadXrefs(event.target, currentTabId, currentTabIndex);
+
+    } else if (referenceType == "COMMENTARY_XREFS") {
+
+      loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-verses');
+      await this.loadXrefs(null, currentTabId, currentTabIndex);
     }
 
     var dialogOptions = {
@@ -362,8 +400,12 @@ class VerseListPopup {
     if (!platformHelper.isMobile()) {
       dialogOptions.width = uiHelper.getMaxDialogWidth();
 
-      if (verse_box.length != 0) {
-        dialogOptions.position = this.getOverlayVerseBoxPosition(verse_box);
+      if (referenceType != "COMMENTARY_XREFS") {
+        var verse_box = $(event.target).closest('.verse-box');
+
+        if (verse_box.length != 0) {
+          dialogOptions.position = this.getOverlayVerseBoxPosition(verse_box);
+        }
       }
     }
 

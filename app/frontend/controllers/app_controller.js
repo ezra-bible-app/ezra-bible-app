@@ -367,8 +367,12 @@ class AppController {
   }
 
   async openXrefVerses(referenceVerseBox, xrefTitle, xrefs) {
-    var xrefVerseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
-    var currentTab = this.tab_controller.getTab();
+    let xrefVerseReferenceId = null;
+    if (referenceVerseBox != null) {
+      xrefVerseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
+    }
+
+    let currentTab = this.tab_controller.getTab();
 
     currentTab.setTextType('xrefs');
     currentTab.setXrefs(xrefs);
@@ -437,7 +441,7 @@ class AppController {
       let resetView = this.tab_controller.getTab().hasTextTypeChanged();
 
       await this.text_controller.prepareForNewText(resetView, false);
-      this.text_controller.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
+      await this.text_controller.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
     }
   }
 

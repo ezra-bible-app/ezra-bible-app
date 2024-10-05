@@ -181,13 +181,16 @@ global.bible_books = [
   { long_title : 'Malachi',
     short_title : "Mal" },
   { long_title : 'Matthew',
-    short_title : "Matt" },
+    short_title : "Matt",
+    alternative_short_title : 'Mt' },
   { long_title : 'Mark',
     short_title : "Mark" },
   { long_title : 'Luke',
-    short_title : "Luke" },
+    short_title : "Luke",
+    alternative_short_title : "Lk" },
   { long_title : 'John',
-    short_title : "John" },
+    short_title : "John",
+    alternative_short_title : 'Jn' },
   { long_title : 'Acts',
     short_title : "Acts" },
   { long_title : 'Romans',
@@ -201,7 +204,8 @@ global.bible_books = [
   { long_title : 'Ephesians',
     short_title : "Eph" },
   { long_title : 'Philippians',
-    short_title : "Phil" },
+    short_title : "Phil",
+    alternative_short_title : "Php" },
   { long_title : 'Colossians',
     short_title : "Col" },
   { long_title : 'I Thessalonians',
@@ -367,13 +371,30 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleBook.findByXrefs = function(xrefs) {
-    var bibleBooks = [];
-    for (var i = 0; i < xrefs.length; i++) {
-      var currentBook = "'" + xrefs[i].split('.')[0] + "'";
+    let bibleBooks = [];
+
+    for (let i = 0; i < xrefs.length; i++) {
+      let currentBookShortName = xrefs[i].split('.')[0];
+
+      for (let j = 0; j < global.bible_books.length; j++) {
+        let currentBookFromMap = global.bible_books[j];
+
+        if (currentBookFromMap.short_title.indexOf(currentBookShortName) != -1) {
+          currentBookShortName = currentBookFromMap.short_title;
+          break;
+        }
+
+        if (currentBookFromMap.alternative_short_title && currentBookFromMap.alternative_short_title.indexOf(currentBookShortName) != -1) {
+          currentBookShortName = currentBookFromMap.short_title;
+          break;
+        }
+      }
+
+      currentBook = "'" + currentBookShortName + "'";
       bibleBooks.push(currentBook);
     }
 
-    var query = "SELECT * FROM BibleBooks b" +
+    let query = "SELECT * FROM BibleBooks b" +
                 " WHERE b.shortTitle IN (" + bibleBooks.join(',') + ")" +
                 " ORDER BY b.number ASC";
     

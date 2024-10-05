@@ -232,13 +232,13 @@ module.exports.getVersification = async function(moduleId) {
   try {
     psalm3Verses = await ipcNsi.getChapterText(moduleId, 'Psa', 3);
   } catch (e) {
-    console.log("TranslationController.getVersification: Could not retrieve chapter text for Psalm 3 of " + moduleId);
+    console.log("sword_module_helper.getVersification: Could not retrieve chapter text for Psalm 3 of " + moduleId);
   }
 
   try {
     revelation12Verses = await ipcNsi.getChapterText(moduleId, 'Rev', 12);
   } catch (e) {
-    console.log("TranslationController.getVersification: Could not retrieve chapter text for Revelation 12 of " + moduleId);
+    console.log("sword_module_helper.getVersification: Could not retrieve chapter text for Revelation 12 of " + moduleId);
   }
 
   if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
@@ -369,6 +369,114 @@ module.exports.sortModules = function(a,b) {
   } else {
     return 0;
   }
+};
+
+function transformReferenceToOsis(reference) {
+  reference = reference.replace(' ', '.');
+  reference = reference.replace(':', '.');
+  return reference;
+}
+
+module.exports.getReferencesFromOsisRef = async function(osisRef) {
+  let references = [];
+
+  // We fix weird references that look like this: 1Th 2. 1-20 
+  osisRef = osisRef.replace('. ', ':');
+
+  if (osisRef != null) {
+    let splittedOsisRef = osisRef.split(' ');
+
+    if (splittedOsisRef.length > 2) {
+      // We have gotten an osisRef consisting of multiple references (like joh 1:3-5 joh 1:9 joh 1:14-18)
+      
+      for (let i = 0; i < splittedOsisRef.length; i+=2) {
+        let currentOsisRef = splittedOsisRef[i] + ' ' + splittedOsisRef[i+1];
+        let parsedReferences = await this.getReferencesFromIndividualOsisRef(currentOsisRef);
+
+        references.push(...parsedReferences);
+      }
+
+    } else {
+      references = await this.getReferencesFromIndividualOsisRef(osisRef);
+    }
+  }
+
+  return references;
+}
+
+module.exports.getReferencesFromIndividualOsisRef = async function(osisRef) {
+  let references = [];
+
+  if (osisRef != null) {
+    if (osisRef.indexOf('-') != -1) {
+      // We have gotten a range (like Gal.1.15-Gal.1.16)
+      // We need to first turn into a list of individual references using node-sword-interface
+      let referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
+
+      referenceList.forEach((ref) => {
+        ref = transformReferenceToOsis(ref);
+        references.push(ref);
+      });
+
+    } else if (osisRef.indexOf(',') != -1) {
+      // We have gotten a list of non-contiguous verses (like Ps 32:5,7)
+
+      // First split with chapter/verse separator
+      let splittedOsisRef = osisRef.split(':');
+      let verseList = splittedOsisRef[1];
+
+      // Now split the verses
+      let verses = verseList.split(',');
+
+      // Now build several individual osisRefs based on the verse list
+      for (let i = 0; i < verses.length; i++) {
+        let currentRef = splittedOsisRef[0] + ':' + verses[i];
+        currentRef = transformReferenceToOsis(currentRef);
+        references.push(currentRef);
+      }
+
+    } else {
+      // We have got one single verse reference
+      osisRef = transformReferenceToOsis(osisRef);
+      references.push(osisRef);
+    }
+  }
+
+  return references;
+};
+
+module.exports.getReferencesFromScripRef = async function(referenceString, book, chapter) {
+  const xrefs = [];
+
+  // We fix weird references that look like this: 1Thes 2:9,10,
+  referenceString = referenceString.replace(', ', ';');
+
+  const references = referenceString.split(';');
+
+  for (let i = 0; i < references.length; i++) {
+    let currentReference = references[i].trim();
+
+    if (currentReference.indexOf(' ') == -1) {
+
+      if (currentReference.indexOf(':') == -1) {
+        // Add the chapter if it is missing
+        currentReference = chapter + ':' + currentReference;
+      }
+
+      // Reference does not contain a space and is therefore missing a book. We need to add the book in front of the reference.
+      currentReference = book + ' ' + currentReference;
+      let splitOsisRefs = await this.getReferencesFromOsisRef(currentReference);
+      xrefs.push(...splitOsisRefs);
+    } else {
+      // Reference contains a space
+
+      book = currentReference.split(' ')[0];
+      let splitOsisRefs = await this.getReferencesFromOsisRef(currentReference);
+      xrefs.push(...splitOsisRefs);
+    }
+  }
+
+  return xrefs;
 };
 
 function urlify(text) {
