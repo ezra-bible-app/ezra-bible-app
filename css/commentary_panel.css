@@ -32,9 +32,9 @@
 
 #commentary-panel-reference-box {
   display: none;
-  height: 11em;
+  height: 11.5em;
   border-top: unset !important;
-  padding: 0.5em;
+  padding: 1em;
   padding-bottom: 0.5em;
   overflow: auto;
   width: unset !important;
