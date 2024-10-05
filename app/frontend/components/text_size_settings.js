@@ -192,7 +192,7 @@ class TextSizeSettings {
   }
 
   updateStyle() {
-    let cssRules = `.verse-list-content ${this._shouldTagsNotesResize ? '' : '.verse-text '} ${this._shouldSidePanelResize ? ', .panel-wrapper' : ''} {
+    let cssRules = `.verse-list-content ${this._shouldTagsNotesResize ? '' : '.verse-text '} ${this._shouldSidePanelResize ? ', .panel-content' : ''} {
         font-size: ${this._textSizeValue * 0.1}em 
       }
     `;
