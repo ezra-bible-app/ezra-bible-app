@@ -20,7 +20,6 @@ const eventController = require('../../controllers/event_controller.js');
 const VerseBox = require("../../ui_models/verse_box.js");
 const { getPlatform } = require('../../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
-const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const sectionLabelHelper = require('../../helpers/section_label_helper.js');
 
 /**
@@ -257,11 +256,19 @@ class CommentaryPanel {
     event.preventDefault();
     event.stopPropagation();
 
+    let newTabOption = app_controller.optionsMenu._verseListNewTabOption;
+
     await app_controller.verse_list_popup.initCurrentCommentaryXrefs(event.target);
 
     if (app_controller.verse_list_popup.currentXrefs.length > 2 || platformHelper.isMobile()) {
       this.hideReferenceBox();
-      await app_controller.verse_list_popup.openVerseListPopup(event, 'COMMENTARY_XREFS');
+
+      if (newTabOption.isChecked) {
+        await app_controller.verse_list_popup.openVerseListInNewTab();
+      } else {
+        await app_controller.verse_list_popup.openVerseListPopup(event, 'COMMENTARY_XREFS');
+      }
+
     } else if (app_controller.verse_list_popup.currentXrefs.length > 0) {
       await this.renderReferenceVerses(app_controller.verse_list_popup.currentXrefs);
       event.target.scrollIntoView({ block: "nearest" });
