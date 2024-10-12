@@ -29,8 +29,12 @@ const sectionLabelHelper = require('../../helpers/section_label_helper.js');
  */
 class CommentaryPanel {
   constructor() {
-    eventController.subscribe('on-verses-selected', (verseSelectionDetails) => {
-      this.performRefresh(verseSelectionDetails.selectedElements);
+    this.refreshBlocked = false;
+
+    eventController.subscribe('on-verses-selected', async (verseSelectionDetails) => {
+      if (!this.refreshBlocked) {
+        await this.performRefresh(verseSelectionDetails.selectedElements);
+      }
     });
 
     let refreshWithSelection = () => {
@@ -57,6 +61,10 @@ class CommentaryPanel {
     });
 
     this._verseBoxHelper = new VerseBoxHelper();
+  }
+
+  setRefreshBlocked(refreshBlocked) {
+    this.refreshBlocked = refreshBlocked;
   }
 
   getMainContent() {
