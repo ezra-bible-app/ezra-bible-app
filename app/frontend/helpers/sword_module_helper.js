@@ -375,8 +375,34 @@ function transformReferenceToOsis(reference) {
   reference = reference.replace(' ', '.');
   reference = reference.replace(':', '.');
 
-  // Perform some corrections
-  reference = reference.replace('1Timm', '1Ti');
+  // Perform some book code corrections
+  reference = reference.replace('Ge.', 'Gen.');
+  reference = reference.replace('Ex.', 'Exod.');
+  reference = reference.replace('Le.', 'Lev.');
+  reference = reference.replace('Nu.', 'Num.');
+  reference = reference.replace('De.', 'Deut.');
+  reference = reference.replace('Jud.', 'Judg.');
+  reference = reference.replace('1Ki', '1Kgs');
+  reference = reference.replace('2Ki', '2Kgs');
+  reference = reference.replace('Pr.', 'Prov.');
+  reference = reference.replace('Ec.', 'Eccl.');
+  reference = reference.replace('La.', 'Lam.');
+  reference = reference.replace('Ne.', 'Neh.');
+  reference = reference.replace('Da.', 'Dan.');
+  reference = reference.replace('Ho.', 'Hos.');
+  reference = reference.replace('Am.', 'Amos.');
+  reference = reference.replace('Na.', 'Nah.');
+  reference = reference.replace('Mt', 'Matt');
+  reference = reference.replace('Lk', 'Luke');
+  reference = reference.replace('Lu.', 'Luke.');
+  reference = reference.replace('Jn', 'John');
+  reference = reference.replace('Ac.', 'Acts.');
+  reference = reference.replace('Ro.', 'Rom.');
+  reference = reference.replace('Ga.', 'Gal.');
+  reference = reference.replace('1Timm', '1Tim');
+  reference = reference.replace('Phm', 'Phlm');
+  reference = reference.replace('Php', 'Phil');
+  reference = reference.replace('Re.', 'Rev.');
 
   return reference;
 }
@@ -457,6 +483,8 @@ module.exports.getReferencesFromIndividualOsisRef = async function(bibleTranslat
   let references = [];
 
   if (osisRef != null) {
+    osisRef = transformReferenceToOsis(osisRef);
+
     if (osisRef.indexOf('-') != -1) {
       // We have gotten a range (like Gal.1.15-Gal.1.16)
       // We need to first turn into a list of individual references using node-sword-interface
@@ -472,18 +500,18 @@ module.exports.getReferencesFromIndividualOsisRef = async function(bibleTranslat
       }
 
     } else if (osisRef.indexOf(',') != -1) {
-      // We have gotten a list of non-contiguous verses (like Ps 32:5,7)
+      // We have gotten a list of non-contiguous verses (like Ps 32.5,7)
 
       // First split with chapter/verse separator
-      let splittedOsisRef = osisRef.split(':');
-      let verseList = splittedOsisRef[1];
+      let splittedOsisRef = osisRef.split('.');
+      let verseList = splittedOsisRef.pop();
 
       // Now split the verses
       let verses = verseList.split(',');
 
       // Now build several individual osisRefs based on the verse list
       for (let i = 0; i < verses.length; i++) {
-        let currentRef = splittedOsisRef[0] + ':' + verses[i];
+        let currentRef = splittedOsisRef.join('.') + '.' + verses[i];
         currentRef = transformReferenceToOsis(currentRef);
 
         if (await this.isReferenceValid(bibleTranslationId, currentRef)) {
@@ -524,12 +552,16 @@ module.exports.getReferencesFromScripRef = async function(referenceString, book,
 
       // Reference does not contain a space and is therefore missing a book. We need to add the book in front of the reference.
       currentReference = book + ' ' + currentReference;
+
+      currentReference = transformReferenceToOsis(currentReference);
       let splitOsisRefs = await this.getReferencesFromOsisRef(bibleTranslationId, currentReference);
       xrefs.push(...splitOsisRefs);
     } else {
       // Reference contains a space
 
       book = currentReference.split(' ')[0];
+
+      currentReference = transformReferenceToOsis(currentReference);
       let splitOsisRefs = await this.getReferencesFromOsisRef(bibleTranslationId, currentReference);
       xrefs.push(...splitOsisRefs);
     }
