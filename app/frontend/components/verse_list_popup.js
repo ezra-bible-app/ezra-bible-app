@@ -352,7 +352,12 @@ class VerseListPopup {
 
     } else if (referenceType == "COMMENTARY_XREFS") {
 
-      popupTitle = "Commentary cross references";
+      const verseBox = app_controller.verse_selection.getSelectedVerseBoxes()[0];
+      localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox);
+      popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
+
+      let commentary = clickedElement.closest('.commentary').getAttribute('module');
+      popupTitle = `${commentary} &ndash; ${popupTitle}`;
     }
 
     return popupTitle;
