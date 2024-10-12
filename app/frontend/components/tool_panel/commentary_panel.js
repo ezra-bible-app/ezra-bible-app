@@ -187,6 +187,8 @@ class CommentaryPanel {
     }
 
     this.getBoxContent().innerHTML = commentaryContent;
+    this.getMainContent().scrollTop = 0;
+
     this.hideReferenceBox();
     this.getReferenceBox().innerHTML = "";
 
