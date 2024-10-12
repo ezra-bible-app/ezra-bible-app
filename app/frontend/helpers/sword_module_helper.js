@@ -381,7 +381,7 @@ function transformReferenceToOsis(reference) {
   return reference;
 }
 
-module.exports.getReferencesFromOsisRef = async function(osisRef) {
+module.exports.getReferencesFromOsisRef = async function(bibleTranslationId, osisRef) {
   let references = [];
 
   // We fix weird references that look like this: 1Th 2. 1-20 
@@ -395,20 +395,65 @@ module.exports.getReferencesFromOsisRef = async function(osisRef) {
       
       for (let i = 0; i < splittedOsisRef.length; i+=2) {
         let currentOsisRef = splittedOsisRef[i] + ' ' + splittedOsisRef[i+1];
-        let parsedReferences = await this.getReferencesFromIndividualOsisRef(currentOsisRef);
+        let parsedReferences = await this.getReferencesFromIndividualOsisRef(bibleTranslationId, currentOsisRef);
 
         references.push(...parsedReferences);
       }
 
     } else {
-      references = await this.getReferencesFromIndividualOsisRef(osisRef);
+      references = await this.getReferencesFromIndividualOsisRef(bibleTranslationId, osisRef);
     }
   }
 
   return references;
 }
 
-module.exports.getReferencesFromIndividualOsisRef = async function(osisRef) {
+module.exports.isReferenceValid = async function(bibleTranslationId, osisRef) {
+  let splittedOsisRef = osisRef.split('.');
+
+  if (splittedOsisRef.length != 3) {
+    return false;
+  }
+
+  let book = splittedOsisRef[0];
+
+  let chapter = null;
+  let chapterValid = false;
+
+  try {
+    chapter = parseInt(splittedOsisRef[1]);
+
+    if (!Number.isNaN(chapter)) {
+      chapterValid = true;
+    }
+  } catch (e) {
+    console.log(`WARNING: Could not parse chapter of reference ${osisRef}`);
+  }
+
+  let verse = null;
+  let verseValid = false;
+
+  try {
+    verse = parseInt(splittedOsisRef[2]);
+
+    if (!Number.isNaN(verse)) {
+      verseValid = true;
+    }
+  } catch (e) {
+    console.log(`WARNING: Could not parse verse of reference ${osisRef}`);
+  }
+
+  let bookValid = await ipcNsi.moduleHasBook(bibleTranslationId, book);
+  let referenceValid = bookValid && chapterValid && verseValid;
+
+  if (!referenceValid) {
+    console.log(`WARNING: The reference ${osisRef} is not valid (bookValid: ${bookValid}; chapterValid: ${chapterValid}; verseValid: ${verseValid}).`);
+  }
+
+  return referenceValid;
+};
+
+module.exports.getReferencesFromIndividualOsisRef = async function(bibleTranslationId, osisRef) {
   let references = [];
 
   if (osisRef != null) {
@@ -417,10 +462,14 @@ module.exports.getReferencesFromIndividualOsisRef = async function(osisRef) {
       // We need to first turn into a list of individual references using node-sword-interface
       let referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
 
-      referenceList.forEach((ref) => {
+      for (let i = 0; i < referenceList.length; i++) {
+        let ref = referenceList[i];
         ref = transformReferenceToOsis(ref);
-        references.push(ref);
-      });
+
+        if (await this.isReferenceValid(bibleTranslationId, ref)) {
+          references.push(ref);
+        }
+      }
 
     } else if (osisRef.indexOf(',') != -1) {
       // We have gotten a list of non-contiguous verses (like Ps 32:5,7)
@@ -436,13 +485,18 @@ module.exports.getReferencesFromIndividualOsisRef = async function(osisRef) {
       for (let i = 0; i < verses.length; i++) {
         let currentRef = splittedOsisRef[0] + ':' + verses[i];
         currentRef = transformReferenceToOsis(currentRef);
-        references.push(currentRef);
+
+        if (await this.isReferenceValid(bibleTranslationId, currentRef)) {
+          references.push(currentRef);
+        }
       }
 
     } else {
       // We have got one single verse reference
       osisRef = transformReferenceToOsis(osisRef);
-      references.push(osisRef);
+      if (await this.isReferenceValid(bibleTranslationId, osisRef)) {
+        references.push(osisRef);
+      }
     }
   }
 
@@ -450,6 +504,7 @@ module.exports.getReferencesFromIndividualOsisRef = async function(osisRef) {
 };
 
 module.exports.getReferencesFromScripRef = async function(referenceString, book, chapter) {
+  const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
   const xrefs = [];
 
   // We fix weird references that look like this: 1Thes 2:9,10,
@@ -469,13 +524,13 @@ module.exports.getReferencesFromScripRef = async function(referenceString, book,
 
       // Reference does not contain a space and is therefore missing a book. We need to add the book in front of the reference.
       currentReference = book + ' ' + currentReference;
-      let splitOsisRefs = await this.getReferencesFromOsisRef(currentReference);
+      let splitOsisRefs = await this.getReferencesFromOsisRef(bibleTranslationId, currentReference);
       xrefs.push(...splitOsisRefs);
     } else {
       // Reference contains a space
 
       book = currentReference.split(' ')[0];
-      let splitOsisRefs = await this.getReferencesFromOsisRef(currentReference);
+      let splitOsisRefs = await this.getReferencesFromOsisRef(bibleTranslationId, currentReference);
       xrefs.push(...splitOsisRefs);
     }
   }

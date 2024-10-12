@@ -251,11 +251,12 @@ class VerseListPopup {
     this.currentReferenceVerseBox = $(clickedElement).closest('.verse-box');
     this.currentXrefs = [];
     let references = swordNote.querySelectorAll('reference');
+    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
     for (let i = 0; i < references.length; i++) {
       let currentReference = references[i];
       let osisRef = currentReference.getAttribute('osisref');
-      let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
+      let splitOsisRefs = await swordModuleHelper.getReferencesFromOsisRef(bibleTranslationId, osisRef);
       this.currentXrefs.push(...splitOsisRefs);
     }
   }
@@ -272,7 +273,8 @@ class VerseListPopup {
         return;
       }
 
-      this.currentXrefs = await swordModuleHelper.getReferencesFromOsisRef(osisRef);
+      const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+      this.currentXrefs = await swordModuleHelper.getReferencesFromOsisRef(bibleTranslationId, osisRef);
 
     } else {
       // We are dealing with scripref elements.
