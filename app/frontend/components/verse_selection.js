@@ -199,8 +199,8 @@ class VerseSelection {
     }
   }
 
-  publishVersesSelected(tabIndex=undefined) {
-    eventController.publishAsync('on-verses-selected', {
+  async publishVersesSelected(tabIndex=undefined) {
+    await eventController.publishAsync('on-verses-selected', {
       'selectedElements': this.selectedVerseBoxElements,
       'selectedVerseTags': this.getCurrentSelectionTags(),
       'tabIndex': tabIndex
@@ -228,7 +228,7 @@ class VerseSelection {
     return this.selectedVerseBoxElements.length > 0;
   }
 
-  setVerseAsSelection(verseText) {
+  async setVerseAsSelection(verseText) {
     if (verseText != null) {
       this.clearVerseSelection(false, undefined);
       verseText.classList.add('ui-selected');
@@ -239,7 +239,7 @@ class VerseSelection {
 
       this.updateSelected(verseList);
       this.updateViewsAfterVerseSelection();
-      this.publishVersesSelected();
+      await this.publishVersesSelected();
     }
   }
 

@@ -167,6 +167,10 @@ class VerseListPopup {
   }
 
   async openVerseListInNewTab() {
+    if (this.currentReferenceType == 'COMMENTARY_XREFS') {
+      app_controller.commentaryPanel.setRefreshBlocked(true);
+    }
+
     // 1) Save the current tab's scroll position
     app_controller.tab_controller.saveTabScrollPosition();
 
@@ -192,7 +196,11 @@ class VerseListPopup {
     if (this.currentReferenceVerseBox != null) {
       let currentReferenceVerse = verseListController.getCurrentVerseListFrame().find('.reference-verse');
       let verseText = currentReferenceVerse[0].querySelector('.verse-text');
-      app_controller.verse_selection.setVerseAsSelection(verseText);
+      await app_controller.verse_selection.setVerseAsSelection(verseText);
+    }
+
+    if (this.currentReferenceType == 'COMMENTARY_XREFS') {
+      app_controller.commentaryPanel.setRefreshBlocked(false);
     }
   }
 
