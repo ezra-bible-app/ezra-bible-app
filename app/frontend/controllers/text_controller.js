@@ -810,7 +810,7 @@ class TextController {
       app_controller.module_search_controller.highlightSearchResults(currentSearchTerm, tabIndex);
     }
 
-    if (renderChart && (listType == 'search_results' || listType == 'tagged_verses')) {
+    if (renderChart && (listType == 'search_results' || listType == 'tagged_verses' || listType == 'xrefs')) {
       await app_controller.verse_statistics_chart.repaintChart(tabIndex, listType);
 
       if (listType == 'tagged_verses') {
@@ -824,7 +824,7 @@ class TextController {
       }
 
     } else {
-      if (listType != 'search_results' && listType != 'tagged_verses') {
+      if (listType != 'search_results' && listType != 'tagged_verses' && listType != 'xrefs') {
         await app_controller.verse_statistics_chart.resetChart(tabIndex);
       }
 
