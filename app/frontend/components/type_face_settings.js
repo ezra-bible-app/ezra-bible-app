@@ -142,8 +142,8 @@ function handleFontFamilyChange(fontFamily, apply=false, persist=false) {
   systemFontSelect.initSelectMenu();
 
   if (persist) {
-    ipcSettings.set('bibleTextFontFamily', fontFamily);
-    ipcSettings.set('bibleTextSystemFont', selectedFont);
+    ipcSettings.set('contentTextFontFamily', fontFamily);
+    ipcSettings.set('contentTextSystemFont', selectedFont);
   }
 }
 
