@@ -26,13 +26,13 @@
 }
 
 #commentary-panel-main-content.with-reference-box {
-  height: calc(100% - 16em) !important;
+  height: calc(100% - 18em) !important;
   border-bottom: 4px solid #dddddd;
 }
 
 #commentary-panel-reference-box {
   display: none;
-  height: 12em;
+  height: 14.4em;
   border-top: unset !important;
   padding: 1em;
   padding-bottom: 0em;
