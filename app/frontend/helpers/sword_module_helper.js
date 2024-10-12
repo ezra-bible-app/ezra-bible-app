@@ -371,7 +371,9 @@ module.exports.sortModules = function(a,b) {
   }
 };
 
-function replaceCharAt(str, index, newChar) {
+function makeCharUpperCase(str, index) {
+    let newChar = str[index].toUpperCase();
+
     if (index >= 0 && index < str.length) {
         return str.substring(0, index) + newChar + str.substring(index + 1);
     }
@@ -413,11 +415,11 @@ function transformReferenceToOsis(reference) {
   reference = reference.replace('Re.', 'Rev.');
 
   if (reference[0] >= 'a' && reference[0] <= 'z') {
-    reference = replaceCharAt(reference, 0, reference[0].toUpperCase());
+    reference = makeCharUpperCase(reference, 0);
   }
 
   if (reference[0] >= '1' && reference[0] <= '3' && reference[1] >= 'a' && reference[1] <= 'z') {
-    reference = replaceCharAt(reference, 1, reference[1].toUpperCase());
+    reference = makeCharUpperCase(reference, 1);
   }
 
   return reference;
