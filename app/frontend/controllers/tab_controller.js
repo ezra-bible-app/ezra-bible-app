@@ -461,6 +461,10 @@ class TabController {
   }
 
   saveTabScrollPosition(tabIndex=undefined) {
+    if (tabIndex != null && tabIndex >= this.metaTabs.length) {
+      return;
+    }
+    
     var metaTab = this.getTab(tabIndex);
     var firstVerseListAnchor = verseListController.getFirstVisibleVerseAnchor();
 
