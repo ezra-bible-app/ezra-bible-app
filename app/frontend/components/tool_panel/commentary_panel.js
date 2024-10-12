@@ -316,14 +316,22 @@ class CommentaryPanel {
       verseContent += `<div>${currentBook} ${formattedVerseList}</div>`;
     }
 
-    verseContent = '<div class="panel-content verse-text">' + verseContent + '</div>';
+    verseContent = '<div class="panel-content verse-text" style="margin-top: 1em;">' + verseContent + '</div>';
 
-    let closeIcon = '<div class="close-icon"><i class="fa-solid fa-rectangle-xmark"></i></div>';
+    let tabIconTitle = i18n.t('bible-browser.open-new-tab');
+    let tabIcon = `<div class="tab-icon icon" title="${tabIconTitle}"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>`;
+    let closeIcon = '<div class="close-icon icon" style="font-size: 110%"><i class="fa-solid fa-rectangle-xmark"></i></div>';
 
     const commentaryPanelReferenceBox = this.getReferenceBox();
-    commentaryPanelReferenceBox.innerHTML = closeIcon + verseContent;
+    commentaryPanelReferenceBox.innerHTML = closeIcon + tabIcon + verseContent;
+
     commentaryPanelReferenceBox.querySelector('.close-icon').addEventListener('click', (event) => {
       this.hideReferenceBox();
+    });
+
+    commentaryPanelReferenceBox.querySelector('.tab-icon').addEventListener('click', (event) => {
+      this.hideReferenceBox();
+      app_controller.verse_list_popup.openVerseListInNewTab();
     });
 
     this.showReferenceBox();
