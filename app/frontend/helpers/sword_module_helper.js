@@ -374,6 +374,10 @@ module.exports.sortModules = function(a,b) {
 function transformReferenceToOsis(reference) {
   reference = reference.replace(' ', '.');
   reference = reference.replace(':', '.');
+
+  // Perform some corrections
+  reference = reference.replace('1Timm', '1Ti');
+
   return reference;
 }
 
