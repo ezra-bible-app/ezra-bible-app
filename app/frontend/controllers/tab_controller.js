@@ -461,6 +461,8 @@ class TabController {
   }
 
   saveTabScrollPosition(tabIndex=undefined) {
+    // If the tab that we shall save the scroll position for does not exist we cancel this operation.
+    // This may happen when a tab is closed.
     if (tabIndex != null && tabIndex >= this.metaTabs.length) {
       return;
     }
