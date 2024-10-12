@@ -207,12 +207,12 @@
     "send-crash-reports": "Odoslať chybové hlásenia",
     "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
     "type-face": {
-      "configure-typeface": "Konfigurácia písma textu Biblie",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Vlastné",
-      "bible-text-font-family": "Rodina písiem textu Biblie",
-      "custom-bible-text-font": "Vlastné písmo textu Biblie"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {

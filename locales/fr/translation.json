@@ -217,12 +217,12 @@
      "send-crash-reports": "Envoyer les rapports d'erreurs",
     "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !",
     "type-face": {
-      "configure-typeface": "Configurer la police de caractères du texte biblique",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Sans empattement",
       "serif": "Avec empattement",
       "custom": "Personnalisée",
-      "bible-text-font-family": "Famille de polices de texte biblique",
-      "custom-bible-text-font": "Police de caractères de texte biblique personnalisée"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {

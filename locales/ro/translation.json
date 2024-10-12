@@ -207,12 +207,12 @@
     "send-crash-reports": "Trimite rapoarte de eroare",
     "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configurează tipul fontului pentru textul biblic",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Personalizat",
-      "bible-text-font-family": "Familie de font pentru text biblic",
-      "custom-bible-text-font": "Font persoonalizat pentru text biblic"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {

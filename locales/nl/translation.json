@@ -209,12 +209,12 @@
     "send-crash-reports": "Foutrapporten verzenden",
     "welcome-to-ezra-bible-app": "Welkom bij Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configureer het lettertype van de bijbeltekst",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Schreefloos",
       "serif": "Met schreef",
       "custom": "Aangepast",
-      "bible-text-font-family": "Lettertypefamilie van bijbeltekst",
-      "custom-bible-text-font": "Aangepast lettertype van bijbeltekst"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {
