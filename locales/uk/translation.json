@@ -207,12 +207,12 @@
     "send-crash-reports": "Відсилати звіти щодо помилок",
     "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!",
     "type-face": {
-      "configure-typeface": "Налаштування черенків тексту Біблії",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Без зарубок",
       "serif": "Із зарубками",
       "custom": "Довільні",
-      "bible-text-font-family": "Черенки тексту Біблії",
-      "custom-bible-text-font": "Довільні черенки тексту Біблії"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {

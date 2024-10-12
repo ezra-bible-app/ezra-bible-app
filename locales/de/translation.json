@@ -203,12 +203,12 @@
     "send-crash-reports": "Fehlerberichte senden",
     "welcome-to-ezra-bible-app": "Willkommen bei Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Schriftart für Bibeltext konfigurieren",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Benutzerdefiniert",
-      "bible-text-font-family": "Schriftfamilie für Bibeltext",
-      "custom-bible-text-font": "Benutzerdefinierte Schriftart für Bibeltext"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {

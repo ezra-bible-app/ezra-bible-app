@@ -58,14 +58,14 @@
     "repository_plural": "Repositorios",
     "installation": "Instalación",
     "removal": "Desinstalación",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Los datos del repositorio se actualizaron el {{date}}.",
       "update-now": "Actualizar ahora",
       "updating-repository-data": "Actualizando datos de repositorio! Esto tomará unos segundos...",
       "update-failed": "Actualización fallida",
       "update-repository-data-failed": "Falló la actualización del repositorio! Usted está conectado?"
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Por favor, seleccione al menos uno de los siguientes idiomas.",
       "total-modules-language": "Al lado del idioma se encuentra la cantidad de {{module_type}} disponibles en los repositorios SWORD.",
       "loading-languages": "Cargando Idiomas ...",
@@ -84,12 +84,12 @@
       "repo-recommended": "Este repositorio es un buen lugar para comenzar.",
       "more-repo-information-needed": "¿Usted necesita más información sobre estos repositorios?<br/>Consulte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (disponible en inglés)."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Por favor seleccione {{module_type}} que desea instalar.",
       "module-display-preferences": "Filtrado de preferencias:",
       "module-with": "{{module_type, capitalize}} con {{feature_type, instrumental}}",
       "module-already-installed": "Este {{module_type, singular}} ya está instalado",
-      "show-module-info":"Mostrar información",
+      "show-module-info": "Mostrar información",
       "show-detailed-module-info": "Presione el icono de información para más detalles sobre el {{module_type, singular}}."
     },
     "step-install": {
@@ -99,7 +99,7 @@
       "downloading": "Descargando",
       "part-of-total": "de"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Seleccione el {{module_type, accusative}} que le gustaría eliminar.",
       "disable-remove-note": "Este {{module_type, singular}} no se encuentra instalado en el directorio del usuario o es esencial para el funcionamiento de Ezra Bible App's.",
       "removing-modules": "Quitando {{module_type, accusative}}",
@@ -207,12 +207,12 @@
     "send-crash-reports": "Enviar reporte de errores",
     "welcome-to-ezra-bible-app": "Bienvenido a Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configurar tipografía del texto bíblico",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Personalizada",
-      "bible-text-font-family": "Familia de fuentes del texto bíblico",
-      "custom-bible-text-font": "Fuente Personalizada del texto biblico"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {
@@ -233,8 +233,7 @@
   "shortcuts": {
     "tab-title": "Atajos de Teclado",
     "description": "Puede usar los siguientes atajos:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Tipos de letra",
       "current-tab-search-section-title": "Buscar en la Pestaña Actual",
       "miscellaneous-section-title": "Miscelánea",
@@ -253,9 +252,8 @@
       "decrease-current-font-size": "Disminuir tamaño del texto",
       "reset-font-size-to-default": "Restablecer al tamaño por defecto"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -387,13 +385,13 @@
     "copy-selected-text-to-clipboard-success": "Texto seleccionado copiado al portapapeles!",
     "edit-note": "Editar nota",
     "delete-note": "Eliminar nota",
-    "transchange" : {
-      "added" : "Estas palabras se añadieron en las traducciones",
-      "amplified" : "Estas palabras amplian lo explicado en el texto del código fuente",
-      "changed" : "Estas palabras fueron cambiadas en la traducción",
-      "deleted" : "Algunas palabras en el texto de origen no están disponibles en la traducción",
-      "implied" : "Estas palabras fueron cambiadas o añadidas para incluir información implícita en el texto de origen",
-      "moved" : "Estas palabras estaban en otro lugar en el texto fuente",
+    "transchange": {
+      "added": "Estas palabras se añadieron en las traducciones",
+      "amplified": "Estas palabras amplian lo explicado en el texto del código fuente",
+      "changed": "Estas palabras fueron cambiadas en la traducción",
+      "deleted": "Algunas palabras en el texto de origen no están disponibles en la traducción",
+      "implied": "Estas palabras fueron cambiadas o añadidas para incluir información implícita en el texto de origen",
+      "moved": "Estas palabras estaban en otro lugar en el texto fuente",
       "tense-change": "El tiempo gramatical de estas palabras fue cambiado para facilitar la traducción"
     }
   },
@@ -452,7 +450,7 @@
       "flags": "Banderas"
     }
   },
-  "cordova" : {
+  "cordova": {
     "storage-justification": "Ezra Bible App necesita permiso para acceder al almacenamiento del dispositivo para guardar módulos SWORD y su base de datos.<br><br>Después de presionar el botón que aparece debajo, se le preguntará si desea permitir a Ezra Bible App tener acceso a los archivos en su dispositivo.",
     "enable-storage-access": "Permitir acceso al almacenamiento del dispositivo",
     "storage-permission-denied": "Usted a decidido denegar el acceso al almacenamiento.<br>Puede modificar su elección presionando el botón de abajo!",

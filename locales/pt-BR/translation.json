@@ -207,12 +207,12 @@
     "send-crash-reports": "Enviar relatórios de erros",
     "welcome-to-ezra-bible-app": "Bem vindo ao aplicativo Bíblia Esdras!",
     "type-face": {
-      "configure-typeface": "Configurar tipo de texto da Bíblia",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Sem serifa",
       "serif": "Serif",
       "custom": "Personalizado",
-      "bible-text-font-family": "Família de fontes do texto bíblico",
-      "custom-bible-text-font": "Fonte personalizada do texto da Bíblia"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {

@@ -207,12 +207,12 @@
     "send-crash-reports": "Send error reports",
     "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configure Bible text typeface",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Custom",
-      "bible-text-font-family": "Bible text font family",
-      "custom-bible-text-font": "Custom Bible text font"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {

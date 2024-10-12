@@ -209,12 +209,12 @@
     "send-crash-reports": "Посылать отчеты об ошибках",
     "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Настройки шрифта текста Библии",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Без засечек",
       "serif": "С засечками",
       "custom": "Пользовательский",
-      "bible-text-font-family": "Шрифт текста Библии",
-      "custom-bible-text-font": "Пользовательский шрифт текста Библии"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {

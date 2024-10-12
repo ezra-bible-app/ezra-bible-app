@@ -207,12 +207,12 @@
     "send-crash-reports": "Pošlji poročila o napakah",
     "welcome-to-ezra-bible-app": "Dobrodošli v Ezra Bible aplikaciji!",
     "type-face": {
-      "configure-typeface": "Nastavi pisavo",
+      "configure-typeface": "Configure content typeface",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Po meri",
-      "bible-text-font-family": "Družina pisav",
-      "custom-bible-text-font": "Pisava po meri"
+      "content-font-family": "Content font family",
+      "custom-content-font": "Custom content font"
     }
   },
   "data-privacy": {
