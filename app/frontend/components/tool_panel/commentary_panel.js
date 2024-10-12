@@ -259,7 +259,7 @@ class CommentaryPanel {
 
     await app_controller.verse_list_popup.initCurrentCommentaryXrefs(event.target);
 
-    if (app_controller.verse_list_popup.currentXrefs.length > 2) {
+    if (app_controller.verse_list_popup.currentXrefs.length > 2 || platformHelper.isMobile()) {
       this.hideReferenceBox();
       await app_controller.verse_list_popup.openVerseListPopup(event, 'COMMENTARY_XREFS');
     } else if (app_controller.verse_list_popup.currentXrefs.length > 0) {
