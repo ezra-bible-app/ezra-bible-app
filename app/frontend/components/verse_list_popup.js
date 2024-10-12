@@ -263,6 +263,7 @@ class VerseListPopup {
 
   async initCurrentCommentaryXrefs(clickedElement) {
     this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_XREFS");
+    this.currentReferenceType = "COMMENTARY_XREFS";
     this.currentReferenceVerseBox = $(app_controller.verse_selection.getSelectedVerseBoxes()[0]);
 
     if (clickedElement.hasAttribute('osisref')) {
