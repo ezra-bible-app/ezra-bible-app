@@ -275,6 +275,7 @@ class VerseListPopup {
       const closestCommentary = clickedElement.closest('.commentary').getAttribute('module');
       if (osisRef.indexOf(closestCommentary) != -1) {
         // If the reference is to another entry in the commentary then that's a situation we cannot handle at the moment.
+        this.currentXrefs = [];
         return;
       }
 
