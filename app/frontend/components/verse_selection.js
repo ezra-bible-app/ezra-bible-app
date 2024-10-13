@@ -298,13 +298,54 @@ class VerseSelection {
     return xml_verse_list;
   }
 
-  getCurrentVerseSelectionAsXml() {
+  getSelectionAsXml() {
     var selected_verse_elements = this.selectedVerseBoxElements;
 
     return (this.elementListToXmlVerseList(selected_verse_elements));
   }
 
-  getCurrentVerseSelectionAsVerseReferenceIds() {
+  async getSelectionAsVerseObjects(sourceBibleTranslationId=undefined, targetBibleTranslationId=undefined) {
+    let elementList = this.selectedVerseBoxElements;
+    let verseObjects = [];
+    let absoluteVerseNumbers = [];
+
+    for (let i = 0; i < elementList.length; i++) {
+      let verseBoxElement = elementList[i].closest('.verse-box');
+      let verseBox = new VerseBox(verseBoxElement);
+
+      let currentVerseObject = await verseBox.getVerseObject(window.reference_separator,
+                                                             sourceBibleTranslationId,
+                                                             targetBibleTranslationId);
+
+      if (!absoluteVerseNumbers.includes(currentVerseObject._absoluteVerseNr)) {
+        absoluteVerseNumbers.push(currentVerseObject._absoluteVerseNr);
+        verseObjects.push(currentVerseObject);
+      }
+    }
+
+    return verseObjects;
+  }
+
+  applySelectionFromVerseObjects(verseObjects) {
+    const currentVerseList = verseListController.getCurrentVerseList();
+
+    if (verseObjects.length > 0) {
+      verseObjects.forEach((verseObject) => {
+        let currentVerseBox = currentVerseList[0].querySelector('.verse-nr-' + verseObject._absoluteVerseNr);
+
+        if (currentVerseBox != null) {
+          let currentVerseText = currentVerseBox.querySelector('.verse-text');
+          currentVerseText.classList.add('ui-selected');
+        }
+      });
+
+      this.updateSelected();
+      this.updateViewsAfterVerseSelection();
+      this.publishVersesSelected();
+    }
+  }
+
+  getSelectionAsVerseReferenceIds() {
     var selected_verse_ids = new Array;
     var selected_verse_elements = this.selectedVerseBoxElements;
     

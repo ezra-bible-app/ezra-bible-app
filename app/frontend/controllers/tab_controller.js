@@ -918,12 +918,16 @@ class TabController {
       isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getBook());
     }
 
+    app_controller.commentaryPanel.setRefreshBlocked(true);
+
     if (currentTab.getTextType() == 'search_results') {
       await app_controller.text_controller.prepareForNewText(true, true);
       app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {
       if (!this.isCurrentTabEmpty()) {
         this.saveTabScrollPosition();
+
+        let selectedVerses = await app_controller.verse_selection.getSelectionAsVerseObjects(oldBibleTranslationId, newBibleTranslationId);
 
         await app_controller.text_controller.prepareForNewText(false, false);
         await app_controller.text_controller.requestTextUpdate(
@@ -945,8 +949,12 @@ class TabController {
         if (currentTab.getTextType() == 'book') {
           app_controller.tag_statistics.highlightFrequentlyUsedTags();
         }
+
+        app_controller.verse_selection.applySelectionFromVerseObjects(selectedVerses);
       }
     }
+
+    app_controller.commentaryPanel.setRefreshBlocked(false);
   }
 
   onTranslationRemoved(translationId, translationList) {

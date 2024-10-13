@@ -399,7 +399,7 @@ class TextController {
 
       const hasNotes = bookNotes !== null || getReferenceIdsFromNotes(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1).length > 0;
 
-      renderFunction(verses_as_html, hasNotes);
+      await renderFunction(verses_as_html, hasNotes);
       
     } else if (renderType == 'docx') {
       const notes = {
