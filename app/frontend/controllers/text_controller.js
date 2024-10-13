@@ -107,12 +107,6 @@ class TextController {
 
     await app_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
-    if (tabIndex === undefined) {
-      if (app_controller.verse_selection != null) {
-        app_controller.verse_selection.clearVerseSelection();
-      }
-    }
-
     var textType = currentTab != null ? currentTab.getTextType() : null;
     if (textType != 'book') {
       app_controller.book_selection_menu.clearSelectedBookInMenu();
@@ -124,6 +118,12 @@ class TextController {
     }
 
     if (resetView && (tabIndex == 0 || tabIndex == undefined)) {
+      if (tabIndex === undefined) {
+        if (app_controller.verse_selection != null) {
+          app_controller.verse_selection.clearVerseSelection();
+        }
+      }
+
       if (currentTab.hasTextTypeChanged()) {
         app_controller.navigation_pane.resetNavigationPane(tabIndex, true);
       }
