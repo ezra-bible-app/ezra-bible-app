@@ -118,16 +118,36 @@ module.exports = (sequelize, DataTypes) => {
     if (!created) {
       // Rewrite the chapter and verseNr in case the existing values are null
       // This may be the case due to a bug that existed in the frontend (see #979)
+
       // We cannot undo the wrongful saving of verse references, but we can rewrite the verse reference
-      // if we encounter one that has missing chapter / verseNr attributes.
+      // if we encounter one that has inconsistent data like missing chapter / verseNr attributes
+      // or wrong absolute verse numbers.
+
+      let changed = false;
 
       if (verseReference.dataValues.chapter == null) {
         verseReference.chapter = chapter;
-      } else if (verseReference.dataValues.verseNr == null) {
+        changed = true;
+      }
+      
+      if (verseReference.dataValues.verseNr == null) {
         verseReference.verseNr = verseNr;
+        changed = true;
+      }
+      
+      if (verseReference.dataValues.absoluteVerseNrEng != absoluteVerseNrs['absoluteVerseNrEng']) {
+        verseReference.absoluteVerseNrEng = absoluteVerseNrs['absoluteVerseNrEng'];
+        changed = true;
+      }
+      
+      if (verseReference.dataValues.absoluteVerseNrHeb != absoluteVerseNrs['absoluteVerseNrHeb']) {
+        verseReference.absoluteVerseNrHeb = absoluteVerseNrs['absoluteVerseNrHeb'];
+        changed = true;
       }
 
-      await verseReference.save();
+      if (changed) {
+        await verseReference.save();
+      }
     }
 
     return verseReference;
