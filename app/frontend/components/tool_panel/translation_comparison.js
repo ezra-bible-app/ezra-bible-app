@@ -59,9 +59,8 @@ class TranslationComparison {
                                           1);
 
     var targetTranslationVerse = verses[0];
-    
     var verseHtml = "";
-    
+
     if (targetTranslationVerse != null && targetTranslationVerse.content != "" && targetTranslationVerse.chapter == chapter) {
       verseHtml += `<tr class='verse-content-tr' verse-bible-book-short='${bibleBookShortTitle}'>`;
 
@@ -72,10 +71,7 @@ class TranslationComparison {
         verseHtml += `<td class='verse-reference-td verse-reference-content' book='${bibleBookShortTitle}' reference='${targetVerseReference}'>${targetVerseReference}</td>`;
       }
 
-      const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(targetTranslationId);
-      const rtlClass = moduleIsRightToLeft ? 'rtl' : '';
-
-      verseHtml += `<td class='verse-content-td verse-text ${rtlClass}' book='${bibleBookShortTitle}' reference='${targetVerseReference}'>` + targetTranslationVerse.content + "</td>";
+      verseHtml += `<td class='verse-content-td verse-text' book='${bibleBookShortTitle}' reference='${targetVerseReference}'>` + targetTranslationVerse.content + "</td>";
       verseHtml += "</tr>";
     }
 
@@ -112,10 +108,13 @@ class TranslationComparison {
 
         let contentCounter = 0;
         let compareTranslationRow = "";
+
+        const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(currentTranslationId);
+        const rtlClass = moduleIsRightToLeft ? 'rtl' : '';
         
         compareTranslationRow += `<tr class='${cssClass}'>`;
         compareTranslationRow += `<td class='compare-translation-row' style='width: 4em; padding: 0.5em;' title='${currentTranslationName}'>${currentTranslationId}</td>`;
-        compareTranslationRow += "<td class='compare-translation-row'><table>";
+        compareTranslationRow += `<td class='compare-translation-row ${rtlClass}'><table>`;
 
         for (let j = 0; j < selectedVerseBoxes.length; j++) {
           let currentVerseBox = $(selectedVerseBoxes[j]);
