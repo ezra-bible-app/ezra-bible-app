@@ -25,7 +25,10 @@ class VerseBox {
     this.verseBoxElement = verseBoxElement;
   }
 
-  getVerseObject(referenceSeparator=window.reference_separator) {
+  async getVerseObject(referenceSeparator=window.reference_separator,
+                       sourceBibleTranslationId=undefined,
+                       targetBibleTranslationId=undefined) {
+
     var isBookNoteVerse = this.isBookNoteVerse();
     var verse = undefined;
 
@@ -39,9 +42,17 @@ class VerseBox {
       );
 
     } else {
+      let absoluteVerseNumber = null;
+
+      if (sourceBibleTranslationId != null && targetBibleTranslationId != null) {
+        absoluteVerseNumber = await this.getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetBibleTranslationId);
+      } else {
+        absoluteVerseNumber = this.getAbsoluteVerseNumber();
+      }
+
       verse = new Verse(
         this.getBibleBookShortTitle(),
-        this.getAbsoluteVerseNumber(),
+        absoluteVerseNumber,
         this.getChapter(referenceSeparator),
         this.getVerseNumber(referenceSeparator),
         isBookNoteVerse
@@ -132,17 +143,17 @@ class VerseBox {
 
   async getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetBibleTranslationId) {
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    var sourceVersification = await swordModuleHelper.getVersification(sourceBibleTranslationId);
-    var targetVersification = await swordModuleHelper.getVersification(targetBibleTranslationId);
+    const sourceVersification = await swordModuleHelper.getVersification(sourceBibleTranslationId);
+    const targetVersification = await swordModuleHelper.getVersification(targetBibleTranslationId);
     const referenceSeparator = await i18nHelper.getReferenceSeparator(sourceBibleTranslationId);
 
-    var absoluteVerseNumbers = await ipcDb.getAbsoluteVerseNumbersFromReference(sourceVersification,
-                                                                                this.getBibleBookShortTitle(),
-                                                                                this.getAbsoluteVerseNumber(),
-                                                                                this.getChapter(referenceSeparator),
-                                                                                this.getVerseNumber(referenceSeparator));
+    const absoluteVerseNumbers = await ipcDb.getAbsoluteVerseNumbersFromReference(sourceVersification,
+                                                                                 this.getBibleBookShortTitle(),
+                                                                                 this.getAbsoluteVerseNumber(),
+                                                                                 this.getChapter(referenceSeparator),
+                                                                                 this.getVerseNumber(referenceSeparator));
 
-    var mappedAbsoluteVerseNr = null;
+    let mappedAbsoluteVerseNr = null;
     if (targetVersification == 'HEBREW') {
       mappedAbsoluteVerseNr = absoluteVerseNumbers.absoluteVerseNrHeb;
     } else {
