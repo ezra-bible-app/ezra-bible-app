@@ -36,8 +36,6 @@ class VerseSelection {
   constructor() {
     this.selectedVerseBoxElements = [];
     this.selectedVerseReferences = null;
-    this.previousSelectionExisting = false;
-    this.previousFirstVerseReference = null;
     this.previousVerseCount = null;
     this.verseReferenceHelper = null;
     this.previousSelectionIndex = -1;
@@ -120,29 +118,13 @@ class VerseSelection {
       // eslint-disable-next-line no-unused-vars
       stop: (event, ui) => {
         this.updateSelected(verseList);
+        this.updateViewsAfterVerseSelection();
+        this.publishVersesSelected();
 
-        let currentFirstVerseReference = this.getFirstSelectedVerseReferenceId();
-        let currentVerseCount = this.selectedVerseBoxElements.length;
-
-        if (this.previousSelectionExisting && 
-            currentFirstVerseReference == this.previousFirstVerseReference &&
-            currentVerseCount == this.previousVerseCount) {
-
-          this.clearVerseSelection(true, undefined);
-          this.updateViewsAfterVerseSelection();
-          this.previousSelectionExisting = false;
+        if (this.selectedVerseBoxElements.length > 0) {
+          this.previousVerseCount = this.selectedVerseBoxElements.length;
         } else {
-          this.updateViewsAfterVerseSelection();
-          this.publishVersesSelected();
-          this.previousSelectionExisting = true;
-
-          if (this.selectedVerseBoxElements.length > 0) {
-            this.previousFirstVerseReference = this.getFirstSelectedVerseReferenceId();
-            this.previousVerseCount = this.selectedVerseBoxElements.length;
-          } else {
-            this.previousVerseCount = 0;
-            this.previousFirstVerseReference = null;
-          }
+          this.previousVerseCount = 0;
         }
       },
 
@@ -186,14 +168,6 @@ class VerseSelection {
   getFirstSelectedVerseBox() {
     if (this.selectedVerseBoxElements != null && this.selectedVerseBoxElements.length > 0) {
       return this.selectedVerseBoxElements[0];
-    } else {
-      return null;
-    }
-  }
-
-  getFirstSelectedVerseReferenceId() {
-    if (this.selectedVerseBoxElements != null && this.selectedVerseBoxElements.length > 0) {
-      return this.selectedVerseBoxElements[0].getAttribute('verse-reference-id');
     } else {
       return null;
     }
