@@ -91,7 +91,7 @@ class IpcDb {
 
     for (var verseBox of verseBoxes) {
       var verseBoxModel = new VerseBox(verseBox);
-      var verseObject = verseBoxModel.getVerseObject(referenceSeparator);
+      var verseObject = await verseBoxModel.getVerseObject(referenceSeparator);
       verseObjects.push(verseObject);
     }
 

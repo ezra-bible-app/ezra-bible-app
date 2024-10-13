@@ -305,7 +305,8 @@ class NotesController {
 
       if (newNoteValue != previousNoteValue) {
         newNoteValue = newNoteValue.trim();
-        var currentVerseObject = new VerseBox(currentVerseBox).getVerseObject();
+        var currentVerseBox = new VerseBox(currentVerseBox);
+        var currentVerseObject = await currentVerseBox.getVerseObject();
         var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
         const swordModuleHelper = require('../helpers/sword_module_helper.js');
