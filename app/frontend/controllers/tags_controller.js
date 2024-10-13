@@ -840,7 +840,9 @@ class TagsController {
 
         await eventController.publishAsync('on-tag-group-multiple-members-changed');
 
-      } else {
+      }
+
+      if (!tags_controller.tagGroupUsed() || tags_controller.permanently_delete_tag) {
         await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
       }
 
@@ -853,7 +855,7 @@ class TagsController {
     var checkboxTag = tags_controller.getCheckboxTag(tag_id);
     checkboxTag.detach();
 
-    if (!tags_controller.tagGroupUsed()) {
+    if (!tags_controller.tagGroupUsed() || tags_controller.permanently_delete_tag) {
       if (this.tag_store.latest_tag_id != null && this.tag_store.latest_tag_id == tag_id) {
         this.tag_store.latest_tag_id = null;
         await this.tag_store.refreshTagList();
