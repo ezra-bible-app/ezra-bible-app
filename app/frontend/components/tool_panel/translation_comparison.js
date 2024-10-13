@@ -50,6 +50,7 @@ class TranslationComparison {
   async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox, totalVerseCount) {
     var referenceVerseBox = new VerseBox(verseBox[0]);
     var bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
+    var chapter = referenceVerseBox.getChapter();
     var mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetTranslationId);
 
     var verses = await ipcNsi.getBookText(targetTranslationId,
@@ -61,7 +62,7 @@ class TranslationComparison {
     
     var verseHtml = "";
     
-    if (targetTranslationVerse != null && targetTranslationVerse.content != "") {
+    if (targetTranslationVerse != null && targetTranslationVerse.content != "" && targetTranslationVerse.chapter == chapter) {
       verseHtml += `<tr class='verse-content-tr' verse-bible-book-short='${bibleBookShortTitle}'>`;
 
       var moduleReferenceSeparator = await i18nHelper.getReferenceSeparator(targetTranslationId);
