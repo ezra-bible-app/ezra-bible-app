@@ -149,10 +149,10 @@
 /* PORTRAIT */
 @media screen and (max-aspect-ratio: 13/10) {
   #commentary-panel-main-content.with-reference-box {
-    height: calc(100% - 10em) !important;
+    height: calc(100% - 13em) !important;
   }
 
   #commentary-panel-reference-box {
-    height: 6em;
+    height: 9em;
   }
 }
