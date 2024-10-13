@@ -839,7 +839,6 @@ class TagsController {
         });
 
         await eventController.publishAsync('on-tag-group-multiple-members-changed');
-
       }
 
       if (!tags_controller.tagGroupUsed() || tags_controller.permanently_delete_tag) {
@@ -869,7 +868,7 @@ class TagsController {
       return ($(this).html() == tag_id);
     });
 
-    if (!tags_controller.tagGroupUsed()) {
+    if (!tags_controller.tagGroupUsed() || tags_controller.permanently_delete_tag) {
       var verse_list = $.create_xml_doc(
         app_controller.verse_selection.elementListToXmlVerseList(tag_data_elements)
       );
