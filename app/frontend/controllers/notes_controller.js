@@ -121,7 +121,8 @@ class NotesController {
 
       if (this._platformHelper.isCordova()) {
         // There is an issue on Android that makes CodeMirror behave weirdly.
-        // This leads to the last word of the text being cut off after adding text, unless the user has already typed a space or . character. 
+        // This leads to the last word of the text being cut off after adding text,
+        // unless the user has already typed a space or . character. 
         // See https://github.com/codemirror/codemirror5/issues/5244
         // To work around this issue, we fire the compositionend event before saving the editor content.
         // This will force CodeMirror to properly save the editor lines.
