@@ -394,6 +394,8 @@ Librem 5/Pinephone etc.
 
   .module-settings-assistant-init > section {
     padding: 0.4em 2em !important;
+    width: 75% !important;
+    margin-top: 1em !important;
   }
 
   #module-settings-assistant .assistant-note {
