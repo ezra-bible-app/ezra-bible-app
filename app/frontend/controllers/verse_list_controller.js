@@ -32,6 +32,9 @@ const Mousetrap = require('mousetrap');
  */
 
 module.exports.init = function() {
+  this.platformHelper = new PlatformHelper();
+  this.hammer = null;
+
   eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
 
   eventController.subscribe('on-verse-list-init', async (tabIndex) => { this.updateVerseListClasses(tabIndex); });
@@ -40,11 +43,8 @@ module.exports.init = function() {
     this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
 
-    let platformHelper = new PlatformHelper();
-    if (platformHelper.isCordova()) {
+    if (this.platformHelper.isCordova()) {
       this.initSwipeEvents(tabIndex);
-    } else {
-      this.initNavigationEvents(tabIndex);
     }
   });
 
@@ -61,6 +61,10 @@ module.exports.init = function() {
       this.applyTagGroupFilter(tagGroup.id);
     }
   });
+
+  if (this.platformHelper.isElectron()) {
+    this.initNavigationEvents();
+  }
 };
 
 module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
@@ -338,42 +342,60 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
 module.exports.initSwipeEvents = async function(tabIndex) {
   let verseList = this.getCurrentVerseList(tabIndex);
 
-  let currentTab = app_controller.tab_controller.getTab(tabIndex);
-  const currentTranslationId = currentTab.getBibleTranslationId();
-  const currentBook = currentTab.getBook();
-  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentBook);
-
-  if (!isInstantLoadingBook) {
-    let hammerTime = new Hammer(verseList[0], {
-      recognizers: [
-        [Hammer.Swipe,{ direction: Hammer.DIRECTION_HORIZONTAL }],
-      ]
-    });
-
-    hammerTime.on('swiperight', () => {
-      this.goToPreviousChapter();
-    });
-
-    hammerTime.on('swipeleft', () => { 
-      this.goToNextChapter();
-    });
+  if (this.hammer != null) {
+    this.hammer.destroy();
   }
+
+  this.hammer = new Hammer(verseList[0], {
+    recognizers: [
+      [Hammer.Swipe,{ direction: Hammer.DIRECTION_HORIZONTAL }],
+    ]
+  });
+
+  this.hammer.on('swiperight', (event) => {
+    this.handleNavigation('right', true);
+  });
+
+  this.hammer.on('swipeleft', (event) => { 
+    this.handleNavigation('left', true);
+  });
 };
 
-module.exports.initNavigationEvents = async function(tabIndex) {
-  let currentTab = app_controller.tab_controller.getTab(tabIndex);
+module.exports.initNavigationEvents = async function() {
+  Mousetrap.bind('left', () => {
+    this.handleNavigation('left');
+  });
+
+  Mousetrap.bind('right', () => {
+    this.handleNavigation('right');
+  });
+};
+
+module.exports.handleNavigation = async function(direction, isSwipe=false) {
+  let currentTab = app_controller.tab_controller.getTab();
   const currentTranslationId = currentTab.getBibleTranslationId();
   const currentBook = currentTab.getBook();
   const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentBook);
 
-  if (!isInstantLoadingBook) {
-    Mousetrap.bind('left', () => {
-      this.goToPreviousChapter();
-    });
+  if (isInstantLoadingBook) {
 
-    Mousetrap.bind('right', () => {
-      this.goToNextChapter();
-    });
+    // Swipe events are not relevant if the full book is already loaded.
+    return;
+
+  } else {
+    if (direction == 'right') {
+      if (isSwipe) {
+        this.goToPreviousChapter();
+      } else {
+        this.goToNextChapter();
+      }
+    } else if (direction == 'left') {
+      if (isSwipe) {
+        this.goToNextChapter();
+      } else {
+        this.goToPreviousChapter();
+      }
+    }
   }
 };
 
