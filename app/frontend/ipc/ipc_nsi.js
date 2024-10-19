@@ -99,10 +99,13 @@ class IpcNsi {
 
     for (let i = 0; i < allLocalModules.length; i++) {
       let module = allLocalModules[i];
-      let remoteModule = await ipcNsi.getRepoModule(module.name);
 
-      if (remoteModule.version !== undefined && module.version != remoteModule.version) {
-        updatedModules.push(remoteModule);
+      if (module.inUserDir) {
+        let remoteModule = await ipcNsi.getRepoModule(module.name);
+
+        if (remoteModule.version !== undefined && module.version != remoteModule.version) {
+          updatedModules.push(remoteModule);
+        }
       }
     }
 
