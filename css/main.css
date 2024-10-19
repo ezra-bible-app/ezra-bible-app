@@ -666,6 +666,7 @@ a.chapter-nav:hover {
 .ezra-dialog .ui-tabs {
   user-select: none;
   font-size: 1em;
+  overflow-x: hidden;
 }
 
 .OSX .ui-dialog .ui-dialog-titlebar-close {
