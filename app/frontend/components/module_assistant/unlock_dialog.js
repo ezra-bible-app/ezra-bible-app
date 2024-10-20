@@ -51,6 +51,8 @@ class UnlockDialog extends HTMLElement {
 
     this._unlockDialogOpened = false;
     this._unlockCancelled = false;
+    this._checkbox = undefined;
+    this._unlocked = false;
   }
 
   connectedCallback() {  
@@ -58,10 +60,27 @@ class UnlockDialog extends HTMLElement {
     assistantHelper.localizeContainer(this);
   }
 
+  handleClose(cancel=false) {
+    this._unlockDialogOpened = false;
+
+    if (cancel) {
+      this._unlockCancelled = true;
+
+      if (this._checkbox !== undefined) {
+        this._checkbox.checked = false; 
+      }
+    } else {
+      this._unlockCancelled = false;
+    }
+  }
+
   show(moduleId, unlockInfo="", checkbox=undefined) {
     if (this._unlockDialogOpened) {
       return;
     }
+
+    this._unlocked = false;
+    this._checkbox = checkbox;
 
     const unlockDialog = document.querySelector('#module-settings-assistant-unlock-dialog');
     const unlockFailedMsg = unlockDialog.querySelector('#unlock-failed-msg');
@@ -73,8 +92,7 @@ class UnlockDialog extends HTMLElement {
       unlockInfoElement.innerHTML = unlockInfo;
     }
 
-
-    if (checkbox === undefined) {
+    if (this._checkbox === undefined) {
       unlockFailedMsg.style.display = 'block';
     } else {
       unlockFailedMsg.style.display = 'none';
@@ -85,17 +103,21 @@ class UnlockDialog extends HTMLElement {
       title: i18n.t("module-assistant.unlock.enter-unlock-key", { moduleId }),
       dialogClass: 'ezra-dialog unlock-dialog',
       width: 450,
-      minHeight: 200
+      minHeight: 200,
+      close: (event, ui) => {
+        let cancel = false;
+
+        if (!this._unlocked) {
+          cancel = true;
+        }
+
+        this.handleClose(cancel);
+      }
     };
 
     unlockDialogOptions.buttons = {};    
     unlockDialogOptions.buttons[i18n.t("general.cancel")] = () => {
       $(unlockDialog).dialog("close");
-      this._unlockDialogOpened = false;
-      this._unlockCancelled = true;
-      if (checkbox !== undefined) {
-        checkbox.checked = false; 
-      }
     };
 
     unlockDialogOptions.buttons[i18n.t("general.ok")] = () => {
@@ -103,20 +125,17 @@ class UnlockDialog extends HTMLElement {
 
       if (unlockKey.length > 0) {
         assistantController.setUnlockKey(moduleId, unlockKey);
+        this._unlocked = true;
       } else {
-        if (checkbox !== undefined) {
-          checkbox.checked = false;
-        }
+        this._unlocked = false;
       }
+
       $(unlockDialog).dialog("close");
-      this._unlockDialogOpened = false;
     };
     
     $(unlockDialog).dialog(unlockDialogOptions);
     uiHelper.fixDialogCloseIconOnAndroid('unlock-dialog');
-
     this._unlockDialogOpened = true;
-    
     inputElement.focus();
   }
 
