@@ -59,10 +59,6 @@ class NavigationPane {
       this.clearHighlightedSearchResults();
     });
 
-    /*eventController.subscribe('on-translation-changed', () => {
-      this.updateNavigation();
-    });*/
-
     eventController.subscribe('on-module-search-started', (tabIndex) => {
       const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
 
