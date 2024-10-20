@@ -74,7 +74,7 @@ class UnlockDialog extends HTMLElement {
     }
   }
 
-  show(moduleId, unlockInfo="", checkbox=undefined) {
+  show(moduleId, unlockInfo="", checkbox=undefined, confirmationCallback) {
     if (this._unlockDialogOpened) {
       return;
     }
@@ -126,6 +126,9 @@ class UnlockDialog extends HTMLElement {
       if (unlockKey.length > 0) {
         assistantController.setUnlockKey(moduleId, unlockKey);
         this._unlocked = true;
+        if (confirmationCallback != null) {
+          confirmationCallback();
+        }
       } else {
         this._unlocked = false;
       }

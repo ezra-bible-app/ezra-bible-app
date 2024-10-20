@@ -210,22 +210,29 @@ class StepModules extends HTMLElement {
     const moduleId = event.detail.code;
     const checked = event.detail.checked;
 
+    if (!checkbox.hasAttribute('locked')) {
+
+      this._handleModuleToggling(checked, moduleId);
+
+    } else {
+      if (checked) {
+        this.unlockDialog.show(moduleId, unlockInfo[moduleId], checkbox, () => {
+          this._handleModuleToggling(checked, moduleId);
+        });
+      } else {
+        // Checkbox unchecked!
+        // Reset the unlock key for this module
+        this.unlockDialog.resetKey(moduleId);
+        this._handleModuleToggling(checked, moduleId);
+      }
+    }
+  }
+
+  _handleModuleToggling(checked, moduleId) {
     if (checked) {
       assistantController.add('selectedModules', moduleId);
     } else {
       assistantController.remove('selectedModules', moduleId);
-    }
-
-    if (!checkbox.hasAttribute('locked')) {
-      return;
-    }
-
-    if (checked) {
-      this.unlockDialog.show(moduleId, unlockInfo[moduleId], checkbox);
-    } else {
-      // Checkbox unchecked!
-      // Reset the unlock key for this module
-      this.unlockDialog.resetKey(moduleId);
     }
   }
 
