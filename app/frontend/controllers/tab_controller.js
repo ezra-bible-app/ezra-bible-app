@@ -255,7 +255,10 @@ class TabController {
 
     for (let i = 0; i < tabCount; i++) {
       let currentMetaTab = this.metaTabs[i];
-
+      if (currentMetaTab == null) {
+         continue;
+      }
+      
       if (cacheOutdated || cacheInvalid || force) {
         currentMetaTab.cachedText = null;
         currentMetaTab.cachedReferenceVerse = null;
