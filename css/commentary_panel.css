@@ -53,6 +53,7 @@
 
 .commentary-name {
   display: inline-block;
+  vertical-align: middle;
 }
 
 #commentary-panel-reference-box {
