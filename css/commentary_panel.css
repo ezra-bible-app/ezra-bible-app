@@ -33,6 +33,10 @@
   color: var(--accent-color-darkmode);
 }
 
+.Android .commentary-accordion-button {
+  font-size: 120%;
+}
+
 #commentary-panel-wrapper {
   height: 100%;
 }
@@ -45,6 +49,10 @@
 #commentary-panel-main-content.with-reference-box {
   height: calc(100% - 18em) !important;
   border-bottom: 4px solid #dddddd;
+}
+
+.commentary-name {
+  display: inline-block;
 }
 
 #commentary-panel-reference-box {

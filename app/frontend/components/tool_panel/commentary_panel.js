@@ -280,13 +280,15 @@ class CommentaryPanel {
     let isCollapsed = commentaryContent.style.display == 'none';
 
     if (isCollapsed) {
-      $(commentaryContent).slideDown();
-      button.classList.remove('fa-circle-chevron-down');
-      button.classList.add('fa-circle-chevron-up');
+      $(commentaryContent).slideDown(400, () => {
+        button.classList.remove('fa-circle-chevron-down');
+        button.classList.add('fa-circle-chevron-up');
+      });
     } else {
-      $(commentaryContent).slideUp();
-      button.classList.remove('fa-circle-chevron-up');
-      button.classList.add('fa-circle-chevron-down');
+      $(commentaryContent).slideUp(400, () => {
+        button.classList.remove('fa-circle-chevron-up');
+        button.classList.add('fa-circle-chevron-down');
+      });
     }
   }
 
@@ -433,7 +435,7 @@ class CommentaryPanel {
               <h3>
                 <i class="fa-solid fa-circle-chevron-up commentary-accordion-button"></i>
 
-                <span class='commentary-name'>${currentCommentary.description}</span>
+                <div class='commentary-name'>${currentCommentary.description}</div>
 
                 <div class='module-info-button fg-button ui-corner-all ui-state-default'
                     i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
