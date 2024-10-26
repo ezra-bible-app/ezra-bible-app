@@ -16,6 +16,23 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+.commentary-accordion-button {
+  color: var(--button-color);
+  cursor: pointer;
+}
+
+.commentary-accordion-button:hover {
+  color: var(--accent-color);
+}
+
+.darkmode--activated .commentary-accordion-button {
+  color: var(--button-color-dark);
+}
+
+.darkmode--activated .commentary-accordion-button:hover {
+  color: var(--accent-color-darkmode);
+}
+
 #commentary-panel-wrapper {
   height: 100%;
 }

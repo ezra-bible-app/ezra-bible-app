@@ -222,6 +222,13 @@ class CommentaryPanel {
       });
     });
 
+    let accordionButtons = this.getBoxContent().querySelectorAll('.commentary-accordion-button');
+    accordionButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        this.handleAccordionButtonClick(event);
+      });
+    });
+
     uiHelper.configureButtonStyles(this.getBoxContent());
   }
 
@@ -260,6 +267,27 @@ class CommentaryPanel {
     getPlatform().copyToClipboard(commentaryText, commentaryTextHtml);
 
     uiHelper.showSuccessMessage(i18n.t('commentary-panel.copy-commentary-to-clipboard-success'));
+  }
+
+  handleAccordionButtonClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    let button = event.target;
+    let commentary = button.closest('.commentary');
+    let commentaryContent = commentary.querySelector('.commentary-content');
+
+    let isCollapsed = commentaryContent.style.display == 'none';
+
+    if (isCollapsed) {
+      $(commentaryContent).slideDown();
+      button.classList.remove('fa-circle-chevron-down');
+      button.classList.add('fa-circle-chevron-up');
+    } else {
+      $(commentaryContent).slideUp();
+      button.classList.remove('fa-circle-chevron-up');
+      button.classList.add('fa-circle-chevron-down');
+    }
   }
 
   async handleReferenceClick(event) {
@@ -403,6 +431,8 @@ class CommentaryPanel {
             commentaryContent += `
             <div class='commentary module-code-${currentCommentary.name.toLowerCase()}' module='${currentCommentary.name}'>
               <h3>
+                <i class="fa-solid fa-circle-chevron-up commentary-accordion-button"></i>
+
                 <span class='commentary-name'>${currentCommentary.description}</span>
 
                 <div class='module-info-button fg-button ui-corner-all ui-state-default'
