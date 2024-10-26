@@ -225,7 +225,21 @@ class CommentaryPanel {
     let accordionButtons = this.getBoxContent().querySelectorAll('.commentary-accordion-button');
     accordionButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
-        this.handleAccordionButtonClick(event);
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.handleAccordionButtonClick(event.target);
+      });
+    });
+
+    let commentaryHeaders = this.getBoxContent().querySelectorAll('.commentary-name');
+    commentaryHeaders.forEach((header) => {
+      header.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        let button = event.target.parentNode.querySelector('.commentary-accordion-button');
+        this.handleAccordionButtonClick(button);
       });
     });
 
@@ -269,11 +283,7 @@ class CommentaryPanel {
     uiHelper.showSuccessMessage(i18n.t('commentary-panel.copy-commentary-to-clipboard-success'));
   }
 
-  handleAccordionButtonClick(event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    let button = event.target;
+  handleAccordionButtonClick(button) {
     let commentary = button.closest('.commentary');
     let commentaryContent = commentary.querySelector('.commentary-content');
 
