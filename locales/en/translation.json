@@ -399,9 +399,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Dictionary",
-    "hebrew-dict": "Hebrew Dictionary",
-    "default-header": "<b>Dictionary</b>",
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "How to show dictionary entries here:",
     "help-instruction-part1": "Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Open a translation with the Strong's feature.",

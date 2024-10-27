@@ -395,9 +395,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Griechisches Wörterbuch",
-    "hebrew-dict": "Hebräisches Wörterbuch",
-    "default-header": "<b>Wörterbuch</b>",
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Wie Sie hier Wörterbucheinträge anzeigen:",
     "help-instruction-part1": "Stellen Sie sicher, dass die Strong's Wörterbücher (Hebräisch und Griechisch) installiert sind. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Öffnen Sie eine Übersetzung mit Unterstützung für Strong's.",

@@ -402,9 +402,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Словарь греческого языка",
-    "hebrew-dict": "Словарь иврита",
-    "default-header": "<b>Словарь</b>",
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Отображение статей из словаря:",
     "help-instruction-part1": "Убедитесь, что установленны словари Стронга (иврита и греческого). Статус: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Откройте перевод с номерами Стронга.",

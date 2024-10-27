@@ -399,9 +399,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Dicționar grec",
-    "hebrew-dict": "Dicționar ebraic",
-    "default-header": "<b>Dicționar</b>",
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Cum să afișezi intrările de dicționar aici:",
     "help-instruction-part1": "Asigură-te ca sunt instalate dicționarele de concordanță (Strong's) (Ebraică și Greacă). Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Mai întâi deschide o traducere cu caracteristica Concordanță (Strong's).",

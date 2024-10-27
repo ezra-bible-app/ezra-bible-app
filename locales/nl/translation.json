@@ -401,9 +401,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Grieks woordenboek",
-    "hebrew-dict": "Hebreeuws woordenboek",
-    "default-header": "<b>Woordenboek</b>",
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Hoe woordenboeklemma's hier tonen:",
     "help-instruction-part1": "Wees eerst zeker dat de Strongwoordenboeken (Hebreeuws en Grieks) geïnstalleerd zijn. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Open dan een vertaling met de Strongs-functie.",

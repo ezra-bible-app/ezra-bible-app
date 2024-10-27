@@ -399,9 +399,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Grécky slovník",
-    "hebrew-dict": "Hebrejský slovník",
-    "default-header": "<b>Slovník</b>",
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Ako tu zobraziť položky slovníka:",
     "help-instruction-part1": "Uistite sa, že sú nainštalované Strongove slovníky (hebrejčina a gréčtina). Stav: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Otvorte preklad pomocou funkcie Strong.",

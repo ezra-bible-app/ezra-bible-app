@@ -397,9 +397,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Grški slovar",
-    "hebrew-dict": "Hebrejski slovar",
-    "default-header": "<b>Slovar</b>",
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Kako prikazati slovarske vnose tukaj:",
     "help-instruction-part1": "Prepričajte se, da so nameščeni Strongovi slovarji (hebrejski in grški). Stanje: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Prevod odprite s Strongovo funkcionalnostjo.",

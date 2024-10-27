@@ -400,9 +400,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Словник грецької",
-    "hebrew-dict": "Словник івріту",
-    "default-header": "<b>Словник</b>",
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Як відобразити словникові записи:",
     "help-instruction-part1": "Переконайтеся, що встановленно словники Стронга (івриту та грецької). Поточний стан: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Відкрийте переклад, що містить числа Стронга.",

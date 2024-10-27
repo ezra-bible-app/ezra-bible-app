@@ -397,9 +397,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Diccionario Griego",
-    "hebrew-dict": "Diccionario Hebreo",
-    "default-header": "<b>Diccionario</b>",
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Como mostrar las entradas de diccionario aquí:",
     "help-instruction-part1": "Asegúrese de que los diccionarios Strong's (Hebreo y Griego) estén instalados. Estado: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Abra una traducción con números Strongs.",
