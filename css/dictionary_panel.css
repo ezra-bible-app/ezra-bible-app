@@ -32,3 +32,23 @@
   overflow-y: scroll;
   height: calc(100% - 3.5em);
 }
+
+.dictionary-accordion-button {
+  color: var(--button-color);
+  margin-right: 0.5em;
+}
+
+.darkmode--activated .dictionary-accordion-button {
+  color: var(--button-color-dark);
+}
+
+#dictionary-section-list {
+  margin-top: 0.5em;
+  list-style-type: none;
+  padding-inline-start: 1em;
+}
+
+.dictionary-section-marker {
+  display: inline-block;
+  cursor: pointer;
+}

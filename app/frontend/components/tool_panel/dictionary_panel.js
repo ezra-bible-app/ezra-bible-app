@@ -93,17 +93,72 @@ class DictionaryPanel {
     setTimeout(async () => {
       let keys = await ipcNsi.getDictModuleKeys(selectedModule);
 
-      let htmlList = "<ul>";
 
-      keys.forEach((key) => {
-        let currentItem = `<li class='dict-key'>${key}</li>`;
-        htmlList += currentItem;
-      });
+      let htmlList = "<ul id='dictionary-section-list'>";
 
-      htmlList += "</ul>";
+      if (keys.length > 0) {
+        let firstCharacter = keys[0][0];
+        let lastItemCharacter = "";
+
+        for (let i = 0; i < keys.length; i++) {
+          let key = keys[i];
+          firstCharacter = key[0];
+
+          if (firstCharacter != lastItemCharacter) {
+            if (i > 0) {
+              htmlList += '</ul></li>';
+            }
+
+            htmlList += '<li>';
+            htmlList += `<div class='dictionary-section-marker'>`;
+            htmlList += '<i class="fa-solid fa-circle-chevron-right dictionary-accordion-button"></i>';
+            htmlList += firstCharacter;
+            htmlList += '</div>'
+            htmlList += `<ul class='alphabetical-section hidden'>`
+          }
+
+          let currentItem = `<li class='dict-key'>${key}</li>`;
+          htmlList += currentItem;
+
+          lastItemCharacter = firstCharacter;
+        }
+      }
+
+      htmlList += "</ul></li></ul>";
 
       this.getKeyContainer().innerHTML = htmlList;
+
+      let allMarkers = this.getKeyContainer().querySelectorAll('.dictionary-section-marker');
+      let allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
+
+      allMarkers.forEach((marker) => {
+        marker.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          this.handleSectionMarkerClick(event, allSections);
+
+        });
+      });
+
     }, 500);
+  }
+
+  handleSectionMarkerClick(event, allSections) {
+    let liElement = event.target.closest('li');
+    let section = liElement.querySelector('.alphabetical-section');
+
+    if (section.classList.contains('hidden')) {
+      allSections.forEach((section) => {
+        section.classList.add('hidden');
+      });
+
+      section.classList.remove('hidden');
+    } else {
+      section.classList.add('hidden');
+    }
+
+    liElement.scrollIntoView();
   }
 
   async getDictModules() {
