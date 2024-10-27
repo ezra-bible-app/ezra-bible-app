@@ -23,7 +23,7 @@
 #dictionary-panel-wrapper {
   box-sizing: border-box;
   padding: 1em !important;
-  height: calc(100% - 2.5em);
+  height: calc(100% - 2.6em);
 }
 
 #dictionary-panel-keys {
