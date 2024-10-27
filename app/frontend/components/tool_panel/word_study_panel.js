@@ -23,7 +23,7 @@ let jsStrongs = null;
 
 /**
  * The WordStudyPanel component handles all event handling and updates of the
- * dictionary panel component.
+ * word study panel component.
  * 
  * @category Component
  */
