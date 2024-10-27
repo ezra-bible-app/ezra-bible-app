@@ -127,6 +127,7 @@ class DictionaryPanel {
       htmlList += "</ul></li></ul>";
 
       this.getKeyContainer().innerHTML = htmlList;
+      this.getKeyContainer().scrollTop = 0;
 
       let allMarkers = this.getKeyContainer().querySelectorAll('.dictionary-section-marker');
       let allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
