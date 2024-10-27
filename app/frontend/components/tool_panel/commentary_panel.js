@@ -291,13 +291,13 @@ class CommentaryPanel {
 
     if (isCollapsed) {
       $(commentaryContent).slideDown(400, () => {
-        button.classList.remove('fa-circle-chevron-down');
-        button.classList.add('fa-circle-chevron-up');
+        button.classList.remove('fa-circle-chevron-right');
+        button.classList.add('fa-circle-chevron-down');
       });
     } else {
       $(commentaryContent).slideUp(400, () => {
-        button.classList.remove('fa-circle-chevron-up');
-        button.classList.add('fa-circle-chevron-down');
+        button.classList.remove('fa-circle-chevron-down');
+        button.classList.add('fa-circle-chevron-right');
       });
     }
   }
@@ -443,7 +443,7 @@ class CommentaryPanel {
             commentaryContent += `
             <div class='commentary module-code-${currentCommentary.name.toLowerCase()}' module='${currentCommentary.name}'>
               <h3>
-                <i class="fa-solid fa-circle-chevron-up commentary-accordion-button"></i>
+                <i class="fa-solid fa-circle-chevron-down commentary-accordion-button"></i>
 
                 <div class='commentary-name'>${currentCommentary.description}</div>
 
