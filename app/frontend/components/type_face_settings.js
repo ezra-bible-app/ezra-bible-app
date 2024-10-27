@@ -151,7 +151,7 @@ function applyFontChange(selectedFont=undefined, apply=false) {
   let sampleTextCss = undefined;
   let textCss = undefined;
   let sampleTextId = '#bible-font-sample-text';
-  let textClasses = '.verse-text, .sword-section-title, .commentary-content, .commentary-name, .dictionary-title, .dictionary-content, .book-intro';
+  let textClasses = '.verse-text, .sword-section-title, .commentary-content, .commentary-name, .word-study-title, .dictionary-content, .book-intro';
 
   if (selectedFont != null) {
     sampleTextCss = `${sampleTextId} { font-family: "${selectedFont}" }`;
