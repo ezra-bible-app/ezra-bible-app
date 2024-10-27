@@ -32,7 +32,7 @@ Feature: Change app language (locale)
     Then the tab title is "<tab_title>"
     And I open the tag panel
     And the tag stat text is "<tag_stat>"
-    And I open the dictionary panel
+    And I open the word-study panel
     And the dictionary header text is "<dictionary>"
     And the search button text is "<search>"
     And the tab search case option text is "<tab_search_option>"

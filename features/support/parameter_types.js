@@ -99,6 +99,6 @@ defineParameterType({
 
 defineParameterType({
   name: 'tool_panel_type',
-  regexp: /tag|dictionary/,
+  regexp: /tag|word-study/,
   transformer: s => `button[event="on-${s}-panel-switched"]`
 });
