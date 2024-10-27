@@ -102,13 +102,13 @@ class DictionaryController {
 
     eventController.subscribe('on-tab-search-results-available', async () => {
       // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-      await this.bindAfterBibleTextLoaded();
+      await this.initMouseMoveOnWElements();
     });
 
-    /*eventController.subscribe('on-tab-search-reset', async () => {
+    eventController.subscribe('on-tab-search-reset', async () => {
       // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-      await this.bindAfterBibleTextLoaded();
-    });*/
+      await this.initMouseMoveOnWElements();
+    });
 
     eventController.subscribe('on-dictionary-panel-switched', isOpen => {
       this._isDictionaryOpen = isOpen;
@@ -202,6 +202,13 @@ class DictionaryController {
       });
     }
 
+    this.initMouseMoveOnWElements(tabIndex);
+  }
+
+  initMouseMoveOnWElements(tabIndex=undefined) {
+    /**@type {HTMLElement}*/
+    const currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex)[0];
+
     const wElements = currentVerseListFrame.querySelectorAll('w');
 
     for (let i = 0; i < wElements.length; i++) {
@@ -216,7 +223,7 @@ class DictionaryController {
         currentTab.tab_search.blurInputField();
 
         if (reference != this._lastClickedReference) {
-          await this._handleShiftMouseMove(e);
+          await this._handleMouseMove(e);
         }
       });
 
@@ -401,11 +408,12 @@ class DictionaryController {
     }
   }
 
-  async _handleShiftMouseMove(event) {
+  async _handleMouseMove(event) {
     if (!this._isDictionaryOpen) {
       return;
     }
 
+    // We do not handle mouse move for verses that are not selected, unless the shift key is pressed.
     if (!this.shiftKeyPressed && !this.currentVerseSelected(event.target.closest('.verse-text'))) {
       return;
     }
