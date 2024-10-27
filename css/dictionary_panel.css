@@ -21,5 +21,14 @@
 }
 
 #dictionary-panel-wrapper {
+  box-sizing: border-box;
   padding: 1em !important;
+  height: calc(100% - 2.5em);
+}
+
+#dictionary-panel-keys {
+  margin-top: 1em;
+  border-radius: 5px;
+  overflow-y: scroll;
+  height: calc(100% - 3.5em);
 }

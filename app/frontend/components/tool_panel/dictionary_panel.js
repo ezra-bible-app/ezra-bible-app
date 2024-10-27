@@ -27,6 +27,14 @@ class DictionaryPanel {
       if (isOpen && !this._initDone) {
         this.init();
       }
+
+      if (isOpen) {
+        setTimeout(() => {
+          this.getKeyContainer().style.display = 'block';
+        }, 50);
+      } else {
+        this.getKeyContainer().style.display = 'none';
+      }
     });
   }
 
@@ -39,6 +47,10 @@ class DictionaryPanel {
     return document.getElementById('dictionary-panel-select');
   }
 
+  getKeyContainer() {
+    return document.getElementById('dictionary-panel-keys');
+  }
+
   init() {
     this.refreshDictionaries();
     this._initDone = true;
@@ -46,6 +58,11 @@ class DictionaryPanel {
 
   async refreshDictionaries() {
     let modules = await this.getDictModules();
+
+    if (modules.length == 0) {
+      return;
+    }
+
     let selectEl = this.getSelectElement();
 
     for (let i = 0; i < modules.length; i++) {
@@ -68,10 +85,25 @@ class DictionaryPanel {
         this.handleDictionaryChange(selectedModuleCode);
       }
     });
+
+    await this.handleDictionaryChange(modules[0].name);
   }
 
-  handleDictionaryChange(selectedModule) {
-    console.log(`${selectedModule} selected!`);
+  async handleDictionaryChange(selectedModule) {
+    setTimeout(async () => {
+      let keys = await ipcNsi.getDictModuleKeys(selectedModule);
+
+      let htmlList = "<ul>";
+
+      keys.forEach((key) => {
+        let currentItem = `<li class='dict-key'>${key}</li>`;
+        htmlList += currentItem;
+      });
+
+      htmlList += "</ul>";
+
+      this.getKeyContainer().innerHTML = htmlList;
+    }, 500);
   }
 
   async getDictModules() {
