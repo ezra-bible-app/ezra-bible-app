@@ -20,6 +20,7 @@ const Mousetrap = require('mousetrap');
 const DictionaryPanel = require('../components/tool_panel/dictionary_panel.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const VerseBox = require('../ui_models/verse_box.js');
 
 let jsStrongs = null;
 
@@ -47,6 +48,7 @@ class DictionaryController {
     this.strongsAvailable = false;
     this._dictionaryPanel = new DictionaryPanel(this);
     this._lastSelection = null;
+    this._lastClickedReference = null;
 
     this.bindEvents();
     this.runAvailabilityCheck();
@@ -55,6 +57,7 @@ class DictionaryController {
   bindEvents() {
     Mousetrap.bind('shift', () => {
       this.shiftKeyPressed = true;
+      this._lastClickedReference = null;
     });
 
     $(document).on('keyup', (e) => {
@@ -102,10 +105,10 @@ class DictionaryController {
       await this.bindAfterBibleTextLoaded();
     });
 
-    eventController.subscribe('on-tab-search-reset', async () => {
+    /*eventController.subscribe('on-tab-search-reset', async () => {
       // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
       await this.bindAfterBibleTextLoaded();
-    });
+    });*/
 
     eventController.subscribe('on-dictionary-panel-switched', isOpen => {
       this._isDictionaryOpen = isOpen;
@@ -122,6 +125,7 @@ class DictionaryController {
     });
 
     eventController.subscribe('on-verses-selected', (selectionDetails) => {
+      this._lastClickedReference = null;
       this._lastSelection = selectionDetails;
       this.removeHighlight();
       this.highlightStrongsFromSelection(selectionDetails);
@@ -174,25 +178,57 @@ class DictionaryController {
     const currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex)[0];
     
     const verseTextElements = currentVerseListFrame.querySelectorAll('.verse-text');
-    verseTextElements.forEach(verseElement => verseElement.addEventListener('mousemove', () => {
-      var currentTab = app_controller.tab_controller.getTab();
-      currentTab.tab_search.blurInputField();
-      this.highlightStrongsInVerse(verseElement);
-    }));
+
+    for (let i = 0; i < verseTextElements.length; i++) {
+      let verseElement = verseTextElements[i];
+
+      verseElement.addEventListener('mousemove', (event) => {
+        var currentTab = app_controller.tab_controller.getTab();
+        currentTab.tab_search.blurInputField();
+        this.highlightStrongsInVerse(verseElement);
+      });
+
+      verseElement.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const reference = this.getReferenceFromVerseText(event.target);
+
+        if (this._lastClickedReference == reference) {
+          this._lastClickedReference = null;
+        } else {
+          this._lastClickedReference = reference;
+        }
+      });
+    }
 
     const wElements = currentVerseListFrame.querySelectorAll('w');
 
-    wElements.forEach(wElement => { 
+    for (let i = 0; i < wElements.length; i++) {
+      let wElement = wElements[i];
+
       wElement.classList.remove('strongs-hl');
 
       wElement.addEventListener('mousemove', async (e) => {
+        const reference = this.getReferenceFromVerseText(wElement.closest('.verse-text'));
+
         let currentTab = app_controller.tab_controller.getTab();
         currentTab.tab_search.blurInputField();
-        await this._handleShiftMouseMove(e);
+
+        if (reference != this._lastClickedReference) {
+          await this._handleShiftMouseMove(e);
+        }
       });
 
       this.initStrongsSup(wElement);
-    });
+    }
+  }
+
+  getReferenceFromVerseText(verseText) {
+    let verseBox = verseText.closest('.verse-box');
+    let verseBoxObject = new VerseBox(verseBox);
+    let reference = verseBoxObject.getVerseReferenceId();
+    return reference;
   }
 
   initStrongsForContainer(container) {
