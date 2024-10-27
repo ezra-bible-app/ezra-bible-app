@@ -354,6 +354,7 @@
     "show-paragraphs": "Абзаци",
     "red-letters": "Слова Ісуса - червоним",
     "show-dictionary": "Словник",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Вказівник розділів",
     "show-header-navigation": "Вказівник заголовків",
     "show-tab-search": "Відображати форму пошуку по поточній вкладці",
@@ -398,7 +399,7 @@
       "tense-change": "Граматичний зворот цих слів змінено при перекладі"
     }
   },
-  "dictionary-panel": {
+  "word-study-panel": {
     "greek-dict": "Словник грецької",
     "hebrew-dict": "Словник івріту",
     "default-header": "<b>Словник</b>",

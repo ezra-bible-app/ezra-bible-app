@@ -372,7 +372,7 @@ class ModuleSearchController {
   }
 
   validateStrongsKey() {
-    if (!app_controller.dictionary_controller.isValidStrongsKey(this.getSearchTerm())) {
+    if (!app_controller.word_study_controller.isValidStrongsKey(this.getSearchTerm())) {
       $('#module-search-validation-message').css('visibility', 'visible');
       $('#module-search-validation-message').prop('title', i18n.t('bible-browser.strongs-number-not-valid'));
       $('#start-module-search-button').addClass('ui-state-disabled');
@@ -443,11 +443,11 @@ class ModuleSearchController {
       const useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
 
       if (searchType == "strongsNumber" && event != null) {
-        if (!app_controller.dictionary_controller.isValidStrongsKey(this.currentSearchTerm)) {
+        if (!app_controller.word_study_controller.isValidStrongsKey(this.currentSearchTerm)) {
           return;
         }
 
-        app_controller.dictionary_controller.showStrongsInfo(this.currentSearchTerm, false /* do not show strongs box */);
+        app_controller.word_study_controller.showStrongsInfo(this.currentSearchTerm, false /* do not show strongs box */);
       }
 
       app_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);

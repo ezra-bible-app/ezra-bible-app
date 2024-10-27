@@ -351,6 +351,7 @@
     "show-paragraphs": "Prikaži odstavke",
     "red-letters": "Z rdečo barvo označi Jezusove besede",
     "show-dictionary": "Prikaži slovar",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Prikaži navigacijo po knjigi/poglavju",
     "show-header-navigation": "Prikaži navigacijo po glavi",
     "show-tab-search": "Prikaži iskanje po trenutnem zavihku",
@@ -395,7 +396,7 @@
       "tense-change": "Slovnični čas teh besed je bil spremenjen, da bi olajšali prevod"
     }
   },
-  "dictionary-panel": {
+  "word-study-panel": {
     "greek-dict": "Grški slovar",
     "hebrew-dict": "Hebrejski slovar",
     "default-header": "<b>Slovar</b>",

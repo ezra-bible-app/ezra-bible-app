@@ -363,6 +363,7 @@
     "show-paragraphs": "Afficher les paragraphes",
     "red-letters": "Surligner les paroles de Jésus en rouge",
     "show-dictionary": "Afficher le dictionnaire",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Afficher la navigation dans les livres / chapitres",
     "show-header-navigation": "Afficher la navigation des titres",
     "show-tab-search": "Montrer l’onglet de recherche courant",
@@ -408,7 +409,7 @@
 
     }
   },
-  "dictionary-panel": {
+  "word-study-panel": {
     "greek-dict": "Dictionnaire grec",
     "hebrew-dict": "Dictionnaire hébreu",
     "default-header": "<b>Dictionnaire</b>",

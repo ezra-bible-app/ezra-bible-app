@@ -351,6 +351,7 @@
     "show-paragraphs": "Mostrar párrafos",
     "red-letters": "Remarcar las palabras de Jesús en rojo",
     "show-dictionary": "Mostrar diccionario",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Mostrar la navegación por Libro/Capítulo",
     "show-header-navigation": "Mostrar navegación por encabezado",
     "show-tab-search": "Mostrar búsqueda en pestaña actual",
@@ -395,7 +396,7 @@
       "tense-change": "El tiempo gramatical de estas palabras fue cambiado para facilitar la traducción"
     }
   },
-  "dictionary-panel": {
+  "word-study-panel": {
     "greek-dict": "Diccionario Griego",
     "hebrew-dict": "Diccionario Hebreo",
     "default-header": "<b>Diccionario</b>",

@@ -355,6 +355,7 @@
     "show-paragraphs": "Toon alinea's",
     "red-letters": "Markeer de woorden van Jezus met rood",
     "show-dictionary": "Toon woordenboek",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Toon boek/hoofdstuk-navigatie",
     "show-header-navigation": "Toon hoofdingnavigatie",
     "show-tab-search": "Toon zoekopdracht van huidig tabblad",
@@ -399,7 +400,7 @@
       "tense-change": "De grammaticale tijd van deze woorden is veranderd om de vertaling te vergemakkelijken"
     }
   },
-  "dictionary-panel": {
+  "word-study-panel": {
     "greek-dict": "Grieks woordenboek",
     "hebrew-dict": "Hebreeuws woordenboek",
     "default-header": "<b>Woordenboek</b>",

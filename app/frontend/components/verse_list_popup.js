@@ -533,7 +533,7 @@ class VerseListPopup {
 
     const verseList = document.getElementById('verse-list-popup-verse-list');
     app_controller.sword_notes.initForContainer(verseList);
-    app_controller.dictionary_controller.initStrongsForContainer(verseList);
+    app_controller.word_study_controller.initStrongsForContainer(verseList);
 
     $('#verse-list-popup-verse-list').show();
   }

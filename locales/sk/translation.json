@@ -353,6 +353,7 @@
     "show-paragraphs": "Zobraziť odseky",
     "red-letters": "Zvýraznite Ježišove slová červenou farbou",
     "show-dictionary": "Zobraziť slovník",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Zobraziť knihu/navigácia v kapitolách",
     "show-header-navigation": "Zobraziť navigáciu v hlavičke",
     "show-tab-search": "Zobraziť aktuálne vyhľadávanie na karte",
@@ -397,7 +398,7 @@
       "tense-change": "Gramatický čas týchto slov bol zmenený, aby sa uľahčil preklad"
     }
   },
-  "dictionary-panel": {
+  "word-study-panel": {
     "greek-dict": "Grécky slovník",
     "hebrew-dict": "Hebrejský slovník",
     "default-header": "<b>Slovník</b>",

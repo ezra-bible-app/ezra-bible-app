@@ -82,7 +82,7 @@ defineParameterType({
       case 'tag stat':
         return '#tag-list-stats';
       case 'dictionary header':
-        return '#dictionary-panel h3 > a';
+        return '#word-study-panel h3 > a';
       case 'search button':
         return '#verse-list-tabs-1 .module-search-label';
       case 'tab search case option':

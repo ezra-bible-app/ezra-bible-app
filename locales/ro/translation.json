@@ -353,6 +353,7 @@
     "show-paragraphs": "Afișează paragrafe",
     "red-letters": "Evidențiază cuvintele lui Isus cu roșu.",
     "show-dictionary": "Afișează dicționar",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Afișează navigare carte/capitol",
     "show-header-navigation": "Afișează navigare antet",
     "show-tab-search": "Afișează căutare filă curentă",
@@ -397,7 +398,7 @@
       "tense-change": "Timpul gramatical al acestor cuvinte a fost schimbat pentru a ușura traducerea"
     }
   },
-  "dictionary-panel": {
+  "word-study-panel": {
     "greek-dict": "Dicționar grec",
     "hebrew-dict": "Dicționar ebraic",
     "default-header": "<b>Dicționar</b>",

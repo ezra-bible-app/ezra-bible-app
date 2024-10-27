@@ -22,21 +22,21 @@ const { html } = require('../../helpers/ezra_helper.js');
 let jsStrongs = null;
 
 /**
- * The DictionaryPanel component handles all event handling and updates of the
+ * The WordStudyPanel component handles all event handling and updates of the
  * dictionary panel component.
  * 
  * @category Component
  */
-class DictionaryPanel {
-  constructor(dictionaryController) {
-    this.dictionaryController = dictionaryController;
-    this.dictionaryPanel = $('#dictionary-panel');
-    this.dictionaryPanelWrapper = $('#dictionary-panel-wrapper');
-    this.dictionaryPanelHeader = $('#dictionary-panel-header');
-    this.dictionaryPanelHelp = $('#dictionary-panel-help');
-    this.dictionaryPanelContent = $('#dictionary-panel-content');
-    this.dictionaryPanelBreadcrumbs = $('#dictionary-panel-breadcrumbs');
-    this.dictionaryPanelStack = [];
+class WordStudyPanel {
+  constructor(wordStudyController) {
+    this.wordStudyController = wordStudyController;
+    this.wordStudyPanel = $('#word-study-panel');
+    this.wordStudyPanelWrapper = $('#word-study-panel-wrapper');
+    this.wordStudyPanelHeader = $('#word-study-panel-header');
+    this.wordStudyPanelHelp = $('#word-study-panel-help');
+    this.wordStudyPanelContent = $('#word-study-panel-content');
+    this.wordStudyPanelBreadcrumbs = $('#word-study-panel-breadcrumbs');
+    this.wordStudyPanelStack = [];
     this.currentStrongsEntry = null;
     this.currentFirstStrongsEntry = null;
     this.currentAdditionalStrongsEntries = [];
@@ -62,7 +62,7 @@ class DictionaryPanel {
   clear() {
     this.currentStrongsEntry = null;
 
-    var strongsAvailable = this.dictionaryController.strongsAvailable;
+    var strongsAvailable = this.wordStudyController.strongsAvailable;
     var dictionaryInstallStatus = i18n.t("general.installed");
     var dictionaryInstallStatusClass = 'dict-installed';
 
@@ -71,29 +71,29 @@ class DictionaryPanel {
       dictionaryInstallStatusClass = "dict-not-installed";
     }
 
-    this.dictionaryPanelWrapper.find('div').empty();
-    this.dictionaryPanelHeader[0].innerHTML = i18n.t("dictionary-panel.default-header",
+    this.wordStudyPanelWrapper.find('div').empty();
+    this.wordStudyPanelHeader[0].innerHTML = i18n.t("word-study-panel.default-header",
                                                        { interpolation: {escapeValue: false} });
 
-    let helpInstructionPart1 = i18n.t("dictionary-panel.help-instruction-part1", {
+    let helpInstructionPart1 = i18n.t("word-study-panel.help-instruction-part1", {
       install_status_class: dictionaryInstallStatusClass,
       install_status: dictionaryInstallStatus,
       interpolation: {escapeValue: false}
     });
 
-    let helpInstructionPart2 = i18n.t("dictionary-panel.help-instruction-part2");
+    let helpInstructionPart2 = i18n.t("word-study-panel.help-instruction-part2");
     let helpInstructionPart3 = "";
     let helpInstructionPart4 = "";
    
     if (platformHelper.isCordova()) {
-      helpInstructionPart3 = i18n.t("dictionary-panel.help-instruction-part3-cordova");
+      helpInstructionPart3 = i18n.t("word-study-panel.help-instruction-part3-cordova");
     } else {
-      helpInstructionPart3 = i18n.t("dictionary-panel.help-instruction-part3");
-      helpInstructionPart4 = `<li>${i18n.t("dictionary-panel.help-instruction-part4-desktop")}</li>`;
+      helpInstructionPart3 = i18n.t("word-study-panel.help-instruction-part3");
+      helpInstructionPart4 = `<li>${i18n.t("word-study-panel.help-instruction-part4-desktop")}</li>`;
     }
     
     let helpInstruction = html`
-      <p>${i18n.t("dictionary-panel.help-instruction-intro")}</p>
+      <p>${i18n.t("word-study-panel.help-instruction-intro")}</p>
       <ol>
         <li>${helpInstructionPart1}</li>
         <li>${helpInstructionPart2}</li>
@@ -102,8 +102,8 @@ class DictionaryPanel {
       </ol>
     `;
 
-    this.dictionaryPanelHelp[0].innerHTML = helpInstruction.innerHTML;
-    this.dictionaryPanelHelp[0].style.display = 'block';
+    this.wordStudyPanelHelp[0].innerHTML = helpInstruction.innerHTML;
+    this.wordStudyPanelHelp[0].style.display = 'block';
   }
 
   async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
@@ -117,7 +117,7 @@ class DictionaryPanel {
     }
 
     if (firstUpdate) {
-      this.dictionaryPanelStack = [ strongsEntry.rawKey ];
+      this.wordStudyPanelStack = [ strongsEntry.rawKey ];
     }
 
     this.currentStrongsEntry = strongsEntry;
@@ -125,25 +125,25 @@ class DictionaryPanel {
     this.currentLemma = jsStrongsEntry.lemma;
 
     var dictInfoHeader = this.getHeader(strongsEntry);
-    this.dictionaryPanelHeader.html(dictInfoHeader);
-    this.dictionaryPanelHelp.hide();
-    this.dictionaryPanelBreadcrumbs.html(this.getBreadcrumbs(additionalStrongsEntries));
+    this.wordStudyPanelHeader.html(dictInfoHeader);
+    this.wordStudyPanelHelp.hide();
+    this.wordStudyPanelBreadcrumbs.html(this.getBreadcrumbs(additionalStrongsEntries));
 
     let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
 
-    this.dictionaryPanelContent.html(extendedStrongsInfo);
+    this.wordStudyPanelContent.html(extendedStrongsInfo);
 
     // Replace sword:// links with plain text
-    this.dictionaryPanelContent.find('a').each((index, aElement) => {
+    this.wordStudyPanelContent.find('a').each((index, aElement) => {
       var currentA = $(aElement);
       if (currentA.prop('href').indexOf('sword') != -1) {
         currentA.replaceWith(currentA.text());
       }
     });
 
-    uiHelper.configureButtonStyles(this.dictionaryPanelContent[0]);
+    uiHelper.configureButtonStyles(this.wordStudyPanelContent[0]);
 
-    let moduleInfoButtons = this.dictionaryPanelContent[0].querySelectorAll('.module-info-button');
+    let moduleInfoButtons = this.wordStudyPanelContent[0].querySelectorAll('.module-info-button');
     moduleInfoButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
         this.handleModuleInfoButtonClick(event);
@@ -157,7 +157,7 @@ class DictionaryPanel {
   }
 
   getAlternativeStrongsLink(strongsKey) {
-    var functionCall = `app_controller.dictionary_controller._dictionaryPanel.updateWithKey("${strongsKey}")`;
+    var functionCall = `app_controller.word_study_controller._wordStudyPanel.updateWithKey("${strongsKey}")`;
     var currentLink = `<a href='javascript:${functionCall}'>${strongsKey}</a>`;
     return currentLink;
   }
@@ -183,7 +183,7 @@ class DictionaryPanel {
 
         var breadCrumbEntry = this.getBreadCrumbEntry(additionalStrongsEntries[i]);
 
-        if (this.dictionaryPanelStack.length == 1) {
+        if (this.wordStudyPanelStack.length == 1) {
           breadCrumbEntry = "<b>" + breadCrumbEntry + "</b>";
         }
 
@@ -198,28 +198,28 @@ class DictionaryPanel {
     var crumbArray = [];
     var additionalStrongsLinks = this.getAdditionalStrongsEntryLinks(additionalStrongsEntries);
 
-    for (var i = 0; i < this.dictionaryPanelStack.length; i++) {
+    for (var i = 0; i < this.wordStudyPanelStack.length; i++) {
       let currentCrumb;
-      if (i < this.dictionaryPanelStack.length - 1) {
-        const currentRewindNumber = this.dictionaryPanelStack.length - i - 1;
-        currentCrumb = "<a href='javascript:app_controller.dictionary_controller._dictionaryPanel.rewindStack(" + currentRewindNumber + ")'>";
+      if (i < this.wordStudyPanelStack.length - 1) {
+        const currentRewindNumber = this.wordStudyPanelStack.length - i - 1;
+        currentCrumb = "<a href='javascript:app_controller.word_study_controller._wordStudyPanel.rewindStack(" + currentRewindNumber + ")'>";
 
         if (i == 0) {
           currentCrumb += this.currentFirstStrongsEntry.rawKey;
         } else {
-          currentCrumb += this.dictionaryPanelStack[i];
+          currentCrumb += this.wordStudyPanelStack[i];
         }
 
         currentCrumb += "</a>";
       } else {
-        if (this.dictionaryPanelStack[i] == this.currentStrongsEntry.rawKey) {
-          currentCrumb = "<b>" + this.dictionaryPanelStack[i] + "</b>";
+        if (this.wordStudyPanelStack[i] == this.currentStrongsEntry.rawKey) {
+          currentCrumb = "<b>" + this.wordStudyPanelStack[i] + "</b>";
         } else {
-          currentCrumb = "<b>" + this.getAlternativeStrongsLink(this.dictionaryPanelStack[i]) + "</b>";
+          currentCrumb = "<b>" + this.getAlternativeStrongsLink(this.wordStudyPanelStack[i]) + "</b>";
         }
       }
 
-      if (i == 0 && this.dictionaryPanelStack.length == 1) {
+      if (i == 0 && this.wordStudyPanelStack.length == 1) {
         currentCrumb += additionalStrongsLinks;
       }
 
@@ -231,17 +231,17 @@ class DictionaryPanel {
 
   async rewindStack(rewindNumber) {
     for (var i = 0; i < rewindNumber; i++) {
-      this.dictionaryPanelStack.pop();
+      this.wordStudyPanelStack.pop();
 
       var key = null;
 
-      if (this.dictionaryPanelStack.length >= 2) {
-        key = this.dictionaryPanelStack[this.dictionaryPanelStack.length - 1];
+      if (this.wordStudyPanelStack.length >= 2) {
+        key = this.wordStudyPanelStack[this.wordStudyPanelStack.length - 1];
       } else {
         key = this.currentFirstStrongsEntry.rawKey;
       }
 
-      this.currentStrongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(key);
+      this.currentStrongsEntry = await this.wordStudyController.getStrongsEntryWithRawKey(key);
       this.currentLemma = this.getJsStrongs()[this.currentStrongsEntry.key].lemma;
     }
 
@@ -249,17 +249,17 @@ class DictionaryPanel {
   }
 
   async updateWithKey(strongsKey) {
-    var strongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(strongsKey);
+    var strongsEntry = await this.wordStudyController.getStrongsEntryWithRawKey(strongsKey);
 
     if (strongsEntry == null) {
-      console.log("DictionaryPanel.updateWithKey: Got null strongsEntry for key " + strongsKey);
+      console.log("WordStudyPanel.updateWithKey: Got null strongsEntry for key " + strongsKey);
       console.log("Cannot update dict info box!");
       return;
     }
 
-    // Remove existing entries from dictionaryPanelStack
-    while (this.dictionaryPanelStack.length > 1) {
-      this.dictionaryPanelStack.pop();
+    // Remove existing entries from wordStudyPanelStack
+    while (this.wordStudyPanelStack.length > 1) {
+      this.wordStudyPanelStack.pop();
     }
 
     await this.update(strongsEntry, this.currentAdditionalStrongsEntries);
@@ -270,9 +270,9 @@ class DictionaryPanel {
     var languageDict;
 
     if (strongsEntry.key[0] == 'G') {
-      languageDict = i18n.t('dictionary-panel.greek-dict');
+      languageDict = i18n.t('word-study-panel.greek-dict');
     } else {
-      languageDict = i18n.t('dictionary-panel.hebrew-dict');
+      languageDict = i18n.t('word-study-panel.hebrew-dict');
     }
 
     infoHeader += "<b>" + languageDict + "</b>";
@@ -285,11 +285,11 @@ class DictionaryPanel {
 
   getFindAllLink(strongsEntry) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var functionCall = "javascript:app_controller.dictionary_controller._dictionaryPanel.findAllOccurrences('" +
+    var functionCall = "javascript:app_controller.word_study_controller._wordStudyPanel.findAllOccurrences('" +
       strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
 
     var link = "<a href=\"" + functionCall + "\">" + 
-               i18n.t("dictionary-panel.find-all-occurrences") + 
+               i18n.t("word-study-panel.find-all-occurrences") + 
                "</a>";
     return link;
   }
@@ -306,7 +306,7 @@ class DictionaryPanel {
 
 
     var blueLetterLink = `https://www.blueletterbible.org/lang/lexicon/lexicon.cfm?Strongs=${strongsEntry.key}&t=${bible}`;
-    var blueLetterLinkText = i18n.t("dictionary-panel.open-in-blueletter");
+    var blueLetterLinkText = i18n.t("word-study-panel.open-in-blueletter");
     var htmlBlueLetterLink = `<a class='external' href='${blueLetterLink}'>${blueLetterLinkText}</a>`;
     return htmlBlueLetterLink;
   }
@@ -319,7 +319,7 @@ class DictionaryPanel {
     try {
       referenceStrongsEntry = await ipcNsi.getStrongsEntry(referenceKey);
     } catch (e) {
-      console.log("DictionaryPanel.getStrongsReferenceTableRow: Could not get strongs entry for key " + referenceKey);
+      console.log("WordStudyPanel.getStrongsReferenceTableRow: Could not get strongs entry for key " + referenceKey);
       return null;
     }
     
@@ -330,7 +330,7 @@ class DictionaryPanel {
 
     var referenceStrongsLemma = jsStrongsEntry.lemma;
 
-    var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller._dictionaryPanel.openStrongsReference('";
+    var referenceLink = "<a href=\"javascript:app_controller.word_study_controller._wordStudyPanel.openStrongsReference('";
     referenceLink += referenceKey;
     referenceLink += "')\">" + referenceKey + "</a>";
     var trClass = (isLastRow ? "" : "class='td-underline'");
@@ -389,7 +389,7 @@ class DictionaryPanel {
 
     const relatedStrongsContent = `
       <hr/>
-      <div class='bold dictionary-title'>${i18n.t("dictionary-panel.related-strongs")}</div>
+      <div class='bold dictionary-title'>${i18n.t("word-study-panel.related-strongs")}</div>
       <div class='dictionary-content'>
         <table class="strongs-refs">
         ${relatedStrongsRows}
@@ -404,16 +404,16 @@ class DictionaryPanel {
       return;
     } else {
       try {
-        var previousIndex = this.dictionaryPanelStack.length - 2;
+        var previousIndex = this.wordStudyPanelStack.length - 2;
         var previousKey = null;
 
         if (previousIndex == 0) {
           previousKey = this.currentFirstStrongsEntry.rawKey;
         } else {
-          previousKey = this.dictionaryPanelStack[previousIndex];
+          previousKey = this.wordStudyPanelStack[previousIndex];
         }
 
-        if (this.dictionaryPanelStack.length >= 2 && previousKey == key) {
+        if (this.wordStudyPanelStack.length >= 2 && previousKey == key) {
 
           // If the last element of the stack is the one that we want to navigate to ... just pop the stack
           this.rewindStack(1);
@@ -421,19 +421,19 @@ class DictionaryPanel {
         } else {
           // Otherwise push on the stack
 
-          var strongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(key);
+          var strongsEntry = await this.wordStudyController.getStrongsEntryWithRawKey(key);
 
           if (strongsEntry == null) {
-            console.log("DictionaryPanel.openStrongsReference: Got null strongsEntry for key " + key);
+            console.log("WordStudyPanel.openStrongsReference: Got null strongsEntry for key " + key);
             console.log("Cannot update dictionary panel!");
             return;
           }
 
-          if (this.dictionaryPanelStack.length == 1) {
+          if (this.wordStudyPanelStack.length == 1) {
             this.currentFirstStrongsEntry = this.currentStrongsEntry;
           }
 
-          this.dictionaryPanelStack.push(key);
+          this.wordStudyPanelStack.push(key);
           await this.update(strongsEntry, this.currentAdditionalStrongsEntries);
         }
       } catch (e) {
@@ -564,4 +564,4 @@ class DictionaryPanel {
   }
 }
 
-module.exports = DictionaryPanel;
+module.exports = WordStudyPanel;

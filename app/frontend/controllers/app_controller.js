@@ -35,7 +35,7 @@ const NavigationPane = require("../components/navigation_pane.js");
 const TranslationComparison = require("../components/tool_panel/translation_comparison.js");
 const CommentaryPanel = require("../components/tool_panel/commentary_panel.js");
 const BookSelectionMenu = require("../components/book_selection_menu.js");
-const DictionaryController = require("./dictionary_controller.js");
+const WordStudyController = require("./word_study_controller.js");
 const NotesController = require("./notes_controller.js");
 const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
@@ -101,7 +101,7 @@ class AppController {
     this.init_component("CommentaryPanel", "commentaryPanel");
     this.init_component("BookSelectionMenu", "book_selection_menu");
     this.init_component("VerseListPopup", "verse_list_popup");
-    this.init_component("DictionaryController", "dictionary_controller");
+    this.init_component("WordStudyController", "word_study_controller");
     this.init_component("NotesController", "notes_controller");
     this.init_component("SwordNotes", "sword_notes");
     this.init_component("InfoPopup", "info_popup");

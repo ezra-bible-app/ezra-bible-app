@@ -17,26 +17,26 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const DictionaryPanel = require('../components/tool_panel/dictionary_panel.js');
+const WordStudyPanel = require('../components/tool_panel/word_study_panel.js');
 const eventController = require('./event_controller.js');
-const verseListController = require('../controllers/verse_list_controller.js');
+const verseListController = require('./verse_list_controller.js');
 const VerseBox = require('../ui_models/verse_box.js');
 
 let jsStrongs = null;
 
 
 /**
- * The DictionaryController handles functionality for the lookup of dictionary information based on Strong's keys.
+ * The WordStudyController handles functionality for the lookup of dictionary information based on Strong's keys.
  * It handles the mouse move events when the user is hovering individual words in the text while holding SHIFT.
  * It handles the long presses on Android (alternative for mousemove).
  * It handles the state of the dictionary info box.
  * 
  * Like other controllers it is only initialized once. It is accessible at the
- * global object `app_controller.dictionary_controller`.
+ * global object `app_controller.word_study_controller`.
  * 
  * @category Controller
  */
-class DictionaryController {
+class WordStudyController {
   constructor() {
     this._isDictionaryOpen = false;
     this._currentStrongsIds = null;
@@ -46,7 +46,7 @@ class DictionaryController {
     this.strongsBox = $('#strongs-box');
     this.shiftKeyPressed = false;
     this.strongsAvailable = false;
-    this._dictionaryPanel = new DictionaryPanel(this);
+    this._wordStudyPanel = new WordStudyPanel(this);
     this._lastSelection = null;
     this._lastClickedReference = null;
 
@@ -110,7 +110,7 @@ class DictionaryController {
       await this.initMouseMoveOnWElements();
     });
 
-    eventController.subscribe('on-dictionary-panel-switched', isOpen => {
+    eventController.subscribe('on-word-study-panel-switched', isOpen => {
       this._isDictionaryOpen = isOpen;
 
       if (isOpen) {
@@ -145,7 +145,7 @@ class DictionaryController {
     this.strongsAvailable = await ipcNsi.strongsAvailable();
 
     if (this.strongsAvailable != oldStatus) {
-      this._dictionaryPanel.clear();
+      this._wordStudyPanel.clear();
     }
   }
 
@@ -158,7 +158,7 @@ class DictionaryController {
   }
 
   clearInfoBox() {
-    this._dictionaryPanel.clear();
+    this._wordStudyPanel.clear();
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {
@@ -279,7 +279,7 @@ class DictionaryController {
 
       strongsEntry['rawKey'] = rawKey;
     } catch (e) {
-      console.log("DictionaryController.getStrongsEntryWithRawKey: Got exception when getting strongs entry for key " + normalizedKey);
+      console.log("WordStudyController.getStrongsEntryWithRawKey: Got exception when getting strongs entry for key " + normalizedKey);
     }
 
     return strongsEntry;
@@ -378,7 +378,7 @@ class DictionaryController {
       }
 
       this.strongsBox.html(strongsShortInfo);
-      this._dictionaryPanel.update(firstStrongsEntry, additionalStrongsEntries, true);
+      this._wordStudyPanel.update(firstStrongsEntry, additionalStrongsEntries, true);
     } catch (e) {
       console.log(e);
     }
@@ -501,4 +501,4 @@ class DictionaryController {
   }
 }
 
-module.exports = DictionaryController;
+module.exports = WordStudyController;

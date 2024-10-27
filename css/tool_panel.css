@@ -215,7 +215,7 @@
   padding-left: 1em;
 }
 
-#dictionary-panel {
+#word-study-panel {
   user-select: none;
 }
 
@@ -240,43 +240,43 @@
   font-weight: bold;
 }
 
-#dictionary-panel-content .strongs-definition {
+#word-study-panel-content .strongs-definition {
   margin-top: 0;
   color: black;
 }
 
-.darkmode--activated #dictionary-panel-content .strongs-definition {
+.darkmode--activated #word-study-panel-content .strongs-definition {
   color: #cccccc;
 }
 
-#dictionary-panel-lock {
+#word-study-panel-lock {
   font-style: italic;
   color: grey;
   display: none;
 }
 
-#dictionary-panel-header {
+#word-study-panel-header {
   float: left;
 }
 
-#dictionary-panel-help li {
+#word-study-panel-help li {
   margin-bottom: 0.5em;
 }
 
-#dictionary-panel-wrapper a:link,
+#word-study-panel-wrapper a:link,
 #new-standard-tag-dialog a:link,
 #new-standard-tag-dialog a:visited {
   text-decoration: none;
   color: var(--accent-color);
 }
 
-.darkmode--activated #dictionary-panel-wrapper a:link,
+.darkmode--activated #word-study-panel-wrapper a:link,
 .darkmode--activated #new-standard-tag-dialog a:link,
 .darkmode--activated #new-standard-tag-dialog a:visited {
   color: var(--accent-color-darkmode);
 }
 
-#dictionary-panel a:hover,
+#word-study-panel a:hover,
 #new-standard-tag-dialog a:hover {
   text-decoration: underline;
 }

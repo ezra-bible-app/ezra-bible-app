@@ -2010,7 +2010,7 @@ code {
   background-color: gray;
 }
 
-#dictionary-panel-content hr {
+#word-study-panel-content hr {
   border: 1px solid var(--border-color);
 }
 

@@ -353,6 +353,7 @@
     "show-paragraphs": "Show paragraphs",
     "red-letters": "Highlight Jesus' words in red",
     "show-dictionary": "Show dictionary",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Show book/chapter navigation",
     "show-header-navigation": "Show header navigation",
     "show-tab-search": "Show current tab search",
@@ -397,7 +398,7 @@
       "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
     }
   },
-  "dictionary-panel": {
+  "word-study-panel": {
     "greek-dict": "Greek Dictionary",
     "hebrew-dict": "Hebrew Dictionary",
     "default-header": "<b>Dictionary</b>",

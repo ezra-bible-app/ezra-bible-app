@@ -238,7 +238,7 @@ class TranslationController {
     try {
       await ipcNsi.installModule("StrongsHebrew");
       await ipcNsi.installModule("StrongsGreek");
-      app_controller.dictionary_controller.runAvailabilityCheck();
+      app_controller.word_study_controller.runAvailabilityCheck();
       var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
       htmlElementForMessages.append(doneMessage);
     } catch(e) {
