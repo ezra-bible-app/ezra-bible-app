@@ -80,6 +80,7 @@ class DictionaryPanel {
     }
 
     helpContainer.classList.add('hidden');
+    selectEl.innerHTML = "";
 
     for (let i = 0; i < modules.length; i++) {
       let module = modules[i];
