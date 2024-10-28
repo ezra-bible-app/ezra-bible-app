@@ -431,7 +431,7 @@ class CommentaryPanel {
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
 
-          // We do not support Image modules
+          // We do not support Images
           if (currentCommentary.category == 'Images') {
             continue;
           }

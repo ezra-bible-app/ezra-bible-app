@@ -279,14 +279,20 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
       'Personal'    // The Personal Commentary module is not useful in the context of Ezra Bible App.
     ];
 
+    // We do not support these categories
+    const unsupportedCategories = [
+      'Images',
+      'Maps',
+      'Daily Devotional'
+    ];
+
     for (const swordModule of currentRepoLangModules) {
 
       if (hiddenModules.includes(swordModule.name)) {
         continue;
       }
 
-      // We do not support Image modules
-      if (swordModule.category == "Images") {
+      if (unsupportedCategories.includes(swordModule.category)) {
         continue;
       }
 
