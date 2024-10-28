@@ -79,7 +79,7 @@ class DictionaryPanel {
     }
 
     $(selectEl).selectmenu({
-      width: 300,
+      width: 250,
       change: () => {
         let selectedModuleCode = selectEl.value;
         this.handleDictionaryChange(selectedModuleCode);
