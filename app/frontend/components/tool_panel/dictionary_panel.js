@@ -36,6 +36,11 @@ class DictionaryPanel {
         this.getKeyContainer().style.display = 'none';
       }
     });
+
+    
+    eventController.subscribeMultiple(['on-dictionary-added', 'on-dictionary-removed'], (moduleCode) => {
+      this.refreshDictionaries();
+    });
   }
 
   isPanelActive() {
@@ -58,12 +63,23 @@ class DictionaryPanel {
 
   async refreshDictionaries() {
     let modules = await this.getDictModules();
+    let helpContainer = document.getElementById('dictionary-panel-help-no-dicts');
+    let selectEl = this.getSelectElement();
+    let selectMenu = document.getElementById('dictionary-panel-select-button');
 
     if (modules.length == 0) {
+      helpContainer.classList.remove('hidden');
+      selectEl.classList.add('hidden');
+      this.getKeyContainer().innerHTML = '';
+
+      if (selectMenu != null) {
+        selectMenu.classList.add('hidden');
+      }
+
       return;
     }
 
-    let selectEl = this.getSelectElement();
+    helpContainer.classList.add('hidden');
 
     for (let i = 0; i < modules.length; i++) {
       let module = modules[i];
@@ -76,6 +92,12 @@ class DictionaryPanel {
       }
 
       selectEl.append(option);
+    }
+
+    selectEl.classList.remove('hidden');
+
+    if (selectMenu != null) {
+      selectMenu.classList.remove('hidden');
     }
 
     $(selectEl).selectmenu({

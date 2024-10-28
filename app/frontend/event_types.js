@@ -30,7 +30,7 @@
  * @typedef { "on-tab-search-results-available" | "on-tab-search-reset" } TabSearchEvents
  */
 /**
- * @typedef { "on-all-translations-removed" | "on-translation-removed" | "on-translation-added" | "on-dictionary-added" | "on-commentary-added" | "on-commentary-removed" } ModuleAssistantEvents
+ * @typedef { "on-all-translations-removed" | "on-translation-removed" | "on-translation-added" | "on-dictionary-added" | "on-dictionary-removed" | "on-commentary-added" | "on-commentary-removed" } ModuleAssistantEvents
  */
 /**
  * @typedef { "on-repo-update-started" | "on-repo-update-progress" | "on-repo-update-completed" } RepoUpdateEvents
