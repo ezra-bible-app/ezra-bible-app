@@ -414,6 +414,10 @@
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs"
   },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available."
+  },
   "tag-statistics-panel": {
     "default-header": "Tag-statistieken",
     "help-instruction-part1": "Hier ziet u statistieken van tags op basis van hoe vaak ze in een boek gebruikt worden.",

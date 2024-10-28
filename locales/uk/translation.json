@@ -413,6 +413,10 @@
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
     "related-strongs": "Пов'язані числа Стронга"
   },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available."
+  },
   "tag-statistics-panel": {
     "default-header": "Перелік міт",
     "help-instruction-part1": "Тут буде відображенно перелік міт за частотою їх вживання у поточній книзі.",

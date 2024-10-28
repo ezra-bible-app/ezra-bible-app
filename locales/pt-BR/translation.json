@@ -410,6 +410,10 @@
     "open-in-blueletter": "Abrir na Bíblia Blue Letter",
     "related-strongs": "Strong's relacionados"
   },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available."
+  },
   "tag-statistics-panel": {
     "default-header": "Estatísticas de etiquetas",
     "help-instruction-part1": "Aqui você verá estatísticas das etiquetas com base na frequência em que são utilizadas em cada livro.",

@@ -412,6 +412,10 @@
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
     "related-strongs": "(Strong's) Concordanțe asociate"
   },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available."
+  },
   "tag-statistics-panel": {
     "default-header": "Statistici etichete",
     "help-instruction-part1": "Aici vei vedea statistici ale etichetelor bazate pe frecvența cu care sunt utilizate într-o carte.",

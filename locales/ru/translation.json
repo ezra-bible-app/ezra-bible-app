@@ -415,6 +415,10 @@
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"
   },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available."
+  },
   "tag-statistics-panel": {
     "default-header": "Статистика меток",
     "help-instruction-part1": "Здесь будет отображенна статистика меток согласно часту использования в текущей книге.",

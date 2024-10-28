@@ -408,6 +408,10 @@
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's"
   },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available."
+  },
   "tag-statistics-panel": {
     "default-header": "Tag Statistiken",
     "help-instruction-part1": "Hier sehen Sie Tag Statistiken an Hand der Häufigkeit der Vorkommnisse in einem Buch.",

@@ -423,6 +423,10 @@
     "open-in-blueletter": "Ouvrir dans la Blue Letter Bible",
     "related-strongs": "Strong associés"
   },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available."
+  },
   "tag-statistics-panel": {
     "default-header": "Statistiques des étiquettes",
     "help-instruction-part1": "Ici, vous verrez des statistiques d'étiquettes basées sur la fréquence à laquelle elles sont utilisées dans un livre.",

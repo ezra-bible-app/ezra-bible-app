@@ -410,6 +410,10 @@
     "open-in-blueletter": "Odpri v Blue Letter Bible",
     "related-strongs": "Sorodne Strongove knjige"
   },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available."
+  },
   "tag-statistics-panel": {
     "default-header": "Statistika oznak",
     "help-instruction-part1": "Tukaj boste videli statistiko oznak glede na to, kako pogosto so uporabljene v knjigi.",

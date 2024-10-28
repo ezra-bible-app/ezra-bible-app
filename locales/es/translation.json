@@ -410,6 +410,10 @@
     "open-in-blueletter": "Abrir en Blue Letter Bible",
     "related-strongs": "Números Strongs relacionados"
   },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available."
+  },
   "tag-statistics-panel": {
     "default-header": "Estadística de etiquetas",
     "help-instruction-part1": "Aquí usted podrá consultar estadísticas basadas en cuantas ocasiones se usa una etiqueta en un libro.",

@@ -412,6 +412,10 @@
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
     "related-strongs": "Súvisiace Strongy"
   },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available."
+  },
   "tag-statistics-panel": {
     "default-header": "Štatistika značiek",
     "help-instruction-part1": "Tu uvidíte štatistiku štítkov podľa toho, ako často sa používajú v knihe.",
