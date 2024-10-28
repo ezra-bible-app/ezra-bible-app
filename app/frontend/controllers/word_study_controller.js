@@ -174,32 +174,33 @@ class WordStudyController {
       return;
     }
     
-    /**@type {HTMLElement}*/
-    const currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex)[0];
-    
-    const verseTextElements = currentVerseListFrame.querySelectorAll('.verse-text');
+    if (platformHelper.isElectron()) {
+      /**@type {HTMLElement}*/
+      const currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex)[0];
+      const verseTextElements = currentVerseListFrame.querySelectorAll('.verse-text');
 
-    for (let i = 0; i < verseTextElements.length; i++) {
-      let verseElement = verseTextElements[i];
+      for (let i = 0; i < verseTextElements.length; i++) {
+        let verseElement = verseTextElements[i];
 
-      verseElement.addEventListener('mousemove', (event) => {
-        var currentTab = app_controller.tab_controller.getTab();
-        currentTab.tab_search.blurInputField();
-        this.highlightStrongsInVerse(verseElement);
-      });
+        verseElement.addEventListener('mousemove', (event) => {
+          var currentTab = app_controller.tab_controller.getTab();
+          currentTab.tab_search.blurInputField();
+          this.highlightStrongsInVerse(verseElement);
+        });
 
-      verseElement.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
+        verseElement.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
 
-        const reference = this.getReferenceFromVerseText(event.target);
+          const reference = this.getReferenceFromVerseText(event.target);
 
-        if (this._lastClickedReference == reference) {
-          this._lastClickedReference = null;
-        } else {
-          this._lastClickedReference = reference;
-        }
-      });
+          if (this._lastClickedReference == reference) {
+            this._lastClickedReference = null;
+          } else {
+            this._lastClickedReference = reference;
+          }
+        });
+      }
     }
 
     this.initMouseMoveOnWElements(tabIndex);
@@ -222,7 +223,7 @@ class WordStudyController {
         let currentTab = app_controller.tab_controller.getTab();
         currentTab.tab_search.blurInputField();
 
-        if (reference != this._lastClickedReference) {
+        if (platformHelper.isCordova() || reference != this._lastClickedReference) {
           await this._handleMouseMove(e);
         }
       });
