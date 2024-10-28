@@ -121,9 +121,12 @@ class DictionaryPanel {
 
           lastItemCharacter = firstCharacter;
         }
-      }
 
-      htmlList += "</ul></li></ul>";
+        htmlList += "</ul></li></ul>";
+      } else {
+
+        htmlList += "</ul>";
+      }
 
       this.getKeyContainer().innerHTML = htmlList;
       this.getKeyContainer().scrollTop = 0;
