@@ -52,8 +52,16 @@ class DictionaryPanel {
     return document.getElementById('dictionary-panel-select');
   }
 
+  getPanel() {
+    return document.getElementById('dictionary-panel-wrapper');
+  }
+
   getKeyContainer() {
     return document.getElementById('dictionary-panel-keys');
+  }
+
+  getContentContainer() {
+    return document.getElementById('dictionary-panel-content');
   }
 
   init() {
@@ -161,12 +169,9 @@ class DictionaryPanel {
         marker.addEventListener('click', (event) => {
           event.preventDefault();
           event.stopPropagation();
-
           this.handleSectionMarkerClick(event, allSections);
-
         });
       });
-
     }, 500);
   }
 
@@ -180,11 +185,39 @@ class DictionaryPanel {
       });
 
       section.classList.remove('hidden');
+
+
+      let allKeys = section.querySelectorAll('.dict-key');
+      allKeys.forEach((key) => {
+        const EVENT_CLASS = 'event-init-done';
+
+        if (!key.classList.contains(EVENT_CLASS)) {
+          key.classList.add(EVENT_CLASS);
+          key.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.handleKeyClick(event.target);
+          });
+        }
+      });
+
     } else {
       section.classList.add('hidden');
     }
 
     liElement.scrollIntoView();
+  }
+
+  async handleKeyClick(key) {
+    const currentDictionary = this.getSelectElement().value;
+    const keyValue = key.innerText;
+    let dictContent = await ipcNsi.getRawModuleEntry(currentDictionary, keyValue);
+
+    dictContent = dictContent.replaceAll('<lb', '<p');
+    dictContent = dictContent.replaceAll('lb>', 'p>');
+
+    this.getPanel().classList.add('dict-entry-shown');
+    this.getContentContainer().innerHTML = dictContent;
   }
 
   async getDictModules() {

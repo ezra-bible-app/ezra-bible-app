@@ -33,6 +33,23 @@
   height: calc(100% - 2.8em);
 }
 
+#dictionary-panel-wrapper.dict-entry-shown #dictionary-panel-keys {
+  height: calc(50% - 2.8em);
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+#dictionary-panel-wrapper.dict-entry-shown #dictionary-panel-content {
+  height: calc(50% - 1.1em);
+  display: block !important;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 0.5em;
+  padding-left: 1em;
+  padding-top: 0;
+  overflow-y: scroll;
+}
+
 .dictionary-accordion-button {
   color: var(--button-color);
   margin-right: 0.5em;
@@ -56,4 +73,8 @@
 .alphabetical-section {
   list-style-type: none;
   padding-inline-start: 1.5em;
+}
+
+.dict-key {
+  cursor: pointer;
 }
