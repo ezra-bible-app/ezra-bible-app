@@ -411,7 +411,7 @@
     "related-strongs": "Números Strongs relacionados"
   },
   "dictionary-panel": {
-    "default-header": "<b>Dictionary</b>",
+    "default-header": "<b>Diccionario</b>",
     "help-no-dicts": "There are no dictionaries available."
   },
   "tag-statistics-panel": {
