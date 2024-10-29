@@ -30,7 +30,7 @@
   margin-top: 1em;
   border-radius: 5px;
   overflow-y: scroll;
-  height: calc(100% - 3.5em);
+  height: calc(100% - 2.8em);
 }
 
 .dictionary-accordion-button {
