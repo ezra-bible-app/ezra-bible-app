@@ -34,13 +34,13 @@
 }
 
 #dictionary-panel-wrapper.dict-entry-shown #dictionary-panel-keys {
-  height: calc(40% - 2.8em);
+  height: calc(50% - 2.8em);
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
 
 #dictionary-panel-wrapper.dict-entry-shown #dictionary-panel-content {
-  height: calc(60% - 1.1em);
+  height: calc(50% - 1.1em);
   display: block !important;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -51,7 +51,17 @@
 }
 
 #dictionary-panel-content p {
-  margin: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Insert a line break before the first reference in a block */
+#dictionary-panel-content p ref:first-of-type:before,
+#dictionary-panel-content ul li ref:first-of-type:before
+{
+  content: ' ';
+  clear: right;
+  display: block;
 }
 
 .dictionary-accordion-button {
@@ -81,4 +91,13 @@
 
 .dict-key {
   cursor: pointer;
+}
+
+.dict-key.selected {
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.darkmode--activated .dict-key.selected {
+  color: var(--accent-color-darkmode);
 }

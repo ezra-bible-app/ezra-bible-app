@@ -22,6 +22,7 @@ const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 class DictionaryPanel {
   constructor() {
     this._initDone = false;
+    this._currentKey = null;
 
     eventController.subscribe('on-dictionary-panel-switched', (isOpen) => {
       if (isOpen && !this._initDone) {
@@ -215,9 +216,21 @@ class DictionaryPanel {
 
     dictContent = dictContent.replaceAll('<lb', '<p');
     dictContent = dictContent.replaceAll('lb>', 'p>');
+    dictContent = dictContent.replaceAll('<list>', '<ul>');
+    dictContent = dictContent.replaceAll('</list>', '</ul>');
+    dictContent = dictContent.replaceAll('<item>', '<li>');
+    dictContent = dictContent.replaceAll('</item>', '</li>');
 
     this.getPanel().classList.add('dict-entry-shown');
     this.getContentContainer().innerHTML = dictContent;
+
+    if (this._currentKey != null) {
+      this._currentKey.classList.remove('selected');
+    }
+
+    this._currentKey = key;
+    key.classList.add('selected');
+    key.scrollIntoViewIfNeeded();
   }
 
   async getDictModules() {
