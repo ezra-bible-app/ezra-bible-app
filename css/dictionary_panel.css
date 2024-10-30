@@ -33,6 +33,24 @@
   height: calc(100% - 3.3em);
 }
 
+/* PORTRAIT */
+@media screen and (max-aspect-ratio: 13/10) {
+  #dictionary-panel-wrapper {
+    padding-top: 0.5em !important;
+    padding-right: 0.2em !important;
+    padding-bottom: 0.1em !important;
+  }
+
+  #dictionary-panel-keys {
+    margin-top: 0.5em !important;
+  }
+
+  .ui-selectmenu-status,
+  .ui-selectmenu-menu li a {
+    line-height: 1em !important;
+  }
+}
+
 #dictionary-panel-wrapper.dict-entry-shown #dictionary-panel-keys {
   height: calc(50% - 2.8em);
   border-bottom-left-radius: 0px;
