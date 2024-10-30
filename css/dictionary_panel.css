@@ -30,7 +30,7 @@
   margin-top: 1em;
   border-radius: 5px;
   overflow-y: scroll;
-  height: calc(100% - 2.8em);
+  height: calc(100% - 3.3em);
 }
 
 #dictionary-panel-wrapper.dict-entry-shown #dictionary-panel-keys {
@@ -53,6 +53,10 @@
 #dictionary-panel-content p {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+}
+
+#dictionary-panel-content ul {
+  padding-left: 2em;
 }
 
 /* Insert a line break before the first reference in a block */
