@@ -91,6 +91,8 @@
 
 .dict-key {
   cursor: pointer;
+  margin-left: 1.5em;
+  text-indent: -1.5em;
 }
 
 .dict-key.selected {
