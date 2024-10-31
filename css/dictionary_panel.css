@@ -45,8 +45,8 @@
     margin-top: 0.5em !important;
   }
 
-  .ui-selectmenu-status,
-  .ui-selectmenu-menu li a {
+  #dictionary-panel-wrapper .ui-selectmenu-status,
+  #dictionary-panel-wrapper .ui-selectmenu-menu li a {
     line-height: 1em !important;
   }
 }
