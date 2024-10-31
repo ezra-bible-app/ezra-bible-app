@@ -125,11 +125,13 @@
   color: var(--accent-color-darkmode);
 }
 
-#dictionary-panel-content ref {
+#dictionary-panel-content ref,
+#dictionary-panel-content scripref {
   color: var(--accent-color);
   cursor: pointer;
 }
 
-#dictionary-panel-content ref:hover {
+#dictionary-panel-content ref:hover,
+#dictionary-panel-content scripref:hover {
   text-decoration: underline;
 }
