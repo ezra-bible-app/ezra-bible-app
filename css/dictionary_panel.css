@@ -58,13 +58,12 @@
 }
 
 #dictionary-panel-wrapper.dict-entry-shown #dictionary-panel-content {
-  height: calc(50% - 1.1em);
+  height: calc(50% - 1.6em);
   display: block !important;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 0.5em;
   padding-left: 1em;
-  padding-top: 0;
   overflow-y: scroll;
 }
 
@@ -124,4 +123,13 @@
 
 .darkmode--activated .dict-key.selected {
   color: var(--accent-color-darkmode);
+}
+
+#dictionary-panel-content ref {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+#dictionary-panel-content ref:hover {
+  text-decoration: underline;
 }
