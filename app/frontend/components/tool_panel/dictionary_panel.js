@@ -122,6 +122,17 @@ class DictionaryPanel {
   }
 
   async handleDictionaryChange(selectedModule) {
+
+    this.closeDictEntry();
+
+    this.getKeyContainer().innerHTML = `
+    <div class='loader' style='margin-left: 40%; margin-top: 2.5em;'>
+      <div class='bounce1'></div>
+      <div class='bounce2'></div>
+      <div class='bounce3'></div>
+    </div>
+    `;
+
     setTimeout(async () => {
       let keys = await ipcNsi.getDictModuleKeys(selectedModule);
 
@@ -159,8 +170,6 @@ class DictionaryPanel {
 
         htmlList += "</ul>";
       }
-
-      this.closeDictEntry();
 
       this.getKeyContainer().innerHTML = htmlList;
       this.getKeyContainer().scrollTop = 0;
