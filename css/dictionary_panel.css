@@ -34,6 +34,10 @@
   height: calc(100% - 5.2em);
 }
 
+.Android #dictionary-panel-keys {
+  height: calc(100% - 5.6em);
+}
+
 #dict-entry-header {
   display: none;
 }
@@ -47,7 +51,7 @@
   }
 
   #dictionary-panel-keys {
-    height: calc(100% - 4.5em) !important;
+    height: calc(100% - 4.6em) !important;
   }
 
   #dictionary-panel.dict-entry-shown #dictionary-panel-keys {
@@ -85,6 +89,10 @@
   padding: 0.5em;
   padding-left: 1em;
   overflow-y: scroll;
+}
+
+.Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+  height: calc(50% - 3.8em);
 }
 
 #dictionary-panel-content p {
