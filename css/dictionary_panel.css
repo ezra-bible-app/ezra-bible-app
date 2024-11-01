@@ -47,7 +47,7 @@
   }
 
   #dictionary-panel-keys {
-    height: calc(100% - 4.4em) !important;
+    height: calc(100% - 4.5em) !important;
   }
 
   #dictionary-panel.dict-entry-shown #dictionary-panel-keys {
@@ -56,7 +56,7 @@
 
   #dictionary-panel.dict-entry-shown #dictionary-panel-content {
     border-top: 0;
-    height: calc(100% - 5.4em) !important;
+    height: calc(100% - 5.5em) !important;
   }
 
   #dictionary-panel-wrapper .ui-selectmenu-status,
