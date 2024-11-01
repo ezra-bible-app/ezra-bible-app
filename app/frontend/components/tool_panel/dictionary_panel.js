@@ -160,6 +160,8 @@ class DictionaryPanel {
         htmlList += "</ul>";
       }
 
+      this.closeDictEntry();
+
       this.getKeyContainer().innerHTML = htmlList;
       this.getKeyContainer().scrollTop = 0;
 
@@ -213,8 +215,8 @@ class DictionaryPanel {
     const currentDictionary = this.getSelectElement().value;
     const keyValue = key.innerText;
 
-    let dictHeader = `<b id='dict-entry-header'>${keyValue}</b>`;
-    let closeIcon = '<div class="close-icon icon"><i class="fa-solid fa-rectangle-xmark"></i></div>';
+    let dictHeader = `<div id='dict-entry-header'>${keyValue}</div>`;
+    let closeIcon = `<div class='close-icon icon'><i class='fa-solid fa-rectangle-xmark'></i></div><br/>`;
     let dictContent = await ipcNsi.getRawModuleEntry(currentDictionary, keyValue);
 
     dictContent = dictContent.replaceAll('<lb', '<p');
@@ -244,9 +246,13 @@ class DictionaryPanel {
   }
 
   closeDictEntry() {
-    this._currentKey.classList.remove('selected');
-    this.getPanel().classList.remove('dict-entry-shown');
-    this.getContentContainer().innerHTML = '';
+    if (this._currentKey != null) {
+      this._currentKey.classList.remove('selected');
+      this.getPanel().classList.remove('dict-entry-shown');
+      this.getContentContainer().innerHTML = '';
+    }
+
+    this._currentKey = null;
   }
 
   async getDictModules() {
