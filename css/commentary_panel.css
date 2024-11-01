@@ -66,24 +66,6 @@
   width: unset !important;
 }
 
-#commentary-panel-reference-box .icon {
-  float: right;
-  margin-left: 0.7em;
-  cursor: pointer;
-}
-
-#commentary-panel-reference-box .icon i {
-  color: var(--button-color);
-}
-
-.darkmode--activated #commentary-panel-reference-box .icon i {
-  color: var(--button-color-dark);
-}
-
-#commentary-panel-reference-box .icon i:hover {
-  color: var(--accent-color);
-}
-
 #commentary-panel-reference-box .sword-markup {
   display: unset;
 }

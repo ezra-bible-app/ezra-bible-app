@@ -362,7 +362,7 @@ class CommentaryPanel {
 
     let tabIconTitle = i18n.t('bible-browser.open-new-tab');
     let tabIcon = `<div class="tab-icon icon" title="${tabIconTitle}"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>`;
-    let closeIcon = '<div class="close-icon icon" style="font-size: 110%"><i class="fa-solid fa-rectangle-xmark"></i></div>';
+    let closeIcon = '<div class="close-icon icon"><i class="fa-solid fa-rectangle-xmark"></i></div>';
 
     const commentaryPanelReferenceBox = this.getReferenceBox();
     commentaryPanelReferenceBox.innerHTML = closeIcon + tabIcon + verseContent;

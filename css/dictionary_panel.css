@@ -21,16 +21,21 @@
 }
 
 #dictionary-panel-wrapper {
-  box-sizing: border-box;
   padding: 1em !important;
-  height: calc(100% - 2.6em);
+  height: 2em;
+  overflow: hidden;
 }
 
 #dictionary-panel-keys {
-  margin-top: 1em;
-  border-radius: 5px;
+  border-top: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   overflow-y: scroll;
-  height: calc(100% - 3.3em);
+  height: calc(100% - 5.2em);
+}
+
+#dict-entry-header {
+  display: none;
 }
 
 /* PORTRAIT */
@@ -42,23 +47,36 @@
   }
 
   #dictionary-panel-keys {
-    margin-top: 0.5em !important;
+    height: calc(100% - 4.2em) !important;
+  }
+
+  #dictionary-panel.dict-entry-shown #dictionary-panel-keys {
+    display: none !important;
+  }
+
+  #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+    border-top: 0;
+    height: calc(100% - 5.2em) !important;
   }
 
   #dictionary-panel-wrapper .ui-selectmenu-status,
   #dictionary-panel-wrapper .ui-selectmenu-menu li a {
     line-height: 1em !important;
   }
+
+  #dict-entry-header {
+    display: unset;
+  }
 }
 
-#dictionary-panel-wrapper.dict-entry-shown #dictionary-panel-keys {
+#dictionary-panel.dict-entry-shown #dictionary-panel-keys {
   height: calc(50% - 2.8em);
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
 
-#dictionary-panel-wrapper.dict-entry-shown #dictionary-panel-content {
-  height: calc(50% - 1.6em);
+#dictionary-panel.dict-entry-shown #dictionary-panel-content {
+  height: calc(50% - 3.5em);
   display: block !important;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;

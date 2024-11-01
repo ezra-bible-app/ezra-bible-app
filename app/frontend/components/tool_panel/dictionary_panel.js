@@ -54,7 +54,7 @@ class DictionaryPanel {
   }
 
   getPanel() {
-    return document.getElementById('dictionary-panel-wrapper');
+    return document.getElementById('dictionary-panel');
   }
 
   getKeyContainer() {
@@ -111,7 +111,7 @@ class DictionaryPanel {
     }
 
     $(selectEl).selectmenu({
-      width: 250,
+      width: 200,
       change: () => {
         let selectedModuleCode = selectEl.value;
         this.handleDictionaryChange(selectedModuleCode);
@@ -212,6 +212,9 @@ class DictionaryPanel {
   async handleKeyClick(key) {
     const currentDictionary = this.getSelectElement().value;
     const keyValue = key.innerText;
+
+    let dictHeader = `<b id='dict-entry-header'>${keyValue}</b>`;
+    let closeIcon = '<div class="close-icon icon"><i class="fa-solid fa-rectangle-xmark"></i></div>';
     let dictContent = await ipcNsi.getRawModuleEntry(currentDictionary, keyValue);
 
     dictContent = dictContent.replaceAll('<lb', '<p');
@@ -222,7 +225,14 @@ class DictionaryPanel {
     dictContent = dictContent.replaceAll('</item>', '</li>');
 
     this.getPanel().classList.add('dict-entry-shown');
-    this.getContentContainer().innerHTML = dictContent;
+    this.getContentContainer().innerHTML = dictHeader + closeIcon + dictContent;
+
+    this.getContentContainer().querySelector('.close-icon').addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.closeDictEntry();
+    });
 
     if (this._currentKey != null) {
       this._currentKey.classList.remove('selected');
@@ -231,6 +241,12 @@ class DictionaryPanel {
     this._currentKey = key;
     key.classList.add('selected');
     key.scrollIntoViewIfNeeded();
+  }
+
+  closeDictEntry() {
+    this._currentKey.classList.remove('selected');
+    this.getPanel().classList.remove('dict-entry-shown');
+    this.getContentContainer().innerHTML = '';
   }
 
   async getDictModules() {
