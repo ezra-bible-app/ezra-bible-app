@@ -316,7 +316,7 @@ class CommentaryPanel {
       if (newTabOption.isChecked) {
         await app_controller.verse_list_popup.openVerseListInNewTab();
       } else {
-        await app_controller.verse_list_popup.openVerseListPopup(event, 'COMMENTARY_XREFS');
+        await app_controller.verse_list_popup.openVerseListPopup(event, 'COMMENTARY_DICT_XREFS');
       }
 
     } else if (app_controller.verse_list_popup.currentXrefs.length > 0) {

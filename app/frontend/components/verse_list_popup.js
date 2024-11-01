@@ -181,7 +181,7 @@ class VerseListPopup {
 
       await app_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
 
-    } else if (this.currentReferenceType == 'XREFS' || this.currentReferenceType == 'COMMENTARY_XREFS') {
+    } else if (this.currentReferenceType == 'XREFS' || this.currentReferenceType == 'COMMENTARY_DICT_XREFS') {
 
       await app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
@@ -266,8 +266,8 @@ class VerseListPopup {
   }
 
   async initCurrentCommentaryXrefs(clickedElement) {
-    this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_XREFS");
-    this.currentReferenceType = "COMMENTARY_XREFS";
+    this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_DICT_XREFS");
+    this.currentReferenceType = "COMMENTARY_DICT_XREFS";
     this.currentReferenceVerseBox = $(app_controller.verse_selection.getSelectedVerseBoxes()[0]);
 
     if (clickedElement.hasAttribute('osisref')) {
@@ -356,7 +356,7 @@ class VerseListPopup {
 
       popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
 
-    } else if (referenceType == "COMMENTARY_XREFS") {
+    } else if (referenceType == "COMMENTARY_DICT_XREFS") {
 
       const verseBox = app_controller.verse_selection.getSelectedVerseBoxes()[0];
       localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox);
@@ -371,7 +371,7 @@ class VerseListPopup {
 
   /**
    * @param event The click event
-   * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS" or "COMMENTARY_XREFS")
+   * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS" or "COMMENTARY_DICT_XREFS")
    */
   async openVerseListPopup(event, referenceType, onlyCurrentBook=false) {
     if (!this.dialogInitDone) {
@@ -397,7 +397,7 @@ class VerseListPopup {
       loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-verses');
       await this.loadXrefs(event.target, currentTabId, currentTabIndex);
 
-    } else if (referenceType == "COMMENTARY_XREFS") {
+    } else if (referenceType == "COMMENTARY_DICT_XREFS") {
 
       loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-verses');
       await this.loadXrefs(null, currentTabId, currentTabIndex);
@@ -413,7 +413,7 @@ class VerseListPopup {
     if (!platformHelper.isMobile()) {
       dialogOptions.width = uiHelper.getMaxDialogWidth();
 
-      if (referenceType != "COMMENTARY_XREFS") {
+      if (referenceType != "COMMENTARY_DICT_XREFS") {
         var verse_box = $(event.target).closest('.verse-box');
 
         if (verse_box.length != 0) {
