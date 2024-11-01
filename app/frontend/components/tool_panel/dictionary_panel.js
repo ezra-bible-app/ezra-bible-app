@@ -216,7 +216,7 @@ class DictionaryPanel {
     const keyValue = key.innerText;
 
     let dictHeader = `<div id='dict-entry-header'>${keyValue}</div>`;
-    let closeIcon = `<div class='close-icon icon'><i class='fa-solid fa-rectangle-xmark'></i></div><br/>`;
+    let closeIcon = `<div class='close-icon icon'><i class='fa-solid fa-rectangle-xmark'></i></div><br id='dict-entry-header-separator' />`;
     let dictContent = await ipcNsi.getRawModuleEntry(currentDictionary, keyValue);
 
     dictContent = dictContent.replaceAll('<lb', '<p');

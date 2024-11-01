@@ -42,6 +42,10 @@
   display: none;
 }
 
+#dict-entry-header-separator {
+  display: none;
+}
+
 /* PORTRAIT */
 @media screen and (max-aspect-ratio: 13/10) {
   #dictionary-panel-wrapper {
@@ -72,6 +76,10 @@
     display: inline-block;
     margin-bottom: 0.5em;
     font-weight: bold;
+  }
+
+  #dict-entry-header {
+    display: unset;
   }
 }
 
