@@ -80,7 +80,7 @@ class ReferenceBoxHelper {
       verseContent += `<div>${currentBook} ${formattedVerseList}</div>`;
     }
 
-    verseContent = '<div class="panel-content verse-text" style="margin-top: 1em;">' + verseContent + '</div>';
+    verseContent = '<div class="verse-text panel-content" style="margin-top: 1em;">' + verseContent + '</div>';
 
     let tabIconTitle = i18n.t('bible-browser.open-new-tab');
     let tabIcon = `<div class="tab-icon icon" title="${tabIconTitle}"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>`;

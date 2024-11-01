@@ -18,6 +18,7 @@
 
 const eventController = require('../../controllers/event_controller.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+const ReferenceBoxHelper = require('./reference_box_helper.js');
 
 class DictionaryPanel {
   constructor() {
@@ -42,6 +43,8 @@ class DictionaryPanel {
     eventController.subscribeMultiple(['on-dictionary-added', 'on-dictionary-removed'], (moduleCode) => {
       this.refreshDictionaries();
     });
+
+    this._referenceBoxHelper = new ReferenceBoxHelper(this.getPanel(), this.getReferenceBox());
   }
 
   isPanelActive() {
@@ -63,6 +66,10 @@ class DictionaryPanel {
 
   getContentContainer() {
     return document.getElementById('dictionary-panel-content');
+  }
+
+  getReferenceBox() {
+    return document.getElementById('dictionary-panel-reference-box');
   }
 
   init() {
@@ -122,6 +129,7 @@ class DictionaryPanel {
   }
 
   async handleDictionaryChange(selectedModule) {
+    this._currentDict = selectedModule;
 
     this.closeDictEntry();
 
@@ -236,7 +244,22 @@ class DictionaryPanel {
     dictContent = dictContent.replaceAll('</item>', '</li>');
 
     this.getPanel().classList.add('dict-entry-shown');
-    this.getContentContainer().innerHTML = dictHeader + closeIcon + dictContent;
+    this.getContentContainer().setAttribute('module', this._currentDict);
+    this.getContentContainer().innerHTML = dictHeader + closeIcon + `<div class='dict-entry panel-content'>${dictContent}</div>`;
+
+    let referenceElements = this.getContentContainer().querySelectorAll('ref');
+    referenceElements.forEach((reference) => {
+      reference.addEventListener('click', (event) => {
+        this._referenceBoxHelper.handleReferenceClick(event);
+      });
+    });
+
+    let scripRefElements = this.getContentContainer().querySelectorAll('scripref');
+    scripRefElements.forEach((scripRef) => {
+      scripRef.addEventListener('click', (event) => {
+        this._referenceBoxHelper.handleReferenceClick(event);
+      });
+    });
 
     this.getContentContainer().querySelector('.close-icon').addEventListener('click', (event) => {
       event.preventDefault();

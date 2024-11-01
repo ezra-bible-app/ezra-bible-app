@@ -89,14 +89,26 @@
   border-bottom-right-radius: 0px;
 }
 
+#dictionary-panel.dict-entry-shown.with-reference-box #dictionary-panel-keys {
+  height: calc(35% - 2.8em);
+}
+
 #dictionary-panel.dict-entry-shown #dictionary-panel-content {
-  height: calc(50% - 3.5em);
+  height: calc(50% - 4.5em);
   display: block !important;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 0.5em;
   padding-left: 1em;
   overflow-y: scroll;
+}
+
+#dictionary-panel-reference-box {
+  height: calc(30% - 2em);
+}
+
+#dictionary-panel.dict-entry-shown.with-reference-box #dictionary-panel-content {
+  height: calc(35% - 3.5em);
 }
 
 .Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
@@ -119,6 +131,10 @@
   content: ' ';
   clear: right;
   display: block;
+}
+
+#dictionary-panel-reference-box {
+  display: none;
 }
 
 .dictionary-accordion-button {

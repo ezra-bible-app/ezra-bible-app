@@ -272,7 +272,7 @@ class VerseListPopup {
 
     if (clickedElement.hasAttribute('osisref')) {
       const osisRef = clickedElement.getAttribute('osisref');
-      const closestCommentary = clickedElement.closest('.commentary').getAttribute('module');
+      const closestCommentary = clickedElement.closest('.sword-module').getAttribute('module');
       if (osisRef.indexOf(closestCommentary) != -1) {
         // If the reference is to another entry in the commentary then that's a situation we cannot handle at the moment.
         this.currentXrefs = [];
@@ -359,10 +359,15 @@ class VerseListPopup {
     } else if (referenceType == "COMMENTARY_DICT_XREFS") {
 
       const verseBox = app_controller.verse_selection.getSelectedVerseBoxes()[0];
-      localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox);
-      popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
 
-      let commentary = clickedElement.closest('.commentary').getAttribute('module');
+      if (verseBox != null) {
+        localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox);
+        popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
+      } else {
+        popupTitle = verseListTitleHelper.getXrefsVerseListTitle();
+      }
+
+      let commentary = clickedElement.closest('.sword-module').getAttribute('module');
       popupTitle = `${commentary} &ndash; ${popupTitle}`;
     }
 
