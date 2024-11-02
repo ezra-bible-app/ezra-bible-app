@@ -404,6 +404,7 @@ function transformReferenceToOsis(reference) {
   reference = reference.replace('Am.', 'Amos.');
   reference = reference.replace('Na.', 'Nah.');
   reference = reference.replace('Mt', 'Matt');
+  reference = reference.replace('Mr', 'Mark');
   reference = reference.replace('Lk', 'Luke');
   reference = reference.replace('Lu.', 'Luke.');
   reference = reference.replace('Jn', 'John');
