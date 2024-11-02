@@ -31,7 +31,7 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   overflow-y: scroll;
-  height: calc(100% - 5.2em);
+  height: calc(100% - 6.8em);
 }
 
 .Android #dictionary-panel-keys {
@@ -91,10 +91,11 @@
 
 #dictionary-panel.dict-entry-shown.with-reference-box #dictionary-panel-keys {
   height: calc(35% - 2.8em);
+  border-bottom: 2px solid #dddddd;
 }
 
 #dictionary-panel.dict-entry-shown #dictionary-panel-content {
-  height: calc(50% - 4.5em);
+  height: calc(50% - 5.1em);
   display: block !important;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -104,11 +105,14 @@
 }
 
 #dictionary-panel-reference-box {
-  height: calc(30% - 2em);
+  height: calc(30% - 2.7em);
 }
 
 #dictionary-panel.dict-entry-shown.with-reference-box #dictionary-panel-content {
   height: calc(35% - 3.5em);
+  border-bottom: 2px solid #dddddd;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
