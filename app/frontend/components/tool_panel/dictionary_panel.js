@@ -319,7 +319,6 @@ class DictionaryPanel {
 
   openKeyFromTextReference(module, key) {
     if (module == this._currentDict && key != null && key != "") {
-      const letterSectionLi = document.getElementById(sectionId);
       const allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
 
       // Go through the dict key elements to see if it includes the key we're looking for.
@@ -342,13 +341,18 @@ class DictionaryPanel {
         // Therefore we need to clean up the entry and remove the second part
         let cleanedKeys = [];
         currentKeys.forEach((rawKey) => {
-          let cleanedKey = rawKey.split(' ')[0];
-          cleanedKeys.push(cleanedKey);
+          if (rawKey.indexOf(' (') != -1) {
+            let cleanedKey = rawKey.split(' ')[0];
+            cleanedKeys.push(cleanedKey);
+          } else {
+            cleanedKeys.push(rawKey);
+          }
         });
 
         if (cleanedKeys.includes(key)) {
           let dictKeyElement = this.getDictKeyElementFromKeyString(keyValue);
-          let sectionId = this.getSectionIdFromDictKeyElement(keyValue);
+          let sectionId = this.getSectionIdFromDictKeyElement(dictKeyElement);
+          let letterSectionLi = dictKeyElement.parentNode.parentNode;
 
           if (sectionId != this._currentSectionId) {
             this.handleSectionMarkerClick(letterSectionLi, allSections);
@@ -362,7 +366,7 @@ class DictionaryPanel {
   }
 
   getDictKeyElementFromKeyString(keyString) {
-    const allDictKeys = this.getKeyContainer().querySelectorAll('dict-key');
+    const allDictKeys = this.getKeyContainer().querySelectorAll('.dict-key');
 
     for (let i = 0; i < allDictKeys.length; i++) {
       let currentDictKey = allDictKeys[i];
@@ -375,7 +379,7 @@ class DictionaryPanel {
   }
 
   getSectionIdFromDictKeyElement(dictKeyElement) {
-    sectionId = '';
+    let sectionId = '';
 
     if (dictKeyElement != null) {
       const dictLetterLi = dictKeyElement.parentNode.parentNode;
