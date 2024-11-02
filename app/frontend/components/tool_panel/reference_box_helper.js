@@ -38,7 +38,7 @@ class ReferenceBoxHelper {
       if (newTabOption.isChecked) {
         await app_controller.verse_list_popup.openVerseListInNewTab();
       } else {
-        await app_controller.verse_list_popup.openVerseListPopup(event, 'COMMENTARY_DICT_XREFS');
+        await app_controller.verse_list_popup.openVerseListPopup(event, 'COMMENTARY_DICT_XREFS', false, withReferenceVerse);
       }
 
     } else if (app_controller.verse_list_popup.currentXrefs.length > 0) {

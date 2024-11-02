@@ -383,7 +383,7 @@ class VerseListPopup {
    * @param event The click event
    * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS" or "COMMENTARY_DICT_XREFS")
    */
-  async openVerseListPopup(event, referenceType, onlyCurrentBook=false) {
+  async openVerseListPopup(event, referenceType, onlyCurrentBook=false, withReferenceVerse=true) {
     if (!this.dialogInitDone) {
       this.dialogInitDone = true;
 
@@ -391,7 +391,7 @@ class VerseListPopup {
     }
 
     this.currentReferenceType = referenceType;
-    this.currentPopupTitle = await this.getPopupTitle(event.target, referenceType);
+    this.currentPopupTitle = await this.getPopupTitle(event.target, referenceType, withReferenceVerse);
 
     const currentTabId = app_controller.tab_controller.getSelectedTabId();
     const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
