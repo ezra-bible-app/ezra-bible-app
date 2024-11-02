@@ -384,6 +384,7 @@ function makeCharUpperCase(str, index) {
 function transformReferenceToOsis(reference) {
   reference = reference.replace(' ', '.');
   reference = reference.replace(':', '.');
+  reference = reference.replace('..', '.');
 
   // Perform some book code corrections
   reference = reference.replace('Ge.', 'Gen.');
@@ -578,6 +579,9 @@ module.exports.getReferencesFromScripRef = async function(referenceString, book,
       // Reference contains a space
 
       book = currentReference.split(' ')[0];
+
+      // Remove any dot that may appear at the end of the book
+      book = book.replace('.', '');
 
       currentReference = transformReferenceToOsis(currentReference);
       let splitOsisRefs = await this.getReferencesFromOsisRef(bibleTranslationId, currentReference);
