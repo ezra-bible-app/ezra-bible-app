@@ -143,6 +143,7 @@ class DictionaryPanel {
 
     setTimeout(async () => {
       let keys = await ipcNsi.getDictModuleKeys(selectedModule);
+      this._currentKeyList = keys;
 
       let htmlList = "<ul id='dictionary-section-list' class='panel-content'>";
 
@@ -273,6 +274,17 @@ class DictionaryPanel {
       });
     });
 
+    let termElements = this.getContentContainer().querySelectorAll('term');
+    termElements.forEach((term) => {
+      term.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        let key = event.target.innerText;
+        this.openKeyFromTextReference(this._currentDict, key);
+      });
+    });
+
     this.getContentContainer().querySelector('.close-icon').addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -300,41 +312,77 @@ class DictionaryPanel {
         let module = splitHref[0];
         let key = splitHref[1];
 
-        if (module == this._currentDict && key != null && key != "") {
-          const firstCharacter = key[0];
-          const sectionId = `dict-letter-${firstCharacter.toLowerCase()}`;
-          const letterSectionLi = document.getElementById(sectionId);
-          const allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
+        this.openKeyFromTextReference(module, key);
+      }
+    }
+  }
 
-          const allDictKeyElements = letterSectionLi.querySelectorAll('.dict-key');
+  openKeyFromTextReference(module, key) {
+    if (module == this._currentDict && key != null && key != "") {
+      const letterSectionLi = document.getElementById(sectionId);
+      const allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
 
-          for (let i = 0; i < allDictKeyElements.length; i++) {
-            let dictKeyElement = allDictKeyElements[i];
-            let keyValue = dictKeyElement.innerText;
-            let currentKeys = keyValue.split(', ');
+      // Go through the dict key elements to see if it includes the key we're looking for.
+      // Then open the key and if needed the corresponding section.
+      for (let i = 0; i < this._currentKeyList.length; i++) {
+        let keyValue = this._currentKeyList[i];
+        let currentKeys = null;
 
-            // At this point the keys still contain a portion in parenthesis after the key.
-            // e.g. DESERT (NOUN AND ADJECTIVE).
-            // However, the references typically only contain the first portion like "see DESERT".
-            // Therefore we need to clean up the entry and remove the second part
-            let cleanedKeys = [];
-            currentKeys.forEach((rawKey) => {
-              let cleanedKey = rawKey.split(' ')[0];
-              cleanedKeys.push(cleanedKey);
-            });
+        if (keyValue.indexOf(', ') != -1) {
+          currentKeys = keyValue.split(', ');
+        } else if (keyValue.indexOf('-') != -1) {
+          currentKeys = keyValue.split('-');
+        } else {
+          currentKeys = [ keyValue ];
+        }
 
-            if (cleanedKeys.includes(key)) {
-              if (sectionId != this._currentSectionId) {
-                this.handleSectionMarkerClick(letterSectionLi, allSections);
-              }
+        // At this point the keys may still contain a portion in parenthesis after the key.
+        // e.g. DESERT (NOUN AND ADJECTIVE).
+        // However, the references typically only contain the first portion like "see DESERT".
+        // Therefore we need to clean up the entry and remove the second part
+        let cleanedKeys = [];
+        currentKeys.forEach((rawKey) => {
+          let cleanedKey = rawKey.split(' ')[0];
+          cleanedKeys.push(cleanedKey);
+        });
 
-              this.handleKeyClick(dictKeyElement);
-              break;
-            }
+        if (cleanedKeys.includes(key)) {
+          let dictKeyElement = this.getDictKeyElementFromKeyString(keyValue);
+          let sectionId = this.getSectionIdFromDictKeyElement(keyValue);
+
+          if (sectionId != this._currentSectionId) {
+            this.handleSectionMarkerClick(letterSectionLi, allSections);
           }
+
+          this.handleKeyClick(dictKeyElement);
+          break;
         }
       }
     }
+  }
+
+  getDictKeyElementFromKeyString(keyString) {
+    const allDictKeys = this.getKeyContainer().querySelectorAll('dict-key');
+
+    for (let i = 0; i < allDictKeys.length; i++) {
+      let currentDictKey = allDictKeys[i];
+      let currentKeyText = allDictKeys[i].innerText;
+
+      if (currentKeyText == keyString) {
+        return currentDictKey;
+      }
+    }
+  }
+
+  getSectionIdFromDictKeyElement(dictKeyElement) {
+    sectionId = '';
+
+    if (dictKeyElement != null) {
+      const dictLetterLi = dictKeyElement.parentNode.parentNode;
+      sectionId = dictLetterLi.getAttribute('id');
+    }
+
+    return sectionId;
   }
 
   closeDictEntry() {
