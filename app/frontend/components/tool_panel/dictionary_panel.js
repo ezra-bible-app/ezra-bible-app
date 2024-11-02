@@ -197,6 +197,7 @@ class DictionaryPanel {
   }
 
   handleSectionMarkerClick(liElement, allSections) {
+    this._currentSectionId = liElement.getAttribute('id');
     let section = liElement.querySelector('.alphabetical-section');
 
     if (section.classList.contains('hidden')) {
@@ -311,6 +312,11 @@ class DictionaryPanel {
             let dictKeyElement = allDictKeyElements[i];
             let keyValue = dictKeyElement.innerText;
             let currentKeys = keyValue.split(', ');
+
+            // At this point the keys still contain a portion in parenthesis after the key.
+            // e.g. DESERT (NOUN AND ADJECTIVE).
+            // However, the references typically only contain the first portion like "see DESERT".
+            // Therefore we need to clean up the entry and remove the second part
             let cleanedKeys = [];
             currentKeys.forEach((rawKey) => {
               let cleanedKey = rawKey.split(' ')[0];
@@ -318,7 +324,10 @@ class DictionaryPanel {
             });
 
             if (cleanedKeys.includes(key)) {
-              this.handleSectionMarkerClick(letterSectionLi, allSections);
+              if (sectionId != this._currentSectionId) {
+                this.handleSectionMarkerClick(letterSectionLi, allSections);
+              }
+
               this.handleKeyClick(dictKeyElement);
               break;
             }
