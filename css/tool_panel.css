@@ -576,6 +576,10 @@ table.tag-statistics a:hover {
   display: unset;
 }
 
+.tool-panel-reference-box .sword-section-title {
+  display: none;
+}
+
 .tool-panel-reference-box .sword-note {
   display: none;
 }
