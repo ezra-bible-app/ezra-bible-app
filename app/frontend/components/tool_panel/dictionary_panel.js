@@ -159,7 +159,7 @@ class DictionaryPanel {
               htmlList += '</ul></li>';
             }
 
-            htmlList += '<li>';
+            htmlList += `<li id='dict-letter-${firstCharacter.toLowerCase()}'>`;
             htmlList += `<div class='dictionary-section-marker'>`;
             htmlList += '<i class="fa-solid fa-circle-chevron-right dictionary-accordion-button"></i>';
             htmlList += firstCharacter;
@@ -189,14 +189,14 @@ class DictionaryPanel {
         marker.addEventListener('click', (event) => {
           event.preventDefault();
           event.stopPropagation();
-          this.handleSectionMarkerClick(event, allSections);
+          let liElement = event.target.closest('li');
+          this.handleSectionMarkerClick(liElement, allSections);
         });
       });
     }, 500);
   }
 
-  handleSectionMarkerClick(event, allSections) {
-    let liElement = event.target.closest('li');
+  handleSectionMarkerClick(liElement, allSections) {
     let section = liElement.querySelector('.alphabetical-section');
 
     if (section.classList.contains('hidden')) {
@@ -262,6 +262,16 @@ class DictionaryPanel {
       });
     });
 
+    let aElements = this.getContentContainer().querySelectorAll('a');
+    aElements.forEach((a) => {
+      a.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.handleHyperLinkClick(event.target);
+      });
+    });
+
     this.getContentContainer().querySelector('.close-icon').addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -276,6 +286,46 @@ class DictionaryPanel {
     this._currentKey = key;
     key.classList.add('selected');
     key.scrollIntoViewIfNeeded();
+  }
+
+  handleHyperLinkClick(link) {
+    let href = link.getAttribute('href');
+
+    if (href.startsWith('sword://')) {
+      href = href.replace('sword://', '');
+
+      if (href.indexOf('/') != -1) {
+        let splitHref = href.split('/');
+        let module = splitHref[0];
+        let key = splitHref[1];
+
+        if (module == this._currentDict && key != null && key != "") {
+          const firstCharacter = key[0];
+          const sectionId = `dict-letter-${firstCharacter.toLowerCase()}`;
+          const letterSectionLi = document.getElementById(sectionId);
+          const allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
+
+          const allDictKeyElements = letterSectionLi.querySelectorAll('.dict-key');
+
+          for (let i = 0; i < allDictKeyElements.length; i++) {
+            let dictKeyElement = allDictKeyElements[i];
+            let keyValue = dictKeyElement.innerText;
+            let currentKeys = keyValue.split(', ');
+            let cleanedKeys = [];
+            currentKeys.forEach((rawKey) => {
+              let cleanedKey = rawKey.split(' ')[0];
+              cleanedKeys.push(cleanedKey);
+            });
+
+            if (cleanedKeys.includes(key)) {
+              this.handleSectionMarkerClick(letterSectionLi, allSections);
+              this.handleKeyClick(dictKeyElement);
+              break;
+            }
+          }
+        }
+      }
+    }
   }
 
   closeDictEntry() {
