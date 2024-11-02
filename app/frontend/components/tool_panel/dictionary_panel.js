@@ -309,7 +309,7 @@ class DictionaryPanel {
   handleHyperLinkClick(link) {
     let href = link.getAttribute('href');
 
-    if (href.startsWith('sword://')) {
+    if (href != null && href.startsWith('sword://')) {
       href = href.replace('sword://', '');
 
       if (href.indexOf('/') != -1) {
