@@ -225,7 +225,7 @@ class DictionaryPanel {
       section.classList.add('hidden');
     }
 
-    liElement.scrollIntoView();
+    liElement.scrollIntoViewIfNeeded();
   }
 
   async handleKeyClick(key) {
@@ -246,6 +246,7 @@ class DictionaryPanel {
     this.getPanel().classList.add('dict-entry-shown');
     this.getContentContainer().setAttribute('module-context', this._currentDict + ' – ' + keyValue);
     this.getContentContainer().innerHTML = dictHeader + closeIcon + `<div class='dict-entry panel-content'>${dictContent}</div>`;
+    this._referenceBoxHelper.hideReferenceBox();
 
     let referenceElements = this.getContentContainer().querySelectorAll('ref');
     referenceElements.forEach((reference) => {
