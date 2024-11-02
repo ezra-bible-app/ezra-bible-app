@@ -232,11 +232,15 @@ class DictionaryPanel {
 
   async handleKeyClick(key) {
     const currentDictionary = this.getSelectElement().value;
-    const keyValue = key.innerText;
+    const keyValue = key.innerText.trim();
 
     let dictHeader = `<div id='dict-entry-header'>${keyValue}</div>`;
     let closeIcon = `<div class='close-icon icon'><i class='fa-solid fa-rectangle-xmark'></i></div><br id='dict-entry-header-separator' />`;
     let dictContent = await ipcNsi.getRawModuleEntry(currentDictionary, keyValue);
+
+    if (dictContent == null) {
+      return;
+    }
 
     dictContent = dictContent.replaceAll('<lb', '<p');
     dictContent = dictContent.replaceAll('lb>', 'p>');
@@ -332,6 +336,8 @@ class DictionaryPanel {
           currentKeys = keyValue.split(', ');
         } else if (keyValue.indexOf('-') != -1) {
           currentKeys = keyValue.split('-');
+        } else if (keyValue.indexOf(' OR ') != -1) {
+          currentKeys = keyValue.split(' OR ');
         } else {
           currentKeys = [ keyValue ];
         }
@@ -350,7 +356,7 @@ class DictionaryPanel {
           }
         });
 
-        if (keyValue == key || cleanedKeys.includes(key)) {
+        if (keyValue == key || keyValue.startsWith(key) || cleanedKeys.includes(key)) {
           let dictKeyElement = this.getDictKeyElementFromKeyString(keyValue);
           let sectionId = this.getSectionIdFromDictKeyElement(dictKeyElement);
           let letterSectionLi = dictKeyElement.parentNode.parentNode;
