@@ -248,6 +248,7 @@ class DictionaryPanel {
     this.getPanel().classList.add('dict-entry-shown');
     this.getContentContainer().setAttribute('module-context', this._currentDict + ' – ' + keyValue);
     this.getContentContainer().innerHTML = dictHeader + closeIcon + `<div class='dict-entry panel-content'>${dictContent}</div>`;
+    this.getContentContainer().scrollTop = 0;
     this._referenceBoxHelper.hideReferenceBox();
 
     let referenceElements = this.getContentContainer().querySelectorAll('ref');
@@ -349,7 +350,7 @@ class DictionaryPanel {
           }
         });
 
-        if (cleanedKeys.includes(key)) {
+        if (keyValue == key || cleanedKeys.includes(key)) {
           let dictKeyElement = this.getDictKeyElementFromKeyString(keyValue);
           let sectionId = this.getSectionIdFromDictKeyElement(dictKeyElement);
           let letterSectionLi = dictKeyElement.parentNode.parentNode;
