@@ -24,13 +24,13 @@ class ReferenceBoxHelper {
     this._referenceBox = referenceBox;
   }
 
-  async handleReferenceClick(event) {
+  async handleReferenceClick(event, withReferenceVerse=true) {
     event.preventDefault();
     event.stopPropagation();
 
     let newTabOption = app_controller.optionsMenu._verseListNewTabOption;
 
-    await app_controller.verse_list_popup.initCurrentCommentaryXrefs(event.target);
+    await app_controller.verse_list_popup.initCurrentCommentaryDictXrefs(event.target, withReferenceVerse);
 
     if (app_controller.verse_list_popup.currentXrefs.length > 2 || platformHelper.isMobile()) {
       this.hideReferenceBox();

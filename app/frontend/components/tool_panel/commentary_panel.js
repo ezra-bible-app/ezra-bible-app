@@ -355,7 +355,7 @@ class CommentaryPanel {
 
           if (verseCommentary != null && verseCommentary.length != 0) {
             commentaryContent += `
-            <div class='sword-module commentary module-code-${currentCommentary.name.toLowerCase()}' module='${currentCommentary.name}'>
+            <div class='sword-module commentary module-code-${currentCommentary.name.toLowerCase()}' module-context='${currentCommentary.name}'>
               <h3>
                 <i class="fa-solid fa-circle-chevron-down commentary-accordion-button"></i>
 

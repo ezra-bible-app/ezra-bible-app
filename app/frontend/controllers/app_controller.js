@@ -370,7 +370,7 @@ class AppController {
 
   async openXrefVerses(referenceVerseBox, xrefTitle, xrefs) {
     let xrefVerseReferenceId = null;
-    if (referenceVerseBox != null) {
+    if (referenceVerseBox != null && referenceVerseBox.length > 0) {
       xrefVerseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
     }
 

@@ -191,7 +191,7 @@ class VerseListPopup {
     await eventController.publishAsync('on-tab-selected', tabIndex);
 
     // 5) Select the reference verse
-    if (this.currentReferenceVerseBox != null) {
+    if (this.currentReferenceVerseBox != null && this.currentReferenceVerseBox.length > 0) {
       let currentReferenceVerse = verseListController.getCurrentVerseListFrame().find('.reference-verse');
       let verseText = currentReferenceVerse[0].querySelector('.verse-text');
       await app_controller.verse_selection.setVerseAsSelection(verseText);
@@ -265,10 +265,15 @@ class VerseListPopup {
     }
   }
 
-  async initCurrentCommentaryXrefs(clickedElement) {
-    this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_DICT_XREFS");
+  async initCurrentCommentaryDictXrefs(clickedElement, withReferenceVerse=true) {
+    this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_DICT_XREFS", withReferenceVerse);
     this.currentReferenceType = "COMMENTARY_DICT_XREFS";
-    this.currentReferenceVerseBox = $(app_controller.verse_selection.getSelectedVerseBoxes()[0]);
+
+    if (withReferenceVerse) {
+      this.currentReferenceVerseBox = $(app_controller.verse_selection.getSelectedVerseBoxes()[0]);
+    } else {
+      this.currentReferenceVerseBox = null;
+    }
 
     if (clickedElement.hasAttribute('osisref')) {
       const osisRef = clickedElement.getAttribute('osisref');
@@ -335,7 +340,7 @@ class VerseListPopup {
     bookFilterCheckbox.prop('checked', false);
   }
 
-  async getPopupTitle(clickedElement, referenceType) {
+  async getPopupTitle(clickedElement, referenceType, withReferenceVerse=true) {
     var popupTitle = '';
     var localizedReference = '';
 
@@ -360,15 +365,15 @@ class VerseListPopup {
 
       const verseBox = app_controller.verse_selection.getSelectedVerseBoxes()[0];
 
-      if (verseBox != null) {
+      if (withReferenceVerse && verseBox != null) {
         localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox);
         popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
       } else {
         popupTitle = verseListTitleHelper.getXrefsVerseListTitle();
       }
 
-      let commentary = clickedElement.closest('.sword-module').getAttribute('module');
-      popupTitle = `${commentary} &ndash; ${popupTitle}`;
+      let module = clickedElement.closest('.sword-module').getAttribute('module-context');
+      popupTitle = `${module} &ndash; ${popupTitle}`;
     }
 
     return popupTitle;

@@ -244,20 +244,20 @@ class DictionaryPanel {
     dictContent = dictContent.replaceAll('</item>', '</li>');
 
     this.getPanel().classList.add('dict-entry-shown');
-    this.getContentContainer().setAttribute('module', this._currentDict);
+    this.getContentContainer().setAttribute('module-context', this._currentDict + ' – ' + keyValue);
     this.getContentContainer().innerHTML = dictHeader + closeIcon + `<div class='dict-entry panel-content'>${dictContent}</div>`;
 
     let referenceElements = this.getContentContainer().querySelectorAll('ref');
     referenceElements.forEach((reference) => {
       reference.addEventListener('click', (event) => {
-        this._referenceBoxHelper.handleReferenceClick(event);
+        this._referenceBoxHelper.handleReferenceClick(event, false);
       });
     });
 
     let scripRefElements = this.getContentContainer().querySelectorAll('scripref');
     scripRefElements.forEach((scripRef) => {
       scripRef.addEventListener('click', (event) => {
-        this._referenceBoxHelper.handleReferenceClick(event);
+        this._referenceBoxHelper.handleReferenceClick(event, false);
       });
     });
 
