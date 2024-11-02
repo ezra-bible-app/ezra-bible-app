@@ -144,7 +144,7 @@ class DictionaryPanel {
     setTimeout(async () => {
       let keys = await ipcNsi.getDictModuleKeys(selectedModule);
 
-      let htmlList = "<ul id='dictionary-section-list'>";
+      let htmlList = "<ul id='dictionary-section-list' class='panel-content'>";
 
       if (keys.length > 0) {
         let firstCharacter = keys[0][0];
