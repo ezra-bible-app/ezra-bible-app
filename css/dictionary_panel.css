@@ -91,7 +91,7 @@
 
 #dictionary-panel.dict-entry-shown.with-reference-box #dictionary-panel-keys {
   height: calc(35% - 2.8em);
-  border-bottom: 2px solid #dddddd;
+  border-bottom: 3px solid #dddddd;
 }
 
 #dictionary-panel.dict-entry-shown #dictionary-panel-content {
@@ -105,12 +105,13 @@
 }
 
 #dictionary-panel-reference-box {
-  height: calc(30% - 2.7em);
+  height: calc(30% - 2.8em);
 }
 
 #dictionary-panel.dict-entry-shown.with-reference-box #dictionary-panel-content {
   height: calc(35% - 3.5em);
-  border-bottom: 2px solid #dddddd;
+  border-top: 0;
+  border-bottom: 3px solid #dddddd;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
