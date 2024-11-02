@@ -277,9 +277,9 @@ class VerseListPopup {
 
     if (clickedElement.hasAttribute('osisref')) {
       const osisRef = clickedElement.getAttribute('osisref');
-      const closestCommentary = clickedElement.closest('.sword-module').getAttribute('module');
-      if (osisRef.indexOf(closestCommentary) != -1) {
-        // If the reference is to another entry in the commentary then that's a situation we cannot handle at the moment.
+      const closestModule = clickedElement.closest('.sword-module').getAttribute('module');
+      if (osisRef.indexOf(closestModule) != -1) {
+        // If the reference is to another entry in the module then that's a situation we cannot handle at the moment.
         this.currentXrefs = [];
         return;
       }
