@@ -130,13 +130,13 @@
 }
 
 /* Insert a line break before the first reference in a block */
-#dictionary-panel-content p ref:first-of-type:before,
+/*#dictionary-panel-content p ref:first-of-type:before,
 #dictionary-panel-content ul li ref:first-of-type:before
 {
   content: ' ';
   clear: right;
   display: block;
-}
+}*/
 
 #dictionary-panel-reference-box {
   display: none;
