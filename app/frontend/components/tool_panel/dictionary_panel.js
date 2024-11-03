@@ -288,6 +288,8 @@ class DictionaryPanel {
       });
     });
 
+    // Regular hyper links are used in the Vines dictionary to reference other
+    // entries of the same dictionary. E.g. <a href="sword://Vines/CLOTHING">CLOTHING</a>
     let aElements = this.getContentContainer().querySelectorAll('a');
     aElements.forEach((a) => {
       a.addEventListener('click', (event) => {
@@ -298,6 +300,7 @@ class DictionaryPanel {
       });
     });
 
+    // <term> references are used in the Thompson Chain Topics dictionary.
     let termElements = this.getContentContainer().querySelectorAll('term');
     termElements.forEach((term) => {
       term.addEventListener('click', (event) => {
@@ -309,6 +312,7 @@ class DictionaryPanel {
       });
     });
 
+    // <sync> references are used in the American Tract Society Bible Dictionary
     let syncElements = this.getContentContainer().querySelectorAll('sync');
     syncElements.forEach((sync) => {
       sync.addEventListener('click', (event) => {

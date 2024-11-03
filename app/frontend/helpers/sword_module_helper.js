@@ -430,6 +430,10 @@ function transformReferenceToOsis(reference) {
 module.exports.getReferencesFromOsisRef = async function(bibleTranslationId, osisRef) {
   let references = [];
 
+  // Remove Bible: prefix from osisref.
+  // This prefix is used in Easton's Bible Dictionary, the International Standard Bible Encyclopedia, ...
+  osisRef = osisRef.replace('Bible:', '');
+
   // We fix weird references that look like this: 1Th 2. 1-20 
   osisRef = osisRef.replace('. ', ':');
 
