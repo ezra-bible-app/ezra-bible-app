@@ -255,6 +255,25 @@ class DictionaryPanel {
     this.getContentContainer().scrollTop = 0;
     this._referenceBoxHelper.hideReferenceBox();
 
+    this.initReferences();
+
+    this.getContentContainer().querySelector('.close-icon').addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.closeDictEntry();
+    });
+
+    if (this._currentKey != null) {
+      this._currentKey.classList.remove('selected');
+    }
+
+    this._currentKey = key;
+    key.classList.add('selected');
+    key.scrollIntoViewIfNeeded();
+  }
+
+  initReferences() {
     let referenceElements = this.getContentContainer().querySelectorAll('ref');
     referenceElements.forEach((reference) => {
       reference.addEventListener('click', (event) => {
@@ -290,20 +309,13 @@ class DictionaryPanel {
       });
     });
 
-    this.getContentContainer().querySelector('.close-icon').addEventListener('click', (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      this.closeDictEntry();
+    let syncElements = this.getContentContainer().querySelectorAll('sync');
+    syncElements.forEach((sync) => {
+      sync.addEventListener('click', (event) => {
+        let key = event.target.innerText;
+        this.openKeyFromTextReference(this._currentDict, key);
+      });
     });
-
-    if (this._currentKey != null) {
-      this._currentKey.classList.remove('selected');
-    }
-
-    this._currentKey = key;
-    key.classList.add('selected');
-    key.scrollIntoViewIfNeeded();
   }
 
   handleHyperLinkClick(link) {

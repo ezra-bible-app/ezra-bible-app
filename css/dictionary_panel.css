@@ -185,7 +185,8 @@
 #dictionary-panel-content ref,
 #dictionary-panel-content scripref,
 #dictionary-panel-content a,
-#dictionary-panel-content term {
+#dictionary-panel-content term,
+#dictionary-panel-content sync {
   color: var(--accent-color);
   cursor: pointer;
   text-decoration: none;
@@ -194,13 +195,15 @@
 .darkmode--activated #dictionary-panel-content ref,
 .darkmode--activated #dictionary-panel-content scripref,
 .darkmode--activated #dictionary-panel-content a,
-.darkmode--activated #dictionary-panel-content term {
+.darkmode--activated #dictionary-panel-content term,
+.darkmode--activated #dictionary-panel-content sync {
   color: var(--accent-color-darkmode);
 }
 
 #dictionary-panel-content ref:hover,
 #dictionary-panel-content scripref:hover,
 #dictionary-panel-content a:hover,
-#dictionary-panel-content term:hover {
+#dictionary-panel-content term:hover,
+#dictionary-panel-content sync:hover {
   text-decoration: underline;
 }
