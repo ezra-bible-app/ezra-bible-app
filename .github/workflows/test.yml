@@ -39,7 +39,7 @@ jobs:
           run: npm install
         
         - name: Install electron v17.1.0 for compatibility with Spectron
-          run: npm install electron@17.0.1
+          run: npm install electron@17.1.0
 
         - name: Compile templates
           run: npm run compile-pug 
