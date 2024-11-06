@@ -66,7 +66,7 @@
     "generate-long-tag-list": "node build_scripts/generate_long_tag_list.js"
   },
   "dependencies": {
-    "@electron/remote": "^2.0.8",
+    "@electron/remote": "^2.1.2",
     "@fortawesome/fontawesome-free": "^6.1.1",
     "@sentry/browser": "^7.92.0",
     "@sentry/electron": "^4.16.0",
