@@ -11,4 +11,5 @@ echo *** Rebuilding node-sword-interface ***
 call node_modules\.bin\electron-rebuild.cmd --arch=ia32 -f -o node-sword-interface -v 33.0.2
 call copy node_modules\node-sword-interface\build\sword-build-win32\lib\*.dll node_modules\node-sword-interface\build\Release\
 echo *** Generating commit info ***
+call npm run add-github-workspace-to-safe-git-dirs
 call npm run commit-info
