@@ -1,0 +1,6 @@
+# action.yml
+name: 'build-centos9'
+description: 'Build Ezra Bible App for CentOS 9'
+runs:
+    using: 'docker'
+    image: 'docker://toklein/ezra-centos9:latest'
