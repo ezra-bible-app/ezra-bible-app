@@ -8,7 +8,7 @@ npm install
 npm run compile-pug
 npm run commit-info
 npm run install-node-prune
-npm install sqlite3@5.0.2 --build-from-source --runtime=electron --target=33.2.0 --dist-url=https://electronjs.org/headers
+npm install sqlite3@5.0.2 --build-from-source --runtime=electron --target=32.2.3 --dist-url=https://electronjs.org/headers
 npm run prune-node-modules
 npm run purge-build-artifacts
 npm run package-mac
