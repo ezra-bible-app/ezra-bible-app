@@ -235,14 +235,29 @@ jobs:
             name: ezra-bible-app_centos9_latest
             path: ezra-bible-app_latest.rpm
 
+    build-opensuse-leap:
+        name: Build OpenSuse Leap 15.5 package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - name: Build
+          uses: ./.github/actions/build_opensuseleap
+          env:
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        - name: Upload rpm file
+          uses: actions/upload-artifact@v4.4.0
+          with:
+            name: ezra-bible-app_opensuse_leap_15.5_latest
+            path: ezra-bible-app_latest.rpm
+
     release:
       if: "github.event.release"
       name: Publish release artifacts
       runs-on: ubuntu-latest
       needs: [ build-win32, build-ubuntu-2004, build-ubuntu-2204,
-               build-ubuntu-2404, build-bullseye,
-               build-bookworm, build-fedora33, build-fedora35,
-               build-fedora37, build-centos8, build-centos9]
+               build-ubuntu-2404, build-bullseye, build-bookworm,
+               build-fedora33, build-fedora35, build-fedora37,
+               build-centos8, build-centos9, build-opensuse-leap]
 
       steps:
       - name: Download win32 package
@@ -311,6 +326,12 @@ jobs:
           name: ezra-bible-app_centos9_latest
           path: ezra-bible-app_centos9_latest
 
+      - name: Download opensuse leap package
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: ezra-bible-app_opensuse_leap_15.5_latest
+          path: ezra-bible-app_opensuse_leap_15.5_latest
+
       - name: Display structure of downloaded files
         run: ls -R
 
@@ -326,6 +347,7 @@ jobs:
           mv ezra-bible-app_debian12_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian12-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_centos8_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_centos8-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_centos9_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_centos9-${GITHUB_REF##*/}.rpm
+          mv ezra-bible-app_opensuse_leap_15.5_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap_15.5-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora33_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora33-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora35_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora35-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora37_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora37-${GITHUB_REF##*/}.rpm
