@@ -357,6 +357,10 @@ tr.td-underline td {
   align-items: center;
 }
 
+.checkbox-tag .cb-input-label-stats {
+  font-size: 0.85em;
+}
+
 .checkbox-tag *:not(.cb-input-label-stats) {
   content-visibility: auto;
 }
