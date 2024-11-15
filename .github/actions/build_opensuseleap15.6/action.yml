@@ -1,0 +1,6 @@
+# action.yml
+name: 'build-opensuse-leap-15-6'
+description: 'Build Ezra Bible App for OpenSuse Leap 15.6'
+runs:
+    using: 'docker'
+    image: 'docker://toklein/ezra-opensuse-leap-15.6:latest'
