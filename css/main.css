@@ -473,6 +473,7 @@ a.chapter-nav:hover {
   margin-left: 1em;
   width: 30%;
   flex: 0 0 auto;
+  overflow-wrap: break-word;
 }
 
 .tag {
