@@ -35,7 +35,7 @@
 }
 
 .Android #dictionary-panel-keys {
-  height: calc(100% - 5.6em);
+  height: calc(100% - 5.6em) !important;
 }
 
 #dict-entry-header {
@@ -221,4 +221,15 @@
   margin-left: 0.5em;
   width: 12em;
   height: 1.5em;
+}
+
+/* LANDSCAPE */
+@media screen and (min-aspect-ratio: 13/10) {
+  .Android #dictionary-panel-filter {
+    width: 9em !important;
+  }
+
+  .Android #dictionary-panel-keys {
+    height: calc(100% - 6.7em) !important;
+  }
 }
