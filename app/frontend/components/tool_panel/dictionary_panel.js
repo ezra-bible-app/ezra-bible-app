@@ -393,7 +393,7 @@ class DictionaryPanel {
     });
   }
 
-  handleHyperLinkClick(link) {
+  async handleHyperLinkClick(link) {
     let href = link.getAttribute('href');
 
     if (href != null) {
@@ -405,8 +405,8 @@ class DictionaryPanel {
         const prefix = isGreek ? 'G' : 'H';
         const strongsKey = `${prefix}${strongsNumber}`;
 
+        await app_controller.word_study_controller._wordStudyPanel.updateWithKey(strongsKey, true);
         this.switchToWordStudyPanel();
-        app_controller.word_study_controller._wordStudyPanel.updateWithKey(strongsKey, true);
 
       } else {
         // Handle all other links like this one: <a href="sword://Vines/CLOTHING">CLOTHING</a>
