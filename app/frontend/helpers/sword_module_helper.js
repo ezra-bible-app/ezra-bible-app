@@ -461,7 +461,7 @@ module.exports.getReferencesFromOsisRef = async function(bibleTranslationId, osi
 module.exports.isReferenceValid = async function(bibleTranslationId, osisRef) {
   let splittedOsisRef = osisRef.split('.');
 
-  if (splittedOsisRef.length != 3) {
+  if (splittedOsisRef.length < 2 || splittedOsisRef.length > 3) {
     return false;
   }
 
@@ -480,17 +480,22 @@ module.exports.isReferenceValid = async function(bibleTranslationId, osisRef) {
     console.log(`WARNING: Could not parse chapter of reference ${osisRef}`);
   }
 
-  let verse = null;
   let verseValid = false;
 
-  try {
-    verse = parseInt(splittedOsisRef[2]);
+  if (splittedOsisRef.length == 3) {
+    let verse = null;
 
-    if (!Number.isNaN(verse)) {
-      verseValid = true;
+    try {
+      verse = parseInt(splittedOsisRef[2]);
+
+      if (!Number.isNaN(verse)) {
+        verseValid = true;
+      }
+    } catch (e) {
+      console.log(`WARNING: Could not parse verse of reference ${osisRef}`);
     }
-  } catch (e) {
-    console.log(`WARNING: Could not parse verse of reference ${osisRef}`);
+  } else {
+    verseValid = true;
   }
 
   let bookValid = await ipcNsi.moduleHasBook(bibleTranslationId, book);
