@@ -614,7 +614,7 @@ a.chapter-nav:hover {
   flex: 1 1;
 }
 
-.verse-list.limit-width .verse-text {
+.verse-list-content.limit-width .verse-text {
   max-width: 60ch;
 }
 
