@@ -179,6 +179,7 @@ each bibleBook in bibleBooks
                   - var current_tag_title = verseTag.tagTitle;
                   div.tag(tag-id=verseTag.tagId title=i18n.t('bible-browser.tag-hint'), i18n='[title]bible-browser.tag-hint') !{current_tag_title}
                   
+          div.verse-text.second-bible-text Sample verse text for parallel Bible view. This shows that a second verse text can be rendered nicely in parallel.
           div.verse-text !{verse.content}
 
         if current_verse_note != null && current_verse_note.text != null && current_verse_note.text != ''

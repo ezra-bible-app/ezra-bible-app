@@ -614,6 +614,10 @@ a.chapter-nav:hover {
   flex: 1 1;
 }
 
+.verse-text.second-bible-text {
+  margin-left: 1em;
+}
+
 .verse-text.ui-selected {
   user-select: text;
 }
