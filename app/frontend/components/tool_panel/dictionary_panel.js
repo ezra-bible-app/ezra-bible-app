@@ -24,6 +24,7 @@ class DictionaryPanel {
   constructor() {
     this._initDone = false;
     this._currentKey = null;
+    this._filterTimeout = null;
 
     eventController.subscribe('on-dictionary-panel-switched', (isOpen) => {
       if (isOpen && !this._initDone) {
@@ -45,6 +46,21 @@ class DictionaryPanel {
     });
 
     this._referenceBoxHelper = new ReferenceBoxHelper(this.getPanel(), this.getReferenceBox());
+
+    document.getElementById('dictionary-panel-info-button').addEventListener('click', () => {
+      const selectedModuleCode = this.getSelectElement().value;
+      app_controller.info_popup.showAppInfo(selectedModuleCode);
+    });
+
+    const filterInput = document.getElementById('dictionary-panel-filter');
+    filterInput.setAttribute('placeholder', i18n.t('dictionary-panel.filter-placeholder'));
+
+    filterInput.addEventListener('keyup', (event) => {
+      clearTimeout(this._filterTimeout);
+      this._filterTimeout = setTimeout(() => {
+        this.filterKeys(event.target.value);
+      }, 300);
+    });
   }
 
   isPanelActive() {
@@ -139,6 +155,9 @@ class DictionaryPanel {
 
     this.closeDictEntry();
 
+    const filterInput = document.getElementById('dictionary-panel-filter');
+    filterInput.value = ''; // Clear the filter text
+
     this.getKeyContainer().innerHTML = `
     <div class='loader' style='margin-left: 40%; margin-top: 2.5em;'>
       <div class='bounce1'></div>
@@ -213,27 +232,36 @@ class DictionaryPanel {
       });
 
       section.classList.remove('hidden');
-
-
-      let allKeys = section.querySelectorAll('.dict-key');
-      allKeys.forEach((key) => {
-        const EVENT_CLASS = 'event-init-done';
-
-        if (!key.classList.contains(EVENT_CLASS)) {
-          key.classList.add(EVENT_CLASS);
-          key.addEventListener('click', (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            this.handleKeyClick(event.target);
-          });
-        }
+      const allDictKeys = this.getKeyContainer().querySelectorAll('.dict-key');
+      allDictKeys.forEach((key) => {
+        key.style.display = '';
       });
 
+      const filterInput = document.getElementById('dictionary-panel-filter');
+      filterInput.value = '';
+
+      this.updateSectionEventHandlers(section);
     } else {
       section.classList.add('hidden');
     }
 
     liElement.scrollIntoViewIfNeeded();
+  }
+
+  updateSectionEventHandlers(section) {
+    let allKeys = section.querySelectorAll('.dict-key');
+    allKeys.forEach((key) => {
+      const EVENT_CLASS = 'event-init-done';
+
+      if (!key.classList.contains(EVENT_CLASS)) {
+        key.classList.add(EVENT_CLASS);
+        key.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          this.handleKeyClick(event.target);
+        });
+      }
+    });
   }
 
   async handleKeyClick(key) {
@@ -443,6 +471,31 @@ class DictionaryPanel {
     });
 
     return filteredModules;
+  }
+
+  filterKeys(filterText) {
+    const allDictKeys = this.getKeyContainer().querySelectorAll('.dict-key');
+    const allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
+
+    allDictKeys.forEach((key) => {
+      const section = key.closest('.alphabetical-section');
+      if (key.innerText.toLowerCase().includes(filterText.toLowerCase())) {
+        key.style.display = '';
+        section.classList.remove('hidden');
+      } else {
+        key.style.display = 'none';
+      }
+    });
+
+    allSections.forEach((section) => {
+      const visibleKeys = section.querySelectorAll('.dict-key:not([style*="display: none"])');
+      if (visibleKeys.length === 0 || filterText === '') {
+        section.classList.add('hidden');
+      } else {
+        section.classList.remove('hidden');
+        this.updateSectionEventHandlers(section);
+      }
+    });
   }
 }
 

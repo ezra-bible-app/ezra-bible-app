@@ -215,3 +215,10 @@
   text-align: center;
   cursor: pointer;
 }
+
+#dictionary-panel-filter {
+  display: inline-block;
+  margin-left: 0.5em;
+  width: 12em;
+  height: 1.5em;
+}

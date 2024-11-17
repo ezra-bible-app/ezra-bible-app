@@ -417,7 +417,8 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Словарь</b>",
-    "help-no-dicts": "There are no dictionaries available."
+    "help-no-dicts": "There are no dictionaries available.",
+    "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {
     "default-header": "Статистика меток",

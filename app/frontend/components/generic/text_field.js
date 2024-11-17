@@ -34,6 +34,7 @@ const template = html`
 <style>
   :host {
     display: inline-block;
+    --input-height: auto;
   }
 
   #text-field {
@@ -45,12 +46,14 @@ const template = html`
     border-radius: 4px;
     padding-right: 1.8em;
     width: 65%;
+    height: var(--input-height);
   }
 
   #delete-button {
     position: relative;
     right: 25px;
     color: var(--button-color);
+    vertical-align: middle;
   }
 
   #delete-button:hover {
@@ -71,6 +74,10 @@ const template = html`
  * It adds some styling as well as a delete button that can be used to delete the content of the text field.
  */
 class TextField extends HTMLElement {
+  static get observedAttributes() {
+    return ['placeholder'];
+  }
+
   constructor() {
     super();
 
@@ -95,6 +102,18 @@ class TextField extends HTMLElement {
         uiHelper.switchToRegularTheme(this.shadowRoot, 'text-field');
       }
     });
+
+    this._updatePlaceholder();
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'placeholder') {
+      this._updatePlaceholder();
+    }
+  }
+
+  _updatePlaceholder() {
+    this.input.placeholder = this.getAttribute('placeholder') || '';
   }
 
   set value(value) {
