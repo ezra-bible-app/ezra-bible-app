@@ -124,7 +124,7 @@ class OptionsMenu {
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
-    this._limitTextWidthOption = this.initConfigOption('limitTextWidthOption', () => { this.toggleTextWidthBasedOnOption(); });
+    this._limitTextWidthOption = this.initConfigOption('limitTextWidthOption', () => { this.toggleTextWidthBasedOnOption(); }, true);
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
