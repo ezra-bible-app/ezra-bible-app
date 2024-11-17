@@ -20,6 +20,11 @@ const eventController = require('../../controllers/event_controller.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const ReferenceBoxHelper = require('./reference_box_helper.js');
 
+/**
+ * The DictionaryPanel component implements a tool panel that shows dictionary entries for selected words.
+ * 
+ * @category Component
+ */
 class DictionaryPanel {
   constructor() {
     this._initDone = false;
@@ -117,15 +122,19 @@ class DictionaryPanel {
       return;
     }
 
+    // Hide the help container and clear the select element
     helpContainer.classList.add('hidden');
     selectEl.innerHTML = "";
 
+    // Populate the select element with dictionary modules
     for (let i = 0; i < modules.length; i++) {
       let module = modules[i];
       let option = document.createElement('option');
 
       option.innerText = module.description;
       option.value = module.name;
+
+      // Select the first option by default
       if (i == 0) {
         option.selected = "selected";
       }
@@ -133,12 +142,27 @@ class DictionaryPanel {
       selectEl.append(option);
     }
 
+    // Show the select element
     selectEl.classList.remove('hidden');
 
+    // Show the select menu if it exists
     if (selectMenu != null) {
       selectMenu.classList.remove('hidden');
     }
 
+    // Retrieve the saved dictionary from settings
+    let savedDictionary = await ipcSettings.get('selectedDictionary', null);
+
+    // If a saved dictionary exists and is in the modules list, select it
+    if (savedDictionary && modules.some(module => module.name === savedDictionary)) {
+      selectEl.value = savedDictionary;
+      await this.handleDictionaryChange(savedDictionary);
+    } else {
+      // Otherwise, select the first module by default
+      await this.handleDictionaryChange(modules[0].name);
+    }
+
+    // Initialize the jQuery selectmenu widget
     $(selectEl).selectmenu({
       width: 200,
       change: () => {
@@ -146,12 +170,11 @@ class DictionaryPanel {
         this.handleDictionaryChange(selectedModuleCode);
       }
     });
-
-    await this.handleDictionaryChange(modules[0].name);
   }
 
   async handleDictionaryChange(selectedModule) {
     this._currentDict = selectedModule;
+    await ipcSettings.set('selectedDictionary', selectedModule); // Save the selected dictionary
 
     this.closeDictEntry();
 
@@ -176,6 +199,7 @@ class DictionaryPanel {
         let firstCharacter = keys[0][0];
         let lastItemCharacter = "";
 
+        // Create HTML list of dictionary keys grouped by their first character
         for (let i = 0; i < keys.length; i++) {
           let key = keys[i];
           firstCharacter = key[0];
@@ -211,6 +235,7 @@ class DictionaryPanel {
       let allMarkers = this.getKeyContainer().querySelectorAll('.dictionary-section-marker');
       let allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
 
+      // Add click event listeners to all section markers
       allMarkers.forEach((marker) => {
         marker.addEventListener('click', (event) => {
           event.preventDefault();
@@ -250,6 +275,7 @@ class DictionaryPanel {
 
   updateSectionEventHandlers(section) {
     let allKeys = section.querySelectorAll('.dict-key');
+    // Add click event listeners to all dictionary keys in the section
     allKeys.forEach((key) => {
       const EVENT_CLASS = 'event-init-done';
 
@@ -309,6 +335,7 @@ class DictionaryPanel {
 
   initReferences() {
     let referenceElements = this.getContentContainer().querySelectorAll('ref');
+    // Add click event listeners to all reference elements
     referenceElements.forEach((reference) => {
       reference.addEventListener('click', (event) => {
         this._referenceBoxHelper.handleReferenceClick(event, false);
@@ -316,6 +343,7 @@ class DictionaryPanel {
     });
 
     let scripRefElements = this.getContentContainer().querySelectorAll('scripref');
+    // Add click event listeners to all scripture reference elements
     scripRefElements.forEach((scripRef) => {
       scripRef.addEventListener('click', (event) => {
         this._referenceBoxHelper.handleReferenceClick(event, false);
@@ -325,6 +353,7 @@ class DictionaryPanel {
     // Regular hyper links are used in the Vines dictionary to reference other
     // entries of the same dictionary. E.g. <a href="sword://Vines/CLOTHING">CLOTHING</a>
     let aElements = this.getContentContainer().querySelectorAll('a');
+    // Add click event listeners to all hyperlink elements
     aElements.forEach((a) => {
       a.addEventListener('click', (event) => {
         event.preventDefault();
@@ -336,6 +365,7 @@ class DictionaryPanel {
 
     // <term> references are used in the Thompson Chain Topics dictionary.
     let termElements = this.getContentContainer().querySelectorAll('term');
+    // Add click event listeners to all term elements
     termElements.forEach((term) => {
       term.addEventListener('click', (event) => {
         event.preventDefault();
@@ -348,6 +378,7 @@ class DictionaryPanel {
 
     // <sync> references are used in the American Tract Society Bible Dictionary
     let syncElements = this.getContentContainer().querySelectorAll('sync');
+    // Add click event listeners to all sync elements
     syncElements.forEach((sync) => {
       sync.addEventListener('click', (event) => {
         let key = event.target.innerText;
@@ -364,7 +395,8 @@ class DictionaryPanel {
 
       if (href.indexOf('/') != -1) {
         let splitHref = href.split('/');
-        let module = splitHref[0];
+        let module = spli
+        tHref[0];
         let key = splitHref[1];
 
         this.openKeyFromTextReference(module, key);
@@ -425,6 +457,7 @@ class DictionaryPanel {
   getDictKeyElementFromKeyString(keyString) {
     const allDictKeys = this.getKeyContainer().querySelectorAll('.dict-key');
 
+    // Find the dictionary key element that matches the given key string
     for (let i = 0; i < allDictKeys.length; i++) {
       let currentDictKey = allDictKeys[i];
       let currentKeyText = allDictKeys[i].innerText;
@@ -461,7 +494,7 @@ class DictionaryPanel {
     modules.sort(swordModuleHelper.sortModules);
 
     let filteredModules = [];
-
+    // Filter out modules that have Strongs keys
     modules.forEach((module) => {
       const hasStrongs = module.hasHebrewStrongsKeys || module.hasGreekStrongsKeys;
 
@@ -477,6 +510,7 @@ class DictionaryPanel {
     const allDictKeys = this.getKeyContainer().querySelectorAll('.dict-key');
     const allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
 
+    // Filter dictionary keys based on the filter text
     allDictKeys.forEach((key) => {
       const section = key.closest('.alphabetical-section');
       if (key.innerText.toLowerCase().includes(filterText.toLowerCase())) {
@@ -487,6 +521,7 @@ class DictionaryPanel {
       }
     });
 
+    // Hide sections that have no visible keys
     allSections.forEach((section) => {
       const visibleKeys = section.querySelectorAll('.dict-key:not([style*="display: none"])');
       if (visibleKeys.length === 0 || filterText === '') {
