@@ -350,8 +350,9 @@ class DictionaryPanel {
       });
     });
 
-    // Regular hyper links are used in the Vines dictionary to reference other
-    // entries of the same dictionary. E.g. <a href="sword://Vines/CLOTHING">CLOTHING</a>
+    // Regular hyper links are used in the Vines dictionary to reference other entries.
+    // These entries can either be from the same dictionary. E.g. <a href="sword://Vines/CLOTHING">CLOTHING</a>
+    // Or they can be links to Strongs like this: <a href="sword://StrongsRealGreek/04652">4652</a>
     let aElements = this.getContentContainer().querySelectorAll('a');
     // Add click event listeners to all hyperlink elements
     aElements.forEach((a) => {
@@ -391,6 +392,7 @@ class DictionaryPanel {
     let href = link.getAttribute('href');
 
     if (href != null) {
+      // Handle links like this one: <a href="sword://StrongsRealGreek/04652">4652</a>
       if (href.includes('Strongs')) {
         let strongsNumber = href.split('/').pop();
         strongsNumber = strongsNumber.replace(/^0+/, ''); // Remove leading zeros
@@ -402,6 +404,7 @@ class DictionaryPanel {
         app_controller.word_study_controller._wordStudyPanel.updateWithKey(strongsKey);
 
       } else {
+        // Handle all other links like this one: <a href="sword://Vines/CLOTHING">CLOTHING</a>
         href = href.replace('sword://', '');
 
         if (href.indexOf('/') != -1) {
