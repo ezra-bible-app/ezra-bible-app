@@ -67,6 +67,10 @@
     height: calc(100% - 5.5em) !important;
   }
 
+  .Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+    height: calc(100% - 6.7em) !important;
+  }
+
   #dictionary-panel-wrapper .ui-selectmenu-status,
   #dictionary-panel-wrapper .ui-selectmenu-menu li a {
     line-height: 1em !important;
