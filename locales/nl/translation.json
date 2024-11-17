@@ -417,6 +417,7 @@
   "dictionary-panel": {
     "default-header": "<b>Woordenboek</b>",
     "help-no-dicts": "There are no dictionaries available.",
+    "open-in-word-study": "Open in word study",
     "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {

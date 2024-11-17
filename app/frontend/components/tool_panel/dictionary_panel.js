@@ -354,8 +354,13 @@ class DictionaryPanel {
     // These entries can either be from the same dictionary. E.g. <a href="sword://Vines/CLOTHING">CLOTHING</a>
     // Or they can be links to Strongs like this: <a href="sword://StrongsRealGreek/04652">4652</a>
     let aElements = this.getContentContainer().querySelectorAll('a');
-    // Add click event listeners to all hyperlink elements
+    // Add click event listeners to all hyper links
     aElements.forEach((a) => {
+      // Add title to Strongs links
+      if (a.getAttribute('href').includes('Strongs')) {
+        a.setAttribute('title', i18n.t('dictionary-panel.open-in-word-study'));
+      }
+
       a.addEventListener('click', (event) => {
         event.preventDefault();
         event.stopPropagation();
