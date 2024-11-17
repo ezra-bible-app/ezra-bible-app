@@ -131,7 +131,12 @@ class DictionaryPanel {
       let module = modules[i];
       let option = document.createElement('option');
 
-      option.innerText = module.description;
+      if (platformHelper.isMobile()) {
+        option.innerText = module.name;
+      } else {
+        option.innerText = module.description;
+      }
+
       option.value = module.name;
 
       // Select the first option by default
@@ -164,7 +169,7 @@ class DictionaryPanel {
 
     // Initialize the jQuery selectmenu widget
     $(selectEl).selectmenu({
-      width: 200,
+      width: platformHelper.isMobile() ? 110 : 200,
       change: () => {
         let selectedModuleCode = selectEl.value;
         this.handleDictionaryChange(selectedModuleCode);
