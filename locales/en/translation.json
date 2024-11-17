@@ -87,6 +87,8 @@
     "step-modules": {  
       "select-module": "Please choose {{module_type}} to install.",
       "module-display-preferences": "Filter preferences:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} with {{feature_type, instrumental}}",
       "module-already-installed": "This {{module_type, singular}} is already installed!",
       "show-module-info": "Show info",
@@ -353,6 +355,7 @@
     "show-paragraphs": "Show paragraphs",
     "red-letters": "Highlight Jesus' words in red",
     "show-dictionary": "Show dictionary",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Show book/chapter navigation",
     "show-header-navigation": "Show header navigation",
     "show-tab-search": "Show current tab search",
@@ -397,10 +400,10 @@
       "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
     }
   },
-  "dictionary-panel": {
-    "greek-dict": "Greek Dictionary",
-    "hebrew-dict": "Hebrew Dictionary",
-    "default-header": "<b>Dictionary</b>",
+  "word-study-panel": {
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "How to show dictionary entries here:",
     "help-instruction-part1": "Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Open a translation with the Strong's feature.",
@@ -410,6 +413,12 @@
     "find-all-occurrences": "Find all occurrences",
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's"
+  },
+  "dictionary-panel": {
+    "default-header": "<b>Dictionary</b>",
+    "help-no-dicts": "There are no dictionaries available.",
+    "open-in-word-study": "Open in word study",
+    "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {
     "default-header": "Tag statistics",

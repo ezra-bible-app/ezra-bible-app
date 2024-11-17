@@ -93,16 +93,13 @@ const template = html`
     </div>
 
     <div id="dict-module-feature-filter" class="feature-filter-wrapper">
-      <label>
-        <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-        <span id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="$t(module-assistant.step-modules.module-with, {'feature_type': 'general.module-hebrew-strongs-dict'})"></span>
-      </label>
-      <label>
-        <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-        <span id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="$t(module-assistant.step-modules.module-with, {'feature_type': 'general.module-greek-strongs-dict'})"></span>
-      </label>
+      <select id="dict-feature-select" class="module-feature-filter">
+        <option value="all" i18n="module-assistant.step-modules.all-modules"></option>
+        <option value="regular-dicts" i18n="module-assistant.step-modules.regular-dicts"></option>
+        <option value="hebrew-strongs" i18n="$t(module-assistant.step-modules.module-with, {'feature_type': 'general.module-hebrew-strongs-dict'})"></option>
+        <option value="greek-strongs" i18n="$t(module-assistant.step-modules.module-with, {'feature_type': 'general.module-greek-strongs-dict'})"></option>
+      </select>
     </div>
-
 
     <div id="filtered-module-list"></div>
   </div>  
@@ -134,10 +131,17 @@ class StepModules extends HTMLElement {
   async connectedCallback() {
     this.appendChild(template.content.cloneNode(true));
     assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
-    
-    this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
-      this._listFilteredModules();
-    }));
+    const moduleType = assistantController.get('moduleType');
+
+    if (moduleType == 'DICT') {
+      this.querySelector('#dict-feature-select').addEventListener('change', async () => {
+        this._listFilteredModules();
+      });
+    } else {
+      this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
+        this._listFilteredModules();
+      }));
+    }
     
     const filteredModuleList = this.querySelector('#filtered-module-list');
     filteredModuleList.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
@@ -163,8 +167,10 @@ class StepModules extends HTMLElement {
     const headingsFilter = this.querySelector('#headings-feature-filter').checked;
     const strongsFilter = this.querySelector('#strongs-feature-filter').checked;
 
-    const hebrewStrongsFilter = this.querySelector('#hebrew-strongs-dict-feature-filter').checked;
-    const greekStrongsFilter = this.querySelector('#greek-strongs-dict-feature-filter').checked;
+    const dictFeatureSelect = this.querySelector('#dict-feature-select').value;
+    const regularDictFilter = dictFeatureSelect === 'regular-dicts';
+    const hebrewStrongsFilter = dictFeatureSelect === 'hebrew-strongs';
+    const greekStrongsFilter = dictFeatureSelect === 'greek-strongs';
 
     const languageCodes = [...assistantController.get('selectedLanguages')].sort((codeA, codeB) => {
       return assistantHelper.sortByText(i18nHelper.getLanguageName(codeA), i18nHelper.getLanguageName(codeB));
@@ -184,13 +190,36 @@ class StepModules extends HTMLElement {
                             info: true};
 
     for (const language of languageCodes) {
-      const modules = await getModulesByLang(language, 
-                                             repositories, 
-                                             installedModules, 
-                                             headingsFilter, 
-                                             strongsFilter, 
-                                             hebrewStrongsFilter, 
-                                             greekStrongsFilter);
+      let modules = [];
+
+      if (regularDictFilter) {
+        modules = await getModulesByLang(language, 
+                                         repositories, 
+                                         installedModules, 
+                                         false, 
+                                         false, 
+                                         false,
+                                         false);
+        let filteredModules = new Map();
+
+        modules.forEach((module) => {
+          if (!module.hasGreekStrongsKeys && !module.hasHebrewStrongsKeys) {
+            filteredModules.set(module.code, module);
+          }
+        });
+
+        modules = filteredModules;
+
+      } else {
+        modules = await getModulesByLang(language, 
+                                         repositories, 
+                                         installedModules, 
+                                         headingsFilter, 
+                                         strongsFilter, 
+                                         hebrewStrongsFilter, 
+                                         greekStrongsFilter);
+      }
+
       
       if (modules.size > 0) {
         const langModuleSection = assistantHelper.listCheckboxSection(modules,
@@ -275,8 +304,17 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
                                                                      greekStrongsFilter);
     
     const hiddenModules = [
-      'GerHfa2002', // The GerHfa2002 (Hoffnung für alle) is excluded from the list, since you cannot purchase an unlock key anymore.
-      'Personal'    // The Personal Commentary module is not useful in the context of Ezra Bible App.
+      'GerHfa2002',     // The GerHfa2002 (Hoffnung für alle) is excluded from the list, since you cannot purchase an unlock key anymore.
+      'GerHfaLex2002',  // The GerHfaLex2002 (Hoffnung für alle Lexikon) is excluded from the list, since you cannot purchase an unlock key anymore.
+      'Personal',       // The Personal Commentary module is not useful in the context of Ezra Bible App.
+      'NaveLinked'      // The NaveLinked Dictionary module does not work in the context of Ezra Bible App.
+    ];
+
+    // We do not support these categories
+    const unsupportedCategories = [
+      'Images',
+      'Maps',
+      'Daily Devotional'
     ];
 
     for (const swordModule of currentRepoLangModules) {
@@ -285,8 +323,12 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
         continue;
       }
 
-      // We do not support Image modules
-      if (swordModule.category == "Images") {
+      if (unsupportedCategories.includes(swordModule.category)) {
+        continue;
+      }
+
+      // Exclude Morphology modules from the list
+      if (swordModule.description.indexOf('Morph') != -1) {
         continue;
       }
 
@@ -294,6 +336,8 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
         code: swordModule.name,
         text: `${swordModule.description} [${swordModule.name}]`,
         description: `${swordModule.repository}; ${i18n.t('general.module-version')}: ${swordModule.version}; ${i18n.t("general.module-size")}: ${Math.round(swordModule.size / 1024)} KB`,
+        hasHebrewStrongsKeys: swordModule.hasHebrewStrongsKeys,
+        hasGreekStrongsKeys: swordModule.hasGreekStrongsKeys
       };
 
       if (swordModule.locked) {

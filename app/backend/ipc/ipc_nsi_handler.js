@@ -251,6 +251,10 @@ class IpcNsiHandler {
       return this._nsi.moduleHasBook(moduleCode, bookCode);
     });
 
+    this._ipcMain.add('nsi_getDictModuleKeys', (moduleCode) => {
+      return this._nsi.getDictModuleKeys(moduleCode);
+    });
+
     this._ipcMain.add('nsi_moduleHasApocryphalBooks', (moduleCode) => {
       const books = this._nsi.getBookList(moduleCode);
 

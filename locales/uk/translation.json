@@ -87,6 +87,8 @@
     "step-modules": {  
       "select-module": "Будь ласка, оберіть {{module_type}} для встановлення.",
       "module-display-preferences": "Фільтрувати:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} з {{feature_type, instrumental}}",
       "module-already-installed": "Цей {{module_type, singular}} вже встановленно!",
       "show-module-info":"Показати подробиці",
@@ -354,6 +356,7 @@
     "show-paragraphs": "Абзаци",
     "red-letters": "Слова Ісуса - червоним",
     "show-dictionary": "Словник",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Вказівник розділів",
     "show-header-navigation": "Вказівник заголовків",
     "show-tab-search": "Відображати форму пошуку по поточній вкладці",
@@ -398,10 +401,10 @@
       "tense-change": "Граматичний зворот цих слів змінено при перекладі"
     }
   },
-  "dictionary-panel": {
-    "greek-dict": "Словник грецької",
-    "hebrew-dict": "Словник івріту",
-    "default-header": "<b>Словник</b>",
+  "word-study-panel": {
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Як відобразити словникові записи:",
     "help-instruction-part1": "Переконайтеся, що встановленно словники Стронга (івриту та грецької). Поточний стан: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Відкрийте переклад, що містить числа Стронга.",
@@ -411,6 +414,12 @@
     "find-all-occurrences": "Знайти всі випадки",
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
     "related-strongs": "Пов'язані числа Стронга"
+  },
+  "dictionary-panel": {
+    "default-header": "<b>Словник</b>",
+    "help-no-dicts": "There are no dictionaries available.",
+    "open-in-word-study": "Open in word study",
+    "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {
     "default-header": "Перелік міт",

@@ -17,550 +17,551 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../../controllers/event_controller.js');
-const { html } = require('../../helpers/ezra_helper.js');
-
-let jsStrongs = null;
+const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+const ReferenceBoxHelper = require('./reference_box_helper.js');
 
 /**
- * The DictionaryPanel component handles all event handling and updates of the
- * dictionary panel component.
+ * The DictionaryPanel component implements a tool panel that shows dictionary entries for selected words.
  * 
  * @category Component
  */
 class DictionaryPanel {
-  constructor(dictionaryController) {
-    this.dictionaryController = dictionaryController;
-    this.dictionaryPanel = $('#dictionary-panel');
-    this.dictionaryPanelWrapper = $('#dictionary-panel-wrapper');
-    this.dictionaryPanelHeader = $('#dictionary-panel-header');
-    this.dictionaryPanelHelp = $('#dictionary-panel-help');
-    this.dictionaryPanelContent = $('#dictionary-panel-content');
-    this.dictionaryPanelBreadcrumbs = $('#dictionary-panel-breadcrumbs');
-    this.dictionaryPanelStack = [];
-    this.currentStrongsEntry = null;
-    this.currentFirstStrongsEntry = null;
-    this.currentAdditionalStrongsEntries = [];
-    this.currentLemma = null;
+  constructor() {
+    this._initDone = false;
+    this._currentKey = null;
+    this._filterTimeout = null;
 
-    eventController.subscribe('on-locale-changed', () => {
-      if (this.currentStrongsEntry == null) {
-        this.clear();
+    eventController.subscribe('on-dictionary-panel-switched', (isOpen) => {
+      if (isOpen && !this._initDone) {
+        this.init();
+      }
+
+      if (isOpen) {
+        setTimeout(() => {
+          this.getKeyContainer().style.display = 'block';
+        }, 50);
+      } else {
+        this.getKeyContainer().style.display = 'none';
       }
     });
 
-    this.clear();
-  }
-
-  getJsStrongs() {
-    if (jsStrongs == null) {
-      jsStrongs = require('strongs');
-    }
-
-    return jsStrongs;
-  }
-
-  clear() {
-    this.currentStrongsEntry = null;
-
-    var strongsAvailable = this.dictionaryController.strongsAvailable;
-    var dictionaryInstallStatus = i18n.t("general.installed");
-    var dictionaryInstallStatusClass = 'dict-installed';
-
-    if (!strongsAvailable) {
-      dictionaryInstallStatus = i18n.t("general.not-installed");
-      dictionaryInstallStatusClass = "dict-not-installed";
-    }
-
-    this.dictionaryPanelWrapper.find('div').empty();
-    this.dictionaryPanelHeader[0].innerHTML = i18n.t("dictionary-panel.default-header",
-                                                       { interpolation: {escapeValue: false} });
-
-    let helpInstructionPart1 = i18n.t("dictionary-panel.help-instruction-part1", {
-      install_status_class: dictionaryInstallStatusClass,
-      install_status: dictionaryInstallStatus,
-      interpolation: {escapeValue: false}
+    
+    eventController.subscribeMultiple(['on-dictionary-added', 'on-dictionary-removed'], (moduleCode) => {
+      this.refreshDictionaries();
     });
 
-    let helpInstructionPart2 = i18n.t("dictionary-panel.help-instruction-part2");
-    let helpInstructionPart3 = "";
-    let helpInstructionPart4 = "";
-   
-    if (platformHelper.isCordova()) {
-      helpInstructionPart3 = i18n.t("dictionary-panel.help-instruction-part3-cordova");
-    } else {
-      helpInstructionPart3 = i18n.t("dictionary-panel.help-instruction-part3");
-      helpInstructionPart4 = `<li>${i18n.t("dictionary-panel.help-instruction-part4-desktop")}</li>`;
+    this._referenceBoxHelper = new ReferenceBoxHelper(this.getPanel(), this.getReferenceBox());
+
+    document.getElementById('dictionary-panel-info-button').addEventListener('click', () => {
+      const selectedModuleCode = this.getSelectElement().value;
+      app_controller.info_popup.showAppInfo(selectedModuleCode);
+    });
+
+    const filterInput = document.getElementById('dictionary-panel-filter');
+    filterInput.setAttribute('placeholder', i18n.t('dictionary-panel.filter-placeholder'));
+
+    filterInput.addEventListener('keyup', (event) => {
+      clearTimeout(this._filterTimeout);
+      this._filterTimeout = setTimeout(() => {
+        this.filterKeys(event.target.value);
+      }, 300);
+    });
+  }
+
+  isPanelActive() {
+    let panelButtons = document.getElementById('panel-buttons');
+    return panelButtons.activePanel == 'dictionary-panel';
+  }
+
+  getSelectElement() {
+    return document.getElementById('dictionary-panel-select');
+  }
+
+  getPanel() {
+    return document.getElementById('dictionary-panel');
+  }
+
+  getKeyContainer() {
+    return document.getElementById('dictionary-panel-keys');
+  }
+
+  getContentContainer() {
+    return document.getElementById('dictionary-panel-content');
+  }
+
+  getReferenceBox() {
+    return document.getElementById('dictionary-panel-reference-box');
+  }
+
+  init() {
+    this.refreshDictionaries();
+
+    document.getElementById('dictionary-panel-info-button').addEventListener('click', () => {
+      const selectedModuleCode = this.getSelectElement().value;
+      app_controller.info_popup.showAppInfo(selectedModuleCode);
+    });
+
+    this._initDone = true;
+  }
+
+  async refreshDictionaries() {
+    let modules = await this.getDictModules();
+    let helpContainer = document.getElementById('dictionary-panel-help-no-dicts');
+    let selectEl = this.getSelectElement();
+    let selectMenu = document.getElementById('dictionary-panel-select-button');
+
+    if (modules.length == 0) {
+      helpContainer.classList.remove('hidden');
+      selectEl.classList.add('hidden');
+      this.getKeyContainer().innerHTML = '';
+
+      if (selectMenu != null) {
+        selectMenu.classList.add('hidden');
+      }
+
+      return;
     }
-    
-    let helpInstruction = html`
-      <p>${i18n.t("dictionary-panel.help-instruction-intro")}</p>
-      <ol>
-        <li>${helpInstructionPart1}</li>
-        <li>${helpInstructionPart2}</li>
-        <li>${helpInstructionPart3}</li>
-        ${helpInstructionPart4}
-      </ol>
+
+    // Hide the help container and clear the select element
+    helpContainer.classList.add('hidden');
+    selectEl.innerHTML = "";
+
+    // Populate the select element with dictionary modules
+    for (let i = 0; i < modules.length; i++) {
+      let module = modules[i];
+      let option = document.createElement('option');
+
+      if (platformHelper.isMobile()) {
+        option.innerText = module.name;
+      } else {
+        option.innerText = module.description;
+      }
+
+      option.value = module.name;
+
+      // Select the first option by default
+      if (i == 0) {
+        option.selected = "selected";
+      }
+
+      selectEl.append(option);
+    }
+
+    // Show the select element
+    selectEl.classList.remove('hidden');
+
+    // Show the select menu if it exists
+    if (selectMenu != null) {
+      selectMenu.classList.remove('hidden');
+    }
+
+    // Retrieve the saved dictionary from settings
+    let savedDictionary = await ipcSettings.get('selectedDictionary', null);
+
+    // If a saved dictionary exists and is in the modules list, select it
+    if (savedDictionary && modules.some(module => module.name === savedDictionary)) {
+      selectEl.value = savedDictionary;
+      await this.handleDictionaryChange(savedDictionary);
+    } else {
+      // Otherwise, select the first module by default
+      await this.handleDictionaryChange(modules[0].name);
+    }
+
+    // Initialize the jQuery selectmenu widget
+    $(selectEl).selectmenu({
+      width: platformHelper.isMobile() ? 110 : 200,
+      change: () => {
+        let selectedModuleCode = selectEl.value;
+        this.handleDictionaryChange(selectedModuleCode);
+      }
+    });
+  }
+
+  async handleDictionaryChange(selectedModule) {
+    this._currentDict = selectedModule;
+    await ipcSettings.set('selectedDictionary', selectedModule); // Save the selected dictionary
+
+    this.closeDictEntry();
+
+    const filterInput = document.getElementById('dictionary-panel-filter');
+    filterInput.value = ''; // Clear the filter text
+
+    this.getKeyContainer().innerHTML = `
+    <div class='loader' style='margin-left: 40%; margin-top: 2.5em;'>
+      <div class='bounce1'></div>
+      <div class='bounce2'></div>
+      <div class='bounce3'></div>
+    </div>
     `;
 
-    this.dictionaryPanelHelp[0].innerHTML = helpInstruction.innerHTML;
-    this.dictionaryPanelHelp[0].style.display = 'block';
+    setTimeout(async () => {
+      let keys = await ipcNsi.getDictModuleKeys(selectedModule);
+      this._currentKeyList = keys;
+
+      let htmlList = "<ul id='dictionary-section-list' class='panel-content'>";
+
+      if (keys.length > 0) {
+        let firstCharacter = keys[0][0];
+        let lastItemCharacter = "";
+
+        // Create HTML list of dictionary keys grouped by their first character
+        for (let i = 0; i < keys.length; i++) {
+          let key = keys[i];
+          firstCharacter = key[0];
+
+          if (firstCharacter != lastItemCharacter) {
+            if (i > 0) {
+              htmlList += '</ul></li>';
+            }
+
+            htmlList += `<li id='dict-letter-${firstCharacter.toLowerCase()}'>`;
+            htmlList += `<div class='dictionary-section-marker'>`;
+            htmlList += '<i class="fa-solid fa-circle-chevron-right dictionary-accordion-button"></i>';
+            htmlList += firstCharacter;
+            htmlList += '</div>'
+            htmlList += `<ul class='alphabetical-section hidden'>`
+          }
+
+          let currentItem = `<li class='dict-key'>${key}</li>`;
+          htmlList += currentItem;
+
+          lastItemCharacter = firstCharacter;
+        }
+
+        htmlList += "</ul></li></ul>";
+      } else {
+
+        htmlList += "</ul>";
+      }
+
+      this.getKeyContainer().innerHTML = htmlList;
+      this.getKeyContainer().scrollTop = 0;
+
+      let allMarkers = this.getKeyContainer().querySelectorAll('.dictionary-section-marker');
+      let allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
+
+      // Add click event listeners to all section markers
+      allMarkers.forEach((marker) => {
+        marker.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          let liElement = event.target.closest('li');
+          this.handleSectionMarkerClick(liElement, allSections);
+        });
+      });
+    }, 500);
   }
 
-  async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
-    if (strongsEntry == null) {
-      return;
+  handleSectionMarkerClick(liElement, allSections) {
+    this._currentSectionId = liElement.getAttribute('id');
+    let section = liElement.querySelector('.alphabetical-section');
+
+    if (section.classList.contains('hidden')) {
+      allSections.forEach((section) => {
+        section.classList.add('hidden');
+      });
+
+      section.classList.remove('hidden');
+      const allDictKeys = this.getKeyContainer().querySelectorAll('.dict-key');
+      allDictKeys.forEach((key) => {
+        key.style.display = '';
+      });
+
+      const filterInput = document.getElementById('dictionary-panel-filter');
+      filterInput.value = '';
+
+      this.updateSectionEventHandlers(section);
+    } else {
+      section.classList.add('hidden');
     }
 
-    var jsStrongsEntry = this.getJsStrongs()[strongsEntry.key];
-    if (jsStrongsEntry == null) {
-      return;
-    }
+    liElement.scrollIntoViewIfNeeded();
+  }
 
-    if (firstUpdate) {
-      this.dictionaryPanelStack = [ strongsEntry.rawKey ];
-    }
+  updateSectionEventHandlers(section) {
+    let allKeys = section.querySelectorAll('.dict-key');
+    // Add click event listeners to all dictionary keys in the section
+    allKeys.forEach((key) => {
+      const EVENT_CLASS = 'event-init-done';
 
-    this.currentStrongsEntry = strongsEntry;
-    this.currentAdditionalStrongsEntries = additionalStrongsEntries;
-    this.currentLemma = jsStrongsEntry.lemma;
-
-    var dictInfoHeader = this.getHeader(strongsEntry);
-    this.dictionaryPanelHeader.html(dictInfoHeader);
-    this.dictionaryPanelHelp.hide();
-    this.dictionaryPanelBreadcrumbs.html(this.getBreadcrumbs(additionalStrongsEntries));
-
-    let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
-
-    this.dictionaryPanelContent.html(extendedStrongsInfo);
-
-    // Replace sword:// links with plain text
-    this.dictionaryPanelContent.find('a').each((index, aElement) => {
-      var currentA = $(aElement);
-      if (currentA.prop('href').indexOf('sword') != -1) {
-        currentA.replaceWith(currentA.text());
+      if (!key.classList.contains(EVENT_CLASS)) {
+        key.classList.add(EVENT_CLASS);
+        key.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          this.handleKeyClick(event.target);
+        });
       }
     });
+  }
 
-    uiHelper.configureButtonStyles(this.dictionaryPanelContent[0]);
+  async handleKeyClick(key) {
+    const currentDictionary = this.getSelectElement().value;
+    const keyValue = key.innerText.trim();
 
-    let moduleInfoButtons = this.dictionaryPanelContent[0].querySelectorAll('.module-info-button');
-    moduleInfoButtons.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        this.handleModuleInfoButtonClick(event);
+    let dictHeader = `<div id='dict-entry-header'>${keyValue}</div>`;
+    let closeIcon = `<div class='close-icon icon'><i class='fa-solid fa-rectangle-xmark'></i></div><br id='dict-entry-header-separator' />`;
+    let dictContent = await ipcNsi.getRawModuleEntry(currentDictionary, keyValue);
+
+    if (dictContent == null) {
+      return;
+    }
+
+    dictContent = dictContent.replaceAll('<lb', '<p');
+    dictContent = dictContent.replaceAll('lb>', 'p>');
+    dictContent = dictContent.replaceAll('<list>', '<ul>');
+    dictContent = dictContent.replaceAll('</list>', '</ul>');
+    dictContent = dictContent.replaceAll('<item>', '<li>');
+    dictContent = dictContent.replaceAll('</item>', '</li>');
+
+    this.getPanel().classList.add('dict-entry-shown');
+    this.getContentContainer().setAttribute('module-context', this._currentDict + ' – ' + keyValue);
+    this.getContentContainer().innerHTML = dictHeader + closeIcon + `<div class='dict-entry panel-content'>${dictContent}</div>`;
+    this.getContentContainer().scrollTop = 0;
+    this._referenceBoxHelper.hideReferenceBox();
+
+    this.initReferences();
+
+    this.getContentContainer().querySelector('.close-icon').addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.closeDictEntry();
+    });
+
+    if (this._currentKey != null) {
+      this._currentKey.classList.remove('selected');
+    }
+
+    this._currentKey = key;
+    key.classList.add('selected');
+    key.scrollIntoViewIfNeeded();
+  }
+
+  initReferences() {
+    let referenceElements = this.getContentContainer().querySelectorAll('ref');
+    // Add click event listeners to all reference elements
+    referenceElements.forEach((reference) => {
+      reference.addEventListener('click', (event) => {
+        this._referenceBoxHelper.handleReferenceClick(event, false);
+      });
+    });
+
+    let scripRefElements = this.getContentContainer().querySelectorAll('scripref');
+    // Add click event listeners to all scripture reference elements
+    scripRefElements.forEach((scripRef) => {
+      scripRef.addEventListener('click', (event) => {
+        this._referenceBoxHelper.handleReferenceClick(event, false);
+      });
+    });
+
+    // Regular hyper links are used in the Vines dictionary to reference other entries.
+    // These entries can either be from the same dictionary. E.g. <a href="sword://Vines/CLOTHING">CLOTHING</a>
+    // Or they can be links to Strongs like this: <a href="sword://StrongsRealGreek/04652">4652</a>
+    let aElements = this.getContentContainer().querySelectorAll('a');
+    // Add click event listeners to all hyper links
+    aElements.forEach((a) => {
+      // Add title to Strongs links
+      if (a.getAttribute('href').includes('Strongs')) {
+        a.setAttribute('title', i18n.t('dictionary-panel.open-in-word-study'));
+      }
+
+      a.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.handleHyperLinkClick(event.target);
+      });
+    });
+
+    // <term> references are used in the Thompson Chain Topics dictionary.
+    let termElements = this.getContentContainer().querySelectorAll('term');
+    // Add click event listeners to all term elements
+    termElements.forEach((term) => {
+      term.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        let key = event.target.innerText;
+        this.openKeyFromTextReference(this._currentDict, key);
+      });
+    });
+
+    // <sync> references are used in the American Tract Society Bible Dictionary
+    let syncElements = this.getContentContainer().querySelectorAll('sync');
+    // Add click event listeners to all sync elements
+    syncElements.forEach((sync) => {
+      sync.addEventListener('click', (event) => {
+        let key = event.target.innerText;
+        this.openKeyFromTextReference(this._currentDict, key);
       });
     });
   }
 
-  handleModuleInfoButtonClick(event) {
-    let moduleCode = event.target.closest('.module-info-button').getAttribute('module');
-    app_controller.info_popup.showAppInfo(moduleCode);
-  }
+  async handleHyperLinkClick(link) {
+    let href = link.getAttribute('href');
 
-  getAlternativeStrongsLink(strongsKey) {
-    var functionCall = `app_controller.dictionary_controller._dictionaryPanel.updateWithKey("${strongsKey}")`;
-    var currentLink = `<a href='javascript:${functionCall}'>${strongsKey}</a>`;
-    return currentLink;
-  }
+    if (href != null) {
+      // Handle links like this one: <a href="sword://StrongsRealGreek/04652">4652</a>
+      if (href.includes('Strongs')) {
+        let strongsNumber = href.split('/').pop();
+        strongsNumber = strongsNumber.replace(/^0+/, ''); // Remove leading zeros
+        const isGreek = href.includes('Greek');
+        const prefix = isGreek ? 'G' : 'H';
+        const strongsKey = `${prefix}${strongsNumber}`;
 
-  getBreadCrumbEntry(strongsEntry) {
-    var breadCrumbEntry = "";
+        await app_controller.word_study_controller._wordStudyPanel.updateWithKey(strongsKey, true);
+        this.switchToWordStudyPanel();
 
-    if (strongsEntry.rawKey == this.currentStrongsEntry.rawKey) {
-      breadCrumbEntry = this.currentStrongsEntry.rawKey;
-    } else {
-      breadCrumbEntry = this.getAlternativeStrongsLink(strongsEntry.rawKey);
-    }
-
-    return breadCrumbEntry;
-  }
-
-  getAdditionalStrongsEntryLinks(additionalStrongsEntries) {
-    var additionalStrongsLinks = "";
-
-    if (additionalStrongsEntries.length > 0) {
-      for (var i = 0;  i < additionalStrongsEntries.length; i++) {
-        additionalStrongsLinks += ' | ';
-
-        var breadCrumbEntry = this.getBreadCrumbEntry(additionalStrongsEntries[i]);
-
-        if (this.dictionaryPanelStack.length == 1) {
-          breadCrumbEntry = "<b>" + breadCrumbEntry + "</b>";
-        }
-
-        additionalStrongsLinks += breadCrumbEntry;
-      }
-    }
-
-    return additionalStrongsLinks;
-  }
-
-  getBreadcrumbs(additionalStrongsEntries=[]) {
-    var crumbArray = [];
-    var additionalStrongsLinks = this.getAdditionalStrongsEntryLinks(additionalStrongsEntries);
-
-    for (var i = 0; i < this.dictionaryPanelStack.length; i++) {
-      let currentCrumb;
-      if (i < this.dictionaryPanelStack.length - 1) {
-        const currentRewindNumber = this.dictionaryPanelStack.length - i - 1;
-        currentCrumb = "<a href='javascript:app_controller.dictionary_controller._dictionaryPanel.rewindStack(" + currentRewindNumber + ")'>";
-
-        if (i == 0) {
-          currentCrumb += this.currentFirstStrongsEntry.rawKey;
-        } else {
-          currentCrumb += this.dictionaryPanelStack[i];
-        }
-
-        currentCrumb += "</a>";
       } else {
-        if (this.dictionaryPanelStack[i] == this.currentStrongsEntry.rawKey) {
-          currentCrumb = "<b>" + this.dictionaryPanelStack[i] + "</b>";
-        } else {
-          currentCrumb = "<b>" + this.getAlternativeStrongsLink(this.dictionaryPanelStack[i]) + "</b>";
+        // Handle all other links like this one: <a href="sword://Vines/CLOTHING">CLOTHING</a>
+        href = href.replace('sword://', '');
+
+        if (href.indexOf('/') != -1) {
+          let splitHref = href.split('/');
+          let module = splitHref[0];
+          let key = splitHref[1];
+
+          this.openKeyFromTextReference(module, key);
         }
       }
-
-      if (i == 0 && this.dictionaryPanelStack.length == 1) {
-        currentCrumb += additionalStrongsLinks;
-      }
-
-      crumbArray.push(currentCrumb);
     }
-
-    return crumbArray.join(' &rarr; ');
   }
 
-  async rewindStack(rewindNumber) {
-    for (var i = 0; i < rewindNumber; i++) {
-      this.dictionaryPanelStack.pop();
-
-      var key = null;
-
-      if (this.dictionaryPanelStack.length >= 2) {
-        key = this.dictionaryPanelStack[this.dictionaryPanelStack.length - 1];
-      } else {
-        key = this.currentFirstStrongsEntry.rawKey;
-      }
-
-      this.currentStrongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(key);
-      this.currentLemma = this.getJsStrongs()[this.currentStrongsEntry.key].lemma;
+  switchToWordStudyPanel() {
+    const panelButtons = document.querySelector('panel-buttons');
+    if (panelButtons) {
+      panelButtons._updatePanels('word-study-panel', false);
     }
-
-    await this.update(this.currentStrongsEntry, this.currentAdditionalStrongsEntries);
   }
 
-  async updateWithKey(strongsKey) {
-    var strongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(strongsKey);
+  openKeyFromTextReference(module, key) {
+    if (module == this._currentDict && key != null && key != "") {
+      const allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
 
-    if (strongsEntry == null) {
-      console.log("DictionaryPanel.updateWithKey: Got null strongsEntry for key " + strongsKey);
-      console.log("Cannot update dict info box!");
-      return;
-    }
+      // Go through the dict key elements to see if it includes the key we're looking for.
+      // Then open the key and if needed the corresponding section.
+      for (let i = 0; i < this._currentKeyList.length; i++) {
+        let keyValue = this._currentKeyList[i];
+        let currentKeys = null;
 
-    // Remove existing entries from dictionaryPanelStack
-    while (this.dictionaryPanelStack.length > 1) {
-      this.dictionaryPanelStack.pop();
-    }
-
-    await this.update(strongsEntry, this.currentAdditionalStrongsEntries);
-  }
-
-  getHeader(strongsEntry) {
-    var infoHeader = "";
-    var languageDict;
-
-    if (strongsEntry.key[0] == 'G') {
-      languageDict = i18n.t('dictionary-panel.greek-dict');
-    } else {
-      languageDict = i18n.t('dictionary-panel.hebrew-dict');
-    }
-
-    infoHeader += "<b>" + languageDict + "</b>";
-    return infoHeader;
-  }
-
-  getShortInfo(strongsEntry, lemma) {
-    return `${strongsEntry.transcription} &mdash; ${strongsEntry.phoneticTranscription} &mdash; ${lemma}`;
-  }
-
-  getFindAllLink(strongsEntry) {
-    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var functionCall = "javascript:app_controller.dictionary_controller._dictionaryPanel.findAllOccurrences('" +
-      strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
-
-    var link = "<a href=\"" + functionCall + "\">" + 
-               i18n.t("dictionary-panel.find-all-occurrences") + 
-               "</a>";
-    return link;
-  }
-
-  getBlueletterLink(strongsEntry) {
-    var bible = app_controller.tab_controller.getTab().getBibleTranslationId();
-
-    var blueLetterTranslations = ['KJV', 'NASB', 'ASV', 'WEB'];
-    if (!blueLetterTranslations.includes(bible)) {
-      bible = 'KJV';
-    } else if (bible === 'NASB') {
-      bible = 'NASB20'; // There are two versions NASB1995 and NASB2020 on BLB
-    }
-
-
-    var blueLetterLink = `https://www.blueletterbible.org/lang/lexicon/lexicon.cfm?Strongs=${strongsEntry.key}&t=${bible}`;
-    var blueLetterLinkText = i18n.t("dictionary-panel.open-in-blueletter");
-    var htmlBlueLetterLink = `<a class='external' href='${blueLetterLink}'>${blueLetterLinkText}</a>`;
-    return htmlBlueLetterLink;
-  }
-
-  async getStrongsReferenceTableRow(strongsReference, isLastRow=false) {
-    var referenceTableRow = "";
-    var referenceKey = strongsReference.key;
-    var referenceStrongsEntry = null;
-
-    try {
-      referenceStrongsEntry = await ipcNsi.getStrongsEntry(referenceKey);
-    } catch (e) {
-      console.log("DictionaryPanel.getStrongsReferenceTableRow: Could not get strongs entry for key " + referenceKey);
-      return null;
-    }
-    
-    var jsStrongsEntry = this.getJsStrongs()[referenceKey];
-    if (jsStrongsEntry == null) {
-      return null;
-    }
-
-    var referenceStrongsLemma = jsStrongsEntry.lemma;
-
-    var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller._dictionaryPanel.openStrongsReference('";
-    referenceLink += referenceKey;
-    referenceLink += "')\">" + referenceKey + "</a>";
-    var trClass = (isLastRow ? "" : "class='td-underline'");
-
-    referenceTableRow += "<tr + " + trClass + ">" +
-                         "<td>" + referenceLink + "</td>" + 
-                         "<td>" + referenceStrongsEntry.transcription + "</td>" +
-                         "<td>" + referenceStrongsEntry.phoneticTranscription + "</td>" + 
-                         "<td>" + referenceStrongsLemma + "</td>" +
-                         "</tr>";
-
-    return referenceTableRow;
-  }
-
-  async getExtendedStrongsInfo(strongsEntry, lemma) {
-
-    let lang = "";
-    let moduleCode = "";
-
-    if (strongsEntry.key[0] == 'G') {
-      lang = 'GREEK';
-      moduleCode = 'StrongsGreek';
-    } else if (strongsEntry.key[0] == 'H') {
-      lang = 'HEBREW';
-      moduleCode = 'StrongsHebrew';
-    }
-
-    let extraDictContent = await this.getExtraDictionaryContent(lang, strongsEntry);
-    let relatedStrongsContent = await this.getRelatedStrongsContent(strongsEntry.references);
-    
-    const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
-    let moduleInfoButton = this.getModuleInfoButton(moduleInfoButtonTitle, moduleCode);
-
-    let extendedStrongsInfo = `
-      <div class='bold dictionary-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
-      <p class='dictionary-content'>${this.getFindAllLink(strongsEntry)} | ${this.getBlueletterLink(strongsEntry)}</p>
-      ${extraDictContent}
-      <div class='bold dictionary-title' style='margin-bottom: 1em'>Strong's
-      ${moduleInfoButton} 
-      </div>
-      <div class='strongs-definition dictionary-content'>${strongsEntry.definition}</div>
-      ${relatedStrongsContent}`;
-
-    return extendedStrongsInfo;
-  }
-
-  async getRelatedStrongsContent(strongsReferences) {
-    if (!strongsReferences.length) {
-      return '';
-    }
-
-    var relatedStrongsRows = (await Promise.all(strongsReferences.map(async (ref, i) => {
-      const isLast = i == (strongsReferences.length - 1);
-      return await this.getStrongsReferenceTableRow(ref, isLast);
-    }))).join('');
-
-    const relatedStrongsContent = `
-      <hr/>
-      <div class='bold dictionary-title'>${i18n.t("dictionary-panel.related-strongs")}</div>
-      <div class='dictionary-content'>
-        <table class="strongs-refs">
-        ${relatedStrongsRows}
-        </table>
-      </div>`;
-
-    return relatedStrongsContent;
-  }
-
-  async openStrongsReference(key) {
-    if (key == "" || key == null) {
-      return;
-    } else {
-      try {
-        var previousIndex = this.dictionaryPanelStack.length - 2;
-        var previousKey = null;
-
-        if (previousIndex == 0) {
-          previousKey = this.currentFirstStrongsEntry.rawKey;
+        if (keyValue.indexOf(', ') != -1) {
+          currentKeys = keyValue.split(', ');
+        } else if (keyValue.indexOf('-') != -1) {
+          currentKeys = keyValue.split('-');
+        } else if (keyValue.indexOf(' OR ') != -1) {
+          currentKeys = keyValue.split(' OR ');
         } else {
-          previousKey = this.dictionaryPanelStack[previousIndex];
+          currentKeys = [ keyValue ];
         }
 
-        if (this.dictionaryPanelStack.length >= 2 && previousKey == key) {
+        // At this point the keys may still contain a portion in parenthesis after the key.
+        // e.g. DESERT (NOUN AND ADJECTIVE).
+        // However, the references typically only contain the first portion like "see DESERT".
+        // Therefore we need to clean up the entry and remove the second part
+        let cleanedKeys = [];
+        currentKeys.forEach((rawKey) => {
+          if (rawKey.indexOf(' (') != -1) {
+            let cleanedKey = rawKey.split(' ')[0];
+            cleanedKeys.push(cleanedKey);
+          } else {
+            cleanedKeys.push(rawKey);
+          }
+        });
 
-          // If the last element of the stack is the one that we want to navigate to ... just pop the stack
-          this.rewindStack(1);
+        if (keyValue == key || keyValue.startsWith(key) || cleanedKeys.includes(key)) {
+          let dictKeyElement = this.getDictKeyElementFromKeyString(keyValue);
+          let sectionId = this.getSectionIdFromDictKeyElement(dictKeyElement);
+          let letterSectionLi = dictKeyElement.parentNode.parentNode;
 
-        } else {
-          // Otherwise push on the stack
-
-          var strongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(key);
-
-          if (strongsEntry == null) {
-            console.log("DictionaryPanel.openStrongsReference: Got null strongsEntry for key " + key);
-            console.log("Cannot update dictionary panel!");
-            return;
+          if (sectionId != this._currentSectionId) {
+            this.handleSectionMarkerClick(letterSectionLi, allSections);
           }
 
-          if (this.dictionaryPanelStack.length == 1) {
-            this.currentFirstStrongsEntry = this.currentStrongsEntry;
-          }
-
-          this.dictionaryPanelStack.push(key);
-          await this.update(strongsEntry, this.currentAdditionalStrongsEntries);
+          this.handleKeyClick(dictKeyElement);
+          break;
         }
-      } catch (e) {
-        console.log(e);
       }
     }
   }
 
-  async findAllOccurrences(strongsKey, bibleTranslationId) {
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+  getDictKeyElementFromKeyString(keyString) {
+    const allDictKeys = this.getKeyContainer().querySelectorAll('.dict-key');
 
-    if (!showSearchResultsInPopup) {
-      app_controller.tab_controller.saveTabScrollPosition();
+    // Find the dictionary key element that matches the given key string
+    for (let i = 0; i < allDictKeys.length; i++) {
+      let currentDictKey = allDictKeys[i];
+      let currentKeyText = allDictKeys[i].innerText;
 
-      // Add a new tab. Set the default bible translation to the given one to ensure that the translation in the
-      // newly opened tab matches the one in the current tab
-      app_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
+      if (currentKeyText == keyString) {
+        return currentDictKey;
+      }
     }
-
-    // Set search options
-    var currentTab = app_controller.tab_controller.getTab();
-    currentTab.setSearchOptions('strongsNumber', false);
-
-    // Set the search key and populate the search menu
-    app_controller.tab_controller.setTabSearch(strongsKey);
-    app_controller.module_search_controller.populateSearchMenu();
-
-    if (!showSearchResultsInPopup) {
-      // Prepare for the next text to be loaded
-      await app_controller.text_controller.prepareForNewText(true, true);
-    }
-
-    // Perform the Strong's search
-    await app_controller.module_search_controller.startSearch(/* event */      null,
-                                                             /* tabIndex */   undefined,
-                                                             /* searchTerm */ strongsKey);
-
-    // Run the on-tab-selected actions at the end, because we added a tab
-    const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
-    await eventController.publishAsync('on-tab-selected', tabIndex);
   }
 
-  async getAllExtraDictModules(lang='GREEK') {
-    var dictModules = await ipcNsi.getAllLocalModules('DICT');
-    var filteredDictModules = [];
-    var excludeList = [ 'StrongsGreek', 'StrongsHebrew' ];
+  getSectionIdFromDictKeyElement(dictKeyElement) {
+    let sectionId = '';
 
-    dictModules.forEach((module) => {
-      var hasStrongsKeys = false;
+    if (dictKeyElement != null) {
+      const dictLetterLi = dictKeyElement.parentNode.parentNode;
+      sectionId = dictLetterLi.getAttribute('id');
+    }
 
-      if (lang == 'GREEK') {
-        hasStrongsKeys = module.hasGreekStrongsKeys;
-      } else if (lang == 'HEBREW') {
-        hasStrongsKeys = module.hasHebrewStrongsKeys;
-      }
+    return sectionId;
+  }
 
-      if (hasStrongsKeys && !excludeList.includes(module.name)) {
-        filteredDictModules.push(module);
+  closeDictEntry() {
+    if (this._currentKey != null) {
+      this._currentKey.classList.remove('selected');
+      this.getPanel().classList.remove('dict-entry-shown');
+      this.getContentContainer().innerHTML = '';
+    }
+
+    this._currentKey = null;
+  }
+
+  async getDictModules() {
+    let modules = await ipcNsi.getAllLocalModules('DICT');
+    modules.sort(swordModuleHelper.sortModules);
+
+    let filteredModules = [];
+    // Filter out modules that have Strongs keys
+    modules.forEach((module) => {
+      const hasStrongs = module.hasHebrewStrongsKeys || module.hasGreekStrongsKeys;
+
+      if (!hasStrongs) {
+        filteredModules.push(module);
       }
     });
 
-    return filteredDictModules;
+    return filteredModules;
   }
 
-  async getExtraDictionaryContent(lang='GREEK', strongsEntry) {
-    let extraDictModules = await this.getAllExtraDictModules(lang);
-    let extraDictContent = "<hr></hr>";
+  filterKeys(filterText) {
+    const allDictKeys = this.getKeyContainer().querySelectorAll('.dict-key');
+    const allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
 
-    const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
-
-    for (let i = 0; i < extraDictModules.length; i++) {
-      let dict = extraDictModules[i];
-      let currentDictContent = await this.getDictionaryEntry(dict.name, strongsEntry);
-
-      if (currentDictContent != undefined) {
-        currentDictContent = currentDictContent.trim();
-        let moduleInfoButton = this.getModuleInfoButton(moduleInfoButtonTitle, dict.name);
-
-        let dictHeader = `
-          <div class='bold' style='margin-bottom: 1em'>
-            <span class='dictionary-title'>${dict.description}</span>
-            ${moduleInfoButton}
-            </div>
-          </div>
-          <div class='dictionary-content'>${currentDictContent}</div>
-          <hr></hr>
-        `;
-
-        extraDictContent += dictHeader;
+    // Filter dictionary keys based on the filter text
+    allDictKeys.forEach((key) => {
+      const section = key.closest('.alphabetical-section');
+      if (key.innerText.toLowerCase().includes(filterText.toLowerCase())) {
+        key.style.display = '';
+        section.classList.remove('hidden');
+      } else {
+        key.style.display = 'none';
       }
-    }
+    });
 
-    return extraDictContent;
-  }
-
-  getModuleInfoButton(moduleInfoButtonTitle, moduleCode) {
-    return `
-      <div class='module-info-button fg-button ui-corner-all ui-state-default ui-state-default'
-            i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${moduleCode}'>
-        <i class='fas fa-info'></i>
-      </div>
-    `;
-  }
-
-  async getDictionaryEntry(moduleCode, strongsEntry) {
-    // We first try to fetch the dictionary entry by using the rawKey
-    var currentDictContent = await ipcNsi.getRawModuleEntry(moduleCode, strongsEntry.rawKey.slice(1));
-
-    // If the first attempt returned undefined we try again.
-    // This time we try to fetch the dictionary entry by slicing off the first character of the Strong's key.
-    if (currentDictContent == undefined) {
-      currentDictContent = await ipcNsi.getRawModuleEntry(moduleCode, strongsEntry.key.slice(1));
-    }
-
-    // If the second attempt returned undefined we try again.
-    // This time with the full Strong's key (including H or G as first character)
-    if (currentDictContent == undefined) {
-      currentDictContent = await ipcNsi.getRawModuleEntry(moduleCode, strongsEntry.key);
-    }
-
-    if (currentDictContent != undefined) {
-      // Rename the title element, since this otherwise replaces the Window title
-      currentDictContent = currentDictContent.replace(/<title>/g, "<entryTitle>");
-      currentDictContent = currentDictContent.replace(/<\/title>/g, "</entryTitle>");
-    }
-
-    return currentDictContent;
+    // Hide sections that have no visible keys
+    allSections.forEach((section) => {
+      const visibleKeys = section.querySelectorAll('.dict-key:not([style*="display: none"])');
+      if (visibleKeys.length === 0 || filterText === '') {
+        section.classList.add('hidden');
+      } else {
+        section.classList.remove('hidden');
+        this.updateSectionEventHandlers(section);
+      }
+    });
   }
 }
 

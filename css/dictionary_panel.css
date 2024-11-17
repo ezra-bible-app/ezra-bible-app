@@ -1,0 +1,239 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+#dictionary-panel .ui-icon-triangle-1-s {
+  display: unset !important;
+}
+
+#dictionary-panel-wrapper {
+  padding: 1em !important;
+  height: 2em;
+  overflow: hidden;
+}
+
+#dictionary-panel-keys {
+  border-top: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  overflow-y: scroll;
+  height: calc(100% - 6.8em);
+}
+
+.Android #dictionary-panel-keys {
+  height: calc(100% - 5.6em) !important;
+}
+
+#dict-entry-header {
+  display: none;
+}
+
+#dict-entry-header-separator {
+  display: none;
+}
+
+/* PORTRAIT */
+@media screen and (max-aspect-ratio: 13/10) {
+  #dictionary-panel-wrapper {
+    padding-top: 0.5em !important;
+    padding-right: 0.2em !important;
+    padding-bottom: 0.3em !important;
+  }
+
+  #dictionary-panel-keys {
+    height: calc(100% - 4.6em) !important;
+  }
+
+  #dictionary-panel.dict-entry-shown #dictionary-panel-keys {
+    display: none !important;
+  }
+
+  #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+    border-top: 0;
+    height: calc(100% - 5.5em) !important;
+  }
+
+  .Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+    height: calc(100% - 6.7em) !important;
+  }
+
+  #dictionary-panel-wrapper .ui-selectmenu-status,
+  #dictionary-panel-wrapper .ui-selectmenu-menu li a {
+    line-height: 1em !important;
+  }
+
+  #dict-entry-header {
+    display: inline-block;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+  }
+
+  #dict-entry-header {
+    display: unset;
+  }
+}
+
+#dictionary-panel.dict-entry-shown #dictionary-panel-keys {
+  height: calc(50% - 2.8em);
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+#dictionary-panel.dict-entry-shown.with-reference-box #dictionary-panel-keys {
+  height: calc(35% - 2.8em);
+  border-bottom: 3px solid #dddddd;
+}
+
+#dictionary-panel.dict-entry-shown #dictionary-panel-content {
+  height: calc(50% - 5.1em);
+  display: block !important;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 0.5em;
+  padding-left: 1em;
+  overflow-y: scroll;
+}
+
+#dictionary-panel-reference-box {
+  height: calc(30% - 2.8em);
+}
+
+#dictionary-panel.dict-entry-shown.with-reference-box #dictionary-panel-content {
+  height: calc(35% - 3.5em);
+  border-top: 0;
+  border-bottom: 3px solid #dddddd;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+  height: calc(50% - 3.8em);
+}
+
+#dictionary-panel-content p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#dictionary-panel-content ul {
+  padding-left: 2em;
+}
+
+#dictionary-panel-reference-box {
+  display: none;
+}
+
+.dictionary-accordion-button {
+  color: var(--button-color);
+  margin-right: 0.5em;
+}
+
+.darkmode--activated .dictionary-accordion-button {
+  color: var(--button-color-dark);
+}
+
+#dictionary-section-list {
+  margin-top: 0.5em;
+  list-style-type: none;
+  padding-inline-start: 1em;
+}
+
+.dictionary-section-marker {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.alphabetical-section {
+  list-style-type: none;
+  padding-inline-start: 1.5em;
+}
+
+.dict-key {
+  cursor: pointer;
+  margin-left: 1.5em;
+  text-indent: -1.5em;
+}
+
+.dict-key.selected {
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.darkmode--activated .dict-key.selected {
+  color: var(--accent-color-darkmode);
+}
+
+#dictionary-panel-content ref,
+#dictionary-panel-content scripref,
+#dictionary-panel-content a,
+#dictionary-panel-content term,
+#dictionary-panel-content sync {
+  color: var(--accent-color);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.darkmode--activated #dictionary-panel-content ref,
+.darkmode--activated #dictionary-panel-content scripref,
+.darkmode--activated #dictionary-panel-content a,
+.darkmode--activated #dictionary-panel-content term,
+.darkmode--activated #dictionary-panel-content sync {
+  color: var(--accent-color-darkmode);
+}
+
+#dictionary-panel-content ref:hover,
+#dictionary-panel-content scripref:hover,
+#dictionary-panel-content a:hover,
+#dictionary-panel-content term:hover,
+#dictionary-panel-content sync:hover {
+  text-decoration: underline;
+}
+
+#dictionary-panel-info-button {
+  display: inline-block;
+  margin-left: 0.5em;
+  padding: 0.5em 0.8em;
+  text-align: center;
+  cursor: pointer;
+}
+
+#dictionary-panel-filter {
+  display: inline-block;
+  margin-left: 0.5em;
+  width: 15em;
+  height: 1.5em;
+}
+
+/* LANDSCAPE */
+@media screen and (min-aspect-ratio: 13/10) {
+  .Android #dictionary-panel-filter {
+    width: 9em !important;
+  }
+
+  .Android #dictionary-panel-keys {
+    height: calc(100% - 6.7em) !important;
+  }
+
+  .Android #dictionary-panel.dict-entry-shown #dictionary-panel-keys {
+    display: none !important;
+  }
+
+  .Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+    height: calc(80% - 2.4em) !important;
+    border-top: 0 !important;
+  }
+}

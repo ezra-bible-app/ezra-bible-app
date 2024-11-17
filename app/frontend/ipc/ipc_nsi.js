@@ -252,6 +252,11 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getDictModuleKeys(moduleCode) {
+    var returnValue = this._ipcRenderer.call('nsi_getDictModuleKeys', moduleCode);
+    return returnValue;
+  }
+
   async moduleHasApocryphalBooks(moduleCode) {
     var returnValue = this._ipcRenderer.call('nsi_moduleHasApocryphalBooks', moduleCode);
     return returnValue;

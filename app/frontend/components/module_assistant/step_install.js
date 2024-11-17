@@ -274,7 +274,7 @@ class StepInstall extends HTMLElement {
     }
 
     if (strongsInstallSuccessful) {
-      app_controller.dictionary_controller.runAvailabilityCheck();
+      app_controller.word_study_controller.runAvailabilityCheck();
       this._setInstallationInfoStatus();
     } else {
       this._setInstallationInfoStatus("module-install-failed");

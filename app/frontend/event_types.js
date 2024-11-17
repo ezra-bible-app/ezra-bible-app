@@ -30,7 +30,7 @@
  * @typedef { "on-tab-search-results-available" | "on-tab-search-reset" } TabSearchEvents
  */
 /**
- * @typedef { "on-all-translations-removed" | "on-translation-removed" | "on-translation-added" | "on-dictionary-added" | "on-commentary-added" | "on-commentary-removed" } ModuleAssistantEvents
+ * @typedef { "on-all-translations-removed" | "on-translation-removed" | "on-translation-added" | "on-dictionary-added" | "on-dictionary-removed" | "on-commentary-added" | "on-commentary-removed" } ModuleAssistantEvents
  */
 /**
  * @typedef { "on-repo-update-started" | "on-repo-update-progress" | "on-repo-update-completed" } RepoUpdateEvents
@@ -42,7 +42,7 @@
  * @typedef { "on-startup-completed" | "on-theme-changed" | "on-fullscreen-changed" | "on-button-clicked" | "on-body-clicked" | "on-db-refresh" } AppEvents
  */
 /**
- * @typedef { "on-tag-panel-switched" | "on-tag-statistics-panel-switched" | "on-dictionary-panel-switched" | "on-compare-panel-switched" } PanelEvents
+ * @typedef { "on-tag-panel-switched" | "on-tag-statistics-panel-switched" | "on-word-study-panel-switched" | "on-compare-panel-switched" } PanelEvents
  */
 /**
  * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" | "on-latest-tag-changed" } TagEvents

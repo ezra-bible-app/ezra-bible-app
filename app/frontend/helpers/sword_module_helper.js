@@ -384,6 +384,7 @@ function makeCharUpperCase(str, index) {
 function transformReferenceToOsis(reference) {
   reference = reference.replace(' ', '.');
   reference = reference.replace(':', '.');
+  reference = reference.replace('..', '.');
 
   // Perform some book code corrections
   reference = reference.replace('Ge.', 'Gen.');
@@ -403,6 +404,7 @@ function transformReferenceToOsis(reference) {
   reference = reference.replace('Am.', 'Amos.');
   reference = reference.replace('Na.', 'Nah.');
   reference = reference.replace('Mt', 'Matt');
+  reference = reference.replace('Mr', 'Mark');
   reference = reference.replace('Lk', 'Luke');
   reference = reference.replace('Lu.', 'Luke.');
   reference = reference.replace('Jn', 'John');
@@ -427,6 +429,10 @@ function transformReferenceToOsis(reference) {
 
 module.exports.getReferencesFromOsisRef = async function(bibleTranslationId, osisRef) {
   let references = [];
+
+  // Remove Bible: prefix from osisref.
+  // This prefix is used in Easton's Bible Dictionary, the International Standard Bible Encyclopedia, ...
+  osisRef = osisRef.replace('Bible:', '');
 
   // We fix weird references that look like this: 1Th 2. 1-20 
   osisRef = osisRef.replace('. ', ':');
@@ -455,7 +461,7 @@ module.exports.getReferencesFromOsisRef = async function(bibleTranslationId, osi
 module.exports.isReferenceValid = async function(bibleTranslationId, osisRef) {
   let splittedOsisRef = osisRef.split('.');
 
-  if (splittedOsisRef.length != 3) {
+  if (splittedOsisRef.length < 2 || splittedOsisRef.length > 3) {
     return false;
   }
 
@@ -474,17 +480,22 @@ module.exports.isReferenceValid = async function(bibleTranslationId, osisRef) {
     console.log(`WARNING: Could not parse chapter of reference ${osisRef}`);
   }
 
-  let verse = null;
   let verseValid = false;
 
-  try {
-    verse = parseInt(splittedOsisRef[2]);
+  if (splittedOsisRef.length == 3) {
+    let verse = null;
 
-    if (!Number.isNaN(verse)) {
-      verseValid = true;
+    try {
+      verse = parseInt(splittedOsisRef[2]);
+
+      if (!Number.isNaN(verse)) {
+        verseValid = true;
+      }
+    } catch (e) {
+      console.log(`WARNING: Could not parse verse of reference ${osisRef}`);
     }
-  } catch (e) {
-    console.log(`WARNING: Could not parse verse of reference ${osisRef}`);
+  } else {
+    verseValid = true;
   }
 
   let bookValid = await ipcNsi.moduleHasBook(bibleTranslationId, book);
@@ -578,6 +589,9 @@ module.exports.getReferencesFromScripRef = async function(referenceString, book,
       // Reference contains a space
 
       book = currentReference.split(' ')[0];
+
+      // Remove any dot that may appear at the end of the book
+      book = book.replace('.', '');
 
       currentReference = transformReferenceToOsis(currentReference);
       let splitOsisRefs = await this.getReferencesFromOsisRef(bibleTranslationId, currentReference);

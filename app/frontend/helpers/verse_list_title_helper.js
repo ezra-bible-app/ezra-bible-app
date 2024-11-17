@@ -35,8 +35,15 @@ module.exports.getTaggedVerseListTitle = function(localizedReference, tagTitle) 
   return title;
 };
 
-module.exports.getXrefsVerseListTitle = function(localizedReference) {
-  var title = `${localizedReference} &ndash; ${i18n.t("general.module-xrefs")}`;
+module.exports.getXrefsVerseListTitle = function(localizedReference=undefined) {
+  let title = '';
+
+  if (localizedReference != null) {
+    title = `${localizedReference} &ndash; ${i18n.t("general.module-xrefs")}`;
+  } else {
+    title = i18n.t("general.module-xrefs");
+  }
+
   return title;
 };
 

@@ -29,15 +29,37 @@
   </div>
 </section>
 
+<section id="word-study-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
+  <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+    <a href="#" id="word-study-panel-header" i18n="[html]word-study-panel.default-header"></a>
+  </h3>
+  <div id="word-study-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+    <div id="word-study-panel-help" style="padding-left: 0.5em;"></div>
+    <div id="word-study-panel-breadcrumbs" class="word-study-title panel-content"></div>
+    <div id="word-study-panel-content" class="panel-content"></div>
+  </div>
+</section>
+
 <section id="dictionary-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
   <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
     <a href="#" id="dictionary-panel-header" i18n="[html]dictionary-panel.default-header"></a>
   </h3>
-  <div id="dictionary-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+  <div id="dictionary-panel-wrapper" class="ui-accordion-content ui-helper-reset ui-widget-content ui-accordion-content-active">
     <div id="dictionary-panel-help" style="padding-left: 0.5em;"></div>
-    <div id="dictionary-panel-breadcrumbs" class="dictionary-title panel-content"></div>
-    <div id="dictionary-panel-content" class="panel-content"></div>
+    <div id="dictionary-panel-navigation">
+      <select id="dictionary-panel-select">
+      </select>
+      <div id="dictionary-panel-info-button" class="fg-button module-info-button ui-corner-all ui-state-default" i18n="[title]menu.show-module-info">
+        <i class="fas fa-info"></i>
+      </div>
+      <text-field id="dictionary-panel-filter" i18n="[placeholder]dictionary-panel.filter-placeholder" style="--input-height: 1.5em;" />
+      <div id="dictionary-panel-help-no-dicts" class="hidden" i18n="dictionary-panel.help-no-dicts"></div>
+    </div>
   </div>
+
+  <div id="dictionary-panel-keys" class="scrollable ui-widget-content dictionary-content"></div>
+  <div id="dictionary-panel-content" class="scrollable sword-module ui-widget-content dictionary-content reference-box hidden"></div>
+  <div id="dictionary-panel-reference-box" class="tool-panel-reference-box reference-box scrollable ui-corner-bottom ui-widget-content"></div>
 </section>
 
 <section id="commentary-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
@@ -75,7 +97,7 @@
       <div id="commentary-panel-content" class="panel-content"></div>
     </div>
 
-    <div id="commentary-panel-reference-box" class="scrollable ui-corner-bottom ui-widget-content"></div>
+    <div id="commentary-panel-reference-box" class="tool-panel-reference-box reference-box scrollable ui-corner-bottom ui-widget-content"></div>
   </div>
 </section>
 

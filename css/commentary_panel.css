@@ -56,46 +56,6 @@
   vertical-align: middle;
 }
 
-#commentary-panel-reference-box {
-  display: none;
-  height: 14.4em;
-  border-top: unset !important;
-  padding: 1em;
-  padding-bottom: 0em;
-  overflow: auto;
-  width: unset !important;
-}
-
-#commentary-panel-reference-box .icon {
-  float: right;
-  margin-left: 0.7em;
-  cursor: pointer;
-}
-
-#commentary-panel-reference-box .icon i {
-  color: var(--button-color);
-}
-
-.darkmode--activated #commentary-panel-reference-box .icon i {
-  color: var(--button-color-dark);
-}
-
-#commentary-panel-reference-box .icon i:hover {
-  color: var(--accent-color);
-}
-
-#commentary-panel-reference-box .sword-markup {
-  display: unset;
-}
-
-#commentary-panel-reference-box .sword-note {
-  display: none;
-}
-
-#commentary-panel-reference-box sup {
-  margin-right: 0.2em;
-}
-
 #commentary-panel-content {
   padding: 0.5em;
   user-select: text; /* Enable text selection */
@@ -178,7 +138,7 @@
     height: calc(100% - 13em) !important;
   }
 
-  #commentary-panel-reference-box {
+  .tool-panel-reference-box {
     height: 9em;
   }
 }

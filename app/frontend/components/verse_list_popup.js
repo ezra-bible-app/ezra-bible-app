@@ -181,7 +181,7 @@ class VerseListPopup {
 
       await app_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
 
-    } else if (this.currentReferenceType == 'XREFS' || this.currentReferenceType == 'COMMENTARY_XREFS') {
+    } else if (this.currentReferenceType == 'XREFS' || this.currentReferenceType == 'COMMENTARY_DICT_XREFS') {
 
       await app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
@@ -191,7 +191,7 @@ class VerseListPopup {
     await eventController.publishAsync('on-tab-selected', tabIndex);
 
     // 5) Select the reference verse
-    if (this.currentReferenceVerseBox != null) {
+    if (this.currentReferenceVerseBox != null && this.currentReferenceVerseBox.length > 0) {
       let currentReferenceVerse = verseListController.getCurrentVerseListFrame().find('.reference-verse');
       let verseText = currentReferenceVerse[0].querySelector('.verse-text');
       await app_controller.verse_selection.setVerseAsSelection(verseText);
@@ -265,16 +265,21 @@ class VerseListPopup {
     }
   }
 
-  async initCurrentCommentaryXrefs(clickedElement) {
-    this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_XREFS");
-    this.currentReferenceType = "COMMENTARY_XREFS";
-    this.currentReferenceVerseBox = $(app_controller.verse_selection.getSelectedVerseBoxes()[0]);
+  async initCurrentCommentaryDictXrefs(clickedElement, withReferenceVerse=true) {
+    this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_DICT_XREFS", withReferenceVerse);
+    this.currentReferenceType = "COMMENTARY_DICT_XREFS";
+
+    if (withReferenceVerse) {
+      this.currentReferenceVerseBox = $(app_controller.verse_selection.getSelectedVerseBoxes()[0]);
+    } else {
+      this.currentReferenceVerseBox = null;
+    }
 
     if (clickedElement.hasAttribute('osisref')) {
       const osisRef = clickedElement.getAttribute('osisref');
-      const closestCommentary = clickedElement.closest('.commentary').getAttribute('module');
-      if (osisRef.indexOf(closestCommentary) != -1) {
-        // If the reference is to another entry in the commentary then that's a situation we cannot handle at the moment.
+      const closestModule = clickedElement.closest('.sword-module').getAttribute('module');
+      if (osisRef.indexOf(closestModule) != -1) {
+        // If the reference is to another entry in the module then that's a situation we cannot handle at the moment.
         this.currentXrefs = [];
         return;
       }
@@ -335,7 +340,7 @@ class VerseListPopup {
     bookFilterCheckbox.prop('checked', false);
   }
 
-  async getPopupTitle(clickedElement, referenceType) {
+  async getPopupTitle(clickedElement, referenceType, withReferenceVerse=true) {
     var popupTitle = '';
     var localizedReference = '';
 
@@ -356,14 +361,19 @@ class VerseListPopup {
 
       popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
 
-    } else if (referenceType == "COMMENTARY_XREFS") {
+    } else if (referenceType == "COMMENTARY_DICT_XREFS") {
 
       const verseBox = app_controller.verse_selection.getSelectedVerseBoxes()[0];
-      localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox);
-      popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
 
-      let commentary = clickedElement.closest('.commentary').getAttribute('module');
-      popupTitle = `${commentary} &ndash; ${popupTitle}`;
+      if (withReferenceVerse && verseBox != null) {
+        localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox);
+        popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
+      } else {
+        popupTitle = verseListTitleHelper.getXrefsVerseListTitle();
+      }
+
+      let module = clickedElement.closest('.sword-module').getAttribute('module-context');
+      popupTitle = `${module} &ndash; ${popupTitle}`;
     }
 
     return popupTitle;
@@ -371,9 +381,9 @@ class VerseListPopup {
 
   /**
    * @param event The click event
-   * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS" or "COMMENTARY_XREFS")
+   * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS" or "COMMENTARY_DICT_XREFS")
    */
-  async openVerseListPopup(event, referenceType, onlyCurrentBook=false) {
+  async openVerseListPopup(event, referenceType, onlyCurrentBook=false, withReferenceVerse=true) {
     if (!this.dialogInitDone) {
       this.dialogInitDone = true;
 
@@ -381,7 +391,7 @@ class VerseListPopup {
     }
 
     this.currentReferenceType = referenceType;
-    this.currentPopupTitle = await this.getPopupTitle(event.target, referenceType);
+    this.currentPopupTitle = await this.getPopupTitle(event.target, referenceType, withReferenceVerse);
 
     const currentTabId = app_controller.tab_controller.getSelectedTabId();
     const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
@@ -397,7 +407,7 @@ class VerseListPopup {
       loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-verses');
       await this.loadXrefs(event.target, currentTabId, currentTabIndex);
 
-    } else if (referenceType == "COMMENTARY_XREFS") {
+    } else if (referenceType == "COMMENTARY_DICT_XREFS") {
 
       loadingIndicatorMessage.innerText = i18n.t('bible-browser.loading-verses');
       await this.loadXrefs(null, currentTabId, currentTabIndex);
@@ -413,7 +423,7 @@ class VerseListPopup {
     if (!platformHelper.isMobile()) {
       dialogOptions.width = uiHelper.getMaxDialogWidth();
 
-      if (referenceType != "COMMENTARY_XREFS") {
+      if (referenceType != "COMMENTARY_DICT_XREFS") {
         var verse_box = $(event.target).closest('.verse-box');
 
         if (verse_box.length != 0) {
@@ -533,7 +543,7 @@ class VerseListPopup {
 
     const verseList = document.getElementById('verse-list-popup-verse-list');
     app_controller.sword_notes.initForContainer(verseList);
-    app_controller.dictionary_controller.initStrongsForContainer(verseList);
+    app_controller.word_study_controller.initStrongsForContainer(verseList);
 
     $('#verse-list-popup-verse-list').show();
   }

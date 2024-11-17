@@ -95,7 +95,7 @@ class VerseSearch {
 
     for (let i = 0; i < wElements.length; i++) {
       var currentElement = wElements[i];
-      var currentStrongsIds = app_controller.dictionary_controller.getStrongsIdsFromStrongsElement(currentElement);
+      var currentStrongsIds = app_controller.word_study_controller.getStrongsIdsFromStrongsElement(currentElement);
 
       for (let j = 0; j < currentStrongsIds.length; j++) {
         if (currentStrongsIds[j] == searchString) {

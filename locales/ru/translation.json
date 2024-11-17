@@ -89,6 +89,8 @@
     "step-modules": {  
       "select-module": "Пожалуйста, выберите {{module_type, accusative}}, которые вы хотите установить.",
       "module-display-preferences": "Настройки фильтра:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} с {{feature_type, instrumental}}",
       "module-already-installed": "Этот {{module_type, singular}} уже установлен!",
       "show-module-info":"Показать подробности",
@@ -356,6 +358,7 @@
     "show-paragraphs": "Абзацы",
     "red-letters": "Слова Иисуса - красным",
     "show-dictionary": "Словарь",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Навигация по главам",
     "show-header-navigation": "Навигация по заголовкам",
     "show-tab-search": "Показать форму поиска по текущей вкладке",
@@ -400,10 +403,10 @@
       "tense-change": "Граматический оборот этих слов был изменен для возможности перевода"
     }
   },
-  "dictionary-panel": {
-    "greek-dict": "Словарь греческого языка",
-    "hebrew-dict": "Словарь иврита",
-    "default-header": "<b>Словарь</b>",
+  "word-study-panel": {
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Отображение статей из словаря:",
     "help-instruction-part1": "Убедитесь, что установленны словари Стронга (иврита и греческого). Статус: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Откройте перевод с номерами Стронга.",
@@ -413,6 +416,12 @@
     "find-all-occurrences": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"
+  },
+  "dictionary-panel": {
+    "default-header": "<b>Словарь</b>",
+    "help-no-dicts": "There are no dictionaries available.",
+    "open-in-word-study": "Open in word study",
+    "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {
     "default-header": "Статистика меток",

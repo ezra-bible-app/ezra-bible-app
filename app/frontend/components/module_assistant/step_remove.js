@@ -102,10 +102,12 @@ class StepRemove extends HTMLElement {
       }
 
       await eventController.publishAsync('on-translation-removed', moduleCode);
-    }
 
-    if (moduleType == 'COMMENTARY') {
+    } else if (moduleType == 'COMMENTARY') {
       await eventController.publishAsync('on-commentary-removed', moduleCode);
+      
+    } else if (moduleType == 'DICT') {
+      await eventController.publishAsync('on-dictionary-removed', moduleCode);
     }
 
     this._setRemovalInfoStatus();

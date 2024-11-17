@@ -87,6 +87,8 @@
     "step-modules": {  
       "select-module": "Bitte wählen Sie {{module_type}} zur Installation.",
       "module-display-preferences": "Filtereinstellungen:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} mit {{feature_type}}",
       "module-already-installed": "{{module_type, singular}} ist bereits installiert",
       "show-module-info":"Informationen zeigen",
@@ -349,6 +351,7 @@
     "show-paragraphs": "Zeige Absätze",
     "red-letters": "Jesu Worte in rot hervorheben",
     "show-dictionary": "Wörterbuch zeigen",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Zeige Buch/Kapitelnavigation",
     "show-header-navigation": "Zeige Überschriftennavigator",
     "show-tab-search": "Zeige Suche für aktuelles Tab",
@@ -393,10 +396,10 @@
       "tense-change": "Die grammatikalische Zeit dieser Worte wurde im Rahmen der Übersetzung geändert"
     }
   },
-  "dictionary-panel": {
-    "greek-dict": "Griechisches Wörterbuch",
-    "hebrew-dict": "Hebräisches Wörterbuch",
-    "default-header": "<b>Wörterbuch</b>",
+  "word-study-panel": {
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Wie Sie hier Wörterbucheinträge anzeigen:",
     "help-instruction-part1": "Stellen Sie sicher, dass die Strong's Wörterbücher (Hebräisch und Griechisch) installiert sind. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Öffnen Sie eine Übersetzung mit Unterstützung für Strong's.",
@@ -406,6 +409,12 @@
     "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's"
+  },
+  "dictionary-panel": {
+    "default-header": "<b>Wörterbuch</b>",
+    "help-no-dicts": "There are no dictionaries available.",
+    "open-in-word-study": "Open in word study",
+    "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {
     "default-header": "Tag Statistiken",

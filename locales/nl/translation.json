@@ -89,6 +89,8 @@
     "step-modules": {
       "select-module": "Gelieve {{module_type}} kiezen om te installeren.",
       "module-display-preferences": "Filter voorkeuren:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} met {{feature_type, instrumental}}",
       "module-already-installed": "{{module_type, singular-demonstrative-pronoun}} is reeds geinstalleerd",
       "show-module-info":"Toon info",
@@ -355,6 +357,7 @@
     "show-paragraphs": "Toon alinea's",
     "red-letters": "Markeer de woorden van Jezus met rood",
     "show-dictionary": "Toon woordenboek",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Toon boek/hoofdstuk-navigatie",
     "show-header-navigation": "Toon hoofdingnavigatie",
     "show-tab-search": "Toon zoekopdracht van huidig tabblad",
@@ -399,10 +402,10 @@
       "tense-change": "De grammaticale tijd van deze woorden is veranderd om de vertaling te vergemakkelijken"
     }
   },
-  "dictionary-panel": {
-    "greek-dict": "Grieks woordenboek",
-    "hebrew-dict": "Hebreeuws woordenboek",
-    "default-header": "<b>Woordenboek</b>",
+  "word-study-panel": {
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Hoe woordenboeklemma's hier tonen:",
     "help-instruction-part1": "Wees eerst zeker dat de Strongwoordenboeken (Hebreeuws en Grieks) geïnstalleerd zijn. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Open dan een vertaling met de Strongs-functie.",
@@ -412,6 +415,12 @@
     "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs"
+  },
+  "dictionary-panel": {
+    "default-header": "<b>Woordenboek</b>",
+    "help-no-dicts": "There are no dictionaries available.",
+    "open-in-word-study": "Open in word study",
+    "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {
     "default-header": "Tag-statistieken",

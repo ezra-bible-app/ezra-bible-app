@@ -117,7 +117,7 @@ class VerseContextController {
     app_controller.verse_selection.setVerseAsSelection(currentVerseText);
 
     verseListController.bindEventsAfterBibleTextLoaded(undefined, true);
-    app_controller.dictionary_controller.bindAfterBibleTextLoaded();
+    app_controller.word_study_controller.bindAfterBibleTextLoaded();
   }
 
   getButton() {

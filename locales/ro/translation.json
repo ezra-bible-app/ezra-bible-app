@@ -87,6 +87,8 @@
     "step-modules": {
       "select-module": "Te rog alege {{module_type}} care să fie instalat.",
       "module-display-preferences": "Preferințe filtrare:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} cu {{feature_type, instrumental}}",
       "module-already-installed": "Acest {{module_type, singular}} este deja instalat",
       "show-module-info":"Arată info",
@@ -353,6 +355,7 @@
     "show-paragraphs": "Afișează paragrafe",
     "red-letters": "Evidențiază cuvintele lui Isus cu roșu.",
     "show-dictionary": "Afișează dicționar",
+    "show-wordstudy": "Show word study",
     "show-book-chapter-navigation": "Afișează navigare carte/capitol",
     "show-header-navigation": "Afișează navigare antet",
     "show-tab-search": "Afișează căutare filă curentă",
@@ -397,10 +400,10 @@
       "tense-change": "Timpul gramatical al acestor cuvinte a fost schimbat pentru a ușura traducerea"
     }
   },
-  "dictionary-panel": {
-    "greek-dict": "Dicționar grec",
-    "hebrew-dict": "Dicționar ebraic",
-    "default-header": "<b>Dicționar</b>",
+  "word-study-panel": {
+    "greek-dict": "Greek Word Study",
+    "hebrew-dict": "Hebrew Word Study",
+    "default-header": "<b>Word Study</b>",
     "help-instruction-intro": "Cum să afișezi intrările de dicționar aici:",
     "help-instruction-part1": "Asigură-te ca sunt instalate dicționarele de concordanță (Strong's) (Ebraică și Greacă). Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Mai întâi deschide o traducere cu caracteristica Concordanță (Strong's).",
@@ -410,6 +413,12 @@
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
     "related-strongs": "(Strong's) Concordanțe asociate"
+  },
+  "dictionary-panel": {
+    "default-header": "<b>Dicționar</b>",
+    "help-no-dicts": "There are no dictionaries available.",
+    "open-in-word-study": "Open in word study",
+    "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {
     "default-header": "Statistici etichete",
