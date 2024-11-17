@@ -133,15 +133,6 @@
   padding-left: 2em;
 }
 
-/* Insert a line break before the first reference in a block */
-/*#dictionary-panel-content p ref:first-of-type:before,
-#dictionary-panel-content ul li ref:first-of-type:before
-{
-  content: ' ';
-  clear: right;
-  display: block;
-}*/
-
 #dictionary-panel-reference-box {
   display: none;
 }
@@ -223,7 +214,7 @@
 #dictionary-panel-filter {
   display: inline-block;
   margin-left: 0.5em;
-  width: 12em;
+  width: 15em;
   height: 1.5em;
 }
 
