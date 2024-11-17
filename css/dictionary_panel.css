@@ -233,6 +233,7 @@
   }
 
   .Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
-    height: calc(80% - 2.6em) !important;
+    height: calc(80% - 2.4em) !important;
+    border-top: 0 !important;
   }
 }
