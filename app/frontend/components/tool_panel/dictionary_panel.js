@@ -401,7 +401,7 @@ class DictionaryPanel {
         const strongsKey = `${prefix}${strongsNumber}`;
 
         this.switchToWordStudyPanel();
-        app_controller.word_study_controller._wordStudyPanel.updateWithKey(strongsKey);
+        app_controller.word_study_controller._wordStudyPanel.updateWithKey(strongsKey, true);
 
       } else {
         // Handle all other links like this one: <a href="sword://Vines/CLOTHING">CLOTHING</a>

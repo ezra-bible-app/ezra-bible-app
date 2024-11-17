@@ -248,7 +248,7 @@ class WordStudyPanel {
     await this.update(this.currentStrongsEntry, this.currentAdditionalStrongsEntries);
   }
 
-  async updateWithKey(strongsKey) {
+  async updateWithKey(strongsKey, firstUpdate=false) {
     var strongsEntry = await this.wordStudyController.getStrongsEntryWithRawKey(strongsKey);
 
     if (strongsEntry == null) {
@@ -262,7 +262,7 @@ class WordStudyPanel {
       this.wordStudyPanelStack.pop();
     }
 
-    await this.update(strongsEntry, this.currentAdditionalStrongsEntries);
+    await this.update(strongsEntry, this.currentAdditionalStrongsEntries, firstUpdate);
   }
 
   getHeader(strongsEntry) {
