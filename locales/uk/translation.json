@@ -87,6 +87,8 @@
     "step-modules": {  
       "select-module": "Будь ласка, оберіть {{module_type}} для встановлення.",
       "module-display-preferences": "Фільтрувати:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} з {{feature_type, instrumental}}",
       "module-already-installed": "Цей {{module_type, singular}} вже встановленно!",
       "show-module-info":"Показати подробиці",

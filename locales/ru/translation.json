@@ -89,6 +89,8 @@
     "step-modules": {  
       "select-module": "Пожалуйста, выберите {{module_type, accusative}}, которые вы хотите установить.",
       "module-display-preferences": "Настройки фильтра:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} с {{feature_type, instrumental}}",
       "module-already-installed": "Этот {{module_type, singular}} уже установлен!",
       "show-module-info":"Показать подробности",

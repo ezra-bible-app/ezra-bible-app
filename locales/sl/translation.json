@@ -87,6 +87,8 @@
     "step-modules": {
       "select-module": "Prosimo, izberite {{module_type}} za namestitev.",
       "module-display-preferences": "Prednosti filtriranja:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} s {{feature_type, instrumental}}",
       "module-already-installed": "Ta {{module_type, singular}} je že nameščen!",
       "show-module-info": "Prikaži informacije",

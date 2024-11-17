@@ -89,6 +89,8 @@
     "step-modules": {
       "select-module": "Gelieve {{module_type}} kiezen om te installeren.",
       "module-display-preferences": "Filter voorkeuren:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} met {{feature_type, instrumental}}",
       "module-already-installed": "{{module_type, singular-demonstrative-pronoun}} is reeds geinstalleerd",
       "show-module-info":"Toon info",

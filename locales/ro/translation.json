@@ -87,6 +87,8 @@
     "step-modules": {
       "select-module": "Te rog alege {{module_type}} care să fie instalat.",
       "module-display-preferences": "Preferințe filtrare:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} cu {{feature_type, instrumental}}",
       "module-already-installed": "Acest {{module_type, singular}} este deja instalat",
       "show-module-info":"Arată info",

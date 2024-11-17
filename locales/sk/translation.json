@@ -87,6 +87,8 @@
     "step-modules": {  
       "select-module": "Vyberte {{module_type}}, ktorý chcete nainštalovať.",
       "module-display-preferences": "Predvoľby filtra:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} s {{feature_type, instrumental}}",
       "module-already-installed": "Tento {{module_type, singular}} je už nainštalovaný",
       "show-module-info":"Zobraziť informácie",

@@ -87,6 +87,8 @@
     "step-modules": {
       "select-module": "Por favor, escolha {{module_type}} para instalar.",
       "module-display-preferences": "Filtrar preferências:",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} com {{feature_type, instrumental}}",
       "module-already-installed": "Este {{module_type, singular}} já está instalado!",
       "show-module-info": "Mostrar informação",

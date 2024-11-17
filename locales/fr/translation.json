@@ -93,6 +93,8 @@
     "step-modules": {
       "select-module": "Veillez choisir les {{module_type}} à installer.",
       "module-display-preferences": "Préférences de filtre :",
+      "all-modules": "All {{module_type, accusative}}",
+      "regular-dicts": "Regular dictionaries",
       "module-with": "{{module_type, capitalize}} avec {{feature_type, instrumental}}",
       "module-already-installed_masculine": "{{module_type, singular-demonstrative-pronoun}} est déjà installé",
       "module-already-installed_feminine": "{{module_type, singular-demonstrative-pronoun}} est déjà installée",
