@@ -408,7 +408,9 @@ class WordStudyPanel {
         var previousKey = null;
 
         if (previousIndex == 0) {
-          previousKey = this.currentFirstStrongsEntry.rawKey;
+          if (this.currentFirstStrongsEntry != null) {
+            previousKey = this.currentFirstStrongsEntry.rawKey;
+          }
         } else {
           previousKey = this.wordStudyPanelStack[previousIndex];
         }
