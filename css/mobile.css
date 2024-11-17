@@ -288,7 +288,7 @@ Librem 5/Pinephone etc.
 
   #bible-select-title-line {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     width: 100%;
   }
 
@@ -597,7 +597,11 @@ Librem 5/Pinephone etc.
   }
 
   .bible-select-block .ui-selectmenu {
-    width: 110px !important;
+    width: 90px !important;
+  }
+
+  .ui-selectmenu-menu ul {
+    font-size: 0.9em !important;
   }
 
   .bible-select-block .ui-selectmenu-status {
@@ -705,6 +709,15 @@ Librem 5/Pinephone etc.
     overflow: hidden;
     white-space: nowrap;
   }
+
+  .parallel-bible-button {
+    width: 1.3em !important;
+    height: 1.2em !important;
+    padding: 0.2em 0.2em !important;
+    display: block !important;
+    text-align: center;
+  }
+
 }
 
 /* PORTRAIT */
