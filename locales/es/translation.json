@@ -361,6 +361,7 @@
     "use-tag-group-filter": "Usar el filtro de grupo de etiquetas",
     "show-notes": "Mostrar notas",
     "limit-notes-display-size": "Limitar el tamaño de las notas",
+    "limit-text-width": "Limit text width",
     "use-tags-column": "Usar columna de etiquetas",
     "select-chapter-before-loading": "Abrir libro en el capítulo seleccionado",
     "use-system-theme": "Usar el tema del sistema",
