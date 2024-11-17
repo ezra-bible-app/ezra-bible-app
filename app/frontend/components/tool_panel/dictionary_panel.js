@@ -252,6 +252,18 @@ class DictionaryPanel {
     }, 500);
   }
 
+  updateSectionButton(section) {
+    let button = section.parentNode.querySelector('.dictionary-accordion-button');
+
+    if (section.classList.contains('hidden')) {
+      button.classList.remove('fa-circle-chevron-down');
+      button.classList.add('fa-circle-chevron-right');
+    } else {
+      button.classList.remove('fa-circle-chevron-right');
+      button.classList.add('fa-circle-chevron-down');
+    }
+  }
+
   handleSectionMarkerClick(liElement, allSections) {
     this._currentSectionId = liElement.getAttribute('id');
     let section = liElement.querySelector('.alphabetical-section');
@@ -259,9 +271,12 @@ class DictionaryPanel {
     if (section.classList.contains('hidden')) {
       allSections.forEach((section) => {
         section.classList.add('hidden');
+        this.updateSectionButton(section);
       });
 
       section.classList.remove('hidden');
+      this.updateSectionButton(section);
+
       const allDictKeys = this.getKeyContainer().querySelectorAll('.dict-key');
       allDictKeys.forEach((key) => {
         key.style.display = '';
@@ -273,6 +288,7 @@ class DictionaryPanel {
       this.updateSectionEventHandlers(section);
     } else {
       section.classList.add('hidden');
+      this.updateSectionButton(section);
     }
 
     liElement.scrollIntoViewIfNeeded();
@@ -544,9 +560,11 @@ class DictionaryPanel {
     // Filter dictionary keys based on the filter text
     allDictKeys.forEach((key) => {
       const section = key.closest('.alphabetical-section');
+
       if (key.innerText.toLowerCase().includes(filterText.toLowerCase())) {
         key.style.display = '';
         section.classList.remove('hidden');
+        this.updateSectionButton(section);
       } else {
         key.style.display = 'none';
       }
@@ -555,10 +573,12 @@ class DictionaryPanel {
     // Hide sections that have no visible keys
     allSections.forEach((section) => {
       const visibleKeys = section.querySelectorAll('.dict-key:not([style*="display: none"])');
+
       if (visibleKeys.length === 0 || filterText === '') {
         section.classList.add('hidden');
       } else {
         section.classList.remove('hidden');
+        this.updateSectionButton(section);
         this.updateSectionEventHandlers(section);
       }
     });
