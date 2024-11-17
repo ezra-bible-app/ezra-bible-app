@@ -445,6 +445,7 @@ a.chapter-nav:hover {
   align-items: start;
   flex-wrap: wrap;
 }
+
 .verse-text-and-tags {
   flex: 1 1;
 }
@@ -610,8 +611,11 @@ a.chapter-nav:hover {
   padding: 0.05em;
   position: relative;
   line-height: 1.5em;
-  max-width: 60ch;
   flex: 1 1;
+}
+
+.verse-list.limit-width .verse-text {
+  max-width: 60ch;
 }
 
 .verse-text.ui-selected {
