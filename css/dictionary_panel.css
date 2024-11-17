@@ -207,3 +207,11 @@
 #dictionary-panel-content sync:hover {
   text-decoration: underline;
 }
+
+#dictionary-panel-info-button {
+  display: inline-block;
+  margin-left: 0.5em;
+  padding: 0.5em 0.8em;
+  text-align: center;
+  cursor: pointer;
+}

@@ -74,6 +74,12 @@ class DictionaryPanel {
 
   init() {
     this.refreshDictionaries();
+
+    document.getElementById('dictionary-panel-info-button').addEventListener('click', () => {
+      const selectedModuleCode = this.getSelectElement().value;
+      app_controller.info_popup.showAppInfo(selectedModuleCode);
+    });
+
     this._initDone = true;
   }
 
