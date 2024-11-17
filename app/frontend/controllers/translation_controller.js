@@ -221,6 +221,30 @@ class TranslationController {
     $('.bible-select-block').find('.ui-selectmenu').bind('click', () => {
       app_controller.hideAllMenus();
     });
+
+    // Add click handler for parallel Bible button
+    document.querySelector('.parallel-bible-button').addEventListener('click', () => {
+      this.toggleParallelBible();
+    });
+  }
+
+  toggleParallelBible() {
+    const secondBibleBlock = document.querySelector('.bible-select-block.second-bible');
+    const parallelButton = document.querySelector('.parallel-bible-button');
+    const buttonIcon = parallelButton.querySelector('i');
+    
+    if (secondBibleBlock.style.display === 'none' || !secondBibleBlock.style.display) {
+      secondBibleBlock.style.display = 'block';
+      buttonIcon.className = 'fas fa-minus';
+      parallelButton.setAttribute('i18n', '[title]menu.remove-parallel-bible');
+    } else {
+      secondBibleBlock.style.display = 'none';
+      buttonIcon.className = 'fas fa-plus';
+      parallelButton.setAttribute('i18n', '[title]menu.add-parallel-bible');
+    }
+
+    // Update i18n after changing the attribute
+    $(parallelButton).localize();
   }
 
   hasCurrentTranslationHeaderElements(tabIndex=undefined) {

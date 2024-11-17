@@ -1496,6 +1496,10 @@ li.book-unavailable a:focus,
   min-width: 20em;
 }
 
+.bible-select-block.second-bible {
+  display: none;
+}
+
 .bible-select-block select {
   width: 19em;
   display: none;
