@@ -138,7 +138,7 @@ class StepModules extends HTMLElement {
         this._listFilteredModules();
       });
     } else {
-      this.querySelector('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
+      this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
         this._listFilteredModules();
       }));
     }
