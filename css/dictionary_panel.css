@@ -227,4 +227,12 @@
   .Android #dictionary-panel-keys {
     height: calc(100% - 6.7em) !important;
   }
+
+  .Android #dictionary-panel.dict-entry-shown #dictionary-panel-keys {
+    display: none !important;
+  }
+
+  .Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+    height: calc(80% - 2.6em) !important;
+  }
 }
