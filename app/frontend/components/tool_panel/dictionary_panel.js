@@ -390,17 +390,35 @@ class DictionaryPanel {
   handleHyperLinkClick(link) {
     let href = link.getAttribute('href');
 
-    if (href != null && href.startsWith('sword://')) {
-      href = href.replace('sword://', '');
+    if (href != null) {
+      if (href.includes('Strongs')) {
+        let strongsNumber = href.split('/').pop();
+        strongsNumber = strongsNumber.replace(/^0+/, ''); // Remove leading zeros
+        const isGreek = href.includes('Greek');
+        const prefix = isGreek ? 'G' : 'H';
+        const strongsKey = `${prefix}${strongsNumber}`;
 
-      if (href.indexOf('/') != -1) {
-        let splitHref = href.split('/');
-        let module = spli
-        tHref[0];
-        let key = splitHref[1];
+        this.switchToWordStudyPanel();
+        app_controller.word_study_controller._wordStudyPanel.updateWithKey(strongsKey);
 
-        this.openKeyFromTextReference(module, key);
+      } else {
+        href = href.replace('sword://', '');
+
+        if (href.indexOf('/') != -1) {
+          let splitHref = href.split('/');
+          let module = splitHref[0];
+          let key = splitHref[1];
+
+          this.openKeyFromTextReference(module, key);
+        }
       }
+    }
+  }
+
+  switchToWordStudyPanel() {
+    const panelButtons = document.querySelector('panel-buttons');
+    if (panelButtons) {
+      panelButtons._updatePanels('word-study-panel', false);
     }
   }
 
