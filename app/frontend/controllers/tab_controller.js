@@ -73,7 +73,8 @@ class TabController {
       await this.updateTabTitlesAfterLocaleChange();
     });
 
-    eventController.subscribePrioritized('on-translation-changed', async (data) => await this.onBibleTranslationChanged(data));
+    eventController.subscribePrioritized('on-translation1-changed', async (data) => await this.onBibleTranslationChanged(data));
+    eventController.subscribePrioritized('on-translation2-changed', async (data) => await this.onBibleTranslationChanged(data, true));
 
     eventController.subscribe('on-translation-removed', async (translationId) => {
       var installedTranslations = await app_controller.translation_controller.getInstalledModules();
@@ -85,7 +86,7 @@ class TabController {
       if (currentBibleTranslationId == "" || 
           currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
   
-        this.setCurrentBibleTranslationId(translationCode);
+        this.setBibleTranslationId(translationCode);
       }
     });
 
@@ -100,7 +101,7 @@ class TabController {
 
     eventController.subscribe('on-bible-text-loaded', () => {
       let bibleTranslationId = this.getTab().getBibleTranslationId();
-      this.setCurrentBibleTranslationId(bibleTranslationId);
+      this.setBibleTranslationId(bibleTranslationId);
       this.restoreScrollPosition();
 
       if (this.persistanceEnabled) {
@@ -611,7 +612,7 @@ class TabController {
    */
   async reset() {
     this.removeAllExtraTabs();
-    this.setCurrentBibleTranslationId(null);
+    this.setBibleTranslationId(null);
 
     const tab = this.getTab();
     if (tab != null) {
@@ -795,7 +796,7 @@ class TabController {
     this.metaTabs[currentTabIndex].lastHighlightedChapterIndex = null;
   }
 
-  setCurrentBibleTranslationId(bibleTranslationId) {
+  setBibleTranslationId(bibleTranslationId) {
     const tab = this.getTab();
 
     if (tab != null) {
@@ -805,6 +806,13 @@ class TabController {
     if (bibleTranslationId != null) {
       this.defaultBibleTranslationId = bibleTranslationId;
       app_controller.info_popup.enableCurrentAppInfoButton();
+    }
+  }
+
+  setSecondBibleTranslationId(secondBibleTranslationId) {
+    const tab = this.getTab();
+    if (tab != null) {
+      tab.setSecondBibleTranslationId(secondBibleTranslationId);
     }
   }
 
@@ -901,11 +909,15 @@ class TabController {
     }
   }
 
-  async onBibleTranslationChanged({ from: oldBibleTranslationId, to: newBibleTranslationId }) {
+  async onBibleTranslationChanged({ from: oldBibleTranslationId, to: newBibleTranslationId }, isSecondBible=false) {
     var currentTab = this.getTab();
 
-    this.setCurrentBibleTranslationId(newBibleTranslationId);
-    this.refreshBibleTranslationInTabTitle(newBibleTranslationId);
+    if (!isSecondBible) {
+      this.setBibleTranslationId(newBibleTranslationId);
+      this.refreshBibleTranslationInTabTitle(newBibleTranslationId);
+    } else {
+      this.setSecondBibleTranslationId(newBibleTranslationId);
+    }
 
     // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
     if (currentTab.tab_search != null) {
@@ -923,7 +935,7 @@ class TabController {
 
     app_controller.commentaryPanel.setRefreshBlocked(true);
 
-    if (currentTab.getTextType() == 'search_results') {
+    if (!isSecondBible && currentTab.getTextType() == 'search_results') {
       await app_controller.text_controller.prepareForNewText(true, true);
       app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {

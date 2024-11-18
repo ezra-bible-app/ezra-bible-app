@@ -151,15 +151,14 @@ class TranslationController {
     }
   }
 
-  async initSingleBibleSelect(bibleSelect, modules, enableChangeHandler=true) {
+  async initSingleBibleSelect(bibleSelect, modules, enableChangeHandler=true, isSecondBible=false) {
     bibleSelect.empty();
-    
     await moduleSelectHelper.addLanguageGroupsToModuleSelectMenu(bibleSelect, modules);
     moduleSelectHelper.addModulesToModuleSelectMenu(undefined, bibleSelect[0], modules);
 
     bibleSelect.selectmenu({
       width: platformHelper.isMobile() ? 90 : undefined,
-      change: enableChangeHandler ? () => {
+      change: enableChangeHandler && !isSecondBible ? () => {
         if (!app_controller.tab_controller.isCurrentTabEmpty() && 
             app_controller.tab_controller.getTab().getTextType() != 'search_results') {
           uiHelper.showTextLoadingIndicator();
@@ -170,8 +169,10 @@ class TranslationController {
 
         ipcSettings.set('bibleTranslation', newBibleTranslationId);
 
+        let changeEvent = isSecondBible ? 'on-translation2-changed' : 'on-translation1-changed';
+
         setTimeout(() => {
-          eventController.publish('on-translation-changed', {from: oldBibleTranslationId, to: newBibleTranslationId});
+          eventController.publish(changeEvent, {from: oldBibleTranslationId, to: newBibleTranslationId});
         }, 50);
       } : null
     });
@@ -199,8 +200,8 @@ class TranslationController {
     }
 
     // Initialize both Bible select menus - only first one triggers changes
-    await this.initSingleBibleSelect(bibleSelect1, modules, true);
-    await this.initSingleBibleSelect(bibleSelect2, modules, false);
+    await this.initSingleBibleSelect(bibleSelect1, modules, true, false);
+    await this.initSingleBibleSelect(bibleSelect2, modules, true, true);
 
     this.toggleTranslationsBasedOnCurrentBook(tabIndex);
 
