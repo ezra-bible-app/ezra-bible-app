@@ -208,11 +208,11 @@ class TranslationController {
     this.toggleTranslationsBasedOnCurrentBook(tabIndex);
 
     // Register event handlers
-    document.querySelector('.parallel-bible-button').addEventListener('click', () => {
-      this.toggleParallelBible();
+    currentVerseListMenu[0].querySelector('.parallel-bible-button').addEventListener('click', () => {
+      this.toggleParallelBible(tabIndex);
     });
 
-    $('.bible-select-block').find('.ui-selectmenu').bind('click', () => {
+    currentVerseListMenu[0].querySelector('.bible-select-block').querySelector('.ui-selectmenu').addEventListener('click', () => {
       app_controller.hideAllMenus();
     });
 
@@ -223,9 +223,11 @@ class TranslationController {
     });
   }
 
-  toggleParallelBible() {
-    const secondBibleBlock = document.querySelector('.bible-select-block.second-bible');
-    const parallelButton = document.querySelector('.parallel-bible-button');
+  toggleParallelBible(tabIndex=undefined) {
+    const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+
+    const secondBibleBlock = currentVerseListMenu[0].querySelector('.bible-select-block.second-bible');
+    const parallelButton = currentVerseListMenu[0].querySelector('.parallel-bible-button');
     const buttonIcon = parallelButton.querySelector('i');
     
     if (secondBibleBlock.style.display === 'none' || !secondBibleBlock.style.display) {
