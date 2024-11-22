@@ -813,6 +813,10 @@ class TabController {
     const tab = this.getTab();
     if (tab != null) {
       tab.setSecondBibleTranslationId(secondBibleTranslationId);
+
+      if (this.persistanceEnabled) {
+        this.saveTabConfiguration();
+      }
     }
   }
 
