@@ -37,6 +37,7 @@ class TranslationController {
   constructor() {
     this.translationCount = null;
     this.initBibleSyncBoxDone = false;
+    this.initializedTabs = new Set(); // Initialize a set to track initialized tabs
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
       if (app_controller.isStartupCompleted()) {
@@ -196,6 +197,14 @@ class TranslationController {
     if (tabIndex === undefined) {
       tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
+
+    // Check if the translations menu for this tab has already been initialized
+    if (this.initializedTabs.has(tabIndex)) {
+      return; // Skip initialization if already done
+    }
+
+    // Mark this tab as initialized
+    this.initializedTabs.add(tabIndex);
 
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var bibleSelect1 = currentVerseListMenu.find('#bible-select1');
