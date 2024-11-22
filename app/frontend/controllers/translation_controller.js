@@ -151,10 +151,22 @@ class TranslationController {
     }
   }
 
-  async initBibleSelect(bibleSelect, modules, isSecondBible=false) {
+  async initBibleSelect(bibleSelect, modules, isSecondBible=false, tabIndex=undefined) {
     bibleSelect.empty();
+
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    let currentModuleId = undefined;
+
+    if (currentTab != null) {
+      if (isSecondBible) {
+        currentModuleId = currentTab.getSecondBibleTranslationId();
+      } else {
+        currentModuleId = currentTab.getBibleTranslationId();
+      }
+    }
+
     await moduleSelectHelper.addLanguageGroupsToModuleSelectMenu(bibleSelect, modules);
-    moduleSelectHelper.addModulesToModuleSelectMenu(undefined, bibleSelect[0], modules);
+    moduleSelectHelper.addModulesToModuleSelectMenu(undefined, bibleSelect[0], modules, currentModuleId);
 
     bibleSelect.selectmenu({
       width: platformHelper.isMobile() ? 90 : undefined,
@@ -202,10 +214,16 @@ class TranslationController {
     }
 
     // Initialize both Bible select menus - only first one triggers changes
-    await this.initBibleSelect(bibleSelect1, modules, false);
-    await this.initBibleSelect(bibleSelect2, modules, true);
+    await this.initBibleSelect(bibleSelect1, modules, false, tabIndex);
+    await this.initBibleSelect(bibleSelect2, modules, true, tabIndex);
 
     this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+
+    // Toggle parallel bible based on saved tab properties
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    if (currentTab && currentTab.getSecondBibleTranslationId() != null) {
+      this.toggleParallelBible(tabIndex);
+    }
 
     // Register event handlers
     currentVerseListMenu[0].querySelector('.parallel-bible-button').addEventListener('click', () => {
