@@ -995,6 +995,14 @@ class TabController {
     $tabHtmlTemplate.localize();
     this.tabHtmlTemplate = $tabHtmlTemplate.html();
   }
+
+  async refreshBibleTranslations() {
+    for (let i = 0; i < this.metaTabs.length; i++) {
+      const tab = this.metaTabs[i];
+      // Reinitialize Bible translations for the tab
+      await app_controller.translation_controller.initTranslationsMenu(-1, i, true);
+    }
+  }
 }
 
 module.exports = TabController;

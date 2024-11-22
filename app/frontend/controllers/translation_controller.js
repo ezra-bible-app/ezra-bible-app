@@ -49,13 +49,13 @@ class TranslationController {
       await this.initTranslationsMenu(-1, tabIndex);
     });
 
-    eventController.subscribe('on-translation-added', async () => {
-      await this.initTranslationsMenu();
+    eventController.subscribe('on-translation-added', async (newTranslation) => {
+      await app_controller.tab_controller.refreshBibleTranslations();
     });
 
     eventController.subscribe('on-translation-removed', async () => {
       $("select#bible-select").empty();
-      await this.initTranslationsMenu();
+      await app_controller.tab_controller.refreshBibleTranslations();
     });
   }
 
@@ -193,13 +193,13 @@ class TranslationController {
     });
   }
 
-  async initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
+  async initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined, force=false) {
     if (tabIndex === undefined) {
       tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
 
     // Check if the translations menu for this tab has already been initialized
-    if (this.initializedTabs.has(tabIndex)) {
+    if (!force && this.initializedTabs.has(tabIndex)) {
       return; // Skip initialization if already done
     }
 
@@ -228,26 +228,28 @@ class TranslationController {
 
     this.toggleTranslationsBasedOnCurrentBook(tabIndex);
 
-    // Toggle parallel bible based on saved tab properties
-    const currentTab = app_controller.tab_controller.getTab(tabIndex);
-    if (currentTab && currentTab.getSecondBibleTranslationId() != null) {
-      this.toggleParallelBible(tabIndex);
+    if (!force) {
+      // Toggle parallel bible based on saved tab properties
+      const currentTab = app_controller.tab_controller.getTab(tabIndex);
+      if (currentTab && currentTab.getSecondBibleTranslationId() != null) {
+        this.toggleParallelBible(tabIndex);
+      }
+
+      // Register event handlers
+      currentVerseListMenu[0].querySelector('.parallel-bible-button').addEventListener('click', () => {
+        this.toggleParallelBible(tabIndex);
+      });
+
+      currentVerseListMenu[0].querySelector('.bible-select-block').querySelector('.ui-selectmenu').addEventListener('click', () => {
+        app_controller.hideAllMenus();
+      });
+
+      // Subscribe to locale changes for both menus
+      eventController.subscribe('on-locale-changed', locale => {
+        moduleSelectHelper.updateModuleSelectLanguages(locale, bibleSelect1);
+        moduleSelectHelper.updateModuleSelectLanguages(locale, bibleSelect2);
+      });
     }
-
-    // Register event handlers
-    currentVerseListMenu[0].querySelector('.parallel-bible-button').addEventListener('click', () => {
-      this.toggleParallelBible(tabIndex);
-    });
-
-    currentVerseListMenu[0].querySelector('.bible-select-block').querySelector('.ui-selectmenu').addEventListener('click', () => {
-      app_controller.hideAllMenus();
-    });
-
-    // Subscribe to locale changes for both menus
-    eventController.subscribe('on-locale-changed', locale => {
-      moduleSelectHelper.updateModuleSelectLanguages(locale, bibleSelect1);
-      moduleSelectHelper.updateModuleSelectLanguages(locale, bibleSelect2);
-    });
   }
 
   toggleParallelBible(tabIndex=undefined) {
