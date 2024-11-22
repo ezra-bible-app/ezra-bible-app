@@ -204,7 +204,9 @@ class TranslationController {
     }
 
     // Mark this tab as initialized
-    this.initializedTabs.add(tabIndex);
+    if (!this.initializedTabs.has(tabIndex)) {
+      this.initializedTabs.add(tabIndex);
+    }
 
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var bibleSelect1 = currentVerseListMenu.find('#bible-select1');
