@@ -77,12 +77,12 @@ each bibleBook in bibleBooks
 
   - var bibleBookId = bibleBook.shortTitle.toLowerCase()
   
-  each verse in verses1
+  each verse, index in verses1
     unless verse.bibleBookShortTitle.toLowerCase() == bibleBookId
       - continue
     
     if verses2.length > 0
-      - var verse2 = verses2[verse_count]
+      - var verse2 = verses2[index]
 
     - verse_count += 1
 
