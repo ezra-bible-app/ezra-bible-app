@@ -615,6 +615,7 @@ a.chapter-nav:hover {
 }
 
 .verse-text.second-bible-text {
+  display: none;
   margin-left: 1em;
 }
 
