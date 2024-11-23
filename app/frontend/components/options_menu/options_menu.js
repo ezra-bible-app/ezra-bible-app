@@ -124,6 +124,7 @@ class OptionsMenu {
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
+    this._limitTextWidthOption = this.initConfigOption('limitTextWidthOption', () => { this.toggleTextWidthBasedOnOption(); }, true);
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
@@ -532,6 +533,16 @@ class OptionsMenu {
     await ipcGeneral.setSendCrashReports(window.sendCrashReports);
   }
 
+  toggleTextWidthBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._limitTextWidthOption,
+                                     'limit-width',
+                                     true);
+  }
+
   async refreshViewBasedOnOptions(tabIndex=undefined) {
     const now = Date.now();
     let timeSinceLastRefresh = 0;
@@ -564,6 +575,7 @@ class OptionsMenu {
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.keepScreenAwakeBasedOnOption();
     theme_controller.useNightModeBasedOnOption();
+    this.toggleTextWidthBasedOnOption(tabIndex);
   }
 }
 

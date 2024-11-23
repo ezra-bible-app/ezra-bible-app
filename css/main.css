@@ -618,7 +618,6 @@ a.chapter-nav:hover {
   padding: 0.05em;
   position: relative;
   line-height: 1.5em;
-  max-width: 60ch;
   flex: 1 1;
 }
 
@@ -629,6 +628,10 @@ a.chapter-nav:hover {
 
 .verse-list-with-second-translation .second-bible-text {
   display: block;
+}
+
+.verse-list-content.limit-width .verse-text {
+  max-width: 60ch;
 }
 
 .verse-text.ui-selected {

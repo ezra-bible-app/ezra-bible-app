@@ -368,6 +368,7 @@
     "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Show notes",
     "limit-notes-display-size": "Limit notes display size",
+    "limit-text-width": "Limit Bible text width",
     "use-tags-column": "Use tags column",
     "select-chapter-before-loading": "Open books with chapter selection",
     "use-system-theme": "System theme",

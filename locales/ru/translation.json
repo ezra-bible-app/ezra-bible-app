@@ -369,6 +369,7 @@
     "use-tag-group-filter": "Использовать фильтр груп меток",
     "show-notes": "Заметки",
     "limit-notes-display-size": "Ограничить высоту заметок",
+    "limit-text-width": "Limit Bible text width",
     "use-tags-column": "Метки в отдельном столбце",
     "select-chapter-before-loading": "Выбирать главу при выборе книги",
     "use-system-theme": "Режим системы",
