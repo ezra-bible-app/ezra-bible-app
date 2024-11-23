@@ -758,11 +758,13 @@ class TextController {
         verseListHeader.show();
       }
 
-      uiHelper.addButton(selectAllVersesButtonContainer, 'select-all-verses-button', 'bible-browser.select-all-verses', () => {
-        this.selectAllVerses();
-      });
+      if (selectAllVersesButtonContainer.find('.select-all-verses-button').length == 0) {
+        uiHelper.addButton(selectAllVersesButtonContainer, 'select-all-verses-button', 'bible-browser.select-all-verses', () => {
+          this.selectAllVerses();
+        });
 
-      uiHelper.configureButtonStyles('select-all-verses-button');
+        uiHelper.configureButtonStyles('select-all-verses-button');
+      }
 
       target.removeClass('verse-list-book');
 
