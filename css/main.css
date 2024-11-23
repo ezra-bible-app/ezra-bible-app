@@ -462,8 +462,12 @@ a.chapter-nav:hover {
   flex-basis: 60ch;
 }
 
+.limit-width:not(.verse-list-tags-column):not(.verse-list-with-second-translation) .verse-text-container {
+  max-width: 60ch;
+}
+
 .verse-list-tags-column:not(.limit-width) .verse-text-container,
-.verse-list-with-second-translation .verse-text-container {
+.verse-list-with-second-translation.verse-list-tags-column .verse-text-container {
   flex-basis: 130ch;
 }
 
