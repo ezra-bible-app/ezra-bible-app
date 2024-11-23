@@ -445,8 +445,16 @@ a.chapter-nav:hover {
   align-items: start;
   flex-wrap: wrap;
 }
+
 .verse-text-and-tags {
   flex: 1 1;
+}
+
+.verse-text-container {
+  display: flex;
+  flex-direction: row-reverse;
+  flex: 1 1;
+  justify-content: flex-end;
 }
 
 .slim-verse-reference .verse-reference {
@@ -617,6 +625,10 @@ a.chapter-nav:hover {
 .verse-text.second-bible-text {
   display: none;
   margin-left: 1em;
+}
+
+.verse-list-with-second-translation .second-bible-text {
+  display: block;
 }
 
 .verse-text.ui-selected {
@@ -2129,3 +2141,4 @@ sup.strongs {
   font-size: 70%;
   display: inline-block;
 }
+

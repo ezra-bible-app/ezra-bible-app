@@ -263,11 +263,13 @@ class TranslationController {
     const secondBibleBlock = currentVerseListMenu[0].querySelector('.bible-select-block.second-bible');
     const parallelButton = currentVerseListMenu[0].querySelector('.parallel-bible-button');
     const buttonIcon = parallelButton.querySelector('i');
-    
+    const verseList = verseListController.getCurrentVerseList(tabIndex)[0];
+
     if (secondBibleBlock.style.display === 'none' || !secondBibleBlock.style.display) {
       secondBibleBlock.style.display = 'block';
       buttonIcon.className = 'fas fa-minus';
       parallelButton.setAttribute('i18n', '[title]menu.remove-parallel-bible');
+      verseList.classList.add('verse-list-with-second-translation');
     } else {
       secondBibleBlock.style.display = 'none';
       buttonIcon.className = 'fas fa-plus';
@@ -275,6 +277,7 @@ class TranslationController {
       
       // Set the second Bible translation of the tab to null
       app_controller.tab_controller.setSecondBibleTranslationId(null);
+      verseList.classList.remove('verse-list-with-second-translation');
     }
 
     // Update i18n after changing the attribute
