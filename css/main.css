@@ -448,13 +448,23 @@ a.chapter-nav:hover {
 
 .verse-text-and-tags {
   flex: 1 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .verse-text-container {
-  display: flex;
+  display: inline-flex;
   flex-direction: row-reverse;
-  flex: 1 1;
   justify-content: flex-end;
+}
+
+.verse-list-tags-column.limit-width .verse-text-container {
+  flex-basis: 60ch;
+}
+
+.verse-list-tags-column:not(.limit-width) .verse-text-container,
+.verse-list-with-second-translation .verse-text-container {
+  flex-basis: 110ch;
 }
 
 .slim-verse-reference .verse-reference {
@@ -618,12 +628,13 @@ a.chapter-nav:hover {
   padding: 0.05em;
   position: relative;
   line-height: 1.5em;
-  flex: 1 1;
+  flex-basis: 100%;
 }
 
 .verse-text.second-bible-text {
   display: none;
   margin-left: 1em;
+  flex-basis: 100%;
 }
 
 .verse-list-with-second-translation .second-bible-text {
