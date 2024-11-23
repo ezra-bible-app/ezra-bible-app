@@ -537,7 +537,9 @@ class TextController {
       return;
     }
 
-    var bibleTranslationId = this.getBibleTranslationId(tab_index);
+    const bibleTranslationId = this.getBibleTranslationId(tab_index);
+    const secondBibleTranslationId = app_controller.tab_controller.getTab(tab_index).getSecondBibleTranslationId();
+
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
 
@@ -557,6 +559,7 @@ class TextController {
       }
 
       let currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
+      let secondBibleAbsoluteVerseNumber = await this.verseReferenceHelper.getMappedAbsoluteVerseNumber(bibleTranslationId, secondBibleTranslationId, currentVerseReference.bibleBookShortTitle, currentAbsoluteVerseNumber, currentVerseReference.chapter, currentVerseReference.verseNr);
 
       let resultVerses = await ipcNsi.getBookText(bibleTranslationId,
                                                   currentVerseReference.bibleBookShortTitle,
@@ -566,6 +569,20 @@ class TextController {
 
       if (verse !== undefined) {
         verses1.push(verse);
+      }
+      
+      let verse2 = null;
+
+      if (secondBibleTranslationId != null) {
+        let resultVerses2 = await ipcNsi.getBookText(secondBibleTranslationId,
+                                                     currentVerseReference.bibleBookShortTitle,
+                                                     secondBibleAbsoluteVerseNumber,
+                                                     1);
+        verse2 = resultVerses2[0];
+
+        if (verse2 !== undefined) {
+          verses2.push(verse2);
+        }
       }
     }
 
