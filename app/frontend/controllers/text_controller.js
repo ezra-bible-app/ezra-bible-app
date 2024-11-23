@@ -798,11 +798,13 @@ class TextController {
         verseListHeader.show();
       }
 
-      uiHelper.addButton(selectAllVersesButtonContainer, 'select-all-verses-button', 'bible-browser.select-all-verses', () => {
-        this.selectAllVerses();
-      });
+      if (selectAllVersesButtonContainer.find('.select-all-verses-button').length == 0) {
+        uiHelper.addButton(selectAllVersesButtonContainer, 'select-all-verses-button', 'bible-browser.select-all-verses', () => {
+          this.selectAllVerses();
+        });
 
-      uiHelper.configureButtonStyles('select-all-verses-button');
+        uiHelper.configureButtonStyles('select-all-verses-button');
+      }
 
       target.removeClass('verse-list-book');
 
@@ -840,8 +842,12 @@ class TextController {
       }
 
       const verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find(headerElementClass).find('h2');
-      const headerWithResultNumber = `${verseListHeader.html()} (${numberOfTaggedVerses})`;
-      verseListHeader.html(headerWithResultNumber);
+      let taggedVerseCount = verseListHeader.find('.tagged-verse-count');
+
+      if (taggedVerseCount.length == 0) {
+        const headerWithResultNumber = `${verseListHeader.html()} <span class='tagged-verse-count'>(${numberOfTaggedVerses})</span>`;
+        verseListHeader.html(headerWithResultNumber);
+      }
     }
 
     if (listType == 'search_results') {
