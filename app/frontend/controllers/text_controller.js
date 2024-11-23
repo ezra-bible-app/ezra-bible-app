@@ -221,9 +221,6 @@ class TextController {
           var reference = chapter + separator + '1';
           var startVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId, book, reference);
           var startVerseNr2 = await this.verseReferenceHelper.getMappedAbsoluteVerseNumber(currentBibleTranslationId, secondBibleTranslationId, book, startVerseNr, chapter, 1);
-
-          console.log(`Requesting text for ${book} ${chapter} with ${startVerseNr} and ${startVerseNr2}`);
-
           var verseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter);
 
           await this.requestBookText(tabIndex, tabId, book,
