@@ -458,13 +458,13 @@ a.chapter-nav:hover {
   justify-content: flex-end;
 }
 
-.verse-list-tags-column.limit-width .verse-text-container {
+.verse-list-tags-column.limit-width:not(.verse-list-with-second-translation) .verse-text-container {
   flex-basis: 60ch;
 }
 
 .verse-list-tags-column:not(.limit-width) .verse-text-container,
 .verse-list-with-second-translation .verse-text-container {
-  flex-basis: 110ch;
+  flex-basis: 130ch;
 }
 
 .slim-verse-reference .verse-reference {
@@ -641,7 +641,7 @@ a.chapter-nav:hover {
   display: block;
 }
 
-.verse-list-content.limit-width .verse-text {
+.verse-list-content.limit-width:not(.verse-list-with-second-translation) .verse-text {
   max-width: 60ch;
 }
 
