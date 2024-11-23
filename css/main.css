@@ -1525,10 +1525,9 @@ li.book-unavailable a:focus,
 }
 
 .bible-select-block {
-  margin-right: 0.5em;
+  margin-right: 0.8em;
   margin-bottom: 0.5em;
   user-select: none;
-  min-width: 20em;
 }
 
 .bible-select-block.second-bible {
