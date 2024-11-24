@@ -783,7 +783,7 @@ class TextController {
       }
 
       let verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
-      let selectAllVersesButtonContainer = verseListHeader[0];
+      let selectAllVersesButtonContainer = verseListHeader;
 
       if (currentTab.hasReferenceVerse()) {
         let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
@@ -795,7 +795,7 @@ class TextController {
         verseListHeader.show();
       }
 
-      if (selectAllVersesButtonContainer.find('.select-all-verses-button').length == 0) {
+      if (selectAllVersesButtonContainer != null && selectAllVersesButtonContainer.find('.select-all-verses-button').length == 0) {
         uiHelper.addButton(selectAllVersesButtonContainer, 'select-all-verses-button', 'bible-browser.select-all-verses', () => {
           this.selectAllVerses();
         });
