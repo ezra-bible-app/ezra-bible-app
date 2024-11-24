@@ -116,9 +116,6 @@
       "unlock-failed": "Разблокировка не удалась! Пожалуйста, введите правильный ключ разблокировки."
     }
   },
-  "module-sync": {
-    "module-sync-header": "Установка дополнительных модулей"
-  },
   "general": {
     "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "Об Ezra Bible App",

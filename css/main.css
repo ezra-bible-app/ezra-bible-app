@@ -630,10 +630,6 @@ a.chapter-nav:hover {
   cursor: auto;
 }
 
-.bible-sync-dialog .ui-dialog-titlebar-close {
-  display: none;
-}
-
 .tab-search,
 .tab-search-type,
 .tab-search-type option,
@@ -642,7 +638,6 @@ a.chapter-nav:hover {
 #search-type option,
 #search-scope,
 #search-scope option,
-.ui-dialog #bible-sync-box,
 .ui-dialog #db-sync-box,
 .ui-dialog #new-release-info-box,
 .ui-widget:not(.ezra-dialog),

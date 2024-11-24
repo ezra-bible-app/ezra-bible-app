@@ -114,9 +114,6 @@
       "unlock-failed": "Freischalten fehlgeschlagen! Bitte geben Sie den korrekten Freischaltschlüssel ein."
     }
   },
-  "module-sync": {
-    "module-sync-header": "Installiere zusätzliche Module"
-  },
   "general": {
     "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "Über Ezra Bible App",

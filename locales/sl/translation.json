@@ -114,9 +114,6 @@
       "unlock-failed": "Odklenitev ni uspela! Prosimo, vnesite pravilen ključ za odklepanje."
     }
   },
-  "module-sync": {
-    "module-sync-header": "Namestitev dodatnih modulov"
-  },
   "general": {
     "ezra-bible-app": "Ezra Bible aplikacija",
     "about-ezra-bible-app": "O Ezra Bible aplikaciji",

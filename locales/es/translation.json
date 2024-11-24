@@ -114,9 +114,6 @@
       "unlock-failed": "Fallo al desbloquear! Por favor ingrese la clave correcta."
     }
   },
-  "module-sync": {
-    "module-sync-header": "Instalando módulos adicionales"
-  },
   "general": {
     "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "Acerca de Ezra Bible App",

@@ -116,9 +116,6 @@
       "unlock-failed": "Ontgrendelen mislukt! Gelieve de juiste ontgrendelingssleutel in te voeren!"
     }
   },
-  "module-sync": {
-    "module-sync-header": "Extra modules installeren"
-  },
   "general": {
     "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "Over Ezra Bible App",
