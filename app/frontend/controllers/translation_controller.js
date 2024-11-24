@@ -264,7 +264,7 @@ class TranslationController {
       buttonIcon.className = 'fas fa-plus';
       parallelButton.setAttribute('i18n', '[title]menu.add-parallel-bible');
       
-      app_controller.tab_controller.setSecondBibleTranslationId(app_controller.tab_controller.defaultSecondBibleTranslationId);
+      app_controller.tab_controller.setSecondBibleTranslationId(null);
       verseList.classList.remove('verse-list-with-second-translation');
     }
 
