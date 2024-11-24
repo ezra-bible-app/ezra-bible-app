@@ -54,6 +54,7 @@ class TabController {
     this.addTabElement = addTabElement;
     this.tabHtmlTemplate = tabHtmlTemplate;
     this.defaultBibleTranslationId = defaultBibleTranslationId;
+    this.defaultSecondBibleTranslationId = defaultBibleTranslationId
     this.initFirstTab();
 
     var addTabShortCut = 'ctrl+t';
@@ -307,10 +308,15 @@ class TabController {
   }
 
   async loadTabConfiguration(force=false) {
-    var bibleTranslationSettingAvailable = await ipcSettings.has('bibleTranslation');
+    const bibleTranslationSettingAvailable = await ipcSettings.has('bibleTranslation');
+    const secondBibleTranslationSettingAvailable = await ipcSettings.has('secondBibleTranslation');
 
     if (bibleTranslationSettingAvailable) {
       this.defaultBibleTranslationId = await ipcSettings.get('bibleTranslation');
+    }
+
+    if (secondBibleTranslationSettingAvailable) {
+      this.defaultSecondBibleTranslationId = await ipcSettings.get('secondBibleTranslation');
     }
 
     var loadedTabCount = 0;

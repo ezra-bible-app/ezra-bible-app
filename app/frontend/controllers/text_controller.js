@@ -444,13 +444,21 @@ class TextController {
     return bibleBookStats;
   }
 
-  getBibleTranslationId(tab_index) {
+  getBibleTranslationId(tab_index, isSecondBible=false) {
     var bibleTranslationId = null;
 
     if (app_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
-      bibleTranslationId = app_controller.tab_controller.defaultBibleTranslationId;
+      if (!isSecondBible) {
+        bibleTranslationId = app_controller.tab_controller.defaultBibleTranslationId;
+      } else {
+        bibleTranslationId = app_controller.tab_controller.defaultSecondBibleTranslationId;
+      }
     } else {
-      bibleTranslationId = app_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+      if (!isSecondBible) {
+        bibleTranslationId = app_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+      } else {
+        bibleTranslationId = app_controller.tab_controller.getTab(tab_index).getSecondBibleTranslationId();
+      }
     }
 
     return bibleTranslationId;
@@ -544,7 +552,7 @@ class TextController {
     }
 
     const bibleTranslationId = this.getBibleTranslationId(tab_index);
-    const secondBibleTranslationId = app_controller.tab_controller.getTab(tab_index).getSecondBibleTranslationId();
+    const secondBibleTranslationId = this.getBibleTranslationId(tab_index, true);
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
