@@ -163,6 +163,8 @@ class TranslationController {
 
         if (!isSecondBible) {
           ipcSettings.set('bibleTranslation', newBibleTranslationId);
+        } else {
+          ipcSettings.set('secondBibleTranslation', newBibleTranslationId);
         }
 
         let changeEvent = isSecondBible ? 'on-translation2-changed' : 'on-translation1-changed';
