@@ -116,9 +116,6 @@
       "unlock-failed": "Unlock failed! Please enter the correct unlock key."
     }  
   },
-  "module-sync": {
-    "module-sync-header": "Installing additional modules"
-  },
   "general": {
     "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "About Ezra Bible App",

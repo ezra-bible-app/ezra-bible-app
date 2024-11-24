@@ -114,9 +114,6 @@
       "unlock-failed": "Deblocare eșuată! Te rog introdu cheia de deblocare corectă."
     }
   },
-  "module-sync": {
-    "module-sync-header": "Se instalează module adiționale"
-  },
   "general": {
     "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "Despre Ezra Bible App",

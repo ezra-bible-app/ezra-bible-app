@@ -114,9 +114,6 @@
       "unlock-failed": "O desbloqueio falhou! Por favor, insira a chave de desbloqueio correta."
     }
   },
-  "module-sync": {
-    "module-sync-header": "Instalando módulos adicionais"
-  },
   "general": {
     "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "Sobre o Aplicativo Bíblia Esdras",

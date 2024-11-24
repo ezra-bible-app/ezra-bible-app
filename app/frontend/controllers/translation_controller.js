@@ -36,7 +36,6 @@ const INSTANT_LOADING_CHAPTER_LIMIT = 15;
 class TranslationController {
   constructor() {
     this.translationCount = null;
-    this.initBibleSyncBoxDone = false;
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
       if (app_controller.isStartupCompleted()) {
@@ -60,23 +59,6 @@ class TranslationController {
 
   getTranslationCount() {
     return this.translationCount;
-  }
-
-  initBibleSyncBox() {
-    if (this.initBibleSyncBoxDone) {
-      return;
-    }
-
-    this.initBibleSyncBoxDone = true;
-
-    $('#bible-sync-box').dialog({
-      width: 600,
-      height: 300,
-      autoOpen: false,
-      modal: true,
-      title: i18n.t("module-sync.module-sync-header"),
-      dialogClass: 'bible-sync-dialog'
-    });
   }
 
   getBibleSelect(tabIndex) {
@@ -290,54 +272,6 @@ class TranslationController {
     var allSectionTitles = currentVerseList.querySelectorAll(query);
 
     return allSectionTitles.length > 0;
-  }
-
-  async installStrongs(htmlElementForMessages) {
-    var message = "<span>" + i18n.t("general.installing-strongs") + " ...</span>";
-    htmlElementForMessages.append(message);
-
-    try {
-      await ipcNsi.installModule("StrongsHebrew");
-      await ipcNsi.installModule("StrongsGreek");
-      app_controller.word_study_controller.runAvailabilityCheck();
-      var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
-      htmlElementForMessages.append(doneMessage);
-    } catch(e) {
-      var errorMessage = "<span> " + i18n.t("general.module-install-failed") + ".</span><br/>";
-      htmlElementForMessages.append(errorMessage);
-    }
-  }
-
-  // Currently not used!! (see startup.js)
-  async installStrongsIfNeeded() {
-    //console.time("get sync infos");   
-    var strongsAvailable = await ipcNsi.strongsAvailable();
-    var strongsInstallNeeded = await swordModuleHelper.isStrongsTranslationAvailable() && !strongsAvailable;
-    //console.timeEnd("get sync infos");
-
-    if (strongsInstallNeeded) {
-      var currentVerseList = verseListController.getCurrentVerseList();
-      var verse_list_position = currentVerseList.offset();
-
-      this.initBibleSyncBox();
-
-      $('#bible-sync-box').dialog({
-        position: [verse_list_position.left + 50, verse_list_position.top + 30]
-      });
-
-      $('#bible-sync-box').dialog("open");
-      await sleep(100);
-    }
-
-    if (strongsInstallNeeded) {
-      await this.installStrongs($('#bible-sync-box'));
-    }
-
-    if (strongsInstallNeeded) {
-      await sleep(2000);
-    }
-
-    $('#bible-sync-box').dialog("close");
   }
 
   async getInstalledModules(moduleType='BIBLE') {

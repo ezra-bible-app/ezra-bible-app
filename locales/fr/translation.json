@@ -124,9 +124,6 @@
       "unlock-failed": "Le déverrouillage a échoué ! Veuillez entrer la bonne clé de déverrouillage."
     }
   },
-  "module-sync": {
-    "module-sync-header": "Installation de modules supplémentaires"
-  },
   "general": {
     "ezra-bible-app": "Ezra Bible App",
     "about-ezra-bible-app": "À propos d'Ezra Bible App",
