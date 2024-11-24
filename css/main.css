@@ -485,6 +485,10 @@ a.chapter-nav:hover {
   /* padding: 0.1em; */
 }
 
+.verse-list-with-second-translation .tag-box {
+  max-width: unset;
+}
+
 .verse-list-rtl .tag-box {
   text-align: right;
 }
