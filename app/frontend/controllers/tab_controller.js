@@ -824,6 +824,10 @@ class TabController {
         this.saveTabConfiguration();
       }
     }
+
+    if (secondBibleTranslationId != null) {
+      this.defaultSecondBibleTranslationId = secondBibleTranslationId;
+    }
   }
 
   async getCurrentBibleTranslationName() {
