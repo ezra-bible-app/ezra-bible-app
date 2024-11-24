@@ -94,8 +94,8 @@ module.exports.initModuleSelect = async function(moduleSelectEl, currentModuleId
 
   allModules.sort(swordModuleHelper.sortModules);
 
-  await module.exports.addLanguageGroupsToModuleSelectMenu(moduleSelectEl, allModules);
-  module.exports.addModulesToModuleSelectMenu(undefined, moduleSelectEl, allModules, currentModuleId);
+  await this.addLanguageGroupsToModuleSelectMenu(moduleSelectEl, allModules);
+  this.addModulesToModuleSelectMenu(undefined, moduleSelectEl, allModules, currentModuleId);
 
   if (platformHelper.isMobile()) {
     moduleSelectWidth = 110;
