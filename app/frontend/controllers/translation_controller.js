@@ -141,9 +141,9 @@ class TranslationController {
 
     if (currentTab != null) {
       if (isSecondBible) {
-        currentModuleId = currentTab.getSecondBibleTranslationId();
+        currentModuleId = app_controller.tab_controller.defaultSecondBibleTranslationId
       } else {
-        currentModuleId = currentTab.getBibleTranslationId();
+        currentModuleId = app_controller.tab_controller.defaultBibleTranslationId;
       }
     }
 
