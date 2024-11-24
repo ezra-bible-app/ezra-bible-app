@@ -817,6 +817,7 @@ class TabController {
 
   setSecondBibleTranslationId(secondBibleTranslationId) {
     const tab = this.getTab();
+
     if (tab != null) {
       tab.setSecondBibleTranslationId(secondBibleTranslationId);
 
