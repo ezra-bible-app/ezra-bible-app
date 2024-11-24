@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../controllers/event_controller.js');
-const { sleep } = require('../helpers/ezra_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const moduleSelectHelper = require('../helpers/module_select_helper.js');
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
@@ -254,6 +253,12 @@ class TranslationController {
       buttonIcon.className = 'fas fa-minus';
       parallelButton.setAttribute('i18n', '[title]menu.remove-parallel-bible');
       verseList.classList.add('verse-list-with-second-translation');
+
+      const newBibleTranslationId = secondBibleBlock.querySelector('select.bible-select').value;
+
+      setTimeout(() => {
+        eventController.publish('on-translation2-changed', {from: null, to: newBibleTranslationId});
+      }, 50);
     } else {
       secondBibleBlock.style.display = 'none';
       buttonIcon.className = 'fas fa-plus';
