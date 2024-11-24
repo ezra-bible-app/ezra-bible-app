@@ -421,6 +421,9 @@ class TextController {
     }
   }
 
+  /**
+   * Loop through each verse to count the number of verses per Bible book.
+   */
   getBibleBookStatsFromVerses(verses) {
     var bibleBookStats = {};
 
@@ -475,12 +478,15 @@ class TextController {
     var verses1 = [];
     var verses2 = [];
 
+    /**
+     * Loop through search results to filter verses by a specific book ID.
+     */
     for (let i = 0; i < search_results.length; i++) {
       const currentVerse = search_results[i];
       const currentBookId = currentVerse.bibleBookShortTitle;
 
+      // Skip the books that are not requested
       if (searchResultBookId != -1 && currentBookId != searchResultBookId) {
-        // Skip the books that are not requested;
         continue;
       }
 
@@ -489,6 +495,9 @@ class TextController {
 
     var verseObjects = [];
 
+    /**
+     * Loop through verses1 to create Verse objects for each verse.
+     */
     for (let i = 0; i < verses1.length; i++) {
       const currentVerse = verses1[i];
       const currentVerseObject = new Verse(currentVerse.bibleBookShortTitle,
@@ -545,6 +554,9 @@ class TextController {
     var verses1 = [];
     var verses2 = [];
 
+    /**
+     * Loop through verseReferences to collect unique verse reference IDs and fetch corresponding verses.
+     */
     for (let i = 0; i < verseReferences.length; i++) {
       let currentVerseReference = verseReferences[i];
 
@@ -629,6 +641,9 @@ class TextController {
     var verses1 = await ipcNsi.getVersesFromReferences(bibleTranslationId, xrefs);
     var verses2 = [];
 
+    /**
+     * Loop through verseReferences to collect verse reference IDs for cross-references (xrefs).
+     */
     for (let i = 0; i < verseReferences.length; i++) {
       let currentVerseReference = verseReferences[i];
 
