@@ -412,9 +412,18 @@ class CommentaryPanel {
 
     if (verse != null) {
       let reference = bibleBookShortTitle + ' ' + verse.chapter + ':' + verse.verseNr;
+      
+      const module = await ipcNsi.getLocalModule(commentaryId);
+      let moduleReadable = true;
 
-      let commentaryEntry = await ipcNsi.getReferenceText(commentaryId, reference);
-      commentary = commentaryEntry.content;
+      if (module.locked) {
+        moduleReadable = await ipcNsi.isModuleReadable(commentaryId);
+      }
+
+      if (moduleReadable) {
+        let commentaryEntry = await ipcNsi.getReferenceText(commentaryId, reference);
+        commentary = commentaryEntry.content;
+      }
     }
 
     if (platformHelper.isElectron()) {

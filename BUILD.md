@@ -1,6 +1,6 @@
 # Building Ezra Bible App
 
-Independent of the operating system, ensure to use a compatible nodejs version. We're currently using v14.x (Active LTS), which is supported until 2023-04-30.
+Independent of the operating system, ensure to use a compatible nodejs version. We're currently using v18.x, which is supported until April 2025.
 This is the version currently used for development and testing. Compatibility with other versions cannot necessarily be guaranteed.
 
 ## Windows
@@ -81,7 +81,7 @@ The following instructions have been verified on macOS _Big Sur_. The assumption
 
 ### Setup and build
 
-1. Ensure that you have a compatible nodejs version (14.x). You should be able to switch node versions using the nvm command (see [this blog post](https://michael-kuehnel.de/node.js/2015/09/08/using-vm-to-switch-node-versions.html)).
+1. Ensure that you have a compatible nodejs version (18.x). You should be able to switch node versions using the nvm command (see [this blog post](https://michael-kuehnel.de/node.js/2015/09/08/using-vm-to-switch-node-versions.html)).
 2. Clone Ezra Bible App from git repo or unpack sources from release
 3. Install Ezra Bible App dependencies by running this commmand in the project dir: `npm install`
 4. Rebuild C/C++ dependencies by running this command in the project dir: `npm run rebuild`
