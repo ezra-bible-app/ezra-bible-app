@@ -62,7 +62,7 @@ When('I click outside of the note editor', async function () {
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var noteTextBox = await verseListTabs.$('.verse-notes .verse-notes-text.edited');
   var verseContent = await noteTextBox.$('../..');
-  var verseText = await verseContent.$('.verse-text');
+  var verseText = await verseContent.$('.first-bible-text');
 
   await verseText.click();
   await spectronHelper.sleep();

@@ -77,7 +77,7 @@ class BookSelectionMenu {
   }
 
   subscribeForEvents() {
-    eventController.subscribe('on-translation-changed', async () => {
+    eventController.subscribe('on-translation1-changed', async () => {
       await this.updateAvailableBooks();
     });
 

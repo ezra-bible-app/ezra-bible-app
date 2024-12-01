@@ -254,6 +254,8 @@ module.exports.resetVerseListView = function() {
 
   let verseListHeader = verseListFrame.find('.verse-list-header');
   verseListHeader.hide();
+  
+  verseListFrame.find('.select-all-verses-button').remove();
 
   let tagDistributionMatrix = verseListFrame.find('tag-distribution-matrix')[0];
   tagDistributionMatrix.reset();
