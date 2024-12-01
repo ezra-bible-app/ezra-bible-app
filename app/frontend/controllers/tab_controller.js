@@ -458,9 +458,11 @@ class TabController {
 
               selectAllVersesButton.show();
 
-              if (metaTab.getTextType() == 'search_results') {
+              if (metaTab.getTextType() == 'search_results' || metaTab.getTextType() == 'tagged_verses') {
                 currentVerseListHeader.show();
-              } else if (metaTab.getTextType() == 'tagged_verses') {
+              }
+              
+              if (metaTab.getTextType() == 'tagged_verses') {
                 currentTagDistributionMatrix.show();
               }
 
