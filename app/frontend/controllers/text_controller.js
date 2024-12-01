@@ -98,7 +98,6 @@ class TextController {
       app_controller.module_search_controller.cancelAnyModuleSearch();
     }
 
-    app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
 
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
     if (currentTab != null && currentTab.tab_search != null) {
@@ -108,6 +107,11 @@ class TextController {
     await app_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
     var textType = currentTab != null ? currentTab.getTextType() : null;
+
+    if (textType != 'tagged_verses') {
+      app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
+    }
+
     if (textType != 'book') {
       app_controller.book_selection_menu.clearSelectedBookInMenu();
     }
