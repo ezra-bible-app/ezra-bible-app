@@ -411,13 +411,18 @@ class TabController {
           }
 
           if (metaTab.getTextType() != null) {
+            var currentVerseListFrame = verseListController.getCurrentVerseListFrame(index);
             var currentVerseList = verseListController.getCurrentVerseList(index);
             var currentVerseListHeader = verseListController.getCurrentVerseListHeader(index);
             var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(index);
+            var selectAllVersesButton = currentVerseListFrame.find('.select-all-verses-button');
+            var currentTagDistributionMatrix = currentVerseListFrame.find('.tag-distribution-matrix-wrapper');
 
+            selectAllVersesButton.hide();
             currentVerseList.hide();
             currentVerseListHeader.hide();
             currentReferenceVerse.hide();
+            currentTagDistributionMatrix.hide();
 
             verseListController.showVerseListLoadingIndicator(index);
             app_controller.verse_statistics_chart.resetChart(index);
@@ -441,10 +446,23 @@ class TabController {
               var currentVerseList = verseListController.getCurrentVerseList(index);
               var currentVerseListHeader = verseListController.getCurrentVerseListHeader(index);
               var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(index);
+              var currentVerseListFrame = verseListController.getCurrentVerseListFrame(index);
+              var selectAllVersesButton = currentVerseListFrame.find('.select-all-verses-button');
+              var currentTagDistributionMatrix = currentVerseListFrame.find('.tag-distribution-matrix-wrapper');
 
               currentVerseList.show();
-              currentVerseListHeader.show();
-              currentReferenceVerse.show();
+
+              if (metaTab.hasReferenceVerse()) {
+                currentReferenceVerse.show();
+              }
+
+              selectAllVersesButton.show();
+
+              if (metaTab.getTextType() == 'search_results') {
+                currentVerseListHeader.show();
+              } else if (metaTab.getTextType() == 'tagged_verses') {
+                currentTagDistributionMatrix.show();
+              }
 
               await app_controller.verse_statistics_chart.repaintChart(index);
 

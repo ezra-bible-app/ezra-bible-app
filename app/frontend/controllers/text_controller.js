@@ -818,10 +818,10 @@ class TextController {
         verseListHeader.show();
       }
 
-      if (selectAllVersesButtonContainer != null && selectAllVersesButtonContainer.find('.select-all-verses-button').length == 0) {
+      if (verseListHeader.parent().find('.select-all-verses-button').length == 0) {
         uiHelper.addButton(selectAllVersesButtonContainer, 'select-all-verses-button', 'bible-browser.select-all-verses', () => {
           this.selectAllVerses();
-        });
+        }, false, true);
 
         uiHelper.configureButtonStyles('select-all-verses-button');
       }

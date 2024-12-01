@@ -1340,11 +1340,15 @@ li.book-unavailable a:focus,
   font-weight: normal;
 }
 
-.verse-list-header,
 .verse-statistics-chart-container {
   display: none;
   margin-left: 0.2em;
   margin-top: 0.5em;
+}
+
+.verse-list-header {
+  display: none;
+  margin-left: 0.2em;
 }
 
 .reference-verse-list-header {
