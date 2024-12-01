@@ -38,7 +38,12 @@ class TranslationController {
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
       if (app_controller.isStartupCompleted()) {
-        await this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+        const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+        const bibleSelect1 = currentVerseListMenu.find('#bible-select1');
+        const bibleSelect2 = currentVerseListMenu.find('#bible-select2');
+
+        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, tabIndex, true);
+        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, tabIndex, true);
       }
     });
 
@@ -184,8 +189,15 @@ class TranslationController {
     const tabElement = document.getElementById(tabElementId); 
     const isInitialized = tabElement.classList.contains('translations-menu-initialized');
 
+    const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    const bibleSelect1 = currentVerseListMenu.find('#bible-select1');
+    const bibleSelect2 = currentVerseListMenu.find('#bible-select2');
+
     // Check if the translations menu for this tab has already been initialized
     if (!force && isInitialized) {
+      await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, tabIndex, true);
+      await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, tabIndex, true);
+
       return; // Skip initialization if already done
     }
 
@@ -193,10 +205,6 @@ class TranslationController {
     if (!isInitialized) {
       tabElement.classList.add('translations-menu-initialized');
     }
-
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var bibleSelect1 = currentVerseListMenu.find('#bible-select1');
-    var bibleSelect2 = currentVerseListMenu.find('#bible-select2');
 
     var modules = await ipcNsi.getAllLocalModules('BIBLE');
     modules.sort(swordModuleHelper.sortModules);
@@ -214,7 +222,8 @@ class TranslationController {
     await this.initBibleSelect(bibleSelect1, modules, false, tabIndex);
     await this.initBibleSelect(bibleSelect2, modules, true, tabIndex);
 
-    this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+    await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, tabIndex);
+    await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, tabIndex);
 
     if (!force) {
       // Toggle parallel bible based on saved tab properties
@@ -225,7 +234,7 @@ class TranslationController {
 
       // Register event handlers
       currentVerseListMenu[0].querySelector('.parallel-bible-button').addEventListener('click', () => {
-        this.toggleParallelBible(tabIndex);
+        this.toggleParallelBible();
       });
 
       currentVerseListMenu[0].querySelector('.bible-select-block').querySelector('.ui-selectmenu').addEventListener('click', () => {
@@ -295,15 +304,14 @@ class TranslationController {
     return translations;
   }
 
-  async toggleTranslationsBasedOnCurrentBook(tabIndex=undefined) {
-    const bibleSelect = this.getBibleSelect(tabIndex);
+  async toggleTranslationsBasedOnCurrentBook(bibleSelect, tabIndex=undefined, force=false) {
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
       let currentBook = currentTab.getBook();
       let previousBook = currentTab.getPreviousBook();
 
-      if (currentBook == null || currentBook == previousBook) {
+      if (!force && (currentBook == null || currentBook == previousBook)) {
         return;
       }
 
