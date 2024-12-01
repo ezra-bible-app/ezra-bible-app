@@ -107,7 +107,7 @@ function highlightCurrentVerseText(event) {
   if (event.target.parentElement != null &&
       event.target.parentElement.parentElement != null) {
 
-    let verseText = event.target.parentElement.parentElement.querySelector('.verse-text');
+    let verseText = event.target.parentElement.parentElement.querySelector('.verse-text-container');
     app_controller.verse_selection.setVerseAsSelection(verseText);
   }
 }

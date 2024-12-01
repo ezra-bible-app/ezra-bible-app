@@ -113,7 +113,7 @@ class VerseContextController {
 
     // Select/highlight the tagged verse
     let selected_verse_box = $('.verse-reference-id-' + context_verse_id);
-    let currentVerseText = selected_verse_box.find('.verse-text')[0];
+    let currentVerseText = selected_verse_box.find('.verse-text-container')[0];
     app_controller.verse_selection.setVerseAsSelection(currentVerseText);
 
     verseListController.bindEventsAfterBibleTextLoaded(undefined, true);

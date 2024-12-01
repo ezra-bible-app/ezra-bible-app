@@ -193,7 +193,7 @@ class VerseListPopup {
     // 5) Select the reference verse
     if (this.currentReferenceVerseBox != null && this.currentReferenceVerseBox.length > 0) {
       let currentReferenceVerse = verseListController.getCurrentVerseListFrame().find('.reference-verse');
-      let verseText = currentReferenceVerse[0].querySelector('.verse-text');
+      let verseText = currentReferenceVerse[0].querySelector('.verse-text-container');
       await app_controller.verse_selection.setVerseAsSelection(verseText);
     }
 
