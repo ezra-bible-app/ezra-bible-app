@@ -190,7 +190,7 @@ each bibleBook in bibleBooks
               //- This could e.g. be the case if the first verse of a psalm maps to the last verse of the previous chapter.
               div.verse-text.second-bible-text
 
-            div.verse-text !{verse.content}
+            div.verse-text.first-bible-text !{verse.content}
 
         if current_verse_note != null && current_verse_note.text != null && current_verse_note.text != ''
           - var verseNoteClass = "verse-notes";

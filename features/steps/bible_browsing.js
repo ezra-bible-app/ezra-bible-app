@@ -70,12 +70,12 @@ Then('the book of Ephesians is opened in the current tab', async function () {
   assert(verseBoxes.length == 155, `The number of verses does not match the expectation for Ephesians (155): ${verseBoxes.length}`);
 
   var firstVerseBox = verseBoxes[0];
-  var firstVerseText = await firstVerseBox.$('.verse-text');
+  var firstVerseText = await firstVerseBox.$('.first-bible-text');
   var firstVerseTextContent = await firstVerseText.getText();
   firstVerseTextContent = firstVerseTextContent.trim();
 
   var lastVerseBox = verseBoxes[verseBoxes.length - 1];
-  var lastVerseText = await lastVerseBox.$('.verse-text');
+  var lastVerseText = await lastVerseBox.$('.first-bible-text');
   var lastVerseTextContent = await lastVerseText.getText();
   lastVerseTextContent = lastVerseTextContent.replace("\n", " ");
   lastVerseTextContent = lastVerseTextContent.trim();
@@ -97,7 +97,7 @@ Then('{bible_book} chapter {int} is opened in the current tab', async function (
     `The number of verses does not match the expectation for Ephesians chapter ${chapter} (${expectedBookChapterVerseCount}): ${verseBoxes.length}`);
 
   const expectedLastVerseContent = await nsiHelper.getChapterLastVerseContent("KJV", bookShortTitle, chapter);
-  const actualLastVerseElement = await verseBoxes[verseBoxes.length - 1].$('.verse-text');
+  const actualLastVerseElement = await verseBoxes[verseBoxes.length - 1].$('.first-bible-text');
   const actualLastVerseContent = await actualLastVerseElement.getText();
 
   assert(actualLastVerseContent == expectedLastVerseContent,
@@ -125,7 +125,7 @@ Given('I select the verse {string}', async function (selectedVerse) {
 
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   this.selectedVerseBox = await verseListTabs.$('.verse-nr-' + absoluteVerseNumber);
-  this.selectedVerseText = await this.selectedVerseBox.$('.verse-text');
+  this.selectedVerseText = await this.selectedVerseBox.$('.first-bible-text');
 
   await this.selectedVerseText.click();
   await spectronHelper.sleep();
