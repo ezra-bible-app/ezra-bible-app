@@ -480,6 +480,7 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
+    const secondBibleTranslationId = this.getBibleTranslationId(tab_index, true);
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
@@ -503,6 +504,24 @@ class TextController {
       }
 
       verses1.push(currentVerse);
+
+      if (secondBibleTranslationId != null) {
+        let mappedAbsoluteVerseNumber = await this.verseReferenceHelper.getMappedAbsoluteVerseNumber(bibleTranslationId,
+                                                                                                     secondBibleTranslationId,
+                                                                                                     currentVerse.bibleBookShortTitle,
+                                                                                                     currentVerse.absoluteVerseNr,
+                                                                                                     currentVerse.chapter,
+                                                                                                     currentVerse.verseNr);
+        let resultVerses2 = await ipcNsi.getBookText(secondBibleTranslationId,
+                                                     currentVerse.bibleBookShortTitle,
+                                                     mappedAbsoluteVerseNumber,
+                                                     1);
+        let verse2 = resultVerses2[0];
+
+        if (verse2 !== undefined) {
+          verses2.push(verse2);
+        }
+      }
     }
 
     var verseObjects = [];
