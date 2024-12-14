@@ -183,8 +183,11 @@ each bibleBook in bibleBooks
                   div.tag(tag-id=verseTag.tagId title=i18n.t('bible-browser.tag-hint'), i18n='[title]bible-browser.tag-hint') !{current_tag_title}
 
           div.verse-text-container
-            if verse2 != null && verse.chapter == verse2.chapter 
-              div.verse-text.second-bible-text !{verse2.content}
+            if verse2 != null
+              if bibleBook == 'Ps' && verse.chapter == verse2.chapter 
+                div.verse-text.second-bible-text !{verse2.content}
+              else if bibleBook != 'Ps'
+                div.verse-text.second-bible-text !{verse2.content}
             else
               //- Render an empty div in case the chapter of the second verse does not match.
               //- This could e.g. be the case if the first verse of a psalm maps to the last verse of the previous chapter.
