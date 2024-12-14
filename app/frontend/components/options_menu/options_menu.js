@@ -326,6 +326,7 @@ class OptionsMenu {
         var currentSectionTitle = all_section_titles[i];
         var currentParent = currentSectionTitle.parentNode;
         var parentClassList = currentParent.classList;
+        var textClass = parentClassList.contains('first-bible-text') ? 'first-bible-text' : 'second-bible-text';
 
         // We verify that the section title is part of the verse text
         // (and not part of a chapter introduction or something similar).
@@ -337,6 +338,10 @@ class OptionsMenu {
           var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, chapter, sectionTitleContent);
           sectionHeaderAnchor.setAttribute('name', unixSectionHeaderId);
 
+          sectionHeaderAnchor.setAttribute('class', textClass);
+          currentSectionTitle.classList.add(textClass);
+
+          // Move the section title before the verse-box
           var verseBox = currentSectionTitle.closest('.verse-box');
           verseBox.before(sectionHeaderAnchor);
           verseBox.before(currentSectionTitle);

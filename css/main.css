@@ -1463,6 +1463,10 @@ li.book-unavailable a:focus,
   font-size: 1.2em;
 }
 
+.sword-section-title.second-bible-text {
+  display: none !important;
+}
+
 .verse-list-book.verse-list-without-chapter-titles .sword-chapter-title {
   display: none;
 }
