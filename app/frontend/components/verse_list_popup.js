@@ -23,6 +23,7 @@ const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const { initTransChangeTitlesForContainer } = require('./trans_change_titles.js');
 
 /**
  * The VerseListPopup component implements a dialog that shows a tagged verse list or a list of cross references.
@@ -544,6 +545,7 @@ class VerseListPopup {
     const verseList = document.getElementById('verse-list-popup-verse-list');
     app_controller.sword_notes.initForContainer(verseList);
     app_controller.word_study_controller.initStrongsForContainer(verseList);
+    initTransChangeTitlesForContainer(verseList);
 
     $('#verse-list-popup-verse-list').show();
   }
