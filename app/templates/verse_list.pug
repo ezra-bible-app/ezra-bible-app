@@ -184,13 +184,17 @@ each bibleBook in bibleBooks
 
           div.verse-text-container
             if verse2 != null
+              //- Do not accept a mapping of a verse to a verse in a different chapter in case of Psalms.
               if bibleBook == 'Ps' && verse.chapter == verse2.chapter 
                 div.verse-text.second-bible-text !{verse2.content}
               else if bibleBook != 'Ps'
                 div.verse-text.second-bible-text !{verse2.content}
+              else
+                //- Render an empty div in case the chapter of the second verse does not match.
+                //- This could e.g. be the case if the first verse of a psalm maps to the last verse of the previous chapter.
+                div.verse-text.second-bible-text
             else
-              //- Render an empty div in case the chapter of the second verse does not match.
-              //- This could e.g. be the case if the first verse of a psalm maps to the last verse of the previous chapter.
+              //- Render an empty div in case the second verse is not available.
               div.verse-text.second-bible-text
 
             div.verse-text.first-bible-text !{verse.content}
