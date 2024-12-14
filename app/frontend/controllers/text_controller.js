@@ -664,7 +664,7 @@ class TextController {
       }
     }
 
-    var bibleBookStats = this.getBibleBookStatsFromVerses(verses);
+    var bibleBookStats = this.getBibleBookStatsFromVerses(verses1);
     var bibleBooks = await ipcDb.getBibleBooksFromXrefs(xrefs);
     var bookNames = await ipcGeneral.getBookNames(bibleBooks);
 
