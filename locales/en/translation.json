@@ -397,7 +397,7 @@
       "deleted" : "Some words in the source text are not present in the translation",
       "implied" : "These words were added or changed to translate information implied by the source text",
       "moved" : "These words were in another location in the source text",
-      "tense-change": "The gramatical tense of these words was changed in order to facilitate translation"
+      "tense-change": "The grammatical tense of these words was changed in order to facilitate translation"
     }
   },
   "word-study-panel": {
