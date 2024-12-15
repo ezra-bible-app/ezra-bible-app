@@ -1,6 +1,65 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.16.0 - 2024-12-28]
+
+### Features
+
+* Add support for dictionaries like Nave's, Thompson Chain References, Vine. ([#1152][i1152])
+
+### Enhancements
+
+* Make verse references in commentary side panel clickable / navigable. ([#1044][i1044])
+* Apply font/typeface settings to all module text content. ([#1132][i1132])
+* Make individual commentary sections collapsible. ([#1141][i1141])
+* Freeze mouseover on dictionary entries when clicking individual word. ([#1143][i1143])
+
+### Fixes
+
+* Issue with wrapping text in Bible translation selection menu. ([#1125][i1125])
+* Module Assistant - Issue with locked module selection. ([#1129][i1129])
+* Scroll position of source tab not saved when opening tagged verse list in new tab. ([#1131][i1131])
+* Tab scroll position of previous tab is not restored correctly when closing tab. ([#1133][i1133])
+* Selected verse and corresponding commentary entry gets de-selected when switching translation. ([#1134][i1134])
+* Verse selection fails if the verse is the same as the previous selected one. ([#1135][i1135])
+* RTL translations are not rendered right to left in compare translations panel. ([#1136][i1136])
+* Tag cannot be re-created after being deleted. ([#1137][i1137])
+* Swipe actions on Android make chapter changes slow over time. ([#1138][i1138])
+* Copy button not fitting small phone screens. ([#1139][i1139])
+* macOS: Updates not working for modules in ~/Library/Application Support/Sword. ([#1140][i1140])
+* Update Electron to version 32.2.3 to improve note taking under Wayland. ([#1147][i1147])
+* Tagged Verse List - Verse Count and Select All Verses button are added again when changing Bible translation. ([#1160][i1160])
+* Crashes when viewing commentaries. ([#1162][i1162])
+
+### Enablers
+
+* Add package for CentOS 9. ([#1148][i1148])
+* Add package for OpenSuse Leap 15.5 (to replace 15.2). ([#1149][i1149])
+* Add package for OpenSuse Leap 15.6. ([#1151][i1151])
+
+[i1044] https://github.com/ezra-bible-app/ezra-bible-app/issues/1044
+[i1125] https://github.com/ezra-bible-app/ezra-bible-app/issues/1125
+[i1129] https://github.com/ezra-bible-app/ezra-bible-app/issues/1129
+[i1131] https://github.com/ezra-bible-app/ezra-bible-app/issues/1131
+[i1132] https://github.com/ezra-bible-app/ezra-bible-app/issues/1132
+[i1133] https://github.com/ezra-bible-app/ezra-bible-app/issues/1133
+[i1134] https://github.com/ezra-bible-app/ezra-bible-app/issues/1134
+[i1135] https://github.com/ezra-bible-app/ezra-bible-app/issues/1135
+[i1136] https://github.com/ezra-bible-app/ezra-bible-app/issues/1136
+[i1137] https://github.com/ezra-bible-app/ezra-bible-app/issues/1137
+[i1138] https://github.com/ezra-bible-app/ezra-bible-app/issues/1138
+[i1139] https://github.com/ezra-bible-app/ezra-bible-app/issues/1139
+[i1140] https://github.com/ezra-bible-app/ezra-bible-app/issues/1140
+[i1141] https://github.com/ezra-bible-app/ezra-bible-app/issues/1141
+[i1143] https://github.com/ezra-bible-app/ezra-bible-app/issues/1143
+[i1147] https://github.com/ezra-bible-app/ezra-bible-app/pull/1147
+[i1148] https://github.com/ezra-bible-app/ezra-bible-app/issues/1148
+[i1149] https://github.com/ezra-bible-app/ezra-bible-app/issues/1149
+[i1151] https://github.com/ezra-bible-app/ezra-bible-app/issues/1151
+[i1152] https://github.com/ezra-bible-app/ezra-bible-app/issues/1152
+[i1160] https://github.com/ezra-bible-app/ezra-bible-app/issues/1160
+[i1162] https://github.com/ezra-bible-app/ezra-bible-app/issues/1162
+
 ## [1.15.0 - 2024-09-21]
 
 ### Enhancements
