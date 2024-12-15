@@ -15,7 +15,9 @@
     "text-size": "Úprava veľkosti textu veršu",
     "text-size-decrease": "Zmenšiť veľkosť textu",
     "text-size-reset": "Nastaviť veľkosť fontu na predvolenú",
-    "text-size-increase": "Zväčšiť veľkosť textu"
+    "text-size-increase": "Zväčšiť veľkosť textu",
+    "add-parallel-bible": "Add parallel Bible",
+    "remove-parallel-bible": "Remove parallel Bible"
   },
   "search-menu": {
     "search": "Hľadať",

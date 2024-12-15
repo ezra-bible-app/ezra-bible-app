@@ -15,7 +15,9 @@
     "text-size": "Ajustar o tamanho da fonte do versículo",
     "text-size-decrease": "Diminuir tamanho da fonte",
     "text-size-reset": "Redefinir tamanho da fonte para o padrão",
-    "text-size-increase": "Aumentar o tamanho da fonte"
+    "text-size-increase": "Aumentar o tamanho da fonte",
+    "add-parallel-bible": "Add parallel Bible",
+    "remove-parallel-bible": "Remove parallel Bible"
   },
   "search-menu": {
     "search": "Busca",

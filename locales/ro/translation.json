@@ -15,7 +15,9 @@
     "text-size": "Ajustează dimensiunea font-ului pentru verset",
     "text-size-decrease": "Micșorează dimensiunea fontului",
     "text-size-reset": "Resetează dimensiunea fontului la implicit",
-    "text-size-increase": "Mărește dimensiunea fontului"
+    "text-size-increase": "Mărește dimensiunea fontului",
+    "add-parallel-bible": "Add parallel Bible",
+    "remove-parallel-bible": "Remove parallel Bible"
   },
   "search-menu": {
     "search": "Căutare",
