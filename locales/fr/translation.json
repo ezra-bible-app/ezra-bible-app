@@ -15,7 +15,9 @@
     "text-size": "Ajuster la taille de police du verset",
     "text-size-decrease": "Diminuer la taille de police actuelle",
     "text-size-reset": "Réinitialiser la taille de police par défaut",
-    "text-size-increase": "Augmenter la taille de police actuelle"
+    "text-size-increase": "Augmenter la taille de police actuelle",
+    "add-parallel-bible": "Add parallel Bible",
+    "remove-parallel-bible": "Remove parallel Bible"
   },
   "search-menu": {
     "search": "Rechercher",

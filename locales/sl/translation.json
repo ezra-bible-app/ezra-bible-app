@@ -15,7 +15,9 @@
     "text-size": "Prilagodi velikost pisave vrstic",
     "text-size-decrease": "Zmanjšanje velikosti pisave",
     "text-size-reset": "Ponastavi privzeto velikost pisave",
-    "text-size-increase": "Povečaj velikost pisave"
+    "text-size-increase": "Povečaj velikost pisave",
+    "add-parallel-bible": "Add parallel Bible",
+    "remove-parallel-bible": "Remove parallel Bible"
   },
   "search-menu": {
     "search": "Iskanje",

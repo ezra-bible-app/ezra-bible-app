@@ -15,7 +15,9 @@
     "text-size": "pas vers-lettergrootte aan",
     "text-size-decrease": "Verklein huidige lettergrootte",
     "text-size-reset": "Reset lettergrootte naar standaardwaarde",
-    "text-size-increase": "Vergroot huidige lettergrootte"
+    "text-size-increase": "Vergroot huidige lettergrootte",
+    "add-parallel-bible": "Add parallel Bible",
+    "remove-parallel-bible": "Remove parallel Bible"
   },
   "search-menu": {
     "search": "Zoeken",

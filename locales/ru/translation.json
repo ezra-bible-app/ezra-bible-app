@@ -15,7 +15,9 @@
     "text-size": "Изменить размер текста Библии",
     "text-size-decrease": "Уменьшить размер текста",
     "text-size-reset": "Сбросить размер текста",
-    "text-size-increase": "Увеличить размер текста"
+    "text-size-increase": "Увеличить размер текста",
+    "add-parallel-bible": "Add parallel Bible",
+    "remove-parallel-bible": "Remove parallel Bible"
   },
   "search-menu": {
     "search": "Поиск",

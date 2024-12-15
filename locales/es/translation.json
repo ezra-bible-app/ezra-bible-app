@@ -15,7 +15,9 @@
     "text-size": "Ajustar tamaño del texto",
     "text-size-decrease": "Disminuir el tamaño del texto ",
     "text-size-reset": "Restablecer el tamaño del texto",
-    "text-size-increase": "Aumentar el tamaño del texto"
+    "text-size-increase": "Aumentar el tamaño del texto",
+    "add-parallel-bible": "Add parallel Bible",
+    "remove-parallel-bible": "Remove parallel Bible"
   },
   "search-menu": {
     "search": "Buscar",
