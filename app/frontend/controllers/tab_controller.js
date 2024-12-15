@@ -54,6 +54,7 @@ class TabController {
     this.addTabElement = addTabElement;
     this.tabHtmlTemplate = tabHtmlTemplate;
     this.defaultBibleTranslationId = defaultBibleTranslationId;
+    this.defaultSecondBibleTranslationId = defaultBibleTranslationId
     this.initFirstTab();
 
     var addTabShortCut = 'ctrl+t';
@@ -73,7 +74,8 @@ class TabController {
       await this.updateTabTitlesAfterLocaleChange();
     });
 
-    eventController.subscribePrioritized('on-translation-changed', async (data) => await this.onBibleTranslationChanged(data));
+    eventController.subscribePrioritized('on-translation1-changed', async (data) => await this.onBibleTranslationChanged(data));
+    eventController.subscribePrioritized('on-translation2-changed', async (data) => await this.onBibleTranslationChanged(data, true));
 
     eventController.subscribe('on-translation-removed', async (translationId) => {
       var installedTranslations = await app_controller.translation_controller.getInstalledModules();
@@ -85,7 +87,7 @@ class TabController {
       if (currentBibleTranslationId == "" || 
           currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
   
-        this.setCurrentBibleTranslationId(translationCode);
+        this.setBibleTranslationId(translationCode);
       }
     });
 
@@ -100,7 +102,7 @@ class TabController {
 
     eventController.subscribe('on-bible-text-loaded', () => {
       let bibleTranslationId = this.getTab().getBibleTranslationId();
-      this.setCurrentBibleTranslationId(bibleTranslationId);
+      this.setBibleTranslationId(bibleTranslationId);
       this.restoreScrollPosition();
 
       if (this.persistanceEnabled) {
@@ -306,10 +308,15 @@ class TabController {
   }
 
   async loadTabConfiguration(force=false) {
-    var bibleTranslationSettingAvailable = await ipcSettings.has('bibleTranslation');
+    const bibleTranslationSettingAvailable = await ipcSettings.has('bibleTranslation');
+    const secondBibleTranslationSettingAvailable = await ipcSettings.has('secondBibleTranslation');
 
     if (bibleTranslationSettingAvailable) {
       this.defaultBibleTranslationId = await ipcSettings.get('bibleTranslation');
+    }
+
+    if (secondBibleTranslationSettingAvailable) {
+      this.defaultSecondBibleTranslationId = await ipcSettings.get('secondBibleTranslation');
     }
 
     var loadedTabCount = 0;
@@ -404,13 +411,18 @@ class TabController {
           }
 
           if (metaTab.getTextType() != null) {
+            var currentVerseListFrame = verseListController.getCurrentVerseListFrame(index);
             var currentVerseList = verseListController.getCurrentVerseList(index);
             var currentVerseListHeader = verseListController.getCurrentVerseListHeader(index);
             var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(index);
+            var selectAllVersesButton = currentVerseListFrame.find('.select-all-verses-button');
+            var currentTagDistributionMatrix = currentVerseListFrame.find('.tag-distribution-matrix-wrapper');
 
+            selectAllVersesButton.hide();
             currentVerseList.hide();
             currentVerseListHeader.hide();
             currentReferenceVerse.hide();
+            currentTagDistributionMatrix.hide();
 
             verseListController.showVerseListLoadingIndicator(index);
             app_controller.verse_statistics_chart.resetChart(index);
@@ -434,10 +446,25 @@ class TabController {
               var currentVerseList = verseListController.getCurrentVerseList(index);
               var currentVerseListHeader = verseListController.getCurrentVerseListHeader(index);
               var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(index);
+              var currentVerseListFrame = verseListController.getCurrentVerseListFrame(index);
+              var selectAllVersesButton = currentVerseListFrame.find('.select-all-verses-button');
+              var currentTagDistributionMatrix = currentVerseListFrame.find('.tag-distribution-matrix-wrapper');
 
               currentVerseList.show();
-              currentVerseListHeader.show();
-              currentReferenceVerse.show();
+
+              if (metaTab.hasReferenceVerse()) {
+                currentReferenceVerse.show();
+              }
+
+              selectAllVersesButton.show();
+
+              if (metaTab.getTextType() == 'search_results' || metaTab.getTextType() == 'tagged_verses') {
+                currentVerseListHeader.show();
+              }
+              
+              if (metaTab.getTextType() == 'tagged_verses') {
+                currentTagDistributionMatrix.show();
+              }
 
               await app_controller.verse_statistics_chart.repaintChart(index);
 
@@ -611,7 +638,7 @@ class TabController {
    */
   async reset() {
     this.removeAllExtraTabs();
-    this.setCurrentBibleTranslationId(null);
+    this.setBibleTranslationId(null);
 
     const tab = this.getTab();
     if (tab != null) {
@@ -795,7 +822,7 @@ class TabController {
     this.metaTabs[currentTabIndex].lastHighlightedChapterIndex = null;
   }
 
-  setCurrentBibleTranslationId(bibleTranslationId) {
+  setBibleTranslationId(bibleTranslationId) {
     const tab = this.getTab();
 
     if (tab != null) {
@@ -805,6 +832,22 @@ class TabController {
     if (bibleTranslationId != null) {
       this.defaultBibleTranslationId = bibleTranslationId;
       app_controller.info_popup.enableCurrentAppInfoButton();
+    }
+  }
+
+  setSecondBibleTranslationId(secondBibleTranslationId) {
+    const tab = this.getTab();
+
+    if (tab != null) {
+      tab.setSecondBibleTranslationId(secondBibleTranslationId);
+
+      if (this.persistanceEnabled) {
+        this.saveTabConfiguration();
+      }
+    }
+
+    if (secondBibleTranslationId != null) {
+      this.defaultSecondBibleTranslationId = secondBibleTranslationId;
     }
   }
 
@@ -901,11 +944,15 @@ class TabController {
     }
   }
 
-  async onBibleTranslationChanged({ from: oldBibleTranslationId, to: newBibleTranslationId }) {
+  async onBibleTranslationChanged({ from: oldBibleTranslationId, to: newBibleTranslationId }, isSecondBible=false) {
     var currentTab = this.getTab();
 
-    this.setCurrentBibleTranslationId(newBibleTranslationId);
-    this.refreshBibleTranslationInTabTitle(newBibleTranslationId);
+    if (!isSecondBible) {
+      this.setBibleTranslationId(newBibleTranslationId);
+      this.refreshBibleTranslationInTabTitle(newBibleTranslationId);
+    } else {
+      this.setSecondBibleTranslationId(newBibleTranslationId);
+    }
 
     // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
     if (currentTab.tab_search != null) {
@@ -923,7 +970,7 @@ class TabController {
 
     app_controller.commentaryPanel.setRefreshBlocked(true);
 
-    if (currentTab.getTextType() == 'search_results') {
+    if (!isSecondBible && currentTab.getTextType() == 'search_results') {
       await app_controller.text_controller.prepareForNewText(true, true);
       app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {
@@ -978,6 +1025,14 @@ class TabController {
     let $tabHtmlTemplate = $('<div>').append(this.tabHtmlTemplate);
     $tabHtmlTemplate.localize();
     this.tabHtmlTemplate = $tabHtmlTemplate.html();
+  }
+
+  async refreshBibleTranslations() {
+    for (let i = 0; i < this.metaTabs.length; i++) {
+      const tab = this.metaTabs[i];
+      // Reinitialize Bible translations for the tab
+      await app_controller.translation_controller.initTranslationsMenu(-1, i, true);
+    }
   }
 }
 

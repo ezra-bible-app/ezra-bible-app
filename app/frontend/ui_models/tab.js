@@ -41,6 +41,7 @@ class Tab {
     this.previousTextType = null;
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
+    this.secondBibleTranslationId = null;
     this.selectCount = 0;
     this.addedInteractively = interactive;
     this.cachedText = null;
@@ -261,6 +262,14 @@ class Tab {
 
   getBibleTranslationId() {
     return this.bibleTranslationId;
+  }
+
+  setSecondBibleTranslationId(secondBibleTranslationId) {
+    this.secondBibleTranslationId = secondBibleTranslationId;
+  }
+
+  getSecondBibleTranslationId() {
+    return this.secondBibleTranslationId;
   }
 
   getCachedText() {

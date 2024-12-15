@@ -266,7 +266,7 @@ class UiHelper {
     }
   }
 
-  addButton(containerElement, cssClass, localeId, onClickFunction, isDisabled=false) {
+  addButton(referenceElement, cssClass, localeId, onClickFunction, isDisabled=false, insertAfter=false) {
     let button = document.createElement('button');
     button.classList.add(cssClass);
     button.classList.add('fg-button');
@@ -279,7 +279,12 @@ class UiHelper {
 
     button.innerText = i18n.t(localeId);
     button.setAttribute('i18n', localeId);
-    containerElement.append(button);
+
+    if (insertAfter) {
+      referenceElement.after(button);
+    } else {
+      referenceElement.append(button);
+    }
 
     button.addEventListener('click', () => {
       if (button.classList.contains('ui-state-disabled')){

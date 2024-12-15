@@ -640,7 +640,8 @@ class ModuleSearchController {
                          'select-all-verses-button',
                          'bible-browser.select-all-search-results',
                          this.selectAllSearchResults,
-                         this.searchResultsExceedPerformanceLimit(tabIndex));
+                         this.searchResultsExceedPerformanceLimit(tabIndex),
+                         true); // insert button after module search header
 
       uiHelper.configureButtonStyles('.verse-list-header');
     }

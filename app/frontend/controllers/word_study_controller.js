@@ -28,8 +28,7 @@ let jsStrongs = null;
 /**
  * The WordStudyController handles functionality for the lookup of dictionary information based on Strong's keys.
  * It handles the mouse move events when the user is hovering individual words in the text while holding SHIFT.
- * It handles the long presses on Android (alternative for mousemove).
- * It handles the state of the dictionary info box.
+ * It handles the state of the word study panel.
  * 
  * Like other controllers it is only initialized once. It is accessible at the
  * global object `app_controller.word_study_controller`.
@@ -168,9 +167,13 @@ class WordStudyController {
     }
     
     const currentBibleTranslationId = currentTab.getBibleTranslationId();
+    const secondBibleTranslationId = currentTab.getSecondBibleTranslationId();
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    const translationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
-    if (!translationHasStrongs) { 
+
+    const firstTranslationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
+    const secondTranslationHasStrongs = await swordModuleHelper.moduleHasStrongs(secondBibleTranslationId);
+
+    if (!firstTranslationHasStrongs && !secondTranslationHasStrongs) { 
       return;
     }
     
@@ -415,7 +418,7 @@ class WordStudyController {
     }
 
     // We do not handle mouse move for verses that are not selected, unless the shift key is pressed.
-    if (!this.shiftKeyPressed && !this.currentVerseSelected(event.target.closest('.verse-text'))) {
+    if (!this.shiftKeyPressed && !this.currentVerseSelected(event.target.closest('.verse-text-container'))) {
       return;
     }
 
