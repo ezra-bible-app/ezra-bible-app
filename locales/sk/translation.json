@@ -16,8 +16,8 @@
     "text-size-decrease": "Zmenšiť veľkosť textu",
     "text-size-reset": "Nastaviť veľkosť fontu na predvolenú",
     "text-size-increase": "Zväčšiť veľkosť textu",
-    "add-parallel-bible": "Add parallel Bible",
-    "remove-parallel-bible": "Remove parallel Bible"
+    "add-parallel-bible": "Pridajte paralelnú Bibliu",
+    "remove-parallel-bible": "Odstráňte paralelnú Bibliu"
   },
   "search-menu": {
     "search": "Hľadať",
@@ -89,8 +89,8 @@
     "step-modules": {  
       "select-module": "Vyberte {{module_type}}, ktorý chcete nainštalovať.",
       "module-display-preferences": "Predvoľby filtra:",
-      "all-modules": "All {{module_type, accusative}}",
-      "regular-dicts": "Regular dictionaries",
+      "all-modules": "Všetky {{module_type, accusative}}",
+      "regular-dicts": "Bežné slovníky",
       "module-with": "{{module_type, capitalize}} s {{feature_type, instrumental}}",
       "module-already-installed": "Tento {{module_type, singular}} je už nainštalovaný",
       "show-module-info":"Zobraziť informácie",
@@ -208,12 +208,12 @@
     "send-crash-reports": "Odoslať chybové hlásenia",
     "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
+      "configure-typeface": "Nakonfigurujte typ písma obsahu",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Vlastné",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "content-font-family": "Rodina písiem obsahu",
+      "custom-content-font": "Vlastné písmo obsahu"
     }
   },
   "data-privacy": {
@@ -326,7 +326,7 @@
     "selection": "Výber: ",
     "loading-bible-text": "Nahrávam text Biblie",
     "loading-tagged-verses": "Nahrávam oštítkované verše",
-    "loading-verses": "Loading verses",
+    "loading-verses": "Načítavanie veršov",
     "loading-verse-translations": "Nahrávam preklady veršov",
     "searching-for": "Hľadať",
     "search-result-header": "Výsledky hľadania pre ",
@@ -354,7 +354,7 @@
     "show-paragraphs": "Zobraziť odseky",
     "red-letters": "Zvýraznite Ježišove slová červenou farbou",
     "show-dictionary": "Zobraziť slovník",
-    "show-wordstudy": "Show word study",
+    "show-wordstudy": "Zobraziť štúdium slov",
     "show-book-chapter-navigation": "Zobraziť knihu/navigácia v kapitolách",
     "show-header-navigation": "Zobraziť navigáciu v hlavičke",
     "show-tab-search": "Zobraziť aktuálne vyhľadávanie na karte",
@@ -365,7 +365,7 @@
     "use-tag-group-filter": "Použiť filter skupiny značiek",
     "show-notes": "Zobraziť poznámky",
     "limit-notes-display-size": "Obmedzte veľkosť zobrazenia poznámok",
-    "limit-text-width": "Limit Bible text width",
+    "limit-text-width": "Obmedzte šírku textu Biblie",
     "use-tags-column": "Použite stĺpec značiek",
     "select-chapter-before-loading": "Otvoriť knihy s výberom kapitol",
     "use-system-theme": "Systémová téma",
@@ -401,9 +401,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Word Study",
-    "hebrew-dict": "Hebrew Word Study",
-    "default-header": "<b>Word Study</b>",
+    "greek-dict": "Štúdium gréckeho Slova",
+    "hebrew-dict": "Štúdium hebrejského Slova",
+    "default-header": "<b>Štúdium Slova</b>",
     "help-instruction-intro": "Ako tu zobraziť položky slovníka:",
     "help-instruction-part1": "Uistite sa, že sú nainštalované Strongove slovníky (hebrejčina a gréčtina). Stav: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Otvorte preklad pomocou funkcie Strong.",
@@ -416,8 +416,8 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Slovník</b>",
-    "help-no-dicts": "There are no dictionaries available.",
-    "open-in-word-study": "Open in word study",
+    "help-no-dicts": "Nie sú k dispozícii žiadne slovníky.",
+    "open-in-word-study": "Otvoriť v štúdiu Slova",
     "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {
