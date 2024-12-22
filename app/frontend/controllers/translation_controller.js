@@ -58,6 +58,20 @@ class TranslationController {
     eventController.subscribe('on-translation-removed', async () => {
       $("select#bible-select").empty();
       await app_controller.tab_controller.refreshBibleTranslations();
+      const bibleModules = await ipcNsi.getAllLocalModules('BIBLE');
+
+      // If there is only one translation left, remove the second translation
+      if (bibleModules.length <= 1) {
+        const allTabs = app_controller.tab_controller.getAllTabs();
+
+        for (let i = 0; i < allTabs.length; i++) {
+          const tab = allTabs[i];
+
+          if (tab && tab.getSecondBibleTranslationId() != null) {
+            this.toggleParallelBible(i);
+          }
+        }
+      }
     });
   }
 
@@ -285,7 +299,7 @@ class TranslationController {
       buttonIcon.className = 'fas fa-plus';
       parallelButton.setAttribute('i18n', '[title]menu.add-parallel-bible');
       
-      app_controller.tab_controller.setSecondBibleTranslationId(null);
+      app_controller.tab_controller.setSecondBibleTranslationId(null, tabIndex);
       verseList.classList.remove('verse-list-with-second-translation');
     }
 

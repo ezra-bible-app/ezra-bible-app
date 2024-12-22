@@ -124,6 +124,10 @@ class TabController {
     this.metaTabs.push(newTab);
   }
 
+  getAllTabs() {
+    return this.metaTabs;
+  }
+
   getTabCount() {
     return this.metaTabs.length;
   }
@@ -835,8 +839,8 @@ class TabController {
     }
   }
 
-  setSecondBibleTranslationId(secondBibleTranslationId) {
-    const tab = this.getTab();
+  setSecondBibleTranslationId(secondBibleTranslationId, tabIndex=undefined) {
+    const tab = this.getTab(tabIndex);
 
     if (tab != null) {
       tab.setSecondBibleTranslationId(secondBibleTranslationId);
