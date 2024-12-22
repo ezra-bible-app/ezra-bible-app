@@ -292,12 +292,13 @@ customElements.define('step-modules', StepModules);
 module.exports = StepModules;
 
 async function getModulesByLang(languageCode, repositories, installedModules, headingsFilter, strongsFilter, hebrewStrongsFilter, greekStrongsFilter) {
-  var currentLangModules = new Map();
+  let currentLangModules = new Map();
+  const currentModuleType = assistantController.get('moduleType');
 
   for (const currentRepo of repositories) {
     const currentRepoLangModules = await ipcNsi.getRepoModulesByLang(currentRepo,
                                                                      languageCode,
-                                                                     assistantController.get('moduleType'),
+                                                                     currentModuleType,
                                                                      headingsFilter,
                                                                      strongsFilter,
                                                                      hebrewStrongsFilter,
@@ -327,8 +328,8 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
         continue;
       }
 
-      // Exclude Morphology modules from the list
-      if (swordModule.description.indexOf('Morph') != -1) {
+      // Exclude Morphology modules from the list in case of dictionary modules
+      if (currentModuleType == 'DICT' && swordModule.description.indexOf('Morph') != -1) {
         continue;
       }
 
@@ -346,13 +347,13 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
         moduleInfo['icon'] = 'lock';
         moduleInfo['locked'] = "locked";
         moduleInfo['title'] = assistantHelper.localizeText("module-assistant.unlock.module-lock-info", 
-                                                           assistantController.get('moduleType'));
+                                                           currentModuleType);
       }
       
       if (installedModules.has(swordModule.name)) {
         moduleInfo['disabled'] = true;
         moduleInfo['title'] = assistantHelper.localizeText("module-assistant.step-modules.module-already-installed", 
-                                                           assistantController.get('moduleType'));
+                                                           currentModuleType);
       }
 
       currentLangModules.set(swordModule.description, moduleInfo);
