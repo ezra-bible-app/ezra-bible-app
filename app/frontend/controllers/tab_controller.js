@@ -970,9 +970,13 @@ class TabController {
 
     app_controller.commentaryPanel.setRefreshBlocked(true);
 
-    if (!isSecondBible && currentTab.getTextType() == 'search_results') {
-      await app_controller.text_controller.prepareForNewText(true, true);
-      app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
+    if (currentTab.getTextType() == 'search_results') {
+      if (!isSecondBible) {
+        await app_controller.text_controller.prepareForNewText(true, true);
+        app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
+      } else {
+        await app_controller.module_search_controller.reRenderCurrentSearchResults();
+      }
     } else {
       if (!this.isCurrentTabEmpty()) {
         this.saveTabScrollPosition();

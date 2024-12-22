@@ -527,9 +527,9 @@ class ModuleSearchController {
         //console.log("Got " + searchResults.length + " from Sword");
         currentTab.setSearchResults(searchResults);
 
-        var searchResultBookId = -1; // all books requested
+        this.currentSearchResultBookId = -1; // all books requested
         if (this.searchResultsExceedPerformanceLimit(this.currentSearchTabIndex)) {
-          searchResultBookId = 0; // no books requested - only list headers at first
+          this.currentSearchResultBookId = 0; // no books requested - only list headers at first
         }
 
         let target=undefined;
@@ -537,7 +537,7 @@ class ModuleSearchController {
           target = $('#search-results-box-content');
         }
   
-        await this.renderCurrentSearchResults(searchResultBookId, this.currentSearchTabIndex, target);
+        await this.renderCurrentSearchResults(this.currentSearchResultBookId, this.currentSearchTabIndex, target);
       } catch (error) {
         console.log(error);
         verseListController.hideVerseListLoadingIndicator();
@@ -570,6 +570,12 @@ class ModuleSearchController {
       var currentVerse = verses[i];
       this.verseSearch.doVerseSearch(currentVerse, searchTerm, searchType, isCaseSensitive, useExtendedVerseBoundaries);
     }
+  }
+
+  async reRenderCurrentSearchResults() {
+    uiHelper.showTextLoadingIndicator();
+    await this.renderCurrentSearchResults(this.currentSearchResultBookId, this.currentSearchTabIndex);
+    uiHelper.hideTextLoadingIndicator();
   }
 
   async renderCurrentSearchResults(searchResultBookId=-1, tabIndex=undefined, target=undefined, cachedText=null) {
@@ -636,12 +642,16 @@ class ModuleSearchController {
     moduleSearchHeader.html(header);
 
     if (!showSearchResultsInPopup && currentSearchResults != null && currentSearchResults.length > 0) {
-      uiHelper.addButton(moduleSearchHeader,
-                         'select-all-verses-button',
-                         'bible-browser.select-all-search-results',
-                         this.selectAllSearchResults,
-                         this.searchResultsExceedPerformanceLimit(tabIndex),
-                         true); // insert button after module search header
+      const existingButton = moduleSearchHeader.parent().find('.select-all-verses-button');
+
+      if (existingButton.length == 0) {
+        uiHelper.addButton(moduleSearchHeader,
+                          'select-all-verses-button',
+                          'bible-browser.select-all-search-results',
+                          this.selectAllSearchResults,
+                          this.searchResultsExceedPerformanceLimit(tabIndex),
+                          true); // insert button after module search header
+      }
 
       uiHelper.configureButtonStyles('.verse-list-header');
     }
