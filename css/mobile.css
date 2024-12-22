@@ -305,7 +305,7 @@ Librem 5/Pinephone etc.
   }
 
   .current-tab-title-label {
-    text-align: center;
+    margin-left: -3em;
     font-weight: bold;
     display: unset !important;
     font-size: 0.9em !important;
