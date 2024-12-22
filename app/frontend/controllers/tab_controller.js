@@ -972,9 +972,12 @@ class TabController {
 
     if (currentTab.getTextType() == 'search_results') {
       if (!isSecondBible) {
+        // Repeat the search with the new translation
         await app_controller.text_controller.prepareForNewText(true, true);
         app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
       } else {
+        // We need to re-render the search results with the change of the second translation
+        currentTab.setLocation(null);
         await app_controller.module_search_controller.reRenderCurrentSearchResults();
       }
     } else {
