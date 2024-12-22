@@ -192,6 +192,7 @@ class TranslationController {
     const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     const bibleSelect1 = currentVerseListMenu.find('#bible-select1');
     const bibleSelect2 = currentVerseListMenu.find('#bible-select2');
+    const parallelBibleButton = currentVerseListMenu[0].querySelector('.parallel-bible-button');
 
     // Check if the translations menu for this tab has already been initialized
     if (!force && isInitialized) {
@@ -218,6 +219,13 @@ class TranslationController {
       this.updateUiBasedOnNumberOfTranslations(tabIndex, modules.length);
     }
 
+    // Disable parallelBibleButton if there is only one translation available
+    if (modules.length <= 1) {
+      parallelBibleButton.classList.add('ui-state-disabled');
+    } else {
+      parallelBibleButton.classList.remove('ui-state-disabled');
+    }
+
     // Initialize both Bible select menus - only first one triggers changes
     await this.initBibleSelect(bibleSelect1, modules, false, tabIndex);
     await this.initBibleSelect(bibleSelect2, modules, true, tabIndex);
@@ -233,7 +241,11 @@ class TranslationController {
       }
 
       // Register event handlers
-      currentVerseListMenu[0].querySelector('.parallel-bible-button').addEventListener('click', () => {
+      parallelBibleButton.addEventListener('click', (event) => {
+        if (event.target.closest('.parallel-bible-button').classList.contains('ui-state-disabled')) {
+          return;
+        }
+
         this.toggleParallelBible();
       });
 
