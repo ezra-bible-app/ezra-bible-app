@@ -448,6 +448,27 @@ a.chapter-nav:hover {
 
 .verse-text-and-tags {
   flex: 1 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.verse-text-container {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.verse-list-tags-column.limit-width:not(.verse-list-with-second-translation) .verse-text-container {
+  flex-basis: 60ch;
+}
+
+.limit-width:not(.verse-list-tags-column):not(.verse-list-with-second-translation) .verse-text-container {
+  max-width: 60ch;
+}
+
+.verse-list-tags-column:not(.limit-width) .verse-text-container,
+.verse-list-with-second-translation.verse-list-tags-column .verse-text-container {
+  flex-basis: 130ch;
 }
 
 .slim-verse-reference .verse-reference {
@@ -462,6 +483,10 @@ a.chapter-nav:hover {
   line-height: 150%;
   max-width: 60ch;
   /* padding: 0.1em; */
+}
+
+.verse-list-with-second-translation .tag-box {
+  max-width: unset;
 }
 
 .verse-list-rtl .tag-box {
@@ -611,10 +636,20 @@ a.chapter-nav:hover {
   padding: 0.05em;
   position: relative;
   line-height: 1.5em;
-  flex: 1 1;
+  flex-basis: 100%;
 }
 
-.verse-list-content.limit-width .verse-text {
+.verse-text.second-bible-text {
+  display: none;
+  margin-left: 1.2em;
+  flex-basis: 100%;
+}
+
+.verse-list-with-second-translation .second-bible-text {
+  display: block;
+}
+
+.verse-list-content.limit-width:not(.verse-list-with-second-translation) .verse-text {
   max-width: 60ch;
 }
 
@@ -1305,11 +1340,15 @@ li.book-unavailable a:focus,
   font-weight: normal;
 }
 
-.verse-list-header,
 .verse-statistics-chart-container {
   display: none;
   margin-left: 0.2em;
   margin-top: 0.5em;
+}
+
+.verse-list-header {
+  display: none;
+  margin-left: 0.2em;
 }
 
 .reference-verse-list-header {
@@ -1424,6 +1463,10 @@ li.book-unavailable a:focus,
   font-size: 1.2em;
 }
 
+.sword-section-title.second-bible-text {
+  display: none !important;
+}
+
 .verse-list-book.verse-list-without-chapter-titles .sword-chapter-title {
   display: none;
 }
@@ -1489,10 +1532,13 @@ li.book-unavailable a:focus,
 }
 
 .bible-select-block {
-  margin-right: 0.5em;
+  margin-right: 0.8em;
   margin-bottom: 0.5em;
   user-select: none;
-  min-width: 20em;
+}
+
+.bible-select-block.second-bible {
+  display: none;
 }
 
 .bible-select-block select {
@@ -2119,3 +2165,4 @@ sup.strongs {
   font-size: 70%;
   display: inline-block;
 }
+

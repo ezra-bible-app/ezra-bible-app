@@ -71,8 +71,17 @@
 
     <div id="bible-select-title-line" class="verse-list-menu-line">
       <div class="bible-select-block">
-        <select name="bible-select" class="bible-select">
+        <select id="bible-select1" name="bible-select" class="bible-select">
         </select>
+      </div>
+
+      <div class="bible-select-block second-bible">
+        <select id="bible-select2" name="bible-select2" class="bible-select">
+        </select>
+      </div>
+
+      <div class="fg-button parallel-bible-button ui-state-default ui-corner-all" i18n="[title]menu.add-parallel-bible">
+        <i class="fas fa-plus"></i>
       </div>
 
       <!-- Only visible on mobile version -->
@@ -104,7 +113,7 @@
   </div>
 
   <div class="verse-list-frame scrollable">
-    <div class="verse-list-header verse-list-content">
+    <div class="verse-list-header verse-list-content limit-width">
     </div>
 
     <div class="verse-list-loading-indicator">
@@ -130,7 +139,7 @@
     <div class="temporary-help">
     </div>
 
-    <div class="reference-verse verse-list-content">
+    <div class="reference-verse verse-list-content limit-width">
     </div>
     
     <div class='verse-statistics-chart-container'>
@@ -143,7 +152,7 @@
       <tag-distribution-matrix></tag-distribution-matrix>
     </div>
 
-    <div class="verse-list verse-list-content">
+    <div class="verse-list verse-list-content limit-width">
       <div class="help-text">
       </div>
     </div>

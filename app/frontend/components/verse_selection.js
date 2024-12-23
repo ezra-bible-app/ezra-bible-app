@@ -99,7 +99,7 @@ class VerseSelection {
     }
 
     verseList.selectable({
-      filter: '.verse-text',
+      filter: '.verse-text-container',
       cancel: '.ui-selected, .verse-reference-content, .sword-xref-marker, .verse-notes, .tag-box, .tag, .load-book-results, .select-all-verses-button, tag-distribution-matrix',
 
       // eslint-disable-next-line no-unused-vars
@@ -147,7 +147,7 @@ class VerseSelection {
           for (let i = 0; i < $selectedElements.length; i++) {
             let currentElement = $selectedElements[i];
 
-            if (currentElement.classList.contains('verse-text')) {
+            if (currentElement.classList.contains('verse-text-container')) {
               currentElement.classList.add('ui-selected');
             }
           }
@@ -334,7 +334,7 @@ class VerseSelection {
         let currentVerseBox = currentVerseList[0].querySelector('.verse-nr-' + verseObject._absoluteVerseNr);
 
         if (currentVerseBox != null) {
-          let currentVerseText = currentVerseBox.querySelector('.verse-text');
+          let currentVerseText = currentVerseBox.querySelector('.verse-text-container');
           currentVerseText.classList.add('ui-selected');
         }
       });
@@ -481,7 +481,7 @@ class VerseSelection {
   selectAllVerses(selectionLocaleText) {
     const currentVerseList = verseListController.getCurrentVerseList();
 
-    let allVerseTextElements = currentVerseList[0].querySelectorAll('.verse-text');
+    let allVerseTextElements = currentVerseList[0].querySelectorAll('.verse-text-container');
     allVerseTextElements.forEach((verseTextElement) => {
       verseTextElement.classList.add('ui-selected');
     });
@@ -494,7 +494,7 @@ class VerseSelection {
   allVersesSelected() {
     const currentVerseList = verseListController.getCurrentVerseList();
 
-    let allVerseTextElements = currentVerseList[0].querySelectorAll('.verse-text');
+    let allVerseTextElements = currentVerseList[0].querySelectorAll('.verse-text-container');
     let allSelectedElements = currentVerseList[0].querySelectorAll('.ui-selected');
 
     return allVerseTextElements.length == allSelectedElements.length != 0;

@@ -39,7 +39,15 @@ module.exports.init = function() {
 
 function initTransChangeTitlesForTab(tabIndex=undefined) {
   let transChangeElements = getCurrentTabTransChangeElements(tabIndex);
+  initTransChangeElements(transChangeElements);
+}
 
+module.exports.initTransChangeTitlesForContainer = function(container) {
+  let transChangeElements = container.querySelectorAll('transChange');
+  initTransChangeElements(transChangeElements);
+};
+
+function initTransChangeElements(transChangeElements) {
   for (let i = 0; i < transChangeElements.length; i++) {
     let transChange = transChangeElements[i];
     let type = transChange.getAttribute('type');

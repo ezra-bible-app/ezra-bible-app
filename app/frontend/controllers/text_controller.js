@@ -98,7 +98,6 @@ class TextController {
       app_controller.module_search_controller.cancelAnyModuleSearch();
     }
 
-    app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
 
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
     if (currentTab != null && currentTab.tab_search != null) {
@@ -108,6 +107,11 @@ class TextController {
     await app_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
     var textType = currentTab != null ? currentTab.getTextType() : null;
+
+    if (textType != 'tagged_verses') {
+      app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
+    }
+
     if (textType != 'book') {
       app_controller.book_selection_menu.clearSelectedBookInMenu();
     }
@@ -200,7 +204,7 @@ class TextController {
                                      async (htmlVerseList, hasNotes) => {
                                        firstPartHasNotes = hasNotes;
                                        await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
-                                     }, 1, 50
+                                     }, 1, 1, 50
           );
 
           await waitUntilIdle();
@@ -210,21 +214,23 @@ class TextController {
             tabIndex, tabId, book,
             async (htmlVerseList, hasNotes) => {
               await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true, firstPartHasNotes || hasNotes);
-            }, 51, -1
+            }, 51, 51, -1
           );
 
         } else { // Load only one chapter
 
           var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+          var secondBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getSecondBibleTranslationId();
           var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
           var reference = chapter + separator + '1';
           var startVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId, book, reference);
+          var startVerseNr2 = await this.verseReferenceHelper.getMappedAbsoluteVerseNumber(currentBibleTranslationId, secondBibleTranslationId, book, startVerseNr, chapter, 1);
           var verseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter);
 
           await this.requestBookText(tabIndex, tabId, book,
                                      async (htmlVerseList, hasNotes) => {
                                        await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
-                                     }, startVerseNr, verseCount
+                                     }, startVerseNr, startVerseNr2, verseCount
           );
 
           uiHelper.hideTextLoadingIndicator();
@@ -293,11 +299,14 @@ class TextController {
                         currentTabId,
                         bookShortTitle,
                         renderFunction,
-                        startVerseNumber=-1,
+                        startVerseNumber1=-1,
+                        startVerseNumber2=-1,
                         numberOfVerses = -1,
                         renderType='html') {
 
-    var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+    const tab = app_controller.tab_controller.getTab(tabIndex);
+    const currentBibleTranslationId = tab.getBibleTranslationId();
+    const secondBibleTranslationId = tab.getSecondBibleTranslationId();
     var localSwordModule = null;
 
     try {
@@ -330,10 +339,15 @@ class TextController {
       return;
     }
 
-    var verses = await ipcNsi.getBookText(currentBibleTranslationId, bookShortTitle, startVerseNumber, numberOfVerses);
-    if (verses == null) {
+    let verses1 = await ipcNsi.getBookText(currentBibleTranslationId, bookShortTitle, startVerseNumber1, numberOfVerses);
+    if (verses1 == null) {
       console.error("Got null result when requesting book text!");
       return;
+    }
+
+    let verses2 = [];
+    if (secondBibleTranslationId != null && secondBibleTranslationId != "") {
+      verses2 = await ipcNsi.getBookText(secondBibleTranslationId, bookShortTitle, startVerseNumber2, numberOfVerses);
     }
 
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
@@ -342,7 +356,7 @@ class TextController {
     var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentBibleTranslationId, bookShortTitle, false);
     var bookChapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, bookShortTitle);
 
-    if (startVerseNumber == 1) { // Only load book introduction if starting with verse 1
+    if (startVerseNumber1 == 1) { // Only load book introduction if starting with verse 1
       try {
         if (bookHasHeaders) {
           bookIntroduction = await ipcNsi.getBookIntroduction(currentBibleTranslationId, bookShortTitle);
@@ -359,7 +373,7 @@ class TextController {
 
     var bookNotes = null;
 
-    if (startVerseNumber == 1) {
+    if (startVerseNumber1 == 1) {
       bookNotes = await ipcDb.getBookNotes(bookShortTitle);
     }
 
@@ -380,12 +394,13 @@ class TextController {
         // only render chapter headers with the full book requested
         renderChapterHeaders: isInstantLoadingBook && !bookHasHeaders,
         renderChapterNavigationLinks: !isInstantLoadingBook,
-        renderBookNotes: (startVerseNumber == 1),
+        renderBookNotes: (startVerseNumber1 == 1),
         bookChapterCount: bookChapterCount,
         bookIntroduction: bookIntroduction,
         bookNotes: bookNotes,
         bibleBooks: [bibleBook],
-        verses: verses,
+        verses1: verses1,
+        verses2: verses2,
         verseTags: verseTags,
         verseNotes: verseNotes,
         marked: marked,
@@ -397,19 +412,22 @@ class TextController {
         }
       });
 
-      const hasNotes = bookNotes !== null || getReferenceIdsFromNotes(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1).length > 0;
+      const hasNotes = bookNotes !== null || getReferenceIdsFromNotes(verseNotes, startVerseNumber1, startVerseNumber1 + numberOfVerses - 1).length > 0;
 
       await renderFunction(verses_as_html, hasNotes);
       
     } else if (renderType == 'docx') {
       const notes = {
         [bookShortTitle.toLowerCase()]:  bookNotes,
-        ...getNotesForSection(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1)
+        ...getNotesForSection(verseNotes, startVerseNumber1, startVerseNumber1 + numberOfVerses - 1)
       };
       renderFunction(verses, notes);
     }
   }
 
+  /**
+   * Loop through each verse to count the number of verses per Bible book.
+   */
   getBibleBookStatsFromVerses(verses) {
     var bibleBookStats = {};
 
@@ -430,13 +448,21 @@ class TextController {
     return bibleBookStats;
   }
 
-  getBibleTranslationId(tab_index) {
+  getBibleTranslationId(tab_index, isSecondBible=false) {
     var bibleTranslationId = null;
 
     if (app_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
-      bibleTranslationId = app_controller.tab_controller.defaultBibleTranslationId;
+      if (!isSecondBible) {
+        bibleTranslationId = app_controller.tab_controller.defaultBibleTranslationId;
+      } else {
+        bibleTranslationId = app_controller.tab_controller.defaultSecondBibleTranslationId;
+      }
     } else {
-      bibleTranslationId = app_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+      if (!isSecondBible) {
+        bibleTranslationId = app_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+      } else {
+        bibleTranslationId = app_controller.tab_controller.getTab(tab_index).getSecondBibleTranslationId();
+      }
     }
 
     return bibleTranslationId;
@@ -454,6 +480,7 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
+    const secondBibleTranslationId = this.getBibleTranslationId(tab_index, true);
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
@@ -461,24 +488,49 @@ class TextController {
     var bibleBooks = await ipcDb.getBibleBooksFromSearchResults(search_results);
     var bookNames = await ipcGeneral.getBookNames(bibleBooks);
     var bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(search_results);
-    var verses = [];
+    var verses1 = [];
+    var verses2 = [];
 
+    /**
+     * Loop through search results to filter verses by a specific book ID.
+     */
     for (let i = 0; i < search_results.length; i++) {
       const currentVerse = search_results[i];
       const currentBookId = currentVerse.bibleBookShortTitle;
 
+      // Skip the books that are not requested
       if (searchResultBookId != -1 && currentBookId != searchResultBookId) {
-        // Skip the books that are not requested;
         continue;
       }
 
-      verses.push(currentVerse);
+      verses1.push(currentVerse);
+
+      if (secondBibleTranslationId != null) {
+        let mappedAbsoluteVerseNumber = await this.verseReferenceHelper.getMappedAbsoluteVerseNumber(bibleTranslationId,
+                                                                                                     secondBibleTranslationId,
+                                                                                                     currentVerse.bibleBookShortTitle,
+                                                                                                     currentVerse.absoluteVerseNr,
+                                                                                                     currentVerse.chapter,
+                                                                                                     currentVerse.verseNr);
+        let resultVerses2 = await ipcNsi.getBookText(secondBibleTranslationId,
+                                                     currentVerse.bibleBookShortTitle,
+                                                     mappedAbsoluteVerseNumber,
+                                                     1);
+        let verse2 = resultVerses2[0];
+
+        if (verse2 !== undefined) {
+          verses2.push(verse2);
+        }
+      }
     }
 
     var verseObjects = [];
 
-    for (let i = 0; i < verses.length; i++) {
-      const currentVerse = verses[i];
+    /**
+     * Loop through verses1 to create Verse objects for each verse.
+     */
+    for (let i = 0; i < verses1.length; i++) {
+      const currentVerse = verses1[i];
       const currentVerseObject = new Verse(currentVerse.bibleBookShortTitle,
                                            currentVerse.absoluteVerseNr,
                                            currentVerse.chapter,
@@ -500,7 +552,8 @@ class TextController {
                                  bibleBookStats,
                                  verseTags,
                                  verseNotes,
-                                 verses,
+                                 verses1,
+                                 verses2,
                                  versification,
                                  render_function,
                                  searchResultBookId <= 0,
@@ -521,14 +574,20 @@ class TextController {
       return;
     }
 
-    var bibleTranslationId = this.getBibleTranslationId(tab_index);
+    const bibleTranslationId = this.getBibleTranslationId(tab_index);
+    const secondBibleTranslationId = this.getBibleTranslationId(tab_index, true);
+
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
 
     var verseReferences = await ipcDb.getVerseReferencesByTagIds(selected_tags);
     var verseReferenceIds = [];
-    var verses = [];
+    var verses1 = [];
+    var verses2 = [];
 
+    /**
+     * Loop through verseReferences to collect unique verse reference IDs and fetch corresponding verses.
+     */
     for (let i = 0; i < verseReferences.length; i++) {
       let currentVerseReference = verseReferences[i];
 
@@ -540,6 +599,7 @@ class TextController {
       }
 
       let currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
+      let secondBibleAbsoluteVerseNumber = await this.verseReferenceHelper.getMappedAbsoluteVerseNumber(bibleTranslationId, secondBibleTranslationId, currentVerseReference.bibleBookShortTitle, currentAbsoluteVerseNumber, currentVerseReference.chapter, currentVerseReference.verseNr);
 
       let resultVerses = await ipcNsi.getBookText(bibleTranslationId,
                                                   currentVerseReference.bibleBookShortTitle,
@@ -548,11 +608,25 @@ class TextController {
       let verse = resultVerses[0];
 
       if (verse !== undefined) {
-        verses.push(verse);
+        verses1.push(verse);
+      }
+      
+      let verse2 = null;
+
+      if (secondBibleTranslationId != null) {
+        let resultVerses2 = await ipcNsi.getBookText(secondBibleTranslationId,
+                                                     currentVerseReference.bibleBookShortTitle,
+                                                     secondBibleAbsoluteVerseNumber,
+                                                     1);
+        verse2 = resultVerses2[0];
+
+        if (verse2 !== undefined) {
+          verses2.push(verse2);
+        }
       }
     }
 
-    var bibleBookStats = this.getBibleBookStatsFromVerses(verses);
+    var bibleBookStats = this.getBibleBookStatsFromVerses(verses1);
     var bibleBooks = await ipcDb.getBibleBooksFromTagIds(selected_tags);
     var bookNames = await ipcGeneral.getBookNames(bibleBooks);
 
@@ -567,14 +641,15 @@ class TextController {
                                  bibleBookStats,
                                  verseTags,
                                  verseNotes,
-                                 verses,
+                                 verses1,
+                                 verses2,
                                  versification,
                                  render_function,
                                  true,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
-      render_function(verses, bibleBooks, verseTags);
+      render_function(verses1, bibleBooks, verseTags);
     }
   }
 
@@ -594,8 +669,12 @@ class TextController {
 
     var verseReferences = await ipcDb.getVerseReferencesByXrefs(xrefs);
     var verseReferenceIds = [];
-    var verses = await ipcNsi.getVersesFromReferences(bibleTranslationId, xrefs);
+    var verses1 = await ipcNsi.getVersesFromReferences(bibleTranslationId, xrefs);
+    var verses2 = [];
 
+    /**
+     * Loop through verseReferences to collect verse reference IDs for cross-references (xrefs).
+     */
     for (let i = 0; i < verseReferences.length; i++) {
       let currentVerseReference = verseReferences[i];
 
@@ -604,7 +683,7 @@ class TextController {
       }
     }
 
-    var bibleBookStats = this.getBibleBookStatsFromVerses(verses);
+    var bibleBookStats = this.getBibleBookStatsFromVerses(verses1);
     var bibleBooks = await ipcDb.getBibleBooksFromXrefs(xrefs);
     var bookNames = await ipcGeneral.getBookNames(bibleBooks);
 
@@ -619,7 +698,8 @@ class TextController {
                                  bibleBookStats,
                                  verseTags,
                                  verseNotes,
-                                 verses,
+                                 verses1,
+                                 verses2,
                                  versification,
                                  render_function,
                                  true,
@@ -635,9 +715,10 @@ class TextController {
     var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
     var reference = (chapter || '1') + separator + '1';
     var startVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId, book, reference);
+    var startVerseNr2 = startVerseNr;
     var verseCount = chapter !== null ? await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter) : -1;
 
-    await this.requestBookText(tabIndex, undefined, book, renderFunction, startVerseNr, verseCount, renderType);
+    await this.requestBookText(tabIndex, undefined, book, renderFunction, startVerseNr, startVerseNr2, verseCount, renderType);
   }
 
   async getVersesAsHtml(current_tab_id,
@@ -646,7 +727,8 @@ class TextController {
                         bibleBookStats,
                         groupedVerseTags,
                         groupedVerseNotes,
-                        verses,
+                        verses1,
+                        verses2,
                         versification,
                         render_function,
                         renderBibleBookHeaders=true,
@@ -669,7 +751,8 @@ class TextController {
       bibleBooks: bibleBooks,
       bookNames: bookNames,
       bibleBookStats: bibleBookStats,
-      verses: verses,
+      verses1: verses1,
+      verses2: verses2,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
       marked: marked,
@@ -680,7 +763,7 @@ class TextController {
       }
     });
 
-    render_function(verses_as_html, verses.length);
+    render_function(verses_as_html, verses1.length);
   }
 
   async renderVerseList(htmlVerseList, 
@@ -746,7 +829,7 @@ class TextController {
       }
 
       let verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
-      let selectAllVersesButtonContainer = verseListHeader[0];
+      let selectAllVersesButtonContainer = verseListHeader;
 
       if (currentTab.hasReferenceVerse()) {
         let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
@@ -758,10 +841,10 @@ class TextController {
         verseListHeader.show();
       }
 
-      if (selectAllVersesButtonContainer.find('.select-all-verses-button').length == 0) {
+      if (verseListHeader.parent().find('.select-all-verses-button').length == 0) {
         uiHelper.addButton(selectAllVersesButtonContainer, 'select-all-verses-button', 'bible-browser.select-all-verses', () => {
           this.selectAllVerses();
-        });
+        }, false, true);
 
         uiHelper.configureButtonStyles('select-all-verses-button');
       }

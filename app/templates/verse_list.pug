@@ -72,14 +72,17 @@ each bibleBook in bibleBooks
 
   - var verse_count = 0
   - var old_chapter = null;
-  if verses.length > 0 && verses[0].verseNr != 1
-    - old_chapter = verses[0].chapter
+  if verses1.length > 0 && verses1[0].verseNr != 1
+    - old_chapter = verses1[0].chapter
 
   - var bibleBookId = bibleBook.shortTitle.toLowerCase()
   
-  each verse in verses
+  each verse, index in verses1
     unless verse.bibleBookShortTitle.toLowerCase() == bibleBookId
       - continue
+    
+    if verses2.length > 0
+      - var verse2 = verses2[index]
 
     - verse_count += 1
 
@@ -178,8 +181,23 @@ each bibleBook in bibleBooks
                   //- var current_tag_title = verseTag.tagTitle.replace(/ /g, "&nbsp;")
                   - var current_tag_title = verseTag.tagTitle;
                   div.tag(tag-id=verseTag.tagId title=i18n.t('bible-browser.tag-hint'), i18n='[title]bible-browser.tag-hint') !{current_tag_title}
-                  
-          div.verse-text !{verse.content}
+
+          div.verse-text-container
+            if verse2 != null
+              //- Do not accept a mapping of a verse to a verse in a different chapter in case of Psalms.
+              if bibleBook == 'Ps' && verse.chapter == verse2.chapter 
+                div.verse-text.second-bible-text !{verse2.content}
+              else if bibleBook != 'Ps'
+                div.verse-text.second-bible-text !{verse2.content}
+              else
+                //- Render an empty div in case the chapter of the second verse does not match.
+                //- This could e.g. be the case if the first verse of a psalm maps to the last verse of the previous chapter.
+                div.verse-text.second-bible-text
+            else
+              //- Render an empty div in case the second verse is not available.
+              div.verse-text.second-bible-text
+
+            div.verse-text.first-bible-text !{verse.content}
 
         if current_verse_note != null && current_verse_note.text != null && current_verse_note.text != ''
           - var verseNoteClass = "verse-notes";
@@ -206,7 +224,7 @@ each bibleBook in bibleBooks
               a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
             div(class='verse-notes-timestamp') !{verseNoteUpdate}
 
-    if verse_count == verses.length && renderChapterNavigationLinks == true && verse.chapter < bookChapterCount
+    if verse_count == verses1.length && renderChapterNavigationLinks == true && verse.chapter < bookChapterCount
       - next_chapter = verse.chapter + 1
       - next_chapter_text = i18n.t('bible-browser.chapter') + ' ' + next_chapter
       div.chapter-nav

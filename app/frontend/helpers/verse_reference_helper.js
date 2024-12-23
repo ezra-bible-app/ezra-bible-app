@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const i18nHelper = require('./i18n_helper.js');
+const swordModuleHelper = require('./sword_module_helper.js');
 
 class VerseReferenceHelper
 {
@@ -84,6 +85,28 @@ class VerseReferenceHelper
     if (split_support) verse_nr += 0.5;
   
     return verse_nr;
+  }
+
+  async getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetBibleTranslationId, bookShortTitle, absoluteVerseNumber, chapter, verseNumber) {
+    const sourceVersification = await swordModuleHelper.getVersification(sourceBibleTranslationId);
+    const targetVersification = await swordModuleHelper.getVersification(targetBibleTranslationId);
+
+    const absoluteVerseNumbers = await ipcDb.getAbsoluteVerseNumbersFromReference(
+      sourceVersification,
+      bookShortTitle,
+      absoluteVerseNumber,
+      chapter,
+      verseNumber
+    );
+
+    let mappedAbsoluteVerseNr = null;
+    if (targetVersification === 'HEBREW') {
+      mappedAbsoluteVerseNr = absoluteVerseNumbers.absoluteVerseNrHeb;
+    } else {
+      mappedAbsoluteVerseNr = absoluteVerseNumbers.absoluteVerseNrEng;
+    }
+
+    return mappedAbsoluteVerseNr;
   }
 
   getChapterFromReference(reference, separator=window.reference_separator) {

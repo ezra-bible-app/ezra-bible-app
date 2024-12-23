@@ -393,6 +393,11 @@ class AppController {
 
   async openTaggedVerses(tagIdList, tagTitleList, referenceVerseBox=undefined) {
     var currentTab = this.tab_controller.getTab();
+
+    if (currentTab.getTextType() == 'search_results') {
+      this.module_search_controller.resetSearch();
+    }
+
     currentTab.setTextType('tagged_verses');
     currentTab.setTagIdList(tagIdList);
     var localizedVerseReference = null;
@@ -411,8 +416,6 @@ class AppController {
     currentTab.setBook(null, null, null);
     currentTab.setSearchTerm(null);
     currentTab.setXrefs(null);
-    
-    this.module_search_controller.resetSearch();
     
     if (tagIdList != "") {
       setTimeout(() => {

@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../controllers/event_controller.js');
-const { sleep } = require('../helpers/ezra_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const moduleSelectHelper = require('../helpers/module_select_helper.js');
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
@@ -39,7 +38,12 @@ class TranslationController {
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
       if (app_controller.isStartupCompleted()) {
-        await this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+        const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+        const bibleSelect1 = currentVerseListMenu.find('#bible-select1');
+        const bibleSelect2 = currentVerseListMenu.find('#bible-select2');
+
+        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, tabIndex, true);
+        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, tabIndex, true);
       }
     });
 
@@ -47,13 +51,27 @@ class TranslationController {
       await this.initTranslationsMenu(-1, tabIndex);
     });
 
-    eventController.subscribe('on-translation-added', async () => {
-      await this.initTranslationsMenu();
+    eventController.subscribe('on-translation-added', async (newTranslation) => {
+      await app_controller.tab_controller.refreshBibleTranslations();
     });
 
     eventController.subscribe('on-translation-removed', async () => {
       $("select#bible-select").empty();
-      await this.initTranslationsMenu();
+      await app_controller.tab_controller.refreshBibleTranslations();
+      const bibleModules = await ipcNsi.getAllLocalModules('BIBLE');
+
+      // If there is only one translation left, remove the second translation
+      if (bibleModules.length <= 1) {
+        const allTabs = app_controller.tab_controller.getAllTabs();
+
+        for (let i = 0; i < allTabs.length; i++) {
+          const tab = allTabs[i];
+
+          if (tab && tab.getSecondBibleTranslationId() != null) {
+            this.toggleParallelBible(i);
+          }
+        }
+      }
     });
   }
 
@@ -133,76 +151,160 @@ class TranslationController {
     }
   }
 
-  async initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
-    if (tabIndex === undefined) {
-      tabIndex = app_controller.tab_controller.getSelectedTabIndex();
-    }
-    //console.log("initTranslationsMenu " + tabIndex);
+  async initBibleSelect(bibleSelect, modules, isSecondBible=false, tabIndex=undefined) {
+    bibleSelect.empty();
 
-    var previousVerseListMenu = null;
-    if (previousTabIndex != -1) {
-      previousVerseListMenu = app_controller.getCurrentVerseListMenu(previousTabIndex);
-    }
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    let currentModuleId = undefined;
 
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var bibleSelect = null;
-
-    if (previousVerseListMenu != null && previousVerseListMenu.length > 0) {
-      
-      var previousBibleSelect = previousVerseListMenu.find('select.bible-select').clone();
-      var currentBibleSelect = currentVerseListMenu.find('select.bible-select');
-      currentBibleSelect.replaceWith(previousBibleSelect);
-      bibleSelect = currentVerseListMenu.find('select.bible-select');
-
-    } else {
-
-      bibleSelect = currentVerseListMenu.find('select.bible-select');
-      bibleSelect.empty();
-
-      var modules = await ipcNsi.getAllLocalModules('BIBLE');
-      modules.sort(swordModuleHelper.sortModules);
-
-      await moduleSelectHelper.addLanguageGroupsToModuleSelectMenu(bibleSelect, modules);
-
-      if (modules == null) modules = [];
-
-      this.previousTranslationCount = this.translationCount;
-      this.translationCount = modules.length;
-
-      if (this.translationCount != this.previousTranslationCount) {
-        this.updateUiBasedOnNumberOfTranslations(tabIndex, modules.length);
+    if (currentTab != null) {
+      if (isSecondBible) {
+        currentModuleId = app_controller.tab_controller.defaultSecondBibleTranslationId
+      } else {
+        currentModuleId = app_controller.tab_controller.defaultBibleTranslationId;
       }
-      
-      moduleSelectHelper.addModulesToModuleSelectMenu(tabIndex, bibleSelect[0], modules);
-      eventController.subscribe('on-locale-changed', locale => moduleSelectHelper.updateModuleSelectLanguages(locale, bibleSelect));
     }
+
+    await moduleSelectHelper.addLanguageGroupsToModuleSelectMenu(bibleSelect, modules);
+    moduleSelectHelper.addModulesToModuleSelectMenu(undefined, bibleSelect[0], modules, currentModuleId);
 
     bibleSelect.selectmenu({
-      width: platformHelper.isMobile() ? 110 : undefined,
+      width: platformHelper.isMobile() ? 90 : undefined,
       change: () => {
-        if (!app_controller.tab_controller.isCurrentTabEmpty() && app_controller.tab_controller.getTab().getTextType() != 'search_results') {
+        if (!app_controller.tab_controller.isCurrentTabEmpty() && 
+            app_controller.tab_controller.getTab().getTextType() != 'search_results') {
           uiHelper.showTextLoadingIndicator();
         }
-
-        var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
-        var bibleSelect = currentVerseListMenu.find('select.bible-select');
 
         var oldBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
         var newBibleTranslationId = bibleSelect[0].value;
 
-        ipcSettings.set('bibleTranslation', newBibleTranslationId);
+        if (!isSecondBible) {
+          ipcSettings.set('bibleTranslation', newBibleTranslationId);
+        } else {
+          ipcSettings.set('secondBibleTranslation', newBibleTranslationId);
+        }
+
+        let changeEvent = isSecondBible ? 'on-translation2-changed' : 'on-translation1-changed';
 
         setTimeout(() => {
-          eventController.publish('on-translation-changed', {from: oldBibleTranslationId, to: newBibleTranslationId});
+          eventController.publish(changeEvent, {from: oldBibleTranslationId, to: newBibleTranslationId});
         }, 50);
       }
     });
+  }
 
-    this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+  async initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined, force=false) {
+    if (tabIndex === undefined) {
+      tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    }
 
-    $('.bible-select-block').find('.ui-selectmenu').bind('click', () => {
-      app_controller.hideAllMenus();
-    });
+    const tabElementId = app_controller.tab_controller.getTab(tabIndex).elementId;
+    const tabElement = document.getElementById(tabElementId); 
+    const isInitialized = tabElement.classList.contains('translations-menu-initialized');
+
+    const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    const bibleSelect1 = currentVerseListMenu.find('#bible-select1');
+    const bibleSelect2 = currentVerseListMenu.find('#bible-select2');
+    const parallelBibleButton = currentVerseListMenu[0].querySelector('.parallel-bible-button');
+
+    // Check if the translations menu for this tab has already been initialized
+    if (!force && isInitialized) {
+      await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, tabIndex, true);
+      await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, tabIndex, true);
+
+      return; // Skip initialization if already done
+    }
+
+    // Mark this tab as initialized
+    if (!isInitialized) {
+      tabElement.classList.add('translations-menu-initialized');
+    }
+
+    var modules = await ipcNsi.getAllLocalModules('BIBLE');
+    modules.sort(swordModuleHelper.sortModules);
+
+    if (modules == null) modules = [];
+
+    this.previousTranslationCount = this.translationCount;
+    this.translationCount = modules.length;
+
+    if (this.translationCount != this.previousTranslationCount) {
+      this.updateUiBasedOnNumberOfTranslations(tabIndex, modules.length);
+    }
+
+    // Disable parallelBibleButton if there is only one translation available
+    if (modules.length <= 1) {
+      parallelBibleButton.classList.add('ui-state-disabled');
+    } else {
+      parallelBibleButton.classList.remove('ui-state-disabled');
+    }
+
+    // Initialize both Bible select menus - only first one triggers changes
+    await this.initBibleSelect(bibleSelect1, modules, false, tabIndex);
+    await this.initBibleSelect(bibleSelect2, modules, true, tabIndex);
+
+    await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, tabIndex);
+    await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, tabIndex);
+
+    if (!force) {
+      // Toggle parallel bible based on saved tab properties
+      const currentTab = app_controller.tab_controller.getTab(tabIndex);
+      if (currentTab && currentTab.getSecondBibleTranslationId() != null) {
+        this.toggleParallelBible(tabIndex);
+      }
+
+      // Register event handlers
+      parallelBibleButton.addEventListener('click', (event) => {
+        if (event.target.closest('.parallel-bible-button').classList.contains('ui-state-disabled')) {
+          return;
+        }
+
+        this.toggleParallelBible();
+      });
+
+      currentVerseListMenu[0].querySelector('.bible-select-block').querySelector('.ui-selectmenu').addEventListener('click', () => {
+        app_controller.hideAllMenus();
+      });
+
+      // Subscribe to locale changes for both menus
+      eventController.subscribe('on-locale-changed', locale => {
+        moduleSelectHelper.updateModuleSelectLanguages(locale, bibleSelect1);
+        moduleSelectHelper.updateModuleSelectLanguages(locale, bibleSelect2);
+      });
+    }
+  }
+
+  toggleParallelBible(tabIndex=undefined) {
+    const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+
+    const secondBibleBlock = currentVerseListMenu[0].querySelector('.bible-select-block.second-bible');
+    const parallelButton = currentVerseListMenu[0].querySelector('.parallel-bible-button');
+    const buttonIcon = parallelButton.querySelector('i');
+    const verseList = verseListController.getCurrentVerseList(tabIndex)[0];
+
+    if (secondBibleBlock.style.display === 'none' || !secondBibleBlock.style.display) {
+      secondBibleBlock.style.display = 'block';
+      buttonIcon.className = 'fas fa-minus';
+      parallelButton.setAttribute('i18n', '[title]menu.remove-parallel-bible');
+      verseList.classList.add('verse-list-with-second-translation');
+
+      const newBibleTranslationId = secondBibleBlock.querySelector('select.bible-select').value;
+
+      setTimeout(() => {
+        eventController.publish('on-translation2-changed', {from: null, to: newBibleTranslationId});
+      }, 50);
+    } else {
+      secondBibleBlock.style.display = 'none';
+      buttonIcon.className = 'fas fa-plus';
+      parallelButton.setAttribute('i18n', '[title]menu.add-parallel-bible');
+      
+      app_controller.tab_controller.setSecondBibleTranslationId(null, tabIndex);
+      verseList.classList.remove('verse-list-with-second-translation');
+    }
+
+    // Update i18n after changing the attribute
+    $(parallelButton).localize();
   }
 
   hasCurrentTranslationHeaderElements(tabIndex=undefined) {
@@ -228,15 +330,14 @@ class TranslationController {
     return translations;
   }
 
-  async toggleTranslationsBasedOnCurrentBook(tabIndex=undefined) {
-    const bibleSelect = this.getBibleSelect(tabIndex);
+  async toggleTranslationsBasedOnCurrentBook(bibleSelect, tabIndex=undefined, force=false) {
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
       let currentBook = currentTab.getBook();
       let previousBook = currentTab.getPreviousBook();
 
-      if (currentBook == null || currentBook == previousBook) {
+      if (!force && (currentBook == null || currentBook == previousBook)) {
         return;
       }
 
