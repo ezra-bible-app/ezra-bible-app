@@ -267,14 +267,20 @@ class CordovaPlatform {
     console.log("Starting up nodejs engine!");
     nodejs.channel.setListener(this.mainProcessListener);
 
-    nodejs.startWithScript(`
+    /*nodejs.startWithScript(`console.log('Hello world!');`, () => {
+      console.log('Node.js has started');
+    });*/
+
+    nodejs.start('cordova_main.js', async () => {
+
+    /*nodejs.startWithScript(`
 
       const Main = require('cordova_main.js');
 
       global.main = new Main();
       main.init(${isDebug});
 
-    `, async () => {
+    `, async () => {*/
 
       uiHelper.updateLoadingSubtitle("cordova.init-i18n", "Initializing i18n");
 
