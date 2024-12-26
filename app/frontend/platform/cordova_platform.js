@@ -89,15 +89,8 @@ class CordovaPlatform {
   }
 
   getAndroidVersion() {
-    var userAgent = navigator.userAgent.toLowerCase(); 
-    // eslint-disable-next-line no-useless-escape
-    var match = userAgent.match(/android\s([0-9\.]*)/i);
-    var version = match ? match[1] : undefined;
-
-    if (version !== undefined) {
-      version = parseInt(version, 10);
-    }
-
+    // This makes use of the cordova-plugin-device plugin
+    let version = parseInt(device.version);
     return version;
   }
 
@@ -255,7 +248,7 @@ class CordovaPlatform {
   }
 
   isAndroidWithScopedStorage() {
-    var androidVersion = this.getAndroidVersion();
+    const androidVersion = this.getAndroidVersion();
     const FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE = 11;
 
     return androidVersion >= FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE;
