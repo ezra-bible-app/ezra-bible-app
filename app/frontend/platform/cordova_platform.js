@@ -47,6 +47,7 @@ class CordovaPlatform {
       // Enable to test Sentry in debug version
       // isDebug = false;
 
+      // This depends on having cordova-plugin-inappbrowser available
       window.open = cordova.InAppBrowser.open;
 
       if (!isDebug && window.sendCrashReports) {
