@@ -27,15 +27,18 @@ All notable changes to Ezra Bible App are documented in this file.
 * Swipe actions on Android make chapter changes slow over time. ([#1138][i1138])
 * Copy button not fitting small phone screens. ([#1139][i1139])
 * macOS: Updates not working for modules in ~/Library/Application Support/Sword. ([#1140][i1140])
-* Update Electron to version 32.2.3 to improve note taking under Wayland. ([#1147][i1147])
 * Tagged Verse List - Verse Count and Select All Verses button are added again when changing Bible translation. ([#1160][i1160])
 * Crashes when viewing commentaries. ([#1162][i1162])
+* Android version check via user agent not reliable on GrapheneOS. ([#1167][i1167]
 
 ### Enablers
 
 * Add package for CentOS 9. ([#1148][i1148])
 * Add package for OpenSuse Leap 15.5 (to replace 15.2). ([#1149][i1149])
 * Add package for OpenSuse Leap 15.6. ([#1151][i1151])
+* Update Electron to version 32.2.3 to improve note taking under Wayland. ([#1147][i1147])
+* Use Cordova version 12.
+* Use [fork of nodejs-mobile-cordova](https://github.com/okhiroyuki/nodejs-mobile-cordova), which integrates the community version of [nodejs-mobile](https://github.com/nodejs-mobile/nodejs-mobile).
 
 [i1044] https://github.com/ezra-bible-app/ezra-bible-app/issues/1044
 [i1125] https://github.com/ezra-bible-app/ezra-bible-app/issues/1125
@@ -59,6 +62,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1152] https://github.com/ezra-bible-app/ezra-bible-app/issues/1152
 [i1160] https://github.com/ezra-bible-app/ezra-bible-app/issues/1160
 [i1162] https://github.com/ezra-bible-app/ezra-bible-app/issues/1162
+[i1167] https://github.com/ezra-bible-app/ezra-bible-app/issues/1167
 
 ## [1.15.0 - 2024-09-21]
 
