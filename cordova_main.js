@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+console.log('Starting nodejs backend from cordova_main.js');
+
 const PlatformHelper = require('./app/lib/platform_helper.js');
 const IPC = require('./app/backend/ipc/ipc.js');
 global.ipc = null;
@@ -25,17 +27,21 @@ class Main {
   init(isDebug) {
     // Require the 'cordova-bridge' to enable communications between the
     // Node.js app and the Cordova app.
+    console.log('Loading cordova-bridge');
     global.cordova = require('cordova-bridge');
     this.platformHelper = new PlatformHelper();
     this.isDebug = isDebug;
     this.androidVersion = null;
 
     if (!isDebug) {
+      console.log('Initializing Sentry');
       this.initSentry();
     }
 
+    console.log('Initializing app events');
     this.initAppEvents();
 
+    console.log('Initializing non-persistent IPC');
     global.ipc = new IPC();
     global.ipc.initNonPersistentIpc();
 
