@@ -58,13 +58,15 @@ window.addEventListener('load', function() {
 
   if (platformHelper.isCordova()) {
 
-    var CordovaPlatform = require('./platform/cordova_platform.js');
+    navigator.splashscreen.hide();
+
+    const CordovaPlatform = require('./platform/cordova_platform.js');
     window.cordovaPlatform = new CordovaPlatform();
     window.cordovaPlatform.init();
 
   } else if (platformHelper.isElectron()) {
 
-    var ElectronPlatform = require('./app/frontend/platform/electron_platform.js');
+    const ElectronPlatform = require('./app/frontend/platform/electron_platform.js');
     window.electronPlatform = new ElectronPlatform();
 
     console.log("Initializing app on Electron platform ...");
