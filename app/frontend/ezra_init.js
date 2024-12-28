@@ -58,8 +58,6 @@ window.addEventListener('load', function() {
 
   if (platformHelper.isCordova()) {
 
-    navigator.splashscreen.hide();
-
     const CordovaPlatform = require('./platform/cordova_platform.js');
     window.cordovaPlatform = new CordovaPlatform();
     window.cordovaPlatform.init();
