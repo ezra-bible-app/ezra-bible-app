@@ -16,8 +16,8 @@
     "text-size-decrease": "Micșorează dimensiunea fontului",
     "text-size-reset": "Resetează dimensiunea fontului la implicit",
     "text-size-increase": "Mărește dimensiunea fontului",
-    "add-parallel-bible": "Add parallel Bible",
-    "remove-parallel-bible": "Remove parallel Bible"
+    "add-parallel-bible": "Adaugă biblie paralelă",
+    "remove-parallel-bible": "Elimină biblie paralelă"
   },
   "search-menu": {
     "search": "Căutare",
@@ -89,8 +89,8 @@
     "step-modules": {
       "select-module": "Te rog alege {{module_type}} care să fie instalat.",
       "module-display-preferences": "Preferințe filtrare:",
-      "all-modules": "All {{module_type, accusative}}",
-      "regular-dicts": "Regular dictionaries",
+      "all-modules": "Toate {{module_type, accusative}}",
+      "regular-dicts": "Dicționare obișnuite",
       "module-with": "{{module_type, capitalize}} cu {{feature_type, instrumental}}",
       "module-already-installed": "Acest {{module_type, singular}} este deja instalat",
       "show-module-info":"Arată info",
@@ -212,8 +212,8 @@
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Personalizat",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "content-font-family": "Familia de font a conținutului",
+      "custom-content-font": "Font pesronalizat pentru conținut"
     }
   },
   "data-privacy": {
@@ -326,7 +326,7 @@
     "selection": "Selecție: ",
     "loading-bible-text": "Se încarcă textul biblic",
     "loading-tagged-verses": "Se încarcă etichetele versetului",
-    "loading-verses": "Loading verses",
+    "loading-verses": "Încărcare versete",
     "loading-verse-translations": "Se încarcă traducerile versetului",
     "searching-for": "Caut după",
     "search-result-header": "Rezultat căutare după ",
@@ -354,7 +354,7 @@
     "show-paragraphs": "Afișează paragrafe",
     "red-letters": "Evidențiază cuvintele lui Isus cu roșu.",
     "show-dictionary": "Afișează dicționar",
-    "show-wordstudy": "Show word study",
+    "show-wordstudy": "Afișează studiu cuvânt",
     "show-book-chapter-navigation": "Afișează navigare carte/capitol",
     "show-header-navigation": "Afișează navigare antet",
     "show-tab-search": "Afișează căutare filă curentă",
@@ -365,7 +365,7 @@
     "use-tag-group-filter": "Folosește filtrul pentru grup de etichete",
     "show-notes": "Afișează note",
     "limit-notes-display-size": "Limitează dimensiunea afișării notelor",
-    "limit-text-width": "Limit Bible text width",
+    "limit-text-width": "Limitează lățime text biblic",
     "use-tags-column": "Folosește coloana Etichete",
     "select-chapter-before-loading": "Deschide cărțile cu selecție de capitol",
     "use-system-theme": "Tematica sistemului de operare",
@@ -401,9 +401,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Word Study",
-    "hebrew-dict": "Hebrew Word Study",
-    "default-header": "<b>Word Study</b>",
+    "greek-dict": "Studiu cuvânt în Greacă",
+    "hebrew-dict": "Studiu cuvânt în Ebraică",
+    "default-header": "<b>Studiu Cuvânt</b>",
     "help-instruction-intro": "Cum să afișezi intrările de dicționar aici:",
     "help-instruction-part1": "Asigură-te ca sunt instalate dicționarele de concordanță (Strong's) (Ebraică și Greacă). Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Mai întâi deschide o traducere cu caracteristica Concordanță (Strong's).",
@@ -416,9 +416,9 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Dicționar</b>",
-    "help-no-dicts": "There are no dictionaries available.",
-    "open-in-word-study": "Open in word study",
-    "filter-placeholder": "Filter..."
+    "help-no-dicts": "Nu există niciun dicționar disponibil.",
+    "open-in-word-study": "Deschide în Studiu Cuvânt",
+    "filter-placeholder": "Filtare..."
   },
   "tag-statistics-panel": {
     "default-header": "Statistici etichete",
