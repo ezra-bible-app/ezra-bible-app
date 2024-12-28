@@ -16,8 +16,8 @@
     "text-size-decrease": "Зменшити поточний розмір тексту",
     "text-size-reset": "Усталений розмір тексту",
     "text-size-increase": "Збільшити поточний розмір тексту",
-    "add-parallel-bible": "Add parallel Bible",
-    "remove-parallel-bible": "Remove parallel Bible"
+    "add-parallel-bible": "Додати суміжну Біблію",
+    "remove-parallel-bible": "Прибрати суміжну Біблію"
   },
   "search-menu": {
     "search": "Пошук",
@@ -89,8 +89,8 @@
     "step-modules": {  
       "select-module": "Будь ласка, оберіть {{module_type}} для встановлення.",
       "module-display-preferences": "Фільтрувати:",
-      "all-modules": "All {{module_type, accusative}}",
-      "regular-dicts": "Regular dictionaries",
+      "all-modules": "Усі {{module_type, accusative}}",
+      "regular-dicts": "Звичайні словники",
       "module-with": "{{module_type, capitalize}} з {{feature_type, instrumental}}",
       "module-already-installed": "Цей {{module_type, singular}} вже встановленно!",
       "show-module-info":"Показати подробиці",
@@ -208,12 +208,12 @@
     "send-crash-reports": "Відсилати звіти щодо помилок",
     "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
+      "configure-typeface": "Налаштування букворису вмісту",
       "sans-serif": "Без зарубок",
       "serif": "Із зарубками",
-      "custom": "Довільні",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "custom": "Довільний",
+      "content-font-family": "Букворис вмісту",
+      "custom-content-font": "Довільний букворис вмісту"
     }
   },
   "data-privacy": {
@@ -327,7 +327,7 @@
     "selection": "Вибраний уривок: ",
     "loading-bible-text": "Завантаження тексту Біблії",
     "loading-tagged-verses": "Завантаження помічених віршів",
-    "loading-verses": "Loading verses",
+    "loading-verses": "Завантаження віршів",
     "loading-verse-translations": "Завантаження перекладів вірша",
     "searching-for": "Пошук",
     "search-result-header": "Результати пошуку ",
@@ -355,7 +355,7 @@
     "show-paragraphs": "Абзаци",
     "red-letters": "Слова Ісуса - червоним",
     "show-dictionary": "Словник",
-    "show-wordstudy": "Show word study",
+    "show-wordstudy": "Тлумач слів",
     "show-book-chapter-navigation": "Вказівник розділів",
     "show-header-navigation": "Вказівник заголовків",
     "show-tab-search": "Відображати форму пошуку по поточній вкладці",
@@ -366,7 +366,7 @@
     "use-tag-group-filter": "Використати цідило мітових груп",
     "show-notes": "Нотатки",
     "limit-notes-display-size": "Обмежити висоту нотаток",
-    "limit-text-width": "Limit Bible text width",
+    "limit-text-width": "Обмежити ширину тексту Біблії",
     "use-tags-column": "Міти у окремому стовпці",
     "select-chapter-before-loading": "Обирати розділ при відкритті книг",
     "use-system-theme": "Кольоровий режим як у системі",
@@ -402,9 +402,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Word Study",
-    "hebrew-dict": "Hebrew Word Study",
-    "default-header": "<b>Word Study</b>",
+    "greek-dict": "Тлумач Слів Грецької",
+    "hebrew-dict": "Тлумач Слів Івріту",
+    "default-header": "<b>Тлумач Слів</b>",
     "help-instruction-intro": "Як відобразити словникові записи:",
     "help-instruction-part1": "Переконайтеся, що встановленно словники Стронга (івриту та грецької). Поточний стан: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Відкрийте переклад, що містить числа Стронга.",
@@ -417,9 +417,9 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Словник</b>",
-    "help-no-dicts": "There are no dictionaries available.",
-    "open-in-word-study": "Open in word study",
-    "filter-placeholder": "Filter..."
+    "help-no-dicts": "Відсутні встановленні словники.",
+    "open-in-word-study": "Відкрити у тлумачі слів",
+    "filter-placeholder": "Цідило..."
   },
   "tag-statistics-panel": {
     "default-header": "Перелік міт",
