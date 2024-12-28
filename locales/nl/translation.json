@@ -16,8 +16,8 @@
     "text-size-decrease": "Verklein huidige lettergrootte",
     "text-size-reset": "Reset lettergrootte naar standaardwaarde",
     "text-size-increase": "Vergroot huidige lettergrootte",
-    "add-parallel-bible": "Add parallel Bible",
-    "remove-parallel-bible": "Remove parallel Bible"
+    "add-parallel-bible": "Voeg parallelle Bijbel toe",
+    "remove-parallel-bible": "Verwijder parallelle Bijbel"
   },
   "search-menu": {
     "search": "Zoeken",
@@ -91,8 +91,8 @@
     "step-modules": {
       "select-module": "Gelieve {{module_type}} kiezen om te installeren.",
       "module-display-preferences": "Filter voorkeuren:",
-      "all-modules": "All {{module_type, accusative}}",
-      "regular-dicts": "Regular dictionaries",
+      "all-modules": "Alle {{module_type, accusative}}",
+      "regular-dicts": "Regelmatige woordenboeken",
       "module-with": "{{module_type, capitalize}} met {{feature_type, instrumental}}",
       "module-already-installed": "{{module_type, singular-demonstrative-pronoun}} is reeds geinstalleerd",
       "show-module-info":"Toon info",
@@ -210,12 +210,12 @@
     "send-crash-reports": "Foutrapporten verzenden",
     "welcome-to-ezra-bible-app": "Welkom bij Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
+      "configure-typeface": "Stel lettertype in",
       "sans-serif": "Schreefloos",
       "serif": "Met schreef",
       "custom": "Aangepast",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "content-font-family": "Lettertypefamilie voor inhoud",
+      "custom-content-font": "Aangepast lettertype voor inhoud"
     }
   },
   "data-privacy": {
@@ -328,7 +328,7 @@
     "selection": "Selectie: ",
     "loading-bible-text": "Bijbeltekst laden",
     "loading-tagged-verses": "Getagde verzen laden",
-    "loading-verses": "Loading verses",
+    "loading-verses": "Verzen laden",
     "loading-verse-translations": "Versvertalingen laden",
     "searching-for": "Zoeken naar",
     "search-result-header": "Zoekresultaten voor ",
@@ -356,7 +356,7 @@
     "show-paragraphs": "Toon alinea's",
     "red-letters": "Markeer de woorden van Jezus met rood",
     "show-dictionary": "Toon woordenboek",
-    "show-wordstudy": "Show word study",
+    "show-wordstudy": "Toon woordstudie",
     "show-book-chapter-navigation": "Toon boek/hoofdstuk-navigatie",
     "show-header-navigation": "Toon hoofdingnavigatie",
     "show-tab-search": "Toon zoekopdracht van huidig tabblad",
@@ -367,7 +367,7 @@
     "use-tag-group-filter": "Gebruik taggroepfilter",
     "show-notes": "Toon aantekeningen",
     "limit-notes-display-size": "Beperk grootte van aantekeningen",
-    "limit-text-width": "Limit Bible text width",
+    "limit-text-width": "Beperk breedte van Bijbeltekst",
     "use-tags-column": "Gebruik tags-kolom",
     "select-chapter-before-loading": "Open boeken met hoofdstukselectie",
     "use-system-theme": "Systeemsthema",
@@ -403,9 +403,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Word Study",
-    "hebrew-dict": "Hebrew Word Study",
-    "default-header": "<b>Word Study</b>",
+    "greek-dict": "Griekse woordstudie",
+    "hebrew-dict": "Hebreeuwse woordstudie",
+    "default-header": "<b>Woordstudie</b>",
     "help-instruction-intro": "Hoe woordenboeklemma's hier tonen:",
     "help-instruction-part1": "Wees eerst zeker dat de Strongwoordenboeken (Hebreeuws en Grieks) geïnstalleerd zijn. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Open dan een vertaling met de Strongs-functie.",
@@ -418,9 +418,9 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Woordenboek</b>",
-    "help-no-dicts": "There are no dictionaries available.",
-    "open-in-word-study": "Open in word study",
-    "filter-placeholder": "Filter..."
+    "help-no-dicts": "Er zijn geen woordenboeken beschikbaar.",
+    "open-in-word-study": "Open in woordstudie",
+    "filter-placeholder": "Filteren..."
   },
   "tag-statistics-panel": {
     "default-header": "Tag-statistieken",
