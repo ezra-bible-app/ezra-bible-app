@@ -16,8 +16,8 @@
     "text-size-decrease": "Zmanjšanje velikosti pisave",
     "text-size-reset": "Ponastavi privzeto velikost pisave",
     "text-size-increase": "Povečaj velikost pisave",
-    "add-parallel-bible": "Add parallel Bible",
-    "remove-parallel-bible": "Remove parallel Bible"
+    "add-parallel-bible": "Dodaj vzporedno Biblijo",
+    "remove-parallel-bible": "Odstrani vzporedno Biblijo"
   },
   "search-menu": {
     "search": "Iskanje",
@@ -89,8 +89,8 @@
     "step-modules": {
       "select-module": "Prosimo, izberite {{module_type}} za namestitev.",
       "module-display-preferences": "Prednosti filtriranja:",
-      "all-modules": "All {{module_type, accusative}}",
-      "regular-dicts": "Regular dictionaries",
+      "all-modules": "Vsi {{module_type, accusative}}",
+      "regular-dicts": "Običajni slovarji",
       "module-with": "{{module_type, capitalize}} s {{feature_type, instrumental}}",
       "module-already-installed": "Ta {{module_type, singular}} je že nameščen!",
       "show-module-info": "Prikaži informacije",
@@ -208,12 +208,12 @@
     "send-crash-reports": "Pošlji poročila o napakah",
     "welcome-to-ezra-bible-app": "Dobrodošli v Ezra Bible aplikaciji!",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
+      "configure-typeface": "Konfiguracija pisave",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Po meri",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "content-font-family": "Družina pisave",
+      "custom-content-font": "Pisava po meri"
     }
   },
   "data-privacy": {
@@ -324,7 +324,7 @@
     "selection": "Izbira: ",
     "loading-bible-text": "Nalaganje svetopisemskega besedila",
     "loading-tagged-verses": "Nalaganje označenih vrstic",
-    "loading-verses": "Loading verses",
+    "loading-verses": "Nalaganje vrstic",
     "loading-verse-translations": "Nalaganje prevodov vrstic",
     "searching-for": "Iskanje za",
     "search-result-header": "Rezultati iskanja za ",
@@ -352,7 +352,7 @@
     "show-paragraphs": "Prikaži odstavke",
     "red-letters": "Z rdečo barvo označi Jezusove besede",
     "show-dictionary": "Prikaži slovar",
-    "show-wordstudy": "Show word study",
+    "show-wordstudy": "Prikaži preučevanje besed",
     "show-book-chapter-navigation": "Prikaži navigacijo po knjigi/poglavju",
     "show-header-navigation": "Prikaži navigacijo po glavi",
     "show-tab-search": "Prikaži iskanje po trenutnem zavihku",
@@ -363,7 +363,7 @@
     "use-tag-group-filter": "Uporabi filter skupin oznak",
     "show-notes": "Prikaži opombe",
     "limit-notes-display-size": "Omejitev velikosti prikaza opomb",
-    "limit-text-width": "Limit Bible text width",
+    "limit-text-width": "Omejitev širine besedila",
     "use-tags-column": "Uporabi stolpec z oznakami",
     "select-chapter-before-loading": "Odpri knjige z izbiro poglavja",
     "use-system-theme": "Sistemska tema",
@@ -399,9 +399,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Word Study",
-    "hebrew-dict": "Hebrew Word Study",
-    "default-header": "<b>Word Study</b>",
+    "greek-dict": "Grško preučevanje besed",
+    "hebrew-dict": "Hebrejsko preučevanje besed",
+    "default-header": "<b>Preučevanje besed</b>",
     "help-instruction-intro": "Kako prikazati slovarske vnose tukaj:",
     "help-instruction-part1": "Prepričajte se, da so nameščeni Strongovi slovarji (hebrejski in grški). Stanje: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Prevod odprite s Strongovo funkcionalnostjo.",
@@ -414,8 +414,8 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Slovar</b>",
-    "help-no-dicts": "There are no dictionaries available.",
-    "open-in-word-study": "Open in word study",
+    "help-no-dicts": "Na voljo ni nobenih slovarjev.",
+    "open-in-word-study": "Odpri v preučevanju besed",
     "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {
