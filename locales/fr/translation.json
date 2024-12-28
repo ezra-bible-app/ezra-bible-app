@@ -16,8 +16,8 @@
     "text-size-decrease": "Diminuer la taille de police actuelle",
     "text-size-reset": "Réinitialiser la taille de police par défaut",
     "text-size-increase": "Augmenter la taille de police actuelle",
-    "add-parallel-bible": "Add parallel Bible",
-    "remove-parallel-bible": "Remove parallel Bible"
+    "add-parallel-bible": "Ajouter une Bible parallèle",
+    "remove-parallel-bible": "Supprimer une Bible parallèle"
   },
   "search-menu": {
     "search": "Rechercher",
@@ -95,8 +95,8 @@
     "step-modules": {
       "select-module": "Veillez choisir les {{module_type}} à installer.",
       "module-display-preferences": "Préférences de filtre :",
-      "all-modules": "All {{module_type, accusative}}",
-      "regular-dicts": "Regular dictionaries",
+      "all-modules": "Tous les {{module_type, accusative}}",
+      "regular-dicts": "Dictionnaires réguliers",
       "module-with": "{{module_type, capitalize}} avec {{feature_type, instrumental}}",
       "module-already-installed_masculine": "{{module_type, singular-demonstrative-pronoun}} est déjà installé",
       "module-already-installed_feminine": "{{module_type, singular-demonstrative-pronoun}} est déjà installée",
@@ -218,12 +218,12 @@
      "send-crash-reports": "Envoyer les rapports d'erreurs",
     "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
+      "configure-typeface": "Configurer la police de caractères du contenu",
       "sans-serif": "Sans empattement",
       "serif": "Avec empattement",
       "custom": "Personnalisée",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "content-font-family": "Famille de polices de caractères pour le contenu",
+      "custom-content-font": "Police de caractères personnalisée pour le contenu"
     }
   },
   "data-privacy": {
@@ -336,7 +336,7 @@
     "selection": "Sélection : ",
     "loading-bible-text": "Chargement du texte biblique",
     "loading-tagged-verses": "Chargement des versets étiquetés",
-    "loading-verses": "Loading verses",
+    "loading-verses": "Chargement des versets",
     "loading-verse-translations": "Chargement des traductions du verset sélectionné",
     "searching-for": "Recherche",
     "search-result-header": "Résultat des recherches pour ",
@@ -364,7 +364,7 @@
     "show-paragraphs": "Afficher les paragraphes",
     "red-letters": "Surligner les paroles de Jésus en rouge",
     "show-dictionary": "Afficher le dictionnaire",
-    "show-wordstudy": "Show word study",
+    "show-wordstudy": "Afficher l'étude de mots",
     "show-book-chapter-navigation": "Afficher la navigation dans les livres / chapitres",
     "show-header-navigation": "Afficher la navigation des titres",
     "show-tab-search": "Montrer l’onglet de recherche courant",
@@ -375,7 +375,7 @@
     "use-tag-group-filter": "Utiliser le filtre de groupe d'étiquettes",
     "show-notes": "Montrer les notes",
     "limit-notes-display-size": "Limiter la taille des notes",
-    "limit-text-width": "Limit Bible text width",
+    "limit-text-width": "Limiter la largeur du texte de la Bible",
     "use-tags-column": "Utiliser des colonnes d’étiquettes",
     "select-chapter-before-loading": "Ouvrir les livres avec sélection de chapitre",
     "use-system-theme": "Thème du système",
@@ -412,9 +412,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Word Study",
-    "hebrew-dict": "Hebrew Word Study",
-    "default-header": "<b>Word Study</b>",
+    "greek-dict": "Étude de mots grecs",
+    "hebrew-dict": "Étude de mots hébreux",
+    "default-header": "<b>Étude de mots</b>",
     "help-instruction-intro": "Comment afficher les entrées de dictionnaire ici :",
     "help-instruction-part1": "Vérifiez que les dictionnaires Strong (hébreu et grec) sont installés. Statut: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Ouvrez ensuite une traduction avec la fonctionnalité des nombres de Strong.",
@@ -427,9 +427,9 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Dictionnaire</b>",
-    "help-no-dicts": "There are no dictionaries available.",
-    "open-in-word-study": "Open in word study",
-    "filter-placeholder": "Filter..."
+    "help-no-dicts": "Il n'y a pas de dictionnaires disponibles.",
+    "open-in-word-study": "Ouvrir dans l'étude de mots",
+    "filter-placeholder": "Filtrer..."
   },
   "tag-statistics-panel": {
     "default-header": "Statistiques des étiquettes",
