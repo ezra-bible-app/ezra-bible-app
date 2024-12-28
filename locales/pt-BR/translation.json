@@ -16,8 +16,8 @@
     "text-size-decrease": "Diminuir tamanho da fonte",
     "text-size-reset": "Redefinir tamanho da fonte para o padrão",
     "text-size-increase": "Aumentar o tamanho da fonte",
-    "add-parallel-bible": "Add parallel Bible",
-    "remove-parallel-bible": "Remove parallel Bible"
+    "add-parallel-bible": "Adicionar Bíblia paralela",
+    "remove-parallel-bible": "Remover Bíblia paralela"
   },
   "search-menu": {
     "search": "Busca",
@@ -89,8 +89,8 @@
     "step-modules": {
       "select-module": "Por favor, escolha {{module_type}} para instalar.",
       "module-display-preferences": "Filtrar preferências:",
-      "all-modules": "All {{module_type, accusative}}",
-      "regular-dicts": "Regular dictionaries",
+      "all-modules": "Todos os {{module_type, accusative}}",
+      "regular-dicts": "Dicionários regulares",
       "module-with": "{{module_type, capitalize}} com {{feature_type, instrumental}}",
       "module-already-installed": "Este {{module_type, singular}} já está instalado!",
       "show-module-info": "Mostrar informação",
@@ -212,8 +212,8 @@
       "sans-serif": "Sem serifa",
       "serif": "Serif",
       "custom": "Personalizado",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "content-font-family": "Família de fontes do conteúdo",
+      "custom-content-font": "Fonte personalizada do conteúdo"
     }
   },
   "data-privacy": {
@@ -324,7 +324,7 @@
     "selection": "Seleção: ",
     "loading-bible-text": "Carregando texto Bíblico",
     "loading-tagged-verses": "Carregando versículos etiquetados",
-    "loading-verses": "Loading verses",
+    "loading-verses": "Carregando versículos",
     "loading-verse-translations": "Carregando tradução de versículos",
     "searching-for": "Buscando por",
     "search-result-header": "Buscar resultados para ",
@@ -352,7 +352,7 @@
     "show-paragraphs": "Mostrar parágrafos",
     "red-letters": "Destacar palavras de Jesus em vermelho",
     "show-dictionary": "Mostrar dicionário",
-    "show-wordstudy": "Show word study",
+    "show-wordstudy": "Mostrar estudo de palavras",
     "show-book-chapter-navigation": "Mostrar navegação por livro/capítulo",
     "show-header-navigation": "Mostrar navegação de títulos",
     "show-tab-search": "Mostrar atual aba de busca",
@@ -363,7 +363,7 @@
     "use-tag-group-filter": "Usar filtro do grupo de etiquetas",
     "show-notes": "Mostrar notas",
     "limit-notes-display-size": "Limitar o tamanho da janela de notas",
-    "limit-text-width": "Limit Bible text width",
+    "limit-text-width": "Limitar largura do texto bíblico",
     "use-tags-column": "Utilizar coluna de etiquetas",
     "select-chapter-before-loading": "Abrir livros com seleção por capítulo",
     "use-system-theme": "Tema do sistema",
@@ -399,9 +399,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Word Study",
-    "hebrew-dict": "Hebrew Word Study",
-    "default-header": "<b>Word Study</b>",
+    "greek-dict": "Estudo de Palavras Gregas",
+    "hebrew-dict": "Estudo de Palavras Hebraicas",
+    "default-header": "<b>Estudo de Palavras</b>",
     "help-instruction-intro": "Como mostrar entradas de dicionário aqui:",
     "help-instruction-part1": "Certifique-se de que os dicionários de Strong (Hebraico e Grego) estão instalados. Status: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Abra uma tradução com recurso Strong.",
@@ -414,9 +414,9 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Dicionário</b>",
-    "help-no-dicts": "There are no dictionaries available.",
-    "open-in-word-study": "Open in word study",
-    "filter-placeholder": "Filter..."
+    "help-no-dicts": "Não há dicionários disponíveis.",
+    "open-in-word-study": "Abrir no estudo de palavras",
+    "filter-placeholder": "Filtrar..."
   },
   "tag-statistics-panel": {
     "default-header": "Estatísticas de etiquetas",
