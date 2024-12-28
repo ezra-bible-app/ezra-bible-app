@@ -73,6 +73,10 @@ const template = html`
     opacity: 0.1;
     fill: #696969;
   }
+
+  #dict-feature-select {
+    border-radius: 3px;
+  }
 </style>
 
 <div id="module-step-wrapper">
