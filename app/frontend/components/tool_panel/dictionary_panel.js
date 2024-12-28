@@ -107,10 +107,12 @@ class DictionaryPanel {
   async refreshDictionaries() {
     let modules = await this.getDictModules();
     let helpContainer = document.getElementById('dictionary-panel-help-no-dicts');
+    let navigation = document.getElementById('dictionary-panel-navigation');
     let selectEl = this.getSelectElement();
     let selectMenu = document.getElementById('dictionary-panel-select-button');
 
     if (modules.length == 0) {
+      navigation.classList.add('hidden');
       helpContainer.classList.remove('hidden');
       selectEl.classList.add('hidden');
       this.getKeyContainer().innerHTML = '';
@@ -121,6 +123,9 @@ class DictionaryPanel {
 
       return;
     }
+
+    // Show the navigation container
+    navigation.classList.remove('hidden');
 
     // Hide the help container and clear the select element
     helpContainer.classList.add('hidden');
@@ -356,10 +361,23 @@ class DictionaryPanel {
 
   initReferences() {
     let referenceElements = this.getContentContainer().querySelectorAll('ref');
-    // Add click event listeners to all reference elements
+    // Add click event listeners to all ref elements
+    // ref elements can either be scripture references or references to other dictionary entries
     referenceElements.forEach((reference) => {
       reference.addEventListener('click', (event) => {
-        this._referenceBoxHelper.handleReferenceClick(event, false);
+
+        let target = event.target.getAttribute('target');
+
+        if (target != null && target.indexOf(':') != -1) {
+          // Handle dictionary reference (e.g. <ref target="Nave:PRAISE">PRAISE</ref>)
+
+          target = target.split(':')[1];
+          this.openKeyFromTextReference(this._currentDict, target);
+
+        } else {
+          // Handle scripture reference
+          this._referenceBoxHelper.handleReferenceClick(event, false);
+        }
       });
     });
 
