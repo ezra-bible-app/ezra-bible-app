@@ -21,7 +21,8 @@ const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const ReferenceBoxHelper = require('./reference_box_helper.js');
 
 /**
- * The DictionaryPanel component implements a tool panel that shows dictionary entries for selected words.
+ * The DictionaryPanel component implements a tool panel that shows dictionary entries from generic dictionaries.
+ * It supports the handling of dictionary references and scripture references.
  * 
  * @category Component
  */
