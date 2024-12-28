@@ -16,8 +16,8 @@
     "text-size-decrease": "Уменьшить размер текста",
     "text-size-reset": "Сбросить размер текста",
     "text-size-increase": "Увеличить размер текста",
-    "add-parallel-bible": "Add parallel Bible",
-    "remove-parallel-bible": "Remove parallel Bible"
+    "add-parallel-bible": "Добавить паралельную Библию",
+    "remove-parallel-bible": "Убрать паралельную Библию"
   },
   "search-menu": {
     "search": "Поиск",
@@ -91,8 +91,8 @@
     "step-modules": {  
       "select-module": "Пожалуйста, выберите {{module_type, accusative}}, которые вы хотите установить.",
       "module-display-preferences": "Настройки фильтра:",
-      "all-modules": "All {{module_type, accusative}}",
-      "regular-dicts": "Regular dictionaries",
+      "all-modules": "Все {{module_type, accusative}}",
+      "regular-dicts": "Стандартные словари",
       "module-with": "{{module_type, capitalize}} с {{feature_type, instrumental}}",
       "module-already-installed": "Этот {{module_type, singular}} уже установлен!",
       "show-module-info":"Показать подробности",
@@ -210,12 +210,12 @@
     "send-crash-reports": "Посылать отчеты об ошибках",
     "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
+      "configure-typeface": "Настройки шрифта контента",
       "sans-serif": "Без засечек",
       "serif": "С засечками",
       "custom": "Пользовательский",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "content-font-family": "Семейство шрифта контента",
+      "custom-content-font": "Пользовательский шрифт контента"
     }
   },
   "data-privacy": {
@@ -329,7 +329,7 @@
     "selection": "Выбранный отрывок: ",
     "loading-bible-text": "Загрузка текста Библии",
     "loading-tagged-verses": "Загрузка помеченных стихов",
-    "loading-verses": "Loading verses",
+    "loading-verses": "Загрузка стихов",
     "loading-verse-translations": "Загрузка переводов стиха",
     "searching-for": "Поиск ",
     "search-result-header": "Результаты поиска ",
@@ -357,7 +357,7 @@
     "show-paragraphs": "Абзацы",
     "red-letters": "Слова Иисуса - красным",
     "show-dictionary": "Словарь",
-    "show-wordstudy": "Show word study",
+    "show-wordstudy": "Изучение слов",
     "show-book-chapter-navigation": "Навигация по главам",
     "show-header-navigation": "Навигация по заголовкам",
     "show-tab-search": "Показать форму поиска по текущей вкладке",
@@ -368,7 +368,7 @@
     "use-tag-group-filter": "Использовать фильтр груп меток",
     "show-notes": "Заметки",
     "limit-notes-display-size": "Ограничить высоту заметок",
-    "limit-text-width": "Limit Bible text width",
+    "limit-text-width": "Ограничить ширину текста Библии",
     "use-tags-column": "Метки в отдельном столбце",
     "select-chapter-before-loading": "Выбирать главу при выборе книги",
     "use-system-theme": "Режим системы",
@@ -404,9 +404,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Word Study",
-    "hebrew-dict": "Hebrew Word Study",
-    "default-header": "<b>Word Study</b>",
+    "greek-dict": "Изучение греческих слов",
+    "hebrew-dict": "Изучение слов иврита",
+    "default-header": "<b>Изучение слов</b>",
     "help-instruction-intro": "Отображение статей из словаря:",
     "help-instruction-part1": "Убедитесь, что установленны словари Стронга (иврита и греческого). Статус: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Откройте перевод с номерами Стронга.",
@@ -419,9 +419,9 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Словарь</b>",
-    "help-no-dicts": "There are no dictionaries available.",
-    "open-in-word-study": "Open in word study",
-    "filter-placeholder": "Filter..."
+    "help-no-dicts": "Отсутствуют установленные словари.",
+    "open-in-word-study": "Открыть в изучении слов",
+    "filter-placeholder": "Фильтр..."
   },
   "tag-statistics-panel": {
     "default-header": "Статистика меток",
@@ -505,7 +505,7 @@
     "sync-success-msg": "Синхронизация базы данных с Dropbox успешна ({{date}}).",
     "sync-failed-msg": "Не удалось синхронизировать базу данных с Dropbox ({{date}}: {{syncResult}}).",
     "access-method-change": "Изменение метода доступа Dropbox",
-    "access-method-message-part1": "Метод доступа Dropbox Изменился!<br/><br/>Ранее использовалась пользовательская папка для синхронизации Dropbox.<br/>",
+    "access-method-message-part1": "Метод доступа Dropbox изменился!<br/><br/>Ранее использовалась пользовательская папка для синхронизации Dropbox.<br/>",
     "access-method-message-part2": "Начиная с версии Ezra Bible App 1.15 используется папка приложения.<br/>",
     "access-method-message-part3": "Новая папка синхронизации Dropbox: /Apps/Ezra Bible App.<br/><br/>",
     "access-method-message-part4": "Привязка Ezra Bible App к вашему аккаунту Dropbox сброшена.<br/>",
