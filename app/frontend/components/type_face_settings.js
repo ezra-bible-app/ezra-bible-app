@@ -191,6 +191,7 @@ function showDialog() {
     }
   };
 
+  Mousetrap.bind('esc', () => { $box.dialog("close"); });
   $box.dialog(dialogOptions);
   uiHelper.fixDialogCloseIconOnAndroid('config-typeface-dialog');
 }
