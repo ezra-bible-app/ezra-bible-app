@@ -16,8 +16,8 @@
     "text-size-decrease": "Schriftgröße verkleinern",
     "text-size-reset": "Schriftgröße auf Standard zurücksetzen",
     "text-size-increase": "Schriftgröße vergrößern",
-    "add-parallel-bible": "Add parallel Bible",
-    "remove-parallel-bible": "Remove parallel Bible"
+    "add-parallel-bible": "Parallel angezeigte Bibel hinzufügen",
+    "remove-parallel-bible": "Parallel angezeigte Bibel entfernen"
   },
   "search-menu": {
     "search": "Suche",
@@ -89,8 +89,8 @@
     "step-modules": {  
       "select-module": "Bitte wählen Sie {{module_type}} zur Installation.",
       "module-display-preferences": "Filtereinstellungen:",
-      "all-modules": "All {{module_type, accusative}}",
-      "regular-dicts": "Regular dictionaries",
+      "all-modules": "Alle {{module_type, accusative}}",
+      "regular-dicts": "Reguläre Wörterbücher",
       "module-with": "{{module_type, capitalize}} mit {{feature_type}}",
       "module-already-installed": "{{module_type, singular}} ist bereits installiert",
       "show-module-info":"Informationen zeigen",
@@ -204,12 +204,12 @@
     "send-crash-reports": "Fehlerberichte senden",
     "welcome-to-ezra-bible-app": "Willkommen bei Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
+      "configure-typeface": "Schriftart für Inhalte konfigurieren",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Benutzerdefiniert",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "content-font-family": "Schriftfamilie für Inhalte",
+      "custom-content-font": "Benutzerdefinierte Schriftart für Inhalte"
     }
   },
   "data-privacy": {
@@ -322,7 +322,7 @@
     "selection": "Auswahl: ",
     "loading-bible-text": "Lade Bibeltext",
     "loading-tagged-verses": "Lade Verse mit gewähltem Tag",
-    "loading-verses": "Loading verses",
+    "loading-verses": "Lade Verse",
     "loading-verse-translations": "Lade Übersetzungen für gewählten Vers",
     "searching-for": "Suche nach",
     "search-result-header": "Suchergebnisse für ",
@@ -350,7 +350,7 @@
     "show-paragraphs": "Zeige Absätze",
     "red-letters": "Jesu Worte in rot hervorheben",
     "show-dictionary": "Wörterbuch zeigen",
-    "show-wordstudy": "Show word study",
+    "show-wordstudy": "Wortstudium zeigen",
     "show-book-chapter-navigation": "Zeige Buch/Kapitelnavigation",
     "show-header-navigation": "Zeige Überschriftennavigator",
     "show-tab-search": "Zeige Suche für aktuelles Tab",
@@ -361,7 +361,7 @@
     "use-tag-group-filter": "Tag Gruppen Filter",
     "show-notes": "Zeige Notizen",
     "limit-notes-display-size": "Limitiere Notizgröße",
-    "limit-text-width": "Limit Bible text width",
+    "limit-text-width": "Bibeltextbreite beschränken",
     "use-tags-column": "Tags in Spalte",
     "select-chapter-before-loading": "Öffne Bücher mit Kapitelauswahl",
     "use-system-theme": "Systemfarbschema",
@@ -397,9 +397,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Word Study",
-    "hebrew-dict": "Hebrew Word Study",
-    "default-header": "<b>Word Study</b>",
+    "greek-dict": "Griechisches Wortstudium",
+    "hebrew-dict": "Hebräisches Wortstudium",
+    "default-header": "<b>Wortstudium</b>",
     "help-instruction-intro": "Wie Sie hier Wörterbucheinträge anzeigen:",
     "help-instruction-part1": "Stellen Sie sicher, dass die Strong's Wörterbücher (Hebräisch und Griechisch) installiert sind. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Öffnen Sie eine Übersetzung mit Unterstützung für Strong's.",
@@ -412,8 +412,8 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Wörterbuch</b>",
-    "help-no-dicts": "There are no dictionaries available.",
-    "open-in-word-study": "Open in word study",
+    "help-no-dicts": "Es sind keine Wörterbücher verfügbar.",
+    "open-in-word-study": "Im Wortstudium öffnen",
     "filter-placeholder": "Filter..."
   },
   "tag-statistics-panel": {
