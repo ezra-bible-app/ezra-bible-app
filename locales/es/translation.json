@@ -16,8 +16,8 @@
     "text-size-decrease": "Disminuir el tamaño del texto ",
     "text-size-reset": "Restablecer el tamaño del texto",
     "text-size-increase": "Aumentar el tamaño del texto",
-    "add-parallel-bible": "Add parallel Bible",
-    "remove-parallel-bible": "Remove parallel Bible"
+    "add-parallel-bible": "Añadir Biblia Paralela",
+    "remove-parallel-bible": "Quitar Biblia Paralela"
   },
   "search-menu": {
     "search": "Buscar",
@@ -54,7 +54,7 @@
     "internet-usage-note": "<b>NOTA IMPORTANTE</b><br/>Si usted se encuentra en un país dónde los cristianos son perseguidos,<br/>debe estar consciente de que su proveedor de Internet sabrá <br/>que<b> usted accede a recursos cristianos.</b>!",
     "add-modules": "Añadir {{module_type, accusative}}",
     "remove-modules": "Quitar {{module_type, accusative}}",
-    "update-modules": "Update {{module_type, accusative}}",
+    "update-modules": "Actualizar {{module_type, accusative}}",
     "languages": "Idiomas",
     "repository_singular": "Repositorio",
     "repository_plural": "Repositorios",
@@ -89,8 +89,8 @@
     "step-modules": {
       "select-module": "Por favor seleccione {{module_type}} que desea instalar.",
       "module-display-preferences": "Filtrado de preferencias:",
-      "all-modules": "All {{module_type, accusative}}",
-      "regular-dicts": "Regular dictionaries",
+      "all-modules": "Todos {{module_type, accusative}}",
+      "regular-dicts": "Diccionarios regulares",
       "module-with": "{{module_type, capitalize}} con {{feature_type, instrumental}}",
       "module-already-installed": "Este {{module_type, singular}} ya está instalado",
       "show-module-info": "Mostrar información",
@@ -208,12 +208,12 @@
     "send-crash-reports": "Enviar reporte de errores",
     "welcome-to-ezra-bible-app": "Bienvenido a Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
+      "configure-typeface": "Configure el tipo de fuente",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Personalizada",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "content-font-family": "Tipo de fuente del contenido",
+      "custom-content-font": "Fuente del contenido personalizada"
     }
   },
   "data-privacy": {
@@ -324,7 +324,7 @@
     "selection": "Selección: ",
     "loading-bible-text": "Cargando el texto bíblico ",
     "loading-tagged-verses": "Cargando los versos etiquetados",
-    "loading-verses": "Loading verses",
+    "loading-verses": "Cargando los versículos",
     "loading-verse-translations": "Cargando traducciones del verso",
     "searching-for": "Buscando",
     "search-result-header": "Resultados para ",
@@ -352,7 +352,7 @@
     "show-paragraphs": "Mostrar párrafos",
     "red-letters": "Remarcar las palabras de Jesús en rojo",
     "show-dictionary": "Mostrar diccionario",
-    "show-wordstudy": "Show word study",
+    "show-wordstudy": "Mostrar estudio de las escrituras",
     "show-book-chapter-navigation": "Mostrar la navegación por Libro/Capítulo",
     "show-header-navigation": "Mostrar navegación por encabezado",
     "show-tab-search": "Mostrar búsqueda en pestaña actual",
@@ -363,7 +363,7 @@
     "use-tag-group-filter": "Usar el filtro de grupo de etiquetas",
     "show-notes": "Mostrar notas",
     "limit-notes-display-size": "Limitar el tamaño de las notas",
-    "limit-text-width": "Limit Bible text width",
+    "limit-text-width": "Limitar el tamaño del texto",
     "use-tags-column": "Usar columna de etiquetas",
     "select-chapter-before-loading": "Abrir libro en el capítulo seleccionado",
     "use-system-theme": "Usar el tema del sistema",
@@ -399,9 +399,9 @@
     }
   },
   "word-study-panel": {
-    "greek-dict": "Greek Word Study",
-    "hebrew-dict": "Hebrew Word Study",
-    "default-header": "<b>Word Study</b>",
+    "greek-dict": "Estudio de Palabras en Griego",
+    "hebrew-dict": "Estudio de Palabras en Hebreo",
+    "default-header": "<b>Estudio de Palabras</b>",
     "help-instruction-intro": "Como mostrar las entradas de diccionario aquí:",
     "help-instruction-part1": "Asegúrese de que los diccionarios Strong's (Hebreo y Griego) estén instalados. Estado: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Abra una traducción con números Strongs.",
@@ -414,9 +414,9 @@
   },
   "dictionary-panel": {
     "default-header": "<b>Diccionario</b>",
-    "help-no-dicts": "There are no dictionaries available.",
-    "open-in-word-study": "Open in word study",
-    "filter-placeholder": "Filter..."
+    "help-no-dicts": "No hay diccionarios disponibles.",
+    "open-in-word-study": "Abrir en estudio de palabra",
+    "filter-placeholder": "Filtros..."
   },
   "tag-statistics-panel": {
     "default-header": "Estadística de etiquetas",
