@@ -6,6 +6,7 @@ All notable changes to Ezra Bible App are documented in this file.
 ### Features
 
 * Add support for dictionaries like Nave's, Thompson Chain References, Vine. ([#1152][i1152])
+* Bible browser: Parallel translation mode. ([#30][i30])
 
 ### Enhancements
 
@@ -30,6 +31,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Update Electron to version 32.2.3 to improve note taking under Wayland. ([#1147][i1147])
 * Tagged Verse List - Verse Count and Select All Verses button are added again when changing Bible translation. ([#1160][i1160])
 * Crashes when viewing commentaries. ([#1162][i1162])
+* Android version check via user agent not reliable on GrapheneOS. ([#1167][i1167])
 
 ### Enablers
 
@@ -37,6 +39,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Add package for OpenSuse Leap 15.5 (to replace 15.2). ([#1149][i1149])
 * Add package for OpenSuse Leap 15.6. ([#1151][i1151])
 
+[i30] https://github.com/ezra-bible-app/ezra-bible-app/issues/30
 [i1044] https://github.com/ezra-bible-app/ezra-bible-app/issues/1044
 [i1125] https://github.com/ezra-bible-app/ezra-bible-app/issues/1125
 [i1129] https://github.com/ezra-bible-app/ezra-bible-app/issues/1129
@@ -59,6 +62,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1152] https://github.com/ezra-bible-app/ezra-bible-app/issues/1152
 [i1160] https://github.com/ezra-bible-app/ezra-bible-app/issues/1160
 [i1162] https://github.com/ezra-bible-app/ezra-bible-app/issues/1162
+[i1167] https://github.com/ezra-bible-app/ezra-bible-app/issues/1167
 
 ## [1.15.0 - 2024-09-21]
 
