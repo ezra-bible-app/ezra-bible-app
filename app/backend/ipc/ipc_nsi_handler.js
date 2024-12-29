@@ -44,6 +44,10 @@ class IpcNsiHandler {
     }
 
     this._nsi.enableMarkup();
+
+    if (this._platformHelper.isElectron()) {
+      this._nsi.enableStrongsWithNbsp();
+    }
   }
 
   createNsi(customSwordDir=undefined) {
