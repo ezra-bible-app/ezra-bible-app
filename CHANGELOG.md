@@ -39,30 +39,30 @@ All notable changes to Ezra Bible App are documented in this file.
 * Add package for OpenSuse Leap 15.5 (to replace 15.2). ([#1149][i1149])
 * Add package for OpenSuse Leap 15.6. ([#1151][i1151])
 
-[i30] https://github.com/ezra-bible-app/ezra-bible-app/issues/30
-[i1044] https://github.com/ezra-bible-app/ezra-bible-app/issues/1044
-[i1125] https://github.com/ezra-bible-app/ezra-bible-app/issues/1125
-[i1129] https://github.com/ezra-bible-app/ezra-bible-app/issues/1129
-[i1131] https://github.com/ezra-bible-app/ezra-bible-app/issues/1131
-[i1132] https://github.com/ezra-bible-app/ezra-bible-app/issues/1132
-[i1133] https://github.com/ezra-bible-app/ezra-bible-app/issues/1133
-[i1134] https://github.com/ezra-bible-app/ezra-bible-app/issues/1134
-[i1135] https://github.com/ezra-bible-app/ezra-bible-app/issues/1135
-[i1136] https://github.com/ezra-bible-app/ezra-bible-app/issues/1136
-[i1137] https://github.com/ezra-bible-app/ezra-bible-app/issues/1137
-[i1138] https://github.com/ezra-bible-app/ezra-bible-app/issues/1138
-[i1139] https://github.com/ezra-bible-app/ezra-bible-app/issues/1139
-[i1140] https://github.com/ezra-bible-app/ezra-bible-app/issues/1140
-[i1141] https://github.com/ezra-bible-app/ezra-bible-app/issues/1141
-[i1143] https://github.com/ezra-bible-app/ezra-bible-app/issues/1143
-[i1147] https://github.com/ezra-bible-app/ezra-bible-app/pull/1147
-[i1148] https://github.com/ezra-bible-app/ezra-bible-app/issues/1148
-[i1149] https://github.com/ezra-bible-app/ezra-bible-app/issues/1149
-[i1151] https://github.com/ezra-bible-app/ezra-bible-app/issues/1151
-[i1152] https://github.com/ezra-bible-app/ezra-bible-app/issues/1152
-[i1160] https://github.com/ezra-bible-app/ezra-bible-app/issues/1160
-[i1162] https://github.com/ezra-bible-app/ezra-bible-app/issues/1162
-[i1167] https://github.com/ezra-bible-app/ezra-bible-app/issues/1167
+[i30]: https://github.com/ezra-bible-app/ezra-bible-app/issues/30
+[i1044]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1044
+[i1125]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1125
+[i1129]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1129
+[i1131]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1131
+[i1132]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1132
+[i1133]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1133
+[i1134]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1134
+[i1135]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1135
+[i1136]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1136
+[i1137]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1137
+[i1138]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1138
+[i1139]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1139
+[i1140]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1140
+[i1141]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1141
+[i1143]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1143
+[i1147]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1147
+[i1148]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1148
+[i1149]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1149
+[i1151]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1151
+[i1152]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1152
+[i1160]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1160
+[i1162]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1162
+[i1167]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1167
 
 ## [1.15.0 - 2024-09-21]
 
