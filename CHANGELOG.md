@@ -38,6 +38,14 @@ All notable changes to Ezra Bible App are documented in this file.
 * Add package for CentOS 9. ([#1148][i1148])
 * Add package for OpenSuse Leap 15.5 (to replace 15.2). ([#1149][i1149])
 * Add package for OpenSuse Leap 15.6. ([#1151][i1151])
+* Upgrade Android base technology:
+  - Upgrade from Cordova 7 to Cordova 12
+  - Upgrade from Cordova Android 6.4 to [13.0](https://cordova.apache.org/announcements/2024/05/23/cordova-android-13.0.0.html)
+  - Upgrade nodejs-mobile-cordova from the last version that was maintained by Janea Systems to a [new version](https://github.com/okhiroyuki/nodejs-mobile-cordova) based on a [community fork of nodejs-mobile](https://github.com/nodejs-mobile/nodejs-mobile).
+  - Make changes in the Build environment for ezra-bible-app-cordova:
+    - Move to a new Java version (from 8 to 17)
+    - Move to a new Gradle version (from 6.7.1 to 7.6)
+    - Move to a new Android NDK (from 21.3 to 27.2)
 
 [i30]: https://github.com/ezra-bible-app/ezra-bible-app/issues/30
 [i1044]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1044
