@@ -48,7 +48,7 @@ class IpcDbHandler {
 
   async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {
     const DbHelper = require('../database/db_helper.js');
-    let userDataDir = this.platformHelper.getUserDataPath(false, androidVersion);
+    let userDataDir = this.platformHelper.getUserDataPath(androidVersion);
 
     dbHelper = new DbHelper(userDataDir);
     this.dbDir = dbHelper.getDatabaseDir(isDebug);

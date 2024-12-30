@@ -42,7 +42,7 @@ class IpcSettingsHandler {
         configName: configName,
       };
 
-      const userDataPath = this.platformHelper.getUserDataPath(false, this._androidVersion);
+      const userDataPath = this.platformHelper.getUserDataPath(this._androidVersion);
       console.log(`Working with userDataPath ${userDataPath}`);
 
       if (!fs.existsSync(userDataPath)) {
