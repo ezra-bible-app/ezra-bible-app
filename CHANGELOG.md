@@ -5,7 +5,7 @@ All notable changes to Ezra Bible App are documented in this file.
 
 ### Features
 
-* Add support for dictionaries like Nave's, Thompson Chain References, Vine. ([#1152][i1152])
+* Add support for dictionaries like Nave's, Thompson Chain References, Vine. ([#1142][i1142])
 * Bible browser: Parallel translation mode. ([#30][i30])
 
 ### Enhancements
@@ -54,12 +54,12 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1139]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1139
 [i1140]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1140
 [i1141]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1141
+[i1142]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1142
 [i1143]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1143
 [i1147]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1147
 [i1148]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1148
 [i1149]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1149
 [i1151]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1151
-[i1152]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1152
 [i1160]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1160
 [i1162]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1162
 [i1167]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1167
