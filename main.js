@@ -18,6 +18,7 @@
 
 const path = require('path');
 const url = require('url');
+const fs = require('fs');
 const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
 const IPC = require('./app/backend/ipc/ipc.js');
 const PlatformHelper = require('./app/lib/platform_helper.js');
@@ -331,6 +332,31 @@ function initAppEventHandlers() {
   });
 }
 
+function copyCustomCssFiles() {
+  const userDataPath = global.platformHelper.getUserDataPath();
+  const appCssPath = path.join(__dirname, 'css');
+
+  const regularThemeCss = path.join(userDataPath, 'custom-regular-theme.css');
+  const darkThemeCss = path.join(userDataPath, 'custom-dark-theme.css');
+
+  const targetRegularThemeCss = path.join(appCssPath, 'custom-regular-theme.css');
+  const targetDarkThemeCss = path.join(appCssPath, 'custom-dark-theme.css');
+
+  try {
+    if (fs.existsSync(regularThemeCss)) {
+      fs.copyFileSync(regularThemeCss, targetRegularThemeCss);
+      console.log('Custom regular theme CSS copied successfully.');
+    }
+
+    if (fs.existsSync(darkThemeCss)) {
+      fs.copyFileSync(darkThemeCss, targetDarkThemeCss);
+      console.log('Custom dark theme CSS copied successfully.');
+    }
+  } catch (err) {
+    console.error('Error copying custom CSS files:', err);
+  }
+}
+
 function init() {
   console.time('Startup');
 
@@ -344,6 +370,9 @@ function init() {
 
   // Enables the Electron dev tools which can be opened using CTRL + SHIFT + i (Linux/Windows) or CMD + SHIFT + i (macOS)
   initElectronDebug();
+
+  // Copy custom CSS files to the app's CSS directory
+  copyCustomCssFiles();
 
   // This will eventually launch the app - based on the app ready event and the appReady handler function.
   initAppEventHandlers();
