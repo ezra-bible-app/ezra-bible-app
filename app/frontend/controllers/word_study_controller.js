@@ -236,9 +236,14 @@ class WordStudyController {
   }
 
   getReferenceFromVerseText(verseText) {
-    let verseBox = verseText.closest('.verse-box');
-    let verseBoxObject = new VerseBox(verseBox);
-    let reference = verseBoxObject.getVerseReferenceId();
+    let reference = null;
+
+    if (verseText != null) {
+      let verseBox = verseText.closest('.verse-box');
+      let verseBoxObject = new VerseBox(verseBox);
+      reference = verseBoxObject.getVerseReferenceId();
+    }
+
     return reference;
   }
 
