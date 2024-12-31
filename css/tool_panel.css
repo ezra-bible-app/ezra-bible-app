@@ -311,6 +311,7 @@ tr.td-underline td {
   margin: 0;
   margin-right: -1em;
   float: right;
+  width: 11em;
 }
 
 #tag-filter-menu {
