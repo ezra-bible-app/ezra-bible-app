@@ -77,9 +77,11 @@ async function initSampleText() {
   if (currentBibleTranslationId != null) {
     const verses = await ipcNsi.getBookText(currentBibleTranslationId, 'John', 1, 3);
 
-    sampleText = `<sup>1</sup>&nbsp;${verses[0].content}
-                  <sup>2</sup>&nbsp;${verses[1].content}
-                  <sup>3</sup>&nbsp;${verses[2].content}`;
+    if (verses.length == 3) {
+      sampleText = `<sup>1</sup>&nbsp;${verses[0].content}
+                    <sup>2</sup>&nbsp;${verses[1].content}
+                    <sup>3</sup>&nbsp;${verses[2].content}`;
+    }
   } else {
     sampleText = `<sup>1</sup>In the beginning was the Word, and the Word was with God, and the Word was God.
                   <sup>2</sup>He was in the beginning with God.
