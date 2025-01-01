@@ -310,7 +310,7 @@ class IpcDbHandler {
     if (this.platformHelper.isElectron()) {
       setTimeout(() => {
         console.log('Triggering database reload ...');
-        if (global.mainWindow != null) {
+        if (global.mainWindow != null && global.mainWindow.webContents != null) {
           global.mainWindow.webContents.send('database-updated');
         }
       }, 2000);
