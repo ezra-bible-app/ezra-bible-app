@@ -103,12 +103,12 @@ class ThemeController {
   }
 
   switchToDarkTheme() {
-    this.uiHelper.switchToTheme(document, 'css/jquery-ui/dark-hive/jquery-ui.css');
+    this.uiHelper.switchToTheme(document, 'css/jquery-ui/dark-hive/jquery-ui.css', 'css/custom-dark-theme.css');
     eventController.publish('on-theme-changed', 'dark');
   }
   
   switchToRegularTheme() {
-    this.uiHelper.switchToTheme(document, 'css/jquery-ui/cupertino/jquery-ui.css');
+    this.uiHelper.switchToTheme(document, 'css/jquery-ui/cupertino/jquery-ui.css', 'css/custom-regular-theme.css');
     eventController.publish('on-theme-changed', 'regular');
   }
 
