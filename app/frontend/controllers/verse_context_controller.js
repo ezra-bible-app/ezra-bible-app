@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseBox = require('../ui_models/verse_box.js');
-const verseListController = require('../controllers/verse_list_controller.js');
+const verseListController = require('./verse_list_controller.js');
 const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
 
 class VerseContextController {
