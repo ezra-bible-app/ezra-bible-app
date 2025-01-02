@@ -23,7 +23,7 @@ const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
 class VerseContextController {
 
   constructor() {
-    this.context_verse = null;
+    this.contextVerse = null;
     this.verseReferenceHelper = new VerseReferenceHelper(ipcNsi);
   }
 
@@ -46,16 +46,16 @@ class VerseContextController {
     var currentTabId = app_controller.tab_controller.getSelectedTabId();
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
-    var current_reference = null;
+    var currentReference = null;
     let selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
 
     if (viaMouseOver) {
 
-      current_reference = $(app_controller.verse_context_controller.current_mouseover_verse_reference);
+      currentReference = $(app_controller.verse_context_controller.current_mouseover_verse_reference);
 
     } else if (selectedVerseBoxes.length == 1) {
 
-      current_reference = $(selectedVerseBoxes[0]).find('.verse-reference');
+      currentReference = $(selectedVerseBoxes[0]).find('.verse-reference');
 
     } else {
 
@@ -64,56 +64,59 @@ class VerseContextController {
 
     uiHelper.showTextLoadingIndicator();
 
-    var start_verse_box = current_reference.closest('.verse-box');
-    var current_book_title = new VerseBox(start_verse_box[0]).getBibleBookShortTitle();
-    var start_verse_nr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId,
-                                                                                          current_book_title,
-                                                                                          start_verse_box.find('.verse-reference-content').html(),
+    var startVerseBox = currentReference.closest('.verse-box');
+    var currentBookTitle = new VerseBox(startVerseBox[0]).getBibleBookShortTitle();
+    var startVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId,
+                                                                                          currentBookTitle,
+                                                                                          startVerseBox.find('.verse-reference-content').html(),
                                                                                           false);
-    start_verse_nr -= 3;
-    if (start_verse_nr < 1) {
-      start_verse_nr = 1;
+    startVerseNr -= 3;
+    if (startVerseNr < 1) {
+      startVerseNr = 1;
     }
 
-    var number_of_verses = 5;
+    var numberOfVerses = 5;
 
-    app_controller.verse_context_controller.context_verse = start_verse_box[0];
+    app_controller.verse_context_controller.contextVerse = startVerseBox[0];
 
     app_controller.text_controller.requestBookText(
       currentTabIndex,
       currentTabId,
-      current_book_title,
+      currentBookTitle,
       (htmlVerseList) => { 
-        app_controller.verse_context_controller.load_verse_context(htmlVerseList);
+        app_controller.verse_context_controller.loadVerseContext(htmlVerseList);
         uiHelper.hideTextLoadingIndicator();
       },
-      start_verse_nr,
-      number_of_verses
+      startVerseNr,
+      startVerseNr, // Fix verse number for second Bible translation
+      numberOfVerses
     );
   }
 
-  load_verse_context(verse_list) {
+  loadVerseContext(verseList) {
     // First remove existing verse boxes to avoid duplication
-    var context_verse_id = new VerseBox(this.context_verse).getVerseReferenceId();
+    var contextVerseId = new VerseBox(this.contextVerse).getVerseReferenceId();
+    var currentVerseList = verseListController.getCurrentVerseList();
 
-    verse_list = $("<div>" + verse_list + "</div>").find('.verse-box');
+    verseList = $("<div>" + verseList + "</div>").find('.verse-box');
 
-    for (var i = 0; i < verse_list.length; i++) {
-      var currentVerseBox = verse_list[i];
-      var current_id = new VerseBox($(currentVerseBox)[0]).getVerseReferenceId();
+    // Remove matching existing verse boxes to avoid duplication
+    for (var i = 0; i < verseList.length; i++) {
+      var currentVerseBox = verseList[i];
+      var currentId = new VerseBox($(currentVerseBox)[0]).getVerseReferenceId();
 
-      if (current_id != "" && current_id != context_verse_id) {
-        var existing_verse_box = $('.verse-reference-id-' + current_id);
-        existing_verse_box.remove();
+      if (currentId != "" && currentId != contextVerseId) {
+        var existingVerseBox = currentVerseList.find('.verse-reference-id-' + currentId);
+        existingVerseBox.remove();
       }
     }
 
     // Replace the verse with its full context
-    $(app_controller.verse_context_controller.context_verse).replaceWith(verse_list);
+    $(app_controller.verse_context_controller.contextVerse).replaceWith(verseList);
 
     // Select/highlight the tagged verse
-    let selected_verse_box = $('.verse-reference-id-' + context_verse_id);
-    let currentVerseText = selected_verse_box.find('.verse-text-container')[0];
+    let selectedVerseBox = currentVerseList.find('.verse-reference-id-' + contextVerseId);
+    let currentVerseText = selectedVerseBox.find('.verse-text-container')[0];
     app_controller.verse_selection.setVerseAsSelection(currentVerseText);
 
     verseListController.bindEventsAfterBibleTextLoaded(undefined, true);
