@@ -369,8 +369,15 @@ class TranslationController {
     }
   }
 
-  async isInstantLoadingBook(bibleTranslationId, bookCode) {
+  async isInstantLoadingBook(bibleTranslationId, secondBibleTranslationId, bookCode) {
     if (bibleTranslationId == null || bookCode == null) {
+      return false;
+    }
+
+    const isBookWithOffset = await ipcDb.isBookWithOffset(bookCode);
+
+    // If we have a second bible translation and the book is with offset, we don't want to load the book instantly
+    if (secondBibleTranslationId != null && secondBibleTranslationId != "" && isBookWithOffset) {
       return false;
     }
 

@@ -193,15 +193,8 @@ class TextController {
       if (cachedText != null) {
         const hasNotes = /\snotes-content\s?=\s?["'][^"']+["']/g.test(cachedText); // check if there are any non-empty notes-content attributes
         await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true, undefined, false, hasNotes);
+
       } else {
-
-        const isBookWithOffset = await ipcDb.isBookWithOffset(book);
-        const secondBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getSecondBibleTranslationId();
-
-        if (secondBibleTranslationId != null && secondBibleTranslationId != "" && isBookWithOffset) {
-          instantLoad = false;
-        }
-
         if (instantLoad) { // Load the whole book instantaneously
 
           let firstPartHasNotes = false;
@@ -392,7 +385,7 @@ class TextController {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var isInstantLoadingBook = true;
     if (currentTab != null && currentTab.getTextType() == 'book') {
-      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentBibleTranslationId, bookShortTitle);
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentBibleTranslationId, secondBibleTranslationId, bookShortTitle);
     }
 
     if (renderType == 'html') {
@@ -804,7 +797,7 @@ class TextController {
 
     var isInstantLoadingBook = true;
     if (currentTab.getTextType() == 'book') {
-      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTab.getBibleTranslationId(), currentTab.getBook());
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTab.getBibleTranslationId(), currentTab.getSecondBibleTranslationId(), currentTab.getBook());
     }
 
     if (tabIndex === undefined) {

@@ -515,7 +515,8 @@ class NavigationPane {
       await this.updateChapterTagIndicators(tabIndex, force);
 
       const currentTranslationId = currentTab.getBibleTranslationId();
-      const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
+      const secondBibleTranslationId = currentTab.getSecondBibleTranslationId();
+      const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, secondBibleTranslationId, currentTab.getBook());
       const selectChapterBeforeLoadingOption = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
 
       if (isInstantLoadingBook && selectChapterBeforeLoadingOption.isChecked) {
@@ -577,6 +578,7 @@ class NavigationPane {
     const currentTab = app_controller.tab_controller.getTab();
     const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
       currentTab.getBibleTranslationId(),
+      currentTab.getSecondBibleTranslationId(),
       currentTab.getBook()
     );
 
@@ -609,6 +611,7 @@ class NavigationPane {
     const currentChapter = currentTab.getChapter();
     const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
       currentTab.getBibleTranslationId(),
+      currentTab.getSecondBibleTranslationId(),
       currentTab.getBook()
     );
 
@@ -639,8 +642,9 @@ class NavigationPane {
     const currentTab = app_controller.tab_controller.getTab();
     const currentBook = currentTab.getBook();
     const currentTextType = currentTab.getTextType();
-    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, currentBook);
+    const bibleTranslationId = currentTab.getBibleTranslationId();
+    const secondBibleTranslationId = currentTab.getSecondBibleTranslationId();
+    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, secondBibleTranslationId, currentBook);
 
     if (verseBox == undefined) {
       verseBox = focussedElement.closest('.verse-box');

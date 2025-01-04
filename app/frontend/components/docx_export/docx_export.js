@@ -74,7 +74,7 @@ class DocxExport {
     if (type === 'TAGS') {
       fileName = getUnixTagTitleList(currentTab);
     } else if (type === 'NOTES') {
-      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(translationId, currentTab.getBook());
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(translationId, null, currentTab.getBook());
       fileName = currentTab.getBookTitle() + (isInstantLoadingBook ? '' : `_${currentTab.getChapter()}`);
     } else {
       console.log('Unrecognized export type:', type);

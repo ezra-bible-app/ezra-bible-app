@@ -292,6 +292,7 @@ class TabController {
       } else {
 
         const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentMetaTab.getBibleTranslationId(),
+                                                                                                      currentMetaTab.getSecondBibleTranslationId(),
                                                                                                       currentMetaTab.getBook());
 
         await app_controller.text_controller.requestTextUpdate(
@@ -969,7 +970,7 @@ class TabController {
       // We set the previous book to the current book. This will be used in NavigationPane to avoid reloading the chapter list.
       currentTab.setPreviousBook(currentTab.getBook());
 
-      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getBook());
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getSecondBibleTranslationId(), currentTab.getBook());
     }
 
     app_controller.commentaryPanel.setRefreshBlocked(true);
