@@ -479,7 +479,7 @@ class TextController {
       return;
     }
 
-    var bibleTranslationId = this.getBibleTranslationId(tab_index);
+    const bibleTranslationId = this.getBibleTranslationId(tab_index);
     const secondBibleTranslationId = this.getBibleTranslationId(tab_index, true);
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
@@ -580,7 +580,7 @@ class TextController {
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
 
-    var verseReferences = await ipcDb.getVerseReferencesByTagIds(selected_tags);
+    const verseReferences = await ipcDb.getVerseReferencesByTagIds(selected_tags);
     var verseReferenceIds = [];
     var verses1 = [];
     var verses2 = [];
@@ -663,14 +663,21 @@ class TextController {
       return;
     }
 
-    var bibleTranslationId = this.getBibleTranslationId(tab_index);
-    const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
+    const bibleTranslationId = this.getBibleTranslationId(tab_index);
+    const secondBibleTranslationId = this.getBibleTranslationId(tab_index, true);
 
-    var verseReferences = await ipcDb.getVerseReferencesByXrefs(xrefs);
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    const versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
+
+    const verseReferences = await ipcDb.getVerseReferencesByXrefs(xrefs);
     var verseReferenceIds = [];
     var verses1 = await ipcNsi.getVersesFromReferences(bibleTranslationId, xrefs);
+
     var verses2 = [];
+
+    if (secondBibleTranslationId != null && secondBibleTranslationId != "") {
+      verses2 = await ipcNsi.getVersesFromReferences(secondBibleTranslationId, xrefs);
+    }
 
     /**
      * Loop through verseReferences to collect verse reference IDs for cross-references (xrefs).
