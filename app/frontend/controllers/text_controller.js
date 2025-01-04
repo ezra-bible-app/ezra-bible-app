@@ -195,16 +195,23 @@ class TextController {
         await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true, undefined, false, hasNotes);
       } else {
 
+        const isBookWithOffset = await ipcDb.isBookWithOffset(book);
+        const secondBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getSecondBibleTranslationId();
+
+        if (secondBibleTranslationId != null && secondBibleTranslationId != "" && isBookWithOffset) {
+          instantLoad = false;
+        }
+
         if (instantLoad) { // Load the whole book instantaneously
 
           let firstPartHasNotes = false;
 
           // 1) Only request the first 50 verses and render immediately
           await this.requestBookText(tabIndex, tabId, book,
-                                     async (htmlVerseList, hasNotes) => {
-                                       firstPartHasNotes = hasNotes;
-                                       await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
-                                     }, 1, 1, 50
+                                    async (htmlVerseList, hasNotes) => {
+                                      firstPartHasNotes = hasNotes;
+                                      await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
+                                    }, 1, 1, 50
           );
 
           await waitUntilIdle();
