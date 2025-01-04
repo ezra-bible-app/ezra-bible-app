@@ -218,22 +218,7 @@ class TextController {
           );
 
         } else { // Load only one chapter
-
-          var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
-          var secondBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getSecondBibleTranslationId();
-          var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
-          var reference = chapter + separator + '1';
-          var startVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId, book, reference);
-          var startVerseNr2 = await this.verseReferenceHelper.getMappedAbsoluteVerseNumber(currentBibleTranslationId, secondBibleTranslationId, book, startVerseNr, chapter, 1);
-          var verseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter);
-
-          await this.requestBookText(tabIndex, tabId, book,
-                                     async (htmlVerseList, hasNotes) => {
-                                       await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
-                                     }, startVerseNr, startVerseNr2, verseCount
-          );
-
-          uiHelper.hideTextLoadingIndicator();
+          await this.loadOneBookChapter(tabIndex, tabId, book, chapter);
         }
       }
 
@@ -295,6 +280,24 @@ class TextController {
     }
   }
 
+  async loadOneBookChapter(tabIndex, tabId, book, chapter) {
+    const currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+    const secondBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getSecondBibleTranslationId();
+    const separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
+    const reference = chapter + separator + '1';
+    const startVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId, book, reference);
+    const startVerseNr2 = await this.verseReferenceHelper.getMappedAbsoluteVerseNumber(currentBibleTranslationId, secondBibleTranslationId, book, startVerseNr, chapter, 1);
+    const verseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter);
+
+    await this.requestBookText(tabIndex, tabId, book,
+                               async (htmlVerseList, hasNotes) => {
+                                 await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
+                               }, startVerseNr, startVerseNr2, verseCount
+    );
+
+    uiHelper.hideTextLoadingIndicator();
+  }
+
   async requestBookText(tabIndex,
                         currentTabId,
                         bookShortTitle,
@@ -324,7 +327,7 @@ class TextController {
     }
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    var versification = await swordModuleHelper.getThreeLetterVersification(currentBibleTranslationId);
+    const versification = await swordModuleHelper.getThreeLetterVersification(currentBibleTranslationId);
     var bibleBook = await ipcDb.getBibleBook(bookShortTitle);
 
     // Only necessary because old saved short titles may not be found directly
@@ -483,7 +486,7 @@ class TextController {
     const secondBibleTranslationId = this.getBibleTranslationId(tab_index, true);
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
+    const versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
 
     var bibleBooks = await ipcDb.getBibleBooksFromSearchResults(search_results);
     var bookNames = await ipcGeneral.getBookNames(bibleBooks);
