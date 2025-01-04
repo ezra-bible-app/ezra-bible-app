@@ -10,12 +10,14 @@ All notable changes to Ezra Bible App are documented in this file.
 * Too many verses loaded when loading context verses. ([#1179][i1179])
 * Copy/paste only pulls verse numbers. ([#1180][i1180])
 * Verses are not selected correctly by tab search functionality. ([#1181][i1181])
+* Versification mapping not correctly working for parallel translations in "full book mode". ([#1183][i1183])
 
 [i1177]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1177
 [i1178]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1178
 [i1179]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1179
 [i1180]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1180
 [i1181]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1181
+[i1183]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1183
 
 ## [1.16.0 - 2024-12-30]
 
