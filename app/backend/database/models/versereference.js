@@ -464,6 +464,18 @@ module.exports = (sequelize, DataTypes) => {
     return offset_tables;
   };
 
+  VerseReference.isBookWithOffset = function(bibleBookShortTitle) {
+    const offset_tables = global.models.VerseReference.getAllOffsetTables();
+
+    for (var key in offset_tables) {
+      if (key == bibleBookShortTitle) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   VerseReference.isInVerseRange = function(startReference, endReference, chapter, verseNr) {
     var startChapter = parseInt(startReference.split(':')[0]);
     var startVerse = parseInt(startReference.split(':')[1]);

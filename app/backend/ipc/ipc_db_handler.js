@@ -728,6 +728,10 @@ class IpcDbHandler {
       return absoluteVerseNumbers;
     });
 
+    this._ipcMain.add('db_isBookWithOffset', async (bookCode) => {
+      return global.models.VerseReference.isBookWithOffset(bookCode);
+    });
+
     this._ipcMain.add('db_getLastMetaRecordUpdate', async() => {
       var lastUpdate = await global.models.MetaRecord.getLastUpdate();
       return lastUpdate;

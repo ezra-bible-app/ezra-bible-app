@@ -268,6 +268,10 @@ class IpcDb {
                                         verseNr);
   }
 
+  async isBookWithOffset(bookCode) {
+    return await this._ipcRenderer.call('db_isBookWithOffset', bookCode);
+  }
+
   async getLastMetaRecordUpdate() {
     return await this._ipcRenderer.call('db_getLastMetaRecordUpdate');
   }
