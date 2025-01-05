@@ -19,6 +19,7 @@
 const { html } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
+const VerseBox = require("../ui_models/verse_box.js");
 
 const template = html`
 <style>
@@ -49,6 +50,11 @@ const template = html`
 <div class="show-context-button fg-button ui-state-default ui-corner-all ui-state-disabled">
   <i class="fas fa-arrows-alt-v"></i><i class="fas fa-align-justify"></i>
   <span i18n="general.context"></span>
+</div>
+
+<div class="open-chapter-in-new-tab-button fg-button ui-state-default ui-corner-all ui-state-disabled">
+  <i class="fas fa-book-open"></i>
+  <span i18n="bible-browser.open-verse-in-new-tab"></span>
 </div>
 `;
 
@@ -110,6 +116,8 @@ class VerseContextMenu extends HTMLElement {
       } else {
         this.disableDeleteNoteButton();
       }
+
+      this.enableOpenChapterButton();
 
     } else {
       this.disableVerseButtons();
@@ -204,6 +212,18 @@ class VerseContextMenu extends HTMLElement {
     contextButton.classList.add('ui-state-disabled');
   }
 
+  enableOpenChapterButton() {
+    var verseContextMenu = document.getElementById('verse-context-menu');
+    var openChapterButton = verseContextMenu.querySelector('.open-chapter-in-new-tab-button');
+    openChapterButton.classList.remove('ui-state-disabled');
+  }
+
+  disableOpenChapterButton() {
+    var verseContextMenu = document.getElementById('verse-context-menu');
+    var openChapterButton = verseContextMenu.querySelector('.open-chapter-in-new-tab-button');
+    openChapterButton.classList.add('ui-state-disabled');
+  }
+
   initVerseContextButtons() {
     if (verseContextMenuInitDone) {
       return;
@@ -212,6 +232,7 @@ class VerseContextMenu extends HTMLElement {
     var verseContextMenu = document.getElementById('verse-context-menu');
     var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
     var deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
+    var openChapterButton = verseContextMenu.querySelector('.open-chapter-in-new-tab-button');
 
     editNoteButton.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -228,6 +249,45 @@ class VerseContextMenu extends HTMLElement {
       if (!event.target.classList.contains('ui-state-disabled')) {
         app_controller.hideAllMenus();
         app_controller.notes_controller.deleteVerseNotesForCurrentlySelectedVerse();
+      }
+    });
+
+    openChapterButton.addEventListener('click', async (event) => {
+      event.stopPropagation();
+
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        app_controller.hideAllMenus();
+        const selectedVerseBox = app_controller.verse_selection.getFirstSelectedVerseBox();
+
+        if (selectedVerseBox) {
+          const verseBox = new VerseBox(selectedVerseBox);
+          const book = verseBox.getBibleBookShortTitle();
+          const chapter = verseBox.getChapter();
+          const verse = verseBox.getVerseNumber();
+
+          await app_controller.tab_controller.addTab();
+          const newTab = app_controller.tab_controller.getTab();
+          newTab.setBook(book, book, book, chapter);
+
+          await app_controller.text_controller.requestTextUpdate(
+            newTab.elementId,
+            book,
+            null,
+            null,
+            null,
+            null,
+            null,
+            chapter,
+            true
+          );
+
+          const verseElement = document.querySelector(`#${newTab.elementId} .verse-nr-${verse}`);
+
+          if (verseElement) {
+            verseElement.scrollIntoView();
+            verseElement.querySelector('.verse-text-container').classList.add('ui-selected');
+          }
+        }
       }
     });
 
