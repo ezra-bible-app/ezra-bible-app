@@ -277,8 +277,8 @@ class VerseContextMenu extends HTMLElement {
                                                                                                book);
 
           await app_controller.text_controller.loadBook(book,
-                                                        bookLongTitle,
                                                         bookTitleTranslation,
+                                                        bookLongTitle,
                                                         instantLoad,
                                                         chapter);
 
