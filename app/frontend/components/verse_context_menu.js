@@ -61,7 +61,7 @@ const template = html`
   <span i18n="general.context"></span>
 </div>
 
-<div class="open-chapter-in-new-tab-button fg-button ui-state-default ui-corner-all ui-state-disabled">
+<div class="open-chapter-in-new-tab-button fg-button ui-state-default ui-corner-all">
   <i class="fas fa-arrow-up-right-from-square"></i>
   <span i18n="bible-browser.open-in-new-tab"></span>
 </div>
@@ -125,9 +125,6 @@ class VerseContextMenu extends HTMLElement {
       } else {
         this.disableDeleteNoteButton();
       }
-
-      this.enableOpenChapterButton();
-
     } else {
       this.disableVerseButtons();
     }
@@ -219,18 +216,6 @@ class VerseContextMenu extends HTMLElement {
     var verseContextMenu = document.getElementById('verse-context-menu');
     var contextButton = verseContextMenu.querySelector('.show-context-button');
     contextButton.classList.add('ui-state-disabled');
-  }
-
-  enableOpenChapterButton() {
-    var verseContextMenu = document.getElementById('verse-context-menu');
-    var openChapterButton = verseContextMenu.querySelector('.open-chapter-in-new-tab-button');
-    openChapterButton.classList.remove('ui-state-disabled');
-  }
-
-  disableOpenChapterButton() {
-    var verseContextMenu = document.getElementById('verse-context-menu');
-    var openChapterButton = verseContextMenu.querySelector('.open-chapter-in-new-tab-button');
-    openChapterButton.classList.add('ui-state-disabled');
   }
 
   initVerseContextButtons() {
