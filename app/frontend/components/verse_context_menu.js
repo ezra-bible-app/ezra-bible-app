@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html } = require('../helpers/ezra_helper.js');
+const { html, waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
@@ -279,6 +279,8 @@ class VerseContextMenu extends HTMLElement {
           await app_controller.tab_controller.addTab();
           const newTab = app_controller.tab_controller.getTab();
           newTab.setBook(book, bookLongTitle, bookTitleTranslation, chapter);
+          newTab.setBibleTranslationId(bibleTranslationId);
+          newTab.setSecondBibleTranslationId(secondBibleTranslationId);
 
           const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, secondBibleTranslationId, book);
 
@@ -294,7 +296,7 @@ class VerseContextMenu extends HTMLElement {
 
           if (verseTextContainer) {
             verseElement.scrollIntoView();
-            app_controller.verse_selection.setVerseAsSelection(verseTextContainer);
+            await app_controller.verse_selection.setVerseAsSelection(verseTextContainer);
           }
         }
       }
