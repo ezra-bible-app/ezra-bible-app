@@ -18,8 +18,10 @@
 
 const { html } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
 const VerseBox = require("../ui_models/verse_box.js");
+const i18nHelper = require('../helpers/i18n_helper.js');
 
 const template = html`
 <style>
@@ -260,32 +262,37 @@ class VerseContextMenu extends HTMLElement {
         const selectedVerseBox = app_controller.verse_selection.getFirstSelectedVerseBox();
 
         if (selectedVerseBox) {
+          const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+          const secondBibleTranslationId = app_controller.tab_controller.getTab().getSecondBibleTranslationId();
+
           const verseBox = new VerseBox(selectedVerseBox);
           const book = verseBox.getBibleBookShortTitle();
-          const chapter = verseBox.getChapter();
-          const verse = verseBox.getVerseNumber();
+          const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+          const chapter = verseBox.getChapter(separator);
+          const absoluteVerseNr = verseBox.getAbsoluteVerseNumber();
+
+          const bookLongTitle = await ipcDb.getBookLongTitle(book);
+          const bookTitleTranslation = await ipcDb.getBookTitleTranslation(book);
 
           await app_controller.tab_controller.addTab();
           const newTab = app_controller.tab_controller.getTab();
-          newTab.setBook(book, book, book, chapter);
+          newTab.setBook(book, bookLongTitle, bookTitleTranslation, chapter);
 
-          await app_controller.text_controller.requestTextUpdate(
-            newTab.elementId,
-            book,
-            null,
-            null,
-            null,
-            null,
-            null,
-            chapter,
-            true
-          );
+          const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, secondBibleTranslationId, book);
 
-          const verseElement = document.querySelector(`#${newTab.elementId} .verse-nr-${verse}`);
+          await app_controller.text_controller.loadBook(book,
+                                                        bookLongTitle,
+                                                        bookTitleTranslation,
+                                                        instantLoad,
+                                                        chapter);
 
-          if (verseElement) {
+          const verseList = verseListController.getCurrentVerseList()[0];
+          const verseElement = verseList.querySelector(`.verse-nr-${absoluteVerseNr}`);
+          const verseTextContainer = verseElement.querySelector('.verse-text-container');
+
+          if (verseTextContainer) {
             verseElement.scrollIntoView();
-            verseElement.querySelector('.verse-text-container').classList.add('ui-selected');
+            app_controller.verse_selection.setVerseAsSelection(verseTextContainer);
           }
         }
       }
