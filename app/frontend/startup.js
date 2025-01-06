@@ -141,7 +141,7 @@ class Startup {
     } else {
       // Development & Cordova/Android
 
-      console.log("Loading HTML files via Development / Cordova / Android aproach");
+      console.log("Loading HTML files via Development / Cordova / Android approach");
 
       // Note that for Cordova these readFileSync calls are all inlined, which means the content of those files
       // becomes part of the bundle when bundling up the sources with Browserify.
