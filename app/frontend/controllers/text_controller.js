@@ -886,6 +886,7 @@ class TextController {
     target.html(htmlVerseList);
 
     if (referenceVerseHtml != null) {
+      let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
       let referenceVerseContainer = verseListFrame.find('.reference-verse');
       referenceVerseContainer.html(referenceVerseHtml);
       let referenceVerseBox = referenceVerseContainer.find('.verse-box');
