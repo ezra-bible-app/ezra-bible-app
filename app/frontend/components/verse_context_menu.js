@@ -36,7 +36,7 @@ const template = html`
 
 @media screen and (max-width: 450px), (max-height: 450px) {
   /* Hide the open chapter in new tab button on mobile screens, because there are no tabs on those devices */
-  .open-chapter-in-new-tab-button {
+  .open-in-new-tab-button {
     display: none;
   }
 }
@@ -61,7 +61,7 @@ const template = html`
   <span i18n="general.context"></span>
 </div>
 
-<div class="open-chapter-in-new-tab-button fg-button ui-state-default ui-corner-all">
+<div class="open-in-new-tab-button fg-button ui-state-default ui-corner-all">
   <i class="fas fa-arrow-up-right-from-square"></i>
   <span i18n="bible-browser.open-in-new-tab"></span>
 </div>
@@ -223,10 +223,10 @@ class VerseContextMenu extends HTMLElement {
       return;
     }
 
-    var verseContextMenu = document.getElementById('verse-context-menu');
-    var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
-    var deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
-    var openChapterButton = verseContextMenu.querySelector('.open-chapter-in-new-tab-button');
+    const verseContextMenu = document.getElementById('verse-context-menu');
+    const editNoteButton = verseContextMenu.querySelector('.edit-note-button');
+    const deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
+    const openInNewTabButton = verseContextMenu.querySelector('.open-in-new-tab-button');
 
     editNoteButton.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -246,7 +246,7 @@ class VerseContextMenu extends HTMLElement {
       }
     });
 
-    openChapterButton.addEventListener('click', async (event) => {
+    openInNewTabButton.addEventListener('click', async (event) => {
       event.stopPropagation();
 
       if (!event.target.classList.contains('ui-state-disabled')) {
@@ -272,7 +272,9 @@ class VerseContextMenu extends HTMLElement {
           newTab.setBibleTranslationId(bibleTranslationId);
           newTab.setSecondBibleTranslationId(secondBibleTranslationId);
 
-          const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, secondBibleTranslationId, book);
+          const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId,
+                                                                                               secondBibleTranslationId,
+                                                                                               book);
 
           await app_controller.text_controller.loadBook(book,
                                                         bookLongTitle,
