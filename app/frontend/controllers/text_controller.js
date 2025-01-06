@@ -41,6 +41,11 @@ class TextController {
     loadScript("app/templates/verse_list.js");
     this.platformHelper = new PlatformHelper();
     this.verseReferenceHelper = new VerseReferenceHelper(ipcNsi);
+    this.textUpdateInProgress = false;
+  }
+
+  isTextUpdateInProgress() {
+    return this.textUpdateInProgress;
   }
 
   async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined) {
@@ -86,7 +91,7 @@ class TextController {
                                  instantLoad);
 
     await waitUntilIdle();
-    tags_controller.updateTagList(currentBook);
+    await tags_controller.updateTagList(currentBook);
   }
 
   async prepareForNewText(resetView, isSearch = false, tabIndex = undefined) {
@@ -164,6 +169,7 @@ class TextController {
                           searchResultBookId=-1,
                           target=undefined) {
 
+    this.textUpdateInProgress = true;
     var textType = app_controller.tab_controller.getTab(tabIndex).getTextType();
 
     if (searchResults != null) {
@@ -278,6 +284,8 @@ class TextController {
         );
       }
     }
+
+    this.textUpdateInProgress = false;
   }
 
   async loadOneBookChapter(tabIndex, tabId, book, chapter) {
@@ -878,7 +886,6 @@ class TextController {
     target.html(htmlVerseList);
 
     if (referenceVerseHtml != null) {
-      let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
       let referenceVerseContainer = verseListFrame.find('.reference-verse');
       referenceVerseContainer.html(referenceVerseHtml);
       let referenceVerseBox = referenceVerseContainer.find('.verse-box');

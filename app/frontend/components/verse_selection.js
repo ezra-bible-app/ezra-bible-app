@@ -212,7 +212,7 @@ class VerseSelection {
       let verseList = $(verseTextContainer.closest('.verse-list-content'));
 
       this.updateSelected(verseList);
-      this.updateViewsAfterVerseSelection();
+      await this.updateViewsAfterVerseSelection();
       await this.publishVersesSelected();
     }
   }

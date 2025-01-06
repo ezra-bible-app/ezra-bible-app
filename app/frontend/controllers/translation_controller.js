@@ -292,7 +292,9 @@ class TranslationController {
       const newBibleTranslationId = secondBibleBlock.querySelector('select.bible-select').value;
 
       setTimeout(() => {
-        eventController.publish('on-translation2-changed', {from: null, to: newBibleTranslationId});
+        if (!app_controller.text_controller.isTextUpdateInProgress()) {
+          eventController.publish('on-translation2-changed', {from: null, to: newBibleTranslationId});
+        }
       }, 50);
     } else {
       secondBibleBlock.style.display = 'none';
