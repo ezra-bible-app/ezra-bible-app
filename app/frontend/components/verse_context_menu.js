@@ -262,12 +262,14 @@ class VerseContextMenu extends HTMLElement {
         const selectedVerseBox = app_controller.verse_selection.getFirstSelectedVerseBox();
 
         if (selectedVerseBox) {
-          const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-          const secondBibleTranslationId = app_controller.tab_controller.getTab().getSecondBibleTranslationId();
+          const tab = app_controller.tab_controller.getTab();
+          const bibleTranslationId = tab.getBibleTranslationId();
+          const secondBibleTranslationId = tab.getSecondBibleTranslationId();
 
           const verseBox = new VerseBox(selectedVerseBox);
           const book = verseBox.getBibleBookShortTitle();
           const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+
           const chapter = verseBox.getChapter(separator);
           const absoluteVerseNr = verseBox.getAbsoluteVerseNumber();
 
