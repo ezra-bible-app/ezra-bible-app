@@ -276,9 +276,7 @@ class VerseContextMenu extends HTMLElement {
           const bookLongTitle = await ipcDb.getBookLongTitle(book);
           const bookTitleTranslation = await ipcDb.getBookTitleTranslation(book);
 
-          await app_controller.tab_controller.addTab();
-          const newTab = app_controller.tab_controller.getTab();
-          newTab.setBook(book, bookLongTitle, bookTitleTranslation, chapter);
+          const newTab = await app_controller.tab_controller.addTab();
           newTab.setBibleTranslationId(bibleTranslationId);
           newTab.setSecondBibleTranslationId(secondBibleTranslationId);
 
