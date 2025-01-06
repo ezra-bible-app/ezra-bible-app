@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html, waitUntilIdle } = require('../helpers/ezra_helper.js');
+const { html } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
@@ -55,8 +55,8 @@ const template = html`
 </div>
 
 <div class="open-chapter-in-new-tab-button fg-button ui-state-default ui-corner-all ui-state-disabled">
-  <i class="fas fa-book-open"></i>
-  <span i18n="bible-browser.open-verse-in-new-tab"></span>
+  <i class="fas fa-arrow-up-right-from-square"></i>
+  <span i18n="bible-browser.open-in-new-tab"></span>
 </div>
 `;
 
