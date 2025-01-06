@@ -607,6 +607,8 @@ class TabController {
     if (!initialLoading) {
       await eventController.publish('on-tab-added', newTabIndex);
     }
+
+    return metaTab;
   }
 
   removeTab(event) {
