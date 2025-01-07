@@ -213,25 +213,27 @@ class WordStudyController {
     /**@type {HTMLElement}*/
     const currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex)[0];
 
-    const wElements = currentVerseListFrame.querySelectorAll('w');
+    if (currentVerseListFrame != null) {
+      const wElements = currentVerseListFrame.querySelectorAll('w');
 
-    for (let i = 0; i < wElements.length; i++) {
-      let wElement = wElements[i];
+      for (let i = 0; i < wElements.length; i++) {
+        let wElement = wElements[i];
 
-      wElement.classList.remove('strongs-hl');
+        wElement.classList.remove('strongs-hl');
 
-      wElement.addEventListener('mousemove', async (e) => {
-        const reference = this.getReferenceFromVerseText(wElement.closest('.verse-text'));
+        wElement.addEventListener('mousemove', async (e) => {
+          const reference = this.getReferenceFromVerseText(wElement.closest('.verse-text'));
 
-        let currentTab = app_controller.tab_controller.getTab();
-        currentTab.tab_search.blurInputField();
+          let currentTab = app_controller.tab_controller.getTab();
+          currentTab.tab_search.blurInputField();
 
-        if (platformHelper.isCordova() || reference != this._lastClickedReference) {
-          await this._handleMouseMove(e);
-        }
-      });
+          if (platformHelper.isCordova() || reference != this._lastClickedReference) {
+            await this._handleMouseMove(e);
+          }
+        });
 
-      this.initStrongsSup(wElement);
+        this.initStrongsSup(wElement);
+      }
     }
   }
 
