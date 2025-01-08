@@ -266,7 +266,7 @@ class VerseBoxHelper {
         let currentVerseBox = $(currentVerseElements[j]);
         let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
         let currentVerseNr = verseReferenceContent.split(referenceSeparator)[1];
-        let currentText = currentVerseBox.find('.first-bible-text').clone();
+        let currentText = currentVerseBox.find('.verse-text').last().clone();
 
         if (paragraphsOption.isChecked && j < currentVerseElements.length - 1) {
           let paragraphBreaks = this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html) + this.getLineBreak(html);
