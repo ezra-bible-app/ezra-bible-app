@@ -1,7 +1,17 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
-## [1.16.1 - 2025-04-01]
+## [1.16.2 - 2025-01-xx]
+
+### Fixes
+
+* Text selection of verses does not work anymore. ([#1187][i1187])
+* Copying verses from translation comparison panel does not work anymore. ([#1191][i1191])
+
+[i1187]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1187
+[i1191]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1191
+
+## [1.16.1 - 2025-01-04]
 
 ### Fixes
 
