@@ -298,7 +298,7 @@ class AppController {
     Mousetrap.bind('enter', () => {
       let currentTab = app_controller.tab_controller.getTab();
 
-      if (currentTab.tab_search != null) {
+      if (currentTab != null && currentTab.tab_search != null) {
         // We need to notify the TabSearch component that there has been a mouse trap event.
         // This is to avoid double event processing, because the TabSearch also listens for key press events.
         currentTab.tab_search.mouseTrapEvent = true;
