@@ -30,7 +30,7 @@ class IpcDbHandler {
     this.platformHelper = new PlatformHelper();
     this.dbDir = null;
     // eslint-disable-next-line no-undef
-    this._config = ipc.ipcSettingsHandler.getConfig();
+    this._config = global.ipc.ipcSettingsHandler.getConfig();
     this._dropboxSyncTimeout = null;
     this._dropboxSyncInProgress = false;
     this._dropboxAccessUpgradeNeeded = false;
