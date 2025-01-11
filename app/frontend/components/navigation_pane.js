@@ -652,31 +652,33 @@ class NavigationPane {
 
     const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
-    if (currentTextType == 'book' && currentBook != null) {
+    if (verseBox != null) {
+      if (currentTextType == 'book' && currentBook != null) {
 
-      var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
-      var currentChapter = this.verse_reference_helper.getChapterFromReference(verseReferenceContent, separator);
-      this.highlightNavElement(undefined, currentChapter, isInstantLoadingBook);
+        var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
+        var currentChapter = this.verse_reference_helper.getChapterFromReference(verseReferenceContent, separator);
+        this.highlightNavElement(undefined, currentChapter, isInstantLoadingBook);
 
-      var sectionTitle = "";
-      if (focussedElement.classList.contains('sword-section-title')) {
-        sectionTitle = focussedElement.innerText;
-      } else {
-        sectionTitle = this.verse_box_helper.getSectionTitleFromVerseBox(verseBox);
-      }
+        var sectionTitle = "";
+        if (focussedElement.classList.contains('sword-section-title')) {
+          sectionTitle = focussedElement.innerText;
+        } else {
+          sectionTitle = this.verse_box_helper.getSectionTitleFromVerseBox(verseBox);
+        }
 
-      if (sectionTitle != null) {
-        this.highlightSectionHeaderByTitle(sectionTitle);
-      }
+        if (sectionTitle != null) {
+          this.highlightSectionHeaderByTitle(sectionTitle);
+        }
 
-    } else if (currentTab.isVerseList()) {
+      } else if (currentTab.isVerseList()) {
 
-      var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
-      var currentBookName = await ipcDb.getBookTitleTranslation(bibleBookShortTitle);
-      
-      var bibleBookNumber = verseListController.getVerseListBookNumber(currentBookName);
-      if (bibleBookNumber != -1) {
-        this.highlightNavElement(undefined, bibleBookNumber, false, "OTHER");
+        var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
+        var currentBookName = await ipcDb.getBookTitleTranslation(bibleBookShortTitle);
+        
+        var bibleBookNumber = verseListController.getVerseListBookNumber(currentBookName);
+        if (bibleBookNumber != -1) {
+          this.highlightNavElement(undefined, bibleBookNumber, false, "OTHER");
+        }
       }
     }
   }
