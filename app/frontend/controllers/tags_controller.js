@@ -101,16 +101,14 @@ class TagsController {
       await this.handleTagPanelSwitched(isOpen);
     });
 
-    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+    eventController.subscribePrioritized('on-tab-selected', async (tabIndex) => {
       const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
       if (currentTab != null) {
         // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
         this.verses_were_selected_before = true;
 
-        if (this.tagPanelIsActive()) {
-          await this.updateTagsView(tabIndex, !this.initialRenderingDone);
-        }
+        await this.updateTagsView(tabIndex, !this.initialRenderingDone);
 
         if (currentTab.addedInteractively) {
           this.resetActivePanelToTagPanel(tabIndex);
