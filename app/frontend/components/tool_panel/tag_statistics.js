@@ -25,12 +25,17 @@ class TagStatistics {
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
       this.disableIfNeeded(tabIndex);
-      this.clearTagStatisticsPanel(tabIndex);
+      this.clearTagStatisticsPanelIfNeeded(tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {
       this.disableIfNeeded(tabIndex);
-      this.clearTagStatisticsPanel(tabIndex);
+
+      if (this.getContentBox().style.display == 'none') {
+        this.clearTagStatisticsPanelIfNeeded(tabIndex);
+      } else {
+        this.showTagStatistics();
+      }
     });
 
     eventController.subscribeMultiple(['on-tag-deleted', 'on-latest-tag-changed'], async () => {
@@ -61,7 +66,7 @@ class TagStatistics {
     await this.updateBookTagStatistics();
   }
 
-  clearTagStatisticsPanel(tabIndex) {
+  clearTagStatisticsPanelIfNeeded(tabIndex) {
     var tab = app_controller.tab_controller.getTab(tabIndex);
 
     if (tab.getTextType() != 'book') {

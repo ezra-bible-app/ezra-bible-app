@@ -231,7 +231,7 @@ class TagGroupList extends HTMLElement {
     });
 
     if (this._bookFilter) {
-      eventController.subscribe('on-verse-list-init', async (tabIndex) => {
+      eventController.subscribeMultiple(['on-verse-list-init', 'on-tab-selected'], async (tabIndex) => {
         const currentBook = this.getCurrentBook(tabIndex);
 
         if (currentBook != null) {
