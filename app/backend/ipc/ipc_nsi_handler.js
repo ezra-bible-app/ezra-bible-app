@@ -46,7 +46,11 @@ class IpcNsiHandler {
     this._nsi.enableMarkup();
 
     if (this._platformHelper.isElectron()) {
-      this._nsi.enableStrongsWithNbsp();
+      // Enable strongs with non-breaking space for Electron.
+      // Check first if the method exists, since it was not available in earlier versions of node-sword-interface.
+      if (this._nsi.enableStrongsWithNbsp != null) {
+        this._nsi.enableStrongsWithNbsp();
+      }
     }
   }
 
