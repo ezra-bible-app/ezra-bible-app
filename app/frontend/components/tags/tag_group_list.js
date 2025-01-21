@@ -107,6 +107,9 @@ const template = html`
 
 </style>
 
+<!-- CUSTOM STYLES -->
+<link id="custom-theme-css" href="css/custom-regular-theme.css" media="screen" rel="stylesheet" type="text/css" />
+
 <div id="tag-group-list-content" class="scrollable" style="display: none;">
 </div>
 `;

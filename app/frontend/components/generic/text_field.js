@@ -62,7 +62,10 @@ const template = html`
   }
 
 </style>
- 
+
+<!-- CUSTOM STYLES -->
+<link id="custom-theme-css" href="css/custom-regular-theme.css" media="screen" rel="stylesheet" type="text/css" />
+
 <div id="text-field">
   <input type="text" id="input" inputmode="search" />
   <i id="delete-button" class="fa-solid fa-delete-left"></i>

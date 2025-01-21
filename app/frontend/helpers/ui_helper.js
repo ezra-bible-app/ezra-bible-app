@@ -235,11 +235,19 @@ class UiHelper {
   }
 
   switchToTheme(docObject, appTheme, customTheme) {
-    let currentAppTheme = docObject.getElementById("theme-css").href;
+    const themeCss = docObject.getElementById("theme-css");
+    const customThemeCss = docObject.getElementById("custom-theme-css");
+
+    let currentAppTheme = themeCss.href;
   
     if (currentAppTheme.indexOf(appTheme) == -1) { // Only switch the theme if it is different from the current theme
-      docObject.getElementById("theme-css").href = appTheme;
-      docObject.getElementById("custom-theme-css").href = customTheme;
+      if (themeCss != null) {
+        themeCss.href = appTheme;
+      }
+
+      if (customThemeCss != null) {
+        customThemeCss.href = customTheme;
+      }
     }
   }
 
