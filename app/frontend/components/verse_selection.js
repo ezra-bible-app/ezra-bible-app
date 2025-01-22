@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -202,17 +202,17 @@ class VerseSelection {
     return this.selectedVerseBoxElements.length > 0;
   }
 
-  async setVerseAsSelection(verseText) {
-    if (verseText != null) {
+  async setVerseAsSelection(verseTextContainer) {
+    if (verseTextContainer != null) {
       this.clearVerseSelection(false, undefined);
-      verseText.classList.add('ui-selected');
-      verseText.classList.add('ui-selectee');
-      this.selectedVerseBoxElements.push(verseText);
+      verseTextContainer.classList.add('ui-selected');
+      verseTextContainer.classList.add('ui-selectee');
+      this.selectedVerseBoxElements.push(verseTextContainer);
 
-      let verseList = $(verseText.closest('.verse-list-content'));
+      let verseList = $(verseTextContainer.closest('.verse-list-content'));
 
       this.updateSelected(verseList);
-      this.updateViewsAfterVerseSelection();
+      await this.updateViewsAfterVerseSelection();
       await this.publishVersesSelected();
     }
   }

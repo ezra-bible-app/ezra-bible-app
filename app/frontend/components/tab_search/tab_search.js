@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -275,7 +275,7 @@ class TabSearch {
     if (this.previousOccuranceElement != null) {
       this.previousOccuranceElement.classList.remove('current-hl');
       let closestVerseBox = this.previousOccuranceElement.closest('.verse-box');
-      if (closestVerseBox != null) closestVerseBox.querySelector('.verse-text').classList.remove('ui-selected');
+      if (closestVerseBox != null) closestVerseBox.querySelector('.verse-text-container').classList.remove('ui-selected');
       app_controller.verse_selection.clearVerseSelection(false);
     }
 
@@ -285,7 +285,7 @@ class TabSearch {
       let verseBox = this.currentOccuranceElement.closest('.verse-box');
 
       if (verseBox != null) {
-        verseBox.querySelector('.verse-text').classList.add('ui-selected');
+        verseBox.querySelector('.verse-text-container').classList.add('ui-selected');
         app_controller.verse_selection.updateSelected();
         app_controller.verse_selection.updateViewsAfterVerseSelection();
         await app_controller.navigation_pane.updateNavigationFromVerseBox(this.currentOccuranceElement, verseBox);

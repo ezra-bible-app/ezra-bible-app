@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -292,6 +292,7 @@ class TabController {
       } else {
 
         const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentMetaTab.getBibleTranslationId(),
+                                                                                                      currentMetaTab.getSecondBibleTranslationId(),
                                                                                                       currentMetaTab.getBook());
 
         await app_controller.text_controller.requestTextUpdate(
@@ -606,6 +607,8 @@ class TabController {
     if (!initialLoading) {
       await eventController.publish('on-tab-added', newTabIndex);
     }
+
+    return metaTab;
   }
 
   removeTab(event) {
@@ -969,7 +972,7 @@ class TabController {
       // We set the previous book to the current book. This will be used in NavigationPane to avoid reloading the chapter list.
       currentTab.setPreviousBook(currentTab.getBook());
 
-      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getBook());
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getSecondBibleTranslationId(), currentTab.getBook());
     }
 
     app_controller.commentaryPanel.setRefreshBlocked(true);

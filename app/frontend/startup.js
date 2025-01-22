@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -141,7 +141,7 @@ class Startup {
     } else {
       // Development & Cordova/Android
 
-      console.log("Loading HTML files via Development / Cordova / Android aproach");
+      console.log("Loading HTML files via Development / Cordova / Android approach");
 
       // Note that for Cordova these readFileSync calls are all inlined, which means the content of those files
       // becomes part of the bundle when bundling up the sources with Browserify.

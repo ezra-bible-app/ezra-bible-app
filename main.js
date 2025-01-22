@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,6 +38,9 @@ function initGlobals() {
   // be closed automatically when the JavaScript object is garbage collected.
   global.mainWindow = null;
   global.mainWindowState = null;
+
+  // Flag used to determine if the app is ready to create windows
+  global.appIsReady = false;
 
   // Disable security warnings
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
@@ -302,6 +305,8 @@ function initAppEventHandlers() {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', async () => {
+    global.appIsReady = true;
+
     appReady();
   });
 
@@ -326,7 +331,7 @@ function initAppEventHandlers() {
   app.on('activate', async () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (global.mainWindow === null) {
+    if (global.mainWindow === null && global.appIsReady) {
       await createWindow(false);
     }
   });

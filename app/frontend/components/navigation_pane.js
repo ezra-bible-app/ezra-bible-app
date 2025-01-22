@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -515,7 +515,8 @@ class NavigationPane {
       await this.updateChapterTagIndicators(tabIndex, force);
 
       const currentTranslationId = currentTab.getBibleTranslationId();
-      const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
+      const secondBibleTranslationId = currentTab.getSecondBibleTranslationId();
+      const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, secondBibleTranslationId, currentTab.getBook());
       const selectChapterBeforeLoadingOption = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
 
       if (isInstantLoadingBook && selectChapterBeforeLoadingOption.isChecked) {
@@ -577,6 +578,7 @@ class NavigationPane {
     const currentTab = app_controller.tab_controller.getTab();
     const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
       currentTab.getBibleTranslationId(),
+      currentTab.getSecondBibleTranslationId(),
       currentTab.getBook()
     );
 
@@ -609,6 +611,7 @@ class NavigationPane {
     const currentChapter = currentTab.getChapter();
     const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
       currentTab.getBibleTranslationId(),
+      currentTab.getSecondBibleTranslationId(),
       currentTab.getBook()
     );
 
@@ -639,8 +642,9 @@ class NavigationPane {
     const currentTab = app_controller.tab_controller.getTab();
     const currentBook = currentTab.getBook();
     const currentTextType = currentTab.getTextType();
-    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, currentBook);
+    const bibleTranslationId = currentTab.getBibleTranslationId();
+    const secondBibleTranslationId = currentTab.getSecondBibleTranslationId();
+    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, secondBibleTranslationId, currentBook);
 
     if (verseBox == undefined) {
       verseBox = focussedElement.closest('.verse-box');
@@ -648,31 +652,33 @@ class NavigationPane {
 
     const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
-    if (currentTextType == 'book' && currentBook != null) {
+    if (verseBox != null) {
+      if (currentTextType == 'book' && currentBook != null) {
 
-      var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
-      var currentChapter = this.verse_reference_helper.getChapterFromReference(verseReferenceContent, separator);
-      this.highlightNavElement(undefined, currentChapter, isInstantLoadingBook);
+        var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
+        var currentChapter = this.verse_reference_helper.getChapterFromReference(verseReferenceContent, separator);
+        this.highlightNavElement(undefined, currentChapter, isInstantLoadingBook);
 
-      var sectionTitle = "";
-      if (focussedElement.classList.contains('sword-section-title')) {
-        sectionTitle = focussedElement.innerText;
-      } else {
-        sectionTitle = this.verse_box_helper.getSectionTitleFromVerseBox(verseBox);
-      }
+        var sectionTitle = "";
+        if (focussedElement.classList.contains('sword-section-title')) {
+          sectionTitle = focussedElement.innerText;
+        } else {
+          sectionTitle = this.verse_box_helper.getSectionTitleFromVerseBox(verseBox);
+        }
 
-      if (sectionTitle != null) {
-        this.highlightSectionHeaderByTitle(sectionTitle);
-      }
+        if (sectionTitle != null) {
+          this.highlightSectionHeaderByTitle(sectionTitle);
+        }
 
-    } else if (currentTab.isVerseList()) {
+      } else if (currentTab.isVerseList()) {
 
-      var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
-      var currentBookName = await ipcDb.getBookTitleTranslation(bibleBookShortTitle);
-      
-      var bibleBookNumber = verseListController.getVerseListBookNumber(currentBookName);
-      if (bibleBookNumber != -1) {
-        this.highlightNavElement(undefined, bibleBookNumber, false, "OTHER");
+        var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
+        var currentBookName = await ipcDb.getBookTitleTranslation(bibleBookShortTitle);
+        
+        var bibleBookNumber = verseListController.getVerseListBookNumber(currentBookName);
+        if (bibleBookNumber != -1) {
+          this.highlightNavElement(undefined, bibleBookNumber, false, "OTHER");
+        }
       }
     }
   }

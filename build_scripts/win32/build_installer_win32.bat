@@ -1,4 +1,3 @@
-call npm run install-node-prune-win
 call npm run prune-node-modules
 call npm run package-win
 call npm run fix-binary-timestamps

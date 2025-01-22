@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -376,8 +376,9 @@ module.exports.initNavigationEvents = async function() {
 module.exports.handleNavigation = async function(direction, isSwipe=false) {
   let currentTab = app_controller.tab_controller.getTab();
   const currentTranslationId = currentTab.getBibleTranslationId();
+  const secondBibleTranslationId = currentTab.getSecondBibleTranslationId();
   const currentBook = currentTab.getBook();
-  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentBook);
+  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, secondBibleTranslationId, currentBook);
 
   if (isInstantLoadingBook) {
 
@@ -433,7 +434,8 @@ module.exports.goToNextChapter = async function() {
 module.exports.updateVerseListClasses = async function(tabIndex=undefined) {
   let currentTab = app_controller.tab_controller.getTab(tabIndex);
   const currentTranslationId = currentTab.getBibleTranslationId();
-  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
+  const secondBibleTranslationId = currentTab.getSecondBibleTranslationId();
+  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, secondBibleTranslationId, currentTab.getBook());
   const moduleIsRightToLeft = await swordModuleHelper.moduleIsRTL(currentTranslationId);
 
   let currentVerseList = this.getCurrentVerseList(tabIndex);

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -46,7 +46,11 @@ class IpcNsiHandler {
     this._nsi.enableMarkup();
 
     if (this._platformHelper.isElectron()) {
-      this._nsi.enableStrongsWithNbsp();
+      // Enable strongs with non-breaking space for Electron.
+      // Check first if the method exists, since it was not available in earlier versions of node-sword-interface.
+      if (this._nsi.enableStrongsWithNbsp != null) {
+        this._nsi.enableStrongsWithNbsp();
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,10 @@
 
 const { html } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
+const VerseBox = require("../ui_models/verse_box.js");
+const i18nHelper = require('../helpers/i18n_helper.js');
 
 const template = html`
 <style>
@@ -29,6 +32,13 @@ const template = html`
 
 #verse-context-menu .fg-button .fas {
   margin-right: 0.3em;
+}
+
+@media screen and (max-width: 450px), (max-height: 450px) {
+  /* Hide the open chapter in new tab button on mobile screens, because there are no tabs on those devices */
+  .open-in-new-tab-button {
+    display: none;
+  }
 }
 </style>
 
@@ -49,6 +59,11 @@ const template = html`
 <div class="show-context-button fg-button ui-state-default ui-corner-all ui-state-disabled">
   <i class="fas fa-arrows-alt-v"></i><i class="fas fa-align-justify"></i>
   <span i18n="general.context"></span>
+</div>
+
+<div class="open-in-new-tab-button fg-button ui-state-default ui-corner-all">
+  <i class="fas fa-arrow-up-right-from-square"></i>
+  <span i18n="bible-browser.open-in-new-tab"></span>
 </div>
 `;
 
@@ -110,7 +125,6 @@ class VerseContextMenu extends HTMLElement {
       } else {
         this.disableDeleteNoteButton();
       }
-
     } else {
       this.disableVerseButtons();
     }
@@ -209,9 +223,10 @@ class VerseContextMenu extends HTMLElement {
       return;
     }
 
-    var verseContextMenu = document.getElementById('verse-context-menu');
-    var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
-    var deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
+    const verseContextMenu = document.getElementById('verse-context-menu');
+    const editNoteButton = verseContextMenu.querySelector('.edit-note-button');
+    const deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
+    const openInNewTabButton = verseContextMenu.querySelector('.open-in-new-tab-button');
 
     editNoteButton.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -228,6 +243,54 @@ class VerseContextMenu extends HTMLElement {
       if (!event.target.classList.contains('ui-state-disabled')) {
         app_controller.hideAllMenus();
         app_controller.notes_controller.deleteVerseNotesForCurrentlySelectedVerse();
+      }
+    });
+
+    openInNewTabButton.addEventListener('click', async (event) => {
+      event.stopPropagation();
+
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        app_controller.hideAllMenus();
+        const selectedVerseBox = app_controller.verse_selection.getFirstSelectedVerseBox();
+
+        if (selectedVerseBox) {
+          const tab = app_controller.tab_controller.getTab();
+          const bibleTranslationId = tab.getBibleTranslationId();
+          const secondBibleTranslationId = tab.getSecondBibleTranslationId();
+
+          const verseBox = new VerseBox(selectedVerseBox);
+          const book = verseBox.getBibleBookShortTitle();
+          const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+
+          const chapter = verseBox.getChapter(separator);
+          const absoluteVerseNr = verseBox.getAbsoluteVerseNumber();
+
+          const bookLongTitle = await ipcDb.getBookLongTitle(book);
+          const bookTitleTranslation = await ipcDb.getBookTitleTranslation(book);
+
+          const newTab = await app_controller.tab_controller.addTab();
+          newTab.setBibleTranslationId(bibleTranslationId);
+          newTab.setSecondBibleTranslationId(secondBibleTranslationId);
+
+          const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId,
+                                                                                               secondBibleTranslationId,
+                                                                                               book);
+
+          await app_controller.text_controller.loadBook(book,
+                                                        bookTitleTranslation,
+                                                        bookLongTitle,
+                                                        instantLoad,
+                                                        chapter);
+
+          const verseList = verseListController.getCurrentVerseList()[0];
+          const verseElement = verseList.querySelector(`.verse-nr-${absoluteVerseNr}`);
+          const verseTextContainer = verseElement.querySelector('.verse-text-container');
+
+          if (verseTextContainer) {
+            verseElement.scrollIntoView();
+            await app_controller.verse_selection.setVerseAsSelection(verseTextContainer);
+          }
+        }
       }
     });
 

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -224,11 +224,22 @@ class CommentaryPanel {
     });
 
     let accordionButtons = this.getBoxContent().querySelectorAll('.commentary-accordion-button');
-    accordionButtons.forEach((button) => {
+
+    accordionButtons.forEach(async (button) => {
+      let moduleCode = button.closest('.commentary').getAttribute('module-context');
+
+      // Check if the commentary is collapsed in the settings
+      const isCollapsedInSettings = await ipcSettings.get(`commentaryCollapsed.${moduleCode}`, false);
+
+      if (isCollapsedInSettings) {
+        button.classList.remove('fa-circle-chevron-down');
+        button.classList.add('fa-circle-chevron-right');
+        button.closest('.commentary').querySelector('.commentary-content').style.display = 'none';
+      }
+
       button.addEventListener('click', (event) => {
         event.preventDefault();
         event.stopPropagation();
-
         this.handleAccordionButtonClick(event.target);
       });
     });
@@ -284,9 +295,10 @@ class CommentaryPanel {
     uiHelper.showSuccessMessage(i18n.t('commentary-panel.copy-commentary-to-clipboard-success'));
   }
 
-  handleAccordionButtonClick(button) {
+  async handleAccordionButtonClick(button) {
     let commentary = button.closest('.commentary');
     let commentaryContent = commentary.querySelector('.commentary-content');
+    let moduleCode = commentary.getAttribute('module-context');
 
     let isCollapsed = commentaryContent.style.display == 'none';
 
@@ -295,11 +307,16 @@ class CommentaryPanel {
         button.classList.remove('fa-circle-chevron-right');
         button.classList.add('fa-circle-chevron-down');
       });
+
+      await ipcSettings.set(`commentaryCollapsed.${moduleCode}`, false);
+
     } else {
       $(commentaryContent).slideUp(400, () => {
         button.classList.remove('fa-circle-chevron-down');
         button.classList.add('fa-circle-chevron-right');
       });
+
+      await ipcSettings.set(`commentaryCollapsed.${moduleCode}`, true);
     }
   }
 

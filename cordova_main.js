@@ -123,7 +123,7 @@ class Main {
 
   initStorage(androidVersion=undefined) {
     const fs = require('fs');
-    var path = this.platformHelper.getUserDataPath(false, androidVersion);
+    var path = this.platformHelper.getUserDataPath(androidVersion);
 
     if (!fs.existsSync(path)) {
       console.log("Creating data directory for app at " + path);

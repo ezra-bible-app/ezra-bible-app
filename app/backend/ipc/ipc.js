@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ class IPC {
         this.ipcSettingsHandler = new IpcSettingsHandler(androidVersion);
 
         if (androidVersion !== undefined && androidVersion >= 11) {
-          customSwordDir = this.platformHelper.getUserDataPath(false, androidVersion);
+          customSwordDir = this.platformHelper.getUserDataPath(androidVersion);
         }
 
         global.sendCrashReports = this.ipcSettingsHandler.getConfig().get('sendCrashReports', true);
@@ -88,7 +88,10 @@ class IPC {
   }
 
   async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {
-    global.ipcDbHandler = new IpcDbHandler();
+    if (global.ipcDbHandler == null) {
+      global.ipcDbHandler = new IpcDbHandler();
+    }
+
     let returnCode = await global.ipcDbHandler.initDatabase(isDebug, androidVersion, connectionType);
     return returnCode;
   }

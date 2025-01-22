@@ -1,11 +1,39 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.16.2 - 2025-01-xx]
+
+### Fixes
+
+* Text selection of verses does not work anymore. ([#1187][i1187])
+* Copying verses from translation comparison panel does not work anymore. ([#1191][i1191])
+
+[i1187]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1187
+[i1191]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1191
+
+## [1.16.1 - 2025-01-04]
+
+### Fixes
+
+* Parallel translation does not appear in x-refs tab. ([#1177][i1177])
+* When loading context verses in current tab, existing verses from other tabs are removed. ([#1178][i1178])
+* Too many verses loaded when loading context verses. ([#1179][i1179])
+* Copy/paste only pulls verse numbers. ([#1180][i1180])
+* Verses are not selected correctly by tab search functionality. ([#1181][i1181])
+* Versification mapping not correctly working for parallel translations in "full book mode". ([#1183][i1183])
+
+[i1177]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1177
+[i1178]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1178
+[i1179]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1179
+[i1180]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1180
+[i1181]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1181
+[i1183]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1183
+
 ## [1.16.0 - 2024-12-30]
 
 ### Features
 
-* Add support for dictionaries like Nave's, Thompson Chain References, Vine. ([#1152][i1152])
+* Add support for dictionaries like Nave's, Thompson Chain References, Vine. ([#1142][i1142])
 * Bible browser: Parallel translation mode. ([#30][i30])
 
 ### Enhancements
@@ -38,6 +66,14 @@ All notable changes to Ezra Bible App are documented in this file.
 * Add package for CentOS 9. ([#1148][i1148])
 * Add package for OpenSuse Leap 15.5 (to replace 15.2). ([#1149][i1149])
 * Add package for OpenSuse Leap 15.6. ([#1151][i1151])
+* Upgrade Android base technology:
+  - Upgrade from Cordova 7 to Cordova 12
+  - Upgrade from Cordova Android 6.4 to [13.0](https://cordova.apache.org/announcements/2024/05/23/cordova-android-13.0.0.html)
+  - Upgrade nodejs-mobile-cordova from the last version that was maintained by Janea Systems to a [new version](https://github.com/okhiroyuki/nodejs-mobile-cordova) based on a [community fork of nodejs-mobile](https://github.com/nodejs-mobile/nodejs-mobile).
+  - Make changes in the Build environment for ezra-bible-app-cordova:
+    - Move to a new Java version (from 8 to 17)
+    - Move to a new Gradle version (from 6.7.1 to 7.6)
+    - Move to a new Android NDK (from 21.3 to 27.2)
 
 [i30]: https://github.com/ezra-bible-app/ezra-bible-app/issues/30
 [i1044]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1044
@@ -54,12 +90,12 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1139]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1139
 [i1140]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1140
 [i1141]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1141
+[i1142]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1142
 [i1143]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1143
 [i1147]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1147
 [i1148]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1148
 [i1149]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1149
 [i1151]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1151
-[i1152]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1152
 [i1160]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1160
 [i1162]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1162
 [i1167]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1167

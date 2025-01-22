@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ class IpcSettingsHandler {
         configName: configName,
       };
 
-      const userDataPath = this.platformHelper.getUserDataPath(false, this._androidVersion);
+      const userDataPath = this.platformHelper.getUserDataPath(this._androidVersion);
       console.log(`Working with userDataPath ${userDataPath}`);
 
       if (!fs.existsSync(userDataPath)) {

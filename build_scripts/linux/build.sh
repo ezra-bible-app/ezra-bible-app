@@ -5,7 +5,6 @@ npm install
 npm run compile-pug
 npm run add-github-workspace-to-safe-git-dirs
 npm run commit-info
-npm run install-node-prune
 npm i node-pre-gyp
 #npm run rebuild
 npm run prune-node-modules

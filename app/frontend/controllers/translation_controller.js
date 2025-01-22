@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -292,7 +292,9 @@ class TranslationController {
       const newBibleTranslationId = secondBibleBlock.querySelector('select.bible-select').value;
 
       setTimeout(() => {
-        eventController.publish('on-translation2-changed', {from: null, to: newBibleTranslationId});
+        if (!app_controller.text_controller.isTextUpdateInProgress()) {
+          eventController.publish('on-translation2-changed', {from: null, to: newBibleTranslationId});
+        }
       }, 50);
     } else {
       secondBibleBlock.style.display = 'none';
@@ -369,8 +371,15 @@ class TranslationController {
     }
   }
 
-  async isInstantLoadingBook(bibleTranslationId, bookCode) {
+  async isInstantLoadingBook(bibleTranslationId, secondBibleTranslationId, bookCode) {
     if (bibleTranslationId == null || bookCode == null) {
+      return false;
+    }
+
+    const isBookWithOffset = await ipcDb.isBookWithOffset(bookCode);
+
+    // If we have a second bible translation and the book is with offset, we don't want to load the book instantly
+    if (secondBibleTranslationId != null && secondBibleTranslationId != "" && isBookWithOffset) {
       return false;
     }
 

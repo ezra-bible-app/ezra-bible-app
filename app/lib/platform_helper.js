@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -238,7 +238,7 @@ class PlatformHelper {
     }
   }
 
-  getUserDataPath(getOldPath=false, androidVersion=undefined) {
+  getUserDataPath(androidVersion=undefined) {
     if (this.isElectron()) {
 
       const { app } = require('electron');
@@ -253,29 +253,23 @@ class PlatformHelper {
       }
 
       let appName = null;
-      let newAppName = null;
 
       if (pjson == null) {
         // This happened on Windows before (see the exception catching above!);
-        newAppName = 'ezra-bible-app';
+        appName = 'ezra-bible-app';
 
       } else if (this.isWin()) {
         // On Windows we use productName (containing spaces) for the user data path.
-        newAppName = pjson.productName; 
+        appName = pjson.productName; 
 
       } else {
         // On other platforms we use the name attribute, which is more unix-style.
-        newAppName = pjson.name;
+        appName = pjson.name;
       }
-
-      let oldName = 'ezra-project';
 
       if (this.isTest()) {
-        oldName += '-test';
-        newAppName += '-test';
+        appName += '-test';
       }
-
-      appName = getOldPath ? oldName : newAppName;
 
       const userDataDir = path.join(app.getPath('appData'), appName);
       return userDataDir;
@@ -287,7 +281,7 @@ class PlatformHelper {
       if (androidVersion !== undefined && androidVersion >= 11) {
         userDataDir = cordova.app.datadir() + '/ezra';
       } else {
-        const appId = getOldPath ? 'de.ezraproject.cordova' : 'net.ezrabibleapp.cordova';
+        const appId = 'net.ezrabibleapp.cordova';
         // TODO adapt this for ios later
         userDataDir = `/sdcard/Android/data/${appId}`;
       }

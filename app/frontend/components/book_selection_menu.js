@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -177,7 +177,10 @@ class BookSelectionMenu {
   }
 
   async selectBibleBook(bookCode, bookTitle, referenceBookTitle, currentChapter=null) {
-    this.currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    const tab = app_controller.tab_controller.getTab();
+    this.currentBibleTranslationId = tab.getBibleTranslationId();
+    this.currentSecondBibleTranslationId = tab.getSecondBibleTranslationId();
+
     if (this.currentBibleTranslationId == null || this.currentBibleTranslationId == undefined) {
       return;
     }
@@ -211,7 +214,7 @@ class BookSelectionMenu {
 
     } else { // Load directly without first showing chapter list
 
-      const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, bookCode);
+      const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, this.currentSecondBibleTranslationId, bookCode);
 
       app_controller.text_controller.loadBook(bookCode,
                                               bookTitle,
@@ -246,7 +249,7 @@ class BookSelectionMenu {
         event.stopPropagation();
 
         const selectedChapter = parseInt(event.target.getAttribute('href'));
-        const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, this.currentBookCode);
+        const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, this.currentSecondBibleTranslationId, this.currentBookCode);
 
         app_controller.text_controller.loadBook(this.currentBookCode,
                                                 this.currentBookTitle,

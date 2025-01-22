@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ class IpcDbHandler {
     this.platformHelper = new PlatformHelper();
     this.dbDir = null;
     // eslint-disable-next-line no-undef
-    this._config = ipc.ipcSettingsHandler.getConfig();
+    this._config = global.ipc.ipcSettingsHandler.getConfig();
     this._dropboxSyncTimeout = null;
     this._dropboxSyncInProgress = false;
     this._dropboxAccessUpgradeNeeded = false;
@@ -48,7 +48,7 @@ class IpcDbHandler {
 
   async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {
     const DbHelper = require('../database/db_helper.js');
-    let userDataDir = this.platformHelper.getUserDataPath(false, androidVersion);
+    let userDataDir = this.platformHelper.getUserDataPath(androidVersion);
 
     dbHelper = new DbHelper(userDataDir);
     this.dbDir = dbHelper.getDatabaseDir(isDebug);
@@ -310,7 +310,7 @@ class IpcDbHandler {
     if (this.platformHelper.isElectron()) {
       setTimeout(() => {
         console.log('Triggering database reload ...');
-        if (global.mainWindow != null) {
+        if (global.mainWindow != null && global.mainWindow.webContents != null) {
           global.mainWindow.webContents.send('database-updated');
         }
       }, 2000);
@@ -726,6 +726,10 @@ class IpcDbHandler {
                                                                                   chapter,
                                                                                   verseNr);
       return absoluteVerseNumbers;
+    });
+
+    this._ipcMain.add('db_isBookWithOffset', async (bookCode) => {
+      return global.models.VerseReference.isBookWithOffset(bookCode);
     });
 
     this._ipcMain.add('db_getLastMetaRecordUpdate', async() => {
