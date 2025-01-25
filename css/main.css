@@ -73,7 +73,7 @@
   --ui-widget-header-border-color: #333333;
   --ui-widget-header-border-hover-color: #74b2e2;
   --ui-widget-content-color: #eeeeee;
-  --ui-widget-content-active-background: #0972a5 url(images/ui-bg_highlight-hard_20_0972a5_1x100.png) 50% 50% repeat-x;
+  --ui-widget-content-active-background: #0972a5 url(jquery-ui/dark-hive/images/ui-bg_highlight-hard_20_0972a5_1x100.png) 50% 50% repeat-x;
 }
 
 .ui-state-default,
@@ -89,7 +89,7 @@
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
   border: 1px solid var(--ui-widget-header-border-hover-color);
-  background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+  background: var(--highlight-bg);
   font-weight: bold;
   color: var(--ui-hover-color);
 }
