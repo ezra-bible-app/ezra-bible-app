@@ -73,6 +73,7 @@
   --ui-widget-header-border-color: #333333;
   --ui-widget-header-border-hover-color: #0b93d5;
   --ui-widget-content-color: #eeeeee;
+  --ui-widget-header-default-background: #222222 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;
   --ui-widget-content-default-background: #222222 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;
   --ui-widget-content-active-background: #0972a5 url(jquery-ui/dark-hive/images/ui-bg_highlight-hard_20_0972a5_1x100.png) 50% 50% repeat-x;
   --ui-widget-content-hover-background: #003147 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
