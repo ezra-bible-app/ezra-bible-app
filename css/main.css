@@ -78,7 +78,11 @@
   --ui-widget-content-hover-background: #003147 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
 }
 
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-widget-header,
+.ui-widget-content  {
   background: var(--ui-widget-content-default-background);
 }
 
