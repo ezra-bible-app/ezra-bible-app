@@ -48,7 +48,7 @@ const template = html`
      color: #8e8e8e;
      width: var(--button-size);
      height: var(--button-size);
-     background: none;
+     background: var(--ui-widget-content-default-background);
      padding: 0;
      border: 1px solid #8e8e8e;
      border-radius: var(--border-radius);
@@ -73,9 +73,9 @@ const template = html`
 
    ::slotted(button.active),
    ::slotted(button:hover)  {
-     color: white;
+     color: var(--ui-widget-content-color);
      border-color: var(--highlight-border-color);
-     background: var(--accent-color);
+     background: var(--ui-widget-content-hover-background);
    }
 
    ::slotted(button.no-hover) {
