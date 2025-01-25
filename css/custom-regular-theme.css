@@ -1,6 +1,6 @@
 
 :root {
-  --accent-color: #01885fb3;
+  --accent-color: #34a46c;
   --background-color: #bbffef;
   --background-color-darker: #ade9db;
   --widget-bg-color: #eeeeee;
@@ -24,10 +24,12 @@
   --button-color: #777;
   --disabled-button-color: #bbbbbb;
 
+  --ui-state-active-color: #ffffff;
+  --ui-hover-color: var(--accent-color);
   --ui-widget-header-border-color: #89c2b2;
   --ui-widget-header-border-hover-color: #00ff8c;
   --ui-widget-content-color: #3f7f5f;
   --ui-widget-content-default-background: #cdf9f4;
-  --ui-widget-content-active-background: #00ffe5;
+  --ui-widget-content-active-background: #63dbcf;
   --ui-widget-content-hover-background: #97fbf1;
 }
