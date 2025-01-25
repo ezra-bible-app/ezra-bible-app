@@ -774,8 +774,8 @@ a.chapter-nav:hover {
   font-weight: bold;
   margin-left: 0.5em;
   margin-top: 0.3em;
-  color: #DDDDDD;
-  opacity: 0.8;
+  color: var(--accent-color);
+  opacity: 0.3;
   /*visibility: hidden;*/
 }
 
