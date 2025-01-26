@@ -21,7 +21,7 @@
   --background-color: #f2f5f7;
   --background-color-darker: #e6e9eb;
   --widget-bg-color: #d7ebf9;
-  --widget-bg: var(--widget-bg-color) url(images/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
+  --widget-bg: var(--widget-bg-color);
 
   --text-color: #362b36;
   --text-color-red: firebrick;
@@ -49,7 +49,7 @@
   --ui-widget-header-border-hover-color: #74b2e2;
   --ui-widget-content-color: #2779aa;
   --ui-widget-content-active-background: #3baae3 url(images/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
-  --ui-widget-content-default-background: #d7ebf9 url(images/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
+  --ui-widget-content-default-background: #d7ebf9;
 }
 
 :root body.darkmode--activated {
