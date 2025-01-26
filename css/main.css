@@ -62,14 +62,15 @@
 
   --border-color: #555555;
 
-  --highlight-bg-color: #e4f1fb;
-  --highlight-bg: var(--highlight-bg-color) url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+  --highlight-bg-color: #003147;
+  --highlight-bg: var(--highlight-bg-color) url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
   --highlight-border-color: #0b93d5;
   --highlight-color: var(--text-color);
 
   --button-color-dark: #aaa;
   --disabled-button-color: #555555;
 
+  --ui-hover-color: #cccccc;
   --ui-widget-header-border-color: #333333;
   --ui-widget-header-border-hover-color: #74b2e2;
   --ui-widget-content-color: #eeeeee;
