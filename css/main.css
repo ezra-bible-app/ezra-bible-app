@@ -80,7 +80,7 @@
   --ui-widget-header-border-hover-color: #74b2e2;
   --ui-widget-content-color: #eeeeee;
   --ui-widget-content-active-background: #0972a5 url(jquery-ui/dark-hive/images/ui-bg_highlight-hard_20_0972a5_1x100.png) 50% 50% repeat-x;
-  --ui-widget-content-default-background: #000000;
+  --ui-widget-content-default-background: #222222 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;
 }
 
 .ui-state-default,
