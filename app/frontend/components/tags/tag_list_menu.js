@@ -142,6 +142,9 @@ const template = html`
 }
 </style>
 
+<!-- CUSTOM STYLES -->
+<link id="custom-theme-css" href="css/custom-regular-theme.css" media="screen" rel="stylesheet" type="text/css" />
+
 <div id="tag-list-menu">
   <div id="tag-list-menu-navigation">
     <a id="tag-group-list-link" href="" i18n="tags.tag-groups"></a>

@@ -96,6 +96,9 @@ const template = html`
   }
 </style>
 
+<!-- CUSTOM STYLES -->
+<link id="custom-theme-css" href="css/custom-regular-theme.css" media="screen" rel="stylesheet" type="text/css" />
+
 <div id="tag-distribution-matrix" style="margin-bottom: 1em;">
   <div id="table-wrapper">
     <table style="margin-left: 1em; margin-top: 1em; margin-bottom: 1em; border-spacing: 0; border-collapse: collapse;">

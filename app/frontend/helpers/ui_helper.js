@@ -225,20 +225,29 @@ class UiHelper {
   }
 
   switchToDarkTheme(docObject, mainElementId) {
-    this.switchToTheme(docObject, 'css/jquery-ui/dark-hive/jquery-ui.css');
+    this.switchToTheme(docObject, 'css/jquery-ui/dark-hive/jquery-ui.css', 'css/custom-dark-theme.css');
     docObject.getElementById(mainElementId).classList.add('darkmode--activated');
   }
   
   switchToRegularTheme(docObject, mainElementId) {
-    this.switchToTheme(docObject, 'css/jquery-ui/cupertino/jquery-ui.css');
+    this.switchToTheme(docObject, 'css/jquery-ui/cupertino/jquery-ui.css', 'css/custom-regular-theme.css');
     docObject.getElementById(mainElementId).classList.remove('darkmode--activated');
   }
 
-  switchToTheme(docObject, theme) {
-    var currentTheme = docObject.getElementById("theme-css").href;
+  switchToTheme(docObject, appTheme, customTheme) {
+    const themeCss = docObject.getElementById("theme-css");
+    const customThemeCss = docObject.getElementById("custom-theme-css");
+
+    let currentAppTheme = themeCss.href;
   
-    if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
-      docObject.getElementById("theme-css").href = theme;
+    if (currentAppTheme.indexOf(appTheme) == -1) { // Only switch the theme if it is different from the current theme
+      if (themeCss != null) {
+        themeCss.href = appTheme;
+      }
+
+      if (customThemeCss != null) {
+        customThemeCss.href = customTheme;
+      }
     }
   }
 
