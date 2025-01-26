@@ -8,8 +8,6 @@
   --text-color: #362b36;
   --text-color-red: firebrick;
 
-  --highlight-object-color: #afcdff;
-  
   --border-color: #dddddd;
   --border-radius: 6px;
   --area-border: 1px solid var(--border-color);
@@ -33,4 +31,6 @@
   --ui-widget-content-default-background: #e2fbf8;
   --ui-widget-content-active-background: #63dbcf;
   --ui-widget-content-hover-background: #97fbf1;
+
+  --highlight-object-color: var(--ui-widget-content-active-background);
 }
