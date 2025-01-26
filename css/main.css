@@ -22,7 +22,7 @@
   --background-color-darker: #e6e9eb;
   --widget-bg-color: #d7ebf9;
   --widget-bg: var(--widget-bg-color) url(images/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
-  --widget-content-bg: var(--ui-widget-content-default-background);
+
   --text-color: #362b36;
   --text-color-red: firebrick;
 
@@ -59,7 +59,7 @@
   --background-color-darker: #171717;
   --widget-bg-color: #1e1e1e;
   --widget-bg: var(--widget-bg-color) url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;
-  --widget-content-bg: var(--ui-widget-content-default-background);
+
   --text-color: #cccccc;
   --text-color-red-darkmode: salmon;
 
@@ -80,7 +80,7 @@
   --ui-widget-header-border-hover-color: #74b2e2;
   --ui-widget-content-color: #eeeeee;
   --ui-widget-content-active-background: #0972a5 url(jquery-ui/dark-hive/images/ui-bg_highlight-hard_20_0972a5_1x100.png) 50% 50% repeat-x;
-  --ui-widget-content-default-background: #222222 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;
+  --ui-widget-content-default-background: #2e2e2e;
 }
 
 .ui-state-default,
@@ -99,7 +99,7 @@
 
 .ui-widget-content,
 .ui-widget-content .ui-state-default {
-  background: var(--widget-content-bg);
+  background: var(--ui-widget-content-default-background);
 }
 
 .ui-state-hover,
