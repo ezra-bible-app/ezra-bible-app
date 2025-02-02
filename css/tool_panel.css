@@ -421,6 +421,7 @@ input.tag-cb {
 .button-small {
   width: 18px;
   height: 18px;
+  padding-top: 2px;
   display: grid;
   place-content: center;
   margin-right: 0.5em;
