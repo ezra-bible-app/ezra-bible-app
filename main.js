@@ -341,6 +341,9 @@ function init() {
 
   initGlobals();
 
+  // Disable hardware acceleration to avoid issue: 'GPU' process exited with 'abnormal-exit'
+  app.disableHardwareAcceleration();
+
   // Make the app window respond to calls coming from a browser window based on the Dropbox oauth process
   initDropboxProtocolClient();
 
