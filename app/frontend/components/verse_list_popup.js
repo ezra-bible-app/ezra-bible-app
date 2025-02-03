@@ -210,10 +210,17 @@ class VerseListPopup {
 
   async initCurrentTag(clickedElement) {
     const selectedTag = this.getSelectedTagFromClickedElement(clickedElement);
-    this.currentReferenceVerseBox = $(clickedElement).closest('.verse-box');
-    const tagObject = await tags_controller.tag_store.getTagByTitle(selectedTag);
-    this.currentTagId = `${tagObject.id}`;
     this.currentTagTitle = selectedTag;
+
+    const tagObject = await tags_controller.tag_store.getTagByTitle(selectedTag);
+    
+    if (tabObject != null) {
+        this.currentTagId = `${tagObject.id}`;
+    } else {
+        this.currentTagId = null;
+    }
+
+    this.currentReferenceVerseBox = $(clickedElement).closest('.verse-box');
   }
 
   async loadTaggedVerses(clickedElement, currentTabId, currentTabIndex, onlyCurrentBook=false) {
