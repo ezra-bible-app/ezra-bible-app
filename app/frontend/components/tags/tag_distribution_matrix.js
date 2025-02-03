@@ -231,6 +231,11 @@ class TagDistributionMatrix extends HTMLElement {
 
       let currentTagRow = document.createElement('tr');
       let currentTag = await tags_controller.tag_store.getTag(tagId);
+
+      if (currentTag == null) {
+        continue;
+      }
+
       let tagTitleCell = document.createElement('td');
       tagTitleCell.classList.add('tag-title');
       tagTitleCell.innerText = currentTag.title;
