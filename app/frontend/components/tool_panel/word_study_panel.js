@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../../controllers/event_controller.js');
+const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const { html } = require('../../helpers/ezra_helper.js');
 
 let jsStrongs = null;
@@ -283,14 +284,27 @@ class WordStudyPanel {
     return `${strongsEntry.transcription} &mdash; ${strongsEntry.phoneticTranscription} &mdash; ${lemma}`;
   }
 
-  getFindAllLink(strongsEntry) {
-    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var functionCall = "javascript:app_controller.word_study_controller._wordStudyPanel.findAllOccurrences('" +
-      strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
+  async getFindAllLink(strongsEntry) {
+    const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    const secondBibleTranslationId = app_controller.tab_controller.getTab().getSecondBibleTranslationId();
 
-    var link = "<a href=\"" + functionCall + "\">" + 
-               i18n.t("word-study-panel.find-all-occurrences") + 
-               "</a>";
+    const firstTranslationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
+    const secondTranslationHasStrongs = await swordModuleHelper.moduleHasStrongs(secondBibleTranslationId);
+
+    let searchTranslation = currentBibleTranslationId;
+
+    if (!firstTranslationHasStrongs && secondTranslationHasStrongs) {
+        searchTranslation = secondBibleTranslationId;
+    } else {
+        // This should never happen
+        return "";
+    }
+
+    const functionCall = "javascript:app_controller.word_study_controller._wordStudyPanel.findAllOccurrences('" +
+      strongsEntry.rawKey + "','" + searchTranslation + "')";
+
+    const link = "<a href=\"" + functionCall + "\">" + i18n.t("word-study-panel.find-all-occurrences") + "</a>";
+
     return link;
   }
 
@@ -364,9 +378,11 @@ class WordStudyPanel {
     const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
     let moduleInfoButton = this.getModuleInfoButton(moduleInfoButtonTitle, moduleCode);
 
+    const findAllLink = await this.getFindAllLink(strongsEntry);
+
     let extendedStrongsInfo = `
       <div class='bold word-study-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
-      <p class='dictionary-content'>${this.getFindAllLink(strongsEntry)} | ${this.getBlueletterLink(strongsEntry)}</p>
+      <p class='dictionary-content'>${findAllLink} | ${this.getBlueletterLink(strongsEntry)}</p>
       ${extraDictContent}
       <div class='bold word-study-title' style='margin-bottom: 1em'>Strong's
       ${moduleInfoButton} 
