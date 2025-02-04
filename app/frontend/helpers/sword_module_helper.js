@@ -175,6 +175,10 @@ module.exports.getModuleSize = function(swordModule) {
 };
 
 module.exports.moduleHasStrongs = async function(moduleId) {
+  if (moduleId == null) {
+    return false;
+  }
+
   const swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
