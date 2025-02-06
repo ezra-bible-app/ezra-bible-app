@@ -186,20 +186,30 @@ function clearUpdatedModuleList() {
   moduleUpdateList.innerHTML = '';
 }
 
+function getLoadingIndicator() {
+  return document.getElementById('module-update-loading-indicator');
+}
+
 function refreshUpdatedModuleList() {
-  document.getElementById('module-update-loading-indicator').style.display = 'block';
+  getLoadingIndicator().style.display = 'block';
 
   setTimeout(() => {
     ipcNsi.getUpdatedModules().then((updatedModules) => {
       let moduleUpdateList = document.getElementById('module-update-list-tbody');
+      let moduleUpdateHeader = document.getElementById('module-update-header');
+      let moduleUpdateHeaderUpToDate = document.getElementById('module-update-header-up-to-date');
+
+      if (moduleUpdateHeader == null || moduleUpdateHeaderUpToDate == null) {
+        return;
+      }
 
       if (updatedModules.length == 0) {
 
-        document.getElementById('module-update-header').style.display = 'none';
-        document.getElementById('module-update-header-up-to-date').style.display = 'block';
+        moduleUpdateHeader.style.display = 'none';
+        moduleUpdateHeaderUpToDate.style.display = 'block';
 
       } else {
-        document.getElementById('module-update-header-up-to-date').style.display = 'none';
+        moduleUpdateHeaderUpToDate.style.display = 'none';
 
         updatedModules.forEach(async (module) => {
           let moduleRow = document.createElement('tr');
@@ -231,11 +241,11 @@ function refreshUpdatedModuleList() {
           moduleUpdateList.appendChild(moduleRow);
         });
 
-        document.getElementById('module-update-header').style.display = 'block';
+        moduleUpdateHeader.style.display = 'block';
         document.getElementById('module-update-list').style.display = 'block';
       }
 
-      document.getElementById('module-update-loading-indicator').style.display = 'none';
+      getLoadingIndicator().style.display = 'none';
 
       enableDialogButtons();
 
