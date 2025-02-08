@@ -169,7 +169,7 @@ class TranslationController {
     moduleSelectHelper.addModulesToModuleSelectMenu(undefined, bibleSelect[0], modules, currentModuleId);
 
     bibleSelect.selectmenu({
-      width: platformHelper.isMobile() ? 90 : undefined,
+      width: platformHelper.isSmallScreen() ? 100 : undefined,
       change: () => {
         if (!app_controller.tab_controller.isCurrentTabEmpty() && 
             app_controller.tab_controller.getTab().getTextType() != 'search_results') {

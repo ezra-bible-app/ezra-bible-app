@@ -49,7 +49,7 @@ module.exports.addModulesToModuleSelectMenu = function(tabIndex, moduleSelect, m
     var currentModuleEl = document.createElement('option');
     currentModuleEl.value = module.name;
 
-    if (platformHelper.isMobile()) {
+    if (platformHelper.isSmallScreen()) {
       currentModuleEl.innerText = module.name;
     } else {
       currentModuleEl.innerText = module.description;
