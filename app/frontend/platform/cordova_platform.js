@@ -59,7 +59,7 @@ class CordovaPlatform {
           // If it fails ... startup is broken. Why did it fail previously? After a sentry upgrade the
           // path to the sources had changed and the require statement did not work anymore.
 
-          window.Sentry = require('@sentry/browser/cjs');
+          window.Sentry = require('@sentry/browser/build/npm/cjs');
 
           if (window.Sentry != null) {
             Sentry.init({
