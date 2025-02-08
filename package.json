@@ -104,7 +104,7 @@
     "@electron/notarize": "^2.2.0",
     "@electron/osx-sign": "^1.0.5",
     "@electron/rebuild": "^3.6.0",
-    "@sentry/cli": "^2.24.1",
+    "@sentry/cli": "^2.41.1",
     "better-docs": "^2.3.2",
     "brfs": "^2.0.2",
     "browserify": "^17.0.0",
