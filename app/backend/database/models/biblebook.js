@@ -317,12 +317,18 @@ module.exports = (sequelize, DataTypes) => {
     return sequelize.query(query, { model: global.models.VerseTag });
   };
 
-  BibleBook.prototype.getNotes = function() {
+  BibleBook.prototype.getNotes = function(noteFileId=null) {
     var query = "SELECT n.*, b.shortTitle AS bibleBookId, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
                 " FROM Notes n " +
                 " INNER JOIN VerseReferences vr ON n.verseReferenceId = vr.id" +
                 " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
                 " WHERE vr.bibleBookId=" + this.id;
+    
+    if (noteFileId != null && noteFileId != 0) {
+      query += " AND n.noteFileId=" + noteFileId;
+    } else {
+      query += " AND n.noteFileId is NULL";
+    }
     
     return sequelize.query(query, { model: global.models.Note });
   };

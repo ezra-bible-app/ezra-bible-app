@@ -41,17 +41,28 @@ module.exports = (sequelize, DataTypes) => {
 
   VerseReference.associate = function(models) {
     VerseReference.belongsToMany(models.Tag, {through: 'VerseTags'});
-    VerseReference.hasOne(models.Note);
+    VerseReference.hasMany(models.Note);
   };
 
   VerseReference.prototype.getBibleBook = function() {
     return global.models.BibleBook.findByPk(this.bibleBookId);
   };
 
-  VerseReference.prototype.getOrCreateNote = async function() {
-    var note = await this.getNote();
+  VerseReference.prototype.getOrCreateNote = async function(activeNoteFileId=null) {
+    if (activeNoteFileId == 0) {
+      activeNoteFileId = null;
+    }
+
+    var note = await global.models.Note.findOne({
+      where: { verseReferenceId: this.id, noteFileId: activeNoteFileId }
+    });
+
     if (note == null) { // create the note if it does not exist yet
       note = await this.createNote();
+
+      if (activeNoteFileId != null) {
+        note.noteFileId = activeNoteFileId;
+      }
     }
 
     return note;

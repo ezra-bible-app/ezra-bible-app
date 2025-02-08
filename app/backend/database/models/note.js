@@ -25,6 +25,7 @@
  */
 module.exports = (sequelize, DataTypes) => {
   const Note = sequelize.define('Note', {
+    noteFileId: DataTypes.INTEGER,
     verseReferenceId: DataTypes.INTEGER,
     text: DataTypes.TEXT,
     bibleBookId: DataTypes.VIRTUAL,
@@ -36,8 +37,8 @@ module.exports = (sequelize, DataTypes) => {
     Note.belongsTo(models.VerseReference);
   };
 
-  Note.findByVerseReferenceId = async function(verseReferenceId) {
-    var allNotes = await Note.findByVerseReferenceIds(verseReferenceId);
+  Note.findByVerseReferenceId = async function(verseReferenceId, activeNoteFileId=null) {
+    var allNotes = await Note.findByVerseReferenceIds(verseReferenceId, activeNoteFileId);
     if (allNotes.length == 1) {
       return allNotes[0];
     } else {
@@ -45,13 +46,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  Note.findByVerseReferenceIds = function(verseReferenceIds) {
+  Note.findByVerseReferenceIds = function(verseReferenceIds, activeNoteFileId=null) {
     var query = "SELECT n.*, b.shortTitle AS bibleBookId, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
                 " FROM VerseReferences vr " +
                 " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
                 " INNER JOIN Notes n ON n.verseReferenceId = vr.id" +
-                " WHERE vr.id IN (" + verseReferenceIds + ")" +
-                " ORDER BY b.number ASC, vr.absoluteVerseNrEng ASC";
+                " WHERE vr.id IN (" + verseReferenceIds + ")";
+    
+    if (activeNoteFileId != null && activeNoteFileId != 0) {
+      query += " AND n.noteFileId = " + activeNoteFileId;
+    }
+
+    query += " ORDER BY b.number ASC, vr.absoluteVerseNrEng ASC";
 
     return sequelize.query(query, { model: global.models.Note });
   };
@@ -72,10 +78,10 @@ module.exports = (sequelize, DataTypes) => {
     return groupedVerseNotes;
   };
 
-  Note.persistNote = async function(noteValue, verseObject, versification) {
+  Note.persistNote = async function(noteValue, verseObject, versification, activeNoteFileId=null) {
     try {
       var vr = await global.models.VerseReference.findOrCreateFromVerseObject(verseObject, versification);
-      var n = await vr.getOrCreateNote();
+      var n = await vr.getOrCreateNote(activeNoteFileId);
 
       if (noteValue != "") {
         // Save the note if it has content
