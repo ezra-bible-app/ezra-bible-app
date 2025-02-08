@@ -113,7 +113,7 @@ class Main {
     });
 
     cordova.app.on('resume', () => {
-      console.log('[node] Resume: Re-initializing database.');
+      console.log(`[node] Resume: Re-initializing database on Android ${this.androidVersion}.`);
 
       this.initDatabase(this.androidVersion);
 
