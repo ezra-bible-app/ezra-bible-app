@@ -446,6 +446,10 @@
     "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse.",
     "copy-button": "Copy commentary"
   },
+  "notes-panel": {
+    "default-header": "<b>Note files</b>",
+    "show-note-files": "Show note files"
+  },
   "emoji": {
     "search": "Search emojis...",
     "notFound": "No emojis found",
