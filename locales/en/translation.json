@@ -452,7 +452,9 @@
     "show-note-files": "Show note files",
     "add-note-file": "Add note file",
     "create-note-file": "Create note file",
-    "edit-note-file": "Edit note file"
+    "edit-note-file": "Edit note file",
+    "update-note-file": "Update note file",
+    "standard-note-file": "Standard note file"
   },
   "emoji": {
     "search": "Search emojis...",
