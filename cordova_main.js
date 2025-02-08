@@ -114,6 +114,11 @@ class Main {
 
     cordova.app.on('resume', () => {
       console.log('[node] Resume: Re-initializing database.');
+
+      console.log(global.ipc);
+      console.log(global.ipc.ipcSettingsHandler);
+      console.log(this.androidVersion);
+
       this.initDatabase(this.androidVersion);
 
       console.log('[node] App resumed.');
