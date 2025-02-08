@@ -626,6 +626,12 @@ class IpcDbHandler {
       return groupedNotes;
     });
 
+    this._ipcMain.add('db_getAllNoteFiles', async () => {
+      var allSequelizeNoteFiles = await global.models.NoteFile.findAll();
+      var allNoteFiles = this.makeSequelizeResultsSerializable(allSequelizeNoteFiles);
+      return allNoteFiles;
+    });
+
     this._ipcMain.add('db_getBibleBook', async (shortTitle) => {
       var sequelizeBibleBook = await global.models.BibleBook.findOne({ where: { shortTitle: shortTitle }});
       var bibleBook = null;

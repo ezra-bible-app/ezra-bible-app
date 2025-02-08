@@ -26,7 +26,27 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   NoteFile.associate = function(models) {
-    // associations can be defined here
+    NoteFile.hasMany(models.Note);
+  };
+
+  NoteFile.createNoteFile = async function(noteFileTitle) {
+    try {
+      var newNoteFile = await global.models.NoteFile.create({
+        title: noteFileTitle
+      });
+
+      await global.models.MetaRecord.updateLastModified();
+
+      return {
+        success: true,
+        dbObject: newNoteFile.dataValues,
+      };
+
+    } catch (error) {
+      console.error('An error occurred while trying to save the new note file: ' + error);
+
+      return global.getDatabaseException(error);
+    }
   };
 
   return NoteFile;
