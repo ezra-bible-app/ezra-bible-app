@@ -33,6 +33,11 @@
   text-align: center;
 }
 
+.note-files-table tr.active {
+  background-color: #e0f7fa;
+  font-weight: bold;
+}
+
 .delete-note-file-button {
   background: none;
   border: none;

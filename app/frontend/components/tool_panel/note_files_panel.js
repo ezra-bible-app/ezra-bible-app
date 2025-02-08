@@ -27,6 +27,7 @@ const { html } = require('../../helpers/ezra_helper.js');
 class NoteFilesPanel {
   constructor() {
     this._initDone = false;
+    this._activeNoteFileId = null;
 
     eventController.subscribe('on-notes-panel-switched', (isOpen) => {
       if (isOpen && !this._initDone) {
@@ -138,6 +139,11 @@ class NoteFilesPanel {
     noteFiles.forEach(noteFile => {
       const row = document.createElement('tr');
       row.setAttribute('note-file-id', noteFile.id);
+      row.className = noteFile.id === this._activeNoteFileId ? 'active' : '';
+      row.addEventListener('click', () => {
+        this.setActiveNoteFile(noteFile.id);
+      });
+
       const titleCell = document.createElement('td');
       titleCell.innerText = noteFile.title;
       const createdAtCell = document.createElement('td');
@@ -148,15 +154,16 @@ class NoteFilesPanel {
       const editButton = document.createElement('button');
       editButton.innerHTML = '<i class="fas fa-pen"></i>';
       editButton.className = 'edit-note-file-button';
-      editButton.addEventListener('click', () => {
+      editButton.addEventListener('click', (event) => {
+        event.stopPropagation();
         this.showEditNoteFileDialog(noteFile.id, noteFile.title);
       });
 
       const deleteButton = document.createElement('button');
       deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
       deleteButton.className = 'delete-note-file-button';
-
       deleteButton.addEventListener('click', async (event) => {
+        event.stopPropagation();
         const noteFileId = event.target.closest('tr').getAttribute('note-file-id');
         await ipcDb.deleteNoteFile(noteFileId);
         this.refreshNoteFiles();
@@ -172,6 +179,11 @@ class NoteFilesPanel {
     });
 
     noteFilesContainer.appendChild(table);
+  }
+
+  setActiveNoteFile(noteFileId) {
+    this._activeNoteFileId = noteFileId;
+    this.refreshNoteFiles();
   }
 
   showEditNoteFileDialog(noteFileId, currentTitle) {
