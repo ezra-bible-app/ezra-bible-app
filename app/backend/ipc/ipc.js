@@ -88,6 +88,10 @@ class IPC {
   }
 
   async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {
+    if (global.ipcSettingsHandler == null) {
+      global.ipcSettingsHandler = new IpcSettingsHandler(androidVersion);
+    }
+
     if (global.ipcDbHandler == null) {
       global.ipcDbHandler = new IpcDbHandler();
     }
