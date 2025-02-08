@@ -198,6 +198,9 @@ class NoteFilesPanel {
         event.stopPropagation();
         const noteFileId = event.target.closest('tr').getAttribute('note-file-id');
         await ipcDb.deleteNoteFile(noteFileId);
+        if (noteFileId == this._activeNoteFileId) {
+          this.setActiveNoteFile(0);
+        }
         this.refreshNoteFiles();
       });
 
