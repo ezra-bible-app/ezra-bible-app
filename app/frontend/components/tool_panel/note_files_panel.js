@@ -216,6 +216,7 @@ class NoteFilesPanel {
   setActiveNoteFile(noteFileId) {
     this._activeNoteFileId = noteFileId;
     this.saveActiveNoteFile();
+    eventController.publish('on-note-file-changed', noteFileId);
     this.refreshNoteFiles();
   }
 
