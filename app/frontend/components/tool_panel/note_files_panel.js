@@ -213,9 +213,9 @@ class NoteFilesPanel {
     noteFilesContainer.appendChild(table);
   }
 
-  setActiveNoteFile(noteFileId) {
+  async setActiveNoteFile(noteFileId) {
     this._activeNoteFileId = noteFileId;
-    this.saveActiveNoteFile();
+    await this.saveActiveNoteFile();
     eventController.publish('on-note-file-changed', noteFileId);
     this.refreshNoteFiles();
   }

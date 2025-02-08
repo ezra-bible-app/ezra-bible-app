@@ -589,7 +589,8 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
-      let result = await global.models.Note.persistNote(noteValue, verseObject, versification);
+      let activeNoteFile = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
+      let result = await global.models.Note.persistNote(noteValue, verseObject, versification, activeNoteFile);
 
       this.triggerDropboxSyncIfConfigured();
 
@@ -598,7 +599,8 @@ class IpcDbHandler {
 
     this._ipcMain.add('db_getVerseNotesByBook', async (bibleBookId, versification) => {
       var bibleBook = await global.models.BibleBook.findByPk(bibleBookId);
-      var sequelizeNotes = await bibleBook.getNotes();
+      var activeNoteFile = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
+      var sequelizeNotes = await bibleBook.getNotes(activeNoteFile);
       var notes = this.makeSequelizeResultsSerializable(sequelizeNotes);
       var groupedVerseNotes = global.models.Note.groupNotesByVerse(notes, versification);
       return groupedVerseNotes;
@@ -607,9 +609,10 @@ class IpcDbHandler {
     this._ipcMain.add('db_getBookNotes', async (shortTitle) => {
       var bookNotes = null;
       var bookReference = await global.models.VerseReference.getBookReference(shortTitle);
+      var activeNoteFile = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
 
       if (bookReference != null) {
-        bookNotes = await global.models.Note.findByVerseReferenceId(bookReference.id);
+        bookNotes = await global.models.Note.findByVerseReferenceId(bookReference.id, activeNoteFile);
 
         if (bookNotes != null) {
           bookNotes = bookNotes.dataValues;
@@ -620,7 +623,8 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_getNotesByVerseReferenceIds', async (verseReferenceIds, versification) => {
-      var sequelizeNotes = await global.models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
+      var activeNoteFile = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
+      var sequelizeNotes = await global.models.Note.findByVerseReferenceIds(verseReferenceIds.join(','), activeNoteFile);
       var notes = this.makeSequelizeResultsSerializable(sequelizeNotes);
       var groupedNotes = global.models.Note.groupNotesByVerse(notes, versification);
       return groupedNotes;
