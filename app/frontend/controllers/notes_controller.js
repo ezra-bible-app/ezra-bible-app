@@ -194,6 +194,10 @@ class NotesController {
     var verseReferenceId = null;
     var verseNotesBox = event.target.closest('.verse-notes');
 
+    if (verseNotesBox == null) {
+      return;
+    }
+
     if (verseNotesBox.classList.contains('book-notes')) {
       verseReferenceId = verseNotesBox.getAttribute('verse-reference-id');
     } else {
