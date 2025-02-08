@@ -36,7 +36,8 @@ class NoteFilesPanel {
     });
   }
 
-  init() {
+  async init() {
+    await this.loadActiveNoteFile();
     this.refreshNoteFiles();
     this._initDone = true;
 
@@ -44,6 +45,17 @@ class NoteFilesPanel {
     addButton.addEventListener('click', () => {
       this.showAddNoteFileDialog();
     });
+  }
+
+  async loadActiveNoteFile() {
+    const activeNoteFileId = await ipcSettings.get('activeNoteFileId', null);
+    if (activeNoteFileId != null) {
+      this._activeNoteFileId = parseInt(activeNoteFileId, 10);
+    }
+  }
+
+  async saveActiveNoteFile() {
+    await ipcSettings.set('activeNoteFileId', this._activeNoteFileId);
   }
 
   showAddNoteFileDialog() {
@@ -136,10 +148,30 @@ class NoteFilesPanel {
     headerRow.appendChild(actionsHeader);
     table.appendChild(headerRow);
 
+    // Add the fixed first line for the standard note file
+    const standardNoteFileRow = document.createElement('tr');
+    standardNoteFileRow.setAttribute('note-file-id', 0);
+    standardNoteFileRow.className = this._activeNoteFileId === 0 ? 'ui-selected' : '';
+    standardNoteFileRow.addEventListener('click', () => {
+      this.setActiveNoteFile(0);
+    });
+
+    const standardTitleCell = document.createElement('td');
+    standardTitleCell.innerText = i18n.t('notes-panel.standard-note-file');
+    const standardCreatedAtCell = document.createElement('td');
+    standardCreatedAtCell.innerText = '-';
+    const standardActionsCell = document.createElement('td');
+    standardActionsCell.innerText = '-';
+
+    standardNoteFileRow.appendChild(standardTitleCell);
+    standardNoteFileRow.appendChild(standardCreatedAtCell);
+    standardNoteFileRow.appendChild(standardActionsCell);
+    table.appendChild(standardNoteFileRow);
+
     noteFiles.forEach(noteFile => {
       const row = document.createElement('tr');
       row.setAttribute('note-file-id', noteFile.id);
-      row.className = noteFile.id === this._activeNoteFileId ? 'active' : '';
+      row.className = noteFile.id === this._activeNoteFileId ? 'ui-selected' : '';
       row.addEventListener('click', () => {
         this.setActiveNoteFile(noteFile.id);
       });
@@ -183,6 +215,7 @@ class NoteFilesPanel {
 
   setActiveNoteFile(noteFileId) {
     this._activeNoteFileId = noteFileId;
+    this.saveActiveNoteFile();
     this.refreshNoteFiles();
   }
 
