@@ -128,9 +128,13 @@
   <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
     <a href="#" id="notes-panel-header" i18n="[html]notes-panel.default-header"></a>
   </h3>
-  <div id="notes-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
-    <div id="notes-panel-content" class="panel-content">
-      <!-- Empty content for note files -->
+  <div id="notes-panel-wrapper">
+    <div id="notes-panel-menu" class="panel-menu">
+      <!-- Empty menu area for now -->
+      <button id="add-note-file-button" class="fg-button ui-state-default ui-corner-all" i18n="notes-panel.add-note-file"></button>
     </div>
+  </div>
+  <div id="notes-panel-content" class="scrollable ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+    <!-- Empty content for note files -->
   </div>
 </section>

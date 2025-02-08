@@ -214,7 +214,8 @@
       "custom": "Custom",
       "content-font-family": "Content font family",
       "custom-content-font": "Custom content font"
-    }
+    },
+    "title": "Title"
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirm data privacy options",
@@ -448,7 +449,10 @@
   },
   "notes-panel": {
     "default-header": "<b>Note files</b>",
-    "show-note-files": "Show note files"
+    "show-note-files": "Show note files",
+    "add-note-file": "Add note file",
+    "create-note-file": "Create note file",
+    "edit-note-file": "Edit note file"
   },
   "emoji": {
     "search": "Search emojis...",

@@ -193,6 +193,18 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getAllNoteFiles');
   }
 
+  async createNoteFile(noteFileTitle) {
+    return await this._ipcRenderer.call('db_createNoteFile', noteFileTitle);
+  }
+
+  async deleteNoteFile(id) {
+    return await this._ipcRenderer.call('db_deleteNoteFile', id);
+  }
+
+  async updateNoteFile(id, newTitle) {
+    return await this._ipcRenderer.call('db_updateNoteFile', id, newTitle);
+  }
+
   async getBibleBook(shortTitle) {
     return await this._ipcRenderer.call('db_getBibleBook', shortTitle);
   }

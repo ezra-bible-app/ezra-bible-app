@@ -49,5 +49,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
+  NoteFile.destroyNoteFile = async function(id) {
+    try {
+      //await global.models.Note.destroy({ where: { noteFileId: id } });
+      await global.models.NoteFile.destroy({ where: { id: id } });
+      await global.models.MetaRecord.updateLastModified();
+
+      return {
+        success: true
+      };
+
+    } catch (error) {
+      console.error('An error occurred while trying to delete the note file with id ' + id + ': ' + error);
+
+      return global.getDatabaseException(error);
+    }
+  };
+
   return NoteFile;
 };

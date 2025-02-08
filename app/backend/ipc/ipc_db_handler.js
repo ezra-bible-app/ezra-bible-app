@@ -627,9 +627,39 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_getAllNoteFiles', async () => {
-      var allSequelizeNoteFiles = await global.models.NoteFile.findAll();
-      var allNoteFiles = this.makeSequelizeResultsSerializable(allSequelizeNoteFiles);
+      let allSequelizeNoteFiles = await global.models.NoteFile.findAll({
+        order: [['title', 'ASC']]
+      });
+
+      let allNoteFiles = this.makeSequelizeResultsSerializable(allSequelizeNoteFiles);
       return allNoteFiles;
+    });
+
+    this._ipcMain.add('db_createNoteFile', async (noteFileTitle) => {
+      let result = await global.models.NoteFile.createNoteFile(noteFileTitle);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
+    });
+
+    this._ipcMain.add('db_deleteNoteFile', async (id) => {
+      let result = await global.models.NoteFile.destroyNoteFile(id);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
+    });
+
+    this._ipcMain.add('db_updateNoteFile', async (id, newTitle) => {
+      let result = await global.models.NoteFile.update({ title: newTitle }, { where: { id: id } });
+      await global.models.MetaRecord.updateLastModified();
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return {
+        success: true
+      };
     });
 
     this._ipcMain.add('db_getBibleBook', async (shortTitle) => {
