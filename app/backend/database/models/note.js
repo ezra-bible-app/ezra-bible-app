@@ -55,6 +55,8 @@ module.exports = (sequelize, DataTypes) => {
     
     if (activeNoteFileId != null && activeNoteFileId != 0) {
       query += " AND n.noteFileId = " + activeNoteFileId;
+    } else {
+      query += " AND n.noteFileId IS NULL";
     }
 
     query += " ORDER BY b.number ASC, vr.absoluteVerseNrEng ASC";
