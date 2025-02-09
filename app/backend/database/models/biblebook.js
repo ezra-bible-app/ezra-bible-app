@@ -327,7 +327,7 @@ module.exports = (sequelize, DataTypes) => {
     if (noteFileId != null && noteFileId != 0) {
       query += " AND n.noteFileId=" + noteFileId;
     } else {
-      query += " AND n.noteFileId is NULL";
+      query += " AND n.noteFileId IS NULL";
     }
     
     return sequelize.query(query, { model: global.models.Note });
