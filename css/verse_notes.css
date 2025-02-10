@@ -61,6 +61,12 @@ div.CodeMirror {
   width: 45%;
 }
 
+.verse-list:not(.verse-list-notes-column) .verse-notes {
+  width: 100% !important;
+  margin-top: 0.5em;
+  margin-left: unset !important;
+}
+
 .verse-notes.visible {
   display: block;
 }

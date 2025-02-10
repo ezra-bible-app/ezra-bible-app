@@ -368,6 +368,7 @@
     "limit-notes-display-size": "Limit notes display size",
     "limit-text-width": "Limit Bible text width",
     "use-tags-column": "Use tags column",
+    "use-notes-column": "Use notes column",
     "select-chapter-before-loading": "Open books with chapter selection",
     "use-system-theme": "System theme",
     "use-night-mode": "Night mode",
