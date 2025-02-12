@@ -81,7 +81,10 @@ module.exports.showModuleUpdateDialog = async function() {
       <update-repositories></update-repositories>
 
       <p id="module-update-header" style="display: none; margin-top: 1em; float: left;" i18n="general.module-updates-available"></p>
-      <p id="module-update-header-up-to-date" style="display: none; margin-top: 4em; float: left; text-align: center; width: 100%;" i18n="general.modules-up-to-date"></p>
+      <p id="module-update-header-up-to-date" style="display: none; margin-top: 4em; float: left; font-weight: bold; text-align: center; width: 100%;">
+        <span i18n="general.modules-up-to-date"></span>
+        <i class="fa-solid fa-check"></i>
+      </p>
       <loading-indicator id="module-update-loading-indicator" style="display: none; float: right;"></loading-indicator>
 
       <table id="module-update-list" style="clear: both; display: none;">
