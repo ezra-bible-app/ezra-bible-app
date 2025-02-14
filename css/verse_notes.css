@@ -57,14 +57,31 @@ div.CodeMirror {
 }
 
 .verse-list-without-tags .verse-notes:not(.book-notes),
-.verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
+.verse-list.verse-list-notes-column:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
   width: 45%;
 }
 
 .verse-list:not(.verse-list-notes-column) .verse-notes {
-  width: 100% !important;
+  width: 100%;
+  width: -webkit-fill-available;
   margin-top: 0.5em;
   margin-left: unset !important;
+}
+
+.verse-list.limit-width:not(.verse-list-notes-column) .verse-notes {
+  max-width: 50ch;
+}
+
+/* Inserting a collapsed row between two flex items will make 
+ * the flex item that comes after it break to a new row */
+.break-flex-row {
+  display: none;
+  flex-basis: 100%;
+  height: 0;
+}
+
+.verse-list:not(.verse-list-notes-column) .break-flex-row {
+  display: unset;
 }
 
 .verse-notes.visible {
