@@ -109,27 +109,6 @@ class TagsController {
         this.verses_were_selected_before = true;
 
         await this.updateTagsView(tabIndex, !this.initialRenderingDone);
-
-        if (currentTab.addedInteractively) {
-          this.resetActivePanelToTagPanel(tabIndex);
-        }
-      }
-    });
-
-    eventController.subscribe('on-bible-text-loaded', () => {
-      var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
-      const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
-
-      if (currentTab != null && currentTab.addedInteractively) {
-        this.resetActivePanelToTagPanel(currentTabIndex);
-      }
-    });
-
-    eventController.subscribe('on-module-search-started', (tabIndex) => {
-      const currentTab = app_controller.tab_controller.getTab(tabIndex);
-
-      if (currentTab != null && currentTab.addedInteractively) {
-        this.resetActivePanelToTagPanel(tabIndex);
       }
     });
 
@@ -214,17 +193,6 @@ class TagsController {
     const panelButtons = document.getElementById('panel-buttons');
     let activePanel = panelButtons.activePanel;
     return activePanel != '' && (activePanel == 'tag-panel' || activePanel == 'tag-statistics-panel');
-  }
-
-  resetActivePanelToTagPanel(tabIndex) {
-    var panelButtons = document.getElementById('panel-buttons');
-    var tab = app_controller.tab_controller.getTab(tabIndex);
-
-    if (panelButtons.activePanel != "" && panelButtons.activePanel != 'tag-panel') {
-      if (tab.isNew() || tab.isVerseList()) {
-        panelButtons.activePanel = 'tag-panel';
-      }
-    }
   }
 
   /**
