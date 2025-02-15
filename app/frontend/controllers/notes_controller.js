@@ -54,6 +54,8 @@ class NotesController {
   constructor() {
     this.theme = this.getCurrentTheme();
     this._platformHelper = new PlatformHelper();
+    this.currentlyEditedNotes = null;
+    this.currentNoteIsTagNote = false;
     this._reset();
 
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
@@ -103,6 +105,7 @@ class NotesController {
         });
 
         verseNotes.addEventListener('click', (event) => {
+          this.currentNoteIsTagNote = false;
           this._handleNotesClick(event);
         });
       }
@@ -111,6 +114,23 @@ class NotesController {
     const bookNoteBox = currentVerseListFrame[0].querySelector('.book-notes');
     if (bookNoteBox) {
       bookNoteBox.addEventListener('click', (event) => {
+        this.currentNoteIsTagNote = false;
+        this._handleNotesClick(event);
+      });
+    }
+
+    const tagIntroNoteBox = currentVerseListFrame[0].querySelector('.tag-intro-notes');
+    if (tagIntroNoteBox) {
+      tagIntroNoteBox.addEventListener('click', (event) => {
+        this.currentNoteIsTagNote = true;
+        this._handleNotesClick(event);
+      });
+    }
+
+    const tagConclusionNoteBox = currentVerseListFrame[0].querySelector('.tag-conclusion-notes');
+    if (tagConclusionNoteBox) {
+      tagConclusionNoteBox.addEventListener('click', (event) => {
+        this.currentNoteIsTagNote = true;
         this._handleNotesClick(event);
       });
     }
@@ -175,7 +195,7 @@ class NotesController {
   }
 
   _reset() {
-    this.currentVerseReferenceId = null;
+    this.currentReferenceId = null;
     this.currentlyEditedNotes = null;
     this.currentEditor = null;
   }
@@ -191,7 +211,7 @@ class NotesController {
     }
     event.stopPropagation();
 
-    var verseReferenceId = null;
+    var referenceId = null;
     var verseNotesBox = event.target.closest('.verse-notes');
 
     if (verseNotesBox == null) {
@@ -199,15 +219,17 @@ class NotesController {
     }
 
     if (verseNotesBox.classList.contains('book-notes')) {
-      verseReferenceId = verseNotesBox.getAttribute('verse-reference-id');
+      referenceId = verseNotesBox.getAttribute('verse-reference-id');
+    } else if (verseNotesBox.classList.contains('tag-intro-notes') || verseNotesBox.classList.contains('tag-conclusion-notes')) {
+      referenceId = verseNotesBox.getAttribute('notes-id');
     } else {
       var verseBox = verseNotesBox.closest('.verse-box');
-      verseReferenceId = new VerseBox(verseBox).getVerseReferenceId();
+      referenceId = new VerseBox(verseBox).getVerseReferenceId();
     }
 
-    if (verseReferenceId != this.currentVerseReferenceId) {
+    if (referenceId != this.currentReferenceId) {
       await this.restoreCurrentlyEditedNotes();
-      this.currentVerseReferenceId = verseReferenceId;
+      this.currentReferenceId = referenceId;
       this.currentlyEditedNotes = verseNotesBox;
       this.currentlyEditedNotes.classList.remove('verse-notes-empty');
       this._createEditor(this.currentlyEditedNotes);
@@ -250,7 +272,7 @@ class NotesController {
   }
 
   async _deleteVerseNotes(verseNotes) {
-    this.currentVerseReferenceId = verseNotes.closest('.verse-box').getAttribute('verse-reference-id');
+    this.currentReferenceId = verseNotes.closest('.verse-box').getAttribute('verse-reference-id');
     this.currentlyEditedNotes = verseNotes;
     await this._saveEditorContent("");
     this._renderContent(true);
@@ -258,12 +280,12 @@ class NotesController {
   }
 
   _getCurrentVerseBox() {
-    if (this.currentVerseReferenceId == null) {
+    if (this.currentReferenceId == null) {
       return null;
     }
 
     var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
-    return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentVerseReferenceId);
+    return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentReferenceId);
   }
 
   _refreshNotesIndicator(noteValue, verseBox) {
@@ -299,7 +321,7 @@ class NotesController {
   async _saveEditorContent(newNoteValue=null) {
     var currentVerseBox = this._getCurrentVerseBox();
 
-    if (this.currentlyEditedNotes != null && currentVerseBox != null) {
+    if (this.currentlyEditedNotes != null && (currentVerseBox != null && !this.currentNoteIsTagNote || this.currentNoteIsTagNote)) {
       if (newNoteValue == null) {
         newNoteValue = this.currentEditor.getValue();
       }
@@ -310,14 +332,27 @@ class NotesController {
 
       if (newNoteValue != previousNoteValue) {
         newNoteValue = newNoteValue.trim();
-        var verseBoxModel = new VerseBox(currentVerseBox);
-        var currentVerseObject = await verseBoxModel.getVerseObject();
         var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
         const swordModuleHelper = require('../helpers/sword_module_helper.js');
         var versification = await swordModuleHelper.getVersification(translationId);
+        var result = null;
 
-        var result = await ipcDb.persistNote(newNoteValue, currentVerseObject, versification);
+        if (!this.currentNoteIsTagNote) {
+          if (currentVerseBox != null) {
+            var verseBoxModel = new VerseBox(currentVerseBox);
+            var currentVerseObject = await verseBoxModel.getVerseObject();
+            result = await ipcDb.persistNote(newNoteValue, currentVerseObject, versification);
+          }
+        } else {
+          let tagId = this.currentlyEditedNotes.getAttribute('tag-id');
+
+          if (this.currentlyEditedNotes.classList.contains('tag-intro-notes')) {
+            result = await ipcDb.persistTagNoteIntroduction(tagId, newNoteValue);
+          } else if (this.currentlyEditedNotes.classList.contains('tag-conclusion-notes')) {
+            result = await ipcDb.persistTagNoteConclusion(tagId, newNoteValue);
+          }
+        }
 
         if (result.success == false) {
           var message = `The note could not be saved.<br>
@@ -347,25 +382,27 @@ class NotesController {
             updatedTimestamp = note.updatedAt;
           }
 
-          this._updateNoteDate(currentVerseBox, updatedTimestamp);
+          if (currentVerseBox != null) {
+            this._updateNoteDate(currentVerseBox, updatedTimestamp);
 
-          verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
-            currentVerseBox, { noteValue: newNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
+            verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
+              currentVerseBox, { noteValue: newNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
 
-              var currentNotes = null;
+                var currentNotes = null;
 
-              if (targetVerseBox.classList.contains('book-notes')) {
-                currentNotes = targetVerseBox;
-              } else {
-                currentNotes = targetVerseBox.querySelector('.verse-notes');
+                if (targetVerseBox.classList.contains('book-notes')) {
+                  currentNotes = targetVerseBox;
+                } else {
+                  currentNotes = targetVerseBox.querySelector('.verse-notes');
+                }
+
+                if (currentNotes != null) {
+                  currentNotes.setAttribute('notes-content', changedValue.noteValue);
+                  this._updateNoteDate(targetVerseBox, changedValue.timestamp);
+                }
               }
-
-              if (currentNotes != null) {
-                currentNotes.setAttribute('notes-content', changedValue.noteValue);
-                this._updateNoteDate(targetVerseBox, changedValue.timestamp);
-              }
-            }
-          );
+            );
+          }
         }
       }
 
