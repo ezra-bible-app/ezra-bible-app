@@ -330,7 +330,10 @@ class NotesController {
           return false;
         }
 
-        this.currentlyEditedNotes.setAttribute('notes-content', newNoteValue);
+        if (this.currentlyEditedNotes != null) {
+          this.currentlyEditedNotes.setAttribute('notes-content', newNoteValue);
+        }
+
         this._refreshNotesIndicator(newNoteValue, currentVerseBox);
 
         var note = result.dbObject;
