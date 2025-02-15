@@ -26,6 +26,7 @@ if renderTagNotes
   - var tagIntroRaw = ''
   - var tagIntroText = ''
   - var tagNoteId = ''
+  - var tagId = ''
   - var tagIntroUpdated = ''
 
   if tagNote == null
@@ -34,9 +35,10 @@ if renderTagNotes
     - tagIntroRaw = tagNote.introduction
     - tagIntroText = marked.parse(tagNote.introduction);
     - tagNoteId = tagNote.id
+    - tagId = tagNote.tagId
     - tagIntroUpdated = tagNote.introductionUpdatedAt
   
-  div(class=tagIntroNotesClassList, notes-id=tagNoteId, notes-content=tagIntroRaw)
+  div(class=tagIntroNotesClassList, tag-id=tagId, notes-id=tagNoteId, notes-content=tagIntroRaw)
     div(class='verse-notes-text external') !{tagIntroText}
     div(class='verse-notes-status-bar')
       div(class='verse-notes-buttons')
@@ -270,6 +272,7 @@ if renderTagNotes
   - var tagConclusionRaw = ''
   - var tagConclusionText = ''
   - var tagNoteId = ''
+  - var tagId = ''
   - var tagConclusionUpdated = ''
 
   if tagNote == null
@@ -278,9 +281,10 @@ if renderTagNotes
     - tagConclusionRaw = tagNote.conclusion
     - tagConclusionText = marked.parse(tagNote.conclusion);
     - tagNoteId = tagNote.id
+    - tagId = tagNote.tagId
     - tagConclusionUpdated = tagNote.conclusionUpdatedAt
   
-  div(class=tagConclusionNotesClassList, notes-id=tagNoteId, notes-content=tagConclusionRaw)
+  div(class=tagConclusionNotesClassList, tag-id=tagId, notes-id=tagNoteId, notes-content=tagConclusionRaw)
     div(class='verse-notes-text external') !{tagConclusionText}
     div(class='verse-notes-status-bar')
       div(class='verse-notes-buttons')
