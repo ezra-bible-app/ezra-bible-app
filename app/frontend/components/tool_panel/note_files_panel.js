@@ -224,7 +224,7 @@ class NoteFilesPanel {
       const $dialogBox = $('#delete-note-file-confirmation-dialog');
       
       var width = 400;
-      var height = 200;
+      var height = 250;
       var draggable = true;
       var position = [55, 120];
 

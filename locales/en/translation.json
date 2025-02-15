@@ -457,7 +457,7 @@
     "create-note-file": "Create note file",
     "edit-note-file": "Edit note file",
     "delete-note-file": "Delete note file",
-    "do-you-really-want-to-delete": "Do you really want to delete the note file <i>{{noteFileTitle}}</i>?",
+    "do-you-really-want-to-delete": "Do you really want to delete the note file <br/><i>{{noteFileTitle}}</i>?",
     "update-note-file": "Update note file",
     "standard-note-file": "Standard note file"
   },
