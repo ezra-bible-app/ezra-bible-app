@@ -25,15 +25,18 @@ if renderTagNotes
   - var tagIntroNotesClassList = 'tag-intro-notes tag-notes verse-notes ';
   - var tagIntroRaw = ''
   - var tagIntroText = ''
+  - var tagNoteId = ''
+  - var tagIntroUpdated = ''
 
-  if tagIntro == null
+  if tagNote == null
     - tagIntroNotesClassList += ' verse-notes-empty'
   else
-    if tagIntro != null
-      - tagIntroRaw = tagIntro
-      - tagIntroText = marked.parse(tagIntro);
+    - tagIntroRaw = tagNote.introduction
+    - tagIntroText = marked.parse(tagNote.introduction);
+    - tagNoteId = tagNote.id
+    - tagIntroUpdated = tagNote.introductionUpdatedAt
   
-  div(class=tagIntroNotesClassList, notes-content=tagIntroRaw)
+  div(class=tagIntroNotesClassList, notes-id=tagNoteId, notes-content=tagIntroRaw)
     div(class='verse-notes-text external') !{tagIntroText}
     div(class='verse-notes-status-bar')
       div(class='verse-notes-buttons')
@@ -42,7 +45,7 @@ if renderTagNotes
           span(i18n='general.save') !{i18n.t('general.save')}
         span &nbsp;|&nbsp;
         a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
-      div(class='verse-notes-timestamp')
+      div(class='verse-notes-timestamp') !{tagIntroUpdated}
 
 if renderBookNotes
   - var bookNotesClassList = 'book-notes verse-notes ';
@@ -266,14 +269,18 @@ if renderTagNotes
   - var tagConclusionNotesClassList = 'tag-conclusion-notes tag-notes verse-notes ';
   - var tagConclusionRaw = ''
   - var tagConclusionText = ''
+  - var tagNoteId = ''
+  - var tagConclusionUpdated = ''
 
-  if tagConclusion == null
+  if tagNote == null
     - tagConclusionNotesClassList += ' verse-notes-empty'
   else
-    - tagConclusionRaw = tagConclusion
-    - tagConclusionText = marked.parse(tagConclusion);
+    - tagConclusionRaw = tagNote.conclusion
+    - tagConclusionText = marked.parse(tagNote.conclusion);
+    - tagNoteId = tagNote.id
+    - tagConclusionUpdated = tagNote.conclusionUpdatedAt
   
-  div(class=tagConclusionNotesClassList, notes-content=tagConclusionRaw)
+  div(class=tagConclusionNotesClassList, notes-id=tagNoteId, notes-content=tagConclusionRaw)
     div(class='verse-notes-text external') !{tagConclusionText}
     div(class='verse-notes-status-bar')
       div(class='verse-notes-buttons')
@@ -282,4 +289,4 @@ if renderTagNotes
           span(i18n='general.save') !{i18n.t('general.save')}
         span &nbsp;|&nbsp;
         a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
-      div(class='verse-notes-timestamp')
+      div(class='verse-notes-timestamp') !{tagConclusionUpdated}

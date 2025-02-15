@@ -592,19 +592,13 @@ class TextController {
     let selectedTagList = selected_tags.split(',');
 
     let renderTagNotes = false;
-    let tagIntro = '';
-    let tagConclusion = '';
+    let tagNote = null;
 
     if (selectedTagList.length == 1) {
       renderTagNotes = true;
 
       const tagId = parseInt(selectedTagList[0]);
-      const tagNote = await ipcDb.getTagNote(tagId);
-
-      if (tagNote != null) {
-        tagIntro = tagNote.introduction ? tagNote.introduction : null;
-        tagConclusion = tagNote.conclusion ? tagNote.conclusion : null;
-      }
+      tagNote = await ipcDb.getTagNote(tagId);
     }
 
     const bibleTranslationId = this.getBibleTranslationId(tab_index);
@@ -676,8 +670,7 @@ class TextController {
                                  verseNotes,
                                  verses1,
                                  verses2,
-                                 tagIntro,
-                                 tagConclusion,
+                                 tagNote,
                                  versification,
                                  render_function,
                                  true,
@@ -744,7 +737,6 @@ class TextController {
                                  verses1,
                                  verses2,
                                  null,
-                                 null,
                                  versification,
                                  render_function,
                                  true,
@@ -775,8 +767,7 @@ class TextController {
                         groupedVerseNotes,
                         verses1,
                         verses2,
-                        tagIntro,
-                        tagConclusion,
+                        tagNote,
                         versification,
                         render_function,
                         renderBibleBookHeaders=true,
@@ -803,8 +794,7 @@ class TextController {
       bibleBookStats: bibleBookStats,
       verses1: verses1,
       verses2: verses2,
-      tagIntro: tagIntro,
-      tagConclusion: tagConclusion,
+      tagNote: tagNote,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
       marked: marked,
