@@ -537,6 +537,16 @@ class IpcDbHandler {
       return groupedVerseTags;
     });
 
+    this._ipcMain.add('db_getTagNote', async (tagId) => {
+      if (tagId == null) {
+        console.error('Missing parameter for db_getTagNote');
+        return null;
+      }
+
+      let tagNote = await global.models.TagNote.findOne({ where: { tagId: tagId } });
+      return tagNote.dataValues;
+    });
+
     this._ipcMain.add('db_createTagGroup', async(title) => {
       let result = await global.models.TagGroup.createTagGroup(title);
 

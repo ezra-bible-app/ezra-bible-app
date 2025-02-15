@@ -599,11 +599,11 @@ class TextController {
       renderTagNotes = true;
 
       const tagId = parseInt(selectedTagList[0]);
-      const tag = await tags_controller.tag_store.getTag(tagId);
+      const tagNote = await ipcDb.getTagNote(tagId);
 
-      if (tag != null) {
-        tagIntro = tag.introduction ? tag.introduction : null;
-        tagConclusion = tag.conclusion ? tag.conclusion : null;
+      if (tagNote != null) {
+        tagIntro = tagNote.introduction ? tagNote.introduction : null;
+        tagConclusion = tagNote.conclusion ? tagNote.conclusion : null;
       }
     }
 

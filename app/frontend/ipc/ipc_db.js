@@ -153,6 +153,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getVerseTagsByVerseReferenceIds', verseReferenceIds, versification);
   }
 
+  async getTagNote(tagId) {
+    return await this._ipcRenderer.call('db_getTagNote', tagId);
+  }
+
   async createTagGroup(title) {
     return await this._ipcRenderer.call('db_createTagGroup', title);
   }
