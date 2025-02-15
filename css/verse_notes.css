@@ -61,15 +61,19 @@ div.CodeMirror {
   width: 45%;
 }
 
-.verse-list:not(.verse-list-notes-column) .verse-notes {
+.verse-list:not(.verse-list-notes-column) .verse-notes:not(.book-notes) {
   width: 100%;
   width: -webkit-fill-available;
   margin-top: 0.5em;
   margin-left: unset !important;
 }
 
-.verse-list.limit-width:not(.verse-list-notes-column) .verse-notes {
+.verse-list.limit-width:not(.verse-list-notes-column) .verse-notes:not(.book-notes) {
   max-width: 55ch;
+}
+
+.verse-list.verse-list-hide-empty-notes .verse-notes-empty:not(.book-notes) {
+  display: none;
 }
 
 /* Inserting a collapsed row between two flex items will make 
