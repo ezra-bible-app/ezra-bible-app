@@ -197,11 +197,7 @@ class NoteFilesPanel {
       deleteButton.addEventListener('click', async (event) => {
         event.stopPropagation();
         const noteFileId = event.target.closest('tr').getAttribute('note-file-id');
-        await ipcDb.deleteNoteFile(noteFileId);
-        if (noteFileId == this._activeNoteFileId) {
-          this.setActiveNoteFile(0);
-        }
-        this.refreshNoteFiles();
+        this.showDeleteNoteFileConfirmationDialog(noteFileId, noteFile.title);
       });
 
       actionsCell.appendChild(editButton);
@@ -214,6 +210,53 @@ class NoteFilesPanel {
     });
 
     noteFilesContainer.appendChild(table);
+  }
+
+  showDeleteNoteFileConfirmationDialog(noteFileId, noteFileTitle) {
+    const dialogBoxTemplate = html`
+    <div id="delete-note-file-confirmation-dialog" style="padding-top: 2em;">
+      <p>${i18n.t('notes-panel.do-you-really-want-to-delete', { noteFileTitle: noteFileTitle })}</p>
+    </div>
+    `;
+
+    return new Promise((resolve) => {
+      document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
+      const $dialogBox = $('#delete-note-file-confirmation-dialog');
+      
+      var width = 400;
+      var height = 200;
+      var draggable = true;
+      var position = [55, 120];
+
+      let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
+      dialogOptions.title = i18n.t('notes-panel.delete-note-file');
+      dialogOptions.dialogClass = 'ezra-dialog delete-note-file-dialog';
+      dialogOptions.close = () => {
+        $dialogBox.dialog('destroy');
+        $dialogBox.remove();
+        resolve();
+      };
+
+      dialogOptions.buttons = {};
+
+      dialogOptions.buttons[i18n.t('general.cancel')] = function() {
+        $dialogBox.dialog('close');
+      };
+
+      dialogOptions.buttons[i18n.t('notes-panel.delete-note-file')] = () => {
+        ipcDb.deleteNoteFile(noteFileId);
+
+        if (noteFileId == this._activeNoteFileId) {
+          this.setActiveNoteFile(0);
+        }
+
+        this.refreshNoteFiles();
+        $dialogBox.dialog('close');
+      };
+
+      $dialogBox.dialog(dialogOptions);
+      uiHelper.fixDialogCloseIconOnAndroid('delete-note-file-dialog');
+    });
   }
 
   async setActiveNoteFile(noteFileId) {
