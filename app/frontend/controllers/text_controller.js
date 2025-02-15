@@ -566,6 +566,8 @@ class TextController {
                                  verseNotes,
                                  verses1,
                                  verses2,
+                                 null,
+                                 null,
                                  versification,
                                  render_function,
                                  searchResultBookId <= 0,
@@ -585,6 +587,24 @@ class TextController {
                                      renderVerseMetaInfo=true) {
     if (selected_tags == '') {
       return;
+    }
+
+    let selectedTagList = selected_tags.split(',');
+
+    let renderTagNotes = false;
+    let tagIntro = '';
+    let tagConclusion = '';
+
+    if (selectedTagList.length == 1) {
+      renderTagNotes = true;
+
+      const tagId = parseInt(selectedTagList[0]);
+      const tag = await tags_controller.tag_store.getTag(tagId);
+
+      if (tag != null) {
+        tagIntro = tag.introduction ? tag.introduction : null;
+        tagConclusion = tag.conclusion ? tag.conclusion : null;
+      }
     }
 
     const bibleTranslationId = this.getBibleTranslationId(tab_index);
@@ -656,10 +676,12 @@ class TextController {
                                  verseNotes,
                                  verses1,
                                  verses2,
+                                 tagIntro,
+                                 tagConclusion,
                                  versification,
                                  render_function,
                                  true,
-                                 true,
+                                 renderTagNotes,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
@@ -721,6 +743,8 @@ class TextController {
                                  verseNotes,
                                  verses1,
                                  verses2,
+                                 null,
+                                 null,
                                  versification,
                                  render_function,
                                  true,
@@ -751,6 +775,8 @@ class TextController {
                         groupedVerseNotes,
                         verses1,
                         verses2,
+                        tagIntro,
+                        tagConclusion,
                         versification,
                         render_function,
                         renderBibleBookHeaders=true,
@@ -777,6 +803,8 @@ class TextController {
       bibleBookStats: bibleBookStats,
       verses1: verses1,
       verses2: verses2,
+      tagIntro: tagIntro,
+      tagConclusion: tagConclusion,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
       marked: marked,

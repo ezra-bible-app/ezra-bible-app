@@ -23,22 +23,18 @@ if bookIntroduction != null && bookIntroduction.length > 0
 
 if renderTagNotes
   - var tagIntroNotesClassList = 'tag-intro-notes tag-notes verse-notes ';
-  - var tagIntroNotesRaw = ''
-  - var tagIntroNotesText = ''
-  - var tagIntroNotesUpdate = ''
+  - var tagIntroRaw = ''
+  - var tagIntroText = ''
 
-  if tagIntroNotes == null
+  if tagIntro == null
     - tagIntroNotesClassList += ' verse-notes-empty'
   else
-    if tagIntroNotes != null
-      if tagIntroNotes.text != null
-        - tagIntroNotesRaw = tagIntroNotes.text
-        - tagIntroNotesText = marked.parse(tagIntroNotes.text);
-      if tagIntroNotes.updatedAt != null
-        - tagIntroNotesUpdate = helper.getLocalizedDate(tagIntroNotes.updatedAt);
+    if tagIntro != null
+      - tagIntroRaw = tagIntro
+      - tagIntroText = marked.parse(tagIntro);
   
-  div(class=tagIntroNotesClassList, notes-content=tagIntroNotesRaw)
-    div(class='verse-notes-text external') !{tagIntroNotesText}
+  div(class=tagIntroNotesClassList, notes-content=tagIntroRaw)
+    div(class='verse-notes-text external') !{tagIntroText}
     div(class='verse-notes-status-bar')
       div(class='verse-notes-buttons')
         a(class='save-note', href='')
@@ -46,7 +42,7 @@ if renderTagNotes
           span(i18n='general.save') !{i18n.t('general.save')}
         span &nbsp;|&nbsp;
         a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
-      div(class='verse-notes-timestamp') !{tagIntroNotesUpdate}
+      div(class='verse-notes-timestamp')
 
 if renderBookNotes
   - var bookNotesClassList = 'book-notes verse-notes ';
@@ -268,22 +264,17 @@ each bibleBook in bibleBooks
 
 if renderTagNotes
   - var tagConclusionNotesClassList = 'tag-conclusion-notes tag-notes verse-notes ';
-  - var tagConclusionNotesRaw = ''
-  - var tagConclusionNotesText = ''
-  - var tagConclusionNotesUpdate = ''
+  - var tagConclusionRaw = ''
+  - var tagConclusionText = ''
 
-  if tagConclusionNotes == null
+  if tagConclusion == null
     - tagConclusionNotesClassList += ' verse-notes-empty'
   else
-    if tagConclusionNotes != null
-      if tagConclusionNotes.text != null
-        - tagConclusionNotesRaw = tagConclusionNotes.text
-        - tagConclusionNotesText = marked.parse(tagConclusionNotes.text);
-      if tagConclusionNotes.updatedAt != null
-        - tagConclusionNotesUpdate = helper.getLocalizedDate(tagConclusionNotes.updatedAt);
+    - tagConclusionRaw = tagConclusion
+    - tagConclusionText = marked.parse(tagConclusion);
   
-  div(class=tagConclusionNotesClassList, notes-content=tagConclusionNotesRaw)
-    div(class='verse-notes-text external') !{tagConclusionNotesText}
+  div(class=tagConclusionNotesClassList, notes-content=tagConclusionRaw)
+    div(class='verse-notes-text external') !{tagConclusionText}
     div(class='verse-notes-status-bar')
       div(class='verse-notes-buttons')
         a(class='save-note', href='')
@@ -291,4 +282,4 @@ if renderTagNotes
           span(i18n='general.save') !{i18n.t('general.save')}
         span &nbsp;|&nbsp;
         a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
-      div(class='verse-notes-timestamp') !{tagConclusionNotesUpdate}
+      div(class='verse-notes-timestamp')
