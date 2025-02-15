@@ -366,7 +366,7 @@
     "show-tags": "Show tags",
     "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Show notes",
-    "hide-empty-notes": "Hide empty notes",
+    "hide-empty-verse-notes": "Hide empty verse notes",
     "limit-notes-display-size": "Limit notes display size",
     "limit-text-width": "Limit Bible text width",
     "use-tags-column": "Use tags column",
