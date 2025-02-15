@@ -547,6 +547,60 @@ class IpcDbHandler {
       return tagNote.dataValues;
     });
 
+    this._ipcMain.add('db_persistTagNoteIntroduction', async (tagId, introduction) => {
+      if (tagId == null || introduction == null) {
+        console.error('Missing parameters for db_persistTagNoteIntroduction');
+        return null;
+      }
+
+      let tagNote = await global.models.TagNote.findOne({ where: { tagId: tagId } });
+
+      if (tagNote) {
+        tagNote.introduction = introduction;
+        tagNote.introductionUpdatedAt = new Date();
+        await tagNote.save();
+      } else {
+        tagNote = await global.models.TagNote.create({
+          tagId: tagId,
+          introduction: introduction,
+          introductionUpdatedAt: new Date()
+        });
+      }
+
+      await global.models.MetaRecord.updateLastModified();
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return tagNote.dataValues;
+    });
+
+    this._ipcMain.add('db_persistTagNoteConclusion', async (tagId, conclusion) => {
+      if (tagId == null || conclusion == null) {
+        console.error('Missing parameters for db_persistTagNoteConclusion');
+        return null;
+      }
+
+      let tagNote = await global.models.TagNote.findOne({ where: { tagId: tagId } });
+
+      if (tagNote) {
+        tagNote.conclusion = conclusion;
+        tagNote.conclusionUpdatedAt = new Date();
+        await tagNote.save();
+      } else {
+        tagNote = await global.models.TagNote.create({
+          tagId: tagId,
+          conclusion: conclusion,
+          conclusionUpdatedAt: new Date()
+        });
+      }
+
+      await global.models.MetaRecord.updateLastModified();
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return tagNote.dataValues;
+    });
+
     this._ipcMain.add('db_createTagGroup', async(title) => {
       let result = await global.models.TagGroup.createTagGroup(title);
 

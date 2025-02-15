@@ -299,6 +299,14 @@ class IpcDb {
   async exportUserData(exportFilePath=undefined) {
     return await this._ipcRenderer.call('db_exportUserData', exportFilePath);
   }
+
+  async persistTagNoteIntroduction(tagId, introduction) {
+    return await this._ipcRenderer.call('db_persistTagNoteIntroduction', tagId, introduction);
+  }
+
+  async persistTagNoteConclusion(tagId, conclusion) {
+    return await this._ipcRenderer.call('db_persistTagNoteConclusion', tagId, conclusion);
+  }
 }
 
 module.exports = IpcDb;
