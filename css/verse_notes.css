@@ -51,28 +51,28 @@ div.CodeMirror {
   border: 1px solid grey;
 }
 
-.verse-notes:not(.book-notes) {
+.verse-notes:not(.book-notes):not(.tag-notes) {
   margin-left: 1em;
   width: 27%;
 }
 
-.verse-list-without-tags .verse-notes:not(.book-notes),
-.verse-list.verse-list-notes-column:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
+.verse-list-without-tags .verse-notes:not(.book-notes):not(.tag-notes),
+.verse-list.verse-list-notes-column:not(.verse-list-tags-column) .verse-notes:not(.book-notes):not(.tag-notes) {
   width: 45%;
 }
 
-.verse-list:not(.verse-list-notes-column) .verse-notes:not(.book-notes) {
+.verse-list:not(.verse-list-notes-column) .verse-notes:not(.book-notes):not(.tag-notes) {
   width: 100%;
   width: -webkit-fill-available;
   margin-top: 0.5em;
   margin-left: unset !important;
 }
 
-.verse-list.limit-width:not(.verse-list-notes-column) .verse-notes:not(.book-notes) {
+.verse-list.limit-width:not(.verse-list-notes-column) .verse-notes:not(.book-notes):not(.tag-notes) {
   max-width: 55ch;
 }
 
-.verse-list.verse-list-hide-empty-notes .verse-notes-empty:not(.book-notes) {
+.verse-list.verse-list-hide-empty-notes .verse-notes-empty:not(.book-notes):not(.tag-notes) {
   display: none;
 }
 
@@ -92,7 +92,8 @@ div.CodeMirror {
   display: block;
 }
 
-.verse-list-with-notes .book-notes {
+.verse-list-with-notes .book-notes,
+.verse-list-with-notes .tag-notes {
   margin: 1em 0.6em 0.5em 0.7em;
   box-sizing: border-box;
   width: calc(100% - 1.8em);

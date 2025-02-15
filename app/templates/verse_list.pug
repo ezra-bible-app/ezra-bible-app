@@ -21,6 +21,33 @@
 if bookIntroduction != null && bookIntroduction.length > 0
   div(class='book-intro') !{bookIntroduction}
 
+if renderTagNotes
+  - var tagIntroNotesClassList = 'tag-intro-notes tag-notes verse-notes ';
+  - var tagIntroNotesRaw = ''
+  - var tagIntroNotesText = ''
+  - var tagIntroNotesUpdate = ''
+
+  if tagIntroNotes == null
+    - tagIntroNotesClassList += ' verse-notes-empty'
+  else
+    if tagIntroNotes != null
+      if tagIntroNotes.text != null
+        - tagIntroNotesRaw = tagIntroNotes.text
+        - tagIntroNotesText = marked.parse(tagIntroNotes.text);
+      if tagIntroNotes.updatedAt != null
+        - tagIntroNotesUpdate = helper.getLocalizedDate(tagIntroNotes.updatedAt);
+  
+  div(class=tagIntroNotesClassList, notes-content=tagIntroNotesRaw)
+    div(class='verse-notes-text external') !{tagIntroNotesText}
+    div(class='verse-notes-status-bar')
+      div(class='verse-notes-buttons')
+        a(class='save-note', href='')
+          i.fas.fa-save.fa-sm
+          span(i18n='general.save') !{i18n.t('general.save')}
+        span &nbsp;|&nbsp;
+        a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
+      div(class='verse-notes-timestamp') !{tagIntroNotesUpdate}
+
 if renderBookNotes
   - var bookNotesClassList = 'book-notes verse-notes ';
   - var firstBibleBookId = bibleBooks[0].shortTitle
@@ -238,3 +265,30 @@ each bibleBook in bibleBooks
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)
       - var loadBookResultFunction = "javascript:app_controller.module_search_controller.loadBookResults('" + bibleBook.shortTitle + "')"
       a.load-book-results(href=loadBookResultFunction, i18n='bible-browser.show-search-results') !{i18n.t('bible-browser.show-search-results')}
+
+if renderTagNotes
+  - var tagConclusionNotesClassList = 'tag-conclusion-notes tag-notes verse-notes ';
+  - var tagConclusionNotesRaw = ''
+  - var tagConclusionNotesText = ''
+  - var tagConclusionNotesUpdate = ''
+
+  if tagConclusionNotes == null
+    - tagConclusionNotesClassList += ' verse-notes-empty'
+  else
+    if tagConclusionNotes != null
+      if tagConclusionNotes.text != null
+        - tagConclusionNotesRaw = tagConclusionNotes.text
+        - tagConclusionNotesText = marked.parse(tagConclusionNotes.text);
+      if tagConclusionNotes.updatedAt != null
+        - tagConclusionNotesUpdate = helper.getLocalizedDate(tagConclusionNotes.updatedAt);
+  
+  div(class=tagConclusionNotesClassList, notes-content=tagConclusionNotesRaw)
+    div(class='verse-notes-text external') !{tagConclusionNotesText}
+    div(class='verse-notes-status-bar')
+      div(class='verse-notes-buttons')
+        a(class='save-note', href='')
+          i.fas.fa-save.fa-sm
+          span(i18n='general.save') !{i18n.t('general.save')}
+        span &nbsp;|&nbsp;
+        a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
+      div(class='verse-notes-timestamp') !{tagConclusionNotesUpdate}

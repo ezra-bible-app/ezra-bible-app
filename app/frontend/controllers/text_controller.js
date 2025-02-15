@@ -406,6 +406,7 @@ class TextController {
         renderChapterHeaders: isInstantLoadingBook && !bookHasHeaders,
         renderChapterNavigationLinks: !isInstantLoadingBook,
         renderBookNotes: (startVerseNumber1 == 1),
+        renderTagNotes: false,
         bookChapterCount: bookChapterCount,
         bookIntroduction: bookIntroduction,
         bookNotes: bookNotes,
@@ -568,6 +569,7 @@ class TextController {
                                  versification,
                                  render_function,
                                  searchResultBookId <= 0,
+                                 false,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
@@ -657,6 +659,7 @@ class TextController {
                                  versification,
                                  render_function,
                                  true,
+                                 true,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
@@ -721,6 +724,7 @@ class TextController {
                                  versification,
                                  render_function,
                                  true,
+                                 false,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
@@ -750,6 +754,7 @@ class TextController {
                         versification,
                         render_function,
                         renderBibleBookHeaders=true,
+                        renderTagNotes=false,
                         renderVerseMetaInfo=true) {    
 
     var tab = app_controller.tab_controller.getTabById(current_tab_id);
@@ -766,6 +771,7 @@ class TextController {
       renderBibleBookHeaders: renderBibleBookHeaders,
       renderChapterNavigationLinks: false,
       renderVerseMetaInfo: renderVerseMetaInfo,
+      renderTagNotes: renderTagNotes,
       bibleBooks: bibleBooks,
       bookNames: bookNames,
       bibleBookStats: bibleBookStats,
