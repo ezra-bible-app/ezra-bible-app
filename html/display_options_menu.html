@@ -28,18 +28,16 @@
 </div>
 
 <div class="options-group">
-  <div class="options-header" i18n="bible-browser.bible-browser-layout"></div>
+  <div class="options-header" i18n="bible-browser.tags-and-notes-options"></div>
 
-  <config-option id="showBookChapterNavigationOption" settingsKey="showBookChapterNavigation" label="bible-browser.show-book-chapter-navigation" checkedByDefault="false"></config-option>
-  <config-option id="showHeaderNavigationOption" settingsKey="showHeaderNavigation" label="bible-browser.show-header-navigation" checkedByDefault="false"></config-option>
-  <config-option id="showTabSearchOption" settingsKey="showTabSearch" label="bible-browser.show-tab-search" checkedByDefault="false"></config-option>
-  <config-option id="showUserDataIndicatorOption" settingsKey="showUserDataIndicators" label="bible-browser.show-notes-tags-indicators" checkedByDefault="false"></config-option>
   <config-option id="showTagsOption" settingsKey="showTags" label="bible-browser.show-tags" checkedByDefault="true"></config-option>
   <config-option id="useTagsColumnOption" settingsKey="useTagsColumn" label="bible-browser.use-tags-column" checkedByDefault="false"></config-option>
   <config-option id="useTagGroupFilterOption" settingsKey="useTagGroupFilter" label="bible-browser.use-tag-group-filter" checkedByDefault="false"></config-option>
   <config-option id="showNotesOption" settingsKey="showNotes" label="bible-browser.show-notes" checkedByDefault="false"></config-option>
   <config-option id="useNotesColumnOption" settingsKey="useNotesColumn" label="bible-browser.use-notes-column" checkedByDefault="true"></config-option>
   <config-option id="hideEmptyNotesOption" settingsKey="hideEmptyNotes" label="bible-browser.hide-empty-notes" checkedByDefault="false"></config-option>
+  <config-option id="fixNotesHeightOption" settingsKey="fixNotesHeight" label="bible-browser.limit-notes-display-size" checkedByDefault="false"></config-option>
+  <config-option id="adjustTagsNotesTextSizeOption" settingsKey="adjustTagsNotesTextSize" label="bible-browser.adjust-font-size-tags-notes" checkedByDefault="true"></config-option>
 </div>
 
 <div class="options-group" style="clear: both;">
@@ -58,10 +56,11 @@
 
   <config-option id="openVerseListsInNewTabOption" settingsKey="openVerseListsInNewTab" label="bible-browser.open-verse-lists-in-new-tab" checkedByDefault="false"></config-option>
   <config-option id="showSearchResultsInPopupOption" settingsKey="showSearchResultsInPopup" label="bible-browser.show-search-results-in-popup" checkedByDefault="false"></config-option>
-  <config-option id="adjustTagsNotesTextSizeOption" settingsKey="adjustTagsNotesTextSize" label="bible-browser.adjust-font-size-tags-notes" checkedByDefault="true"></config-option>
   <config-option id="adjustSidePanelTextSizeOption" settingsKey="adjustSidePanelTextSize" label="bible-browser.adjust-font-size-side-panel" checkedByDefault="false"></config-option>
-  <config-option id="fixNotesHeightOption" settingsKey="fixNotesHeight" label="bible-browser.limit-notes-display-size" checkedByDefault="false"></config-option>
-  <config-option id="limitTextWidthOption" settingsKey="limitTextWidth" label="bible-browser.limit-text-width" checkedByDefault="true"></config-option>
+
+  <div class="switch-box">
+    <button id="show-typeface-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="general.type-face.configure-typeface"></button>
+  </div>
 </div>
 
 <div class="options-group">
@@ -74,10 +73,7 @@
   <config-option id="showStrongsInlineOption" settingsKey="showStrongsInline" label="bible-browser.show-strongs" checkedByDefault="false"></config-option>
   <config-option id="showParagraphsOption" settingsKey="showParagraphs" label="bible-browser.show-paragraphs" checkedByDefault="false"></config-option>
   <config-option id="redLetterOption" settingsKey="redLetters" label="bible-browser.red-letters" checkedByDefault="true"></config-option>
-
-  <div class="switch-box">
-    <button id="show-typeface-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="general.type-face.configure-typeface"></button>
-  </div>
+  <config-option id="limitTextWidthOption" settingsKey="limitTextWidth" label="bible-browser.limit-text-width" checkedByDefault="true"></config-option>
 </div>
 
 <div class="options-group" style="clear: both;">
@@ -89,4 +85,13 @@
   <div class="switch-box">
     <button id="setup-db-sync-button" class="fg-button ui-corner-all ui-state-default" i18n="dropbox.setup-db-sync"></button>
   </div>
+</div>
+
+<div class="options-group">
+  <div class="options-header" i18n="bible-browser.bible-browser-layout"></div>
+
+  <config-option id="showBookChapterNavigationOption" settingsKey="showBookChapterNavigation" label="bible-browser.show-book-chapter-navigation" checkedByDefault="false"></config-option>
+  <config-option id="showHeaderNavigationOption" settingsKey="showHeaderNavigation" label="bible-browser.show-header-navigation" checkedByDefault="false"></config-option>
+  <config-option id="showTabSearchOption" settingsKey="showTabSearch" label="bible-browser.show-tab-search" checkedByDefault="false"></config-option>
+  <config-option id="showUserDataIndicatorOption" settingsKey="showUserDataIndicators" label="bible-browser.show-notes-tags-indicators" checkedByDefault="false"></config-option>
 </div>
