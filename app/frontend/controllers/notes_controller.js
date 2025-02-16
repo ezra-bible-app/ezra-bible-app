@@ -379,7 +379,15 @@ class NotesController {
           if (newNoteValue == "") {
             updatedTimestamp = "";
           } else {
-            updatedTimestamp = note.updatedAt;
+            if (this.currentNoteIsTagNote) {
+              if (this.currentlyEditedNotes.classList.contains('tag-intro-notes')) {
+                updatedTimestamp = note.introductionUpdatedAt;
+              } else if (this.currentlyEditedNotes.classList.contains('tag-conclusion-notes')) {
+                updatedTimestamp = note.conclusionUpdatedAt;
+              }
+            } else {
+              updatedTimestamp = note.updatedAt;
+            }
           }
 
           if (currentVerseBox != null) {
