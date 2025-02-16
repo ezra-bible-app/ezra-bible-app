@@ -567,7 +567,6 @@ class TextController {
                                  verses1,
                                  verses2,
                                  null,
-                                 null,
                                  versification,
                                  render_function,
                                  searchResultBookId <= 0,
