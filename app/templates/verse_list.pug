@@ -36,7 +36,7 @@ if renderTagNotes
     - tagIntroText = marked.parse(tagNote.introduction);
     - tagNoteId = tagNote.id
     - tagId = tagNote.tagId
-    - tagIntroUpdated = tagNote.introductionUpdatedAt
+    - tagIntroUpdated = helper.getLocalizedDate(tagNote.introductionUpdatedAt)
   
   div(class=tagIntroNotesClassList, tag-id=tagId, notes-id=tagNoteId, notes-content=tagIntroRaw)
     div(class='verse-notes-text external') !{tagIntroText}
@@ -282,7 +282,7 @@ if renderTagNotes
     - tagConclusionText = marked.parse(tagNote.conclusion);
     - tagNoteId = tagNote.id
     - tagId = tagNote.tagId
-    - tagConclusionUpdated = tagNote.conclusionUpdatedAt
+    - tagConclusionUpdated = helper.getLocalizedDate(tagNote.conclusionUpdatedAt);
   
   div(class=tagConclusionNotesClassList, tag-id=tagId, notes-id=tagNoteId, notes-content=tagConclusionRaw)
     div(class='verse-notes-text external') !{tagConclusionText}
