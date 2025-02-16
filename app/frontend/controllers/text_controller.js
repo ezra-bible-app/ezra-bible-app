@@ -424,7 +424,7 @@ class TextController {
         [bookShortTitle.toLowerCase()]:  bookNotes,
         ...getNotesForSection(verseNotes, startVerseNumber1, startVerseNumber1 + numberOfVerses - 1)
       };
-      renderFunction(verses, notes);
+      renderFunction(verses1, notes);
     }
   }
 
