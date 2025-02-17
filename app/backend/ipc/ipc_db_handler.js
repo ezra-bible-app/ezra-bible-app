@@ -558,25 +558,10 @@ class IpcDbHandler {
         return null;
       }
 
-      let tagNote = await global.models.TagNote.findOne({ where: { tagId: tagId } });
-
-      if (tagNote) {
-        tagNote.introduction = introduction;
-        tagNote.introductionUpdatedAt = new Date();
-        await tagNote.save();
-      } else {
-        tagNote = await global.models.TagNote.create({
-          tagId: tagId,
-          introduction: introduction,
-          introductionUpdatedAt: new Date()
-        });
-      }
-
+      let tagNote = await global.models.TagNote.persistIntroduction(tagId, introduction);
       await global.models.MetaRecord.updateLastModified();
-
       this.triggerDropboxSyncIfConfigured();
-
-      return tagNote.dataValues;
+      return tagNote;
     });
 
     this._ipcMain.add('db_persistTagNoteConclusion', async (tagId, conclusion) => {
@@ -585,25 +570,10 @@ class IpcDbHandler {
         return null;
       }
 
-      let tagNote = await global.models.TagNote.findOne({ where: { tagId: tagId } });
-
-      if (tagNote) {
-        tagNote.conclusion = conclusion;
-        tagNote.conclusionUpdatedAt = new Date();
-        await tagNote.save();
-      } else {
-        tagNote = await global.models.TagNote.create({
-          tagId: tagId,
-          conclusion: conclusion,
-          conclusionUpdatedAt: new Date()
-        });
-      }
-
+      let tagNote = await global.models.TagNote.persistConclusion(tagId, conclusion);
       await global.models.MetaRecord.updateLastModified();
-
       this.triggerDropboxSyncIfConfigured();
-
-      return tagNote.dataValues;
+      return tagNote;
     });
 
     this._ipcMain.add('db_createTagGroup', async(title) => {

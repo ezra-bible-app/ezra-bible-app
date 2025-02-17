@@ -46,5 +46,41 @@ module.exports = (sequelize, DataTypes) => {
     TagNote.belongsTo(models.Tag, { foreignKey: 'tagId' });
   };
 
+  TagNote.persistIntroduction = async function(tagId, introduction) {
+    let tagNote = await TagNote.findOne({ where: { tagId: tagId } });
+
+    if (tagNote) {
+      tagNote.introduction = introduction;
+      tagNote.introductionUpdatedAt = new Date();
+      await tagNote.save();
+    } else {
+      tagNote = await TagNote.create({
+        tagId: tagId,
+        introduction: introduction,
+        introductionUpdatedAt: new Date()
+      });
+    }
+
+    return tagNote.dataValues;
+  };
+
+  TagNote.persistConclusion = async function(tagId, conclusion) {
+    let tagNote = await TagNote.findOne({ where: { tagId: tagId } });
+
+    if (tagNote) {
+      tagNote.conclusion = conclusion;
+      tagNote.conclusionUpdatedAt = new Date();
+      await tagNote.save();
+    } else {
+      tagNote = await TagNote.create({
+        tagId: tagId,
+        conclusion: conclusion,
+        conclusionUpdatedAt: new Date()
+      });
+    }
+
+    return tagNote.dataValues;
+  };
+
   return TagNote;
 };
