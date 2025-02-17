@@ -36,7 +36,8 @@ if renderTagNotes
     - tagIntroNotesClassList += ' verse-notes-empty'
   else
     - tagIntroRaw = tagNote.introduction
-    - tagIntroText = marked.parse(tagNote.introduction);
+    if tagNote.introduction != null
+      - tagIntroText = marked.parse(tagNote.introduction);
     - tagNoteId = tagNote.id
     - tagIntroUpdated = helper.getLocalizedDate(tagNote.introductionUpdatedAt)
   
@@ -284,7 +285,8 @@ if renderTagNotes
     - tagConclusionNotesClassList += ' verse-notes-empty'
   else
     - tagConclusionRaw = tagNote.conclusion
-    - tagConclusionText = marked.parse(tagNote.conclusion);
+    if tagNote.conclusion != null
+      - tagConclusionText = marked.parse(tagNote.conclusion);
     - tagNoteId = tagNote.id
     - tagConclusionUpdated = helper.getLocalizedDate(tagNote.conclusionUpdatedAt);
   
