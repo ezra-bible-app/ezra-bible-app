@@ -544,7 +544,12 @@ class IpcDbHandler {
       }
 
       let tagNote = await global.models.TagNote.findOne({ where: { tagId: tagId } });
-      return tagNote.dataValues;
+
+      if (tagNote == null) {
+        return null;
+      } else {
+        return tagNote.dataValues;
+      }
     });
 
     this._ipcMain.add('db_persistTagNoteIntroduction', async (tagId, introduction) => {
