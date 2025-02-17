@@ -50,36 +50,73 @@ module.exports = (sequelize, DataTypes) => {
     let tagNote = await TagNote.findOne({ where: { tagId: tagId } });
 
     if (tagNote) {
-      tagNote.introduction = introduction;
+      if (introduction != '') {
+        tagNote.introduction = introduction;
+      } else {
+        tagNote.introduction = null;
+      }
+
       tagNote.introductionUpdatedAt = new Date();
       await tagNote.save();
     } else {
-      tagNote = await TagNote.create({
-        tagId: tagId,
-        introduction: introduction,
-        introductionUpdatedAt: new Date()
-      });
+      if (introduction != '') {
+        tagNote = await TagNote.create({
+          tagId: tagId,
+          introduction: introduction,
+          introductionUpdatedAt: new Date()
+        });
+      }
     }
 
-    return tagNote.dataValues;
+    if (tagNote.introduction == null && tagNote.conclusion == null) {
+      await TagNote.destroy({ where: { id: tagNote.id } });
+
+      return {
+        success: true
+      };
+
+    } else {
+      return {
+        success: true,
+        dbObject: tagNote.dataValues
+      }
+    }
   };
 
   TagNote.persistConclusion = async function(tagId, conclusion) {
     let tagNote = await TagNote.findOne({ where: { tagId: tagId } });
 
     if (tagNote) {
-      tagNote.conclusion = conclusion;
+      if (conclusion != '') {
+        tagNote.conclusion = conclusion;
+      } else {
+        tagNote.conclusion = null;
+      }
+
       tagNote.conclusionUpdatedAt = new Date();
       await tagNote.save();
     } else {
-      tagNote = await TagNote.create({
-        tagId: tagId,
-        conclusion: conclusion,
-        conclusionUpdatedAt: new Date()
-      });
+      if (conclusion != '') {
+        tagNote = await TagNote.create({
+          tagId: tagId,
+          conclusion: conclusion,
+          conclusionUpdatedAt: new Date()
+        });
+      }
     }
 
-    return tagNote.dataValues;
+    if (tagNote.introduction == null && tagNote.conclusion == null) {
+      await TagNote.destroy({ where: { id: tagNote.id } });
+
+      return {
+        success: true
+      };
+    } else {
+      return {
+        success: true,
+        dbObject: tagNote.dataValues
+      }
+    }
   };
 
   return TagNote;
