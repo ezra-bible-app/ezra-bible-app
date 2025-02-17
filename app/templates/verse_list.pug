@@ -27,6 +27,9 @@ if renderTagNotes
   - var tagIntroText = ''
   - var tagNoteId = ''
   - var tagId = ''
+  - var verseTagKeys = Object.keys(verseTags)
+  if verseTagKeys.length > 0 && verseTags[verseTagKeys[0]].length > 0
+    - tagId = verseTags[verseTagKeys[0]][0].tagId
   - var tagIntroUpdated = ''
 
   if tagNote == null
@@ -35,7 +38,6 @@ if renderTagNotes
     - tagIntroRaw = tagNote.introduction
     - tagIntroText = marked.parse(tagNote.introduction);
     - tagNoteId = tagNote.id
-    - tagId = tagNote.tagId
     - tagIntroUpdated = helper.getLocalizedDate(tagNote.introductionUpdatedAt)
   
   div(class=tagIntroNotesClassList, tag-id=tagId, notes-id=tagNoteId, notes-content=tagIntroRaw)
@@ -273,6 +275,9 @@ if renderTagNotes
   - var tagConclusionText = ''
   - var tagNoteId = ''
   - var tagId = ''
+  - var verseTagKeys = Object.keys(verseTags)
+  if verseTagKeys.length > 0 && verseTags[verseTagKeys[0]].length > 0
+    - tagId = verseTags[verseTagKeys[0]][0].tagId
   - var tagConclusionUpdated = ''
 
   if tagNote == null
@@ -281,7 +286,6 @@ if renderTagNotes
     - tagConclusionRaw = tagNote.conclusion
     - tagConclusionText = marked.parse(tagNote.conclusion);
     - tagNoteId = tagNote.id
-    - tagId = tagNote.tagId
     - tagConclusionUpdated = helper.getLocalizedDate(tagNote.conclusionUpdatedAt);
   
   div(class=tagConclusionNotesClassList, tag-id=tagId, notes-id=tagNoteId, notes-content=tagConclusionRaw)
