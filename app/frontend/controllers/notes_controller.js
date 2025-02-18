@@ -56,6 +56,7 @@ class NotesController {
     this._platformHelper = new PlatformHelper();
     this.currentlyEditedNotes = null;
     this.currentNoteIsTagNote = false;
+    this.clickEventHappened = false;
     this._reset();
 
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
@@ -68,7 +69,11 @@ class NotesController {
     });
 
     eventController.subscribe('on-body-clicked', () => {
-      this.restoreCurrentlyEditedNotes();
+      // When clicking outside of the notes editor we need to end any note editing.
+      // But only if the click event was not triggered just before.
+      if (!this.clickEventHappened) {
+        this.restoreCurrentlyEditedNotes();
+      }
     });
 
     eventController.subscribe('on-theme-changed', (theme) => {
@@ -101,10 +106,12 @@ class NotesController {
         verseNotes.classList.remove('visible');
 
         verseBox.querySelector('.notes-info').addEventListener('mousedown', (e) => {
+          e.stopPropagation();
           this._handleNotesIndicatorClick(e, verseNotes);
         });
 
         verseNotes.addEventListener('click', (event) => {
+          event.stopPropagation();
           this.currentNoteIsTagNote = false;
           this._handleNotesClick(event);
         });
@@ -114,6 +121,7 @@ class NotesController {
     const bookNoteBox = currentVerseListFrame[0].querySelector('.book-notes');
     if (bookNoteBox) {
       bookNoteBox.addEventListener('click', (event) => {
+        event.stopPropagation();
         this.currentNoteIsTagNote = false;
         this._handleNotesClick(event);
       });
@@ -122,6 +130,7 @@ class NotesController {
     const tagIntroNoteBox = currentVerseListFrame[0].querySelector('.tag-intro-notes');
     if (tagIntroNoteBox) {
       tagIntroNoteBox.addEventListener('click', (event) => {
+        event.stopPropagation();
         this.currentNoteIsTagNote = true;
         this._handleNotesClick(event);
       });
@@ -130,6 +139,7 @@ class NotesController {
     const tagConclusionNoteBox = currentVerseListFrame[0].querySelector('.tag-conclusion-notes');
     if (tagConclusionNoteBox) {
       tagConclusionNoteBox.addEventListener('click', (event) => {
+        event.stopPropagation();
         this.currentNoteIsTagNote = true;
         this._handleNotesClick(event);
       });
@@ -201,6 +211,11 @@ class NotesController {
   }
 
   async _handleNotesClick(event) {
+    this.clickEventHappened = true;
+    setTimeout(() => {
+      this.clickEventHappened = false;
+    }, 200);
+
     app_controller.hideAllMenus();
 
     if (event.target.nodeName == 'A') {
