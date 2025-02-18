@@ -111,7 +111,6 @@ class NotesController {
         });
 
         verseNotes.addEventListener('click', (event) => {
-          event.stopPropagation();
           this.currentNoteIsTagNote = false;
           this._handleNotesClick(event);
         });
@@ -121,7 +120,6 @@ class NotesController {
     const bookNoteBox = currentVerseListFrame[0].querySelector('.book-notes');
     if (bookNoteBox) {
       bookNoteBox.addEventListener('click', (event) => {
-        event.stopPropagation();
         this.currentNoteIsTagNote = false;
         this._handleNotesClick(event);
       });
@@ -130,7 +128,6 @@ class NotesController {
     const tagIntroNoteBox = currentVerseListFrame[0].querySelector('.tag-intro-notes');
     if (tagIntroNoteBox) {
       tagIntroNoteBox.addEventListener('click', (event) => {
-        event.stopPropagation();
         this.currentNoteIsTagNote = true;
         this._handleNotesClick(event);
       });
@@ -139,7 +136,6 @@ class NotesController {
     const tagConclusionNoteBox = currentVerseListFrame[0].querySelector('.tag-conclusion-notes');
     if (tagConclusionNoteBox) {
       tagConclusionNoteBox.addEventListener('click', (event) => {
-        event.stopPropagation();
         this.currentNoteIsTagNote = true;
         this._handleNotesClick(event);
       });
