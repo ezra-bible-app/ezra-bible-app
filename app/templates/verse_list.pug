@@ -32,7 +32,7 @@ if renderTagNotes
     - tagId = verseTags[verseTagKeys[0]][0].tagId
   - var tagIntroUpdated = ''
 
-  if tagNote == null
+  if tagNote == null || tagNote.introduction == null
     - tagIntroNotesClassList += ' verse-notes-empty'
   else
     - tagIntroRaw = tagNote.introduction
@@ -281,7 +281,7 @@ if renderTagNotes
     - tagId = verseTags[verseTagKeys[0]][0].tagId
   - var tagConclusionUpdated = ''
 
-  if tagNote == null
+  if tagNote == null || tagNote.conclusion == null
     - tagConclusionNotesClassList += ' verse-notes-empty'
   else
     - tagConclusionRaw = tagNote.conclusion
