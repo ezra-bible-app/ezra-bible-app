@@ -396,9 +396,14 @@ class NotesController {
               } else if (this.currentlyEditedNotes.classList.contains('tag-conclusion-notes')) {
                 updatedTimestamp = note.conclusionUpdatedAt;
               }
+
             } else {
               updatedTimestamp = note.updatedAt;
             }
+          }
+
+          if (this.currentNoteIsTagNote) {
+            this._updateNoteDate(this.currentlyEditedNotes, updatedTimestamp);
           }
 
           if (currentVerseBox != null) {
@@ -435,14 +440,14 @@ class NotesController {
     return true;
   }
 
-  _updateNoteDate(verseBox, dbTimestamp) {
+  _updateNoteDate(container, dbTimestamp) {
     var localizedTimestamp = "";
 
     if (dbTimestamp != "") {
       localizedTimestamp = i18nHelper.getLocalizedDate(dbTimestamp);
     }
 
-    verseBox.querySelector('.verse-notes-timestamp').innerText = localizedTimestamp;
+    container.querySelector('.verse-notes-timestamp').innerText = localizedTimestamp;
   }
 
   _getRenderedEditorContent(original = false) {
