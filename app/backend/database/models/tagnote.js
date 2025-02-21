@@ -47,75 +47,78 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   TagNote.persistIntroduction = async function(tagId, introduction) {
-    let tagNote = await TagNote.findOne({ where: { tagId: tagId } });
+    try {
+      let tagNote = await TagNote.findOne({ where: { tagId: tagId } });
 
-    if (tagNote) {
-      if (introduction != '') {
-        tagNote.introduction = introduction;
+      if (tagNote) {
+        if (introduction != '') {
+          tagNote.introduction = introduction;
+        } else {
+          tagNote.introduction = null;
+        }
+
+        tagNote.introductionUpdatedAt = new Date();
+        await tagNote.save();
       } else {
-        tagNote.introduction = null;
+        if (introduction != '') {
+          tagNote = await TagNote.create({
+            tagId: tagId,
+            introduction: introduction,
+            introductionUpdatedAt: new Date()
+          });
+        }
       }
 
-      tagNote.introductionUpdatedAt = new Date();
-      await tagNote.save();
-    } else {
-      if (introduction != '') {
-        tagNote = await TagNote.create({
-          tagId: tagId,
-          introduction: introduction,
-          introductionUpdatedAt: new Date()
-        });
+      if (tagNote.introduction == null && tagNote.conclusion == null) {
+        await tagNote.destroy();
       }
-    }
 
-    if (tagNote.introduction == null && tagNote.conclusion == null) {
-      await TagNote.destroy({ where: { id: tagNote.id } });
-
-      return {
-        success: true
-      };
-
-    } else {
       return {
         success: true,
         dbObject: tagNote.dataValues
-      }
+      };
+    } catch (error) {
+      console.error("ERROR: Could not persist tag note introduction! " + error);
+
+      return global.getDatabaseException(error);
     }
   };
 
   TagNote.persistConclusion = async function(tagId, conclusion) {
-    let tagNote = await TagNote.findOne({ where: { tagId: tagId } });
+    try {
+      let tagNote = await TagNote.findOne({ where: { tagId: tagId } });
 
-    if (tagNote) {
-      if (conclusion != '') {
-        tagNote.conclusion = conclusion;
+      if (tagNote) {
+        if (conclusion != '') {
+          tagNote.conclusion = conclusion;
+        } else {
+          tagNote.conclusion = null;
+        }
+
+        tagNote.conclusionUpdatedAt = new Date();
+        await tagNote.save();
       } else {
-        tagNote.conclusion = null;
+        if (conclusion != '') {
+          tagNote = await TagNote.create({
+            tagId: tagId,
+            conclusion: conclusion,
+            conclusionUpdatedAt: new Date()
+          });
+        }
       }
 
-      tagNote.conclusionUpdatedAt = new Date();
-      await tagNote.save();
-    } else {
-      if (conclusion != '') {
-        tagNote = await TagNote.create({
-          tagId: tagId,
-          conclusion: conclusion,
-          conclusionUpdatedAt: new Date()
-        });
+      if (tagNote.introduction == null && tagNote.conclusion == null) {
+        await tagNote.destroy();
       }
-    }
 
-    if (tagNote.introduction == null && tagNote.conclusion == null) {
-      await TagNote.destroy({ where: { id: tagNote.id } });
-
-      return {
-        success: true
-      };
-    } else {
       return {
         success: true,
         dbObject: tagNote.dataValues
-      }
+      };
+    } catch (error) {
+      console.error("ERROR: Could not persist tag note conclusion! " + error);
+
+      return global.getDatabaseException(error);
     }
   };
 
