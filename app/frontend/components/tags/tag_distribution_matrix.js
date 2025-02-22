@@ -181,6 +181,7 @@ class TagDistributionMatrix extends HTMLElement {
     const matrixTBody = this.shadowRoot.getElementById('matrix-tbody');
     matrixTBody.innerHTML = '';
 
+    this.shadowRoot.getElementById('tag-distribution-matrix').style.display = 'none';
     this.shadowRoot.getElementById('copy-table-to-clipboard').style.display = 'none';
   }
 
@@ -194,6 +195,10 @@ class TagDistributionMatrix extends HTMLElement {
     const tagIdList = tagIdListString.split(',');
     const bibleBookStats = verseListController.getBibleBookStatsFromVerseList(tabIndex);
     const actualBooks = Object.keys(bibleBookStats);
+
+    if (actualBooks.length < 2) {
+      return;
+    }
 
     let headerRow = this.shadowRoot.getElementById('header-row');
     headerRow.innerHTML = '';
@@ -258,6 +263,7 @@ class TagDistributionMatrix extends HTMLElement {
     }
 
     if (platformHelper.isElectron()) {
+      this.shadowRoot.getElementById('tag-distribution-matrix').style.removeProperty('display');
       this.shadowRoot.getElementById('copy-table-to-clipboard').style.removeProperty('display');
     }
   }

@@ -153,6 +153,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getVerseTagsByVerseReferenceIds', verseReferenceIds, versification);
   }
 
+  async getTagNote(tagId) {
+    return await this._ipcRenderer.call('db_getTagNote', tagId);
+  }
+
   async createTagGroup(title) {
     return await this._ipcRenderer.call('db_createTagGroup', title);
   }
@@ -187,6 +191,22 @@ class IpcDb {
 
   async getNotesByVerseReferenceIds(verseReferenceIds, versification) {
     return await this._ipcRenderer.call('db_getNotesByVerseReferenceIds', verseReferenceIds, versification);
+  }
+
+  async getAllNoteFiles() {
+    return await this._ipcRenderer.call('db_getAllNoteFiles');
+  }
+
+  async createNoteFile(noteFileTitle) {
+    return await this._ipcRenderer.call('db_createNoteFile', noteFileTitle);
+  }
+
+  async deleteNoteFile(id) {
+    return await this._ipcRenderer.call('db_deleteNoteFile', id);
+  }
+
+  async updateNoteFile(id, newTitle) {
+    return await this._ipcRenderer.call('db_updateNoteFile', id, newTitle);
   }
 
   async getBibleBook(shortTitle) {
@@ -278,6 +298,14 @@ class IpcDb {
 
   async exportUserData(exportFilePath=undefined) {
     return await this._ipcRenderer.call('db_exportUserData', exportFilePath);
+  }
+
+  async persistTagNoteIntroduction(tagId, introduction) {
+    return await this._ipcRenderer.call('db_persistTagNoteIntroduction', tagId, introduction);
+  }
+
+  async persistTagNoteConclusion(tagId, conclusion) {
+    return await this._ipcRenderer.call('db_persistTagNoteConclusion', tagId, conclusion);
   }
 }
 

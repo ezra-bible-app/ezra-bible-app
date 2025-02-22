@@ -28,3 +28,31 @@ module.exports.getTooltipText = function(noteText) {
     return i18n.t('bible-browser.new-note-hint');
   }
 };
+
+function sanitizeNotes(input) {
+  // Create a DOM parser
+  const parser = new DOMParser();
+
+  // Parse the input as an HTML document
+  const doc = parser.parseFromString(input, 'text/html');
+  
+  // Remove all <script> elements
+  doc.querySelectorAll('script').forEach(script => script.remove());
+  
+  // Remove all <style> elements
+  doc.querySelectorAll('style').forEach(style => style.remove());
+  
+  // Return the sanitized HTML as a string
+  return doc.body.innerHTML;
+};
+
+module.exports.renderNotes = function(input) {
+  // Sanitize the input
+  const sanitizedInput = sanitizeNotes(input);
+
+  // Render the notes using the marked parser
+  const { marked } = require("marked");
+  const renderedContent = marked.parse(sanitizedInput);
+
+  return renderedContent;
+};

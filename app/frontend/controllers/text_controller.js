@@ -406,6 +406,7 @@ class TextController {
         renderChapterHeaders: isInstantLoadingBook && !bookHasHeaders,
         renderChapterNavigationLinks: !isInstantLoadingBook,
         renderBookNotes: (startVerseNumber1 == 1),
+        renderTagNotes: false,
         bookChapterCount: bookChapterCount,
         bookIntroduction: bookIntroduction,
         bookNotes: bookNotes,
@@ -414,12 +415,12 @@ class TextController {
         verses2: verses2,
         verseTags: verseTags,
         verseNotes: verseNotes,
-        marked: marked,
         referenceSeparator: separator,
         chapterText: bookShortTitle === 'Ps' ? "bible-browser.psalm" : "bible-browser.chapter",
         helper: {
           getNotesTooltip: notesHelper.getTooltipText,
-          getLocalizedDate: i18nHelper.getLocalizedDate,
+          renderNotes: notesHelper.renderNotes,
+          getLocalizedDate: i18nHelper.getLocalizedDate
         }
       });
 
@@ -565,9 +566,11 @@ class TextController {
                                  verseNotes,
                                  verses1,
                                  verses2,
+                                 null,
                                  versification,
                                  render_function,
                                  searchResultBookId <= 0,
+                                 false,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
@@ -583,6 +586,18 @@ class TextController {
                                      renderVerseMetaInfo=true) {
     if (selected_tags == '') {
       return;
+    }
+
+    let selectedTagList = selected_tags.split(',');
+
+    let renderTagNotes = false;
+    let tagNote = null;
+
+    if (selectedTagList.length == 1) {
+      renderTagNotes = true;
+
+      const tagId = parseInt(selectedTagList[0]);
+      tagNote = await ipcDb.getTagNote(tagId);
     }
 
     const bibleTranslationId = this.getBibleTranslationId(tab_index);
@@ -654,9 +669,11 @@ class TextController {
                                  verseNotes,
                                  verses1,
                                  verses2,
+                                 tagNote,
                                  versification,
                                  render_function,
                                  true,
+                                 renderTagNotes,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
@@ -718,9 +735,11 @@ class TextController {
                                  verseNotes,
                                  verses1,
                                  verses2,
+                                 null,
                                  versification,
                                  render_function,
                                  true,
+                                 false,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
@@ -747,9 +766,11 @@ class TextController {
                         groupedVerseNotes,
                         verses1,
                         verses2,
+                        tagNote,
                         versification,
                         render_function,
                         renderBibleBookHeaders=true,
+                        renderTagNotes=false,
                         renderVerseMetaInfo=true) {    
 
     var tab = app_controller.tab_controller.getTabById(current_tab_id);
@@ -766,18 +787,21 @@ class TextController {
       renderBibleBookHeaders: renderBibleBookHeaders,
       renderChapterNavigationLinks: false,
       renderVerseMetaInfo: renderVerseMetaInfo,
+      renderTagNotes: renderTagNotes,
       bibleBooks: bibleBooks,
       bookNames: bookNames,
       bibleBookStats: bibleBookStats,
       verses1: verses1,
       verses2: verses2,
+      tagNote: tagNote,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
       marked: marked,
       referenceSeparator: separator,
       helper: {
         getNotesTooltip: notesHelper.getTooltipText,
-        getLocalizedDate: i18nHelper.getLocalizedDate,
+        renderNotes: notesHelper.renderNotes,
+        getLocalizedDate: i18nHelper.getLocalizedDate
       }
     });
 
