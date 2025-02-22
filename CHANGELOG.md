@@ -1,7 +1,21 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
-## [1.16.2 - 2025-01-xx]
+## [1.16.3 - 2025-02-22]
+
+### Fixes
+
+* Tag statistics not updating when switching tabs. ([#1195][i1195])
+* Searching Strong's occurrances does not work with translations that pad the Strongs number (like deu1912eb). ([#1196][i1196])
+* Searching Strong's occurrences does not work if Strong's entry comes from second Bible translation. ([#1197])
+* Export of book-based docx does not work anymore. ([#1201][i1201])
+
+[i1195]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1195
+[i1196]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1196
+[i1197]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1197
+[i1201]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1201
+
+## [1.16.2 - 2025-01-12]
 
 ### Fixes
 
