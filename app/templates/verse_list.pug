@@ -37,7 +37,7 @@ if renderTagNotes
   else
     - tagIntroRaw = tagNote.introduction
     if tagNote.introduction != null
-      - tagIntroText = marked.parse(tagNote.introduction);
+      - tagIntroText = helper.renderNotes(tagNote.introduction);
     - tagNoteId = tagNote.id
     - tagIntroUpdated = helper.getLocalizedDate(tagNote.introductionUpdatedAt)
   
@@ -70,7 +70,7 @@ if renderBookNotes
     if bookNotes != null
       if bookNotes.text != null
         - bookNotesRaw = bookNotes.text
-        - bookNotesText = marked.parse(bookNotes.text);
+        - bookNotesText = helper.renderNotes(bookNotes.text);
       if bookNotes.updatedAt != null
         - bookNotesUpdate = helper.getLocalizedDate(bookNotes.updatedAt);
 
@@ -234,7 +234,7 @@ each bibleBook in bibleBooks
           - var verseNoteClass = "verse-notes";
           - var verseNoteUpdate = helper.getLocalizedDate(current_verse_note.updatedAt);
           - var verseNoteTextRaw = current_verse_note.text;
-          - var verseNoteText = marked.parse(current_verse_note.text);
+          - var verseNoteText = helper.renderNotes(current_verse_note.text);
         else
           - var verseNoteClass = "verse-notes verse-notes-empty";
           - var verseNoteUpdate = "";
@@ -286,7 +286,7 @@ if renderTagNotes
   else
     - tagConclusionRaw = tagNote.conclusion
     if tagNote.conclusion != null
-      - tagConclusionText = marked.parse(tagNote.conclusion);
+      - tagConclusionText = helper.renderNotes(tagNote.conclusion);
     - tagNoteId = tagNote.id
     - tagConclusionUpdated = helper.getLocalizedDate(tagNote.conclusionUpdatedAt);
   

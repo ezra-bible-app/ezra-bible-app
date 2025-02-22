@@ -415,12 +415,12 @@ class TextController {
         verses2: verses2,
         verseTags: verseTags,
         verseNotes: verseNotes,
-        marked: marked,
         referenceSeparator: separator,
         chapterText: bookShortTitle === 'Ps' ? "bible-browser.psalm" : "bible-browser.chapter",
         helper: {
           getNotesTooltip: notesHelper.getTooltipText,
-          getLocalizedDate: i18nHelper.getLocalizedDate,
+          renderNotes: notesHelper.renderNotes,
+          getLocalizedDate: i18nHelper.getLocalizedDate
         }
       });
 
@@ -800,7 +800,8 @@ class TextController {
       referenceSeparator: separator,
       helper: {
         getNotesTooltip: notesHelper.getTooltipText,
-        getLocalizedDate: i18nHelper.getLocalizedDate,
+        renderNotes: notesHelper.renderNotes,
+        getLocalizedDate: i18nHelper.getLocalizedDate
       }
     });
 
