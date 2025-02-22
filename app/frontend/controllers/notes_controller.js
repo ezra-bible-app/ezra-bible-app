@@ -31,12 +31,11 @@ let CodeMirror = null;
 function getCodeMirror() {
   if (CodeMirror == null) {
     CodeMirror = require('codemirror/lib/codemirror.js');
-    require("codemirror/addon/edit/continuelist.js");
-    require("codemirror/mode/markdown/markdown.js");
-    require("codemirror/addon/mode/overlay.js");
     require("codemirror/mode/markdown/markdown.js");
     require("codemirror/mode/gfm/gfm.js");
     require("codemirror/mode/htmlmixed/htmlmixed.js");
+    require("codemirror/addon/edit/continuelist.js");
+    require("codemirror/addon/mode/overlay.js");
   }
 
   return CodeMirror;
