@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
 
   NoteFile.destroyNoteFile = async function(id) {
     try {
-      //await global.models.Note.destroy({ where: { noteFileId: id } });
+      await global.models.Note.destroy({ where: { noteFileId: id } });
       await global.models.NoteFile.destroy({ where: { id: id } });
       await global.models.MetaRecord.updateLastModified();
 

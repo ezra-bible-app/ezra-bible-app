@@ -73,8 +73,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  Tag.destroyTag = async function(id) {
+  Tag.destroyTag = async function(id, deleteNoteFile=false) {
     try {
+      if (deleteNoteFile) {
+        const tag = await global.models.Tag.findByPk(id);
+        if (tag.noteFileId) {
+          await global.models.NoteFile.destroyNoteFile(tag.noteFileId);
+        }
+      }
+
       await global.models.VerseTag.destroy({ where: { tagId: id } });
       await global.models.TagGroupMember.destroy({ where: { tagId: id }});
       await global.models.Tag.destroy({ where: { id: id } });
