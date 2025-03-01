@@ -52,10 +52,13 @@ class NoteFilesPanel {
   }
 
   async loadActiveNoteFile() {
-    const activeNoteFileId = await ipcSettings.get('activeNoteFileId', null);
-    if (activeNoteFileId != null) {
-      this._activeNoteFileId = parseInt(activeNoteFileId, 10);
+    let activeNoteFileId = await ipcSettings.get('activeNoteFileId', 0);
+
+    if (activeNoteFileId == null) {
+      activeNoteFileId = 0;
     }
+
+    this._activeNoteFileId = parseInt(activeNoteFileId, 10);
   }
 
   async saveActiveNoteFile() {
