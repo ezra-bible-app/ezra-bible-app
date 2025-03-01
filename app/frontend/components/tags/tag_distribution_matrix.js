@@ -189,6 +189,7 @@ class TagDistributionMatrix extends HTMLElement {
     const tagIdListString = app_controller.tab_controller.getTab(tabIndex).getTagIdList();
 
     if (tagIdListString == null || tagIdListString == "") {
+      this.reset();
       return;
     }
 
@@ -197,6 +198,7 @@ class TagDistributionMatrix extends HTMLElement {
     const actualBooks = Object.keys(bibleBookStats);
 
     if (actualBooks.length < 2) {
+      this.reset();
       return;
     }
 
