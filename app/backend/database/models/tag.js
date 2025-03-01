@@ -27,8 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   const Tag = sequelize.define('Tag', {
     title: DataTypes.STRING,
     bibleBookId: DataTypes.INTEGER,
-    introduction: DataTypes.TEXT,
-    conclusion: DataTypes.TEXT,
+    noteFileId: DataTypes.INTEGER,
     tagGroupList: DataTypes.VIRTUAL,
     globalAssignmentCount: DataTypes.VIRTUAL,
     bookAssignmentCount: DataTypes.VIRTUAL,
