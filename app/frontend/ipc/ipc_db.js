@@ -64,8 +64,8 @@ class IpcDb {
     return await this._ipcRenderer.call('db_createNewTag', newTagTitle, createNoteFile, tagGroups);
   }
 
-  async removeTag(id) {
-    return await this._ipcRenderer.call('db_removeTag', id);
+  async removeTag(id, deleteNoteFile=false) {
+    return await this._ipcRenderer.call('db_removeTag', id, deleteNoteFile);
   }
 
   async updateTag(id, newTitle, addTagGroups, removeTagGroups) {

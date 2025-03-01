@@ -478,8 +478,8 @@ class IpcDbHandler {
       return result;
     });
 
-    this._ipcMain.add('db_removeTag', async (id) => {
-      let result = await global.models.Tag.destroyTag(id);
+    this._ipcMain.add('db_removeTag', async (id, deleteNoteFile=false) => {
+      let result = await global.models.Tag.destroyTag(id, deleteNoteFile);
 
       this.triggerDropboxSyncIfConfigured();
 
