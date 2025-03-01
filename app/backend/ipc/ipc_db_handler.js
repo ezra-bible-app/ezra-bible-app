@@ -460,7 +460,7 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_createNewTag', async (newTagTitle, tagGroups) => {
-      let result = await global.models.Tag.create_new_tag(newTagTitle);
+      let result = await global.models.Tag.createNewTag(newTagTitle);
       
       if (tagGroups != null) {
         for (let i = 0; i < tagGroups.length; i++) {
@@ -479,7 +479,7 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_removeTag', async (id) => {
-      let result = await global.models.Tag.destroy_tag(id);
+      let result = await global.models.Tag.destroyTag(id);
 
       this.triggerDropboxSyncIfConfigured();
 
@@ -487,7 +487,7 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_updateTag', async(id, newTitle, addTagGroups, removeTagGroups) => {
-      let result = await global.models.Tag.update_tag(id, newTitle, addTagGroups, removeTagGroups);
+      let result = await global.models.Tag.updateTag(id, newTitle, addTagGroups, removeTagGroups);
 
       this.triggerDropboxSyncIfConfigured();
 
@@ -495,7 +495,7 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_updateTagsOnVerses', async (tagId, verseObjects, versification, action) => {
-      let result = await global.models.Tag.update_tags_on_verses(tagId, verseObjects, versification, action);
+      let result = await global.models.Tag.updateTagsOnVerses(tagId, verseObjects, versification, action);
 
       this.triggerDropboxSyncIfConfigured();
 

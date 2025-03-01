@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     Tag.belongsToMany(models.TagGroup, {through: 'TagGroupMembers'});
   };
 
-  Tag.create_new_tag = async function(new_tag_title) {
+  Tag.createNewTag = async function(new_tag_title) {
     try {
       var newTag = await global.models.Tag.create({
         title: new_tag_title,
@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  Tag.destroy_tag = async function(id) {
+  Tag.destroyTag = async function(id) {
     try {
       await global.models.VerseTag.destroy({ where: { tagId: id } });
       await global.models.TagGroupMember.destroy({ where: { tagId: id }});
@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  Tag.update_tag = async function(id, newTitle, addTagGroups, removeTagGroups) {
+  Tag.updateTag = async function(id, newTitle, addTagGroups, removeTagGroups) {
     try {
       let tag = await global.models.Tag.findByPk(id);
       let titleChanged = tag.title != newTitle;
@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  Tag.update_tags_on_verses = async function(tagId, verseObjects, versification, action) {
+  Tag.updateTagsOnVerses = async function(tagId, verseObjects, versification, action) {
     try {
       var tag = await global.models.Tag.findByPk(tagId);
 
