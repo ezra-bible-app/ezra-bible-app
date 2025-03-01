@@ -35,6 +35,14 @@ class NoteFilesPanel {
       }
     });
 
+    eventController.subscribe('on-tag-created', async (tagId) => {
+      const tagObject = await tags_controller.tag_store.getTag(tagId);
+
+      if (tagObject.noteFileId != null) {
+        this.refreshNoteFiles();
+      }
+    });
+
     eventController.subscribe('on-db-refresh', () => {
       this.refreshNoteFiles();
     });

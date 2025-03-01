@@ -318,7 +318,8 @@
     "add-existing-tags-to-current-tag-group": "Add existing tags to current tag group",
     "add-tags-to-group": "Add tags to group",
     "delete-tag-from-group-explanation": "The tag <i>{{tag}}</i> will be deleted from the group <i>{{group}}</i>. To permanently delete the tag, click the checkbox below.",
-    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?"
+    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?",
+    "create-note-file-checkbox": "Create corresponding note file"
   },
   "bible-browser": {
     "chapter": "Chapter",

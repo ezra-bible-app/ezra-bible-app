@@ -214,7 +214,7 @@ class TagsController {
     this.newTagDialogInitDone = true;
 
     var dialogWidth = 450;
-    var dialogHeight = 420;
+    var dialogHeight = 510;
     var draggable = true;
     var position = [55, 120];
 
@@ -235,6 +235,10 @@ class TagsController {
         tags_controller.saveNewTag(this);
       }
     };
+
+    document.getElementById('create-note-file-checkbox').addEventListener('change', function() {
+      tags_controller.createNoteFile = this.checked;
+    });
 
     document.getElementById('add-existing-tags-to-tag-group-link').addEventListener('click', async (event) => {
       event.preventDefault();
@@ -620,7 +624,7 @@ class TagsController {
     let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
     let tagGroups = tagGroupAssignment.addList;
 
-    var result = await ipcDb.createNewTag(new_tag_title, tagGroups);
+    var result = await ipcDb.createNewTag(new_tag_title, tags_controller.createNoteFile, tagGroups);
     if (result.success == false) {
       var message = `The new tag <i>${new_tag_title}</i> could not be saved.<br>
                      An unexpected database error occurred:<br><br>
@@ -631,8 +635,6 @@ class TagsController {
       uiHelper.hideTextLoadingIndicator();
       return;
     }
-
-    await eventController.publishAsync('on-tag-created', result.dbObject.id);
 
     if (this.tagGroupUsed()) {
       await eventController.publishAsync('on-tag-group-member-changed', {
@@ -652,6 +654,8 @@ class TagsController {
     var tab = app_controller.tab_controller.getTab();
     await tags_controller.updateTagList(tab.getBook(), this.currentTagGroupId, tab.getContentId(), true);
     await tags_controller.updateTagsViewAfterVerseSelection(true);
+
+    await eventController.publishAsync('on-tag-created', result.dbObject.id);
     uiHelper.hideTextLoadingIndicator();
   }
 
@@ -667,6 +671,10 @@ class TagsController {
 
     const tagInput = document.getElementById('new-standard-tag-title-input');
     tagInput.value = '';
+
+    // Reset the create note file checkbox
+    document.getElementById('create-note-file-checkbox').checked = false;
+
     var $dialogContainer = $('#new-standard-tag-dialog');
     $dialogContainer.dialog('open');
 
