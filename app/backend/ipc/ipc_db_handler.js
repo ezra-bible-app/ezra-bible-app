@@ -459,8 +459,8 @@ class IpcDbHandler {
       return sizeMb;
     });
 
-    this._ipcMain.add('db_createNewTag', async (newTagTitle, tagGroups) => {
-      let result = await global.models.Tag.createNewTag(newTagTitle);
+    this._ipcMain.add('db_createNewTag', async (newTagTitle, createNoteFile=false, tagGroups=null) => {
+      let result = await global.models.Tag.createNewTag(newTagTitle, createNoteFile);
       
       if (tagGroups != null) {
         for (let i = 0; i < tagGroups.length; i++) {

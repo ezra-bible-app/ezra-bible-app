@@ -39,11 +39,24 @@ module.exports = (sequelize, DataTypes) => {
     Tag.belongsToMany(models.TagGroup, {through: 'TagGroupMembers'});
   };
 
-  Tag.createNewTag = async function(new_tag_title) {
+  Tag.createNewTag = async function(newTagTitle, createNoteFile=false) {
     try {
-      var newTag = await global.models.Tag.create({
-        title: new_tag_title,
-        bibleBookId: null
+      let noteFileId = null;
+
+      if (createNoteFile) {
+        const noteFileResult = await global.models.NoteFile.createNoteFile(newTagTitle);
+
+        if (noteFileResult.success) {
+          noteFileId = noteFileResult.dbObject.id;
+        } else {
+          return noteFileResult;
+        }
+      }
+
+      let newTag = await global.models.Tag.create({
+        title: newTagTitle,
+        bibleBookId: null,
+        noteFileId: noteFileId
       });
 
       await global.models.MetaRecord.updateLastModified();

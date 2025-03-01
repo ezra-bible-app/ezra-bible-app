@@ -60,8 +60,8 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getDatabaseSize');
   }
 
-  async createNewTag(newTagTitle, tagGroups) {
-    return await this._ipcRenderer.call('db_createNewTag', newTagTitle, tagGroups);
+  async createNewTag(newTagTitle, createNoteFile=false, tagGroups=null) {
+    return await this._ipcRenderer.call('db_createNewTag', newTagTitle, createNoteFile, tagGroups);
   }
 
   async removeTag(id) {
