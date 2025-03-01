@@ -34,6 +34,10 @@ class NoteFilesPanel {
         this.init();
       }
     });
+
+    eventController.subscribe('on-db-refresh', () => {
+      this.refreshNoteFiles();
+    });
   }
 
   async init() {
