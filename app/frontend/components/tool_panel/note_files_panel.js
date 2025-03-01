@@ -35,12 +35,20 @@ class NoteFilesPanel {
       }
     });
 
-    eventController.subscribe('on-tag-created', async (tagId) => {
+    let refreshWithTagId = async (tagId) => {
       const tagObject = await tags_controller.tag_store.getTag(tagId);
 
       if (tagObject.noteFileId != null) {
         this.refreshNoteFiles();
       }
+    };
+
+    eventController.subscribe('on-tag-created', async (tagId) => {
+      await refreshWithTagId(tagId);
+    });
+
+    eventController.subscribePrioritized('on-tag-deleted', async (tagId) => {
+      await refreshWithTagId(tagId);
     });
 
     eventController.subscribe('on-db-refresh', () => {
@@ -259,14 +267,17 @@ class NoteFilesPanel {
       };
 
       dialogOptions.buttons[i18n.t('notes-panel.delete-note-file')] = () => {
-        ipcDb.deleteNoteFile(noteFileId);
+        (async () => {
+          await ipcDb.deleteNoteFile(noteFileId);
+          await eventController.publish('on-note-file-deleted', noteFileId);
 
-        if (noteFileId == this._activeNoteFileId) {
-          this.setActiveNoteFile(0);
-        }
+          if (noteFileId == this._activeNoteFileId) {
+            this.setActiveNoteFile(0);
+          }
 
-        this.refreshNoteFiles();
-        $dialogBox.dialog('close');
+          await this.refreshNoteFiles();
+          $dialogBox.dialog('close');
+        })();
       };
 
       $dialogBox.dialog(dialogOptions);

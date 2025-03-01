@@ -406,6 +406,8 @@ class TagsController {
   }
 
   initDeleteTagConfirmationDialog(force=false) {
+    document.getElementById('delete-note-file-checkbox').checked = false;
+
     if (!force && this.deleteTagConfirmationDialogInitDone) {
       return;
     }
@@ -725,7 +727,7 @@ class TagsController {
     }
   }
 
-  handleDeleteTagButtonClick(event) {
+  async handleDeleteTagButtonClick(event) {
     eventController.publish('on-button-clicked');
     tags_controller.initDeleteTagConfirmationDialog();
 
@@ -740,15 +742,26 @@ class TagsController {
     tags_controller.permanently_delete_tag = tags_controller.tagGroupUsed() ? false : true;
     
     var number_of_tagged_verses = checkboxTag.attr('global-assignment-count');
+    var tagObject = await this.tag_store.getTag(tag_id);
+    var noteFileId = tagObject.noteFileId;
 
     let deleteTagFromGroupExplanation = document.getElementById('delete-tag-from-group-explanation');
     let reallyDeleteTagExplanation = document.getElementById('really-delete-tag-explanation');
     let permanentlyDeleteTagBox = document.getElementById('permanently-delete-tag-box');
     let permanentlyDeleteTagWarning = document.getElementById('permanently-delete-tag-warning');
+    let deleteNoteFileCheckbox = document.getElementById('delete-note-file-checkbox');
+    let deleteNoteFileBox = document.getElementById('delete-note-file-box');
     let tagGroup = this.currentTagGroupTitle;
 
     let permanentlyDeleteCheckbox = document.getElementById('permanently-delete-tag');
     permanentlyDeleteCheckbox.checked = false;
+
+    if (noteFileId) {
+      deleteNoteFileCheckbox.disabled = false;
+      deleteNoteFileBox.style.display = 'block';
+    } else {
+      deleteNoteFileBox.style.display = 'none';
+    }
 
     if (this.tagGroupUsed()) {
       // Tag group used
@@ -777,13 +790,14 @@ class TagsController {
     $('#delete-tag-confirmation-dialog').dialog('close');
 
     tags_controller.permanently_delete_tag = document.getElementById('permanently-delete-tag').checked;
+    let deleteNoteFile = document.getElementById('delete-note-file-checkbox').checked;
    
     setTimeout(async () => {
       let result = null;
 
       if (!tags_controller.tagGroupUsed() || tags_controller.permanently_delete_tag) {
         // Permanently delete tag
-        result = await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
+        result = await ipcDb.removeTag(tags_controller.tag_to_be_deleted, deleteNoteFile);
       } else {
         // Remove tag from current tag group
         result = await ipcDb.updateTag(tags_controller.tag_to_be_deleted,
@@ -803,8 +817,6 @@ class TagsController {
         return;
       }
 
-      await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
-
       if (tags_controller.tagGroupUsed()) {
         await eventController.publishAsync('on-tag-group-member-changed', {
           tagId: tags_controller.tag_to_be_deleted,
@@ -818,6 +830,8 @@ class TagsController {
       if (!tags_controller.tagGroupUsed() || tags_controller.permanently_delete_tag) {
         await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
       }
+
+      await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
 
       await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();

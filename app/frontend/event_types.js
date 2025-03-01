@@ -48,7 +48,7 @@
  * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" | "on-latest-tag-changed" } TagEvents
  */
 /**
- * @typedef { "on-note-created" | "on-note-deleted" | "on-note-file-changed" } NoteEvents
+ * @typedef { "on-note-created" | "on-note-deleted" | "on-note-file-changed" | "on-note-file-deleted" } NoteEvents
  */
 /**
  * @typedef { "on-tag-group-list-activated" | "on-tag-selection-menu-group-list-activated" | "on-tag-selection-menu-group-selected" | "on-tag-selection-menu-all-tags-selected" | "on-tag-group-selected" | "on-tag-group-all-selected" | "on-tag-group-creation" | "on-tag-group-created" | "on-tag-group-member-changed" | "on-tag-group-multiple-members-changed" | "on-tag-group-renamed" | "on-tag-group-deleted" | "on-tag-group-filter-enabled" | "on-tag-group-filter-disabled" } TagGroupEvents

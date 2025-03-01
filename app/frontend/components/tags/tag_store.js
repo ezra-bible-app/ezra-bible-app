@@ -48,6 +48,10 @@ class TagStore {
     eventController.subscribePrioritized('on-tag-group-member-changed', async ({ tagId, addTagGroups, removeTagGroups }) => {
       await this.updateTagGroups(tagId, addTagGroups, removeTagGroups);
     });
+
+    eventController.subscribe('on-note-file-deleted', () => {
+      this.refreshTagList();
+    });
   }
 
   resetBookTagStatistics() {
