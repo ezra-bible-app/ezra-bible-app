@@ -29,9 +29,15 @@ class NoteFilesPanel {
     this._initDone = false;
     this._activeNoteFileId = null;
 
-    eventController.subscribe('on-notes-panel-switched', (isOpen) => {
-      if (isOpen && !this._initDone) {
-        this.init();
+    eventController.subscribe('on-startup-completed', () => {
+      this.init();
+    });
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      if (this._initDone) {
+        let noteFileId = await this.getCurrentTabNoteFileId(tabIndex);
+        await this.loadActiveNoteFile(noteFileId);
+        await this.refreshNoteFiles();
       }
     });
 
@@ -56,8 +62,26 @@ class NoteFilesPanel {
     });
   }
 
+  async getCurrentTabNoteFileId(tabIndex=undefined) {
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    let noteFileId = null;
+
+    if (currentTab.getTextType() == 'tagged_verses') {
+      const tagIds = currentTab.getTagIdList().split(',');
+
+      if (tagIds.length > 0) {
+        const firstTagId = parseInt(tagIds[0]);
+        const tagObject = await tags_controller.tag_store.getTag(firstTagId);
+        noteFileId = tagObject.noteFileId;
+      }
+    }
+
+    return noteFileId;
+  }
+
   async init() {
-    await this.loadActiveNoteFile();
+    let noteFileId = await this.getCurrentTabNoteFileId();
+    await this.loadActiveNoteFile(noteFileId);
     this.refreshNoteFiles();
     this._initDone = true;
 
@@ -67,14 +91,16 @@ class NoteFilesPanel {
     });
   }
 
-  async loadActiveNoteFile() {
-    let activeNoteFileId = await ipcSettings.get('activeNoteFileId', 0);
-
-    if (activeNoteFileId == null) {
-      activeNoteFileId = 0;
+  async loadActiveNoteFile(noteFileId=null) {
+    if (noteFileId == null) {
+      noteFileId = await ipcSettings.get('activeNoteFileId', 0);
     }
 
-    this._activeNoteFileId = parseInt(activeNoteFileId, 10);
+    if (noteFileId == null) {
+      noteFileId = 0;
+    }
+
+    this._activeNoteFileId = parseInt(noteFileId, 10);
   }
 
   async saveActiveNoteFile() {
@@ -151,6 +177,15 @@ class NoteFilesPanel {
     });
   }
 
+  handleNoteFileSelected(noteFileId) {
+    const currentNoteFileId = this.getCurrentTabNoteFileId();
+
+    // Only change the active note file if the current note file is null
+    if (currentNoteFileId == null) {
+      this.setActiveNoteFile(noteFileId);
+    }
+  }
+
   async refreshNoteFiles() {
     const noteFiles = await ipcDb.getAllNoteFiles();
     const noteFilesContainer = document.getElementById('notes-panel-content');
@@ -176,7 +211,7 @@ class NoteFilesPanel {
     standardNoteFileRow.setAttribute('note-file-id', 0);
     standardNoteFileRow.className = this._activeNoteFileId === 0 ? 'ui-selected' : '';
     standardNoteFileRow.addEventListener('click', () => {
-      this.setActiveNoteFile(0);
+      this.handleNoteFileSelected(0);
     });
 
     const standardTitleCell = document.createElement('td');
@@ -196,7 +231,7 @@ class NoteFilesPanel {
       row.setAttribute('note-file-id', noteFile.id);
       row.className = noteFile.id === this._activeNoteFileId ? 'ui-selected' : '';
       row.addEventListener('click', () => {
-        this.setActiveNoteFile(noteFile.id);
+        this.handleNoteFileSelected(noteFile.id);
       });
 
       const titleCell = document.createElement('td');
@@ -285,10 +320,14 @@ class NoteFilesPanel {
     });
   }
 
-  async setActiveNoteFile(noteFileId) {
+  async setActiveNoteFile(noteFileId, publishAndPersist=true) {
     this._activeNoteFileId = noteFileId;
-    await this.saveActiveNoteFile();
-    eventController.publish('on-note-file-changed', noteFileId);
+
+    if (publishAndPersist) {
+      await this.saveActiveNoteFile();
+      eventController.publish('on-note-file-changed', noteFileId);
+    }
+
     this.refreshNoteFiles();
   }
 
