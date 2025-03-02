@@ -627,9 +627,12 @@ class IpcDbHandler {
       return tagGroupUsed;
     });
 
-    this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
-      let activeNoteFile = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
-      let result = await global.models.Note.persistNote(noteValue, verseObject, versification, activeNoteFile);
+    this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification, noteFileId=null) => {
+      if (noteFileId == null) {
+        noteFileId = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
+      }
+
+      let result = await global.models.Note.persistNote(noteValue, verseObject, versification, noteFileId);
 
       this.triggerDropboxSyncIfConfigured();
 

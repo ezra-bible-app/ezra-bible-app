@@ -177,8 +177,8 @@ class IpcDb {
     return await this._ipcRenderer.call('db_isTagGroupUsedInBook', tagGroupId, bibleBookId);
   }
 
-  async persistNote(noteValue, verseObject, versification) {
-    return await this._ipcRenderer.call('db_persistNote', noteValue, verseObject, versification);
+  async persistNote(noteValue, verseObject, versification, noteFileId=null) {
+    return await this._ipcRenderer.call('db_persistNote', noteValue, verseObject, versification, noteFileId);
   }
 
   async getVerseNotesByBook(bibleBookId, versification) {
