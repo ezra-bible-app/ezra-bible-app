@@ -121,9 +121,9 @@ class TabController {
       await this.populateTab(currentTabIndex, true, true, true);
     });
 
-    eventController.subscribe('on-note-file-changed', async () => {
+    /*eventController.subscribe('on-note-file-changed', async () => {
       await this.populateFromMetaTabs(true);
-    });
+    });*/
   }
 
   initFirstTab() {
