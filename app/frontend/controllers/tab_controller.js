@@ -886,6 +886,23 @@ class TabController {
     return (tabIndex == selectedTabIndex);
   }
 
+  async getCurrentTabNoteFileId(tabIndex=undefined) {
+    const currentTab = this.getTab(tabIndex);
+    let noteFileId = null;
+
+    if (currentTab.getTextType() == 'tagged_verses') {
+      const tagIds = currentTab.getTagIdList().split(',');
+
+      if (tagIds.length > 0) {
+        const firstTagId = parseInt(tagIds[0]);
+        const tagObject = await tags_controller.tag_store.getTag(firstTagId);
+        noteFileId = tagObject.noteFileId;
+      }
+    }
+
+    return noteFileId;
+  }
+
   async updateTabTitleAfterTagRenaming(old_title, new_title) {
     for (var i = 0; i < this.metaTabs.length; i++) {
       var currentMetaTab = this.metaTabs[i];

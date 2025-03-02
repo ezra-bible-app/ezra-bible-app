@@ -35,7 +35,7 @@ class NoteFilesPanel {
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       if (this._initDone) {
-        let noteFileId = await this.getCurrentTabNoteFileId(tabIndex);
+        let noteFileId = await app_controller.tab_controller.getCurrentTabNoteFileId(tabIndex);
         await this.loadActiveNoteFile(noteFileId);
         await this.refreshNoteFiles();
       }
@@ -62,25 +62,8 @@ class NoteFilesPanel {
     });
   }
 
-  async getCurrentTabNoteFileId(tabIndex=undefined) {
-    const currentTab = app_controller.tab_controller.getTab(tabIndex);
-    let noteFileId = null;
-
-    if (currentTab.getTextType() == 'tagged_verses') {
-      const tagIds = currentTab.getTagIdList().split(',');
-
-      if (tagIds.length > 0) {
-        const firstTagId = parseInt(tagIds[0]);
-        const tagObject = await tags_controller.tag_store.getTag(firstTagId);
-        noteFileId = tagObject.noteFileId;
-      }
-    }
-
-    return noteFileId;
-  }
-
   async init() {
-    let noteFileId = await this.getCurrentTabNoteFileId();
+    let noteFileId = await app_controller.tab_controller.getCurrentTabNoteFileId();
     await this.loadActiveNoteFile(noteFileId);
     this.refreshNoteFiles();
     this._initDone = true;
@@ -177,8 +160,8 @@ class NoteFilesPanel {
     });
   }
 
-  handleNoteFileSelected(noteFileId) {
-    const currentNoteFileId = this.getCurrentTabNoteFileId();
+  async handleNoteFileSelected(noteFileId) {
+    const currentNoteFileId = await app_controller.tab_controller.getCurrentTabNoteFileId();
 
     // Only change the active note file if the current note file is null
     if (currentNoteFileId == null) {
