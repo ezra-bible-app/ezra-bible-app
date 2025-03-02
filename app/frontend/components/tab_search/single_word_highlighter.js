@@ -69,7 +69,9 @@ class SingleWordHighlighter {
         }
       }
 
-      if (foundClosingAngleBracketIndex == (i - 1)) {
+      // Disabled for now, because it has been causing issues with highlighting.
+
+      /*if (foundClosingAngleBracketIndex == (i - 1)) {
         // We previously found a closing angle bracket ('</').
 
         if (currentChar == 'd') {
@@ -80,7 +82,7 @@ class SingleWordHighlighter {
           matchIsValid = false;
           break;
         }
-      }
+      }*/
       
       if (currentChar == '<') {
         foundOpeningAngleBracketIndex = i;
