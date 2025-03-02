@@ -592,12 +592,22 @@ class TextController {
 
     let renderTagNotes = false;
     let tagNote = null;
+    let noteFileId = null;
 
+    // If only one tag is selected, we can render the tag note (intro and conclusion) for the tag
+    // and also the notes for the verses tagged with this tag.
     if (selectedTagList.length == 1) {
       renderTagNotes = true;
 
       const tagId = parseInt(selectedTagList[0]);
       tagNote = await ipcDb.getTagNote(tagId);
+
+      const tagObject = await tags_controller.tag_store.getTag(tagId);
+      if (tagObject.noteFileId != null) {
+        noteFileId = tagObject.noteFileId;
+      }
+
+      await app_controller.noteFilesPanel.setActiveNoteFile(noteFileId, false);
     }
 
     const bibleTranslationId = this.getBibleTranslationId(tab_index);
@@ -657,7 +667,7 @@ class TextController {
     var bookNames = await ipcGeneral.getBookNames(bibleBooks);
 
     var verseTags = await ipcDb.getVerseTagsByVerseReferenceIds(verseReferenceIds, versification);
-    var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
+    var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification, noteFileId);
 
     if (render_type == "html") {
 
