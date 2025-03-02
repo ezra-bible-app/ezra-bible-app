@@ -661,11 +661,15 @@ class IpcDbHandler {
       return bookNotes;
     });
 
-    this._ipcMain.add('db_getNotesByVerseReferenceIds', async (verseReferenceIds, versification) => {
-      var activeNoteFile = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
-      var sequelizeNotes = await global.models.Note.findByVerseReferenceIds(verseReferenceIds.join(','), activeNoteFile);
-      var notes = this.makeSequelizeResultsSerializable(sequelizeNotes);
-      var groupedNotes = global.models.Note.groupNotesByVerse(notes, versification);
+    this._ipcMain.add('db_getNotesByVerseReferenceIds', async (verseReferenceIds, versification, noteFileId=null) => {
+      if (noteFileId == null) {
+        noteFileId = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
+      }
+
+      let sequelizeNotes = await global.models.Note.findByVerseReferenceIds(verseReferenceIds.join(','), noteFileId);
+      let notes = this.makeSequelizeResultsSerializable(sequelizeNotes);
+      let groupedNotes = global.models.Note.groupNotesByVerse(notes, versification);
+
       return groupedNotes;
     });
 

@@ -189,8 +189,8 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getBookNotes', bookShortTitle);
   }
 
-  async getNotesByVerseReferenceIds(verseReferenceIds, versification) {
-    return await this._ipcRenderer.call('db_getNotesByVerseReferenceIds', verseReferenceIds, versification);
+  async getNotesByVerseReferenceIds(verseReferenceIds, versification, noteFileId=null) {
+    return await this._ipcRenderer.call('db_getNotesByVerseReferenceIds', verseReferenceIds, versification, noteFileId);
   }
 
   async getAllNoteFiles() {
