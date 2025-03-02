@@ -8,7 +8,7 @@
 #notes-panel-content
 {
   padding: 1em;
-  height: calc(100% - 7.6em);
+  height: calc(100% - 8.2em);
   overflow-y: auto;
 }
 
