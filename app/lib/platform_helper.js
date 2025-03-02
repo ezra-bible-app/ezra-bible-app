@@ -146,6 +146,11 @@ class PlatformHelper {
     return window.innerWidth <= MAX_MOBILE_PIXELS || window.innerHeight <= MAX_MOBILE_PIXELS;
   }
 
+  isSmallScreen() {
+    const MAX_SMALL_SCREEN_PIXELS = 650;
+    return window.innerWidth <= MAX_SMALL_SCREEN_PIXELS || window.innerHeight <= MAX_SMALL_SCREEN_PIXELS;
+  }
+
   addPlatformCssClass(element=undefined) {
     if (element === undefined) {
       element = document.body;
