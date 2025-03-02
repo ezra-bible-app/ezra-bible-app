@@ -329,30 +329,35 @@ class NotesController {
   }
 
   async _saveEditorContent(newNoteValue=null) {
-    var currentVerseBox = this._getCurrentVerseBox();
+    let currentVerseBox = this._getCurrentVerseBox();
 
     if (this.currentlyEditedNotes != null && (currentVerseBox != null && !this.currentNoteIsTagNote || this.currentNoteIsTagNote)) {
       if (newNoteValue == null) {
         newNoteValue = this.currentEditor.getValue();
       }
 
-      var previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
+      let previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
 
       this._updateActiveIndicator(newNoteValue);
 
       if (newNoteValue != previousNoteValue) {
         newNoteValue = newNoteValue.trim();
-        var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+        let translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
         const swordModuleHelper = require('../helpers/sword_module_helper.js');
-        var versification = await swordModuleHelper.getVersification(translationId);
-        var result = null;
+        let versification = await swordModuleHelper.getVersification(translationId);
+        let result = null;
+        let currentTabNoteFileId = await app_controller.tab_controller.getCurrentTabNoteFileId();
 
         if (!this.currentNoteIsTagNote) {
           if (currentVerseBox != null) {
-            var verseBoxModel = new VerseBox(currentVerseBox);
-            var currentVerseObject = await verseBoxModel.getVerseObject();
-            result = await ipcDb.persistNote(newNoteValue, currentVerseObject, versification);
+            let verseBoxModel = new VerseBox(currentVerseBox);
+            let currentVerseObject = await verseBoxModel.getVerseObject();
+
+            result = await ipcDb.persistNote(newNoteValue,
+                                             currentVerseObject,
+                                             versification,
+                                             currentTabNoteFileId);
           }
         } else {
           let tagId = this.currentlyEditedNotes.getAttribute('tag-id');
@@ -365,7 +370,7 @@ class NotesController {
         }
 
         if (result.success == false) {
-          var message = `The note could not be saved.<br>
+          let message = `The note could not be saved.<br>
                         An unexpected database error occurred:<br><br>
                         ${result.exception}<br><br>
                         Please restart the app.`;
@@ -381,10 +386,10 @@ class NotesController {
 
         this._refreshNotesIndicator(newNoteValue, currentVerseBox);
 
-        var note = result.dbObject;
+        let note = result.dbObject;
 
         if (note != undefined) {
-          var updatedTimestamp = null;
+          let updatedTimestamp = null;
 
           if (newNoteValue == "") {
             updatedTimestamp = "";
@@ -411,7 +416,7 @@ class NotesController {
             verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
               currentVerseBox, { noteValue: newNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
 
-                var currentNotes = null;
+                let currentNotes = null;
 
                 if (targetVerseBox.classList.contains('book-notes')) {
                   currentNotes = targetVerseBox;
