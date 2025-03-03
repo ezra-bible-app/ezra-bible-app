@@ -125,6 +125,8 @@ class OptionsMenu {
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
     this._limitTextWidthOption = this.initConfigOption('limitTextWidthOption', () => { this.toggleTextWidthBasedOnOption(); }, true);
+    this._notesColumnOption = this.initConfigOption('useNotesColumnOption', () => { this.changeNotesLayoutBasedOnOption(); }, true);
+    this._hideEmptyNotesOption = this.initConfigOption('hideEmptyNotesOption', () => { this.hideEmptyNotesBasedOnOption(); });
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
@@ -533,6 +535,26 @@ class OptionsMenu {
                                      true);
   }
 
+  changeNotesLayoutBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._notesColumnOption,
+                                     'verse-list-notes-column',
+                                     true);
+  }
+
+  hideEmptyNotesBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+
+    this.toggleCssClassBasedOnOption([currentReferenceVerse[0], currentVerseList[0]],
+                                     this._hideEmptyNotesOption,
+                                     'verse-list-hide-empty-notes',
+                                     true);
+  }
+
   async toggleCrashReportsBasedOnOption() {
     window.sendCrashReports = this._sendCrashReportsOption.isChecked;
     await ipcGeneral.setSendCrashReports(window.sendCrashReports);
@@ -575,6 +597,8 @@ class OptionsMenu {
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.applyTagGroupFilterBasedOnOption();
     this.changeTagsLayoutBasedOnOption(tabIndex);
+    this.changeNotesLayoutBasedOnOption(tabIndex);
+    this.hideEmptyNotesBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);

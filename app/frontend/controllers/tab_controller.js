@@ -115,6 +115,15 @@ class TabController {
       verseListController.resetVerseListView();
       await this.loadTabConfiguration(true);
     });
+
+    eventController.subscribe('on-note-file-changed', async () => {
+      const currentTabIndex = this.getSelectedTabIndex();
+      await this.populateTab(currentTabIndex, true, true, true);
+    });
+
+    /*eventController.subscribe('on-note-file-changed', async () => {
+      await this.populateFromMetaTabs(true);
+    });*/
   }
 
   initFirstTab() {
@@ -260,55 +269,58 @@ class TabController {
     }
 
     for (let i = 0; i < tabCount; i++) {
-      let currentMetaTab = this.metaTabs[i];
-      if (currentMetaTab == null) {
-         continue;
+      await this.populateTab(i, cacheOutdated, cacheInvalid, force);
+    }
+  }
+
+  async populateTab(index, cacheOutdated, cacheInvalid, force) {
+    let currentMetaTab = this.metaTabs[index];
+    if (currentMetaTab == null) {
+      return;
+    }
+
+    if (cacheOutdated || cacheInvalid || force) {
+      currentMetaTab.cachedText = null;
+      currentMetaTab.cachedReferenceVerse = null;
+    }
+
+    let isSearch = (currentMetaTab.textType == 'search_results');
+    await app_controller.text_controller.prepareForNewText(true, isSearch, index);
+
+    if (currentMetaTab.textType == 'search_results') {
+      await app_controller.module_search_controller.populateSearchMenu(index);
+
+      let searchResultBookId = -1; // all books requested
+      if (app_controller.module_search_controller.searchResultsExceedPerformanceLimit(index)) {
+        searchResultBookId = 0; // no books requested - only list headers at first
       }
-      
-      if (cacheOutdated || cacheInvalid || force) {
-        currentMetaTab.cachedText = null;
-        currentMetaTab.cachedReferenceVerse = null;
-      }
 
-      let isSearch = (currentMetaTab.textType == 'search_results');
-      await app_controller.text_controller.prepareForNewText(true, isSearch, i);
+      await app_controller.module_search_controller.renderCurrentSearchResults(
+        searchResultBookId,
+        index,
+        undefined,
+        currentMetaTab.cachedText
+      );
 
-      if (currentMetaTab.textType == 'search_results') {
+    } else {
+      const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
+        currentMetaTab.getBibleTranslationId(),
+        currentMetaTab.getSecondBibleTranslationId(),
+        currentMetaTab.getBook()
+      );
 
-        await app_controller.module_search_controller.populateSearchMenu(i);
-
-        let searchResultBookId = -1; // all books requested
-        if (app_controller.module_search_controller.searchResultsExceedPerformanceLimit(i)) {
-          searchResultBookId = 0; // no books requested - only list headers at first
-        }
-  
-        await app_controller.module_search_controller.renderCurrentSearchResults(
-          searchResultBookId,
-          i,
-          undefined,
-          currentMetaTab.cachedText
-        );
-
-      } else {
-
-        const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentMetaTab.getBibleTranslationId(),
-                                                                                                      currentMetaTab.getSecondBibleTranslationId(),
-                                                                                                      currentMetaTab.getBook());
-
-        await app_controller.text_controller.requestTextUpdate(
-          currentMetaTab.elementId,
-          currentMetaTab.book,
-          currentMetaTab.tagIdList,
-          currentMetaTab.cachedText,
-          currentMetaTab.cachedReferenceVerse,
-          null,
-          currentMetaTab.xrefs,
-          currentMetaTab.chapter,
-          isInstantLoadingBook,
-          i
-        );
-
-      }
+      await app_controller.text_controller.requestTextUpdate(
+        currentMetaTab.elementId,
+        currentMetaTab.book,
+        currentMetaTab.tagIdList,
+        currentMetaTab.cachedText,
+        currentMetaTab.cachedReferenceVerse,
+        null,
+        currentMetaTab.xrefs,
+        currentMetaTab.chapter,
+        isInstantLoadingBook,
+        index
+      );
     }
   }
 
@@ -872,6 +884,23 @@ class TabController {
   isCurrentTab(tabIndex) {
     var selectedTabIndex = this.getSelectedTabIndex();
     return (tabIndex == selectedTabIndex);
+  }
+
+  async getCurrentTabNoteFileId(tabIndex=undefined) {
+    const currentTab = this.getTab(tabIndex);
+    let noteFileId = null;
+
+    if (currentTab.getTextType() == 'tagged_verses') {
+      const tagIds = currentTab.getTagIdList().split(',');
+
+      if (tagIds.length > 0) {
+        const firstTagId = parseInt(tagIds[0]);
+        const tagObject = await tags_controller.tag_store.getTag(firstTagId);
+        noteFileId = tagObject.noteFileId;
+      }
+    }
+
+    return noteFileId;
   }
 
   async updateTabTitleAfterTagRenaming(old_title, new_title) {
