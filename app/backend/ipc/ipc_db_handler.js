@@ -297,7 +297,9 @@ class IpcDbHandler {
 
     if (notifyFrontend && lastDropboxSyncResult != null) {
       if (this.platformHelper.isElectron()) {
-        global.mainWindow.webContents.send('dropbox-synced');
+        if (global.mainWindow != null && global.mainWindow.webContents != null) {
+          global.mainWindow.webContents.send('dropbox-synced');
+        }
       } else if (this.platformHelper.isCordova()) {
         cordova.channel.post('dropbox-synced', '');
       }
