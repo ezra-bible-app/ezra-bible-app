@@ -212,6 +212,8 @@ class ModuleSearchController {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
     bibleSelect.selectmenu("disable");
+
+    app_controller.tab_controller.disableTabOperations();
   }
 
   enableOtherFunctionsAfterSearch() {
@@ -223,6 +225,8 @@ class ModuleSearchController {
       var bibleSelect = currentVerseListMenu.find('select.bible-select');
       bibleSelect.selectmenu("enable");
     }
+
+    app_controller.tab_controller.enableTabOperations();
   }
 
   validateSearchTerm() {
