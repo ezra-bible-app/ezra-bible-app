@@ -147,7 +147,7 @@ class PlatformHelper {
   }
 
   isSmallScreen() {
-    const MAX_SMALL_SCREEN_PIXELS = 700;
+    const MAX_SMALL_SCREEN_PIXELS = 650;
     return window.innerWidth <= MAX_SMALL_SCREEN_PIXELS || window.innerHeight <= MAX_SMALL_SCREEN_PIXELS;
   }
 

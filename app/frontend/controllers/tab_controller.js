@@ -46,6 +46,7 @@ class TabController {
     this.loadingCompleted = false;
     this.lastSelectedTabIndex = null;
     this.verseBoxHelper = new VerseBoxHelper();
+    this.tabOperationsEnabled = true;
   }
 
   init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, defaultBibleTranslationId) {
@@ -184,6 +185,14 @@ class TabController {
     }
 
     await cacheController.setCachedItem('tabConfiguration', savedMetaTabs);
+  }
+
+  disableTabOperations() {
+    this.tabOperationsEnabled = false;
+  }
+
+  enableTabOperations() {
+    this.tabOperationsEnabled = true;
   }
 
   updateFirstTabCloseButton() {
@@ -497,6 +506,10 @@ class TabController {
 
     // Close icon: removing the tab on click
     this.tabs.find('span.close-tab-button').on("mousedown", (event) => {
+      if (!this.tabOperationsEnabled) {
+        return;
+      }
+
       this.removeTab(event);
 
       setTimeout(() => {
@@ -580,6 +593,10 @@ class TabController {
   }
 
   async addTab(metaTab = undefined, interactive = true, bibleTranslationId = undefined) {
+    if (!this.tabOperationsEnabled) {
+      return;
+    }
+
     var initialLoading = true;
     if (metaTab === undefined) {
       initialLoading = false;
