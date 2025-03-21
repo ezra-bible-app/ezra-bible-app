@@ -406,8 +406,6 @@ class TagsController {
   }
 
   initDeleteTagConfirmationDialog(force=false) {
-    document.getElementById('delete-note-file-checkbox').checked = false;
-
     if (!force && this.deleteTagConfirmationDialogInitDone) {
       return;
     }
@@ -749,18 +747,16 @@ class TagsController {
     let reallyDeleteTagExplanation = document.getElementById('really-delete-tag-explanation');
     let permanentlyDeleteTagBox = document.getElementById('permanently-delete-tag-box');
     let permanentlyDeleteTagWarning = document.getElementById('permanently-delete-tag-warning');
-    let deleteNoteFileCheckbox = document.getElementById('delete-note-file-checkbox');
-    let deleteNoteFileBox = document.getElementById('delete-note-file-box');
+    let permanentlyDeleteNoteFileWarning = document.getElementById('permanently-delete-note-file-warning');
     let tagGroup = this.currentTagGroupTitle;
 
     let permanentlyDeleteCheckbox = document.getElementById('permanently-delete-tag');
     permanentlyDeleteCheckbox.checked = false;
 
     if (noteFileId) {
-      deleteNoteFileCheckbox.disabled = false;
-      deleteNoteFileBox.style.display = 'block';
+      permanentlyDeleteNoteFileWarning.style.display = 'block';
     } else {
-      deleteNoteFileBox.style.display = 'none';
+      permanentlyDeleteNoteFileWarning.style.display = 'none';
     }
 
     if (this.tagGroupUsed()) {
@@ -790,7 +786,7 @@ class TagsController {
     $('#delete-tag-confirmation-dialog').dialog('close');
 
     tags_controller.permanently_delete_tag = document.getElementById('permanently-delete-tag').checked;
-    let deleteNoteFile = document.getElementById('delete-note-file-checkbox').checked;
+    let deleteNoteFile = true;
    
     setTimeout(async () => {
       let result = null;

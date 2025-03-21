@@ -63,6 +63,13 @@ class NoteFilesPanel {
   }
 
   async init() {
+    const enableNoteFilesPanel = await ipcSettings.get('enableNoteFilesPanel', false);
+
+    if (enableNoteFilesPanel) {
+      const noteFilesPanelButton = document.getElementById('note-files-panel-button');
+      noteFilesPanelButton.classList.remove('hidden');
+    }
+
     let noteFileId = await app_controller.tab_controller.getCurrentTabNoteFileId();
     await this.loadActiveNoteFile(noteFileId);
     this.refreshNoteFiles();
