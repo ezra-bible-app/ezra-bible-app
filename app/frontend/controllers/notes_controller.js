@@ -111,15 +111,26 @@ class NotesController {
 
         verseNotes.addEventListener('click', (event) => {
           this.currentNoteIsTagNote = false;
+          this.isFullScreen = false;
           this._handleNotesClick(event);
         });
       }
+    });
+
+    currentVerseListFrame[0].querySelectorAll('.notes-fullscreen-button').forEach(fullscreenButton => {
+      fullscreenButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+
+        this._handleFullscreenButtonClick(event);
+      });
     });
 
     const bookNoteBox = currentVerseListFrame[0].querySelector('.book-notes');
     if (bookNoteBox) {
       bookNoteBox.addEventListener('click', (event) => {
         this.currentNoteIsTagNote = false;
+        this.isFullScreen = false;
         this._handleNotesClick(event);
       });
     }
@@ -128,6 +139,7 @@ class NotesController {
     if (tagIntroNoteBox) {
       tagIntroNoteBox.addEventListener('click', (event) => {
         this.currentNoteIsTagNote = true;
+        this.isFullScreen = false;
         this._handleNotesClick(event);
       });
     }
@@ -136,6 +148,7 @@ class NotesController {
     if (tagConclusionNoteBox) {
       tagConclusionNoteBox.addEventListener('click', (event) => {
         this.currentNoteIsTagNote = true;
+        this.isFullScreen = false;
         this._handleNotesClick(event);
       });
     }
@@ -251,6 +264,31 @@ class NotesController {
     e.stopPropagation();
     e.target.closest('.notes-info').classList.toggle('active');
     this._showAndClickVerseNotes(verseNotes);
+  }
+
+  _handleFullscreenButtonClick(event) {
+    const verseNotes = event.target.closest('.verse-notes');
+    const fullscreenButtonIcon = event.target.closest('.notes-fullscreen-button').querySelector('i');
+
+    if (verseNotes) {
+      this.restoreCurrentlyEditedNotes(false);
+      verseNotes.classList.toggle('verse-notes-fullscreen');
+
+      if (verseNotes.classList.contains('verse-notes-fullscreen')) {
+        fullscreenButtonIcon.classList.remove('fa-expand');
+        fullscreenButtonIcon.classList.add('fa-compress');
+
+        this.isFullScreen = true;
+
+      } else {
+        fullscreenButtonIcon.classList.remove('fa-compress');
+        fullscreenButtonIcon.classList.add('fa-expand');
+
+        this.isFullScreen = false;
+      }
+
+      this._handleNotesClick(event);
+    }
   }
 
   editVerseNotesForCurrentlySelectedVerse() {
@@ -498,14 +536,15 @@ class NotesController {
       event.preventDefault();
       event.stopPropagation();
 
+      this.currentlyEditedNotes.classList.remove('verse-notes-fullscreen');
+      const fullscreenButtonIcon = this.currentlyEditedNotes.querySelector('.notes-fullscreen-button i');
+      fullscreenButtonIcon.classList.remove('fa-compress');
+      fullscreenButtonIcon.classList.add('fa-expand');
+
       if (event.currentTarget.className == 'save-note') {
-
         this.restoreCurrentlyEditedNotes();
-
       } else if (event.currentTarget.className == 'cancel-edit') {
-
         this.restoreCurrentlyEditedNotes(false);
-
       }
     });
 
@@ -560,6 +599,13 @@ class NotesController {
     });
 
     this.currentEditor = editor;
+
+    if (this.isFullScreen) {
+      this.currentEditor.getWrapperElement().style.height = window.innerHeight * 0.9 + 'px';
+    } else {
+      this.currentEditor.getWrapperElement().style.removeProperty('height');
+    }
+
     this._focusEditor(true);
     notesElementText.querySelector('.btn-picker').attachEditor(editor);
   }

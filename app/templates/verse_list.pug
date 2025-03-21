@@ -50,6 +50,8 @@ if renderTagNotes
           span(i18n='general.save') !{i18n.t('general.save')}
         span &nbsp;|&nbsp;
         a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
+        a(class='notes-fullscreen-button', href='')
+          i.fas.fa-expand.fa-sm
       div(class='verse-notes-timestamp') !{tagIntroUpdated}
 
 if renderBookNotes
@@ -83,6 +85,8 @@ if renderBookNotes
           span(i18n='general.save') !{i18n.t('general.save')}
         span &nbsp;|&nbsp;
         a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
+        a(class='notes-fullscreen-button', href='')
+          i.fas.fa-expand.fa-sm
       div(class='verse-notes-timestamp') !{bookNotesUpdate}
 
 each bibleBook in bibleBooks
@@ -255,6 +259,8 @@ each bibleBook in bibleBooks
                 span(i18n='general.save') !{i18n.t('general.save')}
               span &nbsp;|&nbsp;
               a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
+              a(class='notes-fullscreen-button', href='')
+                i.fas.fa-expand.fa-sm
             div(class='verse-notes-timestamp') !{verseNoteUpdate}
 
     if verse_count == verses1.length && renderChapterNavigationLinks == true && verse.chapter < bookChapterCount
@@ -299,4 +305,6 @@ if renderTagNotes
           span(i18n='general.save') !{i18n.t('general.save')}
         span &nbsp;|&nbsp;
         a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
+        a(class='notes-fullscreen-button', href='')
+          i.fas.fa-expand.fa-sm
       div(class='verse-notes-timestamp') !{tagConclusionUpdated}

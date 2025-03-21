@@ -205,3 +205,24 @@ div.CodeMirror {
 .darkmode--activated .verse-list .verse-reference .active i.fas {
   -webkit-text-stroke-color: #1e1e1e;
 }
+
+.notes-fullscreen-button {
+  margin-left: 1em;
+}
+
+.verse-notes-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0 !important;
+  width: calc(100% - 0.1em) !important;
+  height: 100%;
+  overflow-x: hidden !important;
+  z-index: 1000;
+  padding: 1em;
+  overflow: auto;
+}
+
+.verse-notes-fullscreen .CodeMirror {
+  height: unset;
+}
