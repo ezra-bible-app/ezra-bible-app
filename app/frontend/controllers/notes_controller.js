@@ -266,9 +266,15 @@ class NotesController {
     this._showAndClickVerseNotes(verseNotes);
   }
 
-  _handleFullscreenButtonClick(event) {
-    const verseNotes = event.target.closest('.verse-notes');
-    const fullscreenButtonIcon = event.target.closest('.notes-fullscreen-button').querySelector('i');
+  _handleFullscreenButtonClick(event=null, verseNotes=null) {
+    let fullscreenButtonIcon = null;
+
+    if (verseNotes == null) {
+      verseNotes = event.target.closest('.verse-notes');
+      fullscreenButtonIcon = event.target.closest('.notes-fullscreen-button').querySelector('i');
+    } else {
+      fullscreenButtonIcon = verseNotes.parentNode.querySelector('.notes-fullscreen-button').querySelector('i');
+    }
 
     if (verseNotes) {
       let currentNotes = this.currentEditor.getValue();
@@ -290,7 +296,9 @@ class NotesController {
         this.isFullScreen = false;
       }
 
-      this._handleNotesClick(event, currentNotes);
+      if (event != null) {
+        this._handleNotesClick(event, currentNotes);
+      }
     }
   }
 
@@ -602,7 +610,13 @@ class NotesController {
         "Enter": "newlineAndIndentContinueMarkdownList",
         "Ctrl-Enter": "save",
         "Cmd-Enter": "save",
-        "Esc": () => { this.restoreCurrentlyEditedNotes(false); }
+        "Esc": () => {
+          if (this.currentlyEditedNotes.classList.contains('verse-notes-fullscreen')) {
+            this._handleFullscreenButtonClick(null, this.currentlyEditedNotes);
+          } else {
+            this.restoreCurrentlyEditedNotes(false);
+          }
+        }
       },
       theme: this.theme
     });
