@@ -218,7 +218,7 @@ class NotesController {
     this.currentEditor = null;
   }
 
-  async _handleNotesClick(event) {
+  async _handleNotesClick(event, text=null) {
     this.clickEventHappened = true;
     setTimeout(() => {
       this.clickEventHappened = false;
@@ -255,7 +255,7 @@ class NotesController {
       this.currentReferenceId = referenceId;
       this.currentlyEditedNotes = verseNotesBox;
       this.currentlyEditedNotes.classList.remove('verse-notes-empty');
-      this._createEditor(this.currentlyEditedNotes);
+      this._createEditor(this.currentlyEditedNotes, text);
       this._setupVerseNoteButtons();
     }
   }
@@ -271,7 +271,10 @@ class NotesController {
     const fullscreenButtonIcon = event.target.closest('.notes-fullscreen-button').querySelector('i');
 
     if (verseNotes) {
+      let currentNotes = this.currentEditor.getValue();
+
       this.restoreCurrentlyEditedNotes(false);
+
       verseNotes.classList.toggle('verse-notes-fullscreen');
 
       if (verseNotes.classList.contains('verse-notes-fullscreen')) {
@@ -287,7 +290,7 @@ class NotesController {
         this.isFullScreen = false;
       }
 
-      this._handleNotesClick(event);
+      this._handleNotesClick(event, currentNotes);
     }
   }
 
@@ -567,7 +570,7 @@ class NotesController {
     return template.content;
   }
 
-  _createEditor(notesElement) {
+  _createEditor(notesElement, text=null) {
     var CodeMirror = getCodeMirror();
     CodeMirror.commands.save = () => this.restoreCurrentlyEditedNotes();
 
@@ -580,7 +583,13 @@ class NotesController {
     notesElementText.appendChild(textAreaTemplate); 
 
     var textAreaElement = notesElementText.querySelector('.editor');
-    textAreaElement.value = this._getNotesElementContent(notesElement);
+
+    let notesContent = this._getNotesElementContent(notesElement);
+    if (text != null) {
+      notesContent = text;
+    }
+
+    textAreaElement.value = notesContent;
 
     var editor = CodeMirror.fromTextArea(textAreaElement, {
       mode: 'gfm',
