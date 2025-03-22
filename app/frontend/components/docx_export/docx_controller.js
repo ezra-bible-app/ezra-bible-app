@@ -155,9 +155,9 @@ async function renderVerseBlocks(verseBlocks, bibleBook=undefined, notes={}) {
     const currentBlock = verseBlocks[j];
 
 
-    if (bibleBook) { // render as tags
+    if (bibleBook) { // render as tagged verse list
       paragraphs.push(...(await renderTagVerseLayout(currentBlock, bibleBook, separator)));
-    } else { // render as notes
+    } else { // render as book based notes
       const isFirstChapter = j === 0;
       const isMultipleChapters = verseBlocks.length > 1;
       paragraphs.push(...renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, chapterText));
