@@ -1,14 +1,19 @@
-<div id="new-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
+<div id="new-standard-tag-dialog" style="display: none; padding-bottom: 2em;">
   <span id="new-standard-tag-title-label" i18n="tags.title"></span><span>: </span> <input id="new-standard-tag-title-input" type="text" maxlength="255" />
   <emoji-button-trigger></emoji-button-trigger>
 
-  <div id="tag-group-assignment-section" style="margin-top: 1em; height: 75%;">
+  <div id="tag-group-assignment-section" style="margin-top: 1em; height: 65%;">
     <span i18n="tags.tag-groups"></span>:
     <tag-group-assignment-list id="new-tag-dialog-tag-group-assignment"></tag-group-assignment-list>
 
     <div style="margin-top: 1em; display: none;">
       <a id="add-existing-tags-to-tag-group-link" href="" i18n="tags.add-existing-tags-to-current-tag-group"></a>
     </div>
+  </div>
+
+  <div style="margin-top: 4em;">
+    <input id="create-note-file-checkbox" type="checkbox"/>
+    <label for="create-note-file-checkbox" i18n="tags.create-note-file-checkbox"></label>
   </div>
 </div>
 
@@ -21,10 +26,11 @@
 <div id="delete-tag-confirmation-dialog" style="display: none;">
   <p id="delete-tag-from-group-explanation" style="display: none;"></p>
   <div id="permanently-delete-tag-box" style="border-top: 1px solid gray; padding-top: 0.5em;">
-  <input id="permanently-delete-tag" type="checkbox"/><label style="margin-left: 0.2em;" for="permanently-delete-tag" i18n="tags.delete-tag-permanently"></label>
+    <input id="permanently-delete-tag" type="checkbox"/><label style="margin-left: 0.2em;" for="permanently-delete-tag" i18n="tags.delete-tag-permanently"></label>
   </div>
   <p id="really-delete-tag-explanation"><span i18n="tags.really-delete"></span><span style="font-style: italic;" id="delete-tag-name"></span></p>
   <p id="permanently-delete-tag-warning" style="margin-bottom: 0;"><span i18n="[html]tags.tag-info-would-be-deleted"></span> (<span id="delete-tag-number-of-verses"></span>)</p>
+  <p id="permanently-delete-note-file-warning"><span i18n="[html]tags.tag-note-file-would-be-deleted"></span></p>
 </div>
 
 <div id="remove-tag-assignment-confirmation-dialog" style="display: none;">

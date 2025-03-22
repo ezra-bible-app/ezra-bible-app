@@ -137,7 +137,7 @@ After("@cleanup-after-scenario", async function() {
   let tagGroups = await models.TagGroup.findAll();
 
   for (let i = 0; i < tags.length; i++) {
-    await models.Tag.destroy_tag(tags[i].id);
+    await models.Tag.destroyTag(tags[i].id);
   }
 
   for (let i = 0; i < tagGroups.length; i++) {

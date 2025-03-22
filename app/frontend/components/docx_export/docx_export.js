@@ -30,14 +30,14 @@ const verseListTitleHelper = require('../../helpers/verse_list_title_helper.js')
  */
 class DocxExport {
 
-  enableExportButton(tabIndex, type='TAGS') {
+  enableExportButton(tabIndex, type='TAGGED_VERSES') {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var exportButton = currentVerseListMenu.find('.export-docx-button');
 
     exportButton.removeClass('ui-state-disabled');
     exportButton.unbind('click');
     exportButton.bind('click', (event) => {
-      if (!$(event.target).hasClass('ui-state-disabled')) {
+      if (!event.target.closest('.fg-button').classList.contains('ui-state-disabled')) {
         this._runExport(type);
       }
     });
@@ -51,13 +51,13 @@ class DocxExport {
       const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
       currentVerseListMenu.find('.export-docx-button').addClass('ui-state-disabled');
     } else {
-      $('#export-docx-button').addClass('ui-state-disabled');
+      $('.export-docx-button').addClass('ui-state-disabled');
     }
   }
 
   /**
    * exports to Word
-   * @param {'NOTES'|'TAGS'} type 
+   * @param {'BOOK_NOTES'|'TAGGED_VERSES'|'TAGGED_VERSES_WITH_NOTES'} type 
    */
   async _runExport(type) {
     /**@type {import('../../ui_models/tab')} */
@@ -71,9 +71,9 @@ class DocxExport {
     var fileName;
     var isInstantLoadingBook = false;
 
-    if (type === 'TAGS') {
+    if (type === 'TAGGED_VERSES' || type === 'TAGGED_VERSES_WITH_NOTES') {
       fileName = getUnixTagTitleList(currentTab);
-    } else if (type === 'NOTES') {
+    } else if (type === 'BOOK_NOTES') {
       isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(translationId, null, currentTab.getBook());
       fileName = currentTab.getBookTitle() + (isInstantLoadingBook ? '' : `_${currentTab.getChapter()}`);
     } else {
@@ -85,10 +85,12 @@ class DocxExport {
 
     const filePath = await exportHelper.showSaveDialog(fileName, 'docx', dialogTitle);
     if (filePath) {
-      if (type === 'TAGS') {
-        renderCurrentTagsForExport(currentTab, filePath);
-      } else if (type === 'NOTES') {
-        renderNotesForExport(currentTab, isInstantLoadingBook, filePath);
+      if (type === 'TAGGED_VERSES') {
+        renderTaggedVersesForExport(currentTab, filePath);
+      } else if (type === 'TAGGED_VERSES_WITH_NOTES') {
+        renderTaggedVersesWithNotesForExport(currentTab, filePath);
+      } else if (type === 'BOOK_NOTES') {
+        renderBookNotesForExport(currentTab, isInstantLoadingBook, filePath);
       }
     }
   }
@@ -96,7 +98,7 @@ class DocxExport {
 
 module.exports = DocxExport;
 
-function renderCurrentTagsForExport(currentTab, filePath) {
+function renderTaggedVersesForExport(currentTab, filePath) {
   const currentTagIdList = currentTab.getTagIdList();
   
   const currentTagTitleList = currentTab.getTagTitleList();
@@ -107,21 +109,47 @@ function renderCurrentTagsForExport(currentTab, filePath) {
     null,
     currentTagIdList,
     (verses, bibleBooks) => { 
-      exportController.saveWordDocument(filePath, title, verses, bibleBooks); 
+      exportController.saveWordDocument(filePath, title, verses, 'tagged-verses', bibleBooks); 
     },
     'docx',
     false
   );
 }
 
-function renderNotesForExport(currentTab, isWholeBook, filePath) {
+function renderTaggedVersesWithNotesForExport(currentTab, filePath) {
+  const currentTagIdList = currentTab.getTagIdList();
+  const currentTagTitleList = currentTab.getTagTitleList();
+  const title = currentTagTitleList;
+
+  app_controller.text_controller.requestVersesForSelectedTags(
+    undefined,
+    null,
+    currentTagIdList,
+    async (verses, bibleBooks, verseTags, verseNotes) => {
+      const firstTagId = parseInt(currentTagIdList.split(',')[0]);
+      const tagNote = await ipcDb.getTagNote(firstTagId);
+
+      const notes = {
+        introduction: tagNote ? tagNote.introduction : "",
+        conclusion: tagNote ? tagNote.conclusion : "",
+        ...verseNotes
+      };
+
+      exportController.saveWordDocument(filePath, title, verses, 'tagged-verses-with-notes', bibleBooks, notes);
+    },
+    'docx',
+    false
+  );
+}
+
+function renderBookNotesForExport(currentTab, isWholeBook, filePath) {
   app_controller.text_controller.requestNotesForExport(
     undefined,
     currentTab.getBook(),
     isWholeBook ? null : currentTab.getChapter(),
     (verses, notes) => {
       const title = currentTab.getBookTitle() + (isWholeBook ? '' : ` ${currentTab.getChapter()}`);
-      exportController.saveWordDocument(filePath, title, verses, undefined, notes);
+      exportController.saveWordDocument(filePath, title, verses, 'book-notes', undefined, notes);
     },
     'docx'
   );

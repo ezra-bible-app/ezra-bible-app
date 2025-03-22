@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   const Tag = sequelize.define('Tag', {
     title: DataTypes.STRING,
     bibleBookId: DataTypes.INTEGER,
+    noteFileId: DataTypes.INTEGER,
     tagGroupList: DataTypes.VIRTUAL,
     globalAssignmentCount: DataTypes.VIRTUAL,
     bookAssignmentCount: DataTypes.VIRTUAL,
@@ -38,11 +39,24 @@ module.exports = (sequelize, DataTypes) => {
     Tag.belongsToMany(models.TagGroup, {through: 'TagGroupMembers'});
   };
 
-  Tag.create_new_tag = async function(new_tag_title) {
+  Tag.createNewTag = async function(newTagTitle, createNoteFile=false) {
     try {
-      var newTag = await global.models.Tag.create({
-        title: new_tag_title,
-        bibleBookId: null
+      let noteFileId = null;
+
+      if (createNoteFile) {
+        const noteFileResult = await global.models.NoteFile.createNoteFile(newTagTitle);
+
+        if (noteFileResult.success) {
+          noteFileId = noteFileResult.dbObject.id;
+        } else {
+          return noteFileResult;
+        }
+      }
+
+      let newTag = await global.models.Tag.create({
+        title: newTagTitle,
+        bibleBookId: null,
+        noteFileId: noteFileId
       });
 
       await global.models.MetaRecord.updateLastModified();
@@ -59,8 +73,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  Tag.destroy_tag = async function(id) {
+  Tag.destroyTag = async function(id, deleteNoteFile=false) {
     try {
+      if (deleteNoteFile) {
+        const tag = await global.models.Tag.findByPk(id);
+        if (tag.noteFileId) {
+          await global.models.NoteFile.destroyNoteFile(tag.noteFileId);
+        }
+      }
+
       await global.models.VerseTag.destroy({ where: { tagId: id } });
       await global.models.TagGroupMember.destroy({ where: { tagId: id }});
       await global.models.Tag.destroy({ where: { id: id } });
@@ -77,7 +98,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  Tag.update_tag = async function(id, newTitle, addTagGroups, removeTagGroups) {
+  Tag.updateTag = async function(id, newTitle, addTagGroups, removeTagGroups) {
     try {
       let tag = await global.models.Tag.findByPk(id);
       let titleChanged = tag.title != newTitle;
@@ -109,7 +130,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  Tag.update_tags_on_verses = async function(tagId, verseObjects, versification, action) {
+  Tag.updateTagsOnVerses = async function(tagId, verseObjects, versification, action) {
     try {
       var tag = await global.models.Tag.findByPk(tagId);
 

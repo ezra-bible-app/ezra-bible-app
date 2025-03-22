@@ -406,6 +406,7 @@ class TextController {
         renderChapterHeaders: isInstantLoadingBook && !bookHasHeaders,
         renderChapterNavigationLinks: !isInstantLoadingBook,
         renderBookNotes: (startVerseNumber1 == 1),
+        renderTagNotes: false,
         bookChapterCount: bookChapterCount,
         bookIntroduction: bookIntroduction,
         bookNotes: bookNotes,
@@ -414,12 +415,12 @@ class TextController {
         verses2: verses2,
         verseTags: verseTags,
         verseNotes: verseNotes,
-        marked: marked,
         referenceSeparator: separator,
         chapterText: bookShortTitle === 'Ps' ? "bible-browser.psalm" : "bible-browser.chapter",
         helper: {
           getNotesTooltip: notesHelper.getTooltipText,
-          getLocalizedDate: i18nHelper.getLocalizedDate,
+          renderNotes: notesHelper.renderNotes,
+          getLocalizedDate: i18nHelper.getLocalizedDate
         }
       });
 
@@ -565,9 +566,11 @@ class TextController {
                                  verseNotes,
                                  verses1,
                                  verses2,
+                                 null,
                                  versification,
                                  render_function,
                                  searchResultBookId <= 0,
+                                 false,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
@@ -583,6 +586,28 @@ class TextController {
                                      renderVerseMetaInfo=true) {
     if (selected_tags == '') {
       return;
+    }
+
+    let selectedTagList = selected_tags.split(',');
+
+    let renderTagNotes = false;
+    let tagNote = null;
+    let noteFileId = null;
+
+    // If only one tag is selected, we can render the tag note (intro and conclusion) for the tag
+    // and also the notes for the verses tagged with this tag.
+    if (selectedTagList.length == 1) {
+      renderTagNotes = true;
+
+      const tagId = parseInt(selectedTagList[0]);
+      tagNote = await ipcDb.getTagNote(tagId);
+
+      const tagObject = await tags_controller.tag_store.getTag(tagId);
+      if (tagObject != null && tagObject.noteFileId != null) {
+        noteFileId = tagObject.noteFileId;
+      }
+
+      await app_controller.noteFilesPanel.setActiveNoteFile(noteFileId, false);
     }
 
     const bibleTranslationId = this.getBibleTranslationId(tab_index);
@@ -642,7 +667,7 @@ class TextController {
     var bookNames = await ipcGeneral.getBookNames(bibleBooks);
 
     var verseTags = await ipcDb.getVerseTagsByVerseReferenceIds(verseReferenceIds, versification);
-    var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
+    var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification, noteFileId);
 
     if (render_type == "html") {
 
@@ -654,13 +679,15 @@ class TextController {
                                  verseNotes,
                                  verses1,
                                  verses2,
+                                 tagNote,
                                  versification,
                                  render_function,
                                  true,
+                                 renderTagNotes,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
-      render_function(verses1, bibleBooks, verseTags);
+      render_function(verses1, bibleBooks, verseTags, verseNotes);
     }
   }
 
@@ -718,9 +745,11 @@ class TextController {
                                  verseNotes,
                                  verses1,
                                  verses2,
+                                 null,
                                  versification,
                                  render_function,
                                  true,
+                                 false,
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
@@ -747,9 +776,11 @@ class TextController {
                         groupedVerseNotes,
                         verses1,
                         verses2,
+                        tagNote,
                         versification,
                         render_function,
                         renderBibleBookHeaders=true,
+                        renderTagNotes=false,
                         renderVerseMetaInfo=true) {    
 
     var tab = app_controller.tab_controller.getTabById(current_tab_id);
@@ -766,18 +797,21 @@ class TextController {
       renderBibleBookHeaders: renderBibleBookHeaders,
       renderChapterNavigationLinks: false,
       renderVerseMetaInfo: renderVerseMetaInfo,
+      renderTagNotes: renderTagNotes,
       bibleBooks: bibleBooks,
       bookNames: bookNames,
       bibleBookStats: bibleBookStats,
       verses1: verses1,
       verses2: verses2,
+      tagNote: tagNote,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
       marked: marked,
       referenceSeparator: separator,
       helper: {
         getNotesTooltip: notesHelper.getTooltipText,
-        getLocalizedDate: i18nHelper.getLocalizedDate,
+        renderNotes: notesHelper.renderNotes,
+        getLocalizedDate: i18nHelper.getLocalizedDate
       }
     });
 
@@ -822,7 +856,6 @@ class TextController {
     }
 
     if (target === undefined) {
-      //console.log("Undefined target. Getting verse list target based on tabIndex " + tabIndex);
       target = verseListController.getCurrentVerseList(tabIndex);
     }
 
@@ -833,17 +866,25 @@ class TextController {
       target.addClass('verse-list-book');
 
       if (this.platformHelper.isElectron() && hasNotes) {
-        app_controller.docxExport.enableExportButton(tabIndex, 'NOTES');
+        app_controller.docxExport.enableExportButton(tabIndex, 'BOOK_NOTES');
       } else {
         app_controller.docxExport.disableExportButton(tabIndex);
       }
 
     } else if (listType == 'tagged_verses') {
-
       app_controller.module_search_controller.resetSearch(tabIndex);
 
       if (this.platformHelper.isElectron()) {
-        app_controller.docxExport.enableExportButton(tabIndex, 'TAGS');
+        const tagIdList = currentTab.getTagIdList().split(',');
+        
+        const firstTagId = parseInt(tagIdList[0]);
+        const firstTagObject = await tags_controller.tag_store.getTag(firstTagId);
+
+        if (tagIdList.length === 1 && firstTagObject != null && firstTagObject.noteFileId != null) {
+          app_controller.docxExport.enableExportButton(tabIndex, 'TAGGED_VERSES_WITH_NOTES');
+        } else {
+          app_controller.docxExport.enableExportButton(tabIndex, 'TAGGED_VERSES');
+        }
       }
 
       let verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
@@ -870,8 +911,6 @@ class TextController {
       target.removeClass('verse-list-book');
 
     } else if (listType == 'search_results') {
-
-      //console.log("Rendering search results verse list on tab " + tabIndex);
       target.removeClass('verse-list-book');
     }
 

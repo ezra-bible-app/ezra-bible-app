@@ -41,7 +41,7 @@ const template = html`
      margin-left: 0.2em;
    }
    
-   ::slotted(button) {
+   ::slotted(button:not(.hidden)) {
      font-size: var(--icon-size) !important; /* There is an issue with ::slotted specificity: https://github.com/w3c/csswg-drafts/issues/6466 */
      display: block !important;  /* The unslotted buttons were hidden by default, because they already existed in the DOM before the Android permissions dialogue is shown. */
 
