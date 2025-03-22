@@ -21,6 +21,7 @@ const { marked } = require('marked');
 const docxHelper = require('./docx_helper.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const { parseHTML } = require('../../helpers/ezra_helper.js');
+const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 
 /**
  * The docxController implements the generation of a Word document with certain verses with notes or tags.
@@ -292,14 +293,20 @@ async function renderTaggedVersesWithNotesLayout(verses, notes) {
     return [];
   }
 
-  var paragraphs = [];
+  const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+  let versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
+
+  let paragraphs = [];
 
   for (const verse of verses) {
     paragraphs.push(renderVerse(verse));
 
-    const referenceId = `${verse.bibleBookShortTitle.toLowerCase()}-${verse.absoluteVerseNr}`;
+    const referenceId = `${versification}-${verse.bibleBookShortTitle.toLowerCase()}-${verse.absoluteVerseNr}`;
+
     if (notes[referenceId]) {
-      paragraphs.push(...docxHelper.markdownToDocx(notes[referenceId].text, 'notes'));
+      let currentNotes = '\n\n' + notes[referenceId].text + '\n\n';
+
+      paragraphs.push(...docxHelper.markdownToDocx(currentNotes, 'notes'));
     }
   }
 

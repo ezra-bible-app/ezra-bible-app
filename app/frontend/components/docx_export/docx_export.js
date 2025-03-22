@@ -125,14 +125,14 @@ function renderTaggedVersesWithNotesForExport(currentTab, filePath) {
     undefined,
     null,
     currentTagIdList,
-    async (verses, bibleBooks) => {
+    async (verses, bibleBooks, verseTags, verseNotes) => {
       const firstTagId = parseInt(currentTagIdList.split(',')[0]);
       const tagNote = await ipcDb.getTagNote(firstTagId);
 
       const notes = {
         introduction: tagNote ? tagNote.introduction : "",
         conclusion: tagNote ? tagNote.conclusion : "",
-        // Add specific notes for verses here
+        ...verseNotes
       };
 
       exportController.saveWordDocument(filePath, title, verses, 'tagged-verses-with-notes', bibleBooks, notes);

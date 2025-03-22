@@ -687,7 +687,7 @@ class TextController {
                                  renderVerseMetaInfo);
 
     } else if (render_type == "docx") {
-      render_function(verses1, bibleBooks, verseTags);
+      render_function(verses1, bibleBooks, verseTags, verseNotes);
     }
   }
 
