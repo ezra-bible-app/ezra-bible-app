@@ -914,7 +914,7 @@ class TabController {
         const firstTagId = parseInt(tagIds[0]);
         const tagObject = await tags_controller.tag_store.getTag(firstTagId);
 
-        if (tabObject != null) {
+        if (tagObject != null) {
           noteFileId = tagObject.noteFileId;
         }
       }
