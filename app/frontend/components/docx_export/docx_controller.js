@@ -23,6 +23,8 @@ const i18nHelper = require('../../helpers/i18n_helper.js');
 const { parseHTML } = require('../../helpers/ezra_helper.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 
+var textColor = '000000';
+
 /**
  * The docxController implements the generation of a Word document with certain verses with notes or tags.
  * docxController.generateDocument gets called from exportController.
@@ -304,8 +306,11 @@ async function renderTaggedVersesWithNotesLayout(verses, notes) {
   let versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
   let paragraphs = [];
 
+  // Set textColor to a blue tone
+  textColor = '2779AA';
+
   for (const verse of verses) {
-    paragraphs.push(renderVerse(verse, '2779AA'));
+    paragraphs.push(renderVerse(verse));
 
     const referenceId = `${versification}-${verse.bibleBookShortTitle.toLowerCase()}-${verse.absoluteVerseNr}`;
 
@@ -316,10 +321,13 @@ async function renderTaggedVersesWithNotesLayout(verses, notes) {
     }
   }
 
+  // Reset textColor again
+  textColor = '000000';
+
   return paragraphs;
 }
 
-function renderVerse(verse, textColor='000000') {
+function renderVerse(verse) {
 
   let currentVerseContent = "";
   let fixedContent = verse.content.replace(/<([a-z]+)(\s?[^>]*?)\/>/g, '<$1$2></$1>'); // replace self closing tags FIXME: Should it be in the NSI?
