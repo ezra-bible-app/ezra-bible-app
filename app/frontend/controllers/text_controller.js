@@ -603,7 +603,7 @@ class TextController {
       tagNote = await ipcDb.getTagNote(tagId);
 
       const tagObject = await tags_controller.tag_store.getTag(tagId);
-      if (tagObject.noteFileId != null) {
+      if (tagObject != null && tagObject.noteFileId != null) {
         noteFileId = tagObject.noteFileId;
       }
 
@@ -880,7 +880,7 @@ class TextController {
         const firstTagId = parseInt(tagIdList[0]);
         const firstTagObject = await tags_controller.tag_store.getTag(firstTagId);
 
-        if (tagIdList.length === 1 && firstTagObject.noteFileId != null) {
+        if (tagIdList.length === 1 && firstTagObject != null && firstTagObject.noteFileId != null) {
           app_controller.docxExport.enableExportButton(tabIndex, 'TAGGED_VERSES_WITH_NOTES');
         } else {
           app_controller.docxExport.enableExportButton(tabIndex, 'TAGGED_VERSES');
