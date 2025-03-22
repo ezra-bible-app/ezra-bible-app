@@ -151,18 +151,18 @@ async function renderVerseBlocks(verseBlocks, mode, bibleBook=undefined, notes={
 
 
     if (mode === 'tagged-verses') { // render as tagged verse list
-      paragraphs.push(...(await renderTagVerseLayout(currentBlock, bibleBook, separator)));
+      paragraphs.push(...(await renderTaggedVersesLayout(currentBlock, bibleBook, separator)));
     } else if (mode === 'book-notes') { // render as book based notes
       const isFirstChapter = j === 0;
       const isMultipleChapters = verseBlocks.length > 1;
-      paragraphs.push(...renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, chapterText));
+      paragraphs.push(...renderBookNotesLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, chapterText));
     }
   }
 
   return paragraphs;
 }
 
-async function renderTagVerseLayout(verses, bibleBook, separator=":") {
+async function renderTaggedVersesLayout(verses, bibleBook, separator=":") {
   if (verses.length == 0) {
     return [];
   }
@@ -195,7 +195,7 @@ async function renderTagVerseLayout(verses, bibleBook, separator=":") {
   return paragraphs;
 }
 
-function renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, chapterText) {
+function renderBookNotesLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, chapterText) {
   const firstVerse = currentBlock[0];
 
   var paragraphs = [];
