@@ -37,7 +37,7 @@ class DocxExport {
     exportButton.removeClass('ui-state-disabled');
     exportButton.unbind('click');
     exportButton.bind('click', (event) => {
-      if (!$(event.target).hasClass('ui-state-disabled')) {
+      if (!event.target.closest('.fg-button').classList.contains('ui-state-disabled')) {
         this._runExport(type);
       }
     });
