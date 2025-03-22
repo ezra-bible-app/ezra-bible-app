@@ -119,7 +119,7 @@ function renderTaggedVersesForExport(currentTab, filePath) {
 function renderTaggedVersesWithNotesForExport(currentTab, filePath) {
   const currentTagIdList = currentTab.getTagIdList();
   const currentTagTitleList = currentTab.getTagTitleList();
-  const title = `${i18n.t("tags.verses-tagged-with")}_${currentTagTitleList}_`;
+  const title = currentTagTitleList;
 
   app_controller.text_controller.requestVersesForSelectedTags(
     undefined,
