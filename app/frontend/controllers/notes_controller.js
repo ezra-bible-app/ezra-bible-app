@@ -611,6 +611,10 @@ class NotesController {
         "Ctrl-Enter": "save",
         "Cmd-Enter": "save",
         "Esc": () => {
+          // Differentiate between fullscreen and regular mode
+          // In fullscreen mode, the escape key should close the fullscreen mode
+          // In regular mode, the escape key should cancel the note editing and close the editor
+
           if (this.currentlyEditedNotes.classList.contains('verse-notes-fullscreen')) {
             this._handleFullscreenButtonClick(null, this.currentlyEditedNotes);
           } else {
