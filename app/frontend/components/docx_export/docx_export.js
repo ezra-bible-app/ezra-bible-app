@@ -118,7 +118,6 @@ function renderTaggedVersesForExport(currentTab, filePath) {
 
 function renderTaggedVersesWithNotesForExport(currentTab, filePath) {
   const currentTagIdList = currentTab.getTagIdList();
-  
   const currentTagTitleList = currentTab.getTagTitleList();
   const title = `${i18n.t("tags.verses-tagged-with")}_${currentTagTitleList}_`;
 
@@ -126,13 +125,17 @@ function renderTaggedVersesWithNotesForExport(currentTab, filePath) {
     undefined,
     null,
     currentTagIdList,
-    (verses, bibleBooks) => { 
+    async (verses, bibleBooks) => {
+      const firstTagId = parseInt(currentTagIdList.split(',')[0]);
+      const tagNote = await ipcDb.getTagNote(firstTagId);
+
       const notes = {
-        introduction: "Introduction text here...",
-        conclusion: "Conclusion text here...",
+        introduction: tagNote ? tagNote.introduction : "",
+        conclusion: tagNote ? tagNote.conclusion : "",
         // Add specific notes for verses here
       };
-      exportController.saveWordDocument(filePath, title, verses, 'tagged-verses-with-notes', bibleBooks, notes); 
+
+      exportController.saveWordDocument(filePath, title, verses, 'tagged-verses-with-notes', bibleBooks, notes);
     },
     'docx',
     false
