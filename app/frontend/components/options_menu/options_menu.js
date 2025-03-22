@@ -136,6 +136,7 @@ class OptionsMenu {
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
       this.showOrHideSectionTitlesBasedOnOption(tabIndex);
+      this.showOrHideStrongsBasedOnOption(tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
