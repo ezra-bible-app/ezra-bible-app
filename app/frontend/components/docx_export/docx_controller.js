@@ -41,7 +41,7 @@ module.exports.generateDocument = async function(title, verses, mode, bibleBooks
     for (const currentBook of bibleBooks) {
       const bookTitle = await i18nHelper.getSwordTranslation(currentBook.longTitle);
       const allBlocks = getBibleBookVerseBlocks(currentBook, verses);
-      const blockParagraphs = await renderVerseBlocks(allBlocks, currentBook, notes);
+      const blockParagraphs = await renderVerseBlocks(allBlocks, mode, currentBook, notes);
 
       if (blockParagraphs.length > 0) {
         children.push(
@@ -61,7 +61,7 @@ module.exports.generateDocument = async function(title, verses, mode, bibleBooks
     });
 
     const allBlocks = getBookBlockByChapter(verses);
-    const chapterParagraphs = await renderVerseBlocks(allBlocks, undefined, notes);
+    const chapterParagraphs = await renderVerseBlocks(allBlocks, mode, undefined, notes);
     children.push(titleP, ...chapterParagraphs);
   }
 
@@ -139,7 +139,7 @@ function getBookBlockByChapter(verses) {
   return allBlocks;
 }
 
-async function renderVerseBlocks(verseBlocks, bibleBook=undefined, notes={}) {
+async function renderVerseBlocks(verseBlocks, mode, bibleBook=undefined, notes={}) {
   const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
   const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
   const chapterText = i18nHelper.getChapterText(undefined, bibleBook || verseBlocks[0][0].bibleBookShortTitle);
@@ -150,9 +150,9 @@ async function renderVerseBlocks(verseBlocks, bibleBook=undefined, notes={}) {
     const currentBlock = verseBlocks[j];
 
 
-    if (bibleBook) { // render as tagged verse list
+    if (mode === 'tagged-verses') { // render as tagged verse list
       paragraphs.push(...(await renderTagVerseLayout(currentBlock, bibleBook, separator)));
-    } else { // render as book based notes
+    } else if (mode === 'book-notes') { // render as book based notes
       const isFirstChapter = j === 0;
       const isMultipleChapters = verseBlocks.length > 1;
       paragraphs.push(...renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, chapterText));
