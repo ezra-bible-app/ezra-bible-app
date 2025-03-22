@@ -30,19 +30,16 @@ const { parseHTML } = require('../../helpers/ezra_helper.js');
  * @category Controller
  */
 
-module.exports.generateDocument = async function(title, verses, bibleBooks=undefined, notes={}) {
+module.exports.generateDocument = async function(title, verses, mode, bibleBooks=undefined, notes={}) {
 
   var children = [];
 
-  // Book-based notes
-  if (bibleBooks && Array.isArray(bibleBooks)) {
-    
+  if (mode === 'book-notes' && bibleBooks && Array.isArray(bibleBooks)) {
+    // Book-based notes
     children.push(...docxHelper.markdownToDocx(`# ${title}`));
 
     for (const currentBook of bibleBooks) {
-
       const bookTitle = await i18nHelper.getSwordTranslation(currentBook.longTitle);
-
       const allBlocks = getBibleBookVerseBlocks(currentBook, verses);
       const blockParagraphs = await renderVerseBlocks(allBlocks, currentBook, notes);
 
@@ -57,8 +54,8 @@ module.exports.generateDocument = async function(title, verses, bibleBooks=undef
       }
     }
 
-  } else { // Tagged verse list
-
+  } else if (mode === 'tagged-verses') {
+    // Tagged verse list
     const titleP = new docx.Paragraph({
       text: title,
       heading: docx.HeadingLevel.TITLE
@@ -67,11 +64,9 @@ module.exports.generateDocument = async function(title, verses, bibleBooks=undef
     const allBlocks = getBookBlockByChapter(verses);
     const chapterParagraphs = await renderVerseBlocks(allBlocks, undefined, notes);
     children.push(titleP, ...chapterParagraphs);
-
   }
 
   const footers = await docxHelper.addBibleTranslationInfo();
-
   const titleFragment = parseHTML(marked.parse(title));
 
   var doc = new docx.Document({

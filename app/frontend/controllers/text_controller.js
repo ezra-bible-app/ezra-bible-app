@@ -867,7 +867,7 @@ class TextController {
       target.addClass('verse-list-book');
 
       if (this.platformHelper.isElectron() && hasNotes) {
-        app_controller.docxExport.enableExportButton(tabIndex, 'NOTES');
+        app_controller.docxExport.enableExportButton(tabIndex, 'BOOK_NOTES');
       } else {
         app_controller.docxExport.disableExportButton(tabIndex);
       }
@@ -877,7 +877,7 @@ class TextController {
       app_controller.module_search_controller.resetSearch(tabIndex);
 
       if (this.platformHelper.isElectron()) {
-        app_controller.docxExport.enableExportButton(tabIndex, 'TAGS');
+        app_controller.docxExport.enableExportButton(tabIndex, 'TAGGED_VERSES');
       }
 
       let verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
