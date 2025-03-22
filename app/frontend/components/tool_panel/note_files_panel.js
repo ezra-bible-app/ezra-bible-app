@@ -33,12 +33,20 @@ class NoteFilesPanel {
       this.init();
     });
 
-    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+    let reloadNoteFiles = async (tabIndex=undefined) => {
       if (this._initDone) {
         let noteFileId = await app_controller.tab_controller.getCurrentTabNoteFileId(tabIndex);
         await this.loadActiveNoteFile(noteFileId);
         await this.refreshNoteFiles();
       }
+    };
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      reloadNoteFiles(tabIndex);
+    });
+
+    eventController.subscribe('on-bible-text-loaded', async () => {
+      reloadNoteFiles();
     });
 
     let refreshWithTagId = async (tagId) => {
