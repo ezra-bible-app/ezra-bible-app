@@ -856,7 +856,6 @@ class TextController {
     }
 
     if (target === undefined) {
-      //console.log("Undefined target. Getting verse list target based on tabIndex " + tabIndex);
       target = verseListController.getCurrentVerseList(tabIndex);
     }
 
@@ -873,11 +872,19 @@ class TextController {
       }
 
     } else if (listType == 'tagged_verses') {
-
       app_controller.module_search_controller.resetSearch(tabIndex);
 
       if (this.platformHelper.isElectron()) {
-        app_controller.docxExport.enableExportButton(tabIndex, 'TAGGED_VERSES');
+        const tagIdList = currentTab.getTagIdList().split(',');
+        
+        const firstTagId = parseInt(tagIdList[0]);
+        const firstTagObject = await tags_controller.tag_store.getTag(firstTagId);
+
+        if (tagIdList.length === 1 && firstTagObject.noteFileId != null) {
+          app_controller.docxExport.enableExportButton(tabIndex, 'TAGGED_VERSES_WITH_NOTES');
+        } else {
+          app_controller.docxExport.enableExportButton(tabIndex, 'TAGGED_VERSES');
+        }
       }
 
       let verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
@@ -904,8 +911,6 @@ class TextController {
       target.removeClass('verse-list-book');
 
     } else if (listType == 'search_results') {
-
-      //console.log("Rendering search results verse list on tab " + tabIndex);
       target.removeClass('verse-list-book');
     }
 

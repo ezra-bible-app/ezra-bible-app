@@ -63,6 +63,20 @@ module.exports.generateDocument = async function(title, verses, mode, bibleBooks
     const allBlocks = getBookBlockByChapter(verses);
     const chapterParagraphs = await renderVerseBlocks(allBlocks, mode, undefined, notes);
     children.push(titleP, ...chapterParagraphs);
+
+  } else if (mode === 'tagged-verses-with-notes') {
+    const titleP = new docx.Paragraph({
+      text: title,
+      heading: docx.HeadingLevel.TITLE
+    });
+
+    const introduction = notes.introduction ? docxHelper.markdownToDocx(notes.introduction) : [];
+    const conclusion = notes.conclusion ? docxHelper.markdownToDocx(notes.conclusion) : [];
+
+    const allBlocks = getBookBlockByChapter(verses);
+    const verseParagraphs = await renderVerseBlocks(allBlocks, mode, undefined, notes);
+
+    children.push(titleP, ...introduction, ...verseParagraphs, ...conclusion);
   }
 
   const footers = await docxHelper.addBibleTranslationInfo();
@@ -156,6 +170,8 @@ async function renderVerseBlocks(verseBlocks, mode, bibleBook=undefined, notes={
       const isFirstChapter = j === 0;
       const isMultipleChapters = verseBlocks.length > 1;
       paragraphs.push(...renderBookNotesLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, chapterText));
+    } else if (mode === 'tagged-verses-with-notes') {
+      paragraphs.push(...(await renderTaggedVersesWithNotesLayout(currentBlock, notes)));
     }
   }
 
@@ -267,6 +283,25 @@ function renderBookNotesLayout(currentBlock, notes, isFirstChapter, isMultipleCh
   });
 
   paragraphs.push(table);
+
+  return paragraphs;
+}
+
+async function renderTaggedVersesWithNotesLayout(verses, notes) {
+  if (verses.length == 0) {
+    return [];
+  }
+
+  var paragraphs = [];
+
+  for (const verse of verses) {
+    paragraphs.push(renderVerse(verse));
+
+    const referenceId = `${verse.bibleBookShortTitle.toLowerCase()}-${verse.absoluteVerseNr}`;
+    if (notes[referenceId]) {
+      paragraphs.push(...docxHelper.markdownToDocx(notes[referenceId].text, 'notes'));
+    }
+  }
 
   return paragraphs;
 }

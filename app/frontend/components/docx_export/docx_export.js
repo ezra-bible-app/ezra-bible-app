@@ -57,7 +57,7 @@ class DocxExport {
 
   /**
    * exports to Word
-   * @param {'BOOK_NOTES'|'TAGGED_VERSES'} type 
+   * @param {'BOOK_NOTES'|'TAGGED_VERSES'|'TAGGED_VERSES_WITH_NOTES'} type 
    */
   async _runExport(type) {
     /**@type {import('../../ui_models/tab')} */
@@ -71,7 +71,7 @@ class DocxExport {
     var fileName;
     var isInstantLoadingBook = false;
 
-    if (type === 'TAGGED_VERSES') {
+    if (type === 'TAGGED_VERSES' || type === 'TAGGED_VERSES_WITH_NOTES') {
       fileName = getUnixTagTitleList(currentTab);
     } else if (type === 'BOOK_NOTES') {
       isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(translationId, null, currentTab.getBook());
@@ -87,6 +87,8 @@ class DocxExport {
     if (filePath) {
       if (type === 'TAGGED_VERSES') {
         renderTaggedVersesForExport(currentTab, filePath);
+      } else if (type === 'TAGGED_VERSES_WITH_NOTES') {
+        renderTaggedVersesWithNotesForExport(currentTab, filePath);
       } else if (type === 'BOOK_NOTES') {
         renderBookNotesForExport(currentTab, isInstantLoadingBook, filePath);
       }
@@ -108,6 +110,29 @@ function renderTaggedVersesForExport(currentTab, filePath) {
     currentTagIdList,
     (verses, bibleBooks) => { 
       exportController.saveWordDocument(filePath, title, verses, 'tagged-verses', bibleBooks); 
+    },
+    'docx',
+    false
+  );
+}
+
+function renderTaggedVersesWithNotesForExport(currentTab, filePath) {
+  const currentTagIdList = currentTab.getTagIdList();
+  
+  const currentTagTitleList = currentTab.getTagTitleList();
+  const title = `${i18n.t("tags.verses-tagged-with")}_${currentTagTitleList}_`;
+
+  app_controller.text_controller.requestVersesForSelectedTags(
+    undefined,
+    null,
+    currentTagIdList,
+    (verses, bibleBooks) => { 
+      const notes = {
+        introduction: "Introduction text here...",
+        conclusion: "Conclusion text here...",
+        // Add specific notes for verses here
+      };
+      exportController.saveWordDocument(filePath, title, verses, 'tagged-verses-with-notes', bibleBooks, notes); 
     },
     'docx',
     false
