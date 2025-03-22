@@ -34,8 +34,8 @@ module.exports.generateDocument = async function(title, verses, mode, bibleBooks
 
   var children = [];
 
-  if (mode === 'book-notes' && bibleBooks && Array.isArray(bibleBooks)) {
-    // Book-based notes
+  // Tagged verse list
+  if (mode === 'tagged-verses' && bibleBooks && Array.isArray(bibleBooks)) {
     children.push(...docxHelper.markdownToDocx(`# ${title}`));
 
     for (const currentBook of bibleBooks) {
@@ -54,8 +54,7 @@ module.exports.generateDocument = async function(title, verses, mode, bibleBooks
       }
     }
 
-  } else if (mode === 'tagged-verses') {
-    // Tagged verse list
+  } else if (mode === 'book-notes') { // Book-based notes
     const titleP = new docx.Paragraph({
       text: title,
       heading: docx.HeadingLevel.TITLE
