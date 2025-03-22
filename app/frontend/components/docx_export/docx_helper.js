@@ -84,7 +84,7 @@ module.exports.getNumberingConfig = function() {
   };
 };
 
-module.exports.getDocStyles = function(notesInBlack=false) {
+module.exports.getDocStyles = function(notesInBlack=false, highlightScripture=false) {
   return {
     default: {
       title: {

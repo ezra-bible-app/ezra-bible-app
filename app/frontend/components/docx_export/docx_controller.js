@@ -297,11 +297,10 @@ async function renderTaggedVersesWithNotesLayout(verses, notes) {
 
   const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
   let versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
-
   let paragraphs = [];
 
   for (const verse of verses) {
-    paragraphs.push(renderVerse(verse));
+    paragraphs.push(renderVerse(verse, '2779AA'));
 
     const referenceId = `${versification}-${verse.bibleBookShortTitle.toLowerCase()}-${verse.absoluteVerseNr}`;
 
@@ -315,7 +314,7 @@ async function renderTaggedVersesWithNotesLayout(verses, notes) {
   return paragraphs;
 }
 
-function renderVerse(verse) {
+function renderVerse(verse, textColor='000000') {
 
   let currentVerseContent = "";
   let fixedContent = verse.content.replace(/<([a-z]+)(\s?[^>]*?)\/>/g, '<$1$2></$1>'); // replace self closing tags FIXME: Should it be in the NSI?
@@ -339,8 +338,8 @@ function renderVerse(verse) {
 
   return new docx.Paragraph({
     children: [
-      new docx.TextRun({text: verse.verseNr, superScript: true}),
-      new docx.TextRun(" " + currentVerseContent)
+      new docx.TextRun({text: verse.verseNr, superScript: true, color: textColor}),
+      new docx.TextRun({text: " " + currentVerseContent, color: textColor})
     ]
   });
 
