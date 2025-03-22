@@ -34,6 +34,7 @@ module.exports.generateDocument = async function(title, verses, bibleBooks=undef
 
   var children = [];
 
+  // Book-based notes
   if (bibleBooks && Array.isArray(bibleBooks)) {
     
     children.push(...docxHelper.markdownToDocx(`# ${title}`));
@@ -56,7 +57,7 @@ module.exports.generateDocument = async function(title, verses, bibleBooks=undef
       }
     }
 
-  } else {
+  } else { // Tagged verse list
 
     const titleP = new docx.Paragraph({
       text: title,
