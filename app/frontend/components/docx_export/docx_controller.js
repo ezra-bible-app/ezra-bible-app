@@ -80,7 +80,12 @@ module.exports.generateDocument = async function(title, verses, mode, bibleBooks
     children.push(titleP, ...introduction, ...verseParagraphs, ...conclusion);
   }
 
-  const footers = await docxHelper.addBibleTranslationInfo();
+  let footers = [];
+
+  if (mode != 'tagged-verses-with-notes') {
+    footers = await docxHelper.addBibleTranslationInfo();
+  }
+
   const titleFragment = parseHTML(marked.parse(title));
 
   let docStyles = mode == 'tagged-verses-with-notes' ? docxHelper.getDocStyles(true) : docxHelper.getDocStyles();
