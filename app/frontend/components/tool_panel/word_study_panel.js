@@ -295,9 +295,6 @@ class WordStudyPanel {
 
     if (!firstTranslationHasStrongs && secondTranslationHasStrongs) {
         searchTranslation = secondBibleTranslationId;
-    } else {
-        // This should never happen
-        return "";
     }
 
     const functionCall = "javascript:app_controller.word_study_controller._wordStudyPanel.findAllOccurrences('" +
