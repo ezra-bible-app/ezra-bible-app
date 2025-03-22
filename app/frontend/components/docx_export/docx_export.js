@@ -51,7 +51,7 @@ class DocxExport {
       const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
       currentVerseListMenu.find('.export-docx-button').addClass('ui-state-disabled');
     } else {
-      $('#export-docx-button').addClass('ui-state-disabled');
+      $('.export-docx-button').addClass('ui-state-disabled');
     }
   }
 
