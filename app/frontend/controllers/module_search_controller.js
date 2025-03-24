@@ -346,6 +346,10 @@ class ModuleSearchController {
     return document.getElementById('search-extended-verse-boundaries').checked;
   }
 
+  useExactWordBoundaries() {
+    return document.getElementById('search-exact-word-boundaries').checked;
+  }
+
   getModuleSearchHeader(tabIndex=undefined) {
     const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
     let verseListHeader = null;
@@ -421,7 +425,8 @@ class ModuleSearchController {
       tab.setSearchOptions(this.getSearchType(),
                            this.getSearchScope(),
                            this.isCaseSensitive(),
-                           this.useExtendedVerseBoundaries());
+                           this.useExtendedVerseBoundaries(),
+                           this.useExactWordBoundaries());
       
       if (!showSearchResultsInPopup) {
         tab.setTextType('search_results');
@@ -445,6 +450,7 @@ class ModuleSearchController {
 
       const isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
       const useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
+      const useExactWordBoundaries = currentTab.getSearchOptions()['exactWordBoundaries'];
 
       if (searchType == "strongsNumber" && event != null) {
         if (!app_controller.word_study_controller.isValidStrongsKey(this.currentSearchTerm)) {
@@ -525,7 +531,8 @@ class ModuleSearchController {
           searchType,
           searchScope,
           isCaseSensitive,
-          useExtendedVerseBoundaries
+          useExtendedVerseBoundaries,
+          useExactWordBoundaries
         );
 
         //console.log("Got " + searchResults.length + " from Sword");

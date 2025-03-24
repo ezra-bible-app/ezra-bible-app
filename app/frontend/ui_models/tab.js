@@ -190,11 +190,12 @@ class Tab {
     return this.searchResults;
   }
 
-  setSearchOptions(searchType, searchScope, caseSensitive, extendedVerseBoundaries) {
+  setSearchOptions(searchType, searchScope, caseSensitive, extendedVerseBoundaries, exactWordBoundaries) {
     this.searchOptions['searchType'] = searchType;
     this.searchOptions['searchScope'] = searchScope;
     this.searchOptions['caseSensitive'] = caseSensitive;
     this.searchOptions['extendedVerseBoundaries'] = extendedVerseBoundaries;
+    this.searchOptions['exactWordBoundaries'] = exactWordBoundaries
   }
 
   getSearchOptions() {

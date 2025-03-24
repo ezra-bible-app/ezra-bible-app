@@ -28,7 +28,8 @@
     "whole-bible": "Whole Bible",
     "ot": "Old Testament",
     "nt": "New Testament",
-    "extended-verse-boundaries": "Extended verse boundaries (Two verses)"
+    "extended-verse-boundaries": "Extended verse boundaries (Two verses)",
+    "exact-word-boundaries": "Exact word boundaries"
   },
   "module-assistant": {
     "module-type-bible": "Bible translations",
