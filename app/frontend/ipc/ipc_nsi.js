@@ -274,7 +274,8 @@ class IpcNsi {
                                searchType,
                                searchScope,
                                isCaseSensitive,
-                               useExtendedVerseBoundaries) {
+                               useExtendedVerseBoundaries,
+                               exactWordBoundaries) {
 
     var returnValue = this._ipcRenderer.callWithProgressCallback('nsi_getModuleSearchResults',
                                                                  'nsi_updateSearchProgress',
@@ -285,7 +286,8 @@ class IpcNsi {
                                                                  searchType,
                                                                  searchScope,
                                                                  isCaseSensitive,
-                                                                 useExtendedVerseBoundaries);
+                                                                 useExtendedVerseBoundaries,
+                                                                 exactWordBoundaries);
     return returnValue;
   }
 

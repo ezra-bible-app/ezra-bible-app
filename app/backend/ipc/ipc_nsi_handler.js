@@ -16,10 +16,11 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const fs = require('fs');
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
-const fs = require('fs');
+const swordModuleSearch = require('../sword_module_search.js');
 
 class IpcNsiHandler {
   constructor(customSwordDir=undefined) {
@@ -52,6 +53,8 @@ class IpcNsiHandler {
         this._nsi.enableStrongsWithNbsp();
       }
     }
+
+    swordModuleSearch.setNSI(this._nsi);
   }
 
   createNsi(customSwordDir=undefined) {
@@ -299,15 +302,31 @@ class IpcNsiHandler {
              searchType,
              searchScope,
              isCaseSensitive,
-             useExtendedVerseBoundaries) => {
+             useExtendedVerseBoundaries,
+             exactWordBoundaries) => {
+        
+        if (searchType == 'phrase' || searchType == 'multiWord') {
 
-        return await this._nsi.getModuleSearchResults(moduleCode,
-                                                      searchTerm,
-                                                      progressCB,
-                                                      searchType,
-                                                      searchScope,
-                                                      isCaseSensitive,
-                                                      useExtendedVerseBoundaries);
+          let results = await swordModuleSearch.searchBibleForTerm(moduleCode,
+                                                                   searchType,
+                                                                   searchTerm,
+                                                                   isCaseSensitive,
+                                                                   exactWordBoundaries,
+                                                                   null,
+                                                                   progressCB);
+          return results;
+
+        } else {
+
+          let results = await this._nsi.getModuleSearchResults(moduleCode,
+                                                               searchTerm,
+                                                               progressCB,
+                                                               searchType,
+                                                               searchScope,
+                                                               isCaseSensitive,
+                                                               useExtendedVerseBoundaries);
+          return results;
+        }
       },
       'nsi_updateSearchProgress'
     );
