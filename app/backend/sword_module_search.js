@@ -16,8 +16,11 @@
    along with ezra-bible-app. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const path = require('path');
 const fs = require('fs');
 const zlib = require('zlib');
+const PlatformHelper = require('../lib/platform_helper.js');
+const platformHelper = new PlatformHelper();
 
 var DEBUG = false;
 var nsi = null;
@@ -57,7 +60,7 @@ module.exports.searchBibleForTerm = function(module, searchType, term, caseSensi
     return;
   }
 
-  if (DEBUG) console.log(`Searching for term: "${term}" in module: "${module}" with search type: "${searchType}"`);
+  if (DEBUG) console.log(`Searching for term: "${term}" in module: "${module}" with search type "${searchType}"`);
 
   nsi.disableMarkup();
 
@@ -65,7 +68,18 @@ module.exports.searchBibleForTerm = function(module, searchType, term, caseSensi
 
   // Generate the index file if indexFilePath is null
   if (indexFilePath === null) {
-    indexFilePath = `${module}.index.gz`;
+    let userDataPath = platformHelper.getUserDataPath();
+
+    indexFilePath = path.join(userDataPath, 'module_search_index');
+
+    if (DEBUG) console.log(`Index file path: ${indexFilePath}`);
+    
+    if (!fs.existsSync(indexFilePath)) {
+      if (DEBUG) console.log('Creating index directory...');
+      fs.mkdirSync(indexFilePath, { recursive: true });
+    }
+
+    indexFilePath = path.join(indexFilePath, `${module}.index.gz`);
 
     if (fs.existsSync(indexFilePath)) {
       if (DEBUG) console.log(`Reading search index from file: ${indexFilePath}`);
@@ -73,7 +87,7 @@ module.exports.searchBibleForTerm = function(module, searchType, term, caseSensi
       searchIndex = JSON.parse(zlib.gunzipSync(compressedIndex));
     } else {
       if (DEBUG) console.log('Generating search index...');
-      searchIndex = this.generateSearchIndex(module);
+      searchIndex = this.generateSearchIndex(module, indexFilePath);
     }
   } else {
     // Read and decompress the search index from the file
@@ -188,7 +202,7 @@ module.exports.searchBibleForTerm = function(module, searchType, term, caseSensi
  * @param {String} moduleCode - The module code of the SWORD module.
  * @return {Object} A search index object where keys are phrases and values are arrays of references.
  */
-module.exports.generateSearchIndex = function(moduleCode) {
+module.exports.generateSearchIndex = function(moduleCode, indexPath=null) {
   const books = nsi.getBookList(moduleCode);
   let searchIndex = {};
 
@@ -219,7 +233,10 @@ module.exports.generateSearchIndex = function(moduleCode) {
   }
 
   // Compress and store the search index in a file
-  const indexPath = `${moduleCode}.index.gz`;
+  if (indexPath === null) {
+    indexPath = `${moduleCode}.index.gz`;
+  }
+
   const compressedIndex = zlib.gzipSync(JSON.stringify(searchIndex));
   fs.writeFileSync(indexPath, compressedIndex);
 
