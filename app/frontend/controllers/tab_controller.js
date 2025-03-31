@@ -125,6 +125,10 @@ class TabController {
     /*eventController.subscribe('on-note-file-changed', async () => {
       await this.populateFromMetaTabs(true);
     });*/
+
+    eventController.subscribe('on-tag-deleted', async (deletedTagId) => {
+      this.closeTabsWithDeletedTag(Number(deletedTagId));
+    });
   }
 
   initFirstTab() {
@@ -1096,6 +1100,27 @@ class TabController {
       // Reinitialize Bible translations for the tab
       await app_controller.translation_controller.initTranslationsMenu(-1, i, true);
     }
+  }
+
+  /**
+   * Closes any tabs that have a tagged verse list where the deleted tag is part of the list of tags opened.
+   * 
+   * @param {Number} deletedTagId - The ID of the deleted tag.
+   */
+  closeTabsWithDeletedTag(deletedTagId) {
+    for (let i = this.metaTabs.length - 1; i >= 0; i--) {
+      const currentTab = this.metaTabs[i];
+      if (currentTab.getTextType() === 'tagged_verses') {
+        const tagIdList = currentTab.getTagIdList().split(',').map(Number);
+        if (tagIdList.includes(deletedTagId)) {
+          this.metaTabs.splice(i, 1);
+          this.tabs.tabs("remove", i);
+        }
+      }
+    }
+
+    this.updateFirstTabCloseButton();
+    this.saveTabConfiguration();
   }
 }
 
