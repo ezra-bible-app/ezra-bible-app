@@ -586,6 +586,11 @@ class TabController {
     }
 
     var allTabsPanels = document.getElementById(this.tabsElement).querySelectorAll('.' + this.tabsPanelClass);
+
+    if (index > allTabsPanels.length - 1) {
+      index = allTabsPanels.length - 1;
+    }
+
     var selectedTabsPanel = allTabsPanels[index];
     var selectedTabsPanelId = "verse-list-tabs-1";
 
@@ -1104,15 +1109,21 @@ class TabController {
 
   /**
    * Closes any tabs that have a tagged verse list where the deleted tag is part of the list of tags opened.
+   * If the closed tab is the last one remaining, an additional empty tab is opened before closing it.
    * 
    * @param {Number} deletedTagId - The ID of the deleted tag.
    */
-  closeTabsWithDeletedTag(deletedTagId) {
+  async closeTabsWithDeletedTag(deletedTagId) {
     for (let i = this.metaTabs.length - 1; i >= 0; i--) {
       const currentTab = this.metaTabs[i];
       if (currentTab.getTextType() === 'tagged_verses') {
         const tagIdList = currentTab.getTagIdList().split(',').map(Number);
         if (tagIdList.includes(deletedTagId)) {
+          // If this is the last tab, add a new empty tab before removing it
+          if (this.metaTabs.length === 1) {
+            await this.addTab();
+          }
+
           this.metaTabs.splice(i, 1);
           this.tabs.tabs("remove", i);
         }
