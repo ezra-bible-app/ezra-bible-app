@@ -74,7 +74,7 @@ module.exports.generateDocument = async function(title, verses, mode, bibleBooks
     });
 
     const introduction = notes.introduction ? docxHelper.markdownToDocx(notes.introduction + '\n\n') : [];
-    const conclusion = notes.conclusion ? docxHelper.markdownToDocx(notes.conclusion) : [];
+    const conclusion = notes.conclusion ? docxHelper.markdownToDocx('\n\n' + notes.conclusion) : [];
 
     const allBlocks = getBookBlockByChapter(verses);
     const verseParagraphs = await renderVerseBlocks(allBlocks, mode, undefined, notes);
