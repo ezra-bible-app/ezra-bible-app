@@ -101,6 +101,10 @@ class TabController {
       this.updateTabTitleAfterTagRenaming(oldTitle, newTitle);
     });
 
+    eventController.subscribe('on-tag-deleted', async (deletedTagId) => {
+      this.closeTabsWithDeletedTag(Number(deletedTagId));
+    });
+
     eventController.subscribe('on-bible-text-loaded', () => {
       let bibleTranslationId = this.getTab().getBibleTranslationId();
       this.setBibleTranslationId(bibleTranslationId);
@@ -125,10 +129,6 @@ class TabController {
     /*eventController.subscribe('on-note-file-changed', async () => {
       await this.populateFromMetaTabs(true);
     });*/
-
-    eventController.subscribe('on-tag-deleted', async (deletedTagId) => {
-      this.closeTabsWithDeletedTag(Number(deletedTagId));
-    });
   }
 
   initFirstTab() {
