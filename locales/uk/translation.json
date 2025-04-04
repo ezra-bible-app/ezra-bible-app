@@ -282,6 +282,7 @@
     "recently-used-tags": "Нещодавно використані міти",
     "really-delete": "Ви дійсно хочете видалити таку міту: ",
     "tag-info-would-be-deleted": "Інформація міти буде видалено <b>для всіх пов'язаних віршів!</b>",
+    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Ви дійсно хочете видалити міту &quot; <span id='remove-tag-assignment-name' class='italic'></span>&quot; з вибраних віршів?",
     "remove-tag-assignment": "Видалити призначення міти",
     "verses-tagged-with": "Вірші помічені:",
@@ -318,7 +319,8 @@
     "add-existing-tags-to-current-tag-group": "Додати наявні міти до поточної групи",
     "add-tags-to-group": "Додати міти до групи",
     "delete-tag-from-group-explanation": "Міту <i>{{tag}}</i> буде видалено з групи <i>{{group}}</i>. Щоб остаточно видалити міту, відмідьте  прапорець нижче.",
-    "really-delete-tag-group": "Ви справді хочете видалити мітову групу<br/><i>{{tagGroupTitle}}</i>?"
+    "really-delete-tag-group": "Ви справді хочете видалити мітову групу<br/><i>{{tagGroupTitle}}</i>?",
+    "create-note-file-checkbox": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Розділ",
@@ -366,9 +368,11 @@
     "show-tags": "Міти",
     "use-tag-group-filter": "Використати цідило мітових груп",
     "show-notes": "Нотатки",
+    "hide-empty-verse-notes": "Hide empty verse notes",
     "limit-notes-display-size": "Обмежити висоту нотаток",
     "limit-text-width": "Обмежити ширину тексту Біблії",
     "use-tags-column": "Міти у окремому стовпці",
+    "use-notes-column": "Use notes column",
     "select-chapter-before-loading": "Обирати розділ при відкритті книг",
     "use-system-theme": "Кольоровий режим як у системі",
     "use-night-mode": "Нічний режим",
