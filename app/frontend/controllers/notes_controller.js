@@ -628,7 +628,7 @@ class NotesController {
     this.currentEditor = editor;
 
     if (this.isFullScreen) {
-      this.currentEditor.getWrapperElement().style.height = window.innerHeight * 0.9 + 'px';
+      this.currentEditor.getWrapperElement().style.height = window.innerHeight * 0.85 + 'px';
     } else {
       this.currentEditor.getWrapperElement().style.removeProperty('height');
     }
