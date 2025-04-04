@@ -22,7 +22,7 @@ div.CodeMirror {
   border-radius: 4px;
 }
 
-.Android div.CodeMirror {
+.Android .verse-notes:not(.verse-notes-fullscreen) div.CodeMirror {
   height: 200px !important;
 }
 
@@ -223,6 +223,3 @@ div.CodeMirror {
   overflow: auto;
 }
 
-.verse-notes-fullscreen .CodeMirror {
-  height: unset;
-}
