@@ -318,7 +318,7 @@
     "add-tags-to-group": "Dodaj oznake v skupino",
     "delete-tag-from-group-explanation": "Oznaka <i>{{tag}}</i> bo izbrisana iz skupine <i>{{group}}</i>. Če želite trajno izbrisati oznako, kliknite spodnje potrditveno polje.",
     "really-delete-tag-group": "Ali res želite izbrisati skupino oznak<br/><i>{{tagGroupTitle}}</i>?",
-    "create-note-file-checkbox": "Use tag specific notes"
+    "use-tag-specific-notes": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Poglavje",

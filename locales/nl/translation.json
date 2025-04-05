@@ -321,7 +321,7 @@
     "add-tags-to-group": "Tags toevoegen aan groep",
     "delete-tag-from-group-explanation": "De tag <i>{{tag}}</i> wordt verwijderd uit de groep <i>{{group}}</i>. Klik op het onderstaande selectievakje om de tag permanent te verwijderen.",
     "really-delete-tag-group": "Wilt u echt de taggroep<br/><i>{{tagGroupTitle}}</i> verwijderen?",
-    "create-note-file-checkbox": "Use tag specific notes"
+    "use-tag-specific-notes": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Hoofdstuk",

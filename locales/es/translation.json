@@ -317,7 +317,7 @@
     "add-tags-to-group": "Añadir etiquetas al grupo",
     "delete-tag-from-group-explanation": "La etiqueta <i>{{tag}}</i> será eliminada del grupo <i>{{group}}</i>. Para eliminar completamente la etiqueta, haga clic en el botón debajo.",
     "really-delete-tag-group": "Realmente desea eliminar el grupo de etiquetas<br/><i>{{tagGroupTitle}}</i>?",
-    "create-note-file-checkbox": "Use tag specific notes"
+    "use-tag-specific-notes": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Capítulo",
