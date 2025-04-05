@@ -726,6 +726,12 @@ Librem 5/Pinephone etc.
   #panel-switches {
     padding-top: 0.3em;
   }
+
+  /* Force horizontal display of verse notes in Portrait mode */
+  .verse-list-without-tags .verse-notes:not(.book-notes),
+  .verse-list-content .verse-notes:not(.book-notes) {
+    width: 92% !important;
+  }
 }
 
 /* PORTRAIT for small resolution phones */

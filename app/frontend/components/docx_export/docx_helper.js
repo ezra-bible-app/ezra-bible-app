@@ -84,7 +84,7 @@ module.exports.getNumberingConfig = function() {
   };
 };
 
-module.exports.getDocStyles = function() {
+module.exports.getDocStyles = function(notesInBlack=false) {
   return {
     default: {
       title: {
@@ -162,7 +162,7 @@ module.exports.getDocStyles = function() {
         next: "Notes",
         quickFormat: true,
         run: {
-          color: "2779AA",
+          color: notesInBlack ? "000000" : "2779AA",
         },
         paragraph: {
         },

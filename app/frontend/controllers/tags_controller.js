@@ -109,27 +109,6 @@ class TagsController {
         this.verses_were_selected_before = true;
 
         await this.updateTagsView(tabIndex, !this.initialRenderingDone);
-
-        if (currentTab.addedInteractively) {
-          this.resetActivePanelToTagPanel(tabIndex);
-        }
-      }
-    });
-
-    eventController.subscribe('on-bible-text-loaded', () => {
-      var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
-      const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
-
-      if (currentTab != null && currentTab.addedInteractively) {
-        this.resetActivePanelToTagPanel(currentTabIndex);
-      }
-    });
-
-    eventController.subscribe('on-module-search-started', (tabIndex) => {
-      const currentTab = app_controller.tab_controller.getTab(tabIndex);
-
-      if (currentTab != null && currentTab.addedInteractively) {
-        this.resetActivePanelToTagPanel(tabIndex);
       }
     });
 
@@ -216,17 +195,6 @@ class TagsController {
     return activePanel != '' && (activePanel == 'tag-panel' || activePanel == 'tag-statistics-panel');
   }
 
-  resetActivePanelToTagPanel(tabIndex) {
-    var panelButtons = document.getElementById('panel-buttons');
-    var tab = app_controller.tab_controller.getTab(tabIndex);
-
-    if (panelButtons.activePanel != "" && panelButtons.activePanel != 'tag-panel') {
-      if (tab.isNew() || tab.isVerseList()) {
-        panelButtons.activePanel = 'tag-panel';
-      }
-    }
-  }
-
   /**
    * This is used to refresh the dialogs after the locale changed
    */
@@ -246,7 +214,7 @@ class TagsController {
     this.newTagDialogInitDone = true;
 
     var dialogWidth = 450;
-    var dialogHeight = 420;
+    var dialogHeight = 470;
     var draggable = true;
     var position = [55, 120];
 
@@ -267,6 +235,10 @@ class TagsController {
         tags_controller.saveNewTag(this);
       }
     };
+
+    document.getElementById('create-note-file-checkbox').addEventListener('change', function() {
+      tags_controller.createNoteFile = this.checked;
+    });
 
     document.getElementById('add-existing-tags-to-tag-group-link').addEventListener('click', async (event) => {
       event.preventDefault();
@@ -652,7 +624,7 @@ class TagsController {
     let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
     let tagGroups = tagGroupAssignment.addList;
 
-    var result = await ipcDb.createNewTag(new_tag_title, tagGroups);
+    var result = await ipcDb.createNewTag(new_tag_title, tags_controller.createNoteFile, tagGroups);
     if (result.success == false) {
       var message = `The new tag <i>${new_tag_title}</i> could not be saved.<br>
                      An unexpected database error occurred:<br><br>
@@ -663,8 +635,6 @@ class TagsController {
       uiHelper.hideTextLoadingIndicator();
       return;
     }
-
-    await eventController.publishAsync('on-tag-created', result.dbObject.id);
 
     if (this.tagGroupUsed()) {
       await eventController.publishAsync('on-tag-group-member-changed', {
@@ -684,6 +654,8 @@ class TagsController {
     var tab = app_controller.tab_controller.getTab();
     await tags_controller.updateTagList(tab.getBook(), this.currentTagGroupId, tab.getContentId(), true);
     await tags_controller.updateTagsViewAfterVerseSelection(true);
+
+    await eventController.publishAsync('on-tag-created', result.dbObject.id);
     uiHelper.hideTextLoadingIndicator();
   }
 
@@ -699,6 +671,10 @@ class TagsController {
 
     const tagInput = document.getElementById('new-standard-tag-title-input');
     tagInput.value = '';
+
+    // Reset the create note file checkbox
+    document.getElementById('create-note-file-checkbox').checked = false;
+
     var $dialogContainer = $('#new-standard-tag-dialog');
     $dialogContainer.dialog('open');
 
@@ -749,7 +725,7 @@ class TagsController {
     }
   }
 
-  handleDeleteTagButtonClick(event) {
+  async handleDeleteTagButtonClick(event) {
     eventController.publish('on-button-clicked');
     tags_controller.initDeleteTagConfirmationDialog();
 
@@ -764,15 +740,24 @@ class TagsController {
     tags_controller.permanently_delete_tag = tags_controller.tagGroupUsed() ? false : true;
     
     var number_of_tagged_verses = checkboxTag.attr('global-assignment-count');
+    var tagObject = await this.tag_store.getTag(tag_id);
+    var noteFileId = tagObject.noteFileId;
 
     let deleteTagFromGroupExplanation = document.getElementById('delete-tag-from-group-explanation');
     let reallyDeleteTagExplanation = document.getElementById('really-delete-tag-explanation');
     let permanentlyDeleteTagBox = document.getElementById('permanently-delete-tag-box');
     let permanentlyDeleteTagWarning = document.getElementById('permanently-delete-tag-warning');
+    let permanentlyDeleteNoteFileWarning = document.getElementById('permanently-delete-note-file-warning');
     let tagGroup = this.currentTagGroupTitle;
 
     let permanentlyDeleteCheckbox = document.getElementById('permanently-delete-tag');
     permanentlyDeleteCheckbox.checked = false;
+
+    if (noteFileId) {
+      permanentlyDeleteNoteFileWarning.style.display = 'block';
+    } else {
+      permanentlyDeleteNoteFileWarning.style.display = 'none';
+    }
 
     if (this.tagGroupUsed()) {
       // Tag group used
@@ -801,13 +786,14 @@ class TagsController {
     $('#delete-tag-confirmation-dialog').dialog('close');
 
     tags_controller.permanently_delete_tag = document.getElementById('permanently-delete-tag').checked;
+    let deleteNoteFile = true;
    
     setTimeout(async () => {
       let result = null;
 
       if (!tags_controller.tagGroupUsed() || tags_controller.permanently_delete_tag) {
         // Permanently delete tag
-        result = await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
+        result = await ipcDb.removeTag(tags_controller.tag_to_be_deleted, deleteNoteFile);
       } else {
         // Remove tag from current tag group
         result = await ipcDb.updateTag(tags_controller.tag_to_be_deleted,
@@ -827,8 +813,6 @@ class TagsController {
         return;
       }
 
-      await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
-
       if (tags_controller.tagGroupUsed()) {
         await eventController.publishAsync('on-tag-group-member-changed', {
           tagId: tags_controller.tag_to_be_deleted,
@@ -842,6 +826,8 @@ class TagsController {
       if (!tags_controller.tagGroupUsed() || tags_controller.permanently_delete_tag) {
         await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
       }
+
+      await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
 
       await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();

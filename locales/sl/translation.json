@@ -280,6 +280,7 @@
     "recently-used-tags": "Nedavno uporabljene oznake",
     "really-delete": "Ali res želite izbrisati naslednjo oznako: ",
     "tag-info-would-be-deleted": "Informacije o oznaki bi bile izbrisane <b>za vse povezane vrstice!</b>",
+    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Ali odstranim dodelitev oznake &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; iz izbranih vrstic?",
     "remove-tag-assignment": "Odstrani dodelitev oznake",
     "verses-tagged-with": "Vrstice, označene z ",
@@ -315,7 +316,8 @@
     "add-existing-tags-to-current-tag-group": "Dodaj obstoječe oznake v trenutno skupino oznak",
     "add-tags-to-group": "Dodaj oznake v skupino",
     "delete-tag-from-group-explanation": "Oznaka <i>{{tag}}</i> bo izbrisana iz skupine <i>{{group}}</i>. Če želite trajno izbrisati oznako, kliknite spodnje potrditveno polje.",
-    "really-delete-tag-group": "Ali res želite izbrisati skupino oznak<br/><i>{{tagGroupTitle}}</i>?"
+    "really-delete-tag-group": "Ali res želite izbrisati skupino oznak<br/><i>{{tagGroupTitle}}</i>?",
+    "create-note-file-checkbox": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Poglavje",
@@ -363,9 +365,11 @@
     "show-tags": "Prikaži oznake",
     "use-tag-group-filter": "Uporabi filter skupin oznak",
     "show-notes": "Prikaži opombe",
+    "hide-empty-verse-notes": "Hide empty verse notes",
     "limit-notes-display-size": "Omejitev velikosti prikaza opomb",
     "limit-text-width": "Omejitev širine besedila",
     "use-tags-column": "Uporabi stolpec z oznakami",
+    "use-notes-column": "Use notes column",
     "select-chapter-before-loading": "Odpri knjige z izbiro poglavja",
     "use-system-theme": "Sistemska tema",
     "use-night-mode": "Nočni način",

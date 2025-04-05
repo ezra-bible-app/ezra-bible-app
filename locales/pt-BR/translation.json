@@ -280,6 +280,7 @@
     "recently-used-tags": "Etiquetas utilizadas recentemente",
     "really-delete": "Você realmente quer excluir a seguinte etiqueta: ",
     "tag-info-would-be-deleted": "A informação da etiqueta será apagada <b>para todos os versículos associados!</b>",
+    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Você realmente quer remover a etiqueta &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; para os versículos selecionados?",
     "remove-tag-assignment": "Remove etiqueta atribuída",
     "verses-tagged-with": "Versículos etiquetados com ",
@@ -315,7 +316,8 @@
     "add-existing-tags-to-current-tag-group": "Adicionar etiquetas existentes ao atual grupo",
     "add-tags-to-group": "Adicionar etiquetas ao grupo",
     "delete-tag-from-group-explanation": "A etiqueta <i>{{tag}}</i> será apagada do grupo <i>{{group}}</i>. Para apagar a etiqueta definitivamente, clique na caixa de seleção abaixo.",
-    "really-delete-tag-group": "Você realmente quer apagar o grupo de etiquetas<br/><i>{{tagGroupTitle}}</i>?"
+    "really-delete-tag-group": "Você realmente quer apagar o grupo de etiquetas<br/><i>{{tagGroupTitle}}</i>?",
+    "create-note-file-checkbox": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Capítulo",
@@ -363,9 +365,11 @@
     "show-tags": "Mostrar etiquetas",
     "use-tag-group-filter": "Usar filtro do grupo de etiquetas",
     "show-notes": "Mostrar notas",
+    "hide-empty-verse-notes": "Hide empty verse notes",
     "limit-notes-display-size": "Limitar o tamanho da janela de notas",
     "limit-text-width": "Limitar largura do texto bíblico",
     "use-tags-column": "Utilizar coluna de etiquetas",
+    "use-notes-column": "Use notes column",
     "select-chapter-before-loading": "Abrir livros com seleção por capítulo",
     "use-system-theme": "Tema do sistema",
     "use-night-mode": "Modo noturno",

@@ -22,7 +22,7 @@ div.CodeMirror {
   border-radius: 4px;
 }
 
-.Android div.CodeMirror {
+.Android .verse-notes:not(.verse-notes-fullscreen) div.CodeMirror {
   height: 200px !important;
 }
 
@@ -51,21 +51,49 @@ div.CodeMirror {
   border: 1px solid grey;
 }
 
-.verse-notes:not(.book-notes) {
+.verse-notes:not(.book-notes):not(.tag-notes) {
   margin-left: 1em;
   width: 27%;
 }
 
-.verse-list-without-tags .verse-notes:not(.book-notes),
-.verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
+.verse-list-without-tags .verse-notes:not(.book-notes):not(.tag-notes),
+.verse-list.verse-list-notes-column:not(.verse-list-tags-column) .verse-notes:not(.book-notes):not(.tag-notes) {
   width: 45%;
+}
+
+.verse-list:not(.verse-list-notes-column) .verse-notes:not(.book-notes):not(.tag-notes) {
+  width: 100%;
+  width: -webkit-fill-available;
+  margin-top: 0.5em;
+  margin-left: unset !important;
+}
+
+.verse-list.limit-width:not(.verse-list-notes-column) .verse-notes:not(.book-notes):not(.tag-notes) {
+  max-width: 55ch;
+}
+
+.verse-list.verse-list-hide-empty-notes .verse-notes-empty:not(.book-notes):not(.tag-notes) {
+  display: none;
+}
+
+/* Inserting a collapsed row between two flex items will make 
+ * the flex item that comes after it break to a new row */
+.break-flex-row {
+  display: none;
+  flex-basis: 100%;
+  height: 0;
+}
+
+.verse-list:not(.verse-list-notes-column) .break-flex-row {
+  display: unset;
 }
 
 .verse-notes.visible {
   display: block;
 }
 
-.verse-list-with-notes .book-notes {
+.verse-list-with-notes .book-notes,
+.verse-list-with-notes .tag-notes {
   margin: 1em 0.6em 0.5em 0.7em;
   box-sizing: border-box;
   width: calc(100% - 1.8em);
@@ -177,3 +205,21 @@ div.CodeMirror {
 .darkmode--activated .verse-list .verse-reference .active i.fas {
   -webkit-text-stroke-color: #1e1e1e;
 }
+
+.notes-fullscreen-button {
+  margin-left: 1em;
+}
+
+.verse-notes-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0 !important;
+  box-sizing: unset !important;
+  height: 100%;
+  overflow-x: hidden !important;
+  z-index: 1000;
+  padding: 1em;
+  overflow: auto;
+}
+

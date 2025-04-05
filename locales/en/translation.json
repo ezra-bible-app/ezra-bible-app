@@ -214,7 +214,8 @@
       "custom": "Custom",
       "content-font-family": "Content font family",
       "custom-content-font": "Custom content font"
-    }
+    },
+    "title": "Title"
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirm data privacy options",
@@ -282,6 +283,7 @@
     "recently-used-tags": "Recently used tags",
     "really-delete": "Do you really want to delete the following tag: ",
     "tag-info-would-be-deleted": "The tag information would be deleted <b>for all associated verses!</b>",
+    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Do you really want to remove the tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; from the selected verses?",
     "remove-tag-assignment": "Remove tag assignment",
     "verses-tagged-with": "Verses tagged with ",
@@ -317,7 +319,8 @@
     "add-existing-tags-to-current-tag-group": "Add existing tags to current tag group",
     "add-tags-to-group": "Add tags to group",
     "delete-tag-from-group-explanation": "The tag <i>{{tag}}</i> will be deleted from the group <i>{{group}}</i>. To permanently delete the tag, click the checkbox below.",
-    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?"
+    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?",
+    "create-note-file-checkbox": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Chapter",
@@ -344,6 +347,7 @@
     "module-configuration": "Module configuration",
     "display": "Display",
     "text-options": "Text options",
+    "tags-and-notes-options": "Tags and notes options",
     "bible-browser-layout": "Bible browser layout",
     "show-tag-list": "Show tag list",
     "show-book-intro": "Show book introduction",
@@ -364,9 +368,11 @@
     "show-tags": "Show tags",
     "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Show notes",
+    "hide-empty-verse-notes": "Hide empty verse notes",
     "limit-notes-display-size": "Limit notes display size",
     "limit-text-width": "Limit Bible text width",
     "use-tags-column": "Use tags column",
+    "use-notes-column": "Use notes column",
     "select-chapter-before-loading": "Open books with chapter selection",
     "use-system-theme": "System theme",
     "use-night-mode": "Night mode",
@@ -445,6 +451,17 @@
     "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
     "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse.",
     "copy-button": "Copy commentary"
+  },
+  "notes-panel": {
+    "default-header": "<b>Note files</b>",
+    "show-note-files": "Show note files",
+    "add-note-file": "Add note file",
+    "create-note-file": "Create note file",
+    "edit-note-file": "Edit note file",
+    "delete-note-file": "Delete note file",
+    "do-you-really-want-to-delete": "Do you really want to delete the note file <br/><i>{{noteFileTitle}}</i>?",
+    "update-note-file": "Update note file",
+    "standard-note-file": "Standard note file"
   },
   "emoji": {
     "search": "Search emojis...",

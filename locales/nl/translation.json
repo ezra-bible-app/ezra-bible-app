@@ -284,6 +284,7 @@
     "recently-used-tags": "Recent gebruikte tags",
     "really-delete": "Wilt u de volgende tag echt verwijderen: ",
     "tag-info-would-be-deleted": "De tag-informatie zou <b>voor alle bijbehorende verzen</b> worden verwijderd!",
+    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Wilt u de tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; echt verwijderen van de geselecteerde verzen?",
     "remove-tag-assignment": "Verwijder tag-toewijzing",
     "verses-tagged-with": "Verzen getagd met ",
@@ -319,7 +320,8 @@
     "add-existing-tags-to-current-tag-group": "Bestaande tags toevoegen aan huidige taggroep",
     "add-tags-to-group": "Tags toevoegen aan groep",
     "delete-tag-from-group-explanation": "De tag <i>{{tag}}</i> wordt verwijderd uit de groep <i>{{group}}</i>. Klik op het onderstaande selectievakje om de tag permanent te verwijderen.",
-    "really-delete-tag-group": "Wilt u echt de taggroep<br/><i>{{tagGroupTitle}}</i> verwijderen?"
+    "really-delete-tag-group": "Wilt u echt de taggroep<br/><i>{{tagGroupTitle}}</i> verwijderen?",
+    "create-note-file-checkbox": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Hoofdstuk",
@@ -367,9 +369,11 @@
     "show-tags": "Toon tags",
     "use-tag-group-filter": "Gebruik taggroepfilter",
     "show-notes": "Toon aantekeningen",
+    "hide-empty-verse-notes": "Hide empty verse notes",
     "limit-notes-display-size": "Beperk grootte van aantekeningen",
     "limit-text-width": "Beperk breedte van Bijbeltekst",
     "use-tags-column": "Gebruik tags-kolom",
+    "use-notes-column": "Use notes column",
     "select-chapter-before-loading": "Open boeken met hoofdstukselectie",
     "use-system-theme": "Systeemsthema",
     "use-night-mode": "Nachtmodus",

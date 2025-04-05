@@ -31,12 +31,11 @@ let CodeMirror = null;
 function getCodeMirror() {
   if (CodeMirror == null) {
     CodeMirror = require('codemirror/lib/codemirror.js');
-    require("codemirror/addon/edit/continuelist.js");
-    require("codemirror/mode/markdown/markdown.js");
-    require("codemirror/addon/mode/overlay.js");
     require("codemirror/mode/markdown/markdown.js");
     require("codemirror/mode/gfm/gfm.js");
     require("codemirror/mode/htmlmixed/htmlmixed.js");
+    require("codemirror/addon/edit/continuelist.js");
+    require("codemirror/addon/mode/overlay.js");
   }
 
   return CodeMirror;
@@ -54,6 +53,9 @@ class NotesController {
   constructor() {
     this.theme = this.getCurrentTheme();
     this._platformHelper = new PlatformHelper();
+    this.currentlyEditedNotes = null;
+    this.currentNoteIsTagNote = false;
+    this.clickEventHappened = false;
     this._reset();
 
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
@@ -66,7 +68,11 @@ class NotesController {
     });
 
     eventController.subscribe('on-body-clicked', () => {
-      this.restoreCurrentlyEditedNotes();
+      // When clicking outside of the notes editor we need to end any note editing.
+      // But only if the click event was not triggered just before.
+      if (!this.clickEventHappened) {
+        this.restoreCurrentlyEditedNotes();
+      }
     });
 
     eventController.subscribe('on-theme-changed', (theme) => {
@@ -99,18 +105,50 @@ class NotesController {
         verseNotes.classList.remove('visible');
 
         verseBox.querySelector('.notes-info').addEventListener('mousedown', (e) => {
+          e.stopPropagation();
           this._handleNotesIndicatorClick(e, verseNotes);
         });
 
         verseNotes.addEventListener('click', (event) => {
+          this.currentNoteIsTagNote = false;
+          this.isFullScreen = false;
           this._handleNotesClick(event);
         });
       }
     });
 
+    currentVerseListFrame[0].querySelectorAll('.notes-fullscreen-button').forEach(fullscreenButton => {
+      fullscreenButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+
+        this._handleFullscreenButtonClick(event);
+      });
+    });
+
     const bookNoteBox = currentVerseListFrame[0].querySelector('.book-notes');
     if (bookNoteBox) {
       bookNoteBox.addEventListener('click', (event) => {
+        this.currentNoteIsTagNote = false;
+        this.isFullScreen = false;
+        this._handleNotesClick(event);
+      });
+    }
+
+    const tagIntroNoteBox = currentVerseListFrame[0].querySelector('.tag-intro-notes');
+    if (tagIntroNoteBox) {
+      tagIntroNoteBox.addEventListener('click', (event) => {
+        this.currentNoteIsTagNote = true;
+        this.isFullScreen = false;
+        this._handleNotesClick(event);
+      });
+    }
+
+    const tagConclusionNoteBox = currentVerseListFrame[0].querySelector('.tag-conclusion-notes');
+    if (tagConclusionNoteBox) {
+      tagConclusionNoteBox.addEventListener('click', (event) => {
+        this.currentNoteIsTagNote = true;
+        this.isFullScreen = false;
         this._handleNotesClick(event);
       });
     }
@@ -175,12 +213,17 @@ class NotesController {
   }
 
   _reset() {
-    this.currentVerseReferenceId = null;
+    this.currentReferenceId = null;
     this.currentlyEditedNotes = null;
     this.currentEditor = null;
   }
 
-  async _handleNotesClick(event) {
+  async _handleNotesClick(event, text=null) {
+    this.clickEventHappened = true;
+    setTimeout(() => {
+      this.clickEventHappened = false;
+    }, 200);
+
     app_controller.hideAllMenus();
 
     if (event.target.nodeName == 'A') {
@@ -191,22 +234,28 @@ class NotesController {
     }
     event.stopPropagation();
 
-    var verseReferenceId = null;
+    var referenceId = null;
     var verseNotesBox = event.target.closest('.verse-notes');
 
-    if (verseNotesBox.classList.contains('book-notes')) {
-      verseReferenceId = verseNotesBox.getAttribute('verse-reference-id');
-    } else {
-      var verseBox = verseNotesBox.closest('.verse-box');
-      verseReferenceId = new VerseBox(verseBox).getVerseReferenceId();
+    if (verseNotesBox == null) {
+      return;
     }
 
-    if (verseReferenceId != this.currentVerseReferenceId) {
+    if (verseNotesBox.classList.contains('book-notes')) {
+      referenceId = verseNotesBox.getAttribute('verse-reference-id');
+    } else if (verseNotesBox.classList.contains('tag-intro-notes') || verseNotesBox.classList.contains('tag-conclusion-notes')) {
+      referenceId = verseNotesBox.getAttribute('notes-id');
+    } else {
+      var verseBox = verseNotesBox.closest('.verse-box');
+      referenceId = new VerseBox(verseBox).getVerseReferenceId();
+    }
+
+    if (referenceId != this.currentReferenceId) {
       await this.restoreCurrentlyEditedNotes();
-      this.currentVerseReferenceId = verseReferenceId;
+      this.currentReferenceId = referenceId;
       this.currentlyEditedNotes = verseNotesBox;
       this.currentlyEditedNotes.classList.remove('verse-notes-empty');
-      this._createEditor(this.currentlyEditedNotes);
+      this._createEditor(this.currentlyEditedNotes, text);
       this._setupVerseNoteButtons();
     }
   }
@@ -215,6 +264,42 @@ class NotesController {
     e.stopPropagation();
     e.target.closest('.notes-info').classList.toggle('active');
     this._showAndClickVerseNotes(verseNotes);
+  }
+
+  _handleFullscreenButtonClick(event=null, verseNotes=null) {
+    let fullscreenButtonIcon = null;
+
+    if (verseNotes == null) {
+      verseNotes = event.target.closest('.verse-notes');
+      fullscreenButtonIcon = event.target.closest('.notes-fullscreen-button').querySelector('i');
+    } else {
+      fullscreenButtonIcon = verseNotes.parentNode.querySelector('.notes-fullscreen-button').querySelector('i');
+    }
+
+    if (verseNotes) {
+      let currentNotes = this.currentEditor.getValue();
+
+      this.restoreCurrentlyEditedNotes(false);
+
+      verseNotes.classList.toggle('verse-notes-fullscreen');
+
+      if (verseNotes.classList.contains('verse-notes-fullscreen')) {
+        fullscreenButtonIcon.classList.remove('fa-expand');
+        fullscreenButtonIcon.classList.add('fa-compress');
+
+        this.isFullScreen = true;
+
+      } else {
+        fullscreenButtonIcon.classList.remove('fa-compress');
+        fullscreenButtonIcon.classList.add('fa-expand');
+
+        this.isFullScreen = false;
+      }
+
+      if (event != null) {
+        this._handleNotesClick(event, currentNotes);
+      }
+    }
   }
 
   editVerseNotesForCurrentlySelectedVerse() {
@@ -246,7 +331,7 @@ class NotesController {
   }
 
   async _deleteVerseNotes(verseNotes) {
-    this.currentVerseReferenceId = verseNotes.closest('.verse-box').getAttribute('verse-reference-id');
+    this.currentReferenceId = verseNotes.closest('.verse-box').getAttribute('verse-reference-id');
     this.currentlyEditedNotes = verseNotes;
     await this._saveEditorContent("");
     this._renderContent(true);
@@ -254,12 +339,12 @@ class NotesController {
   }
 
   _getCurrentVerseBox() {
-    if (this.currentVerseReferenceId == null) {
+    if (this.currentReferenceId == null) {
       return null;
     }
 
     var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
-    return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentVerseReferenceId);
+    return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentReferenceId);
   }
 
   _refreshNotesIndicator(noteValue, verseBox) {
@@ -293,30 +378,48 @@ class NotesController {
   }
 
   async _saveEditorContent(newNoteValue=null) {
-    var currentVerseBox = this._getCurrentVerseBox();
+    let currentVerseBox = this._getCurrentVerseBox();
 
-    if (this.currentlyEditedNotes != null && currentVerseBox != null) {
+    if (this.currentlyEditedNotes != null && (currentVerseBox != null && !this.currentNoteIsTagNote || this.currentNoteIsTagNote)) {
       if (newNoteValue == null) {
         newNoteValue = this.currentEditor.getValue();
       }
 
-      var previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
+      let previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
 
       this._updateActiveIndicator(newNoteValue);
 
       if (newNoteValue != previousNoteValue) {
         newNoteValue = newNoteValue.trim();
-        var verseBoxModel = new VerseBox(currentVerseBox);
-        var currentVerseObject = await verseBoxModel.getVerseObject();
-        var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+        let translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
         const swordModuleHelper = require('../helpers/sword_module_helper.js');
-        var versification = await swordModuleHelper.getVersification(translationId);
+        let versification = await swordModuleHelper.getVersification(translationId);
+        let result = null;
+        let currentTabNoteFileId = await app_controller.tab_controller.getCurrentTabNoteFileId();
 
-        var result = await ipcDb.persistNote(newNoteValue, currentVerseObject, versification);
+        if (!this.currentNoteIsTagNote) {
+          if (currentVerseBox != null) {
+            let verseBoxModel = new VerseBox(currentVerseBox);
+            let currentVerseObject = await verseBoxModel.getVerseObject();
+
+            result = await ipcDb.persistNote(newNoteValue,
+                                             currentVerseObject,
+                                             versification,
+                                             currentTabNoteFileId);
+          }
+        } else {
+          let tagId = this.currentlyEditedNotes.getAttribute('tag-id');
+
+          if (this.currentlyEditedNotes.classList.contains('tag-intro-notes')) {
+            result = await ipcDb.persistTagNoteIntroduction(tagId, newNoteValue);
+          } else if (this.currentlyEditedNotes.classList.contains('tag-conclusion-notes')) {
+            result = await ipcDb.persistTagNoteConclusion(tagId, newNoteValue);
+          }
+        }
 
         if (result.success == false) {
-          var message = `The note could not be saved.<br>
+          let message = `The note could not be saved.<br>
                         An unexpected database error occurred:<br><br>
                         ${result.exception}<br><br>
                         Please restart the app.`;
@@ -326,39 +429,57 @@ class NotesController {
           return false;
         }
 
-        this.currentlyEditedNotes.setAttribute('notes-content', newNoteValue);
+        if (this.currentlyEditedNotes != null) {
+          this.currentlyEditedNotes.setAttribute('notes-content', newNoteValue);
+        }
+
         this._refreshNotesIndicator(newNoteValue, currentVerseBox);
 
-        var note = result.dbObject;
+        let note = result.dbObject;
 
         if (note != undefined) {
-          var updatedTimestamp = null;
+          let updatedTimestamp = null;
 
           if (newNoteValue == "") {
             updatedTimestamp = "";
           } else {
-            updatedTimestamp = note.updatedAt;
+            if (this.currentNoteIsTagNote) {
+              if (this.currentlyEditedNotes.classList.contains('tag-intro-notes')) {
+                updatedTimestamp = note.introductionUpdatedAt;
+              } else if (this.currentlyEditedNotes.classList.contains('tag-conclusion-notes')) {
+                updatedTimestamp = note.conclusionUpdatedAt;
+              }
+
+            } else {
+              updatedTimestamp = note.updatedAt;
+            }
           }
 
-          this._updateNoteDate(currentVerseBox, updatedTimestamp);
+          if (this.currentNoteIsTagNote) {
+            this._updateNoteDate(this.currentlyEditedNotes, updatedTimestamp);
+          }
 
-          verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
-            currentVerseBox, { noteValue: newNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
+          if (currentVerseBox != null) {
+            this._updateNoteDate(currentVerseBox, updatedTimestamp);
 
-              var currentNotes = null;
+            verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
+              currentVerseBox, { noteValue: newNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
 
-              if (targetVerseBox.classList.contains('book-notes')) {
-                currentNotes = targetVerseBox;
-              } else {
-                currentNotes = targetVerseBox.querySelector('.verse-notes');
+                let currentNotes = null;
+
+                if (targetVerseBox.classList.contains('book-notes')) {
+                  currentNotes = targetVerseBox;
+                } else {
+                  currentNotes = targetVerseBox.querySelector('.verse-notes');
+                }
+
+                if (currentNotes != null) {
+                  currentNotes.setAttribute('notes-content', changedValue.noteValue);
+                  this._updateNoteDate(targetVerseBox, changedValue.timestamp);
+                }
               }
-
-              if (currentNotes != null) {
-                currentNotes.setAttribute('notes-content', changedValue.noteValue);
-                this._updateNoteDate(targetVerseBox, changedValue.timestamp);
-              }
-            }
-          );
+            );
+          }
         }
       }
 
@@ -372,19 +493,17 @@ class NotesController {
     return true;
   }
 
-  _updateNoteDate(verseBox, dbTimestamp) {
+  _updateNoteDate(container, dbTimestamp) {
     var localizedTimestamp = "";
 
     if (dbTimestamp != "") {
       localizedTimestamp = i18nHelper.getLocalizedDate(dbTimestamp);
     }
 
-    verseBox.querySelector('.verse-notes-timestamp').innerText = localizedTimestamp;
+    container.querySelector('.verse-notes-timestamp').innerText = localizedTimestamp;
   }
 
   _getRenderedEditorContent(original = false) {
-    const { marked } = require("marked");
-
     var content = null;
 
     if (original) {
@@ -396,7 +515,7 @@ class NotesController {
     var renderedContent = "";
 
     if (content != "") {
-      renderedContent = marked.parse(content);
+      renderedContent = notesHelper.renderNotes(content);
     }
 
     return renderedContent;
@@ -428,14 +547,15 @@ class NotesController {
       event.preventDefault();
       event.stopPropagation();
 
+      this.currentlyEditedNotes.classList.remove('verse-notes-fullscreen');
+      const fullscreenButtonIcon = this.currentlyEditedNotes.querySelector('.notes-fullscreen-button i');
+      fullscreenButtonIcon.classList.remove('fa-compress');
+      fullscreenButtonIcon.classList.add('fa-expand');
+
       if (event.currentTarget.className == 'save-note') {
-
         this.restoreCurrentlyEditedNotes();
-
       } else if (event.currentTarget.className == 'cancel-edit') {
-
         this.restoreCurrentlyEditedNotes(false);
-
       }
     });
 
@@ -458,7 +578,7 @@ class NotesController {
     return template.content;
   }
 
-  _createEditor(notesElement) {
+  _createEditor(notesElement, text=null) {
     var CodeMirror = getCodeMirror();
     CodeMirror.commands.save = () => this.restoreCurrentlyEditedNotes();
 
@@ -471,7 +591,13 @@ class NotesController {
     notesElementText.appendChild(textAreaTemplate); 
 
     var textAreaElement = notesElementText.querySelector('.editor');
-    textAreaElement.value = this._getNotesElementContent(notesElement);
+
+    let notesContent = this._getNotesElementContent(notesElement);
+    if (text != null) {
+      notesContent = text;
+    }
+
+    textAreaElement.value = notesContent;
 
     var editor = CodeMirror.fromTextArea(textAreaElement, {
       mode: 'gfm',
@@ -484,12 +610,29 @@ class NotesController {
         "Enter": "newlineAndIndentContinueMarkdownList",
         "Ctrl-Enter": "save",
         "Cmd-Enter": "save",
-        "Esc": () => { this.restoreCurrentlyEditedNotes(false); }
+        "Esc": () => {
+          // Differentiate between fullscreen and regular mode
+          // In fullscreen mode, the escape key should close the fullscreen mode
+          // In regular mode, the escape key should cancel the note editing and close the editor
+
+          if (this.currentlyEditedNotes.classList.contains('verse-notes-fullscreen')) {
+            this._handleFullscreenButtonClick(null, this.currentlyEditedNotes);
+          } else {
+            this.restoreCurrentlyEditedNotes(false);
+          }
+        }
       },
       theme: this.theme
     });
 
     this.currentEditor = editor;
+
+    if (this.isFullScreen) {
+      this.currentEditor.getWrapperElement().style.height = window.innerHeight * 0.85 + 'px';
+    } else {
+      this.currentEditor.getWrapperElement().style.removeProperty('height');
+    }
+
     this._focusEditor(true);
     notesElementText.querySelector('.btn-picker').attachEditor(editor);
   }

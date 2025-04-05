@@ -280,6 +280,7 @@
     "recently-used-tags": "Etiquetas usadas recientemente",
     "really-delete": "Realmente desea eliminar la siguiente etiqueta: ",
     "tag-info-would-be-deleted": "La información de la etiqueta será borrada <b>para todos los versos asociados!</b>",
+    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "¿Realmente desea borrar la etiqueta &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; para los versos seleccionados?",
     "remove-tag-assignment": "Quitar asignación de etiqueta",
     "verses-tagged-with": "Versos etiquetados con ",
@@ -315,7 +316,8 @@
     "add-existing-tags-to-current-tag-group": "Añadir las etiquetas existentes al grupo de etiquetas actual",
     "add-tags-to-group": "Añadir etiquetas al grupo",
     "delete-tag-from-group-explanation": "La etiqueta <i>{{tag}}</i> será eliminada del grupo <i>{{group}}</i>. Para eliminar completamente la etiqueta, haga clic en el botón debajo.",
-    "really-delete-tag-group": "Realmente desea eliminar el grupo de etiquetas<br/><i>{{tagGroupTitle}}</i>?"
+    "really-delete-tag-group": "Realmente desea eliminar el grupo de etiquetas<br/><i>{{tagGroupTitle}}</i>?",
+    "create-note-file-checkbox": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Capítulo",
@@ -363,9 +365,11 @@
     "show-tags": "Mostrar etiquetas",
     "use-tag-group-filter": "Usar el filtro de grupo de etiquetas",
     "show-notes": "Mostrar notas",
+    "hide-empty-verse-notes": "Hide empty verse notes",
     "limit-notes-display-size": "Limitar el tamaño de las notas",
     "limit-text-width": "Limitar el tamaño del texto",
     "use-tags-column": "Usar columna de etiquetas",
+    "use-notes-column": "Use notes column",
     "select-chapter-before-loading": "Abrir libro en el capítulo seleccionado",
     "use-system-theme": "Usar el tema del sistema",
     "use-night-mode": "Modo Noche",

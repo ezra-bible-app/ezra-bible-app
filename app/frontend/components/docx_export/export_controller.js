@@ -24,16 +24,15 @@ const docxController = require('./docx_controller.js');
  * @category Controller
  */
 
-module.exports.saveWordDocument = async function (exportFilePath, title, verses, bibleBooks=undefined, notes={}) {
+module.exports.saveWordDocument = async function (exportFilePath, title, verses, mode, bibleBooks=undefined, notes={}) {
   if (!exportFilePath) {
     console.log('Export error: exportFilePath is not defined with showSaveDialog()');
     return;
   }
 
-  const buffer = await docxController.generateDocument(title, verses, bibleBooks, notes);
+  const buffer = await docxController.generateDocument(title, verses, mode, bibleBooks, notes);
 
   console.log("Saving word document " + exportFilePath);
-
 
   const fs = require('fs/promises');
   await fs.writeFile(exportFilePath, buffer);

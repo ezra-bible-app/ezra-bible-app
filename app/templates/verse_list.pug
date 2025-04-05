@@ -21,6 +21,39 @@
 if bookIntroduction != null && bookIntroduction.length > 0
   div(class='book-intro') !{bookIntroduction}
 
+if renderTagNotes
+  - var tagIntroNotesClassList = 'tag-intro-notes tag-notes verse-notes ';
+  - var tagIntroRaw = ''
+  - var tagIntroText = ''
+  - var tagNoteId = ''
+  - var tagId = ''
+  - var verseTagKeys = Object.keys(verseTags)
+  if verseTagKeys.length > 0 && verseTags[verseTagKeys[0]].length > 0
+    - tagId = verseTags[verseTagKeys[0]][0].tagId
+  - var tagIntroUpdated = ''
+
+  if tagNote == null || tagNote.introduction == null
+    - tagIntroNotesClassList += ' verse-notes-empty'
+  else
+    - tagIntroRaw = tagNote.introduction
+    if tagNote.introduction != null
+      - tagIntroText = helper.renderNotes(tagNote.introduction);
+    - tagNoteId = tagNote.id
+    - tagIntroUpdated = helper.getLocalizedDate(tagNote.introductionUpdatedAt)
+  
+  div(class=tagIntroNotesClassList, tag-id=tagId, notes-id=tagNoteId, notes-content=tagIntroRaw)
+    div(class='verse-notes-text external') !{tagIntroText}
+    div(class='verse-notes-status-bar')
+      div(class='verse-notes-buttons')
+        a(class='save-note', href='')
+          i.fas.fa-save.fa-sm
+          span(i18n='general.save') !{i18n.t('general.save')}
+        span &nbsp;|&nbsp;
+        a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
+        a(class='notes-fullscreen-button', href='')
+          i.fas.fa-expand.fa-sm
+      div(class='verse-notes-timestamp') !{tagIntroUpdated}
+
 if renderBookNotes
   - var bookNotesClassList = 'book-notes verse-notes ';
   - var firstBibleBookId = bibleBooks[0].shortTitle
@@ -39,7 +72,7 @@ if renderBookNotes
     if bookNotes != null
       if bookNotes.text != null
         - bookNotesRaw = bookNotes.text
-        - bookNotesText = marked.parse(bookNotes.text);
+        - bookNotesText = helper.renderNotes(bookNotes.text);
       if bookNotes.updatedAt != null
         - bookNotesUpdate = helper.getLocalizedDate(bookNotes.updatedAt);
 
@@ -52,6 +85,8 @@ if renderBookNotes
           span(i18n='general.save') !{i18n.t('general.save')}
         span &nbsp;|&nbsp;
         a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
+        a(class='notes-fullscreen-button', href='')
+          i.fas.fa-expand.fa-sm
       div(class='verse-notes-timestamp') !{bookNotesUpdate}
 
 each bibleBook in bibleBooks
@@ -203,12 +238,14 @@ each bibleBook in bibleBooks
           - var verseNoteClass = "verse-notes";
           - var verseNoteUpdate = helper.getLocalizedDate(current_verse_note.updatedAt);
           - var verseNoteTextRaw = current_verse_note.text;
-          - var verseNoteText = marked.parse(current_verse_note.text);
+          - var verseNoteText = helper.renderNotes(current_verse_note.text);
         else
           - var verseNoteClass = "verse-notes verse-notes-empty";
           - var verseNoteUpdate = "";
           - var verseNoteTextRaw = "";
           - var verseNoteText = "";
+        
+        div(class='break-flex-row')
 
         div(class=verseNoteClass, notes-content=verseNoteTextRaw)
           div(class='verse-notes-text external') !{verseNoteText}
@@ -222,6 +259,8 @@ each bibleBook in bibleBooks
                 span(i18n='general.save') !{i18n.t('general.save')}
               span &nbsp;|&nbsp;
               a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
+              a(class='notes-fullscreen-button', href='')
+                i.fas.fa-expand.fa-sm
             div(class='verse-notes-timestamp') !{verseNoteUpdate}
 
     if verse_count == verses1.length && renderChapterNavigationLinks == true && verse.chapter < bookChapterCount
@@ -236,3 +275,36 @@ each bibleBook in bibleBooks
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)
       - var loadBookResultFunction = "javascript:app_controller.module_search_controller.loadBookResults('" + bibleBook.shortTitle + "')"
       a.load-book-results(href=loadBookResultFunction, i18n='bible-browser.show-search-results') !{i18n.t('bible-browser.show-search-results')}
+
+if renderTagNotes
+  - var tagConclusionNotesClassList = 'tag-conclusion-notes tag-notes verse-notes ';
+  - var tagConclusionRaw = ''
+  - var tagConclusionText = ''
+  - var tagNoteId = ''
+  - var tagId = ''
+  - var verseTagKeys = Object.keys(verseTags)
+  if verseTagKeys.length > 0 && verseTags[verseTagKeys[0]].length > 0
+    - tagId = verseTags[verseTagKeys[0]][0].tagId
+  - var tagConclusionUpdated = ''
+
+  if tagNote == null || tagNote.conclusion == null
+    - tagConclusionNotesClassList += ' verse-notes-empty'
+  else
+    - tagConclusionRaw = tagNote.conclusion
+    if tagNote.conclusion != null
+      - tagConclusionText = helper.renderNotes(tagNote.conclusion);
+    - tagNoteId = tagNote.id
+    - tagConclusionUpdated = helper.getLocalizedDate(tagNote.conclusionUpdatedAt);
+  
+  div(class=tagConclusionNotesClassList, tag-id=tagId, notes-id=tagNoteId, notes-content=tagConclusionRaw)
+    div(class='verse-notes-text external') !{tagConclusionText}
+    div(class='verse-notes-status-bar')
+      div(class='verse-notes-buttons')
+        a(class='save-note', href='')
+          i.fas.fa-save.fa-sm
+          span(i18n='general.save') !{i18n.t('general.save')}
+        span &nbsp;|&nbsp;
+        a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
+        a(class='notes-fullscreen-button', href='')
+          i.fas.fa-expand.fa-sm
+      div(class='verse-notes-timestamp') !{tagConclusionUpdated}

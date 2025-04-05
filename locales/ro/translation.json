@@ -282,6 +282,7 @@
     "recently-used-tags": "Etichete folosite recent",
     "really-delete": "Dorești cu adevărat să ștergi următoarea etichetă: ",
     "tag-info-would-be-deleted": "Informațiile despre etichetă vor fi șterse <b> pentru toate versetele asociate!</b>",
+    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Chiar doriți să eliminați eticheta &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; din versetele alese?",
     "remove-tag-assignment": "Elimină atribuirea etichetei",
     "verses-tagged-with": "Versete etichetate cu ",
@@ -317,7 +318,8 @@
     "add-existing-tags-to-current-tag-group": "Adaugă etichete existente la grupul de etichete selectat",
     "add-tags-to-group": "Adaugă etichete la grup",
     "delete-tag-from-group-explanation": "Eticheta <i>{{tag}}</i> va fi ștearsă din grupul <i>{{group}}</i>. Pentru a șterge eticheta definitiv, bifează caseta de mai jos.",
-    "really-delete-tag-group": "Chiar dorești să ștergi grupul de etichete<br/><i>{{tagGroupTitle}}</i>?"
+    "really-delete-tag-group": "Chiar dorești să ștergi grupul de etichete<br/><i>{{tagGroupTitle}}</i>?",
+    "create-note-file-checkbox": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Capitol",
@@ -365,9 +367,11 @@
     "show-tags": "Afișează etichete",
     "use-tag-group-filter": "Folosește filtrul pentru grup de etichete",
     "show-notes": "Afișează note",
+    "hide-empty-verse-notes": "Hide empty verse notes",
     "limit-notes-display-size": "Limitează dimensiunea afișării notelor",
     "limit-text-width": "Limitează lățime text biblic",
     "use-tags-column": "Folosește coloana Etichete",
+    "use-notes-column": "Use notes column",
     "select-chapter-before-loading": "Deschide cărțile cu selecție de capitol",
     "use-system-theme": "Tematica sistemului de operare",
     "use-night-mode": "Mod de noapte",

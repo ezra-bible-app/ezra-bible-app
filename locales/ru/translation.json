@@ -284,6 +284,7 @@
     "recently-used-tags": "Недавно использованные метки",
     "really-delete": "Вы действительно хотите удалить следующую метку: ",
     "tag-info-would-be-deleted": "Информация о метку будет удалена <b>для всех связанных стихов!</b>",
+    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Вы действительно хотите удалить метку &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; из выделенных стихов?",
     "remove-tag-assignment": "Удалить связь метки",
     "verses-tagged-with": "Стихи помеченные ",
@@ -320,7 +321,8 @@
     "add-existing-tags-to-current-tag-group": "Добавить существующие метки к текущей группе",
     "add-tags-to-group": "Добавить метки к группе",
     "delete-tag-from-group-explanation": "Метка <i>{{tag}}</i> будет удалена из группы <i>{{group}}</i>. Чтобы окончательно удалить метку, поставьте галоку ниже.",
-    "really-delete-tag-group": "Вы действительно хотите удалить группу меток<br/><i>{{tagGroupTitle}}</i>?"
+    "really-delete-tag-group": "Вы действительно хотите удалить группу меток<br/><i>{{tagGroupTitle}}</i>?",
+    "create-note-file-checkbox": "Use tag specific notes"
   },
   "bible-browser": {
     "chapter": "Глава",
@@ -368,9 +370,11 @@
     "show-tags": "Метки",
     "use-tag-group-filter": "Использовать фильтр груп меток",
     "show-notes": "Заметки",
+    "hide-empty-verse-notes": "Hide empty verse notes",
     "limit-notes-display-size": "Ограничить высоту заметок",
     "limit-text-width": "Ограничить ширину текста Библии",
     "use-tags-column": "Метки в отдельном столбце",
+    "use-notes-column": "Use notes column",
     "select-chapter-before-loading": "Выбирать главу при выборе книги",
     "use-system-theme": "Режим системы",
     "use-night-mode": "Ночной режим",

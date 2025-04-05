@@ -461,8 +461,8 @@ class IpcDbHandler {
       return sizeMb;
     });
 
-    this._ipcMain.add('db_createNewTag', async (newTagTitle, tagGroups) => {
-      let result = await global.models.Tag.create_new_tag(newTagTitle);
+    this._ipcMain.add('db_createNewTag', async (newTagTitle, createNoteFile=false, tagGroups=null) => {
+      let result = await global.models.Tag.createNewTag(newTagTitle, createNoteFile);
       
       if (tagGroups != null) {
         for (let i = 0; i < tagGroups.length; i++) {
@@ -480,8 +480,8 @@ class IpcDbHandler {
       return result;
     });
 
-    this._ipcMain.add('db_removeTag', async (id) => {
-      let result = await global.models.Tag.destroy_tag(id);
+    this._ipcMain.add('db_removeTag', async (id, deleteNoteFile=false) => {
+      let result = await global.models.Tag.destroyTag(id, deleteNoteFile);
 
       this.triggerDropboxSyncIfConfigured();
 
@@ -489,7 +489,7 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_updateTag', async(id, newTitle, addTagGroups, removeTagGroups) => {
-      let result = await global.models.Tag.update_tag(id, newTitle, addTagGroups, removeTagGroups);
+      let result = await global.models.Tag.updateTag(id, newTitle, addTagGroups, removeTagGroups);
 
       this.triggerDropboxSyncIfConfigured();
 
@@ -497,7 +497,7 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_updateTagsOnVerses', async (tagId, verseObjects, versification, action) => {
-      let result = await global.models.Tag.update_tags_on_verses(tagId, verseObjects, versification, action);
+      let result = await global.models.Tag.updateTagsOnVerses(tagId, verseObjects, versification, action);
 
       this.triggerDropboxSyncIfConfigured();
 
@@ -537,6 +537,45 @@ class IpcDbHandler {
       var verseTags = this.makeSequelizeResultsSerializable(sequelizeVerseTags);
       var groupedVerseTags = global.models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
       return groupedVerseTags;
+    });
+
+    this._ipcMain.add('db_getTagNote', async (tagId) => {
+      if (tagId == null) {
+        console.error('Missing parameter for db_getTagNote');
+        return null;
+      }
+
+      let tagNote = await global.models.TagNote.findOne({ where: { tagId: tagId } });
+
+      if (tagNote == null) {
+        return null;
+      } else {
+        return tagNote.dataValues;
+      }
+    });
+
+    this._ipcMain.add('db_persistTagNoteIntroduction', async (tagId, introduction) => {
+      if (tagId == null || introduction == null) {
+        console.error('Missing parameters for db_persistTagNoteIntroduction');
+        return null;
+      }
+
+      let tagNote = await global.models.TagNote.persistIntroduction(tagId, introduction);
+      await global.models.MetaRecord.updateLastModified();
+      this.triggerDropboxSyncIfConfigured();
+      return tagNote;
+    });
+
+    this._ipcMain.add('db_persistTagNoteConclusion', async (tagId, conclusion) => {
+      if (tagId == null || conclusion == null) {
+        console.error('Missing parameters for db_persistTagNoteConclusion');
+        return null;
+      }
+
+      let tagNote = await global.models.TagNote.persistConclusion(tagId, conclusion);
+      await global.models.MetaRecord.updateLastModified();
+      this.triggerDropboxSyncIfConfigured();
+      return tagNote;
     });
 
     this._ipcMain.add('db_createTagGroup', async(title) => {
@@ -590,8 +629,12 @@ class IpcDbHandler {
       return tagGroupUsed;
     });
 
-    this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
-      let result = await global.models.Note.persistNote(noteValue, verseObject, versification);
+    this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification, noteFileId=null) => {
+      if (noteFileId == null) {
+        noteFileId = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
+      }
+
+      let result = await global.models.Note.persistNote(noteValue, verseObject, versification, noteFileId);
 
       this.triggerDropboxSyncIfConfigured();
 
@@ -600,7 +643,8 @@ class IpcDbHandler {
 
     this._ipcMain.add('db_getVerseNotesByBook', async (bibleBookId, versification) => {
       var bibleBook = await global.models.BibleBook.findByPk(bibleBookId);
-      var sequelizeNotes = await bibleBook.getNotes();
+      var activeNoteFile = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
+      var sequelizeNotes = await bibleBook.getNotes(activeNoteFile);
       var notes = this.makeSequelizeResultsSerializable(sequelizeNotes);
       var groupedVerseNotes = global.models.Note.groupNotesByVerse(notes, versification);
       return groupedVerseNotes;
@@ -609,9 +653,10 @@ class IpcDbHandler {
     this._ipcMain.add('db_getBookNotes', async (shortTitle) => {
       var bookNotes = null;
       var bookReference = await global.models.VerseReference.getBookReference(shortTitle);
+      var activeNoteFile = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
 
       if (bookReference != null) {
-        bookNotes = await global.models.Note.findByVerseReferenceId(bookReference.id);
+        bookNotes = await global.models.Note.findByVerseReferenceId(bookReference.id, activeNoteFile);
 
         if (bookNotes != null) {
           bookNotes = bookNotes.dataValues;
@@ -621,11 +666,52 @@ class IpcDbHandler {
       return bookNotes;
     });
 
-    this._ipcMain.add('db_getNotesByVerseReferenceIds', async (verseReferenceIds, versification) => {
-      var sequelizeNotes = await global.models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
-      var notes = this.makeSequelizeResultsSerializable(sequelizeNotes);
-      var groupedNotes = global.models.Note.groupNotesByVerse(notes, versification);
+    this._ipcMain.add('db_getNotesByVerseReferenceIds', async (verseReferenceIds, versification, noteFileId=null) => {
+      if (noteFileId == null) {
+        noteFileId = global.ipc.ipcSettingsHandler.getConfig().get('activeNoteFileId', 0);
+      }
+
+      let sequelizeNotes = await global.models.Note.findByVerseReferenceIds(verseReferenceIds.join(','), noteFileId);
+      let notes = this.makeSequelizeResultsSerializable(sequelizeNotes);
+      let groupedNotes = global.models.Note.groupNotesByVerse(notes, versification);
+
       return groupedNotes;
+    });
+
+    this._ipcMain.add('db_getAllNoteFiles', async () => {
+      let allSequelizeNoteFiles = await global.models.NoteFile.findAll({
+        order: [['title', 'ASC']]
+      });
+
+      let allNoteFiles = this.makeSequelizeResultsSerializable(allSequelizeNoteFiles);
+      return allNoteFiles;
+    });
+
+    this._ipcMain.add('db_createNoteFile', async (noteFileTitle) => {
+      let result = await global.models.NoteFile.createNoteFile(noteFileTitle);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
+    });
+
+    this._ipcMain.add('db_deleteNoteFile', async (id) => {
+      let result = await global.models.NoteFile.destroyNoteFile(id);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
+    });
+
+    this._ipcMain.add('db_updateNoteFile', async (id, newTitle) => {
+      let result = await global.models.NoteFile.update({ title: newTitle }, { where: { id: id } });
+      await global.models.MetaRecord.updateLastModified();
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return {
+        success: true
+      };
     });
 
     this._ipcMain.add('db_getBibleBook', async (shortTitle) => {

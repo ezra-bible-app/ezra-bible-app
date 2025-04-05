@@ -1,0 +1,64 @@
+#notes-panel-menu {
+  padding: 0.5em;
+  padding-top: 1em;
+  border: 1px solid #ddd;
+  height: 2em;
+}
+
+#notes-panel-content
+{
+  padding: 1em;
+  height: calc(100% - 8.2em);
+  overflow-y: auto;
+}
+
+.note-files-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.note-files-table th, .note-files-table td {
+  border: 1px solid #ddd;
+  padding: 0.3em;
+}
+
+.note-files-table th {
+  text-align: left;
+}
+
+.note-files-table th:nth-child(1),
+.note-files-table td:nth-child(1) {
+  width: 60%;
+}
+
+.note-files-table th:nth-child(2),
+.note-files-table td:nth-child(2) {
+  text-align: center;
+}
+
+.note-files-table tr.ui-selected {
+  font-weight: bold;
+}
+
+.delete-note-file-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+.delete-note-file-button:hover {
+  color: darkred;
+}
+
+.edit-note-file-button {
+  background: none;
+  border: none;
+  color: blue;
+  cursor: pointer;
+}
+
+.edit-note-file-button:hover {
+  color: darkblue;
+}
+
