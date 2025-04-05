@@ -214,7 +214,8 @@
       "custom": "Personalizat",
       "content-font-family": "Familia de font a conținutului",
       "custom-content-font": "Font pesronalizat pentru conținut"
-    }
+    },
+    "title": "Titlu"
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirmă opțiunile legate de confidențialitatea datelor",

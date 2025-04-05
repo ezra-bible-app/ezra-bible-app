@@ -216,7 +216,8 @@
       "custom": "Aangepast",
       "content-font-family": "Lettertypefamilie voor inhoud",
       "custom-content-font": "Aangepast lettertype voor inhoud"
-    }
+    },
+    "title": "Titel"
   },
   "data-privacy": {
     "confirm-privacy-options": "Bevestig gegevensprivacy-opties",
@@ -299,7 +300,6 @@
     "none-selected": "Geen",
     "rename-tag": "Hernoem tag",
     "edit-tag": "Tag aanpassen",
-    "title": "Titel",
     "stats-used": "gebruikt",
     "stats-total": "totaal",
     "only-currentbook-tagged-verses": "Alleen huidig boek",

@@ -385,7 +385,7 @@ class TagGroupList extends HTMLElement {
   async handleTagGroupEdit(itemId) {
     const dialogBoxTemplate = html`
     <div id="rename-tag-group-dialog" style="padding-top: 2em;">
-      <span id="rename-tag-group-title-label" i18n="tags.title"></span>:
+      <span id="rename-tag-group-title-label" i18n="general.title"></span>:
       <input id="rename-tag-group-title-input" type="text" maxlength="255" style="width: 25em;" />
       <emoji-button-trigger></emoji-button-trigger>
     </div>

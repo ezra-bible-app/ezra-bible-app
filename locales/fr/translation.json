@@ -224,7 +224,8 @@
       "custom": "Personnalisée",
       "content-font-family": "Famille de polices de caractères pour le contenu",
       "custom-content-font": "Police de caractères personnalisée pour le contenu"
-    }
+    },
+    "title": "Titre "
   },
   "data-privacy": {
      "confirm-privacy-options": "Confirmer les options de confidentialité des données",
@@ -307,7 +308,6 @@
     "none-selected": "Aucun",
     "rename-tag": "Renommer l’étiquette",
     "edit-tag": "Modifier l'étiquette",
-    "title": "Titre ",
     "stats-used": "utilisée",
     "stats-total": "total",
     "only-currentbook-tagged-verses": "Seulement le livre actuel",

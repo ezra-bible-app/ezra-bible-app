@@ -214,7 +214,8 @@
       "custom": "Po meri",
       "content-font-family": "Družina pisave",
       "custom-content-font": "Pisava po meri"
-    }
+    },
+    "title": "Naslov"
   },
   "data-privacy": {
     "confirm-privacy-options": "Potrdite možnosti zasebnosti podatkov",

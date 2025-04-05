@@ -214,7 +214,8 @@
       "custom": "Vlastné",
       "content-font-family": "Rodina písiem obsahu",
       "custom-content-font": "Vlastné písmo obsahu"
-    }
+    },
+    "title": "Titulok"
   },
   "data-privacy": {
     "confirm-privacy-options": "Potvrďte ochranu osobných údajov",

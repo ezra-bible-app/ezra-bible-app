@@ -297,7 +297,7 @@ class TagListMenu extends HTMLElement {
   async onAddTagGroupButtonClicked() {
     eventController.publish('on-button-clicked');
 
-    const addTagGroupTitle = i18n.t('tags.title');
+    const addTagGroupTitle = i18n.t('general.title');
 
     const dialogBoxTemplate = html`
     <div id="add-tag-group-dialog" style="padding-top: 2em;">

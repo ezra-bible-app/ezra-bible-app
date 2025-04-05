@@ -210,7 +210,8 @@
       "custom": "Benutzerdefiniert",
       "content-font-family": "Schriftfamilie für Inhalte",
       "custom-content-font": "Benutzerdefinierte Schriftart für Inhalte"
-    }
+    },
+    "title": "Titel"
   },
   "data-privacy": {
     "confirm-privacy-options": "Datenschutzoptionen bestätigen",
@@ -293,7 +294,6 @@
     "none-selected": "Keine",
     "rename-tag": "Tag umbenennen",
     "edit-tag": "Tag editieren",
-    "title": "Titel",
     "stats-used": "benutzt",
     "stats-total": "gesamt",
     "only-currentbook-tagged-verses": "Nur aktuelles Buch",

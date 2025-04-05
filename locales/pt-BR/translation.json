@@ -214,7 +214,8 @@
       "custom": "Personalizado",
       "content-font-family": "Família de fontes do conteúdo",
       "custom-content-font": "Fonte personalizada do conteúdo"
-    }
+    },
+    "title": "Título"
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirme as opções de privacidade de dados",
@@ -295,7 +296,6 @@
     "none-selected": "Nenhuma",
     "rename-tag": "Renomeia etiqueta",
     "edit-tag": "Editar etiqueta",
-    "title": "Título",
     "stats-used": "utilizado",
     "stats-total": "total",
     "only-currentbook-tagged-verses": "Apenas livro atual",

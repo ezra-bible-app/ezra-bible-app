@@ -214,7 +214,8 @@
       "custom": "Довільний",
       "content-font-family": "Букворис вмісту",
       "custom-content-font": "Довільний букворис вмісту"
-    }
+    },
+    "title": "Назва"
   },
   "data-privacy": {
     "confirm-privacy-options": "Підтвердіть налаштування конфеденційности даних",
