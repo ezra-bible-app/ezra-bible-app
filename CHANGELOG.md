@@ -36,8 +36,8 @@ All notable changes to Ezra Bible App are documented in this file.
 ### Fixes
 
 * Tag statistics not updating when switching tabs. ([#1195][i1195])
-* Searching Strong's occurrances does not work with translations that pad the Strongs number (like deu1912eb). ([#1196][i1196])
-* Searching Strong's occurrences does not work if Strong's entry comes from second Bible translation. ([#1197])
+* Searching Strong's occurrences does not work with translations that pad the Strongs number (like deu1912eb). ([#1196][i1196])
+* Searching Strong's occurrences does not work if Strong's entry comes from second Bible translation. ([#1197][i1197])
 * Export of book-based docx does not work anymore. ([#1201][i1201])
 
 [i1195]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1195
@@ -1258,6 +1258,7 @@ This is a bugfix release.
 
 ## [0.10.0] - 2019-10-15
 ### Features
+
 * Module search functionality (based on SWORD search function).
 * Added translation comparison function. The user can now quickly retrieve the selected verses in all the different available translations [in a popup).
 * Added function "Recently used tags" to tags filter menu (filters the tag list to the last 10 used tags).
@@ -1269,11 +1270,13 @@ This is a bugfix release.
   * Shows Bible books in case of a tagged verse list
 
 ### Enhancements
+
 * Show bible translation id in tab titles.
 * Availability of a new release is now indicated in a popup after startup.
 * Optimized the needed width for the bible browser navigation pane.
 
 ### Fixes
+
 * Avoid duplicates when assigning tags to verses (ensure uniqueness in database + use validation in frontend).
 * Also show currently selected verses in verse list mode (relevant for tagged verse lists or module search results).
 * Update the tag statistics whenever a tag gets assigned or removed from a verse.
@@ -1281,6 +1284,7 @@ This is a bugfix release.
 * When adding/removing tags, also update the frontend verse box in all other tabs besides the currently opened one.
 
 ### Enablers
+
 * Internationalization support (using [I18next][i18next]).
 * Implemented packaging support for CentOS 8.
 
@@ -1289,6 +1293,7 @@ This is a bugfix release.
 
 ## [0.9.0] - 2019-08-23
 ### Features
+
 * Tags can now be shown in a column next to the bible text. This is particularly useful when having a lot of tags, as it gives more overview and makes it easier to focus on the text.
 * Section titles (from SWORD modules) can now be shown/hidden based on an option in the menu.
 * Information about SWORD modules can now be shown before installation when using the bible translation assistant.
@@ -1301,6 +1306,7 @@ This is a bugfix release.
   - Linux Mint 18 package
 
 ### Enhancements
+
 * Added module location as another attribute to module information dialog.
 * Show number of tagged verses in title of tagged verse list popup.
 * Show SWORD version in bible module info dialogue.
@@ -1308,6 +1314,7 @@ This is a bugfix release.
 * Upgraded Electron from 4.2.6 to 4.2.9.
 
 ### Fixes
+
 * Corrected bug with Sword paths on Windows and Unix. Now both the user path and the global path gets evaluated correctly both on Windows and on Unix.
 * Only disable close button of first tab when it's the last one.
 * Remember the last selected bible translation and set that as a default for new tabs.
@@ -1320,15 +1327,18 @@ This is a bugfix release.
 
 ## [0.8.1] - 2019-06-21
 ### Features
+
 * Sync functionality for Sword modules that are already existing locally: On startup any modules not yet used by Ezra Bible App are imported into the database.
 
 ### Enhancements
+
 * Link with static Sword library (version 1.8.1), so that dependency to specific Sword package can be avoided.
 * Streamlined startup
   * Upgrade the database using migrations (based on Umzug library)
   * Loading indicator for slower systems
 
 ### Fixes
+
 * sword.conf file is not created anymore. This "overwrote" the Sword module path in the previous releases. On Windows, modules are found both in the user directory and the "all users" directory. ([#5][i5])
 * Support for all languages of ISO-639-1/2/3. This enables the usage of all the available Sword modules.
 
@@ -1337,6 +1347,7 @@ This is a bugfix release.
 
 ## [0.8.0] - 2019-05-30
 ### Features
+
 * Tabbed user interface
   * Each tab can hold Bible text or tagged verse lists
   * Tabs are saved after every change and loaded when starting Ezra Bible App
@@ -1352,23 +1363,28 @@ This is a bugfix release.
   * Shows Bible books in case of a tagged verse list
 
 ### Enhancements
+
 * Optimized language display in Bible installation assistant: Shows languages in multiple columns.
 * Optimized formatting for Bible book selection menu.
 * Usability: Verses can now be tagged/untagged also by clicking on the tag label (before this only worked with the checkbox).
 
 ### Fixes
+
 * Improved tag loading from database making performance in loading big books (like Psalms) significantly better.
 
 
 ## [0.7.1] - 2019-02-24
 ### Features
+
 * Windows support
 
 ### Enhancements
+
 * Improved layout of toolbar
 * Automatic detection of books available in the current Bible translation, with adaption of the book selection menu
 
 ### Fixes
+
 * Improved performance for Bible installation assistant (UI does not block anymore for certain actions)
 
 
@@ -1376,6 +1392,7 @@ This is a bugfix release.
 This is the initial public release of Ezra Bible App for the Linux desktop.
 
 ### Features
+
 * Add/remove Bible translations from SWORD repositories
 * Browse Bible books
 * Create tags and assign them to verses
