@@ -281,7 +281,7 @@
     "recently-used-tags": "Etiquetas utilizadas recentemente",
     "really-delete": "Você realmente quer excluir a seguinte etiqueta: ",
     "tag-info-would-be-deleted": "A informação da etiqueta será apagada <b>para todos os versículos associados!</b>",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Você realmente quer remover a etiqueta &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; para os versículos selecionados?",
     "remove-tag-assignment": "Remove etiqueta atribuída",
     "verses-tagged-with": "Versículos etiquetados com ",

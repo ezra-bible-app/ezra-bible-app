@@ -283,7 +283,7 @@
     "recently-used-tags": "Etichete folosite recent",
     "really-delete": "Dorești cu adevărat să ștergi următoarea etichetă: ",
     "tag-info-would-be-deleted": "Informațiile despre etichetă vor fi șterse <b> pentru toate versetele asociate!</b>",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Chiar doriți să eliminați eticheta &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; din versetele alese?",
     "remove-tag-assignment": "Elimină atribuirea etichetei",
     "verses-tagged-with": "Versete etichetate cu ",

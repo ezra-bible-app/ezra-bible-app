@@ -281,7 +281,7 @@
     "recently-used-tags": "Etiquetas usadas recientemente",
     "really-delete": "Realmente desea eliminar la siguiente etiqueta: ",
     "tag-info-would-be-deleted": "La información de la etiqueta será borrada <b>para todos los versos asociados!</b>",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "¿Realmente desea borrar la etiqueta &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; para los versos seleccionados?",
     "remove-tag-assignment": "Quitar asignación de etiqueta",
     "verses-tagged-with": "Versos etiquetados con ",

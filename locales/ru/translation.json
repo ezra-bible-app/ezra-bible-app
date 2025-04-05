@@ -285,7 +285,7 @@
     "recently-used-tags": "Недавно использованные метки",
     "really-delete": "Вы действительно хотите удалить следующую метку: ",
     "tag-info-would-be-deleted": "Информация о метку будет удалена <b>для всех связанных стихов!</b>",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Вы действительно хотите удалить метку &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; из выделенных стихов?",
     "remove-tag-assignment": "Удалить связь метки",
     "verses-tagged-with": "Стихи помеченные ",

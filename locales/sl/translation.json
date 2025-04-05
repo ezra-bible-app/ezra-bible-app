@@ -281,7 +281,7 @@
     "recently-used-tags": "Nedavno uporabljene oznake",
     "really-delete": "Ali res želite izbrisati naslednjo oznako: ",
     "tag-info-would-be-deleted": "Informacije o oznaki bi bile izbrisane <b>za vse povezane vrstice!</b>",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Ali odstranim dodelitev oznake &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; iz izbranih vrstic?",
     "remove-tag-assignment": "Odstrani dodelitev oznake",
     "verses-tagged-with": "Vrstice, označene z ",

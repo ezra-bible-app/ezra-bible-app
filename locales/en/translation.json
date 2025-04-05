@@ -283,7 +283,7 @@
     "recently-used-tags": "Recently used tags",
     "really-delete": "Do you really want to delete the following tag: ",
     "tag-info-would-be-deleted": "The tag information would be deleted <b>for all associated verses!</b>",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Do you really want to remove the tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; from the selected verses?",
     "remove-tag-assignment": "Remove tag assignment",
     "verses-tagged-with": "Verses tagged with ",

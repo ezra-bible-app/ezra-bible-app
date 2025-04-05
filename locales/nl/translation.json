@@ -285,7 +285,7 @@
     "recently-used-tags": "Recent gebruikte tags",
     "really-delete": "Wilt u de volgende tag echt verwijderen: ",
     "tag-info-would-be-deleted": "De tag-informatie zou <b>voor alle bijbehorende verzen</b> worden verwijderd!",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Wilt u de tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; echt verwijderen van de geselecteerde verzen?",
     "remove-tag-assignment": "Verwijder tag-toewijzing",
     "verses-tagged-with": "Verzen getagd met ",

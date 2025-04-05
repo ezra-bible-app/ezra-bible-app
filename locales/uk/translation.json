@@ -283,7 +283,7 @@
     "recently-used-tags": "Нещодавно використані міти",
     "really-delete": "Ви дійсно хочете видалити таку міту: ",
     "tag-info-would-be-deleted": "Інформація міти буде видалено <b>для всіх пов'язаних віршів!</b>",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Ви дійсно хочете видалити міту &quot; <span id='remove-tag-assignment-name' class='italic'></span>&quot; з вибраних віршів?",
     "remove-tag-assignment": "Видалити призначення міти",
     "verses-tagged-with": "Вірші помічені:",

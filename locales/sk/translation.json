@@ -283,7 +283,7 @@
     "recently-used-tags": "Najpoužívanejšie štítky",
     "really-delete": "Naozaj chete odstrániť nasledujúci štítok: ",
     "tag-info-would-be-deleted": "Štítok bude odstránený <b>zo všetkých priradených veršov!</b>",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Naozaj chcete odstrániť štítok &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; z vyznačeného verša?",
     "remove-tag-assignment": "Odstrániť pridelené štítky",
     "verses-tagged-with": "Verše so štítkom ",

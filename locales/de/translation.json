@@ -279,7 +279,7 @@
     "recently-used-tags": "Kürzlich verwendete Tags",
     "really-delete": "Möchten Sie den folgenden Tag wirklich löschen: ",
     "tag-info-would-be-deleted": "Die Tagdaten würden <b>für alle verknüpften Verse</b> gelöscht werden!",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Möchten Sie den Tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; wirklich von den gewählten Versen entfernen?",
     "remove-tag-assignment": "Tag entfernen",
     "verses-tagged-with": "Verse mit dem Tag ",

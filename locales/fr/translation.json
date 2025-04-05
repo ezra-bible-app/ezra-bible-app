@@ -293,7 +293,7 @@
     "recently-used-tags": "Étiquettes récemment utilisées",
     "really-delete": "Voulez-vous vraiment supprimer l’étiquette suivante : ",
     "tag-info-would-be-deleted": "Les informations sur les étiquettes seraient supprimées <b>pour tous les versets associés !</b>",
-    "tag-note-file-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
     "really-remove-tag-assignment": "Voulez-vous vraiment supprimer l’étiquette &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot;  des versets sélectionnés ?",
     "remove-tag-assignment": "Supprimer l’attribution de l’étiquette",
     "verses-tagged-with": "Versets étiquetés avec ",
