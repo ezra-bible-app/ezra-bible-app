@@ -59,7 +59,8 @@
     "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --readme DESIGN.md -d docs/docs -r --verbose app",
     "test": "./node_modules/.bin/jest",
     "convert-sword-languages": "node build_scripts/frontend/sword_locales_to_json.js",
-    "generate-long-tag-list": "node build_scripts/generate_long_tag_list.js"
+    "generate-long-tag-list": "node build_scripts/generate_long_tag_list.js",
+    "export-done-items": "bash build_scripts/export_done_items.sh"
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
