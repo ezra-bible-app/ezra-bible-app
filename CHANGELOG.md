@@ -1,6 +1,36 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.17.0 - 2025-04-19]
+
+### Features
+
+* Add support for tag-specific notes. ([#1200][i1200])
+
+### Enhancements
+
+* Add a context menu button that allows opening a verse in a new tab. ([#1189][i1189])
+* Include notes in document export of tagged verse list. ([#1219][i1219])
+* Add fullscreen option for note editor. ([#1206][i1206])
+
+### Fixes
+
+* Filter out style/script sections in notes to avoid code injection. ([#1207][i1207])
+* Tag distribution matrix not updating when changing tag selections of tagged verse list. ([#1212][i1212])
+* Button for second Bible translation cut off in portrait mode on tablets. ([#1215][i1215])
+* Closing tab during module search causes JavaScript errors. ([#1216][i1216])
+* Search function unreliable. ([#1210][i1210])
+
+[i1189]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1189
+[i1200]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1200
+[i1206]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1206
+[i1207]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1207
+[i1210]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1210
+[i1212]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1212
+[i1215]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1215
+[i1216]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1216
+[i1219]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1219
+
 ## [1.16.3 - 2025-02-22]
 
 ### Fixes
@@ -1232,8 +1262,11 @@ This is a bugfix release.
 * Added translation comparison function. The user can now quickly retrieve the selected verses in all the different available translations [in a popup).
 * Added function "Recently used tags" to tags filter menu (filters the tag list to the last 10 used tags).
 * Added support for clipboard copy functionality: Now you can copy the currently selected verses to the system clipboard using ctrl + c.
-* German translation and handling of language-based chapter/verse separator for verse references.
-* Use localized bible book names (based on SWORD translation functionality).
+* Word file export functionality for tagged verse lists
+* Info popup for Bible translation-related information (shows meta information from the `*.conf` files that come with each SWORD module)
+* New vertical navigation bar to the left of the Bible text
+  * Shows chapters in case of a Bible book
+  * Shows Bible books in case of a tagged verse list
 
 ### Enhancements
 * Show bible translation id in tab titles.
