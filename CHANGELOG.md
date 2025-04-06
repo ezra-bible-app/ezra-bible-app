@@ -12,6 +12,8 @@ All notable changes to Ezra Bible App are documented in this file.
 * Add a context menu button that allows opening a verse in a new tab. ([#1189][i1189])
 * Include notes in document export of tagged verse list. ([#1219][i1219])
 * Add fullscreen option for note editor. ([#1206][i1206])
+* Remember commentary collapse status by commentary module. ([#1185][i1185])
+* Add module search option to filter on word boundary. ([#1214][i1214])
 
 ### Fixes
 
@@ -21,12 +23,19 @@ All notable changes to Ezra Bible App are documented in this file.
 * Closing tab during module search causes JavaScript errors. ([#1216][i1216])
 * Search function unreliable. ([#1210][i1210])
 
+### Enablers
+
+* Replace node-prune with clean-modules. ([#1188][i1188])
+
+[i1185]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1185
+[i1188]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1188
 [i1189]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1189
 [i1200]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1200
 [i1206]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1206
 [i1207]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1207
 [i1210]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1210
 [i1212]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1212
+[i1214]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1214
 [i1215]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1215
 [i1216]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1216
 [i1219]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1219
