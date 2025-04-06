@@ -178,7 +178,7 @@ class BookSelectionMenu {
     }
   }
 
-  async selectBibleBook(bookCode, bookTitle, referenceBookTitle, currentChapter = null) {
+  async selectBibleBook(bookCode, bookTitle, referenceBookTitle, currentChapter = null, interactive=true) {
     const tab = app_controller.tab_controller.getTab();
     this.currentBibleTranslationId = tab.getBibleTranslationId();
     this.currentSecondBibleTranslationId = tab.getSecondBibleTranslationId();
@@ -203,7 +203,7 @@ class BookSelectionMenu {
     const selectChapterBeforeLoading = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
     const bookChapterCount = await ipcNsi.getBookChapterCount(this.currentBibleTranslationId, bookCode);
 
-    if ((selectChapterBeforeLoading.isChecked || currentChapter != null) && bookChapterCount > 1) {
+    if ((selectChapterBeforeLoading.isChecked || currentChapter != null) && bookChapterCount > 1 && interactive) {
       const bookMenu = document.getElementById('book-selection-menu');
       bookMenu.classList.add('select-chapter');
 
@@ -355,9 +355,18 @@ class BookSelectionMenu {
   async renderRecentPassages() {
     const recentPassages = await ipcSettings.get(this.recentPassagesKey, []);
     const recentPassagesContainer = document.querySelector('.recently-opened-passages ul');
+    const recentPassagesSection = document.querySelector('.recently-opened-passages');
+
+    if (recentPassages.length <= 1) {
+      recentPassagesSection.style.display = 'none'; // Hide if no entries or only one entry
+      return;
+    }
+
+    recentPassagesSection.style.display = 'block'; // Show if there are entries
     recentPassagesContainer.innerHTML = '';
 
-    recentPassages.forEach((passage) => {
+    // Exclude the most recent entry (first in the list)
+    recentPassages.slice(1).forEach((passage) => {
       const [bookCode, chapter] = passage.split(' ');
       const displayText = chapter ? `${bookCode} ${chapter}` : bookCode; // Include chapter if present
 
@@ -367,7 +376,7 @@ class BookSelectionMenu {
       listItem.textContent = displayText;
 
       listItem.addEventListener('click', () => {
-        this.selectBibleBook(bookCode, bookCode, bookCode, chapter ? parseInt(chapter) : null);
+        this.selectBibleBook(bookCode, bookCode, bookCode, chapter ? parseInt(chapter) : null, false);
       });
 
       recentPassagesContainer.appendChild(listItem);
