@@ -2060,6 +2060,41 @@ code {
   border: 1px solid var(--border-color);
 }
 
+.recently-opened-passages {
+  margin: 1em;
+  padding: 1em 1em 0.8em;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--widget-bg-color);
+}
+
+.recently-opened-passages h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: var(--accent-color);
+}
+
+.recently-opened-passages ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0.5em 0 0 0;
+}
+
+.recently-opened-passages li {
+  margin: 0.3em 0;
+  padding: 0.5em;
+  border-radius: var(--border-radius);
+  background-color: var(--background-color-darker);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.recently-opened-passages li:hover {
+  background-color: var(--highlight-bg-color);
+  color: var(--highlight-color);
+}
+
 /* SWORD text related */
 
 /* Sword markup disabled by default */
@@ -2165,4 +2200,3 @@ sup.strongs {
   font-size: 70%;
   display: inline-block;
 }
-
