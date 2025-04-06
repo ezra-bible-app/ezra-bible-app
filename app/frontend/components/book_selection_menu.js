@@ -375,8 +375,10 @@ class BookSelectionMenu {
       listItem.setAttribute('passage', passage);
       listItem.textContent = displayText;
 
-      listItem.addEventListener('click', () => {
-        this.selectBibleBook(bookCode, bookCode, bookCode, chapter ? parseInt(chapter) : null, false);
+      listItem.addEventListener('click', async () => {
+        let bookLongTitle = await ipcDb.getBookLongTitle(bookCode);
+        let bookTitleTranslation = await ipcDb.getBookTitleTranslation(bookCode);
+        this.selectBibleBook(bookCode, bookTitleTranslation, bookLongTitle, chapter ? parseInt(chapter) : null, false);
       });
 
       recentPassagesContainer.appendChild(listItem);
