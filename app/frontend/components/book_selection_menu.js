@@ -30,6 +30,7 @@ class BookSelectionMenu {
   constructor() {
     this.book_menu_is_opened = false;
     this.init_completed = false;
+    this.recentPassagesKey = 'recentPassages';
   }
 
   async init() {
@@ -53,6 +54,7 @@ class BookSelectionMenu {
 
     this.initLinks();
     this.subscribeForEvents();
+    await this.renderRecentPassages(); // Render recent passages on initialization
     this.init_completed = true;
   }
 
@@ -176,7 +178,7 @@ class BookSelectionMenu {
     }
   }
 
-  async selectBibleBook(bookCode, bookTitle, referenceBookTitle, currentChapter=null) {
+  async selectBibleBook(bookCode, bookTitle, referenceBookTitle, currentChapter = null) {
     const tab = app_controller.tab_controller.getTab();
     this.currentBibleTranslationId = tab.getBibleTranslationId();
     this.currentSecondBibleTranslationId = tab.getSecondBibleTranslationId();
@@ -186,11 +188,13 @@ class BookSelectionMenu {
     }
 
     if (window.Sentry != null) {
-      Sentry.addBreadcrumb({category: "app",
-                            message: `Selected book ${bookCode} using translation ${this.currentBibleTranslationId}`,
-                            level: "info"});
+      Sentry.addBreadcrumb({
+        category: "app",
+        message: `Selected book ${bookCode} using translation ${this.currentBibleTranslationId}`,
+        level: "info",
+      });
     }
-    
+
     var books = await ipcNsi.getBookList(this.currentBibleTranslationId);
     if (!books.includes(bookCode)) {
       return;
@@ -200,9 +204,6 @@ class BookSelectionMenu {
     const bookChapterCount = await ipcNsi.getBookChapterCount(this.currentBibleTranslationId, bookCode);
 
     if ((selectChapterBeforeLoading.isChecked || currentChapter != null) && bookChapterCount > 1) {
-      //console.log(`Showing chapter list for ${bookTitle} ` +
-      //            `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
-      
       const bookMenu = document.getElementById('book-selection-menu');
       bookMenu.classList.add('select-chapter');
 
@@ -211,17 +212,27 @@ class BookSelectionMenu {
       this.currentReferenceBookTitle = referenceBookTitle;
 
       await this.loadChapterList(bookChapterCount, currentChapter);
+    } else {
+      const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(
+        this.currentBibleTranslationId,
+        this.currentSecondBibleTranslationId,
+        bookCode
+      );
 
-    } else { // Load directly without first showing chapter list
+      const chapterToLoad = currentChapter || 1; // Use the selected chapter or default to 1
+      app_controller.text_controller.loadBook(
+        bookCode,
+        bookTitle,
+        referenceBookTitle,
+        instantLoad,
+        chapterToLoad
+      );
 
-      const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, this.currentSecondBibleTranslationId, bookCode);
-
-      app_controller.text_controller.loadBook(bookCode,
-                                              bookTitle,
-                                              referenceBookTitle,
-                                              instantLoad,
-                                              1);
+      // Update recent passages with the correct chapter
+      await this.updateRecentPassages(bookCode, chapterToLoad);
     }
+
+    await this.renderRecentPassages(); // Re-render recent passages
   }
 
   async loadChapterList(bookChapterCount, currentChapter=null) {
@@ -256,6 +267,9 @@ class BookSelectionMenu {
                                                 this.currentReferenceBookTitle,
                                                 instantLoad,
                                                 selectedChapter);
+
+        // Update recent passages with the correct chapter
+        await this.updateRecentPassages(this.currentBookCode, selectedChapter);
       });
     }
   }
@@ -336,6 +350,49 @@ class BookSelectionMenu {
     // Highlight the newly selected book
     var bookId = '.book-' + bookCode;
     document.getElementById('book-selection-menu-book-list').querySelector(bookId).classList.add('book-selected');
+  }
+
+  async renderRecentPassages() {
+    const recentPassages = await ipcSettings.get(this.recentPassagesKey, []);
+    const recentPassagesContainer = document.querySelector('.recently-opened-passages ul');
+    recentPassagesContainer.innerHTML = '';
+
+    recentPassages.forEach((passage) => {
+      const [bookCode, chapter] = passage.split(' ');
+      const displayText = chapter ? `${bookCode} ${chapter}` : bookCode; // Include chapter if present
+
+      const listItem = document.createElement('li');
+      listItem.className = 'recent-passage';
+      listItem.setAttribute('passage', passage);
+      listItem.textContent = displayText;
+
+      listItem.addEventListener('click', () => {
+        this.selectBibleBook(bookCode, bookCode, bookCode, chapter ? parseInt(chapter) : null);
+      });
+
+      recentPassagesContainer.appendChild(listItem);
+    });
+  }
+
+  async updateRecentPassages(bookCode, chapter) {
+    const passage = `${bookCode} ${chapter}`;
+    let recentPassages = await ipcSettings.get(this.recentPassagesKey, []);
+
+    // Check if the passage already exists and remove it
+    recentPassages = recentPassages.filter((item) => item !== passage);
+
+    // Add the new passage to the beginning
+    recentPassages.unshift(passage);
+
+    // Ensure the list does not exceed the maximum of 8 entries
+    const maxEntries = 8;
+    recentPassages = recentPassages.slice(0, maxEntries);
+
+    // Save updated list to settings
+    await ipcSettings.set(this.recentPassagesKey, recentPassages);
+
+    // Re-render the recent passages
+    await this.renderRecentPassages();
   }
 }
 
