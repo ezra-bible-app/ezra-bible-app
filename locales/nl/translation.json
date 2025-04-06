@@ -28,6 +28,7 @@
     "whole-bible": "Hele Bijbel",
     "ot": "Oude Testament",
     "nt": "Nieuwe Testament",
+    "word-boundaries": "Use word boundaries",
     "extended-verse-boundaries": "Uitgebreide versgrenzen (Twee verzen)"
   },
   "module-assistant": {

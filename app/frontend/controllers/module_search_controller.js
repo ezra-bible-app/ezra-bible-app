@@ -252,6 +252,7 @@ class ModuleSearchController {
     $('#search-type')[0].value = "phrase";
     $('#search-scope')[0].value = "BIBLE";
     $('#search-is-case-sensitive').prop("checked", false);
+    $('#search-word-boundaries').prop("checked", false);
     $('#search-extended-verse-boundaries').prop("checked", false);
     this.clearModuleSearchHeader(tabIndex);
     this.hideModuleSearchHeader(tabIndex);
@@ -279,12 +280,14 @@ class ModuleSearchController {
       var searchType = currentTab.getSearchOptions()['searchType'];
       var searchScope = currentTab.getSearchOptions()['searchScope'];
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
+      var useWordBoundaries = currentTab.getSearchOptions()['wordBoundaries'];
       var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
       var searchTerm = currentTab.getSearchTerm();
 
       $('#search-type').val(searchType);
       $('#search-scope').val(searchScope);
       $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
+      $('#search-word-boundaries').prop("checked", useWordBoundaries);
       $('#search-extended-verse-boundaries').prop("checked", useExtendedVerseBoundaries);
       $('#module-search-input').val(searchTerm);
     }
@@ -344,6 +347,10 @@ class ModuleSearchController {
 
   useExtendedVerseBoundaries() {
     return document.getElementById('search-extended-verse-boundaries').checked;
+  }
+
+  useWordBoundaries() {
+    return document.getElementById('search-word-boundaries').checked;
   }
 
   getModuleSearchHeader(tabIndex=undefined) {
@@ -421,6 +428,7 @@ class ModuleSearchController {
       tab.setSearchOptions(this.getSearchType(),
                            this.getSearchScope(),
                            this.isCaseSensitive(),
+                           this.useWordBoundaries(),
                            this.useExtendedVerseBoundaries());
       
       if (!showSearchResultsInPopup) {
@@ -444,6 +452,7 @@ class ModuleSearchController {
       }
 
       const isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
+      const useWordBoundaries = currentTab.getSearchOptions()['wordBoundaries'];
       const useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
 
       if (searchType == "strongsNumber" && event != null) {
@@ -525,6 +534,7 @@ class ModuleSearchController {
           searchType,
           searchScope,
           isCaseSensitive,
+          useWordBoundaries,
           useExtendedVerseBoundaries
         );
 

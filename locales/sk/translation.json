@@ -28,6 +28,7 @@
     "whole-bible": "Celá Biblia",
     "ot": "Starý Zákon",
     "nt": "Nový Zákon",
+    "word-boundaries": "Use word boundaries",
     "extended-verse-boundaries": "Rozšírené hranice veršov (dva verše)"
   },
   "module-assistant": {

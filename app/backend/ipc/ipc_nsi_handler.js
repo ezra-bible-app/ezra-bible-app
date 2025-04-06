@@ -299,15 +299,19 @@ class IpcNsiHandler {
              searchType,
              searchScope,
              isCaseSensitive,
+             useWordBoundaries,
              useExtendedVerseBoundaries) => {
 
-        return await this._nsi.getModuleSearchResults(moduleCode,
-                                                      searchTerm,
-                                                      progressCB,
-                                                      searchType,
-                                                      searchScope,
-                                                      isCaseSensitive,
-                                                      useExtendedVerseBoundaries);
+        const results = await this._nsi.getModuleSearchResults(moduleCode,
+                                                               searchTerm,
+                                                               progressCB,
+                                                               searchType,
+                                                               searchScope,
+                                                               isCaseSensitive,
+                                                               useExtendedVerseBoundaries,
+                                                               useWordBoundaries);
+
+        return results;
       },
       'nsi_updateSearchProgress'
     );

@@ -28,6 +28,7 @@
     "whole-bible": "Întreaga Biblie",
     "ot": "Vechiul Testament",
     "nt": "Noul Testament",
+    "word-boundaries": "Use word boundaries",
     "extended-verse-boundaries": "Limite extinse pentru verset (Două versete)"
   },
   "module-assistant": {

@@ -28,6 +28,7 @@
     "whole-bible": "Bíblia Completa",
     "ot": "Velho Testamento",
     "nt": "Novo Testamento",
+    "word-boundaries": "Use word boundaries",
     "extended-verse-boundaries": "Limites do versículo estendido (dois versículos)"
   },
   "module-assistant": {

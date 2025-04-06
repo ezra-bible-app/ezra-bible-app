@@ -28,6 +28,7 @@
     "whole-bible": "Celotno Sveto pismo",
     "ot": "Stara zaveza",
     "nt": "Nova zaveza",
+    "word-boundaries": "Use word boundaries",
     "extended-verse-boundaries": "Razširjene meje vrstic (dve vrstici)"
   },
   "module-assistant": {

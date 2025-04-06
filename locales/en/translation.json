@@ -28,6 +28,7 @@
     "whole-bible": "Whole Bible",
     "ot": "Old Testament",
     "nt": "New Testament",
+    "word-boundaries": "Use word boundaries",
     "extended-verse-boundaries": "Extended verse boundaries (Two verses)"
   },
   "module-assistant": {
