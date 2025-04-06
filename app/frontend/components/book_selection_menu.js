@@ -396,7 +396,7 @@ class BookSelectionMenu {
     recentPassages.unshift(passage);
 
     // Ensure the list does not exceed the maximum of 8 entries
-    const maxEntries = 8;
+    const maxEntries = 9;
     recentPassages = recentPassages.slice(0, maxEntries);
 
     // Save updated list to settings
