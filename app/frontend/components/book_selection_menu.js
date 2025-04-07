@@ -231,8 +231,6 @@ class BookSelectionMenu {
       // Update recent passages with the correct chapter
       await this.updateRecentPassages(bookCode, chapterToLoad);
     }
-
-    await this.renderRecentPassages(); // Re-render recent passages
   }
 
   async loadChapterList(bookChapterCount, currentChapter=null) {
@@ -389,14 +387,14 @@ class BookSelectionMenu {
     const passage = `${bookCode} ${chapter}`;
     let recentPassages = await ipcSettings.get(this.recentPassagesKey, []);
 
-    // Check if the passage already exists and remove it
-    recentPassages = recentPassages.filter((item) => item !== passage);
+    // Remove any existing passage with the same book code
+    recentPassages = recentPassages.filter((item) => !item.startsWith(`${bookCode} `));
 
     // Add the new passage to the beginning
     recentPassages.unshift(passage);
 
-    // Ensure the list does not exceed the maximum of 8 entries
-    const maxEntries = 9;
+    // Ensure the list does not exceed the maximum of 6 entries
+    const maxEntries = 6;
     recentPassages = recentPassages.slice(0, maxEntries);
 
     // Save updated list to settings
