@@ -110,7 +110,8 @@ class BookSelectionMenu {
     });
 
     eventController.subscribe('on-locale-changed', async () => {
-      this.localizeBookSelectionMenu();
+      await this.localizeBookSelectionMenu();
+      await this.renderRecentPassages();
     });
   }
 
@@ -350,6 +351,19 @@ class BookSelectionMenu {
     document.getElementById('book-selection-menu-book-list').querySelector(bookId).classList.add('book-selected');
   }
 
+  async getLocalizedBookNames() {
+    const bookElements = document.querySelectorAll('#book-selection-menu-book-list a');
+    const localizedBookNames = {};
+
+    bookElements.forEach((element) => {
+      const shortTitle = element.getAttribute('href');
+      const localizedTitle = element.textContent;
+      localizedBookNames[shortTitle] = localizedTitle;
+    });
+
+    return localizedBookNames;
+  }
+
   async renderRecentPassages() {
     const recentPassages = await ipcSettings.get(this.recentPassagesKey, []);
     const recentPassagesContainer = document.querySelector('.recently-opened-passages ul');
@@ -363,10 +377,15 @@ class BookSelectionMenu {
     recentPassagesSection.style.display = 'block'; // Show if there are entries
     recentPassagesContainer.innerHTML = '';
 
+    // Retrieve localized book names
+    const localizedBookNames = await this.getLocalizedBookNames();
+
     // Exclude the most recent entry (first in the list)
     recentPassages.slice(1).forEach((passage) => {
       const [bookCode, chapter] = passage.split(' ');
-      const displayText = chapter ? `${bookCode} ${chapter}` : bookCode; // Include chapter if present
+      const displayText = chapter
+        ? `${localizedBookNames[bookCode] || bookCode} ${chapter}`
+        : localizedBookNames[bookCode] || bookCode; // Include chapter if present
 
       const listItem = document.createElement('li');
       listItem.className = 'recent-passage';
@@ -394,7 +413,7 @@ class BookSelectionMenu {
     recentPassages.unshift(passage);
 
     // Ensure the list does not exceed the maximum of 5 entries
-    const maxEntries = 5;
+    const maxEntries = platformHelper.isMobile() ? 5 : 10;
     recentPassages = recentPassages.slice(0, maxEntries);
 
     // Save updated list to settings
