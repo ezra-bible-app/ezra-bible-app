@@ -910,6 +910,10 @@ main.content {
   margin-right: 2em;
 }
 
+.book-selection-menu-nav-content {
+  display: flex;
+}
+
 #book-selection-menu-book-list, #book-selection-menu-chapter-list {
   padding: 0.5em;
 }

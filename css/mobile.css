@@ -733,6 +733,10 @@ Librem 5/Pinephone etc.
     width: 92% !important;
   }
 
+  .book-selection-menu-nav-content {
+    display: block;
+  }
+
   .recently-opened-passages {
     margin-right: 2em;
   }
