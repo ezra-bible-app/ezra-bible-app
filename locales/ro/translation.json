@@ -326,6 +326,7 @@
   "bible-browser": {
     "chapter": "Capitol",
     "chapter-header": "Cap.",
+    "recent-passages": "Recent passages",
     "psalm": "Psalm",
     "selection": "Selecție: ",
     "loading-bible-text": "Se încarcă textul biblic",
