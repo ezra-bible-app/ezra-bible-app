@@ -179,6 +179,16 @@ class BookSelectionMenu {
     }
   }
 
+  /**
+   * Selects a Bible book and optionally a chapter.
+   * 
+   * @param {string} bookCode - The short code of the book (e.g., "Gen" for Genesis).
+   * @param {string} bookTitle - The localized title of the book.
+   * @param {string} referenceBookTitle - The reference title of the book.
+   * @param {number|null} currentChapter - The chapter to load (default is null, which loads the first chapter).
+   * @param {boolean} interactive - Whether the selection is interactive (default is true).
+   * @returns {Promise<void>}
+   */
   async selectBibleBook(bookCode, bookTitle, referenceBookTitle, currentChapter = null, interactive=true) {
     const tab = app_controller.tab_controller.getTab();
     this.currentBibleTranslationId = tab.getBibleTranslationId();
