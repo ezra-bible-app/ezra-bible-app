@@ -329,6 +329,7 @@
   "bible-browser": {
     "chapter": "Глава",
     "chapter-header": "Гл.",
+    "recent-passages": "Recent passages",
     "psalm": "Псалом",
     "selection": "Выбранный отрывок: ",
     "loading-bible-text": "Загрузка текста Библии",

@@ -326,6 +326,7 @@
   "bible-browser": {
     "chapter": "Kapitola",
     "chapter-header": "Kap.",
+    "recent-passages": "Recent passages",
     "psalm": "Žalm",
     "selection": "Výber: ",
     "loading-bible-text": "Nahrávam text Biblie",

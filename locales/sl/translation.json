@@ -324,6 +324,7 @@
   "bible-browser": {
     "chapter": "Poglavje",
     "chapter-header": "Pog.",
+    "recent-passages": "Recent passages",
     "psalm": "Psalm",
     "selection": "Izbira: ",
     "loading-bible-text": "Nalaganje svetopisemskega besedila",
