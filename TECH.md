@@ -7,10 +7,10 @@ Furthermore, the following components are used (among others):
 * [Umzug](https://github.com/sequelize/umzug) Migration library for handling database schema upgrades
 * [conf](https://github.com/sindresorhus/conf) for persisting configuration
 * [Pug](https://pugjs.org) template engine for rendering verse list
-* [jQuery Steps](http://www.jquery-steps.com) for the bible translation assistant
+* [jQuery Steps](http://www.jquery-steps.com) for the module assistant
 * [CodeMirror](https://github.com/codemirror/CodeMirror) in-browser editor for note editing
 * [Marked](https://github.com/markedjs/marked) Markdown parser/renderer for rendering markdown-based verse notes
-* [Chart.js](https://www.chartjs.org) library for verse statistics charts (used for visualizing search results)
+* [Chart.js](https://www.chartjs.org) library for verse statistics charts (used for visualizing search results and statistics of tagged verse lists)
 * [ISO-639-3](https://github.com/wooorm/iso-639-3) for turning bible translation language codes into readable language names
 * [docxjs](https://github.com/dolanmiu/docx) for exporting tagged verse lists to Word documents
 * [SpinKit](https://github.com/tobiasahlin/SpinKit) for CSS-animated loading spinners
