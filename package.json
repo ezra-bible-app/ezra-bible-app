@@ -60,7 +60,8 @@
     "test": "./node_modules/.bin/jest",
     "convert-sword-languages": "node build_scripts/frontend/sword_locales_to_json.js",
     "generate-long-tag-list": "node build_scripts/generate_long_tag_list.js",
-    "export-done-items": "bash build_scripts/export_done_items.sh"
+    "export-done-items": "bash build_scripts/export_done_items.sh",
+    "export-open-issues": "bash ./build_scripts/export_open_issues.sh"
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
