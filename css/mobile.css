@@ -731,6 +731,10 @@ Librem 5/Pinephone etc.
     width: 92% !important;
   }
 
+  .recently-opened-passages {
+    margin-right: 2em;
+  }
+
   .recently-opened-passages h3 {
     text-align: center;
   }
@@ -792,5 +796,17 @@ Librem 5/Pinephone etc.
 
   #display-options-menu.visible {
     display: flex !important;
+  }
+
+  .book-selection-menu-nav-content {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .ot-nt-divider {
+    margin-top: 0;
+    border-top: unset;
+    border-left: 1px solid lightgray;
+    padding-left: 1em;
   }
 }
