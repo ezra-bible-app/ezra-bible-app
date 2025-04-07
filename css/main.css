@@ -2066,6 +2066,7 @@ code {
 
 .recently-opened-passages {
   margin: 1em;
+  min-width: fit-content;
   padding: 1em 1em 0.8em;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
