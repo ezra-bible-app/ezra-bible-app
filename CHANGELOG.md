@@ -14,6 +14,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Add fullscreen option for note editor. ([#1206][i1206])
 * Remember commentary collapse status by commentary module. ([#1185][i1185])
 * Add module search option to filter on word boundary. ([#1214][i1214])
+* Hide book/tag overview in tagged verse list if the verse list only covers one book. ([#1205][i1205])
 
 ### Fixes
 
