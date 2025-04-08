@@ -22,6 +22,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Button for second Bible translation cut off in portrait mode on tablets. ([#1215][i1215])
 * Closing tab during module search causes JavaScript errors. ([#1216][i1216])
 * Search function unreliable. ([#1210][i1210])
+* Auto-close tab when tag is deleted. ([#1222][i1222])
 
 ### Enablers
 
@@ -39,6 +40,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1215]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1215
 [i1216]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1216
 [i1219]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1219
+[i1222]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1222
 
 ## [1.16.3 - 2025-02-22]
 
