@@ -52,6 +52,7 @@ function initializeSpectron(additionalArgs = []) {
       deprecationWarnings : false
     }),
     chromeDriverArgs: (['--enable-sandbox'])
+  });
 }
 
 module.exports.initApp = function(additionalArgs = [], force = false) {
