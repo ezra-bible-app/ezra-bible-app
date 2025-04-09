@@ -51,7 +51,7 @@ function initializeSpectron(additionalArgs = []) {
     webdriverOptions: ({
       deprecationWarnings : false
     }),
-    chromeDriverArgs: (['--enable-sandbox'])
+    chromeDriverArgs: (['no-sandbox', '--disable-gpu', '--disable-software-rasterizer', '--disable-dev-shm-usage']),
   });
 }
 
