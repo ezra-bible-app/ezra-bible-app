@@ -44,10 +44,12 @@ function initializeSpectron(additionalArgs = []) {
       ELECTRON_ENABLE_LOGGING: true,
       ELECTRON_ENABLE_STACK_DUMPING: true,
       NODE_ENV: "development",
-      EZRA_TESTING: true
+      EZRA_TESTING: true,
+      APPVEYOR: true
     },
     startTimeout: 20000,
-    chromeDriverLogPath: './chromedriverlog.txt'
+    chromeDriverLogPath: './chromedriverlog.txt',
+    webdriverOptions: ({deprecationWarnings : false})
   });
 }
 
