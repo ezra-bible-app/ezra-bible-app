@@ -35,6 +35,9 @@ jobs:
         - name: Install apt dependencies
           run: sudo apt update && sudo apt install -y libcurl4-gnutls-dev xvfb subversion
         
+        - name: Allow unprivileged users
+          run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
         - name: Install node dependencies and build native modules
           run: npm install
         
