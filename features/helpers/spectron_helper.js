@@ -49,11 +49,9 @@ function initializeSpectron(additionalArgs = []) {
     startTimeout: 20000,
     chromeDriverLogPath: './chromedriverlog.txt',
     webdriverOptions: ({
-      deprecationWarnings : false,
-      noSandbox: true,
-      sandbox: false
-    })
-  });
+      deprecationWarnings : false
+    }),
+    chromeDriverArgs: (['--enable-sandbox'])
 }
 
 module.exports.initApp = function(additionalArgs = [], force = false) {
