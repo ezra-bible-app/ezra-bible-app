@@ -327,6 +327,7 @@
   "bible-browser": {
     "chapter": "Hoofdstuk",
     "chapter-header": "Hfdst.",
+    "recent-passages": "Recent passages",
     "psalm": "Psalm",
     "selection": "Selectie: ",
     "loading-bible-text": "Bijbeltekst laden",

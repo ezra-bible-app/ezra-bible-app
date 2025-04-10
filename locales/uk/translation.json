@@ -327,6 +327,7 @@
   "bible-browser": {
     "chapter": "Розділ",
     "chapter-header": "Розд.",
+    "recent-passages": "Recent passages",
     "psalm": "Псалом",
     "selection": "Вибраний уривок: ",
     "loading-bible-text": "Завантаження тексту Біблії",

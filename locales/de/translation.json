@@ -321,6 +321,7 @@
   "bible-browser": {
     "chapter": "Kapitel",
     "chapter-header": "Kap.",
+    "recent-passages": "Kürzliche Stellen",
     "psalm": "Psalm",
     "selection": "Auswahl: ",
     "loading-bible-text": "Lade Bibeltext",

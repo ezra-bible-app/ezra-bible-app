@@ -325,6 +325,7 @@
   "bible-browser": {
     "chapter": "Chapter",
     "chapter-header": "Chpt.",
+    "recent-passages": "Recent passages",
     "psalm": "Psalm",
     "selection": "Selection: ",
     "loading-bible-text": "Loading Bible text",

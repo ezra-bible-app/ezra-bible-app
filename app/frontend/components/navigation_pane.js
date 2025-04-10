@@ -588,6 +588,10 @@ class NavigationPane {
                                                     currentTab.getReferenceBookTitle(),
                                                     false,
                                                     chapter);
+
+      // Update recent passages
+      const bookSelectionMenu = app_controller.book_selection_menu;
+      await bookSelectionMenu.updateRecentPassages(currentTab.getBook(), chapter);
     } else {
       this.scrollToTop(undefined, chapter);
     }

@@ -732,6 +732,33 @@ Librem 5/Pinephone etc.
   .verse-list-content .verse-notes:not(.book-notes) {
     width: 92% !important;
   }
+
+  .book-selection-menu-nav-content {
+    display: block;
+  }
+
+  .recently-opened-passages {
+    margin-right: 2em;
+  }
+
+  .recently-opened-passages h3 {
+    text-align: center;
+  }
+
+  .recently-opened-passages ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5em;
+    padding: 0.5em 0;
+  }
+
+  .recently-opened-passages li {
+    flex: 0 1 auto;
+    margin: 0;
+    padding: 0.5em;
+    text-align: center;
+  }
 }
 
 /* PORTRAIT for small resolution phones */
@@ -775,5 +802,17 @@ Librem 5/Pinephone etc.
 
   #display-options-menu.visible {
     display: flex !important;
+  }
+
+  .book-selection-menu-nav-content {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .ot-nt-divider {
+    margin-top: 0;
+    border-top: unset;
+    border-left: 1px solid lightgray;
+    padding-left: 1em;
   }
 }

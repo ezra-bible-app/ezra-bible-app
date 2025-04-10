@@ -323,6 +323,7 @@
   "bible-browser": {
     "chapter": "Capítulo",
     "chapter-header": "Cap.",
+    "recent-passages": "Recent passages",
     "psalm": "Salmo",
     "selection": "Seleção: ",
     "loading-bible-text": "Carregando texto Bíblico",
