@@ -50,8 +50,7 @@ function initializeSpectron(additionalArgs = []) {
     chromeDriverLogPath: './chromedriverlog.txt',
     webdriverOptions: ({
       deprecationWarnings : false
-    }),
-    chromeDriverArgs: (['no-sandbox', '--disable-gpu', '--disable-software-rasterizer', '--disable-dev-shm-usage']),
+    })
   });
 }
 
