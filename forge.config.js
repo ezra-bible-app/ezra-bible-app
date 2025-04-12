@@ -10,6 +10,7 @@ module.exports = {
     ignore: [
       '^/release($|/)',
       '^/wdio-logs($|/)',
+      '^/node_modules/node-sword-interface/sword/bindings/Android($|/)'
     ]
   },
   rebuildConfig: {},
@@ -35,7 +36,8 @@ module.exports = {
           productName: 'Ezra Bible App',
           section: 'education',
           categories: ['Education', 'Literature'],
-          mimeType: ['x-scheme-handler/ezrabible']
+          mimeType: ['x-scheme-handler/ezrabible'],
+          bin: 'ezra-bible-app'
         },
       },
     },
@@ -46,7 +48,8 @@ module.exports = {
           icon: 'icons/ezra.png',
           productName: 'Ezra Bible App',
           categories: ['Education', 'Literature'],
-          mimeType: ['x-scheme-handler/ezrabible']
+          mimeType: ['x-scheme-handler/ezrabible'],
+          bin: 'ezra-bible-app'
         },
       },
     },
