@@ -235,7 +235,7 @@ class VerseBoxHelper {
     return htmlCode;
   }
 
-  async getVerseTextFromVerseElements(verseElements, verseReferenceTextList, html=false, referenceSeparator=window.reference_separator) {
+  async getVerseTextFromVerseElements(verseElements, verseReferenceTextList, html=false, referenceSeparator=window.reference_separator, referenceBeforeText=false) {
     const paragraphsOption = app_controller.optionsMenu._paragraphsOption;
     const bookList = this.getBookListFromVerseBoxes(verseElements);
     var selectedText = "";
@@ -310,7 +310,13 @@ class VerseBoxHelper {
 
       selectedText = html ? htmlText.querySelector('div').innerHTML : htmlText.querySelector('div').innerText;
       if (!verseListHasGaps) {
-        selectedText += " " + this.getLineBreak(html) + this.getLineBreak(html) + verseReferenceTextList[i];
+        if (referenceBeforeText) {
+          // Replace the existing text with reference + text for this book
+          selectedText = verseReferenceTextList[i] + " " + this.getLineBreak(html) + this.getLineBreak(html) + selectedText;
+        } else {
+          // Keep the original behavior (text + reference)
+          selectedText += " " + this.getLineBreak(html) + this.getLineBreak(html) + verseReferenceTextList[i];
+        }
       }
 
       if (i < bookList.length - 1) {

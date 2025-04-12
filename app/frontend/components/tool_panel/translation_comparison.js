@@ -253,7 +253,17 @@ class TranslationComparison {
                                                                               this.getBibleBookShortTitleFromVerseContentTr,
                                                                               this.getVerseReferenceFromVerseContentTr);
 
-    let verseText = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceTextList, false, separator);
+    // Check the user's preference for reference placement
+    const referenceBeforeText = await app_controller.optionsMenu._copyVerseReferenceBeforeTextOption.isCheckedAsync();
+    
+    let verseText = await this.verseBoxHelper.getVerseTextFromVerseElements(
+      verseContentTrList, 
+      verseReferenceTextList, 
+      false, 
+      separator,
+      referenceBeforeText
+    );
+
     let verseTextHtml = await this.verseBoxHelper.getVerseTextFromVerseElements(verseContentTrList, verseReferenceTextList, true, separator);
 
     getPlatform().copyToClipboard(verseText, verseTextHtml);
