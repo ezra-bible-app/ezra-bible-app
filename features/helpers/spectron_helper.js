@@ -47,7 +47,10 @@ function initializeSpectron(additionalArgs = []) {
       EZRA_TESTING: true
     },
     startTimeout: 20000,
-    chromeDriverLogPath: './chromedriverlog.txt'
+    chromeDriverLogPath: './chromedriverlog.txt',
+    webdriverOptions: ({
+      deprecationWarnings : false
+    })
   });
 }
 

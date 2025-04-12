@@ -37,11 +37,11 @@ const template = html`
     --input-height: auto;
   }
 
-  #text-field {
+  .text-field {
     width: 115%;
   }
 
-  #input {
+  .text-field input {
     border: 1px solid lightgray;
     border-radius: 4px;
     padding-right: 1.8em;
@@ -63,7 +63,7 @@ const template = html`
 
 </style>
  
-<div id="text-field">
+<div id="text-field" class="text-field">
   <input type="text" id="input" inputmode="search" />
   <i id="delete-button" class="fa-solid fa-delete-left"></i>
 </div>
