@@ -28,7 +28,7 @@
     "whole-bible": "Вся Біблія",
     "ot": "Старий Завіт",
     "nt": "Новий Завіт",
-    "word-boundaries": "Use word boundaries",
+    "word-boundaries": "Використовувати межі слів",
     "extended-verse-boundaries": "Розширити межі вірша (два вірші)"
   },
   "module-assistant": {
@@ -284,7 +284,7 @@
     "recently-used-tags": "Нещодавно використані міти",
     "really-delete": "Ви дійсно хочете видалити таку міту: ",
     "tag-info-would-be-deleted": "Інформація міти буде видалено <b>для всіх пов'язаних віршів!</b>",
-    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "Всі <b>нотатки для цієї міти</b> також буде видалено!",
     "really-remove-tag-assignment": "Ви дійсно хочете видалити міту &quot; <span id='remove-tag-assignment-name' class='italic'></span>&quot; з вибраних віршів?",
     "remove-tag-assignment": "Видалити призначення міти",
     "verses-tagged-with": "Вірші помічені:",
@@ -322,7 +322,7 @@
     "add-tags-to-group": "Додати міти до групи",
     "delete-tag-from-group-explanation": "Міту <i>{{tag}}</i> буде видалено з групи <i>{{group}}</i>. Щоб остаточно видалити міту, відмідьте  прапорець нижче.",
     "really-delete-tag-group": "Ви справді хочете видалити мітову групу<br/><i>{{tagGroupTitle}}</i>?",
-    "use-tag-specific-notes": "Use tag specific notes"
+    "use-tag-specific-notes": "Використовувати нотатки, прив'язані до міт"
   },
   "bible-browser": {
     "chapter": "Розділ",
@@ -365,17 +365,17 @@
     "show-header-navigation": "Вказівник заголовків",
     "show-tab-search": "Відображати форму пошуку по поточній вкладці",
     "open-verse-lists-in-new-tab": "Перелік віршів у новій вкладці",
-    "open-in-new-tab": "Open in new tab",
+    "open-in-new-tab": "Відкрити в новій вкладці",
     "show-search-results-in-popup": "Відображати результати пошуку у вириначі",
     "show-notes-tags-indicators": "Позначки нотаток та міт",
     "show-tags": "Міти",
     "use-tag-group-filter": "Використати цідило мітових груп",
     "show-notes": "Нотатки",
-    "hide-empty-verse-notes": "Hide empty verse notes",
+    "hide-empty-verse-notes": "Приховати порожні нотатки до віршів",
     "limit-notes-display-size": "Обмежити висоту нотаток",
     "limit-text-width": "Обмежити ширину тексту Біблії",
     "use-tags-column": "Міти у окремому стовпці",
-    "use-notes-column": "Use notes column",
+    "use-notes-column": "Нотатки у окремому стовпці",
     "select-chapter-before-loading": "Обирати розділ при відкритті книг",
     "use-system-theme": "Кольоровий режим як у системі",
     "use-night-mode": "Нічний режим",
