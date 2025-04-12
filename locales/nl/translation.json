@@ -209,6 +209,7 @@
     "general-options": "Algemene opties",
     "check-new-releases": "Kijk of er nieuwe uitgaven zijn",
     "send-crash-reports": "Foutrapporten verzenden",
+    "copy-verse-reference-before-text": "Copy verses starting with reference",
     "welcome-to-ezra-bible-app": "Welkom bij Ezra Bible App!",
     "type-face": {
       "configure-typeface": "Stel lettertype in",

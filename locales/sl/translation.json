@@ -207,6 +207,7 @@
     "general-options": "Glavne nastavitve",
     "check-new-releases": "Preverite za novo izdajo",
     "send-crash-reports": "Pošlji poročila o napakah",
+    "copy-verse-reference-before-text": "Copy verses starting with reference",
     "welcome-to-ezra-bible-app": "Dobrodošli v Ezra Bible aplikaciji!",
     "type-face": {
       "configure-typeface": "Konfiguracija pisave",
