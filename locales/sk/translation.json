@@ -207,6 +207,7 @@
     "general-options": "Všeobecné možnosti",
     "check-new-releases": "Kontrola aktualizácií",
     "send-crash-reports": "Odoslať chybové hlásenia",
+    "copy-verse-reference-before-text": "Copy verses starting with reference",
     "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
     "type-face": {
       "configure-typeface": "Nakonfigurujte typ písma obsahu",

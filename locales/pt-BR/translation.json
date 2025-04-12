@@ -207,6 +207,7 @@
     "general-options": "Opções gerais",
     "check-new-releases": "Verifique se há novos lançamentos",
     "send-crash-reports": "Enviar relatórios de erros",
+    "copy-verse-reference-before-text": "Copy verses starting with reference",
     "welcome-to-ezra-bible-app": "Bem vindo ao aplicativo Bíblia Esdras!",
     "type-face": {
       "configure-typeface": "Configurar tipo de fonte do conteúdo",

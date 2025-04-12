@@ -207,6 +207,7 @@
     "general-options": "Opciones Generales",
     "check-new-releases": "Buscar nuevas versiones",
     "send-crash-reports": "Enviar reporte de errores",
+    "copy-verse-reference-before-text": "Copy verses starting with reference",
     "welcome-to-ezra-bible-app": "Bienvenido a Ezra Bible App!",
     "type-face": {
       "configure-typeface": "Configure el tipo de fuente",

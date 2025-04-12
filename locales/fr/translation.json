@@ -216,7 +216,8 @@
     "context": "Contexte",
     "general-options": "Options générales",
     "check-new-releases": "Vérifiez s'il y a de nouvelles versions",
-     "send-crash-reports": "Envoyer les rapports d'erreurs",
+    "send-crash-reports": "Envoyer les rapports d'erreurs",
+    "copy-verse-reference-before-text": "Copy verses starting with reference",
     "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !",
     "type-face": {
       "configure-typeface": "Configurer la police de caractères du contenu",
