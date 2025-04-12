@@ -9,14 +9,14 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { html, waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const { Mutex } = require('async-mutex');
 
 const template = html`
 <style>
@@ -55,6 +55,7 @@ class ConfigOption extends HTMLElement {
     super();
 
     this.innerHTML = template.innerHTML;
+    this.mutex = new Mutex();
 
     this.changeEvent = new CustomEvent("optionChanged", {
       bubbles: true,
@@ -77,7 +78,7 @@ class ConfigOption extends HTMLElement {
 
     $(this.querySelector('.switch-box')).bind('change', async () => {
       await waitUntilIdle();
-      await ipcSettings.set(this._settingsKey, this._isChecked());
+      await ipcSettings.set(this._settingsKey, await this._isChecked());
       this.dispatchEvent(this.changeEvent);
     });
 
@@ -95,13 +96,26 @@ class ConfigOption extends HTMLElement {
     labelEl.setAttribute('i18n', i18nId);
   }
 
-  _isChecked() {
+  async _isChecked() {
+    const release = await this.mutex.acquire();
+
+    try {
+      let checkboxChecked = this.querySelector('.toggle-config-option-switch').checked;
+      return checkboxChecked && this.enabled;
+    } finally {
+      release();
+    }
+  }
+
+  get isChecked() {
+    // We need to handle this synchronously since it's a getter
     let checkboxChecked = this.querySelector('.toggle-config-option-switch').checked;
     return checkboxChecked && this.enabled;
   }
 
-  get isChecked() {
-    return this._isChecked();
+  // Add an async method for safely checking the state
+  async isCheckedAsync() {
+    return await this._isChecked();
   }
 
   get checkedByDefault() {
@@ -109,10 +123,41 @@ class ConfigOption extends HTMLElement {
   }
 
   set checked(value) {
-    if (value == true) {
-      this.setOptionChecked();
-    } else {
-      this.setOptionUnchecked();
+    this._setCheckedAsync(value);
+  }
+
+  async _setCheckedAsync(value) {
+    const release = await this.mutex.acquire();
+
+    try {
+      if (value == true) {
+        this._setOptionCheckedInternal();
+      } else {
+        this._setOptionUncheckedInternal();
+      }
+    } finally {
+      release();
+    }
+  }
+
+  _setOptionCheckedInternal() {
+    $(this.querySelector('.toggle-config-option-switch')).attr('checked', 'checked');
+    $(this.querySelector('.toggle-config-option-switch')).removeAttr('disabled');
+    $(this.querySelector('.switch-box')).addClass('ui-state-active');
+  }
+
+  _setOptionUncheckedInternal() {
+    $(this.querySelector('.toggle-config-option-switch')).removeAttr('checked');
+    $(this.querySelector('.switch-box')).removeClass('ui-state-active');
+  }
+
+  async setOptionChecked() {
+    const release = await this.mutex.acquire();
+
+    try {
+      this._setOptionCheckedInternal();
+    } finally {
+      release();
     }
   }
 
@@ -140,17 +185,6 @@ class ConfigOption extends HTMLElement {
     }
   }
 
-  setOptionChecked() {
-    $(this.querySelector('.toggle-config-option-switch')).attr('checked', 'checked');
-    $(this.querySelector('.toggle-config-option-switch')).removeAttr('disabled');
-    $(this.querySelector('.switch-box')).addClass('ui-state-active');
-  }
-
-  setOptionUnchecked() {
-    $(this.querySelector('.toggle-config-option-switch')).removeAttr('checked');
-    $(this.querySelector('.switch-box')).removeClass('ui-state-active');
-  }
-
   setOptionEnabled() {
     $(this.querySelector('.switch-box')).removeClass('ui-state-disabled');
     $(this.querySelector('.switch-box')).addClass('fg-button-toggleable');
@@ -168,12 +202,16 @@ class ConfigOption extends HTMLElement {
 
   async loadOptionFromSettings() {
     var optionValue = await ipcSettings.get(this._settingsKey, this.checkedByDefault);
-    //console.log(`Option ${this._settingsKey} value: ${optionValue}; checkedByDefault: ${this.checkedByDefault}`);
 
-    if (optionValue == true) {
-      this.setOptionChecked();
-    } else {
-      this.setOptionUnchecked();
+    const release = await this.mutex.acquire();
+    try {
+      if (optionValue == true) {
+        this._setOptionCheckedInternal();
+      } else {
+        this._setOptionUncheckedInternal();
+      }
+    } finally {
+      release();
     }
   }
 }

@@ -25,6 +25,7 @@ const verseListController = require('../../controllers/verse_list_controller.js'
 const dbSyncController = require('../../controllers/db_sync_controller.js');
 const moduleUpdateController = require('../../controllers/module_update_controller.js');
 const typeFaceSettings = require('../type_face_settings.js');
+const { Mutex } = require('async-mutex');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -124,6 +125,7 @@ class OptionsMenu {
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
+    this._copyVerseReferenceBeforeTextOption = this.initConfigOption('copyVerseReferenceBeforeTextOption', () => {});
     this._limitTextWidthOption = this.initConfigOption('limitTextWidthOption', () => { this.toggleTextWidthBasedOnOption(); }, true);
     this._notesColumnOption = this.initConfigOption('useNotesColumnOption', () => { this.changeNotesLayoutBasedOnOption(); }, true);
     this._hideEmptyNotesOption = this.initConfigOption('hideEmptyNotesOption', () => { this.hideEmptyNotesBasedOnOption(); });

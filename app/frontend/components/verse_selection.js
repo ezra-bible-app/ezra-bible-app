@@ -10,7 +10,7 @@
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -411,7 +411,17 @@ class VerseSelection {
     
     const selectedBooks = await this.getSelectedBooks();
     let verseReferenceText = await sectionLabelHelper.getVerseDisplayText(selectedBooks, this.selectedVerseBoxElements, true);
-    let selectedText = await this.verseBoxHelper.getVerseTextFromVerseElements(this.selectedVerseBoxElements, verseReferenceText, html, separator);
+    
+    // Check the user's preference for reference placement
+    const referenceBeforeText = await app_controller.optionsMenu._copyVerseReferenceBeforeTextOption.isCheckedAsync();
+    
+    let selectedText = await this.verseBoxHelper.getVerseTextFromVerseElements(
+      this.selectedVerseBoxElements, 
+      verseReferenceText, 
+      html, 
+      separator,
+      referenceBeforeText
+    );
 
     return selectedText;
   }
