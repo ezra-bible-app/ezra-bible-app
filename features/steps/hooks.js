@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -19,7 +18,7 @@
 const { AfterAll, Before, After, Status, BeforeAll } = require("cucumber");
 
 const chaiAsPromised = require("chai-as-promised");
-const spectronHelper = require("../helpers/spectron_helper.js");
+const wdioHelper = require("../helpers/wdio_helper.js");
 const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 const dbHelper = require('../helpers/db_helper.js');
@@ -37,72 +36,51 @@ function hasTag(scenario, tag) {
 }
 
 BeforeAll({ timeout: 2000 }, async function () {
-  await spectronHelper.deleteUserDataDir();
+  await wdioHelper.deleteUserDataDir();
 });
 
 Before({ timeout: 80000}, async function (scenario) {
-  var args = [];
+  // Define app arguments based on scenario tags
+  let appArgs = [];
+  let installKjv = true;
 
-  var installKjv = true;
-
-  var app = spectronHelper.getApp();
-
-  if (hasTag(scenario, "@needs-asv-before")) {
-    if (app && app.isRunning()) {
-      var asvModule = await nsiHelper.getLocalModule('ASV');
-
-      if (asvModule == null) {
-        await app.stop();
-        app = null;
-      }
+  if (hasTag(scenario, '@needs-asv-before')) {
+    const asvModule = await nsiHelper.getLocalModule('ASV');
+    if (asvModule == null) {
+      appArgs.push('--install-asv');
     }
-
-    args.push('--install-asv');
   }
 
-  if (hasTag(scenario, "@no-kjv-needed")) {
+  if (hasTag(scenario, '@no-kjv-needed')) {
     installKjv = false;
   }
 
   if (installKjv) {
-    if (app != null) {
-      var kjvModule = await nsiHelper.getLocalModule('KJV');
-
-      if (kjvModule == null) {
-        args.push('--install-kjv');
-
-        await app.stop();
-        app = null;
-      }
-    } else {
-      args.push('--install-kjv');
+    const kjvModule = await nsiHelper.getLocalModule('KJV');
+    if (kjvModule == null) {
+      appArgs.push('--install-kjv');
     }
   }
 
-  if (app == null || !app.isRunning()) {
-    app = spectronHelper.initApp(args, true);
-    chaiAsPromised.transferPromiseness = app.transferPromiseness;
-    await app.start();
-    await app.browserWindow.maximize();
-    await spectronHelper.sleep(2000);
-
-    var startupCompleted = false;
-
-    while (!startupCompleted) {
-      startupCompleted = await app.webContents.executeJavaScript(`
-        isStartupCompleted();
-      `);
-
-      await spectronHelper.sleep(1000);
-    }
+  // Set app arguments in capabilities for next startup
+  if (appArgs.length > 0) {
+    // In WebdriverIO with Electron service, we must set app arguments differently
+    browser.options.capabilities['wdio:electronServiceOptions'].appArgs = appArgs;
   }
+
+  // Wait for the app startup to complete
+  await wdioHelper.waitForStartupComplete();
+  
+  // Maximize the window
+  await browser.maximizeWindow();
+  await wdioHelper.sleep(2000);
 });
 
 After("@reset-book-loading-mode-after-scenario", async function() {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await browser.$('#verse-list-tabs-1');
   var menuButton = await verseListTabs.$('.display-options-button');
   await menuButton.click();
-  await spectronHelper.sleep();
+  await wdioHelper.sleep();
 
   await uiHelper.setBookLoadingOption("Open books completely");
 });
@@ -114,21 +92,20 @@ After("@remove-last-tag-after-scenario", async function() {
 
   var tagDeleteButton = await this.currentTag.$('.delete-button'); 
   await tagDeleteButton.click();
-  await spectronHelper.sleep();
+  await wdioHelper.sleep();
 
-  var deleteTagConfirmationDialog = await spectronHelper.getWebClient().$('#delete-tag-confirmation-dialog');
+  var deleteTagConfirmationDialog = await browser.$('#delete-tag-confirmation-dialog');
   var deleteTagConfirmationDialogContainer = await deleteTagConfirmationDialog.$('..');
   var deleteTagConfirmationButtons = await deleteTagConfirmationDialogContainer.$$('button');
 
-  //console.log(`Got ${deleteTagConfirmationButtons.length} confirmation buttons!`);
   var confirmationButton = deleteTagConfirmationButtons[1];
 
   await confirmationButton.click();
-  await spectronHelper.sleep(1000);
+  await wdioHelper.sleep(1000);
 });
 
 After("@cleanup-after-scenario", async function() {
-  await spectronHelper.getWebClient().execute(() => {
+  await browser.execute(() => {
     $('.ui-dialog-content').dialog('close');
   });
 
@@ -144,43 +121,36 @@ After("@cleanup-after-scenario", async function() {
     await models.TagGroup.destroyTagGroup(tagGroups[i].id);
   }
 
-  await spectronHelper.sleep(500);
+  await wdioHelper.sleep(500);
 
-  await spectronHelper.getWebClient().execute(async () => {
+  await browser.execute(async () => {
     await tags_controller.updateTagsView(true);
     
     const eventController = require('./app/frontend/controllers/event_controller.js');
     await eventController.publishAsync('on-tag-group-renamed');
   });
 
-  await spectronHelper.getWebClient().execute(() => {
+  await browser.execute(() => {
     document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#tag-group-list-link').click();
   });
 
-  await spectronHelper.sleep(500);
+  await wdioHelper.sleep(500);
 
   await uiHelper.selectTagGroup('All tags');
 });
 
 After(async function(scenario) {
   if (scenario.result.status === Status.FAILED) {
-    await spectronHelper.getWebClient().saveScreenshot('./test_screenshot.png');
+    await wdioHelper.takeScreenshot('test_failed');
   }
 });
 
 AfterAll({ timeout: 10000}, async function () {
-  var app = spectronHelper.getApp();
-  if (app && app.isRunning()) {
-    var rendererLogs = await spectronHelper.getWebClient().getRenderProcessLogs();
-
-    if (rendererLogs.length > 0) {
-      console.log("\nRenderer logs:");
-      rendererLogs.forEach(log => {
-        console.log(log.message);
-      });
-    }
-
-    var exitCode = await app.stop();
-    return exitCode;
+  const logs = await browser.getLogs('browser');
+  if (logs.length > 0) {
+    console.log("\nRenderer logs:");
+    logs.forEach(log => {
+      console.log(log.message);
+    });
   }
 });
