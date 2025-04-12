@@ -52,9 +52,14 @@ Librem 5/Pinephone etc.
   }
 
   .fullscreen-button {
-    top: 0.8em;
-    right: 1.3em;
-    padding: 0.4em 0.5em;
+    top: 0.6em;
+    right: 1.1em;
+    padding: 0.3em 0.4em;
+    font-size: 1.25em;
+  }
+
+  #panel-switches {
+    --icon-size: 1.1em !important; 
   }
 
   .mobile-scrollable::-webkit-scrollbar {
@@ -268,6 +273,7 @@ Librem 5/Pinephone etc.
   .verse-list-menu .fg-button {
     margin-right: 0.4em;
     padding: 1px 10px;
+    font-size: 1em;
   }
 
   .verse-list-menu .fa-caret-down {
@@ -614,12 +620,7 @@ Librem 5/Pinephone etc.
   }
 
   #tags-search-input {
-    margin-right: -1.5em !important;
-  }
-
-  #tags-content-global {
-    font-size: 0.9em;
-    height: calc(100% - 6.2em) !important;
+    margin-right: -0.5em !important;
   }
 
   #tags-content-global loading-indicator {
@@ -712,13 +713,10 @@ Librem 5/Pinephone etc.
   }
 
   .parallel-bible-button {
-    width: 1.3em !important;
+    width: 1em !important;
     height: 1.2em !important;
-    padding: 0.2em 0.2em !important;
-    display: block !important;
-    text-align: center;
+    padding: 0.2em 0.3em !important;
   }
-
 }
 
 /* PORTRAIT */
