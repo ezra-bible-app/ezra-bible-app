@@ -2,6 +2,54 @@
 const path = require('path');
 const fs = require('fs-extra');
 const os = require('os');
+const { config } = require('process');
+const Gherkin = require("@cucumber/gherkin");
+const Messages = require("@cucumber/messages");
+const { fileURLToPath } = require('url');
+
+const tagToArgMap = {
+  '@needs-asv-before': '--install-asv'
+}
+
+async function getStartupArgsFromTags(specPaths) {
+  const args = new Set();
+  const uuidFn = Messages.IdGenerator.uuid();
+
+  for (const filePath of specPaths) {
+    const absolutePath = filePath.startsWith('file://')
+      ? fileURLToPath(filePath)
+      : filePath;
+
+    const content = fs.readFileSync(absolutePath, 'utf8');
+
+    const builder = new Gherkin.AstBuilder(uuidFn);
+    const matcher = new Gherkin.GherkinClassicTokenMatcher();
+    const parser = new Gherkin.Parser(builder, matcher);
+
+    let gherkinDocument;
+    try {
+      gherkinDocument = parser.parse(content);
+    } catch (err) {
+      console.error(`[Gherkin Parser] Failed to parse: ${absolutePath}`, err);
+      continue;
+    }
+
+    const pickles = Gherkin.compile(gherkinDocument, absolutePath, uuidFn);
+
+    for (const pickle of pickles) {
+      const tags = pickle.tags || [];
+
+      for (const tag of tags) {
+        const tagName = tag.name;
+        if (tagToArgMap[tagName]) {
+          args.add(tagToArgMap[tagName]);
+        }
+      }
+    }
+  }
+
+  return [...args];
+}
 
 exports.config = {
   //
@@ -35,17 +83,22 @@ exports.config = {
       appPath: path.join(process.cwd(), 'main.js'),
       electronPath: path.join(process.cwd(), 'node_modules', '.bin', 'electron'),
       appEntryPoint: './main.js',
-      args: [],
+      appArgs: ['--no-sandbox', '--disable-dev-shm-usage'],
       // Add environment variables to disable Dropbox sync during tests
       env: {
         EZRA_TEST_MODE: 'true',
         DISABLE_DROPBOX_SYNC: 'true'
       }
-    }
+    },
+
+    cucumberOpts: {
+      require: ['./features/steps/*.js'],
+      scenarioLevelReporter: true // 👈 one session per scenario
+    },
   }],
   
   // Delete user data directory before session starts
-  beforeSession: function() {
+  beforeSession: async function(config, capabilities, specs, cid) {
     console.log('[TEST] beforeSession: Cleaning up test data directory...');
     
     // Use the same path calculation logic as in wdio_helper.js
@@ -64,13 +117,18 @@ exports.config = {
     } else {
       console.log('[TEST] Test data directory does not exist yet, no cleanup needed');
     }
+
+    const extraArgs = await getStartupArgsFromTags(specs);
+
+    capabilities['wdio:electronServiceOptions'].appArgs.push(...extraArgs)
+    console.log(`[beforeSession] Injected Electron args: ${extraArgs.join(' ')}`)
   },
   
   //
   // ===================
   // Test Configurations
   // ===================
-  logLevel: 'warn',
+  logLevel: 'info',
   bail: 0,
   baseUrl: 'file://' + path.join(process.cwd()),
   waitforTimeout: 10000,
@@ -127,7 +185,7 @@ exports.config = {
   // Add hooks to restart Electron after each scenario
   beforeScenario: async function (world) {
     console.log('[TEST] beforeScenario: Ensuring Electron window is properly started');
-    
+
     // If we need to restart from a previous scenario
     if (global.needsRestart) {
       try {
