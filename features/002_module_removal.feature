@@ -23,6 +23,7 @@ Feature: Module removal
   I can remove that module
 
   @needs-asv-before @no-kjv-needed
+  @param:installAsv=true
   Scenario: ASV removal
     Given I open the module installation assistant
     And I choose to remove translations

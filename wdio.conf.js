@@ -51,6 +51,71 @@ async function getStartupArgsFromTags(specPaths) {
   return [...args];
 }
 
+// Helper function to set scenario parameters in the browser via IPC
+async function setScenarioParams(params) {
+  if (!params || Object.keys(params).length === 0) {
+    return;
+  }
+  
+  console.log('[TEST] Setting scenario parameters:', JSON.stringify(params));
+  
+  try {
+    // Use executeScript with proper separate script and arguments format
+    await browser.executeScript(`
+      try {
+        // First argument is our parameter object
+        const paramObject = arguments[0];
+        
+        // Set each parameter as a global variable in the browser window
+        Object.entries(paramObject).forEach(([key, value]) => {
+          window[key] = value;
+          
+          // Also notify the main process via IPC if needed
+          if (window.ipcRenderer) {
+            window.ipcRenderer.send('test:set-parameter', { key, value });
+          }
+        });
+
+        // Call startup.initTest() if available
+        if (window.startup && typeof window.startup.initTest === 'function') {
+          console.log('[TEST] Invoking window.startup.initTest()');
+          return window.startup.initTest();
+        } else {
+          console.log('[TEST] window.startup.initTest is not available yet');
+          return true;
+        }
+      } catch (e) {
+        console.error('Error in scenario params script:', e);
+        return false;
+      }
+    `, [params]);
+    
+    console.log('[TEST] Successfully set scenario parameters and invoked initTest');
+  } catch (error) {
+    console.error('[TEST] Error setting scenario parameters:', error.message);
+  }
+}
+
+// Helper function to parse string values into appropriate types
+function tryParseValue(valueStr) {
+  if (valueStr === 'true') return true;
+  if (valueStr === 'false') return false;
+  if (valueStr === 'null') return null;
+  if (valueStr === 'undefined') return undefined;
+  
+  // Try to parse as number
+  const num = Number(valueStr);
+  if (!isNaN(num)) return num;
+  
+  // Try to parse as JSON
+  try {
+    return JSON.parse(valueStr);
+  } catch (e) {
+    // Return as string if all else fails
+    return valueStr;
+  }
+}
+
 exports.config = {
   //
   // ====================
@@ -102,6 +167,9 @@ exports.config = {
   beforeSession: async function(config, capabilities, specs, cid) {
     // Initialize the global flag to track the first scenario
     global.isFirstScenario = true;
+    
+    // Initialize the object to store scenario-specific parameters
+    global.scenarioParams = {};
 
     console.log('[TEST] beforeSession: Cleaning up test data directory...');
     
@@ -132,7 +200,7 @@ exports.config = {
   // ===================
   // Test Configurations
   // ===================
-  logLevel: 'info',
+  logLevel: 'warn',
   bail: 0,
   baseUrl: 'file://' + path.join(process.cwd()),
   waitforTimeout: 10000,
@@ -220,6 +288,35 @@ exports.config = {
           
         console.log('[TEST] Successfully refreshed Electron instance');
       }
+      
+      // Extract scenario parameters from tags or feature metadata
+      const scenarioParams = {};
+      
+      // Get tags from the scenario
+      if (world && world.pickle && world.pickle.tags) {
+        // Process tags that may contain parameters
+        for (const tag of world.pickle.tags) {
+          // Parse tags with format @param:key=value
+          const paramMatch = tag.name.match(/^@param:([^=]+)=(.+)$/);
+          if (paramMatch) {
+            const [, key, value] = paramMatch;
+            scenarioParams[key] = tryParseValue(value);
+          }
+        }
+      }
+      
+      // Add the scenario name as a parameter
+      if (world && world.pickle) {
+        scenarioParams.scenarioName = world.pickle.name;
+        scenarioParams.scenarioId = world.pickle.id;
+      }
+      
+      // Store params globally for potential use in afterScenario
+      global.scenarioParams = scenarioParams;
+      
+      // Send parameters to the browser window
+      await setScenarioParams(scenarioParams);
+      
     } catch (error) {
       console.log('[TEST] Error in beforeScenario hook:', error.message);
     }

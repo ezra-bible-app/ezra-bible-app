@@ -60,6 +60,13 @@ class Startup {
   }
 
   async initTest() {
+    document.getElementById('main-content').style.display = 'none';
+
+    let loadingIndicator = $('#startup-loading-indicator');
+    loadingIndicator.show();
+    loadingIndicator.find('.loader').show();
+    $('#loading-subtitle').show();
+
     if (app.commandLine.hasSwitch('install-kjv')) {
       let repoConfigExisting = await ipcNsi.repositoryConfigExisting();
 
@@ -75,7 +82,7 @@ class Startup {
       }
     }
 
-    if (app.commandLine.hasSwitch('install-asv')) {
+    if (window.installAsv) {
       let repoConfigExisting = await ipcNsi.repositoryConfigExisting();
 
       if (!repoConfigExisting) {
@@ -89,6 +96,11 @@ class Startup {
         await ipcNsi.installModule('ASV');
       }
     }
+
+    loadingIndicator.hide();
+    $('#loading-subtitle').hide();
+
+    document.getElementById('main-content').style.display = 'block';
   }
 
   loadWebComponents() {
@@ -405,9 +417,9 @@ class Startup {
       console.warn("Could not localize the DOM!");
     }
 
-    if (this._platformHelper.isTest()) {
+    /*if (this._platformHelper.isTest()) {
       await this.initTest();
-    }
+    }*/
 
     console.log("Initializing controllers ...");
     await this.initControllers();
