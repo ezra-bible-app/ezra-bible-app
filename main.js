@@ -9,12 +9,29 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
+
+// ENSURE TEST MODE IS DETECTED BEFORE ANY OTHER CODE RUNS
+// This needs to happen before requiring any other modules
+const isTestArg = process.argv.includes('--test-mode');
+const isTestEnv = process.env.EZRA_TESTING === 'true' || process.env.EZRA_TEST_MODE === 'true';
+global.isTestMode = isTestArg || isTestEnv;
+
+if (global.isTestMode) {
+  console.log('[TEST] Running in test mode with args:', process.argv);
+  console.log('[TEST] Environment variables:', {
+    EZRA_TESTING: process.env.EZRA_TESTING,
+    EZRA_TEST_MODE: process.env.EZRA_TEST_MODE,
+    NODE_ENV: process.env.NODE_ENV
+  });
+  
+  // Force the environment variable to be set for other parts of the app
+  process.env.EZRA_TESTING = 'true';
+}
 
 const path = require('path');
 const url = require('url');

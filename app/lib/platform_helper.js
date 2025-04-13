@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -22,7 +21,38 @@ class PlatformHelper {
 
   isTest() {
     if (this.isElectron()) {
-      return process.env.EZRA_TESTING == "true";
+      // First check if global.isTestMode is set (from main.js)
+      if (typeof global !== 'undefined' && global.isTestMode === true) {
+        console.log('[TEST] Test mode detected via global.isTestMode');
+        return true;
+      }
+
+      // Check for command line arguments first as they're more explicit
+      const testArgs = ['--test-mode', '--force-test-mode'];
+      const hasTestArg = process.argv && process.argv.some(arg => testArgs.includes(arg));
+      
+      if (hasTestArg) {
+        console.log('[TEST] Test mode detected via command line args:', process.argv);
+        return true;
+      }
+      
+      // Then check environment variables
+      const isTestEnv = process.env.EZRA_TESTING === 'true';
+      const isTestMode = process.env.EZRA_TEST_MODE === 'true';
+      const isNodeEnvTest = process.env.NODE_ENV === 'test';
+      
+      const isTestModeActive = isTestEnv || isTestMode || isNodeEnvTest;
+      
+      if (isTestModeActive) {
+        console.log('[TEST] Test mode detected via environment variables:', {
+          EZRA_TESTING: process.env.EZRA_TESTING,
+          EZRA_TEST_MODE: process.env.EZRA_TEST_MODE,
+          NODE_ENV: process.env.NODE_ENV
+        });
+        return true;
+      }
+      
+      return false;
     } else {
       return false;
     }
@@ -274,9 +304,11 @@ class PlatformHelper {
 
       if (this.isTest()) {
         appName += '-test';
+        console.log('[TEST] Using test app name for user data directory:', appName);
       }
 
       const userDataDir = path.join(app.getPath('appData'), appName);
+      console.log('[TEST] User data directory path:', userDataDir);
       return userDataDir;
 
     } else if (this.isCordova()) {

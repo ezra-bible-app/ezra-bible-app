@@ -50,6 +50,8 @@ class IpcDbHandler {
     const DbHelper = require('../database/db_helper.js');
     let userDataDir = this.platformHelper.getUserDataPath(androidVersion);
 
+    console.log(`User data directory: ${userDataDir}`);
+
     dbHelper = new DbHelper(userDataDir);
     this.dbDir = dbHelper.getDatabaseDir(isDebug);
 

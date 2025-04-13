@@ -32,11 +32,12 @@ exports.config = {
     'wdio:electronServiceOptions': {
       appPath: path.join(process.cwd(), 'main.js'),
       electronPath: path.join(process.cwd(), 'node_modules', '.bin', 'electron'),
+      appEntryPoint: './main.js',
       args: [],
       // Add environment variables to disable Dropbox sync during tests
       env: {
-        DISABLE_DROPBOX_SYNC: 'true',
-        EZRA_TESTING: 'true'
+        EZRA_TEST_MODE: 'true',
+        DISABLE_DROPBOX_SYNC: 'true'
       }
     }
   }],
