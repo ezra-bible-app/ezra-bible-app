@@ -124,6 +124,75 @@ exports.config = {
     // Custom cleanup after each feature
   },
   
+  // Add hooks to restart Electron after each scenario
+  beforeScenario: async function (world) {
+    console.log('[TEST] beforeScenario: Ensuring Electron window is properly started');
+    
+    // If we need to restart from a previous scenario
+    if (global.needsRestart) {
+      try {
+        // Create a completely new session
+        await browser.reloadSession();
+        
+        // Wait for the app to be fully loaded
+        await browser.waitUntil(
+          async () => {
+            try {
+              const result = await browser.executeScript(
+                'return isStartupCompleted !== undefined && isStartupCompleted();'
+              );
+              return result;
+            } catch (e) {
+              return false;
+            }
+          },
+          { 
+            timeout: 15000, 
+            timeoutMsg: 'App did not fully load within 15s' 
+          }
+        );
+        
+        // Reset the flag
+        global.needsRestart = false;
+        console.log('[TEST] Successfully restarted Electron window');
+      } catch (error) {
+        console.log('[TEST] Error restarting Electron window:', error.message);
+      }
+    }
+    
+    // Set a reasonable window size for tests
+    try {
+      await browser.setWindowRect(null, null, 1280, 800);
+    } catch (error) {
+      console.log('Could not set window size, continuing with default size');
+    }
+  },
+  
+  afterScenario: async function (world, result) {
+    console.log('[TEST] afterScenario: Closing Electron window to prepare for next test');
+    
+    try {
+      // Check if we have an active window before trying to close it
+      const handles = await browser.getWindowHandles();
+      
+      if (handles && handles.length > 0) {
+        // Close the window completely
+        await browser.closeWindow();
+        console.log('[TEST] Successfully closed Electron window');
+        
+        // Add a delay to ensure the window is fully closed
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      } else {
+        console.log('[TEST] No active window to close');
+      }
+    } catch (error) {
+      console.log('[TEST] Error closing window:', error.message);
+    }
+    
+    // Set flag for next scenario to know it needs to create a new window
+    global.needsRestart = true;
+  },
+  
   afterTest: async function (test, context, { error, result, duration, passed, retries }) {
     // Take screenshot if test fails
     if (!passed) {
