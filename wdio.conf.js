@@ -100,6 +100,9 @@ exports.config = {
   
   // Delete user data directory before session starts
   beforeSession: async function(config, capabilities, specs, cid) {
+    // Initialize the global flag to track the first scenario
+    global.isFirstScenario = true;
+
     console.log('[TEST] beforeSession: Cleaning up test data directory...');
     
     // Use the same path calculation logic as in wdio_helper.js
@@ -185,14 +188,18 @@ exports.config = {
   
   // Add hooks to restart Electron after each scenario
   beforeScenario: async function (world) {
-    console.log('[TEST] beforeScenario: Ensuring Electron window is properly started');
+    console.log('[TEST] beforeScenario: Checking if refresh is needed');
 
-    // If we need to restart from a previous scenario
-    if (global.needsRestart) {
-      try {
-        // Create a completely new session
-        await browser.reloadSession();
-        
+    try {
+      // Skip refresh for the first scenario
+      if (global.isFirstScenario) {
+        console.log('[TEST] First scenario detected, skipping refresh');
+        global.isFirstScenario = false;
+      } else {
+        console.log('[TEST] Refreshing Electron instance');
+        // Refresh the page instead of reloading the session
+        await browser.refresh();
+          
         // Wait for the app to be fully loaded
         await browser.waitUntil(
           async () => {
@@ -207,16 +214,14 @@ exports.config = {
           },
           { 
             timeout: 15000, 
-            timeoutMsg: 'App did not fully load within 15s' 
+            timeoutMsg: 'App did not fully refresh within 15s' 
           }
         );
-        
-        // Reset the flag
-        global.needsRestart = false;
-        console.log('[TEST] Successfully restarted Electron window');
-      } catch (error) {
-        console.log('[TEST] Error restarting Electron window:', error.message);
+          
+        console.log('[TEST] Successfully refreshed Electron instance');
       }
+    } catch (error) {
+      console.log('[TEST] Error in beforeScenario hook:', error.message);
     }
     
     // Set a reasonable window size for tests
@@ -228,28 +233,10 @@ exports.config = {
   },
   
   afterScenario: async function (world, result) {
-    console.log('[TEST] afterScenario: Closing Electron window to prepare for next test');
+    console.log('[TEST] afterScenario: Scenario completed, instance will be refreshed before next scenario');
     
-    try {
-      // Check if we have an active window before trying to close it
-      const handles = await browser.getWindowHandles();
-      
-      if (handles && handles.length > 0) {
-        // Close the window completely
-        await browser.closeWindow();
-        console.log('[TEST] Successfully closed Electron window');
-        
-        // Add a delay to ensure the window is fully closed
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      } else {
-        console.log('[TEST] No active window to close');
-      }
-    } catch (error) {
-      console.log('[TEST] Error closing window:', error.message);
-    }
-    
-    // Set flag for next scenario to know it needs to create a new window
-    global.needsRestart = true;
+    // No longer closing the window or setting the needsRestart flag
+    // Just let the beforeScenario handle the refresh
   },
   
   afterTest: async function (test, context, { error, result, duration, passed, retries }) {
