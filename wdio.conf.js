@@ -83,11 +83,12 @@ exports.config = {
       appPath: path.join(process.cwd(), 'main.js'),
       electronPath: path.join(process.cwd(), 'node_modules', '.bin', 'electron'),
       appEntryPoint: './main.js',
-      appArgs: ['--no-sandbox', '--disable-dev-shm-usage'],
+      appArgs: ['--test-mode', '--no-sandbox', '--disable-dev-shm-usage'],
       // Add environment variables to disable Dropbox sync during tests
       env: {
         EZRA_TEST_MODE: 'true',
-        DISABLE_DROPBOX_SYNC: 'true'
+        DISABLE_DROPBOX_SYNC: 'true',
+        NODE_ENV: 'test'
       }
     },
 
