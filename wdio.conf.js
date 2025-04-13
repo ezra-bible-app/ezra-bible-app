@@ -33,8 +33,11 @@ exports.config = {
       appPath: path.join(process.cwd(), 'main.js'),
       electronPath: path.join(process.cwd(), 'node_modules', '.bin', 'electron'),
       args: [],
-      // You can add app arguments specific to your Electron app
-      // appArgs: []
+      // Add environment variables to disable Dropbox sync during tests
+      env: {
+        DISABLE_DROPBOX_SYNC: 'true',
+        EZRA_TESTING: 'true'
+      }
     }
   }],
   
