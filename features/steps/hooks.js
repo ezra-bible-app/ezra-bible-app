@@ -35,9 +35,7 @@ function hasTag(scenario, tag) {
   return false;
 }
 
-BeforeAll({ timeout: 2000 }, async function () {
-  await wdioHelper.deleteUserDataDir();
-});
+// BeforeAll hook removed - user data directory cleanup now happens in wdio.conf.js beforeSession
 
 Before({ timeout: 80000}, async function (scenario) {
   // Define app arguments based on scenario tags

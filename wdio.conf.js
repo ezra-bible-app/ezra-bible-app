@@ -1,5 +1,7 @@
 // WebdriverIO configuration for Ezra Bible App
 const path = require('path');
+const fs = require('fs-extra');
+const os = require('os');
 
 exports.config = {
   //
@@ -41,6 +43,28 @@ exports.config = {
       }
     }
   }],
+  
+  // Delete user data directory before session starts
+  beforeSession: function() {
+    console.log('[TEST] beforeSession: Cleaning up test data directory...');
+    
+    // Use the same path calculation logic as in wdio_helper.js
+    const appDataPath = process.env.APPDATA || 
+                       (process.platform === 'darwin' ? path.join(os.homedir(), 'Library/Application Support') : 
+                       path.join(os.homedir(), '.config'));
+                      
+    const userDataPath = path.join(appDataPath, 'ezra-bible-app-test');
+    
+    console.log('[TEST] Using test data directory path:', userDataPath);
+    
+    if (fs.existsSync(userDataPath)) {
+      console.log('[TEST] Removing existing test data directory');
+      fs.removeSync(userDataPath);
+      console.log('[TEST] Test data directory cleanup complete');
+    } else {
+      console.log('[TEST] Test data directory does not exist yet, no cleanup needed');
+    }
+  },
   
   //
   // ===================
