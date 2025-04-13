@@ -9,8 +9,8 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+   See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -160,6 +160,12 @@ class IpcDbHandler {
   }
 
   async syncDatabaseWithDropbox(connectionType=undefined, notifyFrontend=false) {
+    // Check if Dropbox sync is disabled (for test mode)
+    if (process.env.DISABLE_DROPBOX_SYNC === 'true') {
+      console.log('Dropbox synchronization disabled by environment variable. Skipping sync.');
+      return 'DISABLED';
+    }
+
     let onlySyncOnWifi = this._config.get('dropboxOnlyWifi', false);
 
     if (this.dbDir == null) {
@@ -402,6 +408,12 @@ class IpcDbHandler {
   }
 
   async triggerDropboxSyncIfConfigured() {
+    // Check if Dropbox sync is disabled (for test mode)
+    if (process.env.DISABLE_DROPBOX_SYNC === 'true') {
+      console.log('Dropbox synchronization disabled by environment variable. Skipping sync.');
+      return;
+    }
+    
     const DROPBOX_SYNC_TIMEOUT_MS = 2 * 60 * 1000;
 
     if (!this.hasValidDropboxConfig()) {
