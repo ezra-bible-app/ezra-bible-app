@@ -256,19 +256,16 @@ exports.config = {
   
   // Add hooks to restart Electron after each scenario
   beforeScenario: async function (world) {
-    console.log('[TEST] beforeScenario: Checking if refresh is needed');
+    console.log('[TEST] beforeScenario: Preparing for scenario');
 
     try {
-      // Skip refresh for the first scenario
-      if (global.isFirstScenario) {
-        console.log('[TEST] First scenario detected, skipping refresh');
-        global.isFirstScenario = false;
-      } else {
-        console.log('[TEST] Refreshing Electron instance');
-        // Refresh the page instead of reloading the session
-        await browser.refresh();
-          
-        // Wait for the app to be fully loaded
+      // Check if we need to create a new session (after previous scenario closed the window)
+      if (global.needsNewSession) {
+        console.log('[TEST] Creating new Electron session');
+        await browser.reloadSession();
+        global.needsNewSession = false;
+        
+        // Wait for the app to be fully loaded after new session creation
         await browser.waitUntil(
           async () => {
             try {
@@ -282,11 +279,9 @@ exports.config = {
           },
           { 
             timeout: 15000, 
-            timeoutMsg: 'App did not fully refresh within 15s' 
+            timeoutMsg: 'App did not fully load within 15s' 
           }
         );
-          
-        console.log('[TEST] Successfully refreshed Electron instance');
       }
       
       // Extract scenario parameters from tags or feature metadata
@@ -330,10 +325,18 @@ exports.config = {
   },
   
   afterScenario: async function (world, result) {
-    console.log('[TEST] afterScenario: Scenario completed, instance will be refreshed before next scenario');
+    console.log('[TEST] afterScenario: Scenario completed, closing window/session');
     
-    // No longer closing the window or setting the needsRestart flag
-    // Just let the beforeScenario handle the refresh
+    try {
+      // Close the Electron window after each scenario
+      await browser.closeWindow();
+      console.log('[TEST] Successfully closed Electron window/session');
+      
+      // Set flag to indicate that we need a fresh instance for the next scenario
+      global.needsNewSession = true;
+    } catch (error) {
+      console.error('[TEST] Error closing Electron window/session:', error.message);
+    }
   },
   
   afterTest: async function (test, context, { error, result, duration, passed, retries }) {
