@@ -149,7 +149,7 @@ After(async function(scenario) {
   }
 });
 
-AfterAll({ timeout: 10000}, async function () {
+/*AfterAll({ timeout: 10000}, async function () {
   const logs = await browser.getLogs('browser');
   if (logs.length > 0) {
     console.log('\nRenderer logs:');
@@ -157,4 +157,4 @@ AfterAll({ timeout: 10000}, async function () {
       console.log(log.message);
     });
   }
-});
+});*/
