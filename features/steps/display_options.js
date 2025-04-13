@@ -9,14 +9,13 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given } = require("cucumber");
+const { Given } = require('@wdio/cucumber-framework');
 const spectronHelper = require('../helpers/spectron_helper.js');
 
 Given('I have the {display_option} {state}', { timeout: 40 * 1000 }, async function (displayOptionSelector, state) {

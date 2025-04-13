@@ -9,18 +9,17 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
-const { assert } = require("chai");
+const { assert } = require('chai');
+const { Given, When, Then } = require('@wdio/cucumber-framework');
 const spectronHelper = require('../helpers/spectron_helper.js');
-const nsiHelper = require("../helpers/nsi_helper.js");
-const uiHelper = require("../helpers/ui_helper.js");
+const nsiHelper = require('../helpers/nsi_helper.js');
+const uiHelper = require('../helpers/ui_helper.js');
 
 Given('I open the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async function (buttonSelector) {
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
@@ -77,11 +76,11 @@ Then('the book of Ephesians is opened in the current tab', async function () {
   var lastVerseBox = verseBoxes[verseBoxes.length - 1];
   var lastVerseText = await lastVerseBox.$('.first-bible-text');
   var lastVerseTextContent = await lastVerseText.getText();
-  lastVerseTextContent = lastVerseTextContent.replace("\n", " ");
+  lastVerseTextContent = lastVerseTextContent.replace('\n', ' ');
   lastVerseTextContent = lastVerseTextContent.trim();
 
-  var ephesiansOneOne = "Paul, an apostle of Jesus Christ by the will of God, to the saints which are at Ephesus, and to the faithful in Christ Jesus:";
-  var ephesiansSixTwentyFour = "Grace be with all them that love our Lord Jesus Christ in sincerity. Amen. Written from Rome unto the Ephesians by Tychicus.";
+  var ephesiansOneOne = 'Paul, an apostle of Jesus Christ by the will of God, to the saints which are at Ephesus, and to the faithful in Christ Jesus:';
+  var ephesiansSixTwentyFour = 'Grace be with all them that love our Lord Jesus Christ in sincerity. Amen. Written from Rome unto the Ephesians by Tychicus.';
 
   assert(firstVerseTextContent == ephesiansOneOne, `The first verse does not match the expected content! Actual: "${firstVerseTextContent}" / Expected: "${ephesiansOneOne}"`);
   assert(lastVerseTextContent == ephesiansSixTwentyFour, `The last verse does not match the expected content! Actual: "${lastVerseTextContent}" / Expected: "${ephesiansSixTwentyFour}"`);
@@ -89,14 +88,14 @@ Then('the book of Ephesians is opened in the current tab', async function () {
 
 Then('{bible_book} chapter {int} is opened in the current tab', async function (bible_book, chapter) {
   const bookShortTitle = await nsiHelper.getBookShortTitle(bible_book);
-  const expectedBookChapterVerseCount = await nsiHelper.getBookChapterVerseCount("KJV", bookShortTitle, chapter);
+  const expectedBookChapterVerseCount = await nsiHelper.getBookChapterVerseCount('KJV', bookShortTitle, chapter);
 
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var verseBoxes = await verseListTabs.$$('.verse-box');
   assert(verseBoxes.length == expectedBookChapterVerseCount,
     `The number of verses does not match the expectation for Ephesians chapter ${chapter} (${expectedBookChapterVerseCount}): ${verseBoxes.length}`);
 
-  const expectedLastVerseContent = await nsiHelper.getChapterLastVerseContent("KJV", bookShortTitle, chapter);
+  const expectedLastVerseContent = await nsiHelper.getChapterLastVerseContent('KJV', bookShortTitle, chapter);
   const actualLastVerseElement = await verseBoxes[verseBoxes.length - 1].$('.first-bible-text');
   const actualLastVerseContent = await actualLastVerseElement.getText();
 

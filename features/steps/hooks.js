@@ -15,12 +15,12 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { AfterAll, Before, After, Status, BeforeAll } = require("cucumber");
-
-const chaiAsPromised = require("chai-as-promised");
-const wdioHelper = require("../helpers/wdio_helper.js");
-const nsiHelper = require("../helpers/nsi_helper.js");
-const uiHelper = require("../helpers/ui_helper.js");
+const { Status } = require('cucumber');
+const { BeforeAll, Before, After, AfterAll } = require('@wdio/cucumber-framework');
+const chaiAsPromised = require('chai-as-promised');
+const wdioHelper = require('../helpers/wdio_helper.js');
+const nsiHelper = require('../helpers/nsi_helper.js');
+const uiHelper = require('../helpers/ui_helper.js');
 const dbHelper = require('../helpers/db_helper.js');
 
 function hasTag(scenario, tag) {
@@ -71,21 +71,27 @@ Before({ timeout: 80000}, async function (scenario) {
   // Wait for the app startup to complete
   await wdioHelper.waitForStartupComplete();
   
-  // Maximize the window
-  await browser.maximizeWindow();
+  // Set window size to a reasonable default instead of maximizing
+  // This avoids the Browser.getWindowForTarget error in Electron
+  try {
+    await browser.setWindowSize(1280, 800);
+  } catch (e) {
+    console.log('Could not set window size, continuing with default size');
+  }
+  
   await wdioHelper.sleep(2000);
 });
 
-After("@reset-book-loading-mode-after-scenario", async function() {
+After('@reset-book-loading-mode-after-scenario', async function() {
   var verseListTabs = await browser.$('#verse-list-tabs-1');
   var menuButton = await verseListTabs.$('.display-options-button');
   await menuButton.click();
   await wdioHelper.sleep();
 
-  await uiHelper.setBookLoadingOption("Open books completely");
+  await uiHelper.setBookLoadingOption('Open books completely');
 });
 
-After("@remove-last-tag-after-scenario", async function() {
+After('@remove-last-tag-after-scenario', async function() {
   if (this.currentTag == null) {
     return;
   }
@@ -104,7 +110,7 @@ After("@remove-last-tag-after-scenario", async function() {
   await wdioHelper.sleep(1000);
 });
 
-After("@cleanup-after-scenario", async function() {
+After('@cleanup-after-scenario', async function() {
   await browser.execute(() => {
     $('.ui-dialog-content').dialog('close');
   });
@@ -148,7 +154,7 @@ After(async function(scenario) {
 AfterAll({ timeout: 10000}, async function () {
   const logs = await browser.getLogs('browser');
   if (logs.length > 0) {
-    console.log("\nRenderer logs:");
+    console.log('\nRenderer logs:');
     logs.forEach(log => {
       console.log(log.message);
     });

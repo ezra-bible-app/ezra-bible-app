@@ -9,18 +9,17 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
-const { expect } = require("chai");
+const { Given, When, Then } = require('@wdio/cucumber-framework');
+const { expect } = require('chai');
 const spectronHelper = require('../helpers/spectron_helper.js');
-const dbHelper = require("../helpers/db_helper.js");
-const uiHelper = require("../helpers/ui_helper.js");
+const dbHelper = require('../helpers/db_helper.js');
+const uiHelper = require('../helpers/ui_helper.js');
 
 Given('I click on {string} note', async function (verseReference) {
   var verseBox = await uiHelper.getVerseBox(verseReference);

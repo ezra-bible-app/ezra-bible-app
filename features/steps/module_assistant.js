@@ -9,18 +9,17 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
-const { assert, expect } = require("chai");
+const { Given, When, Then } = require('@wdio/cucumber-framework');
+const { assert, expect } = require('chai');
 const spectronHelper = require('../helpers/spectron_helper.js');
-const nsiHelper = require("../helpers/nsi_helper.js");
-const uiHelper = require("../helpers/ui_helper.js");
+const nsiHelper = require('../helpers/nsi_helper.js');
+const uiHelper = require('../helpers/ui_helper.js');
 
 async function clickCheckbox(checkboxCodeAttr, parentSelector='#module-settings-assistant-add') {
   var parent = await spectronHelper.getWebClient().$(parentSelector);
@@ -41,6 +40,19 @@ async function clickNext(moduleSettingsDialogId='#module-settings-assistant-add'
   var navLinks = await getNavLinks(moduleSettingsDialogId);
   var nextButton = navLinks[1];
   await nextButton.click();
+}
+
+async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settings-assistant-add') {
+  var navLinks = await getNavLinks(moduleSettingsDialogId);
+  var finishButton = navLinks[2];
+  var finishButtonLi = await finishButton.$('..');
+
+  await spectronHelper.getWebClient().waitUntil(async () => {
+    var finishbuttonLiClass = await finishButtonLi.getAttribute('class');
+    return finishbuttonLiClass != 'disabled';
+  }, { timeout: 120000 });
+
+  await finishButton.click();
 }
 
 Given('I open the module installation assistant', {timeout: 40 * 1000}, async function () {
@@ -66,7 +78,7 @@ Given('I choose to remove translations', async function () {
 
 Given('the repository update date matches today', {timeout: 40 * 1000}, async function () {
   var updateInfo = await spectronHelper.getWebClient().$('update-repositories .update-info');
-  await spectronHelper.getWebClient().waitUntil(async () => { return await updateInfo.getText() !== ""; }, { timeout: 40000 });
+  await spectronHelper.getWebClient().waitUntil(async () => { return await updateInfo.getText() !== ''; }, { timeout: 40000 });
 
   const today = (new Date()).toLocaleDateString('en');
   expect(await updateInfo.getText(), "Date doesn't match today's date").to.equal(`Repository data was last updated on ${today}.`);
@@ -92,20 +104,6 @@ Given('I select the ASV module for removal', {timeout: 40 * 1000}, async functio
   await clickNext('#module-settings-assistant-remove');
 });
 
-async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settings-assistant-add') {
-
-  var navLinks = await getNavLinks(moduleSettingsDialogId);
-  var finishButton = navLinks[2];
-  var finishButtonLi = await finishButton.$('..');
-
-  await spectronHelper.getWebClient().waitUntil(async () => {
-    var finishbuttonLiClass = await finishButtonLi.getAttribute('class');
-    return finishbuttonLiClass != 'disabled';
-  }, { timeout: 120000 });
-
-  await finishButton.click();
-}
-
 When('the installation is completed', {timeout: 100 * 1000}, async function () {
   await finishOnceProcessCompleted();
 });
@@ -116,20 +114,20 @@ When('the removal is completed', {timeout: 5 * 1000}, async function () {
 
 Then('the ASV is available as a local module', async function () {
   var asvModule = await nsiHelper.getLocalModule('ASV');
-  assert(asvModule != null, "Got null when checking for the ASV module!");
+  assert(asvModule != null, 'Got null when checking for the ASV module!');
 });
 
 Then("Strong's are available as local modules", async function () {
   var greekStrongsModule = await nsiHelper.getLocalModule('StrongsGreek', 'DICTIONARY');
-  assert(greekStrongsModule != null, "Got null when checking for the StrongsGreek module!");
+  assert(greekStrongsModule != null, 'Got null when checking for the StrongsGreek module!');
 
   var hebrewStrongsModule = await nsiHelper.getLocalModule('StrongsHebrew', 'DICTIONARY');
-  assert(hebrewStrongsModule != null, "Got null when checking for the StrongsHebrew module!");
+  assert(hebrewStrongsModule != null, 'Got null when checking for the StrongsHebrew module!');
 });
 
 Then('the ASV is no longer available as a local module', async function () {
   var asvModule = await nsiHelper.getLocalModule('ASV');
-  assert(asvModule == null, "ASV should no longer be available, but it is!");
+  assert(asvModule == null, 'ASV should no longer be available, but it is!');
 });
 
 Then('the ASV is selected as the current translation', async function () {
