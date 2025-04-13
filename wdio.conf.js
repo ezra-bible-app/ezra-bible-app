@@ -70,7 +70,7 @@ exports.config = {
   // ===================
   // Test Configurations
   // ===================
-  logLevel: 'info',
+  logLevel: 'warn',
   bail: 0,
   baseUrl: 'file://' + path.join(process.cwd()),
   waitforTimeout: 10000,
