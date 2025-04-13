@@ -1,5 +1,23 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
 const NodeSwordInterface = require('node-sword-interface');
 const VerseReferenceHelper = require('../../app/frontend/helpers/verse_reference_helper.js');
+const fs = require('fs-extra');
 
 require('../../app/backend/database/models/biblebook.js');
 const spectronHelper = require('./spectron_helper.js');
@@ -8,8 +26,21 @@ var nsi = null;
 
 async function getNSI(refresh = false) {
   if (nsi == null || refresh) {
-    var userDataDir = await spectronHelper.getUserDataDir();
-    nsi = new NodeSwordInterface(userDataDir);
+    try {
+      var userDataDir = await spectronHelper.getUserDataDir();
+      
+      // Ensure the directory exists before initializing NSI
+      if (!fs.existsSync(userDataDir)) {
+        console.log('[TEST] Creating user data directory:', userDataDir);
+        fs.mkdirSync(userDataDir, { recursive: true });
+      }
+      
+      console.log('[TEST] Initializing NSI with directory:', userDataDir);
+      nsi = new NodeSwordInterface(userDataDir);
+    } catch (error) {
+      console.error('[TEST] Error initializing NSI:', error.message);
+      throw error;
+    }
   }
 
   return nsi;
@@ -51,10 +82,16 @@ module.exports.getChapterLastVerseContent = async function(moduleCode, bookCode,
 }
 
 module.exports.getLocalModule = async function(moduleCode, moduleType='BIBLE') {
-  var app = spectronHelper.getApp();
+  try {
+    // Use WebdriverIO's browser.execute instead of app.webContents.executeJavaScript
+    const allLocalModules = await browser.execute((type) => {
+      return window.ipcNsi.getAllLocalModulesSync(type);
+    }, moduleType);
 
-  if (app) {
-    var allLocalModules = await app.webContents.executeJavaScript(`ipcNsi.getAllLocalModulesSync('${moduleType}')`);
+    if (!allLocalModules) {
+      console.log('[TEST] Warning: getAllLocalModulesSync returned null or undefined');
+      return null;
+    }
 
     for (var i = 0; i < allLocalModules.length; i++) {
       var currentModule = allLocalModules[i];
@@ -63,9 +100,12 @@ module.exports.getLocalModule = async function(moduleCode, moduleType='BIBLE') {
         return currentModule;
       }
     }
+    
+    return null;
+  } catch (error) {
+    console.log('[TEST] Error in getLocalModule:', error.message);
+    return null;
   }
-
-  return null;
 };
 
 module.exports.splitVerseReference = async function(verseReference, translation = 'KJV') {

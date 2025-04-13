@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -22,7 +21,14 @@ const os = require('os');
 
 class WdioHelper {
   constructor() {
-    this.userDataPath = path.join(os.tmpdir(), 'ezra-bible-app-test');
+    // Use the same path as the application will use in test mode
+    const appDataPath = process.env.APPDATA || 
+                        (process.platform === 'darwin' ? path.join(os.homedir(), 'Library/Application Support') : 
+                        path.join(os.homedir(), '.config'));
+                        
+    this.userDataPath = path.join(appDataPath, 'ezra-bible-app-test');
+    
+    console.log('[TEST] Using test data directory path:', this.userDataPath);
   }
 
   /**

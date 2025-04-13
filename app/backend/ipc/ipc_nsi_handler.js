@@ -37,9 +37,23 @@ class IpcNsiHandler {
     }
 
     if (this._platformHelper.isTest()) {
+      console.log("Initializing node-sword-interface with test SWORD directory");
       const userDataDir = this._platformHelper.getUserDataPath();
+      console.log("User data dir: " + userDataDir);
+
+      // Ensure the test SWORD directory exists
+      if (!fs.existsSync(userDataDir)) {
+        console.log(`Creating test SWORD directory: ${userDataDir}`);
+        try {
+          fs.mkdirSync(userDataDir, { recursive: true });
+        } catch (error) {
+          console.error(`Failed to create test SWORD directory: ${error.message}`);
+        }
+      }
+
       this._nsi = this.createNsi(userDataDir);
     } else {
+      console.log("Initializing node-sword-interface with default SWORD directory");
       this._nsi = this.createNsi(customSwordDir);
     }
 
@@ -60,9 +74,15 @@ class IpcNsiHandler {
     if (customSwordDir !== undefined) {
       // If the custom SWORD directory is not existing at this point ... create it!
       if (!fs.existsSync(customSwordDir)) {
-        fs.mkdirSync(customSwordDir);
+        console.log(`Creating custom SWORD directory: ${customSwordDir}`);
+        try {
+          fs.mkdirSync(customSwordDir, { recursive: true });
+        } catch (error) {
+          console.error(`Failed to create custom SWORD directory: ${error.message}`);
+        }
       }
 
+      console.log('Creating node-sword-interface with custom SWORD directory: ' + customSwordDir);
       nsi = new NodeSwordInterface(customSwordDir);
     } else {
       nsi = new NodeSwordInterface();
