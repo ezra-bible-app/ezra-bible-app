@@ -67,7 +67,7 @@ class Startup {
     loadingIndicator.find('.loader').show();
     $('#loading-subtitle').show();
 
-    if (app.commandLine.hasSwitch('install-kjv')) {
+    if (window.installKjv) {
       let repoConfigExisting = await ipcNsi.repositoryConfigExisting();
 
       if (!repoConfigExisting) {
@@ -80,6 +80,8 @@ class Startup {
         $('#loading-subtitle').text("Installing KJV");
         await ipcNsi.installModule('KJV');
       }
+
+      await eventController.publishAsync('on-translation-added', 'KJV');
     }
 
     if (window.installAsv) {
@@ -95,6 +97,8 @@ class Startup {
         $('#loading-subtitle').text("Installing ASV");
         await ipcNsi.installModule('ASV');
       }
+
+      await eventController.publishAsync('on-translation-added', 'ASV');
     }
 
     loadingIndicator.hide();
