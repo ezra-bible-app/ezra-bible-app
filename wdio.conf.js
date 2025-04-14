@@ -2,54 +2,6 @@
 const path = require('path');
 const fs = require('fs-extra');
 const os = require('os');
-const { config } = require('process');
-const Gherkin = require("@cucumber/gherkin");
-const Messages = require("@cucumber/messages");
-const { fileURLToPath } = require('url');
-
-const tagToArgMap = {
-  '@needs-asv-before': '--install-asv'
-}
-
-async function getStartupArgsFromTags(specPaths) {
-  const args = new Set();
-  const uuidFn = Messages.IdGenerator.uuid();
-
-  for (const filePath of specPaths) {
-    const absolutePath = filePath.startsWith('file://')
-      ? fileURLToPath(filePath)
-      : filePath;
-
-    const content = fs.readFileSync(absolutePath, 'utf8');
-
-    const builder = new Gherkin.AstBuilder(uuidFn);
-    const matcher = new Gherkin.GherkinClassicTokenMatcher();
-    const parser = new Gherkin.Parser(builder, matcher);
-
-    let gherkinDocument;
-    try {
-      gherkinDocument = parser.parse(content);
-    } catch (err) {
-      console.error(`[Gherkin Parser] Failed to parse: ${absolutePath}`, err);
-      continue;
-    }
-
-    const pickles = Gherkin.compile(gherkinDocument, absolutePath, uuidFn);
-
-    for (const pickle of pickles) {
-      const tags = pickle.tags || [];
-
-      for (const tag of tags) {
-        const tagName = tag.name;
-        if (tagToArgMap[tagName]) {
-          args.add(tagToArgMap[tagName]);
-        }
-      }
-    }
-  }
-
-  return [...args];
-}
 
 // Helper function to set scenario parameters in the browser via IPC
 async function setScenarioParams(params) {
@@ -131,6 +83,44 @@ exports.config = {
     './features/**/*.feature'
   ],
   
+  //
+  // ===================
+  // Test Configurations
+  // ===================
+  logLevel: 'warn',
+  bail: 0,
+  baseUrl: 'file://' + path.join(process.cwd()),
+  waitforTimeout: 10000,
+  connectionRetryTimeout: 120000,
+  connectionRetryCount: 3,
+  
+  services: ['electron'],
+  
+  framework: 'cucumber',
+  cucumberOpts: {
+    requireModule: [],
+    require: [
+      './features/support/parameter_types.js',
+      './features/support/*.js',
+      './features/steps/*.js'
+    ],
+    backtrace: false,
+    compiler: [],
+    dryRun: false,
+    failFast: false,
+    format: ['pretty'],
+    colors: true,
+    snippets: true,
+    source: true,
+    profile: [],
+    strict: false,
+    tags: [],
+    timeout: 60000,
+    ignoreUndefinedDefinitions: false
+  },
+  
+  reporters: ['spec'],
+  
   // Patterns to exclude
   exclude: [],
   
@@ -155,13 +145,9 @@ exports.config = {
         DISABLE_DROPBOX_SYNC: 'true',
         NODE_ENV: 'test'
       }
-    },
-
-    cucumberOpts: {
-      require: ['./features/steps/*.js'],
-      scenarioLevelReporter: true // 👈 one session per scenario
-    },
+    }
   }],
+
   
   // Delete user data directory before session starts
   beforeSession: async function(config, capabilities, specs, cid) {
@@ -189,46 +175,7 @@ exports.config = {
     } else {
       console.log('[TEST] Test data directory does not exist yet, no cleanup needed');
     }
-
-    const extraArgs = await getStartupArgsFromTags(specs);
-
-    capabilities['wdio:electronServiceOptions'].appArgs.push(...extraArgs)
-    console.log(`[beforeSession] Injected Electron args: ${extraArgs.join(' ')}`)
   },
-  
-  //
-  // ===================
-  // Test Configurations
-  // ===================
-  logLevel: 'warn',
-  bail: 0,
-  baseUrl: 'file://' + path.join(process.cwd()),
-  waitforTimeout: 10000,
-  connectionRetryTimeout: 120000,
-  connectionRetryCount: 3,
-  
-  services: ['electron'],
-  
-  framework: 'cucumber',
-  cucumberOpts: {
-    requireModule: [],
-    require: ['./features/steps/*.js'],
-    backtrace: false,
-    compiler: [],
-    dryRun: false,
-    failFast: false,
-    format: ['pretty'],
-    colors: true,
-    snippets: true,
-    source: true,
-    profile: [],
-    strict: false,
-    tags: [],
-    timeout: 60000,
-    ignoreUndefinedDefinitions: false
-  },
-  
-  reporters: ['spec'],
   
   //
   // =====
