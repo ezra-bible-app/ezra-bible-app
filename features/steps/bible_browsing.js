@@ -21,6 +21,18 @@ const spectronHelper = require('../helpers/spectron_helper.js');
 const nsiHelper = require('../helpers/nsi_helper.js');
 const uiHelper = require('../helpers/ui_helper.js');
 
+Given('I open the book selection menu', {timeout: 60 * 1000}, async function () {
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var menuButton = await verseListTabs.$('.book-select-button');
+  
+  await uiHelper.buttonIsEnabled(menuButton, 1000);
+  if (await uiHelper.buttonIsActive(menuButton)) {
+    return;
+  }
+  await menuButton.click();
+  await spectronHelper.sleep(500);
+});
+
 Given('I open the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async function (buttonSelector) {
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var menuButton = await verseListTabs.$(buttonSelector);

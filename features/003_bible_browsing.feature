@@ -22,6 +22,7 @@ Feature: Bible browsing
   In order to do study the text of a book
   I can open the book for browsing
 
+  @param:installKjv=true
   Scenario: Basic browsing
     Given I open the book selection menu
     When I select the book Ephesians
@@ -29,6 +30,7 @@ Feature: Bible browsing
     And the book of Ephesians is opened in the current tab
   
   @reset-book-loading-mode-after-scenario
+  @param:installKjv=true
   Scenario: Chapter-based browing
     Given I open the options dialog
     And I set the book loading option to "Open all books chapter-wise"
