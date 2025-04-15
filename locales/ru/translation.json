@@ -285,8 +285,8 @@
     "unassigned-tags": "Неиспользуемые метки",
     "recently-used-tags": "Недавно использованные метки",
     "really-delete": "Вы действительно хотите удалить следующую метку: ",
-    "tag-info-would-be-deleted": "Информация о метку будет удалена <b>для всех связанных стихов!</b>",
-    "tag-specific-notes-would-be-deleted": "<b>Специальные заметки метки</b> будут удалены!",
+    "tag-info-would-be-deleted": "Информация о метке будет удалена <b>для всех связанных стихов!</b>",
+    "tag-specific-notes-would-be-deleted": "Все <b>привязанные к метке заметки</b> будут удалены!",
     "really-remove-tag-assignment": "Вы действительно хотите удалить метку &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; из выделенных стихов?",
     "remove-tag-assignment": "Удалить связь метки",
     "verses-tagged-with": "Стихи помеченные ",
@@ -324,7 +324,7 @@
     "add-tags-to-group": "Добавить метки к группе",
     "delete-tag-from-group-explanation": "Метка <i>{{tag}}</i> будет удалена из группы <i>{{group}}</i>. Чтобы окончательно удалить метку, поставьте галоку ниже.",
     "really-delete-tag-group": "Вы действительно хотите удалить группу меток<br/><i>{{tagGroupTitle}}</i>?",
-    "use-tag-specific-notes": "Использовать специальные заметки для меток"
+    "use-tag-specific-notes": "Использовать заметки привязанные к меткам"
   },
   "bible-browser": {
     "chapter": "Глава",
@@ -349,10 +349,10 @@
     "select-all-verses": "Выбрать все стихи",
     "all-verses": "Все стихи",
     "module-configuration": "Конфигурация модулей",
-    "display": "Параметры отображения",
-    "text-options": "Параметры текста",
+    "display": "Настройки отображения",
+    "text-options": "Настройки текста",
     "tags-and-notes-options": "Настройки меток и заметок",
-    "bible-browser-layout": "Параметры окна Библии",
+    "bible-browser-layout": "Настройки окна Библии",
     "show-tag-list": "Список меток",
     "show-book-intro": "Введения книг",
     "show-section-titles": "Заголовки разделов",
