@@ -1469,24 +1469,20 @@ class TagsController {
   }
 
   uncheckAllCheckboxElements() {
-    var all_checkbox_elements = document.querySelectorAll('.checkbox-tag');
+    const allCheckboxElements = document.querySelectorAll('.checkbox-tag');
 
-    if (all_checkbox_elements.length > 0) {
-      for (let i = 0; i < all_checkbox_elements.length; i++) {
-        var current_checkbox_element = all_checkbox_elements[i];
+    allCheckboxElements.forEach(currentCheckboxElement => {
+      const currentTagButton = currentCheckboxElement.querySelector('.tag-button');
+      currentTagButton.setAttribute('title', this.assign_tag_hint);
+      currentTagButton.classList.add('disabled');
+      currentTagButton.classList.remove('active');
 
-        var current_tag_button = current_checkbox_element.querySelector('.tag-button');
-        current_tag_button.setAttribute('title', this.assign_tag_hint);
-        current_tag_button.classList.add('disabled');
-        current_tag_button.classList.remove('active');
+      const currentTitleElement = currentCheckboxElement.querySelector('.cb-label');
+      currentTitleElement.classList.remove('underline');
 
-        var current_title_element = current_checkbox_element.querySelector('.cb-label');
-        current_title_element.classList.remove('underline');
-
-        var current_title_element_postfix = current_checkbox_element.querySelector('.cb-label-postfix');
-        current_title_element_postfix.innerHTML = '';
-      }
-    }
+      const currentTitleElementPostfix = currentCheckboxElement.querySelector('.cb-label-postfix');
+      currentTitleElementPostfix.innerHTML = '';
+    });
   }
 
   initTagsUI() {
