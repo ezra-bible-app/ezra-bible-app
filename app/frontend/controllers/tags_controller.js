@@ -1039,8 +1039,9 @@ class TagsController {
   }
   
   getCheckboxTag(id) {
-    var checkboxTag = $('#tags-content-global').find('.checkbox-tag[tag-id="' + id + '"]');
-    return checkboxTag;
+    const tagsContentGlobal = document.getElementById('tags-content-global');
+    const checkboxTag = tagsContentGlobal.querySelector(`.checkbox-tag[tag-id="${id}"]`);
+    return $(checkboxTag);
   }
 
   updateTagVerseCount(id, verseBoxes, to_increment) {
