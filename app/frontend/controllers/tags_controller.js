@@ -1479,22 +1479,39 @@ class TagsController {
   }
 
   initTagsUI() {
-    $('#tag-list-filter-button').bind('click', (e) => { this.tag_list_filter.handleFilterButtonClick(e); });
+    const tagListFilterButton = document.getElementById('tag-list-filter-button');
+    const tagsContentGlobal = document.getElementById('tags-content-global');
+    const tagFilterMenuInputs = document.querySelectorAll('#tag-filter-menu input');
+    const tagsSearchInput = document.getElementById('tags-search-input');
 
-    $('#tags-content-global').bind('mouseover', () => { this.tag_list_filter.hideTagFilterMenuIfInToolBar(); });
-    $('#tag-filter-menu').find('input').bind('click', (e) => { tags_controller.tag_list_filter.handleTagFilterTypeClick(e); });
+    tagListFilterButton.addEventListener('click', (e) => {
+      this.tag_list_filter.handleFilterButtonClick(e);
+    });
 
-    $('#tags-search-input').bind('keyup', (e) => { this.tag_list_filter.handleTagSearchInput(e); });
-    $('#tags-search-input').bind('keydown', (e) => {
+    tagsContentGlobal.addEventListener('mouseover', () => {
+      this.tag_list_filter.hideTagFilterMenuIfInToolBar();
+    });
+
+    tagFilterMenuInputs.forEach((input) => {
+      input.addEventListener('click', (e) => {
+        this.tag_list_filter.handleTagFilterTypeClick(e);
+      });
+    });
+
+    tagsSearchInput.addEventListener('keyup', (e) => {
+      this.tag_list_filter.handleTagSearchInput(e);
+    });
+
+    tagsSearchInput.addEventListener('keydown', (e) => {
       e.stopPropagation();
     });
 
-    $('#tags-search-input').bind('mouseup', (e) => {
+    tagsSearchInput.addEventListener('mouseup', (e) => {
       e.stopPropagation();
-      $('#tags-search-input').select();
+      tagsSearchInput.select();
     });
 
-    tags_controller.bindTagEvents();
+    this.bindTagEvents();
   }
 
   async updateTagUiBasedOnTagAvailability(tagCount=undefined) {
