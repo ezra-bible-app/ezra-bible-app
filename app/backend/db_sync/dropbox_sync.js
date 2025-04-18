@@ -153,7 +153,7 @@ class DropboxSync {
         }
       }
 
-      if (this.isFileSynced(filePath, dropboxPath)) {
+      if (await this.isFileSynced(filePath, dropboxPath)) {
         console.log(`Local file ${filePath} in sync with Dropbox file at ${dropboxPath}.`);
       } else {
         console.warn(`Error syncing local file ${filePath} to Dropbox file at ${dropboxPath}`);
