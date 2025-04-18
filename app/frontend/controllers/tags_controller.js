@@ -9,8 +9,8 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+   See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -36,36 +36,35 @@ const { showDialog } = require('../helpers/ezra_helper.js');
  */
 class TagsController {
   constructor() {
-    loadScript("app/templates/tag_list.js");
+    loadScript('app/templates/tag_list.js');
 
     this.tag_store = new TagStore();
     this.tag_list_filter = new TagListFilter();
 
     this.verse_box_helper = new VerseBoxHelper();
 
-    this.new_standard_tag_button = $('#new-standard-tag-button');
+    this.new_standard_tag_button = document.getElementById('new-standard-tag-button');
     this.verse_selection_blocked = false;
     this.verses_were_selected_before = false;
 
-    this.assign_tag_label = i18n.t("tags.assign-tag");
-    this.unassign_tag_label = i18n.t("tags.remove-tag-assignment");
-    this.assign_tag_hint = i18n.t("tags.assign-tag-hint");
-  
+    this.assign_tag_label = i18n.t('tags.assign-tag');
+    this.unassign_tag_label = i18n.t('tags.remove-tag-assignment');
+    this.assign_tag_hint = i18n.t('tags.assign-tag-hint');
+
     this.tag_to_be_deleted = null;
     this.tag_to_be_deleted_title = null;
     this.tag_to_be_deleted_is_global = false;
     this.permanently_delete_tag = true;
-  
+
     this.remove_tag_assignment_job = null;
     this.new_tag_created = false;
-    this.last_created_tag = "";
-  
+    this.last_created_tag = '';
+
     this.edit_tag_id = null;
-  
-    //this.xml_tag_statistics = null; // FIXME
-    this.loading_indicator = "<img class=\"loading-indicator\" style=\"float: left; margin-left: 0.5em;\" " +
-                             "width=\"16\" height=\"16\" src=\"images/loading_animation.gif\" />";
-  
+
+    this.loading_indicator = '<img class="loading-indicator" style="float: left; margin-left: 0.5em;" ' +
+                             'width="16" height="16" src="images/loading_animation.gif" />';
+
     this.selected_verse_references = [];
     this.selected_verse_boxes = [];
 
@@ -213,24 +212,26 @@ class TagsController {
 
     this.newTagDialogInitDone = true;
 
-    var dialogWidth = 450;
-    var dialogHeight = 470;
-    var draggable = true;
-    var position = [55, 120];
+    const dialogWidth = 450;
+    const dialogHeight = 470;
+    const draggable = true;
+    const position = [55, 120];
 
-    let new_standard_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    const new_standard_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
     new_standard_tag_dlg_options.dialogClass = 'ezra-dialog new-tag-dialog';
-    new_standard_tag_dlg_options.title = i18n.t("tags.new-tag");
-    new_standard_tag_dlg_options.autoOpen = false;  
+    new_standard_tag_dlg_options.title = i18n.t('tags.new-tag');
+    new_standard_tag_dlg_options.autoOpen = false;
     new_standard_tag_dlg_options.buttons = {};
 
-    new_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-      setTimeout(() => { $(this).dialog("close"); }, 100);
+    new_standard_tag_dlg_options.buttons[i18n.t('general.cancel')] = function() {
+      setTimeout(() => {
+        $(this).dialog('close');
+      }, 100);
     };
 
-    new_standard_tag_dlg_options.buttons[i18n.t("tags.create-tag")] = {
+    new_standard_tag_dlg_options.buttons[i18n.t('tags.create-tag')] = {
       id: 'create-tag-button',
-      text: i18n.t("tags.create-tag"),
+      text: i18n.t('tags.create-tag'),
       click: function() {
         tags_controller.saveNewTag(this);
       }
@@ -254,42 +255,43 @@ class TagsController {
       if (platformHelper.isCordova()) {
         // eslint-disable-next-line no-undef
         if (Keyboard.isVisible) {
-          // We need to remember the current window height as the keyboard is shown
-          // When closing the current dialog the keyboard will go away and in that moment of "flickering"
-          // it is hard to determine the window height right at the time when the new dialog is opened.
-          let currentWindowHeight = $(window).height();
+          const currentWindowHeight = window.innerHeight;
 
-          // We slightly reduce the height of the add-tags-to-group-dialog - this is based on testing/experience.
-          $('#add-tags-to-group-dialog').dialog("option", "height", currentWindowHeight - 18);
+          $('#add-tags-to-group-dialog').dialog('option', 'height', currentWindowHeight - 18);
         }
       }
 
-      $('#new-standard-tag-dialog').dialog("close");
-      $('#add-tags-to-group-dialog').dialog("open");
+      $('#new-standard-tag-dialog').dialog('close');
+      $('#add-tags-to-group-dialog').dialog('open');
       await waitUntilIdle();
     });
-  
+
     $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
     uiHelper.fixDialogCloseIconOnAndroid('new-tag-dialog');
 
-    // Handle the enter key in the tag title field and create the tag when it is pressed
-    $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", async (event) => {
-      if (event.which == 13) {
-        var tag_title = $('#new-standard-tag-title-input').val();
-        var tagExisting = await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
+    const tagTitleInput = document.getElementById('new-standard-tag-title-input');
+    if (!tagTitleInput.classList.contains('bound')) {
+      tagTitleInput.classList.add('bound');
 
-        if (tagExisting) {
-          return;
+      tagTitleInput.addEventListener('keypress', async (event) => {
+        if (event.which === 13) {
+          const tag_title = tagTitleInput.value;
+          const tagExisting = await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
+
+          if (tagExisting) {
+            return;
+          }
+
+          $('#new-standard-tag-dialog').dialog('close');
+          tags_controller.saveNewTag(event);
         }
+      });
 
-        $('#new-standard-tag-dialog').dialog("close");
-        tags_controller.saveNewTag(event);
-      }
-    // eslint-disable-next-line no-unused-vars
-    }).on("keyup", async (event) => {
-      var tag_title = $('#new-standard-tag-title-input').val();
-      await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
-    });
+      tagTitleInput.addEventListener('keyup', async () => {
+        const tag_title = tagTitleInput.value;
+        await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
+      });
+    }
   }
 
   async updateAddTagToGroupTagList() {
