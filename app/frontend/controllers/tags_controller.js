@@ -1185,12 +1185,16 @@ class TagsController {
   }
 
   sortTagLists() {
-    var global_tags_box = $('#tags-content-global');
-    var sort_function = function(a,b) {
-      return ($(a).find('.cb-label').text().toLowerCase() > $(b).find('.cb-label').text().toLowerCase()) ? 1 : -1;
-    };
+    const globalTagsBox = document.getElementById('tags-content-global');
+    const tags = Array.from(globalTagsBox.querySelectorAll('.checkbox-tag'));
 
-    global_tags_box.find('.checkbox-tag').sort_elements(sort_function);
+    tags.sort((a, b) => {
+      const textA = a.querySelector('.cb-label').textContent.toLowerCase();
+      const textB = b.querySelector('.cb-label').textContent.toLowerCase();
+      return textA > textB ? 1 : -1;
+    });
+
+    tags.forEach(tag => globalTagsBox.appendChild(tag));
   }
 
   async getTagList(forceRefresh=true) {
