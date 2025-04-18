@@ -1430,41 +1430,38 @@ class TagsController {
   }
 
   formatCheckboxElementBasedOnSelection(cb_element, selected_verse_tags) {
-    var current_tag_button = cb_element.querySelector('.tag-button');
-    var current_title_element = cb_element.querySelector('.cb-label');
-    var current_title = current_title_element.innerHTML;
-    var current_title_element_postfix = cb_element.querySelector('.cb-label-postfix');
-    var match_found = false;
+    const currentTagButton = cb_element.querySelector('.tag-button');
+    const currentTitleElement = cb_element.querySelector('.cb-label');
+    const currentTitle = currentTitleElement.innerHTML;
+    const currentTitleElementPostfix = cb_element.querySelector('.cb-label-postfix');
+    let matchFound = false;
 
-    for (let j = 0; j < selected_verse_tags.length; j++) {
-      var current_tag_obj = selected_verse_tags[j];
-
-      if (current_tag_obj.title == current_title) {
-        if (current_tag_obj.complete) {
-          current_tag_button.setAttribute('title', this.unassign_tag_label);
-          current_tag_button.classList.add('active');
-          current_title_element_postfix.innerHTML = '';
-          current_title_element.classList.remove('underline');
+    selected_verse_tags.forEach(currentTagObj => {
+      if (currentTagObj.title === currentTitle) {
+        if (currentTagObj.complete) {
+          currentTagButton.setAttribute('title', this.unassign_tag_label);
+          currentTagButton.classList.add('active');
+          currentTitleElementPostfix.innerHTML = '';
+          currentTitleElement.classList.remove('underline');
         } else {
-          current_tag_button.setAttribute('title', this.assign_tag_label);
-          current_tag_button.classList.remove('active');
-          current_title_element_postfix.innerHTML = '&nbsp;*';
-          current_title_element.classList.add('underline');
+          currentTagButton.setAttribute('title', this.assign_tag_label);
+          currentTagButton.classList.remove('active');
+          currentTitleElementPostfix.innerHTML = '&nbsp;*';
+          currentTitleElement.classList.add('underline');
         }
-
-        match_found = true;
+        matchFound = true;
       }
-    }
+    });
 
-    if (!match_found) {
-      current_tag_button.classList.remove('active');
-      current_tag_button.setAttribute('title', this.assign_tag_label);
-      current_title_element.classList.remove('underline');
-      current_title_element_postfix.innerHTML = '';
+    if (!matchFound) {
+      currentTagButton.classList.remove('active');
+      currentTagButton.setAttribute('title', this.assign_tag_label);
+      currentTitleElement.classList.remove('underline');
+      currentTitleElementPostfix.innerHTML = '';
     }
 
     if (!this.verses_were_selected_before) {
-      current_tag_button.classList.remove('disabled');
+      currentTagButton.classList.remove('disabled');
     }
   }
 
