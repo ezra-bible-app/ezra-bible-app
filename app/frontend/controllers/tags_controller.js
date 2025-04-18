@@ -1325,18 +1325,18 @@ class TagsController {
     }
   }
 
-  updateTagCountAfterRendering(is_book=false) {
-    var global_tag_count = $('#tags-content-global').find('.checkbox-tag').length;
-    var global_used_tag_count = $('#tags-content-global').find('.cb-label-assigned').length;
-    var tag_list_stats = $($('#tags-content').find('#tag-list-stats'));
-    var tag_list_stats_content = "";
+  updateTagCountAfterRendering(is_book = false) {
+    const globalTagCount = document.querySelectorAll('#tags-content-global .checkbox-tag').length;
+    const globalUsedTagCount = document.querySelectorAll('#tags-content-global .cb-label-assigned').length;
+    const tagListStats = document.querySelector('#tags-content #tag-list-stats');
+    let tagListStatsContent = '';
 
     if (is_book) {
-      tag_list_stats_content += global_used_tag_count + ' ' + i18n.t('tags.stats-used') + ' / ';
+      tagListStatsContent += `${globalUsedTagCount} ${i18n.t('tags.stats-used')} / `;
     }
 
-    tag_list_stats_content += global_tag_count + ' ' + i18n.t('tags.stats-total');
-    tag_list_stats.html(tag_list_stats_content);
+    tagListStatsContent += `${globalTagCount} ${i18n.t('tags.stats-total')}`;
+    tagListStats.textContent = tagListStatsContent;
   }
 
   removeEventListeners(element_list, type, listener) {
