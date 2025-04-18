@@ -603,13 +603,15 @@ class TagsController {
 
   updateTagInView(id, title) {
     // Rename tag in tag list on the left side
-    var checkboxTag = tags_controller.getCheckboxTag(id);
-    var label = checkboxTag.find('.cb-label');
-    label.text(title);
+    const checkboxTag = this.getCheckboxTag(id);
+    const label = checkboxTag.querySelector('.cb-label');
+    label.textContent = title;
 
     // Rename tag in tag selection menu above bible browser
-    var tag_selection_entry = $('#tag-browser-tag-' + id).find('.tag-browser-tag-title').find('.tag-browser-tag-title-content');
-    tag_selection_entry.text(title);
+    const tagSelectionEntry = document.querySelector(`#tag-browser-tag-${id} .tag-browser-tag-title-content`);
+    if (tagSelectionEntry) {
+      tagSelectionEntry.textContent = title;
+    }
   }
 
   async saveNewTag(e) {
