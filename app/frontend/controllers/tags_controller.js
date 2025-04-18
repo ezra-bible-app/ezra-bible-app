@@ -1531,23 +1531,28 @@ class TagsController {
   }
 
   showTagListLoadingIndicator() {
-    let tagsContentGlobal = document.getElementById('tags-content-global');
+    const tagsContentGlobal = document.getElementById('tags-content-global');
     let loadingIndicator = tagsContentGlobal.querySelector('loading-indicator');
 
-    if (loadingIndicator == null) {
-      let element = document.createElement('loading-indicator');
-      tagsContentGlobal.appendChild(element);
-      loadingIndicator = tagsContentGlobal.querySelector('loading-indicator');
+    if (!loadingIndicator) {
+      loadingIndicator = document.createElement('loading-indicator');
+      tagsContentGlobal.appendChild(loadingIndicator);
     }
 
-    $(loadingIndicator).find('.loader').show();
-    $(loadingIndicator).show();
+    const loader = loadingIndicator.querySelector('.loader');
+    if (loader) {
+      loader.style.display = 'block';
+    }
+    loadingIndicator.style.display = 'block';
   }
 
   hideTagListLoadingIndicator() {
-    let tagsContentGlobal = document.getElementById('tags-content-global');
-    let loadingIndicator = tagsContentGlobal.querySelector('loading-indicator');
-    $(loadingIndicator).hide();
+    const tagsContentGlobal = document.getElementById('tags-content-global');
+    const loadingIndicator = tagsContentGlobal.querySelector('loading-indicator');
+
+    if (loadingIndicator) {
+      loadingIndicator.style.display = 'none';
+    }
   }
 
   async updateTagsView(tabIndex, forceRefresh = false) {
