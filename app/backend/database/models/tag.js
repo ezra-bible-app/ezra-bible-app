@@ -107,15 +107,15 @@ module.exports = (sequelize, DataTypes) => {
         await global.models.Tag.update({ title: newTitle }, { where: { id: id }});
       }
 
-      addTagGroups.forEach(async (tagGroupId) => {
+      for (const tagGroupId of addTagGroups) {
         let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
         await tagGroup.addTag(id);
-      });
+      }
 
-      removeTagGroups.forEach(async (tagGroupId) => {
+      for (const tagGroupId of removeTagGroups) {
         let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
         await tagGroup.removeTag(id);
-      });
+      }
 
       await global.models.MetaRecord.updateLastModified();
 
