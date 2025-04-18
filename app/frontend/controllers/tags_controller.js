@@ -1376,21 +1376,20 @@ class TagsController {
   }
 
   updateTagTitlesInVerseList(tag_id, is_global, title) {
-    var tag_class = is_global ? "tag-global" : "tag-book";
+    const tagClass = is_global ? 'tag-global' : 'tag-book';
+    const tagDataElements = Array.from(document.querySelectorAll(`.${tagClass} .tag-id`))
+      .filter(element => parseInt(element.textContent, 10) === tag_id)
+      .map(element => element.closest(`.${tagClass}`));
 
-    // eslint-disable-next-line no-unused-vars
-    var tag_data_elements = $('.tag-id').filter(function(index) {
-      return (($(this).html() == tag_id) && ($(this).parent().hasClass(tag_class)));
-    }).closest('.' + tag_class);
+    tagDataElements.forEach(tagDataElement => {
+      const tagTitleElement = tagDataElement.querySelector('.tag-title');
+      tagTitleElement.textContent = title;
 
-    for (let i = 0; i < tag_data_elements.length; i++) {
-      var current_tag_data = $(tag_data_elements[i]);
-      current_tag_data.find('.tag-title').html(title);
-
-      var current_verse_box = new VerseBox(current_tag_data.closest('.verse-box')[0]);
-      current_verse_box.updateTagTooltip();
-      current_verse_box.updateVisibleTags();
-    }
+      const verseBoxElement = tagDataElement.closest('.verse-box');
+      const verseBoxObj = new VerseBox(verseBoxElement);
+      verseBoxObj.updateTagTooltip();
+      verseBoxObj.updateVisibleTags();
+    });
   }
 
   async updateTagsViewAfterVerseSelection(force) {
