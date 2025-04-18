@@ -178,10 +178,10 @@ class TagsController {
   getCurrentTagGroup() {
     let currentTagGroup = null;
 
-    if (tags_controller.currentTagGroupId != null) {
+    if (this.currentTagGroupId !== null) {
       currentTagGroup = {
-        title: tags_controller.currentTagGroupTitle,
-        id: tags_controller.currentTagGroupId
+        title: this.currentTagGroupTitle,
+        id: this.currentTagGroupId
       };
     }
 
