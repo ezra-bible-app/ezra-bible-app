@@ -1352,27 +1352,23 @@ class TagsController {
   }
 
   bindTagEvents() {
-    var tags_box = document.getElementById('tags-content-global');
+    const tagsBox = document.getElementById('tags-content-global');
 
-    tags_box.addEventListener('click', async function(event) {
-      // Use event delegation, so that we do not have to add an event listener to each element.
-
+    tagsBox.addEventListener('click', async (event) => {
       const CLICK_TIMEOUT = 100;
 
       if (event.target.matches('.delete-icon') || event.target.matches('.delete-button')) {
-        setTimeout(() => { tags_controller.handleDeleteTagButtonClick(event); }, CLICK_TIMEOUT);
+        setTimeout(() => { this.handleDeleteTagButtonClick(event); }, CLICK_TIMEOUT);
       } else if (event.target.matches('.edit-icon') || event.target.matches('.edit-button')) {
-        setTimeout(() => { tags_controller.handleEditTagClick(event); }, CLICK_TIMEOUT);
+        setTimeout(() => { this.handleEditTagClick(event); }, CLICK_TIMEOUT);
       } else if (event.target.matches('.tag-button')) {
         await waitUntilIdle();
-        await tags_controller.handleTagCbClick(event);
+        await this.handleTagCbClick(event);
       } else if (event.target.matches('.cb-label')) {
         await waitUntilIdle();
-        await tags_controller.handleTagLabelClick(event);
-      } else {
-        return;
+        await this.handleTagLabelClick(event);
       }
-    }, false);
+    });
   }
 
   updateTagTitlesInVerseList(tag_id, is_global, title) {
