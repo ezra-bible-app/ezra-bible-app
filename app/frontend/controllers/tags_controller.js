@@ -170,8 +170,8 @@ class TagsController {
   }
 
   tagPanelIsActive() {
-    let tagPanelButton = document.getElementById('tag-panel-button');
-    let isActive = tagPanelButton.classList.contains('active');
+    const tagPanelButton = document.getElementById('tag-panel-button');
+    const isActive = tagPanelButton.classList.contains('active');
     return isActive;
   }
 
