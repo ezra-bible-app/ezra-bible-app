@@ -604,7 +604,7 @@ class TagsController {
   updateTagInView(id, title) {
     // Rename tag in tag list on the left side
     const checkboxTag = this.getCheckboxTag(id);
-    const label = checkboxTag.querySelector('.cb-label');
+    const label = checkboxTag[0].querySelector('.cb-label');
     label.textContent = title;
 
     // Rename tag in tag selection menu above bible browser
