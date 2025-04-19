@@ -1040,8 +1040,12 @@ class TagsController {
   
   getCheckboxTag(id) {
     const tagsContentGlobal = document.getElementById('tags-content-global');
+    if (!tagsContentGlobal) {
+      return $();
+    }
+
     const checkboxTag = tagsContentGlobal.querySelector(`.checkbox-tag[tag-id="${id}"]`);
-    return $(checkboxTag);
+    return checkboxTag ? $(checkboxTag) : $();
   }
 
   updateTagVerseCount(id, verseBoxes, to_increment) {
