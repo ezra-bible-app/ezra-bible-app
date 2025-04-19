@@ -345,14 +345,14 @@ class FloatingVerseContextMenu extends HTMLElement {
     
     // Calculate position
     // Position the menu above the verse box
-    let top = verseBoxRect.top - this.cachedMenuHeight - 10;
+    let top = verseBoxRect.top - this.cachedMenuHeight;
     
     // Horizontal alignment with verse-text-container if available
     let left = verseTextContainer && verseTextContainerRect ? verseTextContainerRect.left : verseBoxRect.left;
     
     // If there's not enough space above, position below the verse box
     if (top < 10) {
-      top = verseBoxRect.bottom + 10; // 10px gap below the verse
+      top = verseBoxRect.bottom; // 10px gap below the verse
     }
     
     // Ensure the menu doesn't go off-screen horizontally
