@@ -71,8 +71,7 @@ const template = html`
   }
 
   #floating-verse-context-menu .action-button.disabled {
-    opacity: 0.5;
-    cursor: default;
+    display: none;
   }
 
   @media (max-width: 450px), (max-height: 450px) {
