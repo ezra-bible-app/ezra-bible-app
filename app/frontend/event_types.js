@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -39,7 +38,7 @@
  * @typedef { "on-locale-changed" } I18nEvents
  */
 /**
- * @typedef { "on-startup-completed" | "on-theme-changed" | "on-fullscreen-changed" | "on-button-clicked" | "on-body-clicked" | "on-db-refresh" } AppEvents
+ * @typedef { "on-startup-completed" | "on-theme-changed" | "on-fullscreen-changed" | "on-button-clicked" | "on-body-clicked" | "on-db-refresh" | "on-hide-menu-request" } AppEvents
  */
 /**
  * @typedef { "on-tag-panel-switched" | "on-tag-statistics-panel-switched" | "on-word-study-panel-switched" | "on-compare-panel-switched" } PanelEvents

@@ -31,6 +31,10 @@ class BookSelectionMenu {
     this.book_menu_is_opened = false;
     this.init_completed = false;
     this.recentPassagesKey = 'recentPassages';
+
+    eventController.subscribe('on-hide-menu-request', () => {
+      this.hideBookMenu();
+    });
   }
 
   async init() {

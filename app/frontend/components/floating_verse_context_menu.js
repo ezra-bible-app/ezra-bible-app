@@ -116,6 +116,10 @@ class FloatingVerseContextMenu extends HTMLElement {
       this.hide();
     });
 
+    eventController.subscribe('on-hide-menu-request', () => {
+      this.hide();
+    });
+
     eventController.subscribeMultiple(['on-note-created', 'on-note-deleted'], () => {
       let selection = { 'selectedElements': app_controller.verse_selection.getSelectedVerseBoxes() };
       this.toggleButtons(selection);

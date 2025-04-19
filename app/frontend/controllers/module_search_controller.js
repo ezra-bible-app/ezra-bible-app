@@ -37,6 +37,10 @@ class ModuleSearchController {
     this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
     this.currentSearchCancelled = false;
 
+    eventController.subscribe('on-hide-menu-request', () => {
+      this.hideSearchMenu();
+    });
+
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       await waitUntilIdle();
 

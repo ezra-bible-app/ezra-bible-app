@@ -361,13 +361,8 @@ class AppController {
   }
 
   hideAllMenus() {
-    this.book_selection_menu.hideBookMenu();
-    this.tag_selection_menu.hideTagMenu();
-    this.module_search_controller.hideSearchMenu();
-    this.optionsMenu.hideDisplayMenu();
-    this.textSizeSettings.hideTextSizeMenu();
     document.getElementById('verse-context-menu').hidden = true;
-    wheelnavController.closeWheelNav();
+    eventController.publish('on-hide-menu-request');
   }
 
   async openXrefVerses(referenceVerseBox, xrefTitle, xrefs) {

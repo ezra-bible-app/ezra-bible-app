@@ -32,6 +32,10 @@ class TagSelectionMenu {
 
     this.bindUserEvents();
     this.subscribeAppEvents();
+
+    eventController.subscribe('on-hide-menu-request', () => {
+      this.hideTagMenu();
+    });
   }
 
   bindUserEvents() {

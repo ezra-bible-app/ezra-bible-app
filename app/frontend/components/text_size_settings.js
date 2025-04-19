@@ -47,6 +47,10 @@ class TextSizeSettings {
     eventController.subscribe('on-tab-added', (tabIndex) => {
       this.init(tabIndex);
     });
+    
+    eventController.subscribe('on-hide-menu-request', () => {
+      this.hideTextSizeMenu();
+    });
   }
 
   async init(tabIndex=undefined) {
