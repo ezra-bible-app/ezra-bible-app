@@ -18,6 +18,7 @@
 const { html } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const clipboardController = require('../controllers/clipboard_controller.js');
 const AssignLastTagButton = require('../components/tags/assign_last_tag_button.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
@@ -25,6 +26,12 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const template = html`
 <div class="assign-last-tag-button action-button disabled" i18n="[title]tags.assign-last-tag">
   <i class="fas fa-tag"></i>
+</div>
+
+<div class="separator"></div>
+
+<div class="copy-button action-button disabled" i18n="[title]bible-browser.copy">
+  <i class="fas fa-copy"></i>
 </div>
 
 <div class="separator"></div>
@@ -198,6 +205,10 @@ class FloatingVerseContextMenu extends HTMLElement {
         assignLastTagButton.classList.add('disabled');
       }
 
+      // Enable copy button
+      const copyButton = this.querySelector('.copy-button');
+      copyButton.classList.remove('disabled');
+
       const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
 
       if (selectedVerseBoxes.length > 0) {
@@ -342,10 +353,12 @@ class FloatingVerseContextMenu extends HTMLElement {
     const editNoteButton = this.querySelector('.edit-note-button');
     const deleteNoteButton = this.querySelector('.delete-note-button');
     const contextButton = this.querySelector('.show-context-button2');
+    const copyButton = this.querySelector('.copy-button');
     
     editNoteButton.classList.add('disabled');
     deleteNoteButton.classList.add('disabled');
     contextButton.classList.add('disabled');
+    copyButton.classList.add('disabled');
   }
 
   enableDeleteNoteButton() {
@@ -378,6 +391,7 @@ class FloatingVerseContextMenu extends HTMLElement {
     const showContextButton = this.querySelector('.show-context-button2');
     const openInNewTabButton = this.querySelector('.open-in-new-tab-button');
     const assignLastTagButton = this.querySelector('.assign-last-tag-button');
+    const copyButton = this.querySelector('.copy-button');
 
     assignLastTagButton.addEventListener('click', async (event) => {
       event.stopPropagation();
@@ -458,6 +472,12 @@ class FloatingVerseContextMenu extends HTMLElement {
             await app_controller.verse_selection.setVerseAsSelection(verseTextContainer);
           }
         }
+      }
+    });
+
+    copyButton.addEventListener('click', (event) => {
+      if (!event.currentTarget.classList.contains('disabled')) {
+        clipboardController.copyTextToClipboard();
       }
     });
 
