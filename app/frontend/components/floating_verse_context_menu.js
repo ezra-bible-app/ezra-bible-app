@@ -68,6 +68,7 @@ class FloatingVerseContextMenu extends HTMLElement {
     this.currentVerseElement = null;
     this.scrollHandler = null;
     this.resizeHandler = null;
+    this.startupComplete = false;
     
     eventController.subscribe('on-verses-selected', async (selectionDetails) => {
       await this.handleVerseSelection(selectionDetails);
@@ -80,6 +81,19 @@ class FloatingVerseContextMenu extends HTMLElement {
     eventController.subscribeMultiple(['on-note-created', 'on-note-deleted'], () => {
       let selection = { 'selectedElements': app_controller.verse_selection.getSelectedVerseBoxes() };
       this.toggleButtons(selection);
+    });
+    
+    eventController.subscribe('on-startup-completed', async () => {
+      this.startupComplete = true;
+      
+      // Check if verses are already selected and show menu if needed
+      const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
+      if (selectedVerseBoxes.length > 0) {
+        await this.handleVerseSelection({
+          selectedElements: selectedVerseBoxes,
+          selectedVerseTags: app_controller.verse_selection.getCurrentSelectionTags()
+        });
+      }
     });
   }
 
@@ -95,10 +109,18 @@ class FloatingVerseContextMenu extends HTMLElement {
     if (selectionDetails.selectedElements.length > 0) {
       this.toggleButtons(selectionDetails);
       this.currentVerseElement = selectionDetails.selectedElements[0];
-      await this.positionMenu(this.currentVerseElement);
-      this.show();
-      this.addScrollHandler();
-      this.addResizeHandler();
+      
+      // Only show menu if startup is complete
+      if (this.startupComplete || app_controller.isStartupCompleted()) {
+        this.startupComplete = true; // In case it wasn't set yet but app_controller reports it's complete
+        
+        await this.positionMenu(this.currentVerseElement);
+        if (this.isVerseElementVisible(this.currentVerseElement)) {
+          this.show();
+          this.addScrollHandler();
+          this.addResizeHandler();
+        }
+      }
     } else {
       this.hide();
       this.removeScrollHandler();
@@ -153,6 +175,14 @@ class FloatingVerseContextMenu extends HTMLElement {
   }
 
   async positionMenu(verseElement) {
+    // If startup is not complete, don't try to position the menu
+    if (!this.startupComplete && !app_controller.isStartupCompleted()) {
+      // Position at a safe default location until startup is complete
+      this.style.top = '50px';
+      this.style.left = '50px';
+      return;
+    }
+    
     // Find the verse-text-container inside the verse box
     const verseTextContainer = verseElement.querySelector('.verse-text-container');
     const verseBox = verseElement.closest('.verse-box');
@@ -163,7 +193,7 @@ class FloatingVerseContextMenu extends HTMLElement {
     const menuHeight = this.offsetHeight;
     
     // Position the menu above the verse box
-    let top = verseBoxRect.top - menuHeight;
+    let top = verseBoxRect.top - menuHeight - 10;
     
     // Horizontal alignment with verse-text-container if available
     let left = verseTextContainer && verseTextContainerRect ? verseTextContainerRect.left : verseBoxRect.left;
