@@ -308,6 +308,7 @@ class ModuleSearchController {
     if (this.search_menu_opened) {
       app_controller.handleBodyClick();
     } else {
+      eventController.publish('on-menu-opened', { menuType: 'module-search-menu' });
       app_controller.hideAllMenus();
 
       moduleSearchButton.addClass('ui-state-active');

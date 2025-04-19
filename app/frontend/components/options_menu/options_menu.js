@@ -278,6 +278,7 @@ class OptionsMenu {
     if (this.menuIsOpened) {
       app_controller.handleBodyClick();
     } else {
+      eventController.publish('on-menu-opened', { menuType: 'options-menu' });
       app_controller.hideAllMenus();
 
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();

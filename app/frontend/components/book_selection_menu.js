@@ -312,6 +312,7 @@ class BookSelectionMenu {
     if (this.book_menu_is_opened) {
       app_controller.handleBodyClick();
     } else {
+      eventController.publish('on-menu-opened', { menuType: 'book-selection-menu' });
       app_controller.hideAllMenus();
       
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();

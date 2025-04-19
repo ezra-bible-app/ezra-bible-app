@@ -123,6 +123,7 @@ class TextSizeSettings {
   }
 
   showTextSizeMenu() {
+    eventController.publish('on-menu-opened', { menuType: 'text-size-settings' });
     app_controller.hideAllMenus();
 
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();

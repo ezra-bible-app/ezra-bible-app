@@ -188,6 +188,7 @@ class TagSelectionMenu {
     if (this.tag_menu_is_opened) {
       app_controller.handleBodyClick();
     } else {
+      eventController.publish('on-menu-opened', { menuType: 'tag-selection-menu' });
       app_controller.hideAllMenus();
 
       document.getElementById('app-container').classList.add('fullscreen-menu');
