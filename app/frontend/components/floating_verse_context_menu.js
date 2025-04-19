@@ -145,25 +145,31 @@ class FloatingVerseContextMenu extends HTMLElement {
   }
 
   async positionMenu(verseElement) {
-    const verseRect = verseElement.getBoundingClientRect();
-    const menuWidth = this.offsetWidth;
+    // Find the verse-text-container inside the verse box
+    const verseTextContainer = verseElement.querySelector('.verse-text-container');
+    const verseBox = verseElement.closest('.verse-box');
+    
+    // Get the rectangles
+    const verseTextContainerRect = verseTextContainer ? verseTextContainer.getBoundingClientRect() : null;
+    const verseBoxRect = verseBox.getBoundingClientRect();
     const menuHeight = this.offsetHeight;
     
-    // Position the menu centered above the verse
-    let top = verseRect.top - menuHeight - 10;
-    let left = verseRect.left + (verseRect.width / 2) - (menuWidth / 2);
+    // Position the menu above the verse box
+    let top = verseBoxRect.top - menuHeight;
     
-    // Make sure the menu stays within the viewport
+    // Horizontal alignment with verse-text-container if available
+    let left = verseTextContainer && verseTextContainerRect ? verseTextContainerRect.left : verseBoxRect.left;
+    
+    // If there's not enough space above, position below the verse box
     if (top < 10) {
-      // Position below the verse if there's no room above
-      top = verseRect.bottom + 10;
+      top = verseBoxRect.bottom + 10; // 10px gap below the verse
     }
     
     // Ensure the menu doesn't go off-screen horizontally
     if (left < 10) {
       left = 10;
-    } else if (left + menuWidth > window.innerWidth - 10) {
-      left = window.innerWidth - menuWidth - 10;
+    } else if (left + this.offsetWidth > window.innerWidth - 10) {
+      left = window.innerWidth - this.offsetWidth - 10;
     }
     
     this.style.top = `${top}px`;
