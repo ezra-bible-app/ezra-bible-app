@@ -65,6 +65,9 @@ class FloatingVerseContextMenu extends HTMLElement {
     this.assignLastTagButton = new AssignLastTagButton();
     this.menuElement = null;
     this.hideTimeout = null;
+    this.currentVerseElement = null;
+    this.scrollHandler = null;
+    this.resizeHandler = null;
     
     eventController.subscribe('on-verses-selected', async (selectionDetails) => {
       await this.handleVerseSelection(selectionDetails);
@@ -91,10 +94,15 @@ class FloatingVerseContextMenu extends HTMLElement {
   async handleVerseSelection(selectionDetails) {
     if (selectionDetails.selectedElements.length > 0) {
       this.toggleButtons(selectionDetails);
-      await this.positionMenu(selectionDetails.selectedElements[0]);
+      this.currentVerseElement = selectionDetails.selectedElements[0];
+      await this.positionMenu(this.currentVerseElement);
       this.show();
+      this.addScrollHandler();
+      this.addResizeHandler();
     } else {
       this.hide();
+      this.removeScrollHandler();
+      this.removeResizeHandler();
     }
   }
 
@@ -333,6 +341,48 @@ class FloatingVerseContextMenu extends HTMLElement {
     this.assignLastTagButton.init();
     
     floatingContextMenuInitDone = true;
+  }
+
+  addScrollHandler() {
+    if (this.scrollHandler) {
+      return;
+    }
+
+    this.scrollHandler = () => {
+      if (this.currentVerseElement) {
+        this.positionMenu(this.currentVerseElement);
+      }
+    };
+
+    window.addEventListener('scroll', this.scrollHandler, true);
+  }
+
+  removeScrollHandler() {
+    if (this.scrollHandler) {
+      window.removeEventListener('scroll', this.scrollHandler, true);
+      this.scrollHandler = null;
+    }
+  }
+
+  addResizeHandler() {
+    if (this.resizeHandler) {
+      return;
+    }
+
+    this.resizeHandler = () => {
+      if (this.currentVerseElement) {
+        this.positionMenu(this.currentVerseElement);
+      }
+    };
+
+    window.addEventListener('resize', this.resizeHandler, true);
+  }
+
+  removeResizeHandler() {
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler, true);
+      this.resizeHandler = null;
+    }
   }
 }
 
