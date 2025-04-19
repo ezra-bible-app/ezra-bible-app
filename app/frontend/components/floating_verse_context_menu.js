@@ -93,7 +93,10 @@ const template = html`
 </style>
 
 <div class="assign-last-tag-button action-button disabled" i18n="[title]tags.assign-last-tag">
-  <i class="fas fa-tag"></i>
+  <span class="fa-stack">
+    <i class="fas fa-clock"></i>
+    <i class="fas fa-tag fa-stack-1x"></i>
+  </span>
 </div>
 
 <div class="copy-button action-button disabled" i18n="[title]bible-browser.copy">

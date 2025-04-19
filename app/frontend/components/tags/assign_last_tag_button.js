@@ -185,10 +185,7 @@ class AssignLastTagButton {
   }
   
   _isIconOnlyButton(buttonElement) {
-    // Check if the button contains only an icon (no text content besides the icon)
-    return buttonElement.childElementCount === 1 && buttonElement.firstElementChild && 
-           buttonElement.firstElementChild.tagName === 'I' && 
-           buttonElement.textContent.trim() === '';
+    return true;
   }
 }
 
