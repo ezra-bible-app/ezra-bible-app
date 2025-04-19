@@ -57,9 +57,12 @@ class AssignLastTagButton {
     });
 
     this._button = null;
+    this._iconOnly = false;
   }
 
-  init() {
+  init(tabIndex, iconOnly = false) {
+    this._iconOnly = iconOnly;
+
     var verseContextMenu = $('#verse-context-menu');
     this._button = verseContextMenu.find('.assign-last-tag-button');
 
@@ -77,11 +80,19 @@ class AssignLastTagButton {
   }
 
   resetLabel() {
-    var label = i18n.t('tags.assign-last-tag');
-    var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
-    assignLastTagButton.forEach((el) => {
-      el.innerText = label;
+    var assignLastTagButtons = document.querySelectorAll('.assign-last-tag-button');
+    
+    assignLastTagButtons.forEach((el) => {
+      if (!this._isIconOnlyButton(el)) {
+        var label = i18n.t('tags.assign-last-tag');
+        el.innerText = label;
+      }
       el.classList.add('ui-state-disabled');
+      
+      // Update tooltip for icon buttons
+      if (this._isIconOnlyButton(el)) {
+        el.setAttribute('title', i18n.t('tags.assign-last-tag'));
+      }
     });
   }
 
@@ -90,9 +101,17 @@ class AssignLastTagButton {
       tagTitle = await this.getCurrentTag();
     }
 
-    var label = i18n.t('tags.assign-last-tag') + ': ' + tagTitle;
-    var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
-    assignLastTagButton.forEach((el) => { el.innerText = label; });
+    var assignLastTagButtons = document.querySelectorAll('.assign-last-tag-button');
+    
+    assignLastTagButtons.forEach((el) => {
+      if (!this._isIconOnlyButton(el)) {
+        var label = i18n.t('tags.assign-last-tag') + ': ' + tagTitle;
+        el.innerText = label;
+      }
+      
+      // Update tooltip for all buttons
+      el.setAttribute('title', i18n.t('tags.assign-last-tag') + ': ' + tagTitle);
+    });
   }
 
   async getCurrentTag() {
@@ -118,12 +137,12 @@ class AssignLastTagButton {
 
     if (currentTag != null) {
       await this.updateLabel(currentTag.title);
-      var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
+      var assignLastTagButtons = document.querySelectorAll('.assign-last-tag-button');
 
       if (added) {
-        assignLastTagButton.forEach((el) => el.classList.add('ui-state-disabled'));
+        assignLastTagButtons.forEach((el) => el.classList.add('ui-state-disabled'));
       } else {
-        assignLastTagButton.forEach((el) => el.classList.remove('ui-state-disabled'));
+        assignLastTagButtons.forEach((el) => el.classList.remove('ui-state-disabled'));
       }
 
       // Resize the verse list in case the tag label change had an impact on the
@@ -163,6 +182,13 @@ class AssignLastTagButton {
     } else {
       assignLastTagButtons.forEach((e) => e.classList.add('ui-state-disabled'));
     }
+  }
+  
+  _isIconOnlyButton(buttonElement) {
+    // Check if the button contains only an icon (no text content besides the icon)
+    return buttonElement.childElementCount === 1 && buttonElement.firstElementChild && 
+           buttonElement.firstElementChild.tagName === 'I' && 
+           buttonElement.textContent.trim() === '';
   }
 }
 

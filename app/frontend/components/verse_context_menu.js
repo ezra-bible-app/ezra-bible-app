@@ -294,6 +294,7 @@ class VerseContextMenu extends HTMLElement {
       }
     });
 
+    // Initialize the assign last tag button with default text mode (iconOnly = false)
     this.assignLastTagButton.init();
 
     verseContextMenuInitDone = true;

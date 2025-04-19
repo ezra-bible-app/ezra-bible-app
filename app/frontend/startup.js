@@ -103,6 +103,7 @@ class Startup {
     require('./components/options_menu/locale_switch.js');
     require('./components/module_assistant/module_assistant.js');
     require('./components/verse_context_menu.js');
+    require('./components/floating_verse_context_menu.js');
     require('./components/generic/text_field.js');
   }
 
