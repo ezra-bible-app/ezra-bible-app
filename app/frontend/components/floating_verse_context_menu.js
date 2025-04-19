@@ -69,12 +69,45 @@ class FloatingVerseContextMenu extends HTMLElement {
     this.scrollHandler = null;
     this.resizeHandler = null;
     this.startupComplete = false;
+    this.tabSwitchInProgress = false;
     
     eventController.subscribe('on-verses-selected', async (selectionDetails) => {
-      await this.handleVerseSelection(selectionDetails);
+      // Don't respond to verse selection events during tab switching
+      if (!this.tabSwitchInProgress) {
+        await this.handleVerseSelection(selectionDetails);
+      }
     });
 
-    eventController.subscribeMultiple(['on-tab-selected', 'on-tab-search-reset', 'on-body-clicked'], () => {
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      this.tabSwitchInProgress = true;
+      this.hide(true); // Fully hide menu and clean up event handlers
+      
+      // Add a small delay to ensure all other tab-switch-related operations are complete
+      setTimeout(async () => {
+        // Check if there are verses selected in the newly selected tab
+        if (this.startupComplete || app_controller.isStartupCompleted()) {
+          this.startupComplete = true; // In case it wasn't set yet but app_controller reports it's complete
+          
+          const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
+          if (selectedVerseBoxes.length > 0) {
+            await this.handleVerseSelection({
+              selectedElements: selectedVerseBoxes,
+              selectedVerseTags: app_controller.verse_selection.getCurrentSelectionTags(),
+              tabIndex: tabIndex
+            });
+          }
+        }
+        
+        // Re-enable verse selection events
+        this.tabSwitchInProgress = false;
+      }, 300); // 300ms delay to let the tab switch complete
+    });
+
+    eventController.subscribe('on-tab-search-reset', () => {
+      this.hide();
+    });
+
+    eventController.subscribe('on-body-clicked', () => {
       this.hide();
     });
 
