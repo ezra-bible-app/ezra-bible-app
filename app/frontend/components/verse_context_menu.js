@@ -87,7 +87,7 @@ const template = html`
 
   .fa-stack-1x {
     text-align: right;
-    left: -10px;
+    left: -2px;
   }
 </style>
 
