@@ -24,7 +24,7 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 
 const template = html`
 <style>
-  #floating-verse-context-menu {
+  #verse-context-menu {
     position: absolute;
     display: none;
     background-color: var(--background-color);
@@ -36,17 +36,17 @@ const template = html`
     opacity: 0;
   }
 
-  .darkmode--activated #floating-verse-context-menu {
+  .darkmode--activated #verse-context-menu {
     background-color: var(--background-color);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
   }
 
-  #floating-verse-context-menu.visible {
+  #verse-context-menu.visible {
     display: flex;
     opacity: 1;
   }
 
-  #floating-verse-context-menu .action-button {
+  #verse-context-menu .action-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -60,22 +60,22 @@ const template = html`
     transition: background-color 0.2s ease-in-out;
   }
 
-  #floating-verse-context-menu .action-button:hover:not(.disabled) {
+  #verse-context-menu .action-button:hover:not(.disabled) {
     background-color: var(--accent-color);
     color: white;
   }
 
-  .darkmode--activated #floating-verse-context-menu .action-button:hover:not(.disabled) {
+  .darkmode--activated #verse-context-menu .action-button:hover:not(.disabled) {
     background-color: var(--accent-color-darkmode);
   }
 
-  #floating-verse-context-menu .action-button.disabled {
+  #verse-context-menu .action-button.disabled {
     display: none;
   }
 
   @media (max-width: 450px), (max-height: 450px) {
     /* Hide the open-in-new-tab button on mobile */
-    #floating-verse-context-menu .open-in-new-tab-button {
+    #verse-context-menu .open-in-new-tab-button {
       display: none;
     }
   }
@@ -122,15 +122,15 @@ const template = html`
 </div>
 `;
 
-var floatingContextMenuInitDone = false;
+var contextMenuInitDone = false;
 
 /**
- * The FloatingVerseContextMenu component implements a modern, icon-only menu that appears
+ * The VerseContextMenu component implements a modern, icon-only menu that appears
  * automatically when verses are selected and is positioned near the selected verse.
  * 
  * @category Component
  */
-class FloatingVerseContextMenu extends HTMLElement {
+class VerseContextMenu extends HTMLElement {
   constructor() {
     super();
 
@@ -212,7 +212,7 @@ class FloatingVerseContextMenu extends HTMLElement {
 
   connectedCallback() {
     this.innerHTML = template.innerHTML;
-    this.id = 'floating-verse-context-menu';
+    this.id = 'verse-context-menu';
     this.menuElement = this;
     this.style.display = 'none'; // Ensure it's hidden initially
     this.initContextButtons();
@@ -446,7 +446,7 @@ class FloatingVerseContextMenu extends HTMLElement {
   }
 
   initContextButtons() {
-    if (floatingContextMenuInitDone) {
+    if (contextMenuInitDone) {
       return;
     }
 
@@ -542,7 +542,7 @@ class FloatingVerseContextMenu extends HTMLElement {
       }
     });
 
-    floatingContextMenuInitDone = true;
+    contextMenuInitDone = true;
   }
 
   addScrollHandler() {
@@ -625,5 +625,5 @@ class FloatingVerseContextMenu extends HTMLElement {
   }
 }
 
-customElements.define('floating-verse-context-menu', FloatingVerseContextMenu);
-module.exports = FloatingVerseContextMenu;
+customElements.define('verse-context-menu', VerseContextMenu);
+module.exports = VerseContextMenu;
