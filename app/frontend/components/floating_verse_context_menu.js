@@ -197,13 +197,15 @@ class FloatingVerseContextMenu extends HTMLElement {
     });
   }
 
-  hide() {
+  hide(cleanup = true) {
     this.classList.remove('visible');
     
-    // Clean up event listeners when the menu is hidden
-    this.removeScrollHandler();
-    this.removeResizeHandler();
-    this.currentVerseElement = null;
+    // Clean up event listeners only if specifically requested
+    if (cleanup) {
+      this.removeScrollHandler();
+      this.removeResizeHandler();
+      this.currentVerseElement = null;
+    }
     
     // Wait for transition to complete before setting display: none
     this.hideTimeout = setTimeout(() => {
@@ -371,8 +373,7 @@ class FloatingVerseContextMenu extends HTMLElement {
           this.positionMenu(this.currentVerseElement);
           this.show();
         } else {
-          this.hide();
-          this.removeScrollHandler();
+          this.hide(false); // Hide menu but keep scroll handler active
         }
       }
     };
