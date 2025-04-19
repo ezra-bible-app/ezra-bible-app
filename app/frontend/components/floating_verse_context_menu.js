@@ -112,11 +112,11 @@ class FloatingVerseContextMenu extends HTMLElement {
       this.hide();
     });
 
-    eventController.subscribe('on-body-clicked', () => {
+    eventController.subscribe('on-hide-menu-request', () => {
       this.hide();
     });
 
-    eventController.subscribe('on-hide-menu-request', () => {
+    eventController.subscribe('on-menu-opened', (menuType) => {
       this.hide();
     });
 
