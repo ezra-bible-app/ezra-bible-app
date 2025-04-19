@@ -24,6 +24,75 @@ const VerseBox = require('../ui_models/verse_box.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 
 const template = html`
+<style>
+  #floating-verse-context-menu {
+    position: absolute;
+    display: none;
+    background-color: var(--background-color);
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    padding: 0.5em;
+    z-index: 1000;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0;
+  }
+
+  .darkmode--activated #floating-verse-context-menu {
+    background-color: var(--background-color);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  #floating-verse-context-menu.visible {
+    display: flex;
+    opacity: 1;
+  }
+
+  #floating-verse-context-menu .action-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2em;
+    height: 2em;
+    margin: 0.2em;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--text-color);
+    background-color: var(--widget-bg-color);
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  #floating-verse-context-menu .action-button:hover:not(.disabled) {
+    background-color: var(--accent-color);
+    color: white;
+  }
+
+  .darkmode--activated #floating-verse-context-menu .action-button:hover:not(.disabled) {
+    background-color: var(--accent-color-darkmode);
+  }
+
+  #floating-verse-context-menu .action-button.disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  #floating-verse-context-menu .separator {
+    width: 1px;
+    margin: 0.2em 0.4em;
+    background-color: var(--border-color);
+    opacity: 0.3;
+  }
+
+  @media (max-width: 450px), (max-height: 450px) {
+    #floating-verse-context-menu .open-in-new-tab-button {
+      display: none;
+    }
+    
+    #floating-verse-context-menu .separator:last-of-type {
+      display: none;
+    }
+  }
+</style>
+
 <div class="assign-last-tag-button action-button disabled" i18n="[title]tags.assign-last-tag">
   <i class="fas fa-tag"></i>
 </div>
