@@ -47,7 +47,6 @@ const verseListController = require('./verse_list_controller.js');
 const referenceVerseController = require('./reference_verse_controller.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
-const wheelnavController = require('./wheelnav_controller.js');
 const fullscreenController = require('./fullscreen_controller.js');
 const moduleUpdateController = require('./module_update_controller.js');
 const transChangeTitles = require('../components/trans_change_titles.js');
@@ -129,7 +128,6 @@ class AppController {
     this.tab_controller.init('verse-list-tabs', 'verse-list-container', 'add-tab-button', this.tabHtmlTemplate, defaultBibleTranslationId);
     
     fullscreenController.init();
-    wheelnavController.init();
     verseListController.init();
     moduleUpdateController.init();
     transChangeTitles.init();
