@@ -75,21 +75,21 @@ const template = html`
     cursor: default;
   }
 
-  #floating-verse-context-menu .separator {
-    width: 1px;
-    margin: 0.2em 0.4em;
-    background-color: var(--border-color);
-    opacity: 0.3;
-  }
-
   @media (max-width: 450px), (max-height: 450px) {
+    /* Hide the open-in-new-tab button on mobile */
     #floating-verse-context-menu .open-in-new-tab-button {
       display: none;
     }
-    
-    #floating-verse-context-menu .separator:last-of-type {
-      display: none;
-    }
+  }
+
+  .fa-stack {
+    height: 1.5em;
+    line-height: 1.8em;
+  }
+
+  .fa-stack-1x {
+    text-align: right;
+    left: -10px;
   }
 </style>
 
@@ -97,29 +97,24 @@ const template = html`
   <i class="fas fa-tag"></i>
 </div>
 
-<div class="separator"></div>
-
 <div class="copy-button action-button disabled" i18n="[title]bible-browser.copy">
   <i class="fas fa-copy"></i>
 </div>
-
-<div class="separator"></div>
 
 <div class="edit-note-button action-button disabled" i18n="[title]bible-browser.edit-note">
   <i class="fas fa-comment-alt"></i>
 </div>
 
 <div class="delete-note-button action-button disabled" i18n="[title]bible-browser.delete-note">
-  <i class="fas fa-trash-alt"></i>
+  <span class="fa-stack">
+    <i class="fas fa-trash-alt"></i> <!-- Background trash icon -->
+    <i class="fas fa-comment-alt fa-stack-1x"></i> <!-- Overlay comment icon -->
+  </span>
 </div>
-
-<div class="separator"></div>
 
 <div class="show-context-button2 action-button disabled" i18n="[title]general.context">
   <i class="fas fa-arrows-alt-v"></i>
 </div>
-
-<div class="separator"></div>
 
 <div class="open-in-new-tab-button action-button" i18n="[title]bible-browser.open-in-new-tab">
   <i class="fas fa-arrow-up-right-from-square"></i>
