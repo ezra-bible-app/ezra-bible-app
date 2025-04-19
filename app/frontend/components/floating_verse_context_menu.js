@@ -173,7 +173,13 @@ class FloatingVerseContextMenu extends HTMLElement {
       this.enableButtons();
 
       if (currentTab.isVerseList()) {
-        this.enableContextButton();
+        // Only enable context button if the selected verse is not already a context verse
+        const firstVerseBox = selectionDetails.selectedElements[0];
+        if (firstVerseBox && firstVerseBox.classList.contains('verse-context')) {
+          this.disableContextButton();
+        } else {
+          this.enableContextButton();
+        }
       } else {
         this.disableContextButton();
       }
