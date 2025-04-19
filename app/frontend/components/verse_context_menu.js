@@ -515,14 +515,14 @@ class VerseContextMenu extends HTMLElement {
           newTab.setSecondBibleTranslationId(secondBibleTranslationId);
 
           const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId,
-                                                                                             secondBibleTranslationId,
-                                                                                             book);
+                                                                                               secondBibleTranslationId,
+                                                                                               book);
 
           await app_controller.text_controller.loadBook(book,
-                                                      bookTitleTranslation,
-                                                      bookLongTitle,
-                                                      instantLoad,
-                                                      chapter);
+                                                        bookTitleTranslation,
+                                                        bookLongTitle,
+                                                        instantLoad,
+                                                        chapter);
 
           const verseList = verseListController.getCurrentVerseList()[0];
           const verseElement = verseList.querySelector(`.verse-nr-${absoluteVerseNr}`);
