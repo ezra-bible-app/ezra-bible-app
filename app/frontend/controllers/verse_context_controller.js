@@ -111,6 +111,9 @@ class VerseContextController {
       }
     }
 
+    // Add verse-context-verse class to all verse boxes to visually indicate they are part of context
+    $(verseList).addClass('verse-context');
+
     // Replace the verse with its full context
     $(app_controller.verse_context_controller.contextVerse).replaceWith(verseList);
 
