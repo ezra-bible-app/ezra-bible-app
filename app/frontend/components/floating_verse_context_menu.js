@@ -223,8 +223,31 @@ class FloatingVerseContextMenu extends HTMLElement {
     // Get the rectangles
     const verseTextContainerRect = verseTextContainer ? verseTextContainer.getBoundingClientRect() : null;
     const verseBoxRect = verseBox.getBoundingClientRect();
+    
+    // To get accurate dimensions, we need to temporarily make the menu visible
+    // but position it off-screen so users don't see it
+    const originalDisplay = this.style.display;
+    const originalVisibility = this.style.visibility;
+    const originalPosition = this.style.position;
+    
+    this.style.visibility = 'hidden';
+    this.style.position = 'absolute';
+    this.style.display = 'flex';
+    this.style.left = '-9999px';
+    this.style.top = '-9999px';
+    
+    // Give browser time to render the menu so we can measure it
+    await new Promise(resolve => setTimeout(resolve, 0));
+    
+    // Now we can get the accurate menu height
     const menuHeight = this.offsetHeight;
     
+    // Restore original styles
+    this.style.visibility = originalVisibility;
+    this.style.position = originalPosition;
+    this.style.display = originalDisplay;
+    
+    // Calculate position
     // Position the menu above the verse box
     let top = verseBoxRect.top - menuHeight - 10;
     
