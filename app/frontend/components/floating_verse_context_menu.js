@@ -39,7 +39,7 @@ const template = html`
 
 <div class="separator"></div>
 
-<div class="show-context-button action-button disabled" i18n="[title]general.context">
+<div class="show-context-button2 action-button disabled" i18n="[title]general.context">
   <i class="fas fa-arrows-alt-v"></i>
 </div>
 
@@ -331,7 +331,7 @@ class FloatingVerseContextMenu extends HTMLElement {
   disableButtons() {
     const editNoteButton = this.querySelector('.edit-note-button');
     const deleteNoteButton = this.querySelector('.delete-note-button');
-    const contextButton = this.querySelector('.show-context-button');
+    const contextButton = this.querySelector('.show-context-button2');
     
     editNoteButton.classList.add('disabled');
     deleteNoteButton.classList.add('disabled');
@@ -349,12 +349,12 @@ class FloatingVerseContextMenu extends HTMLElement {
   }
 
   enableContextButton() {
-    const contextButton = this.querySelector('.show-context-button');
+    const contextButton = this.querySelector('.show-context-button2');
     contextButton.classList.remove('disabled');
   }
 
   disableContextButton() {
-    const contextButton = this.querySelector('.show-context-button');
+    const contextButton = this.querySelector('.show-context-button2');
     contextButton.classList.add('disabled');
   }
 
@@ -365,7 +365,7 @@ class FloatingVerseContextMenu extends HTMLElement {
 
     const editNoteButton = this.querySelector('.edit-note-button');
     const deleteNoteButton = this.querySelector('.delete-note-button');
-    const showContextButton = this.querySelector('.show-context-button');
+    const showContextButton = this.querySelector('.show-context-button2');
     const openInNewTabButton = this.querySelector('.open-in-new-tab-button');
     const assignLastTagButton = this.querySelector('.assign-last-tag-button');
 
