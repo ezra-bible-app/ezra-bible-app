@@ -70,6 +70,11 @@ class FloatingVerseContextMenu extends HTMLElement {
     this.resizeHandler = null;
     this.startupComplete = false;
     this.tabSwitchInProgress = false;
+    this.isCurrentlyVisible = false;
+    this.lastScrollTime = 0;
+    this.scrollThrottleDelay = 100; // milliseconds
+    this.cachedMenuHeight = null; // Store the menu height after first calculation
+    this.cachedMenuWidth = null;  // Store the menu width after first calculation
     
     eventController.subscribe('on-verses-selected', async (selectionDetails) => {
       // Don't respond to verse selection events during tab switching
@@ -224,32 +229,36 @@ class FloatingVerseContextMenu extends HTMLElement {
     const verseTextContainerRect = verseTextContainer ? verseTextContainer.getBoundingClientRect() : null;
     const verseBoxRect = verseBox.getBoundingClientRect();
     
-    // To get accurate dimensions, we need to temporarily make the menu visible
-    // but position it off-screen so users don't see it
-    const originalDisplay = this.style.display;
-    const originalVisibility = this.style.visibility;
-    const originalPosition = this.style.position;
-    
-    this.style.visibility = 'hidden';
-    this.style.position = 'absolute';
-    this.style.display = 'flex';
-    this.style.left = '-9999px';
-    this.style.top = '-9999px';
-    
-    // Give browser time to render the menu so we can measure it
-    await new Promise(resolve => setTimeout(resolve, 0));
-    
-    // Now we can get the accurate menu height
-    const menuHeight = this.offsetHeight;
-    
-    // Restore original styles
-    this.style.visibility = originalVisibility;
-    this.style.position = originalPosition;
-    this.style.display = originalDisplay;
+    // Calculate menu dimensions only once and cache them
+    if (this.cachedMenuHeight === null || this.cachedMenuWidth === null) {
+      // To get accurate dimensions, we need to temporarily make the menu visible
+      // but position it off-screen so users don't see it
+      const originalDisplay = this.style.display;
+      const originalVisibility = this.style.visibility;
+      const originalPosition = this.style.position;
+      
+      this.style.visibility = 'hidden';
+      this.style.position = 'absolute';
+      this.style.display = 'flex';
+      this.style.left = '-9999px';
+      this.style.top = '-9999px';
+      
+      // Give browser time to render the menu so we can measure it
+      await new Promise(resolve => setTimeout(resolve, 0));
+      
+      // Cache the menu dimensions
+      this.cachedMenuHeight = this.offsetHeight;
+      this.cachedMenuWidth = this.offsetWidth;
+      
+      // Restore original styles
+      this.style.visibility = originalVisibility;
+      this.style.position = originalPosition;
+      this.style.display = originalDisplay;
+    }
     
     // Calculate position
     // Position the menu above the verse box
-    let top = verseBoxRect.top - menuHeight - 10;
+    let top = verseBoxRect.top - this.cachedMenuHeight - 10;
     
     // Horizontal alignment with verse-text-container if available
     let left = verseTextContainer && verseTextContainerRect ? verseTextContainerRect.left : verseBoxRect.left;
@@ -262,8 +271,8 @@ class FloatingVerseContextMenu extends HTMLElement {
     // Ensure the menu doesn't go off-screen horizontally
     if (left < 10) {
       left = 10;
-    } else if (left + this.offsetWidth > window.innerWidth - 10) {
-      left = window.innerWidth - this.offsetWidth - 10;
+    } else if (left + this.cachedMenuWidth > window.innerWidth - 10) {
+      left = window.innerWidth - this.cachedMenuWidth - 10;
     }
     
     this.style.top = `${top}px`;
