@@ -200,11 +200,27 @@ class FloatingVerseContextMenu extends HTMLElement {
   hide() {
     this.classList.remove('visible');
     
+    // Clean up event listeners when the menu is hidden
+    this.removeScrollHandler();
+    this.removeResizeHandler();
+    this.currentVerseElement = null;
+    
     // Wait for transition to complete before setting display: none
     this.hideTimeout = setTimeout(() => {
       this.style.display = 'none';
       this.hideTimeout = null;
     }, 200);
+  }
+
+  disconnectedCallback() {
+    // Clean up event listeners when component is removed from DOM
+    this.removeScrollHandler();
+    this.removeResizeHandler();
+    
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
   }
 
   enableButtons() {
@@ -350,7 +366,14 @@ class FloatingVerseContextMenu extends HTMLElement {
 
     this.scrollHandler = () => {
       if (this.currentVerseElement) {
-        this.positionMenu(this.currentVerseElement);
+        // Check if verse is visible before positioning/showing menu
+        if (this.isVerseElementVisible(this.currentVerseElement)) {
+          this.positionMenu(this.currentVerseElement);
+          this.show();
+        } else {
+          this.hide();
+          this.removeScrollHandler();
+        }
       }
     };
 
@@ -371,18 +394,49 @@ class FloatingVerseContextMenu extends HTMLElement {
 
     this.resizeHandler = () => {
       if (this.currentVerseElement) {
-        this.positionMenu(this.currentVerseElement);
+        if (this.isVerseElementVisible(this.currentVerseElement)) {
+          this.positionMenu(this.currentVerseElement);
+        } else {
+          this.hide();
+        }
       }
     };
 
-    window.addEventListener('resize', this.resizeHandler, true);
+    window.addEventListener('resize', this.resizeHandler);
   }
 
   removeResizeHandler() {
     if (this.resizeHandler) {
-      window.removeEventListener('resize', this.resizeHandler, true);
+      window.removeEventListener('resize', this.resizeHandler);
       this.resizeHandler = null;
     }
+  }
+
+  isVerseElementVisible(verseElement) {
+    if (!verseElement) {
+      return false;
+    }
+    
+    const rect = verseElement.getBoundingClientRect();
+    const verseBox = verseElement.closest('.verse-box');
+    const verseBoxRect = verseBox ? verseBox.getBoundingClientRect() : rect;
+    
+    // Check if the verse box is partly or fully outside the viewport
+    const isPartlyOutside = 
+      verseBoxRect.top < 0 ||
+      verseBoxRect.left < 0 ||
+      verseBoxRect.bottom > window.innerHeight ||
+      verseBoxRect.right > window.innerWidth;
+      
+    // Check if the verse box is fully outside the viewport
+    const isFullyOutside = 
+      verseBoxRect.bottom < 0 ||
+      verseBoxRect.top > window.innerHeight ||
+      verseBoxRect.right < 0 ||
+      verseBoxRect.left > window.innerWidth;
+    
+    // Return false if the verse is partly or fully outside the viewport
+    return !(isPartlyOutside || isFullyOutside);
   }
 }
 
