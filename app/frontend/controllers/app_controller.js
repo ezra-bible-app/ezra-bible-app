@@ -249,9 +249,6 @@ class AppController {
       clipboardController.handleCopyButtonClick(event);
     });
 
-    let verseContextMenu = document.getElementById('verse-context-menu');
-    verseContextMenu.currentTabIndex = tabIndex;
-
     let tabId = this.tab_controller.getSelectedTabId(tabIndex);
     if (tabId !== undefined) {
       uiHelper.configureButtonStyles('#' + tabId);
@@ -361,7 +358,6 @@ class AppController {
   }
 
   hideAllMenus() {
-    document.getElementById('verse-context-menu').hidden = true;
     eventController.publish('on-hide-menu-request');
   }
 

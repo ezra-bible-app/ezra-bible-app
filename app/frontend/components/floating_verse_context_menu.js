@@ -19,7 +19,6 @@ const { html } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const clipboardController = require('../controllers/clipboard_controller.js');
-const AssignLastTagButton = require('../components/tags/assign_last_tag_button.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 
@@ -135,7 +134,6 @@ class FloatingVerseContextMenu extends HTMLElement {
   constructor() {
     super();
 
-    this.assignLastTagButton = new AssignLastTagButton();
     this.menuElement = null;
     this.hideTimeout = null;
     this.currentVerseElement = null;
@@ -262,8 +260,8 @@ class FloatingVerseContextMenu extends HTMLElement {
       }
 
       // Update assign last tag button
-      const assignLastTagButton = this.querySelector('.assign-last-tag-button');
       const hasLastTag = tags_controller.tag_store.latest_tag_id !== null;
+      const assignLastTagButton = this.querySelector('.assign-last-tag-button');
       
       if (hasLastTag) {
         assignLastTagButton.classList.remove('disabled');
@@ -467,9 +465,6 @@ class FloatingVerseContextMenu extends HTMLElement {
       }
     });
 
-    // Initialize the assign last tag button with icon-only mode
-    this.assignLastTagButton.init(undefined, true);
-
     editNoteButton.addEventListener('click', (event) => {
       event.stopPropagation();
 
@@ -547,8 +542,6 @@ class FloatingVerseContextMenu extends HTMLElement {
       }
     });
 
-    this.assignLastTagButton.init();
-    
     floatingContextMenuInitDone = true;
   }
 

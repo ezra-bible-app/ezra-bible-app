@@ -1388,11 +1388,6 @@ li.book-unavailable a:focus,
   height: 2.2em;
 }
 
-.assign-last-tag-button {
-  margin-left: 0;
-  margin-right: 0.8em;
-}
-
 /* On Android we disable the possibility to export tagged verses to a document */
 .Android .export-docx-button {
   display: none;
