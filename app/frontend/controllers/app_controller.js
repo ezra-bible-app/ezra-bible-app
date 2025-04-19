@@ -137,23 +137,11 @@ class AppController {
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
-    eventController.subscribe('on-verses-selected', (details) => { this.toggleVerseContextMenuButton(details.tabIndex); });
     eventController.subscribe('on-tag-group-list-activated', () => { this.hideAllMenus(); });
     eventController.subscribe('on-tag-group-selected', () => { this.hideAllMenus(); });
     eventController.subscribe('on-button-clicked', () => { this.hideAllMenus(); });
 
     this.verse_context_controller.initButtonEvents();
-  }
-
-  toggleVerseContextMenuButton(tabIndex=undefined) {
-    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
-    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
-
-    if (app_controller.verse_selection.versesSelected()) {
-      verseContextMenuButton.classList.remove('ui-state-disabled');
-    } else {
-      verseContextMenuButton.classList.add('ui-state-disabled');
-    }
   }
 
   async onTabSelected(tabIndex=0) {
