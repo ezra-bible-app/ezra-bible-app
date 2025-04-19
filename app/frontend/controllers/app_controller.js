@@ -47,7 +47,6 @@ const verseListController = require('./verse_list_controller.js');
 const referenceVerseController = require('./reference_verse_controller.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
-const wheelnavController = require('./wheelnav_controller.js');
 const fullscreenController = require('./fullscreen_controller.js');
 const moduleUpdateController = require('./module_update_controller.js');
 const transChangeTitles = require('../components/trans_change_titles.js');
@@ -129,7 +128,6 @@ class AppController {
     this.tab_controller.init('verse-list-tabs', 'verse-list-container', 'add-tab-button', this.tabHtmlTemplate, defaultBibleTranslationId);
     
     fullscreenController.init();
-    wheelnavController.init();
     verseListController.init();
     moduleUpdateController.init();
     transChangeTitles.init();
@@ -137,23 +135,11 @@ class AppController {
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
-    eventController.subscribe('on-verses-selected', (details) => { this.toggleVerseContextMenuButton(details.tabIndex); });
     eventController.subscribe('on-tag-group-list-activated', () => { this.hideAllMenus(); });
     eventController.subscribe('on-tag-group-selected', () => { this.hideAllMenus(); });
     eventController.subscribe('on-button-clicked', () => { this.hideAllMenus(); });
 
     this.verse_context_controller.initButtonEvents();
-  }
-
-  toggleVerseContextMenuButton(tabIndex=undefined) {
-    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
-    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
-
-    if (app_controller.verse_selection.versesSelected()) {
-      verseContextMenuButton.classList.remove('ui-state-disabled');
-    } else {
-      verseContextMenuButton.classList.add('ui-state-disabled');
-    }
   }
 
   async onTabSelected(tabIndex=0) {
@@ -248,9 +234,6 @@ class AppController {
     $(copyButton).unbind('click').bind('click', (event) => {
       clipboardController.handleCopyButtonClick(event);
     });
-
-    let verseContextMenu = document.getElementById('verse-context-menu');
-    verseContextMenu.currentTabIndex = tabIndex;
 
     let tabId = this.tab_controller.getSelectedTabId(tabIndex);
     if (tabId !== undefined) {
@@ -361,13 +344,7 @@ class AppController {
   }
 
   hideAllMenus() {
-    this.book_selection_menu.hideBookMenu();
-    this.tag_selection_menu.hideTagMenu();
-    this.module_search_controller.hideSearchMenu();
-    this.optionsMenu.hideDisplayMenu();
-    this.textSizeSettings.hideTextSizeMenu();
-    document.getElementById('verse-context-menu').hidden = true;
-    wheelnavController.closeWheelNav();
+    eventController.publish('on-hide-menu-request');
   }
 
   async openXrefVerses(referenceVerseBox, xrefTitle, xrefs) {

@@ -31,6 +31,10 @@ class BookSelectionMenu {
     this.book_menu_is_opened = false;
     this.init_completed = false;
     this.recentPassagesKey = 'recentPassages';
+
+    eventController.subscribe('on-hide-menu-request', () => {
+      this.hideBookMenu();
+    });
   }
 
   async init() {
@@ -308,6 +312,7 @@ class BookSelectionMenu {
     if (this.book_menu_is_opened) {
       app_controller.handleBodyClick();
     } else {
+      eventController.publish('on-menu-opened', { menuType: 'book-selection-menu' });
       app_controller.hideAllMenus();
       
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();

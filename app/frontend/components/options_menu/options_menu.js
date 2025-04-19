@@ -25,7 +25,6 @@ const verseListController = require('../../controllers/verse_list_controller.js'
 const dbSyncController = require('../../controllers/db_sync_controller.js');
 const moduleUpdateController = require('../../controllers/module_update_controller.js');
 const typeFaceSettings = require('../type_face_settings.js');
-const { Mutex } = require('async-mutex');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -51,6 +50,10 @@ class OptionsMenu {
 
     this.MINIMUM_REFRESH_DISTANCE = 2000;
     this.lastRefreshViewTime = Date.now() - this.MINIMUM_REFRESH_DISTANCE - 1;
+
+    eventController.subscribe('on-hide-menu-request', () => {
+      this.hideDisplayMenu();
+    });
   }
 
   async init() {
@@ -275,6 +278,7 @@ class OptionsMenu {
     if (this.menuIsOpened) {
       app_controller.handleBodyClick();
     } else {
+      eventController.publish('on-menu-opened', { menuType: 'options-menu' });
       app_controller.hideAllMenus();
 
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();

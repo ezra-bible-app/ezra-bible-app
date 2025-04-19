@@ -47,6 +47,10 @@ class TextSizeSettings {
     eventController.subscribe('on-tab-added', (tabIndex) => {
       this.init(tabIndex);
     });
+    
+    eventController.subscribe('on-hide-menu-request', () => {
+      this.hideTextSizeMenu();
+    });
   }
 
   async init(tabIndex=undefined) {
@@ -119,6 +123,7 @@ class TextSizeSettings {
   }
 
   showTextSizeMenu() {
+    eventController.publish('on-menu-opened', { menuType: 'text-size-settings' });
     app_controller.hideAllMenus();
 
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();

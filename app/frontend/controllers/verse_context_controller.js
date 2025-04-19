@@ -79,7 +79,7 @@ class VerseContextController {
 
     app_controller.verse_context_controller.contextVerse = startVerseBox[0];
 
-    app_controller.text_controller.requestBookText(
+    await app_controller.text_controller.requestBookText(
       currentTabIndex,
       currentTabId,
       currentBookTitle,
@@ -110,6 +110,9 @@ class VerseContextController {
         existingVerseBox.remove();
       }
     }
+
+    // Add verse-context-verse class to all verse boxes to visually indicate they are part of context
+    $(verseList).addClass('verse-context');
 
     // Replace the verse with its full context
     $(app_controller.verse_context_controller.contextVerse).replaceWith(verseList);

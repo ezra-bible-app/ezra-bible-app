@@ -37,6 +37,10 @@ class ModuleSearchController {
     this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
     this.currentSearchCancelled = false;
 
+    eventController.subscribe('on-hide-menu-request', () => {
+      this.hideSearchMenu();
+    });
+
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       await waitUntilIdle();
 
@@ -304,6 +308,7 @@ class ModuleSearchController {
     if (this.search_menu_opened) {
       app_controller.handleBodyClick();
     } else {
+      eventController.publish('on-menu-opened', { menuType: 'module-search-menu' });
       app_controller.hideAllMenus();
 
       moduleSearchButton.addClass('ui-state-active');
