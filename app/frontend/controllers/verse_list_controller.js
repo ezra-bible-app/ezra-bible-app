@@ -19,7 +19,6 @@
 const VerseBox = require('../ui_models/verse_box.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
-const wheelnavController = require('../controllers/wheelnav_controller.js');
 const eventController = require('../controllers/event_controller.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const Hammer = require('../../../lib/hammerjs/hammer.js');
@@ -335,10 +334,6 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
 
     app_controller.book_selection_menu.openBookChapterList(currentBook, currentChapter);
   });
-
-  if (getPlatform().isFullScreen()) {
-    wheelnavController.bindEvents();
-  }
 };
 
 module.exports.initSwipeEvents = async function(tabIndex) {
