@@ -9,8 +9,8 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+   See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -90,9 +90,11 @@ module.exports.showModuleUpdateDialog = async function() {
       <table id="module-update-list" style="clear: both; display: none;">
         <thead>
           <tr>
-            <th i18n="general.module-name" style="text-align: left; min-width: 13em"></th>
-            <th i18n="general.module-current-version" style="text-align: left; width: 8em;"></th>
-            <th i18n="general.module-new-version" style="text-align: left; width: 8em;"></th>
+            <th i18n="general.module-name" style="text-align: left; min-width: 10em; padding-right: 0.5em;"></th>
+            <th id="module-id-header" i18n="general.module-id" style="text-align: left; width: 6em; padding-right: 0.5em; display: none;"></th>
+            <th i18n="general.module-current-version" style="text-align: left; width: 6em; padding-right: 0.5em;"></th>
+            <th i18n="general.module-new-version" style="text-align: left; width: 6em; padding-right: 0.5em;"></th>
+            <th id="module-repo-header" i18n="module-assistant.repository_singular" style="text-align: left; width: 10em; display: none;"></th>
             <th style="width: 5em;"></th>
           </tr>
         </thead>
@@ -196,6 +198,15 @@ function getLoadingIndicator() {
 function refreshUpdatedModuleList() {
   getLoadingIndicator().style.display = 'block';
 
+  // Determine if platform is mobile
+  let isMobileDevice = platformHelper.isMobile();
+  
+  // Show/hide the id column and repository column headers based on platform
+  if (!isMobileDevice) {
+    document.getElementById('module-id-header').style.display = 'table-cell';
+    document.getElementById('module-repo-header').style.display = 'table-cell';
+  }
+
   setTimeout(() => {
     ipcNsi.getUpdatedModules().then((updatedModules) => {
       let moduleUpdateList = document.getElementById('module-update-list-tbody');
@@ -221,6 +232,13 @@ function refreshUpdatedModuleList() {
           let nameCell = document.createElement('td');
           nameCell.style.paddingRight = '1em';
           nameCell.innerText = module.description;
+          
+          let idCell = document.createElement('td');
+          idCell.innerText = module.name;
+          idCell.style.paddingRight = '1em';
+          if (isMobileDevice) {
+            idCell.style.display = 'none';
+          }
 
           let oldVersionCell = document.createElement('td');
           let localModule = await ipcNsi.getLocalModule(module.name);
@@ -228,6 +246,12 @@ function refreshUpdatedModuleList() {
           
           let newVersionCell = document.createElement('td');
           newVersionCell.innerText = module.version;
+          
+          let repoCell = document.createElement('td');
+          repoCell.innerText = module.repository;
+          if (isMobileDevice) {
+            repoCell.style.display = 'none';
+          }
 
           let statusCell = document.createElement('td');
           statusCell.style.textAlign = 'center';
@@ -238,8 +262,10 @@ function refreshUpdatedModuleList() {
           statusCell.appendChild(loadingIndicator);
 
           moduleRow.appendChild(nameCell);
+          moduleRow.appendChild(idCell);
           moduleRow.appendChild(oldVersionCell);
           moduleRow.appendChild(newVersionCell);
+          moduleRow.appendChild(repoCell);
           moduleRow.appendChild(statusCell);
           moduleUpdateList.appendChild(moduleRow);
         });
