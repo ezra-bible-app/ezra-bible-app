@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -111,10 +110,22 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
         console.log(e);
       }
     }
+    
+    // Get version info for current module version
+    let versionInfo = '';
+    if (swordModule.version) {
+      versionInfo = await this.getModuleVersionInfo(moduleId, swordModule.version);
+    }
 
     moduleInfo += "<table>";
     moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
+    
+    // Add version info row if available
+    if (versionInfo) {
+      moduleInfo += "<tr><td>" + i18n.t("general.module-version-info") + ":</td><td>" + versionInfo + "</td></tr>";
+    }
+    
     moduleInfo += "<tr><td>" + i18n.t("general.module-last-update") + ":</td><td>" + lastUpdate + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + i18nHelper.getLanguageName(swordModule.language) + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + swordModule.distributionLicense + "</td></tr>";
@@ -373,6 +384,30 @@ module.exports.sortModules = function(a,b) {
   } else {
     return 0;
   }
+};
+
+module.exports.getModuleVersionInfo = async function(moduleId, version, getRemoteModule=false) {
+  let versionInfo = '';
+  
+  // Get the repo module to access history
+  let module = null;
+  
+  if (getRemoteModule) {
+    module = await ipcNsi.getRepoModule(moduleId);
+  } else {
+    module = await ipcNsi.getLocalModule(moduleId);
+  }
+
+  if (module && module.history) {
+    // Find the history entry that matches the module version
+    const historyEntry = module.history.find(entry => entry.startsWith(`${version}=`));
+    if (historyEntry) {
+      // Extract just the text after the version=
+      versionInfo = historyEntry.substring(historyEntry.indexOf('=') + 1);
+    }
+  }
+  
+  return versionInfo;
 };
 
 function makeCharUpperCase(str, index) {

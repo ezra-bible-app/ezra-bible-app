@@ -254,16 +254,9 @@ function refreshUpdatedModuleList() {
           versionInfoCell.style.paddingRight = '1em';
           versionInfoCell.style.fontSize = '0.9em';
           
-          // Get the repo module to access history
-          let repoModule = await ipcNsi.getRepoModule(module.name);
-          if (repoModule && repoModule.history) {
-            // Find the history entry that matches the module version
-            const historyEntry = repoModule.history.find(entry => entry.startsWith(`${module.version}=`));
-            if (historyEntry) {
-              // Extract just the text after the version=
-              versionInfoCell.innerText = historyEntry.substring(historyEntry.indexOf('=') + 1);
-            }
-          }
+          // Get version info using the helper function
+          let versionInfo = await swordModuleHelper.getModuleVersionInfo(module.name, module.version, true);
+          versionInfoCell.innerText = versionInfo;
           
           if (isMobileDevice) {
             versionInfoCell.style.display = 'none';
