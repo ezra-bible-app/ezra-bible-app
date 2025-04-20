@@ -95,7 +95,13 @@ class TagStore {
 
   async renameTag(tagId, newTitle) {
     var tag = await this.getTag(tagId);
+    if (tag == null) {
+      console.error('Cannot rename tag: Tag with ID ' + tagId + ' not found');
+      return false;
+    }
+    
     tag.title = newTitle;
+    return true;
   }
 
   async updateTagGroups(tagId, addTagGroups, removeTagGroups) {
