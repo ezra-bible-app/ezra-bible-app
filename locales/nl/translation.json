@@ -140,6 +140,7 @@
     "config-file-path": "Pad van configuratie",
     "module-name": "Naam",
     "module-version": "Versie",
+    "module-version-info": "Version info",
     "module-current-version": "Huidige versie",
     "module-new-version": "Nieuwe versie",
     "module-last-update": "Laatste bijwerking",

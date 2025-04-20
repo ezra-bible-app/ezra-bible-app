@@ -138,6 +138,7 @@
     "config-file-path": "Розташування налаштувань",
     "module-name": "Ім'я",
     "module-version": "Версія",
+    "module-version-info": "Version info",
     "module-current-version": "Поточна версія",
     "module-new-version": "Доступна версія",
     "module-last-update": "Останнє оновлення",

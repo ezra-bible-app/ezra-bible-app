@@ -138,6 +138,7 @@
     "config-file-path": "Caminho da Configuração",
     "module-name": "Nome",
     "module-version": "Versão",
+    "module-version-info": "Version info",
     "module-current-version": "Versão atual",
     "module-new-version": "Nova versão",
     "module-last-update": "Última atualização",

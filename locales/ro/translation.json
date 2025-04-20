@@ -138,6 +138,7 @@
     "config-file-path": "cale Configurare",
     "module-name": "Nume",
     "module-version": "Versiune",
+    "module-version-info": "Version info",
     "module-current-version": "Versiune actuală",
     "module-new-version": "Versiune nouă",
     "module-last-update": "Ultima actualizare",

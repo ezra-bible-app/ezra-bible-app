@@ -140,6 +140,7 @@
     "config-file-path": "Расположение файла конфигурации",
     "module-name": "Название",
     "module-version": "Версия",
+    "module-version-info": "Version info",
     "module-current-version": "Текущая версия",
     "module-new-version": "Доступная версия",
     "module-last-update": "Последнее обновление",

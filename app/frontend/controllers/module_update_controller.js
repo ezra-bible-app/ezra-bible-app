@@ -94,6 +94,7 @@ module.exports.showModuleUpdateDialog = async function() {
             <th id="module-id-header" i18n="general.module-id" style="text-align: left; width: 6em; padding-right: 0.5em; display: none;"></th>
             <th i18n="general.module-current-version" style="text-align: left; width: 6em; padding-right: 0.5em;"></th>
             <th i18n="general.module-new-version" style="text-align: left; width: 6em; padding-right: 0.5em;"></th>
+            <th id="module-version-info-header" i18n="general.module-version-info" style="text-align: left; width: 20em; padding-right: 0.5em; display: none;"></th>
             <th id="module-repo-header" i18n="module-assistant.repository_singular" style="text-align: left; width: 10em; display: none;"></th>
             <th style="width: 5em;"></th>
           </tr>
@@ -205,6 +206,7 @@ function refreshUpdatedModuleList() {
   if (!isMobileDevice) {
     document.getElementById('module-id-header').style.display = 'table-cell';
     document.getElementById('module-repo-header').style.display = 'table-cell';
+    document.getElementById('module-version-info-header').style.display = 'table-cell';
   }
 
   setTimeout(() => {
@@ -247,6 +249,26 @@ function refreshUpdatedModuleList() {
           let newVersionCell = document.createElement('td');
           newVersionCell.innerText = module.version;
           
+          // Add version info cell
+          let versionInfoCell = document.createElement('td');
+          versionInfoCell.style.paddingRight = '1em';
+          versionInfoCell.style.fontSize = '0.9em';
+          
+          // Get the repo module to access history
+          let repoModule = await ipcNsi.getRepoModule(module.name);
+          if (repoModule && repoModule.history) {
+            // Find the history entry that matches the module version
+            const historyEntry = repoModule.history.find(entry => entry.startsWith(`${module.version}=`));
+            if (historyEntry) {
+              // Extract just the text after the version=
+              versionInfoCell.innerText = historyEntry.substring(historyEntry.indexOf('=') + 1);
+            }
+          }
+          
+          if (isMobileDevice) {
+            versionInfoCell.style.display = 'none';
+          }
+          
           let repoCell = document.createElement('td');
           repoCell.innerText = module.repository;
           if (isMobileDevice) {
@@ -265,6 +287,7 @@ function refreshUpdatedModuleList() {
           moduleRow.appendChild(idCell);
           moduleRow.appendChild(oldVersionCell);
           moduleRow.appendChild(newVersionCell);
+          moduleRow.appendChild(versionInfoCell);
           moduleRow.appendChild(repoCell);
           moduleRow.appendChild(statusCell);
           moduleUpdateList.appendChild(moduleRow);

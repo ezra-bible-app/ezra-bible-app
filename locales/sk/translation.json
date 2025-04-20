@@ -138,6 +138,7 @@
     "config-file-path": "Cesta ku konfigurácii",
     "module-name": "Meno",
     "module-version": "Verzia",
+    "module-version-info": "Version info",
     "module-current-version": "Aktuálna verzia",
     "module-new-version": "Nová verzia",
     "module-last-update": "Posledná aktualizácia",

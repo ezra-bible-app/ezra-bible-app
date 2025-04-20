@@ -138,6 +138,7 @@
     "config-file-path": "Pot do konfiguracije",
     "module-name": "Ime",
     "module-version": "Različica",
+    "module-version-info": "Version info",
     "module-current-version": "Trenutna različica",
     "module-new-version": "Nova različica",
     "module-last-update": "Zadnja posodobitev",
