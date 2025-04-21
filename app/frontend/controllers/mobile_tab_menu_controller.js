@@ -55,7 +55,6 @@ class MobileTabMenuController {
 
     this.isInitialized = true;
     this.refreshMobileTabMenu();
-    this.updateTabCountBadge();
   }
 
   showMobileTabMenu() {
@@ -150,6 +149,8 @@ class MobileTabMenuController {
     } else {
       console.error('Failed to create add tab tile element');
     }
+
+    this.updateTabCountBadge();
   }
 
   getTabTileTitle(tab) {
@@ -213,11 +214,7 @@ class MobileTabMenuController {
         // Use the TabController's removeTabByIndex method
         app_controller.tab_controller.removeTabByIndex(tabIndex);
         
-        // Make sure the tab menu is refreshed and tab count is updated
-        setTimeout(() => {
-          this.refreshMobileTabMenu();
-          this.updateTabCountBadge();
-        }, 300);
+        this.refreshMobileTabMenu();
       }
       
       return false; // Ensure the event doesn't propagate

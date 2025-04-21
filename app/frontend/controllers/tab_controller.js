@@ -652,6 +652,11 @@ class TabController {
       await eventController.publish('on-tab-added', newTabIndex);
     }
 
+    // Update mobile tab menu when a tab is added
+    if (this._platformHelper.isMobile() && app_controller.mobile_tab_menu_controller) {
+      app_controller.mobile_tab_menu_controller.refreshMobileTabMenu();
+    }
+
     return metaTab;
   }
 
