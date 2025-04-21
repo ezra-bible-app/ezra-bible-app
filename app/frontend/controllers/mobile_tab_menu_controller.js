@@ -335,7 +335,7 @@ class MobileTabMenuController {
     // Update tab count on all tab buttons
     this.tabButtons.forEach(button => {
       if (button) {
-        button.textContent = tabCount.toString();
+        button.setAttribute('data-tab-count', tabCount.toString());
       }
     });
   }

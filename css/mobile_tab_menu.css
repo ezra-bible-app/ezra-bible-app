@@ -233,32 +233,43 @@
 }
 
 /* Special styling for the tab button */
-button#tab-button {
+.tab-button {
   display: none;
   position: relative;
   width: var(--button-size);
   height: var(--button-size);
   padding: 0;
-  border-radius: 6px;
+  border-radius: 12px !important; /* Make it more rounded */
   font-weight: bold;
-  line-height: 32px;
   text-align: center;
-  background-color: var(--background-color-darker);
+  background-color: var(--background-color-darker) !important;
   color: var(--text-color);
-  border: 3px solid darkgray;
+  border: 2px solid var(--border-color) !important;
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab-button::before {
+  content: attr(data-tab-count);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 768px) {
-  button#tab-button {
+  .tab-button {
     display: block !important;
   }
   
-  button#tab-button.active {
-    color: white;
-    border-color: var(--highlight-border-color);
-    background: var(--accent-color);
+  .tab-button.active {
+    color: white !important;
+    border-color: var(--highlight-border-color) !important;
+    background-color: var(--accent-color) !important;
+    box-shadow: 0 2px 8px rgba(var(--accent-color-rgb), 0.5);
   }
 }
 
