@@ -172,7 +172,7 @@ class MobileTabMenuController {
           
           console.log(`Creating tile for tab ${index}: "${tabTitle}" [${translationId}]`);
           
-          const tileElement = this.createTabTileElement(tabTitle, translationId, index === selectedTabIndex);
+          const tileElement = this.createTabTileElement(tabTitle, translationId, index === selectedTabIndex, tab);
           
           if (tileElement) {
             tileElement.addEventListener('click', () => {
@@ -254,12 +254,43 @@ class MobileTabMenuController {
     return title;
   }
 
-  createTabTileElement(title, translationId, isActive) {
+  createTabTileElement(title, translationId, isActive, tab) {
     try {
       // Create simple DOM elements directly instead of using html template
       const tileDiv = document.createElement('div');
       tileDiv.className = 'mobile-tab-tile';
       if (isActive) tileDiv.classList.add('active');
+      
+      // Create icon element based on tab type
+      const iconElement = document.createElement('i');
+      
+      if (tab) {
+        const textType = tab.getTextType();
+        switch (textType) {
+          case 'book':
+            iconElement.className = 'fas fa-book-open';
+            break;
+          case 'search_results':
+            iconElement.className = 'fas fa-search';
+            break;
+          case 'tagged_verses':
+            iconElement.className = 'fas fa-tags';
+            break;
+          case 'xrefs':
+            // Using chain links icon for cross-references
+            iconElement.className = 'fas fa-link';
+            break;
+          default:
+            iconElement.className = 'fas fa-file-alt';
+            break;
+        }
+      } else {
+        // Default icon if tab information isn't available
+        iconElement.className = 'fas fa-file-alt';
+      }
+      
+      // Add the icon to the tile
+      tileDiv.appendChild(iconElement);
       
       const titleDiv = document.createElement('div');
       titleDiv.className = 'mobile-tab-tile-title';

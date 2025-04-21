@@ -96,6 +96,7 @@
 
 .mobile-tab-tile-title {
   font-weight: bold;
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
