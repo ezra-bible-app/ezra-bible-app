@@ -48,23 +48,6 @@
   user-select: none;
 }
 
-/* Tab count badge styles */
-.tab-count-badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: var(--accent-color);
-  color: white;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
 .mobile-tab-menu-header h2 {
   margin: 0;
   font-size: 1.2rem;
@@ -141,9 +124,25 @@
   margin-bottom: 0.5rem;
 }
 
+/* Tab count overlay for the tab button */
+.tab-count-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  pointer-events: none; /* Allow clicks to pass through to the button */
+}
+
 /* Special styling for the tab button */
 button#tab-button {
   display: none;
+  position: relative; /* Needed for absolute positioning of the overlay */
 }
 
 @media screen and (max-width: 768px) {

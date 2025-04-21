@@ -303,7 +303,7 @@ class MobileTabMenuController {
   }
 
   /**
-   * Updates the tab count badge on the tab menu button
+   * Updates the tab count as an overlay on the tab button
    */
   updateTabCountBadge() {
     if (!this.tabButton || !app_controller || !app_controller.tab_controller) {
@@ -313,25 +313,22 @@ class MobileTabMenuController {
     try {
       const tabCount = app_controller.tab_controller.getTabCount();
       
-      // Remove existing badge if any
-      const existingBadge = this.tabButton.querySelector('.tab-count-badge');
-      if (existingBadge) {
-        existingBadge.remove();
+      // Remove existing overlay if any
+      const existingOverlay = this.tabButton.querySelector('.tab-count-overlay');
+      if (existingOverlay) {
+        existingOverlay.remove();
       }
       
-      // Create and add the new badge
-      const badge = document.createElement('span');
-      badge.className = 'tab-count-badge';
-      badge.textContent = tabCount.toString();
+      // Create a new overlay with the tab count
+      const overlay = document.createElement('div');
+      overlay.className = 'tab-count-overlay';
+      overlay.textContent = tabCount.toString();
       
-      // Set the button to position relative if not already
-      if (this.tabButton.style.position !== 'relative') {
-        this.tabButton.style.position = 'relative';
-      }
+      // Add the overlay to the tab button
+      this.tabButton.appendChild(overlay);
       
-      this.tabButton.appendChild(badge);
     } catch (err) {
-      console.error('Error updating tab count badge:', err);
+      console.error('Error updating tab count overlay:', err);
     }
   }
 }
