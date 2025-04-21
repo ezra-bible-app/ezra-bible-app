@@ -81,7 +81,7 @@ class MobileTabController {
     const tabButtons = document.querySelectorAll('.tab-button');
     
     tabButtons.forEach(button => {
-      button.style.visibility = 'visible';
+      button.style.display = 'flex';
       this.tabButtons.push(button);
     });
     

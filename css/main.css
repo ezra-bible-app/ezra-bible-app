@@ -1094,7 +1094,6 @@ main.content {
 }
 
 .verse-list-menu .fg-button {
-  display: flex;
   align-items: center;
   justify-content: space-between;
   margin-right: 1em;
@@ -1102,6 +1101,10 @@ main.content {
   height: 2.2em;
   min-width: 1em;
   padding: 0 0.8em;
+}
+
+.verse-list-menu .fg-button:not(.tab-button) {
+  display: flex;
 }
 
 .module-info-button, .copy-commentary-button {
