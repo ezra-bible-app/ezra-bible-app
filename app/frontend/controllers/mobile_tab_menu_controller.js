@@ -53,23 +53,6 @@ class MobileTabMenuController {
       this.showMobileTabMenu();
     });
 
-    eventController.subscribe('on-tab-added', () => {
-      this.refreshMobileTabMenu();
-      this.updateTabCountBadge();
-    });
-
-    eventController.subscribe('on-tab-selected', () => {
-      this.refreshMobileTabMenu();
-    });
-
-    eventController.subscribe('on-bible-text-loaded', () => {
-      this.refreshMobileTabMenu();
-    });
-
-    eventController.subscribe('on-locale-changed', () => {
-      this.refreshMobileTabMenu();
-    });
-
     this.isInitialized = true;
     this.refreshMobileTabMenu();
     this.updateTabCountBadge();
