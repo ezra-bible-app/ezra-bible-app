@@ -125,6 +125,7 @@ class MobileTabMenuController {
   refreshMobileTabMenu() {
     // Skip refresh if not fully initialized yet or elements aren't available
     if (!this.isInitialized || !this.mobileTabTiles) {
+      console.log('Mobile tab menu not yet initialized, skipping refresh');
       return;
     }
     
@@ -136,25 +137,34 @@ class MobileTabMenuController {
     
     try {
       const tabs = app_controller.tab_controller.getAllTabs();
+      console.log('Retrieved tabs:', tabs ? tabs.length : 0);
+      
       if (!tabs || !Array.isArray(tabs)) {
         console.warn('No tabs available yet, skipping tab menu refresh');
         return;
       }
       
       const selectedTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      console.log('Selected tab index:', selectedTabIndex);
       
       // Clear existing tiles
       this.mobileTabTiles.innerHTML = '';
       
       // Create tiles for each tab
+      let tilesCreated = 0;
       tabs.forEach((tab, index) => {
-        if (!tab) return; // Skip if tab is null
+        if (!tab) {
+          console.log(`Tab ${index} is null, skipping`);
+          return;
+        }
         
         try {
           const tabTitle = this.getTabTileTitle(tab);
           const translationId = tab.getBibleTranslationId();
           
-          const tileElement = this.createTabTile(tabTitle, translationId, index === selectedTabIndex);
+          console.log(`Creating tile for tab ${index}: "${tabTitle}" [${translationId}]`);
+          
+          const tileElement = this.createTabTileElement(tabTitle, translationId, index === selectedTabIndex);
           
           if (tileElement) {
             tileElement.addEventListener('click', () => {
@@ -165,15 +175,21 @@ class MobileTabMenuController {
             });
             
             this.mobileTabTiles.appendChild(tileElement);
+            tilesCreated++;
+          } else {
+            console.error(`Failed to create tile element for tab ${index}`);
           }
         } catch (err) {
-          console.error('Error creating tab tile:', err);
+          console.error(`Error creating tab tile ${index}:`, err);
         }
       });
       
+      console.log(`Created ${tilesCreated} tab tiles`);
+      
       // Add the "New Tab" tile
       try {
-        const addTabTile = this.createAddTabTile();
+        console.log('Creating add tab tile');
+        const addTabTile = this.createAddTabTileElement();
         if (addTabTile) {
           addTabTile.addEventListener('click', () => {
             if (app_controller && app_controller.tab_controller) {
@@ -183,6 +199,9 @@ class MobileTabMenuController {
           });
           
           this.mobileTabTiles.appendChild(addTabTile);
+          console.log('Add tab tile created and appended');
+        } else {
+          console.error('Failed to create add tab tile element');
         }
       } catch (err) {
         console.error('Error creating add tab tile:', err);
@@ -198,7 +217,10 @@ class MobileTabMenuController {
     let title = '';
     
     try {
-      switch (tab.getTextType()) {
+      const textType = tab.getTextType();
+      console.log(`Getting title for tab with text type: ${textType}`);
+      
+      switch (textType) {
         case 'book':
           title = tab.getBookTitle() || i18n.t('bible-browser.default-header');
           break;
@@ -224,38 +246,50 @@ class MobileTabMenuController {
     return title;
   }
 
-  createTabTile(title, translationId, isActive) {
+  createTabTileElement(title, translationId, isActive) {
     try {
-      const tileTemplate = html`
-        <div class="mobile-tab-tile ${isActive ? 'active' : ''}">
-          <div class="mobile-tab-tile-title">${title}</div>
-          ${translationId ? html`<div class="mobile-tab-tile-translation">${translationId}</div>` : ''}
-        </div>
-      `;
+      // Create simple DOM elements directly instead of using html template
+      const tileDiv = document.createElement('div');
+      tileDiv.className = 'mobile-tab-tile';
+      if (isActive) tileDiv.classList.add('active');
       
-      const tileElement = document.createElement('div');
-      tileElement.innerHTML = tileTemplate;
-      return tileElement.firstElementChild;
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'mobile-tab-tile-title';
+      titleDiv.textContent = title;
+      tileDiv.appendChild(titleDiv);
+      
+      if (translationId) {
+        const translationDiv = document.createElement('div');
+        translationDiv.className = 'mobile-tab-tile-translation';
+        translationDiv.textContent = translationId;
+        tileDiv.appendChild(translationDiv);
+      }
+      
+      return tileDiv;
     } catch (err) {
-      console.error('Error in createTabTile:', err);
+      console.error('Error in createTabTileElement:', err);
       return null;
     }
   }
 
-  createAddTabTile() {
+  createAddTabTileElement() {
     try {
-      const tileTemplate = html`
-        <div class="mobile-tab-tile mobile-tab-add-tile">
-          <i class="fas fa-plus"></i>
-          <div class="mobile-tab-tile-title">${i18n.t('bible-browser.open-new-tab')}</div>
-        </div>
-      `;
+      // Create simple DOM elements directly
+      const tileDiv = document.createElement('div');
+      tileDiv.className = 'mobile-tab-tile mobile-tab-add-tile';
       
-      const tileElement = document.createElement('div');
-      tileElement.innerHTML = tileTemplate;
-      return tileElement.firstElementChild;
+      const iconElement = document.createElement('i');
+      iconElement.className = 'fas fa-plus';
+      tileDiv.appendChild(iconElement);
+      
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'mobile-tab-tile-title';
+      titleDiv.textContent = i18n.t('bible-browser.open-new-tab');
+      tileDiv.appendChild(titleDiv);
+      
+      return tileDiv;
     } catch (err) {
-      console.error('Error in createAddTabTile:', err);
+      console.error('Error in createAddTabTileElement:', err);
       return null;
     }
   }
