@@ -57,15 +57,10 @@ class MobileTabMenuController {
 
     // Listen for tab added event
     eventController.subscribe('on-tab-added', (tabIndex) => {
-      // Update tab buttons array when a new tab is added
       this.updateTabButtons();
-      
-      // Check if the tab was added non-interactively to animate its button
-      if (app_controller && app_controller.tab_controller) {
-        const tabs = app_controller.tab_controller.getAllTabs();
-        if (tabs && tabs[tabIndex] && !tabs[tabIndex].addedInteractively) {
-          this.animateTabButton(tabIndex);
-        }
+
+      if (app_controller.isStartupCompleted()) {
+        this.animateTabButton(tabIndex);
       }
     });
 
