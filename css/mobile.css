@@ -759,7 +759,7 @@ Librem 5/Pinephone etc.
   }
 
   /* The copy button does not fit on smaller screens */
-  .copy-button {
+  .verse-list-menu .copy-button {
     display: none !important;
   }
 }
