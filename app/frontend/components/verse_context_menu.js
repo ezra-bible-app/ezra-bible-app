@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -19,6 +18,7 @@
 const { html } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const clipboardController = require('../controllers/clipboard_controller.js');
 const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
 const VerseBox = require("../ui_models/verse_box.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
@@ -42,8 +42,18 @@ const template = html`
 }
 </style>
 
+<div class="copy-button fg-button ui-state-default ui-corner-all">
+  <i class="fas fa-copy"></i>
+  <span i18n="bible-browser.copy"></span>
+</div>
+
 <div class="assign-last-tag-button fg-button ui-state-default ui-corner-all ui-state-disabled">
   <span i18n="tags.assign-last-tag"></span>
+</div>
+
+<div class="open-in-new-tab-button fg-button ui-state-default ui-corner-all">
+  <i class="fas fa-arrow-up-right-from-square"></i>
+  <span i18n="bible-browser.open-in-new-tab"></span>
 </div>
 
 <div class="edit-note-button fg-button ui-state-default ui-corner-all ui-state-disabled">
@@ -59,11 +69,6 @@ const template = html`
 <div class="show-context-button fg-button ui-state-default ui-corner-all ui-state-disabled">
   <i class="fas fa-arrows-alt-v"></i><i class="fas fa-align-justify"></i>
   <span i18n="general.context"></span>
-</div>
-
-<div class="open-in-new-tab-button fg-button ui-state-default ui-corner-all">
-  <i class="fas fa-arrow-up-right-from-square"></i>
-  <span i18n="bible-browser.open-in-new-tab"></span>
 </div>
 `;
 
@@ -227,6 +232,7 @@ class VerseContextMenu extends HTMLElement {
     const editNoteButton = verseContextMenu.querySelector('.edit-note-button');
     const deleteNoteButton = verseContextMenu.querySelector('.delete-note-button');
     const openInNewTabButton = verseContextMenu.querySelector('.open-in-new-tab-button');
+    const copyButton = verseContextMenu.querySelector('.copy-button');
 
     editNoteButton.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -244,6 +250,13 @@ class VerseContextMenu extends HTMLElement {
         app_controller.hideAllMenus();
         app_controller.notes_controller.deleteVerseNotesForCurrentlySelectedVerse();
       }
+    });
+
+    copyButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      
+      app_controller.hideAllMenus();
+      clipboardController.handleCopyButtonClick(event);
     });
 
     openInNewTabButton.addEventListener('click', async (event) => {
