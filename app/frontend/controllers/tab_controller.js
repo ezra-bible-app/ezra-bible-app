@@ -133,10 +133,6 @@ class TabController {
       const currentTabIndex = this.getSelectedTabIndex();
       await this.populateTab(currentTabIndex, true, true, true);
     });
-
-    /*eventController.subscribe('on-note-file-changed', async () => {
-      await this.populateFromMetaTabs(true);
-    });*/
   }
 
   initFirstTab() {
@@ -235,10 +231,6 @@ class TabController {
     let loadedTabCount = 0;
     let tabCount = savedMetaTabs.length;
 
-    if (platformHelper.isMobile()) {
-      tabCount = 1;
-    }
-
     for (let i = 0; i < tabCount; i++) {
       var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i], i);
 
@@ -283,10 +275,6 @@ class TabController {
 
     if (cacheInvalid) {
       console.log("Cache is invalid. New app version?");
-    }
-
-    if (platformHelper.isMobile()) {
-      tabCount = 1;
     }
 
     for (let i = 0; i < tabCount; i++) {
