@@ -757,15 +757,15 @@ Librem 5/Pinephone etc.
     padding: 0.5em;
     text-align: center;
   }
-}
 
-/* PORTRAIT for small resolution phones */
-@media screen and (max-aspect-ratio: 13/10) and (max-width: 360px) {
   /* The copy button does not fit on smaller screens */
   .copy-button {
     display: none !important;
   }
+}
 
+/* PORTRAIT for small resolution phones */
+@media screen and (max-aspect-ratio: 13/10) and (max-width: 360px) {
   .commentary-name {
     max-width: 10em;
   }
