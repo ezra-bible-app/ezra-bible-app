@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -122,16 +121,11 @@ class PanelButtons extends HTMLElement {
 
     const slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
     slottedElements.forEach(el => {
-      // Handle tab button separately
-      if (el.id === 'tab-button') {
-        this._initTabButton(el);
-      } else {
-        this._initButton(el);
-      }
+      this._initButton(el);
     });
 
     if (!this._activePanel || this._platformHelper.isMobile()) {
-      this._activePanel = "";
+      this._activePanel = '';
       this.toolPanelElement.classList.add('hidden');
     } else {
       await this._togglePanel(this._activePanel, true);
@@ -152,7 +146,7 @@ class PanelButtons extends HTMLElement {
     }
     this.panelEvents[targetPanel] = buttonElement.getAttribute('event');
 
-    const defaultOpen = (buttonElement.getAttribute('default') == "true");
+    const defaultOpen = (buttonElement.getAttribute('default') == 'true');
     if (this._activePanel === null && defaultOpen) {
       this._activePanel = targetPanel;
     }
@@ -164,28 +158,13 @@ class PanelButtons extends HTMLElement {
     });
   }
   
-  _initTabButton(buttonElement) {
-    if (!buttonElement.hasAttribute('event')) {
-      console.error('Attribute "event" is required for tab button!');
-      return;
-    }
-    
-    const eventName = buttonElement.getAttribute('event');
-    
-    buttonElement.addEventListener('click', (e) => {
-      e.preventDefault();
-      eventController.publish('on-button-clicked');
-      eventController.publish(eventName);
-    });
-  }
-
   async _updatePanels(targetPanel, hideIfActive=true) {
     if (!targetPanel || this._disabledPanels.has(targetPanel)) return;
 
     // if active panel - hide the whole tool panel
     if (this._activePanel === targetPanel) {
       if (hideIfActive) {
-        this._activePanel = "";
+        this._activePanel = '';
         this.toolPanelElement.classList.add('hidden');
         this._togglePanel(targetPanel, false);
       }

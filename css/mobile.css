@@ -79,7 +79,7 @@ Librem 5/Pinephone etc.
     border-radius: var(--border-radius);
   }
 
-  .export-docx-button {
+  .export-docx-button, .app-info-button {
     display: none !important;
   }
 

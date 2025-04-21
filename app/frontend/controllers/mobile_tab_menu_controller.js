@@ -28,7 +28,7 @@ class MobileTabMenuController {
     this.mobileTabMenu = null;
     this.mobileTabTiles = null;
     this.mobileTabMenuCloseButton = null;
-    this.tabButton = null;
+    this.tabButtons = [];
     this.isInitialized = false;
   }
 
@@ -41,8 +41,9 @@ class MobileTabMenuController {
     
     this.mobileTabTiles = this.mobileTabMenu.querySelector('.mobile-tab-tiles');
     this.mobileTabMenuCloseButton = this.mobileTabMenu.querySelector('.mobile-tab-menu-close');
-    this.tabButton = document.getElementById('tab-button');
-    this.tabButton.style.visibility = 'visible';
+    
+    // Initialize with the current tab buttons
+    this.updateTabButtons();
     
     if (this.mobileTabMenuCloseButton) {
       this.mobileTabMenuCloseButton.addEventListener('click', () => {
@@ -54,18 +55,43 @@ class MobileTabMenuController {
       this.showMobileTabMenu();
     });
 
-    // Listen for tab added event to animate button when non-interactive
+    // Listen for tab added event
     eventController.subscribe('on-tab-added', (tabIndex) => {
+      // Update tab buttons array when a new tab is added
+      this.updateTabButtons();
+      
+      // Check if the tab was added non-interactively to animate its button
       if (app_controller && app_controller.tab_controller) {
         const tabs = app_controller.tab_controller.getAllTabs();
         if (tabs && tabs[tabIndex] && !tabs[tabIndex].addedInteractively) {
-          this.animateTabButton();
+          this.animateTabButton(tabIndex);
         }
       }
     });
 
+    // Listen for tab removed event
+    eventController.subscribe('on-tab-removed', () => {
+      // Update tab buttons array when a tab is removed
+      this.updateTabButtons();
+    });
+
     this.isInitialized = true;
     this.refreshMobileTabMenu();
+  }
+
+  /**
+   * Update the list of tab buttons from all verse list menus
+   */
+  updateTabButtons() {
+    this.tabButtons = [];
+    const tabButtons = document.querySelectorAll('#tab-button');
+    
+    tabButtons.forEach(button => {
+      button.style.visibility = 'visible';
+      this.tabButtons.push(button);
+    });
+    
+    this.updateTabCountBadges();
   }
 
   showMobileTabMenu() {
@@ -75,9 +101,10 @@ class MobileTabMenuController {
       this.mobileTabMenu.classList.add('visible');
     }
     
-    // Add active state to tab button
-    if (this.tabButton) {
-      this.tabButton.classList.add('active');
+    // Add active state to current tab's tab button
+    const selectedTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    if (this.tabButtons[selectedTabIndex]) {
+      this.tabButtons[selectedTabIndex].classList.add('active');
     }
   }
 
@@ -86,10 +113,10 @@ class MobileTabMenuController {
       this.mobileTabMenu.classList.remove('visible');
     }
     
-    // Remove active state from tab button
-    if (this.tabButton) {
-      this.tabButton.classList.remove('active');
-    }
+    // Remove active state from all tab buttons
+    this.tabButtons.forEach(button => {
+      button.classList.remove('active');
+    });
   }
 
   refreshMobileTabMenu() {
@@ -161,7 +188,7 @@ class MobileTabMenuController {
       console.error('Failed to create add tab tile element');
     }
 
-    this.updateTabCountBadge();
+    this.updateTabCountBadges();
   }
 
   getTabTileTitle(tab) {
@@ -296,33 +323,39 @@ class MobileTabMenuController {
   }
 
   /**
-   * Updates the tab count in the tab button
+   * Updates the tab count in all tab buttons
    */
-  updateTabCountBadge() {
-    if (!this.tabButton || !app_controller || !app_controller.tab_controller) {
+  updateTabCountBadges() {
+    if (!app_controller || !app_controller.tab_controller) {
       return;
     }
     
     const tabCount = app_controller.tab_controller.getTabCount();
     
-    // Simply set the tab count as the button content
-    this.tabButton.textContent = tabCount.toString();
+    // Update tab count on all tab buttons
+    this.tabButtons.forEach(button => {
+      if (button) {
+        button.textContent = tabCount.toString();
+      }
+    });
   }
 
   /**
-   * Animates the tab button to indicate a new tab has been added non-interactively
+   * Animates the specified tab button to indicate a new tab has been added non-interactively
+   * @param {number} tabIndex - The index of the tab whose button should be animated
    */
-  animateTabButton() {
-    if (!this.tabButton) {
+  animateTabButton(tabIndex = 0) {
+    const button = this.tabButtons[tabIndex];
+    if (!button) {
       return;
     }
 
     // Add animation class
-    this.tabButton.classList.add('tab-button-animation');
+    button.classList.add('tab-button-animation');
     
     // Remove animation class after animation completes to allow for future animations
     setTimeout(() => {
-      this.tabButton.classList.remove('tab-button-animation');
+      button.classList.remove('tab-button-animation');
     }, 1500); // 1.5s * 3 iterations = 4.5s total, but we'll use 1.5s as timeout
   }
 }
