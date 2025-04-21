@@ -192,7 +192,10 @@ class TabController {
       savedMetaTabs.push(copiedMetaTab);
     }
 
+    // Save the currently selected tab index
+    const selectedTabIndex = this.getSelectedTabIndex();
     await cacheController.setCachedItem('tabConfiguration', savedMetaTabs);
+    await cacheController.setCachedItem('selectedTabIndex', selectedTabIndex);
   }
 
   disableTabOperations() {
@@ -368,8 +371,16 @@ class TabController {
     // Give the UI some time to render
     await waitUntilIdle();
 
-    // Call this method explicitly to initialize the first tab
-    await eventController.publishAsync('on-tab-selected', 0);
+    // Restore the previously selected tab if available
+    if (loadedTabCount > 0 && await cacheController.hasCachedItem('selectedTabIndex')) {
+      const selectedTabIndex = await cacheController.getCachedItem('selectedTabIndex', 0);
+      // Make sure the index is valid (not larger than the number of loaded tabs)
+      const validIndex = Math.min(selectedTabIndex, loadedTabCount - 1);
+      this.tabs.tabs('select', validIndex);
+    } else {
+      // Call this method explicitly to initialize the first tab
+      await eventController.publishAsync('on-tab-selected', 0);
+    }
 
     await waitUntilIdle();
 
@@ -465,6 +476,12 @@ class TabController {
           }
 
           this.lastSelectedTabIndex = index;
+          
+          // Save only the selected tab index when tab selection changes
+          if (this.persistanceEnabled) {
+            cacheController.setCachedItem('selectedTabIndex', index);
+          }
+          
           eventController.publish('on-tab-selected', ui.index);
         }
       },
