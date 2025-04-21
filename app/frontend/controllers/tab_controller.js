@@ -448,6 +448,16 @@ class TabController {
             this.savePreviousTabScrollPosition();
           }
 
+          // Update the current tab title label when switching tabs
+          var tabsElement = $('#' + this.tabsElement);
+          var tab = $(tabsElement.find('li')[index]);
+          var link = $(tab.find('a')[0]);
+          var linkText = link.html().split(' ');
+          linkText.pop(); // Remove the translation ID part if present
+          var title = linkText.join(' ');
+          var currentTabTitleLabel = tabsElement.find('.current-tab-title-label');
+          currentTabTitleLabel.html(title);
+
           if (metaTab.getTextType() != null) {
             var currentVerseListFrame = verseListController.getCurrentVerseListFrame(index);
             var currentVerseList = verseListController.getCurrentVerseList(index);
