@@ -42,6 +42,7 @@ class MobileTabMenuController {
     this.mobileTabTiles = this.mobileTabMenu.querySelector('.mobile-tab-tiles');
     this.mobileTabMenuCloseButton = this.mobileTabMenu.querySelector('.mobile-tab-menu-close');
     this.tabButton = document.getElementById('tab-button');
+    this.tabButton.style.visibility = 'visible';
     
     if (this.mobileTabMenuCloseButton) {
       this.mobileTabMenuCloseButton.addEventListener('click', () => {
