@@ -237,7 +237,7 @@ class AppController {
     let bookSelectButton = currentVerseListMenu.querySelector('.book-select-button');
     let moduleSearchButton = currentVerseListMenu.querySelector('.module-search-button');
     let copyButton = currentVerseListMenu.querySelector('.copy-button');
-    let tabButton = currentVerseListMenu.querySelector('#tab-button');
+    let tabButton = currentVerseListMenu.querySelector('.tab-button');
 
     let bibleTranslations = await ipcNsi.getAllLocalModules();
     if (bibleTranslations != null && bibleTranslations.length > 0) {

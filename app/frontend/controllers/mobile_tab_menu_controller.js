@@ -84,7 +84,7 @@ class MobileTabMenuController {
    */
   updateTabButtons() {
     this.tabButtons = [];
-    const tabButtons = document.querySelectorAll('#tab-button');
+    const tabButtons = document.querySelectorAll('.tab-button');
     
     tabButtons.forEach(button => {
       button.style.visibility = 'visible';

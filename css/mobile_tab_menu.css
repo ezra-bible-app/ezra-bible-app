@@ -236,21 +236,20 @@
 .tab-button {
   display: none;
   position: relative;
-  width: var(--button-size);
-  height: var(--button-size);
+  width: calc(var(--button-size) - 2px);
+  height: calc(var(--button-size) - 2px);
   padding: 0;
   border-radius: 12px !important; /* Make it more rounded */
   font-weight: bold;
   text-align: center;
   background-color: var(--background-color-darker) !important;
   color: var(--text-color);
-  border: 2px solid var(--border-color) !important;
+  border: 2px solid var(--accent-color) !important;
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.tab-button::before {
+.tab-button::before, .tab-button.active::before {
   content: attr(data-tab-count);
   position: absolute;
   top: 50%;
@@ -266,10 +265,8 @@
   }
   
   .tab-button.active {
-    color: white !important;
     border-color: var(--highlight-border-color) !important;
     background-color: var(--accent-color) !important;
-    box-shadow: 0 2px 8px rgba(var(--accent-color-rgb), 0.5);
   }
 }
 
