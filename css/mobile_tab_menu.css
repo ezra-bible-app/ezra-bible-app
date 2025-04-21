@@ -69,6 +69,7 @@
 }
 
 .mobile-tab-tile {
+  position: relative; /* Added this to make the close button position correctly */
   background-color: var(--background-color-darker);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -123,6 +124,35 @@
 .mobile-tab-add-tile i {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+}
+
+/* Close button for tab tiles */
+.mobile-tab-close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0.7;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.mobile-tab-close-button:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.mobile-tab-tile.active .mobile-tab-close-button {
+  color: white;
 }
 
 /* Tab count overlay for the tab button */

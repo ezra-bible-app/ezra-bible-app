@@ -674,12 +674,19 @@ class TabController {
     for (var i = 0; i < all_tabs.length; i++) {
       var current_href = $(all_tabs[i]).find('a').attr('href');
       if (current_href == href) {
-        this.metaTabs.splice(i, 1);
-        this.tabs.tabs("remove", i);
+        this.removeTabByIndex(i);
         break;
       }
     }
+  }
 
+  removeTabByIndex(index) {
+    if (index < 0 || index >= this.metaTabs.length) {
+      return;
+    }
+
+    this.metaTabs.splice(index, 1);
+    this.tabs.tabs("remove", index);
     this.updateFirstTabCloseButton();
     this.saveTabConfiguration();
   }

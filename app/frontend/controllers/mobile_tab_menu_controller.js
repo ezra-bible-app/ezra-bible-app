@@ -261,6 +261,28 @@ class MobileTabMenuController {
       tileDiv.className = 'mobile-tab-tile';
       if (isActive) tileDiv.classList.add('active');
       
+      // Create close button in top-right corner
+      const closeButton = document.createElement('div');
+      closeButton.className = 'mobile-tab-close-button';
+      
+      const closeIcon = document.createElement('i');
+      closeIcon.className = 'fas fa-times';
+      closeButton.appendChild(closeIcon);
+      
+      // Add click handler to close button (empty for now)
+      closeButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        
+        // Empty implementation for now
+        console.log('Close button clicked for tab');
+        
+        return false;
+      });
+      
+      // Add the close button to the tile
+      tileDiv.appendChild(closeButton);
+      
       // Create icon element based on tab type
       const iconElement = document.createElement('i');
       
