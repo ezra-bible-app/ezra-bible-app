@@ -169,8 +169,6 @@ class MobileTabMenuController {
         break;
       case 'tagged_verses':
         title = tab.getTaggedVersesTitle() || tab.getTagTitleList();
-        // Strip HTML tags for display in tiles
-        title = title.replace(/<[^>]*>/g, '');
         break;
       case 'xrefs':
         title = tab.getXrefTitle() || i18n.t('bible-browser.cross-references');
@@ -257,7 +255,7 @@ class MobileTabMenuController {
     
     const titleDiv = document.createElement('div');
     titleDiv.className = 'mobile-tab-tile-title';
-    titleDiv.textContent = title;
+    titleDiv.innerHTML = title;
     tileDiv.appendChild(titleDiv);
     
     if (translationId) {
