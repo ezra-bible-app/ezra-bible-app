@@ -65,6 +65,13 @@ class MobileTabMenuController {
 
     eventController.subscribe('on-tab-added', () => {
       this.refreshMobileTabMenu();
+      this.updateTabCountBadge();
+    });
+
+    // Subscribe to the event when a tab is removed
+    eventController.subscribe('on-tab-removed', () => {
+      this.refreshMobileTabMenu();
+      this.updateTabCountBadge();
     });
 
     eventController.subscribe('on-tab-selected', () => {
@@ -91,6 +98,7 @@ class MobileTabMenuController {
     setTimeout(() => {
       this.isInitialized = true;
       this.refreshMobileTabMenu();
+      this.updateTabCountBadge();
       console.log('MobileTabMenuController initialized');
     }, 1000);
   }
@@ -291,6 +299,39 @@ class MobileTabMenuController {
     } catch (err) {
       console.error('Error in createAddTabTileElement:', err);
       return null;
+    }
+  }
+
+  /**
+   * Updates the tab count badge on the tab menu button
+   */
+  updateTabCountBadge() {
+    if (!this.tabButton || !app_controller || !app_controller.tab_controller) {
+      return;
+    }
+    
+    try {
+      const tabCount = app_controller.tab_controller.getTabCount();
+      
+      // Remove existing badge if any
+      const existingBadge = this.tabButton.querySelector('.tab-count-badge');
+      if (existingBadge) {
+        existingBadge.remove();
+      }
+      
+      // Create and add the new badge
+      const badge = document.createElement('span');
+      badge.className = 'tab-count-badge';
+      badge.textContent = tabCount.toString();
+      
+      // Set the button to position relative if not already
+      if (this.tabButton.style.position !== 'relative') {
+        this.tabButton.style.position = 'relative';
+      }
+      
+      this.tabButton.appendChild(badge);
+    } catch (err) {
+      console.error('Error updating tab count badge:', err);
     }
   }
 }
