@@ -54,6 +54,16 @@ class MobileTabMenuController {
       this.showMobileTabMenu();
     });
 
+    // Listen for tab added event to animate button when non-interactive
+    eventController.subscribe('on-tab-added', (tabIndex) => {
+      if (app_controller && app_controller.tab_controller) {
+        const tabs = app_controller.tab_controller.getAllTabs();
+        if (tabs && tabs[tabIndex] && !tabs[tabIndex].addedInteractively) {
+          this.animateTabButton();
+        }
+      }
+    });
+
     this.isInitialized = true;
     this.refreshMobileTabMenu();
   }
@@ -297,6 +307,23 @@ class MobileTabMenuController {
     
     // Simply set the tab count as the button content
     this.tabButton.textContent = tabCount.toString();
+  }
+
+  /**
+   * Animates the tab button to indicate a new tab has been added non-interactively
+   */
+  animateTabButton() {
+    if (!this.tabButton) {
+      return;
+    }
+
+    // Add animation class
+    this.tabButton.classList.add('tab-button-animation');
+    
+    // Remove animation class after animation completes to allow for future animations
+    setTimeout(() => {
+      this.tabButton.classList.remove('tab-button-animation');
+    }, 1500); // 1.5s * 3 iterations = 4.5s total, but we'll use 1.5s as timeout
   }
 }
 

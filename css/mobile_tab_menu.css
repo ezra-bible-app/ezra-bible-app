@@ -262,6 +262,27 @@ button#tab-button {
   }
 }
 
+/* Animation for tab button when new tab is added non-interactively */
+@keyframes tab-button-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); background-color: var(--highlight-object-color); }
+  100% { transform: scale(1); }
+}
+
+@keyframes tab-button-pulse-dark {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); background-color: var(--highlight-object-color-dark); }
+  100% { transform: scale(1); }
+}
+
+.tab-button-animation {
+  animation: tab-button-pulse 0.5s ease-in-out 3;
+}
+
+.darkmode--activated .tab-button-animation {
+  animation-name: tab-button-pulse-dark;
+}
+
 /* Dark mode optimizations for the tab tiles */
 .darkmode--activated .mobile-tab-tile {
   border-color: #444;
