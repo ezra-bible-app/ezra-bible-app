@@ -269,15 +269,39 @@ class MobileTabMenuController {
       closeIcon.className = 'fas fa-times';
       closeButton.appendChild(closeIcon);
       
-      // Add click handler to close button (empty for now)
+      // Add click handler to close button
       closeButton.addEventListener('click', (event) => {
         event.stopPropagation();
         event.preventDefault();
         
-        // Empty implementation for now
-        console.log('Close button clicked for tab');
+        // Find index of the tab to close
+        const tabs = app_controller.tab_controller.getAllTabs();
+        const tabIndex = tabs.indexOf(tab);
         
-        return false;
+        if (tabIndex !== -1) {
+          try {
+            console.log('Closing tab at index: ' + tabIndex);
+            
+            // If this is the last tab, don't close it
+            if (tabs.length <= 1) {
+              console.log('Not closing the last tab');
+              return;
+            }
+            
+            // Use the TabController's removeTabByIndex method
+            app_controller.tab_controller.removeTabByIndex(tabIndex);
+            
+            // Make sure the tab menu is refreshed and tab count is updated
+            setTimeout(() => {
+              this.refreshMobileTabMenu();
+              this.updateTabCountBadge();
+            }, 300);
+          } catch (err) {
+            console.error('Error closing tab:', err);
+          }
+        }
+        
+        return false; // Ensure the event doesn't propagate
       });
       
       // Add the close button to the tile
