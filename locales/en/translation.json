@@ -408,7 +408,8 @@
       "implied" : "These words were added or changed to translate information implied by the source text",
       "moved" : "These words were in another location in the source text",
       "tense-change": "The grammatical tense of these words was changed in order to facilitate translation"
-    }
+    },
+    "empty-tab-title": "Empty tab"
   },
   "word-study-panel": {
     "greek-dict": "Greek Word Study",
