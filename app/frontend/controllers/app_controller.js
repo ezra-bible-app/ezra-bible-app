@@ -52,7 +52,7 @@ const transChangeTitles = require('../components/trans_change_titles.js');
 const sectionLabelHelper = require('../helpers/section_label_helper.js');
 const typeFaceSettings = require('../components/type_face_settings.js');
 const clipboardController = require('./clipboard_controller.js');
-const MobileTabMenuController = require('./mobile_tab_menu_controller.js');
+const MobileTabController = require('./mobile_tab_controller.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -112,7 +112,7 @@ class AppController {
     this.init_component("VerseStatisticsChart", "verse_statistics_chart");
     
     if (platformHelper.isMobile()) {
-      this.init_component("MobileTabMenuController", "mobile_tab_menu_controller");
+      this.init_component("MobileTabController", "mobile_tab_controller");
     }
 
     /**@type {import('../components/module_assistant/module_assistant')} */
@@ -138,7 +138,7 @@ class AppController {
     clipboardController.init();
     
     if (platformHelper.isMobile()) {
-      this.mobile_tab_menu_controller.init();
+      this.mobile_tab_controller.init();
     }
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });

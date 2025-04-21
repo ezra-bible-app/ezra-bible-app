@@ -10,7 +10,7 @@
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+   GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -653,8 +653,8 @@ class TabController {
     }
 
     // Update mobile tab menu when a tab is added
-    if (this._platformHelper.isMobile() && app_controller.mobile_tab_menu_controller) {
-      app_controller.mobile_tab_menu_controller.refreshMobileTabMenu();
+    if (this._platformHelper.isMobile() && app_controller.mobile_tab_controller) {
+      app_controller.mobile_tab_controller.refreshMobileTabMenu();
     }
 
     return metaTab;

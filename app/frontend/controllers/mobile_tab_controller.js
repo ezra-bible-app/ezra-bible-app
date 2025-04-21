@@ -16,14 +16,13 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('./event_controller.js');
-const { html } = require('../helpers/ezra_helper.js');
 
 /**
  * The MobileTabMenuController handles the fullscreen tab menu for mobile devices.
  * 
  * @category Controller
  */
-class MobileTabMenuController {
+class MobileTabController {
   constructor() {
     this.mobileTabMenu = null;
     this.mobileTabTiles = null;
@@ -355,4 +354,4 @@ class MobileTabMenuController {
   }
 }
 
-module.exports = MobileTabMenuController;
+module.exports = MobileTabController;
