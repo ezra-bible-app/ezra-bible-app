@@ -218,7 +218,8 @@
       "content-font-family": "Content font family",
       "custom-content-font": "Custom content font"
     },
-    "title": "Title"
+    "title": "Title",
+    "tabs": "Tabs"
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirm data privacy options",
