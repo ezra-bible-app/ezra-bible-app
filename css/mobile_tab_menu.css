@@ -49,6 +49,7 @@
 }
 
 .mobile-tab-menu-header h2 {
+  color: var(--text-color);
   margin: 0;
   font-size: 1.2rem;
 }
@@ -69,7 +70,7 @@
 }
 
 .mobile-tab-tile {
-  position: relative; /* Added this to make the close button position correctly */
+  position: relative;
   background-color: var(--background-color-darker);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -83,19 +84,38 @@
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
   overflow: hidden;
+  /* Dark mode optimizations */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
-.mobile-tab-tile:hover, .mobile-tab-tile.active {
+.mobile-tab-tile:hover {
+  background-color: rgba(var(--accent-color-rgb), 0.15);
+  border-color: var(--highlight-border-color);
+}
+
+.mobile-tab-tile.active {
   background-color: var(--accent-color);
   border-color: var(--highlight-border-color);
   color: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }
 
 .mobile-tab-tile:active {
   transform: scale(0.98);
 }
 
+.mobile-tab-tile i {
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+  opacity: 0.8;
+}
+
+.mobile-tab-tile.active i {
+  opacity: 1;
+}
+
 .mobile-tab-tile-title {
+  color: var(--text-color);
   font-weight: bold;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -110,7 +130,16 @@
 
 .mobile-tab-tile-translation {
   font-size: 0.8rem;
-  opacity: 0.8;
+  opacity: 0.7;
+  margin-top: 0.2rem;
+  padding: 0.2rem 0.5rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.mobile-tab-tile.active .mobile-tab-tile-translation {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .mobile-tab-add-tile {
@@ -119,6 +148,13 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  border-style: dashed;
+  opacity: 0.8;
+}
+
+.mobile-tab-add-tile:hover {
+  opacity: 1;
+  background-color: rgba(var(--accent-color-rgb), 0.1);
 }
 
 .mobile-tab-add-tile i {
@@ -148,11 +184,25 @@
 
 .mobile-tab-close-button:hover {
   opacity: 1;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(var(--accent-color-rgb), 0.3);
 }
 
 .mobile-tab-tile.active .mobile-tab-close-button {
+  background-color: rgba(0, 0, 0, 0.3);
   color: white;
+}
+
+/* Dark mode optimization - make close button more visible */
+.darkmode--activated .mobile-tab-close-button {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.darkmode--activated .mobile-tab-close-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.darkmode--activated .mobile-tab-tile.active .mobile-tab-close-button {
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Tab count overlay for the tab button */
@@ -198,4 +248,29 @@ button#tab-button {
     border-color: var(--highlight-border-color);
     background: var(--accent-color);
   }
+}
+
+/* Dark mode optimizations for the tab tiles */
+.darkmode--activated .mobile-tab-tile {
+  background-color: rgba(30, 30, 30, 0.6);
+  border-color: #444;
+  color: var(--text-color);
+}
+
+.darkmode--activated .mobile-tab-tile:hover {
+  background-color: rgba(40, 40, 40, 0.8);
+  border-color: #666;
+}
+
+.darkmode--activated .mobile-tab-tile i {
+  color: var(--accent-color-light);
+}
+
+.darkmode--activated .mobile-tab-add-tile {
+  border-color: #444;
+}
+
+.darkmode--activated .mobile-tab-tile-translation {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #ccc; /* Ensure translation ID text is visible */
 }
