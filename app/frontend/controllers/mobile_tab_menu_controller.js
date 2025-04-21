@@ -110,70 +110,62 @@ class MobileTabMenuController {
       return;
     }
     
-    try {
-      const tabs = app_controller.tab_controller.getAllTabs();
-      
-      if (!tabs || !Array.isArray(tabs)) {
+    const tabs = app_controller.tab_controller.getAllTabs();
+    
+    if (!tabs || !Array.isArray(tabs)) {
+      return;
+    }
+    
+    const selectedTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    
+    // Clear existing tiles
+    this.mobileTabTiles.innerHTML = '';
+    
+    // Create tiles for each tab
+    let tilesCreated = 0;
+    tabs.forEach((tab, index) => {
+      if (!tab) {
         return;
       }
       
-      const selectedTabIndex = app_controller.tab_controller.getSelectedTabIndex();
-      
-      // Clear existing tiles
-      this.mobileTabTiles.innerHTML = '';
-      
-      // Create tiles for each tab
-      let tilesCreated = 0;
-      tabs.forEach((tab, index) => {
-        if (!tab) {
-          return;
-        }
-        
-        try {
-          const tabTitle = this.getTabTileTitle(tab);
-          const translationId = tab.getBibleTranslationId();
-          
-          //console.log(`Creating tile for tab ${index}: "${tabTitle}" [${translationId}]`);
-          const tileElement = this.createTabTileElement(tabTitle, translationId, index === selectedTabIndex, tab);
-          
-          if (tileElement) {
-            tileElement.addEventListener('click', () => {
-              if (app_controller && app_controller.tab_controller && app_controller.tab_controller.tabs) {
-                app_controller.tab_controller.tabs.tabs('select', index);
-                this.hideMobileTabMenu();
-              }
-            });
-            
-            this.mobileTabTiles.appendChild(tileElement);
-            tilesCreated++;
-          } else {
-            console.error(`Failed to create tile element for tab ${index}`);
-          }
-        } catch (err) {
-          console.error(`Error creating tab tile ${index}:`, err);
-        }
-      });
-      
-      // Add the "New Tab" tile
       try {
-        const addTabTile = this.createAddTabTileElement();
-        if (addTabTile) {
-          addTabTile.addEventListener('click', () => {
-            if (app_controller && app_controller.tab_controller) {
-              app_controller.tab_controller.addTab();
+        const tabTitle = this.getTabTileTitle(tab);
+        const translationId = tab.getBibleTranslationId();
+        
+        //console.log(`Creating tile for tab ${index}: "${tabTitle}" [${translationId}]`);
+        const tileElement = this.createTabTileElement(tabTitle, translationId, index === selectedTabIndex, tab);
+        
+        if (tileElement) {
+          tileElement.addEventListener('click', () => {
+            if (app_controller && app_controller.tab_controller && app_controller.tab_controller.tabs) {
+              app_controller.tab_controller.tabs.tabs('select', index);
               this.hideMobileTabMenu();
             }
           });
           
-          this.mobileTabTiles.appendChild(addTabTile);
+          this.mobileTabTiles.appendChild(tileElement);
+          tilesCreated++;
         } else {
-          console.error('Failed to create add tab tile element');
+          console.error(`Failed to create tile element for tab ${index}`);
         }
       } catch (err) {
-        console.error('Error creating add tab tile:', err);
+        console.error(`Error creating tab tile ${index}:`, err);
       }
-    } catch (err) {
-      console.error('Error refreshing mobile tab menu:', err);
+    });
+    
+    // Add the "New Tab" tile
+    const addTabTile = this.createAddTabTileElement();
+    if (addTabTile) {
+      addTabTile.addEventListener('click', () => {
+        if (app_controller && app_controller.tab_controller) {
+          app_controller.tab_controller.addTab();
+          this.hideMobileTabMenu();
+        }
+      });
+      
+      this.mobileTabTiles.appendChild(addTabTile);
+    } else {
+      console.error('Failed to create add tab tile element');
     }
   }
 
