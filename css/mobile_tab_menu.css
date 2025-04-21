@@ -1,0 +1,143 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+.mobile-tab-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  visibility: hidden;
+}
+
+.mobile-tab-menu.visible {
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.mobile-tab-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  user-select: none;
+}
+
+.mobile-tab-menu-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.mobile-tab-menu-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.mobile-tab-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.mobile-tab-tile {
+  background-color: var(--background-color-darker);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+  overflow: hidden;
+}
+
+.mobile-tab-tile:hover, .mobile-tab-tile.active {
+  background-color: var(--accent-color);
+  border-color: var(--highlight-border-color);
+  color: white;
+}
+
+.mobile-tab-tile:active {
+  transform: scale(0.98);
+}
+
+.mobile-tab-tile-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.mobile-tab-tile-translation {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.mobile-tab-add-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.mobile-tab-add-tile i {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Special styling for the tab button */
+button#tab-button {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  button#tab-button {
+    display: block !important;
+  }
+  
+  button#tab-button.active {
+    color: white;
+    border-color: var(--highlight-border-color);
+    background: var(--accent-color);
+  }
+}

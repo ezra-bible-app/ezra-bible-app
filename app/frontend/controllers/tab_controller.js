@@ -10,7 +10,7 @@
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -26,6 +26,7 @@ const cacheController = require('./cache_controller.js');
 const eventController = require('./event_controller.js');
 const referenceVerseController = require('../controllers/reference_verse_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const PlatformHelper = require('../../lib/platform_helper.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -47,6 +48,7 @@ class TabController {
     this.lastSelectedTabIndex = null;
     this.verseBoxHelper = new VerseBoxHelper();
     this.tabOperationsEnabled = true;
+    this._platformHelper = new PlatformHelper();
   }
 
   init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, defaultBibleTranslationId) {
