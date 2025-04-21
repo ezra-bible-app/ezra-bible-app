@@ -283,5 +283,5 @@ button#tab-button {
 
 .darkmode--activated .mobile-tab-tile-translation {
   background-color: rgba(0, 0, 0, 0.3);
-  color: #ccc; /* Ensure translation ID text is visible */
+  color: white; /* Ensure translation ID text is visible */
 }
