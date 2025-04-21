@@ -118,7 +118,13 @@ class TabController {
 
     eventController.subscribe('on-db-refresh', async () => {
       verseListController.resetVerseListView();
-      await this.loadTabConfiguration(true);
+      if (this.loadingCompleted) {
+        // If tabs are already loaded, just repopulate them with fresh data
+        await this.populateFromMetaTabs(true);
+      } else {
+        // Initial loading during startup
+        await this.loadTabConfiguration(true);
+      }
     });
 
     eventController.subscribe('on-note-file-changed', async () => {
