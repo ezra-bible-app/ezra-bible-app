@@ -303,7 +303,7 @@ class MobileTabMenuController {
   }
 
   /**
-   * Updates the tab count as an overlay on the tab button
+   * Updates the tab count directly in the tab button
    */
   updateTabCountBadge() {
     if (!this.tabButton || !app_controller || !app_controller.tab_controller) {
@@ -313,22 +313,11 @@ class MobileTabMenuController {
     try {
       const tabCount = app_controller.tab_controller.getTabCount();
       
-      // Remove existing overlay if any
-      const existingOverlay = this.tabButton.querySelector('.tab-count-overlay');
-      if (existingOverlay) {
-        existingOverlay.remove();
-      }
-      
-      // Create a new overlay with the tab count
-      const overlay = document.createElement('div');
-      overlay.className = 'tab-count-overlay';
-      overlay.textContent = tabCount.toString();
-      
-      // Add the overlay to the tab button
-      this.tabButton.appendChild(overlay);
+      // Simply set the tab count as the button content
+      this.tabButton.textContent = tabCount.toString();
       
     } catch (err) {
-      console.error('Error updating tab count overlay:', err);
+      console.error('Error updating tab count:', err);
     }
   }
 }

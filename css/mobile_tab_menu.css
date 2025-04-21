@@ -142,7 +142,19 @@
 /* Special styling for the tab button */
 button#tab-button {
   display: none;
-  position: relative; /* Needed for absolute positioning of the overlay */
+  position: relative;
+  width: var(--button-size);
+  height: var(--button-size);
+  padding: 0;
+  border-radius: 6px;
+  font-weight: bold;
+  line-height: 32px;
+  text-align: center;
+  background-color: var(--background-color-darker);
+  color: var(--text-color);
+  border: 3px solid darkgray;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
 }
 
 @media screen and (max-width: 768px) {
