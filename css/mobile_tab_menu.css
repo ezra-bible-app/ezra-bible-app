@@ -284,7 +284,7 @@
 }
 
 .tab-button-animation {
-  animation: tab-button-pulse 0.5s ease-in-out 3;
+  animation: tab-button-pulse 0.5s ease-in-out 2;
 }
 
 .darkmode--activated .tab-button-animation {

@@ -350,7 +350,7 @@ class MobileTabController {
     // Remove animation class after animation completes to allow for future animations
     setTimeout(() => {
       button.classList.remove('tab-button-animation');
-    }, 1500); // 1.5s * 3 iterations = 4.5s total, but we'll use 1.5s as timeout
+    }, 1000); // 1s * 2 iterations = 2s total, but we'll use 1s as timeout
   }
 }
 
