@@ -579,10 +579,11 @@ class ModuleSearchController {
     var searchType = this.getSearchType();
     var isCaseSensitive = this.isCaseSensitive();
     var useExtendedVerseBoundaries = this.useExtendedVerseBoundaries();
+    var useWordBoundaries = this.useWordBoundaries();
 
     for (var i = 0; i < verses.length; i++) {
       var currentVerse = verses[i];
-      this.verseSearch.doVerseSearch(currentVerse, searchTerm, searchType, isCaseSensitive, useExtendedVerseBoundaries);
+      this.verseSearch.doVerseSearch(currentVerse, searchTerm, searchType, isCaseSensitive, useExtendedVerseBoundaries, useWordBoundaries);
     }
   }
 

@@ -28,7 +28,7 @@ class VerseSearch {
     this.strongsHighlighter = new StrongsHighlighter(this.getHighlightedText);
   }
 
-  doVerseSearch(verseElement, searchString, searchType, caseSensitive=false, extendedVerseBoundaries=false) {
+  doVerseSearch(verseElement, searchString, searchType, caseSensitive=false, extendedVerseBoundaries=false, wordBoundaries=false) {
     this.currentVerseElementTextNodes = undefined;
 
     var searchTermList = null;
@@ -58,7 +58,7 @@ class VerseSearch {
       if (isStrongs) {
         occurances = this.getStrongsOccurancesInVerse(verseElement, currentSearchTerm);
       } else {
-        occurances = this.getOccurancesInVerse(verseElement, currentSearchTerm, caseSensitive);
+        occurances = this.getOccurancesInVerse(verseElement, currentSearchTerm, caseSensitive, wordBoundaries);
       }
 
       var currentOccurancesCount = occurances.length;
@@ -82,7 +82,7 @@ class VerseSearch {
 
     if (allTermsFound || extendedVerseBoundaries) {
       searchTermList.forEach((currentSearchTerm) => {
-        this.highlightOccurancesInVerse(verseElement, allOccurances, currentSearchTerm, searchType, caseSensitive);
+        this.highlightOccurancesInVerse(verseElement, allOccurances, currentSearchTerm, searchType, caseSensitive, wordBoundaries);
       });
     }
 
@@ -107,39 +107,70 @@ class VerseSearch {
     return occurances;
   }
 
-  getOccurancesInVerse(verseElement, searchString, caseSensitive=false) {
+  getOccurancesInVerse(verseElement, searchString, caseSensitive=false, wordBoundaries=false) {
     var occurances = [];
     var searchStringLength = searchString.length;
 
     if (searchStringLength > 0) {
       this.currentVerseElementTextNodes = this.getTextNodes(verseElement);
-      var verseText = "";
+      var verseText = '';
 
       this.currentVerseElementTextNodes.forEach((textNode) => {
         verseText += textNode.nodeValue;
       });
 
-      if (searchString.indexOf(" ") != -1) {
+      if (searchString.indexOf(' ') != -1) {
         // Replace all white space with regular spaces
-        verseText = verseText.replace(/\s/g, " ");
+        verseText = verseText.replace(/\s/g, ' ');
       }
+
+      var verseTextForComparison = verseText;
+      var searchStringForComparison = searchString;
 
       if (!caseSensitive) {
-        verseText = verseText.toLowerCase();
-        searchString = searchString.toLowerCase();
+        verseTextForComparison = verseText.toLowerCase();
+        searchStringForComparison = searchString.toLowerCase();
       }
 
-      var currentIndex = 0;
-      var forever = true;
-
-      while (forever) {
-        var nextOccurance = verseText.indexOf(searchString, currentIndex);
-
-        if (nextOccurance == -1) {
-          break;
-        } else {
-          occurances.push(nextOccurance);
-          currentIndex = nextOccurance + searchStringLength;
+      if (wordBoundaries) {
+        // Use custom word boundary detection for more consistent results
+        var currentIndex = 0;
+        
+        while (true) {
+          var nextOccurance = verseTextForComparison.indexOf(searchStringForComparison, currentIndex);
+          
+          if (nextOccurance === -1) {
+            break;
+          } else {
+            // Check if this is a whole word match using word boundary characters
+            var prevChar = nextOccurance > 0 ? verseTextForComparison[nextOccurance - 1] : null;
+            var nextChar = nextOccurance + searchStringForComparison.length < verseTextForComparison.length ? 
+                           verseTextForComparison[nextOccurance + searchStringForComparison.length] : null;
+            
+            // Word boundaries are whitespace, punctuation, or start/end of string
+            var prevIsBoundary = !prevChar || /[\s.,;:!?()[\]{}|<>"'\/\\-]/.test(prevChar);
+            var nextIsBoundary = !nextChar || /[\s.,;:!?()[\]{}|<>"'\/\\-]/.test(nextChar);
+            
+            if (prevIsBoundary && nextIsBoundary) {
+              occurances.push(nextOccurance);
+            }
+            
+            currentIndex = nextOccurance + searchStringForComparison.length;
+          }
+        }
+      } else {
+        // For non-word boundary search, use the original string search approach
+        var currentIndex = 0;
+        
+        while (true) {
+          var nextOccurance = verseTextForComparison.indexOf(searchStringForComparison, currentIndex);
+          
+          if (nextOccurance === -1) {
+            break;
+          } else {
+            occurances.push(nextOccurance);
+            currentIndex = nextOccurance + searchStringForComparison.length;
+          }
         }
       }
     }
@@ -183,7 +214,7 @@ class VerseSearch {
     return textNodes;
   }
 
-  highlightOccurancesInVerse(verseElement, occurances, searchString, searchType, caseSensitive=false) {
+  highlightOccurancesInVerse(verseElement, occurances, searchString, searchType, caseSensitive=false, wordBoundaries=false) {
     var regexOptions = 'g';
     if (!caseSensitive) {
       regexOptions += 'i';
@@ -192,11 +223,11 @@ class VerseSearch {
 
     if (searchType == "phrase") {
       this.currentVerseElementTextNodes = this.getTextNodes(verseElement);
-      this.exactPhraseHighlighter.highlightOccurrences(this.currentVerseElementTextNodes, searchString, caseSensitive, regexOptions);
+      this.exactPhraseHighlighter.highlightOccurrences(this.currentVerseElementTextNodes, searchString, caseSensitive, regexOptions, wordBoundaries);
     } else if (searchType == "strongsNumber") {
       this.strongsHighlighter.highlightOccurrences(occurances);
     } else {
-      this.singleWordHighlighter.highlightOccurrences(verseElement, searchString, regexOptions);
+      this.singleWordHighlighter.highlightOccurrences(verseElement, searchString, regexOptions, wordBoundaries);
     }
   }
 
