@@ -23,8 +23,9 @@ class ExactPhraseHighlighter {
     this.highlightFunction = highlightFunction;
   }
 
-  highlightOccurrences(nodes, searchString, caseSensitive=false, regexOptions) {
+  highlightOccurrences(nodes, searchString, caseSensitive=false, regexOptions, wordBoundaries=false) {
     this.resetPhraseSearch(searchString);
+    this.wordBoundaries = wordBoundaries;
     var allHighlightNodes = this.getHighlightNodes(nodes, searchString, caseSensitive);
 
     this.splittedPhrase = this.getSplittedSearchString(searchString);
@@ -122,7 +123,7 @@ class ExactPhraseHighlighter {
 
     while (continueSearchInCurrentNode && this.currentNodeIterations < MAX_NODE_ITERATIONS) {
       // If the characters left are less then our search term we reset the search
-      if (currentNodeValue != "" && charactersLeft < this.nextSearchTerm.length) {
+      if (currentNodeValue != '' && charactersLeft < this.nextSearchTerm.length) {
         this.resetPhraseSearch(searchString);
         matchExpected = false;
         break;
@@ -146,17 +147,36 @@ class ExactPhraseHighlighter {
             resultIndex >= expectedNewResultIndex && 
             ((matchExpected && resultIndex <= expectedNewResultIndex + 2) || !matchExpected))) {
 
-        expectedNewResultIndex = this.processMatch(nodeIndex, resultIndex);
-        
-        this.nextSearchTerm = this.splittedPhrase.shift();
-        if (this.nextSearchTerm == undefined) {
-          break;
+        // Apply word boundary check if enabled
+        let validMatch = true;
+        if (this.wordBoundaries) {
+          const prevChar = resultIndex > 0 ? currentNodeValue[resultIndex - 1] : null;
+          const nextChar = resultIndex + this.nextSearchTerm.length < currentNodeValue.length ? 
+                          currentNodeValue[resultIndex + this.nextSearchTerm.length] : null;
+                          
+          const nonWordChars = /[\s.,;:!?()[\]{}|<>"'\/\\-]/;
+          const prevIsBoundary = !prevChar || nonWordChars.test(prevChar);
+          const nextIsBoundary = !nextChar || nonWordChars.test(nextChar);
+          
+          validMatch = prevIsBoundary && nextIsBoundary;
+        }
+
+        if (validMatch) {
+          expectedNewResultIndex = this.processMatch(nodeIndex, resultIndex);
+          
+          this.nextSearchTerm = this.splittedPhrase.shift();
+          if (this.nextSearchTerm == undefined) {
+            break;
+          }
+        } else {
+          // Skip this match and keep searching
+          expectedNewResultIndex = resultIndex + this.nextSearchTerm.length;
         }
 
       } else {
         // Reset the search if we have multiple terms and there is a break between the first match and the current node
         if (matchExpected ||
-            (currentNodeValue.trim() != "" &&
+            (currentNodeValue.trim() != '' &&
             this.currentNodeIterations == 0 &&
             this.initialFoundNodeCounter > 0 &&
             this.searchTermCount > 1)) {
@@ -209,6 +229,12 @@ class ExactPhraseHighlighter {
     for (let j = 0; j < currentMatchList.matches.length; j++) {
       let currentMatch = currentMatchList.matches[j];
       let term = escapeRegExp(currentMatch.term);
+      
+      // Use word boundaries if this highlighter was initialized with them
+      if (this.wordBoundaries) {
+        term = '\\b' + term + '\\b';
+      }
+      
       let regexSearchString = new RegExp(term, regexOptions);
       // eslint-disable-next-line no-unused-vars
       highlightedNodeValue = highlightedNodeValue.replace(regexSearchString, (match, offset, string) => {

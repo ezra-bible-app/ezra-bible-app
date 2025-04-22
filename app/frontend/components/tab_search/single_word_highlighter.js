@@ -23,7 +23,7 @@ class SingleWordHighlighter {
     this.highlightFunction = highlightFunction;
   }
 
-  highlightOccurrences(verseElement, searchString, regexOptions) {
+  highlightOccurrences(verseElement, searchString, regexOptions, wordBoundaries=false) {
     var verseHtml = verseElement.innerHTML;
     // Replace all &nbsp; occurances with space. This is necessary in case of Strong's verse content.
     // Otherwise we don't find the user's searchString if it contains spaces.
@@ -31,11 +31,23 @@ class SingleWordHighlighter {
     verseHtml = verseHtml.replace(/&nbsp;/g, ' ');
 
     searchString = escapeRegExp(searchString);
-
-    var regexSearchString = new RegExp(searchString, regexOptions);
-    var highlightedVerseText = verseHtml.replace(regexSearchString, (match, offset, string) => {
+    
+    // Create regex pattern with or without word boundaries
+    var regexPattern = searchString;
+    if (wordBoundaries) {
+      // Manual word boundary implementation for better control
+      regexPattern = '(^|[\\s.,;:!?()[\\]{}|<>"\'\/\\\\-])' + searchString + '($|[\\s.,;:!?()[\\]{}|<>"\'\/\\\\-])';
+    }
+    
+    var regexSearchString = new RegExp(regexPattern, regexOptions);
+    var highlightedVerseText = verseHtml.replace(regexSearchString, (match, p1, p2, offset, string) => {
       if (this.isOccuranceValid(match, offset, string)) {
-        return this.highlightFunction(match);
+        if (wordBoundaries) {
+          // If using word boundaries, we need to preserve the boundary characters
+          return p1 + this.highlightFunction(searchString) + p2;
+        } else {
+          return this.highlightFunction(match);
+        }
       } else {
         return match;
       }
