@@ -669,11 +669,6 @@ class TabController {
       await eventController.publish('on-tab-added', newTabIndex);
     }
 
-    // Update mobile tab menu when a tab is added
-    if (this._platformHelper.isMobile() && app_controller.mobile_tab_controller) {
-      app_controller.mobile_tab_controller.refreshMobileTabMenu();
-    }
-
     return metaTab;
   }
 
@@ -698,6 +693,8 @@ class TabController {
     this.metaTabs.splice(index, 1);
     this.tabs.tabs("remove", index);
     this.updateFirstTabCloseButton();
+    eventController.publish('on-tab-removed');
+
     this.saveTabConfiguration();
   }
 
