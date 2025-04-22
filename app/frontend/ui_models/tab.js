@@ -315,6 +315,7 @@ class Tab {
       '.tab-search-previous',
       '.tab-search-next',
       '.tab-search-is-case-sensitive',
+      '.tab-search-word-boundaries',
       '.tab-search-type',
     );
   }

@@ -10,7 +10,7 @@
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -37,6 +37,7 @@ class TabSearch {
        prevButton,
        nextButton,
        caseSensitiveCheckbox,
+       wordBoundariesCheckbox,
        searchTypeSelect) {
 
     this.parentTab = parentTab;
@@ -46,6 +47,7 @@ class TabSearch {
     this.prevButton = parentTab.find(prevButton);
     this.nextButton = parentTab.find(nextButton);
     this.caseSensitiveCheckbox = parentTab.find(caseSensitiveCheckbox);
+    this.wordBoundariesCheckbox = parentTab.find(wordBoundariesCheckbox);
     this.searchTypeSelect = parentTab.find(searchTypeSelect);
     this.currentOccuranceIndex = 0;
     this.currentOccurancesCount = 0;
@@ -119,6 +121,11 @@ class TabSearch {
       this.triggerDelayedSearch();
     });
 
+    this.wordBoundariesCheckbox.bind('change', () => {
+      this.lastSearchString = null;
+      this.triggerDelayedSearch();
+    });
+
     this.searchTypeSelect.bind('change', () => {
       this.lastSearchString = null;
       this.triggerDelayedSearch();
@@ -162,6 +169,10 @@ class TabSearch {
 
   isCaseSensitive() {
     return this.caseSensitiveCheckbox.prop("checked");
+  }
+
+  isWordBoundariesEnabled() {
+    return this.wordBoundariesCheckbox.prop("checked");
   }
 
   triggerDelayedSearch() {
@@ -313,6 +324,7 @@ class TabSearch {
 
     var searchType = this.getSearchType();
     var caseSensitive = this.isCaseSensitive();
+    var wordBoundaries = this.isWordBoundariesEnabled();
 
     var allVerses = this.verseList[0].querySelectorAll('.verse-text');
 
@@ -325,7 +337,7 @@ class TabSearch {
     this.removeHighlightingFromVerses(allVerses);
 
     allVerses.forEach((currentVerse) => {
-      this.currentOccurancesCount += this.verseSearch.doVerseSearch(currentVerse, searchString, searchType, caseSensitive);
+      this.currentOccurancesCount += this.verseSearch.doVerseSearch(currentVerse, searchString, searchType, caseSensitive, false, wordBoundaries);
     });
 
     this.allOccurances = this.verseList[0].querySelectorAll('.search-hl.first');
