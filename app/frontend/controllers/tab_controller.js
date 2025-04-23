@@ -377,6 +377,7 @@ class TabController {
       // Make sure the index is valid (not larger than the number of loaded tabs)
       const validIndex = Math.min(selectedTabIndex, loadedTabCount - 1);
       this.tabs.tabs('select', validIndex);
+      await eventController.publishAsync('on-tab-selected', validIndex);
     } else {
       // Call this method explicitly to initialize the first tab
       await eventController.publishAsync('on-tab-selected', 0);
