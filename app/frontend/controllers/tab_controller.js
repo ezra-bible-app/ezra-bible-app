@@ -27,6 +27,7 @@ const eventController = require('./event_controller.js');
 const referenceVerseController = require('../controllers/reference_verse_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
+const { platform } = require('chart.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -830,11 +831,19 @@ class TabController {
         var tagTitle = "";
         if (verseReference != null) tagTitle += verseReference + " &ndash; ";
 
-        if (platformHelper.isElectron()) {
+        if (platformHelper.isElectron() && !platformHelper.isMobile()) {
           tagTitle += i18n.t('tags.verses-tagged-with') + " ";
         }
 
-        tagTitle += "<i>" + tagTitleList + "</i>";
+        if (!platformHelper.isMobile()) {
+          tagTitle += "<i>";
+        }
+
+        tagTitle += tagTitleList;
+
+        if (!platformHelper.isMobile()) {
+          tagTitle += "</i>";
+        }
 
         this.setTabTitle(tagTitle, currentTranslationId, index);
         this.getTab(index).setTaggedVersesTitle(tagTitle);
@@ -989,11 +998,20 @@ class TabController {
           if (localizedReference != null) tagTitle += localizedReference + " &ndash; ";
         }
 
-        if (platformHelper.isElectron()) {
+        if (platformHelper.isElectron() && !platformHelper.isMobile()) {
           tagTitle += i18n.t('tags.verses-tagged-with') + " ";
         }
 
+        if (!platformHelper.isMobile()) {
+          tagTitle += "<i>";
+        }
+
         tagTitle += "<i>" + tag_list.join(', ') + "</i>";
+
+        if (!platformHelper.isMobile()) {
+          tagTitle += "</i>";
+        }
+
 
         this.setTabTitle(tagTitle, currentMetaTab.getBibleTranslationId(), i);
         currentMetaTab.setTaggedVersesTitle(tagTitle);
