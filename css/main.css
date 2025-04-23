@@ -569,6 +569,11 @@ a.chapter-nav:hover {
   display: flex !important;
 }
 
+/* The following option is not needed on Android, because it is not supported. */
+.Android #showFootnotesOption {
+  display: none !important;
+}
+
 #verse-list-popup-verse-list {
   padding-right: 0.2em;
   height: 350px;
