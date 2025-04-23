@@ -39,7 +39,11 @@ module.exports.getXrefsVerseListTitle = function(localizedReference=undefined) {
   let title = '';
 
   if (localizedReference != null) {
-    title = `${localizedReference} &ndash; ${i18n.t("general.module-xrefs")}`;
+    if (platformHelper.isMobile()) {
+      title = `${localizedReference} <br/> ${i18n.t("general.module-xrefs")}`;
+    } else {
+      title = `${localizedReference} &ndash; ${i18n.t("general.module-xrefs")}`;
+    }
   } else {
     title = i18n.t("general.module-xrefs");
   }
