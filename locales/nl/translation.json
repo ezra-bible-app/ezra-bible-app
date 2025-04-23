@@ -220,7 +220,8 @@
       "content-font-family": "Lettertypefamilie voor inhoud",
       "custom-content-font": "Aangepast lettertype voor inhoud"
     },
-    "title": "Titel"
+    "title": "Titel",
+    "tabs": "Tabs"
   },
   "data-privacy": {
     "confirm-privacy-options": "Bevestig gegevensprivacy-opties",
@@ -410,7 +411,8 @@
       "implied" : "Deze woorden zijn toegevoegd of gewijzigd om informatie te vertalen die door de brontekst wordt geïmpliceerd",
       "moved" : "Deze woorden stonden op een andere locatie in de brontekst",
       "tense-change": "De grammaticale tijd van deze woorden is veranderd om de vertaling te vergemakkelijken"
-    }
+    },
+    "empty-tab-title": "Empty tab"
   },
   "word-study-panel": {
     "greek-dict": "Griekse woordstudie",

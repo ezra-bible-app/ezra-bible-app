@@ -218,7 +218,8 @@
       "content-font-family": "Familia de font a conținutului",
       "custom-content-font": "Font pesronalizat pentru conținut"
     },
-    "title": "Titlu"
+    "title": "Titlu",
+    "tabs": "Tabs"
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirmă opțiunile legate de confidențialitatea datelor",
@@ -409,7 +410,8 @@
       "implied" : "Aceste cuvinte au fost adăugate sau schimbate pentru a traduce informațiile implicite din textul sursă",
       "moved" : "Aceste cuvinte se aflau în altă locație în textul sursă",
       "tense-change": "Timpul gramatical al acestor cuvinte a fost schimbat pentru a ușura traducerea"
-    }
+    },
+    "empty-tab-title": "Empty tab"
   },
   "word-study-panel": {
     "greek-dict": "Studiu cuvânt în Greacă",

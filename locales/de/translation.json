@@ -214,7 +214,8 @@
       "content-font-family": "Schriftfamilie für Inhalte",
       "custom-content-font": "Benutzerdefinierte Schriftart für Inhalte"
     },
-    "title": "Titel"
+    "title": "Titel",
+    "tabs": "Tabs"
   },
   "data-privacy": {
     "confirm-privacy-options": "Datenschutzoptionen bestätigen",
@@ -404,7 +405,8 @@
       "implied" : "Diese Worte wurden hinzugefügt oder geändert, um implizierte Informationen aus dem ursprünglichen Text zu übersetzen",
       "moved" : "Diese Worte waren im ursprünglichen Text an einer anderen Stelle",
       "tense-change": "Die grammatikalische Zeit dieser Worte wurde im Rahmen der Übersetzung geändert"
-    }
+    },
+    "empty-tab-title": "Empty tab"
   },
   "word-study-panel": {
     "greek-dict": "Griechisches Wortstudium",

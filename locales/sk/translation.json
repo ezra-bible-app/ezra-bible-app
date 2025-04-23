@@ -218,7 +218,8 @@
       "content-font-family": "Rodina písiem obsahu",
       "custom-content-font": "Vlastné písmo obsahu"
     },
-    "title": "Titulok"
+    "title": "Titulok",
+    "tabs": "Tabs"
   },
   "data-privacy": {
     "confirm-privacy-options": "Potvrďte ochranu osobných údajov",
@@ -409,7 +410,8 @@
       "implied" : "Tieto slová boli pridané alebo zmenené na preklad informácií vyplývajúcich zo zdrojového textu",
       "moved" : "Tieto slová boli v zdrojovom texte na inom mieste",
       "tense-change": "Gramatický čas týchto slov bol zmenený, aby sa uľahčil preklad"
-    }
+    },
+    "empty-tab-title": "Empty tab"
   },
   "word-study-panel": {
     "greek-dict": "Štúdium gréckeho Slova",

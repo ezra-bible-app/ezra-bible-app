@@ -218,7 +218,8 @@
       "content-font-family": "Družina pisave",
       "custom-content-font": "Pisava po meri"
     },
-    "title": "Naslov"
+    "title": "Naslov",
+    "tabs": "Tabs"
   },
   "data-privacy": {
     "confirm-privacy-options": "Potrdite možnosti zasebnosti podatkov",
@@ -407,7 +408,8 @@
       "implied": "Te besede so bile dodane ali spremenjene za prevod informacij, ki jih vsebuje izvorno besedilo",
       "moved": "Te besede so bile v izvornem besedilu na drugem mestu",
       "tense-change": "Slovnični čas teh besed je bil spremenjen, da bi olajšali prevod"
-    }
+    },
+    "empty-tab-title": "Empty tab"
   },
   "word-study-panel": {
     "greek-dict": "Grško preučevanje besed",

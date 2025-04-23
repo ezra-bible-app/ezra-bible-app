@@ -228,7 +228,8 @@
       "content-font-family": "Famille de polices de caractères pour le contenu",
       "custom-content-font": "Police de caractères personnalisée pour le contenu"
     },
-    "title": "Titre "
+    "title": "Titre ",
+    "tabs": "Tabs"
   },
   "data-privacy": {
      "confirm-privacy-options": "Confirmer les options de confidentialité des données",
@@ -418,8 +419,8 @@
        "implied" : "Ces mots ont été ajoutés ou modifiés pour traduire des informations impliquées par le texte source",
        "moved" : "Ces mots se trouvaient à un autre endroit dans le texte source",
        "tense-change": "Le temps grammatical de ces mots a été modifié afin de faciliter la traduction"
-
-    }
+    },
+    "empty-tab-title": "Empty tab"
   },
   "word-study-panel": {
     "greek-dict": "Étude de mots grecs",
