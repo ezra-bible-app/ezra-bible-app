@@ -678,7 +678,7 @@ a.chapter-nav:hover {
   font-size: 0.9em;
 }
 
-.backButtonNavigation {
+.mobileButtonNavigation {
   display: none;
 }
 
@@ -1119,6 +1119,10 @@ main.content {
 .copy-commentary-button {
   padding-left: 0.5em !important;
   padding-right: 0.3em !important;
+}
+
+.mobileButtonNavigation .app-info-button {
+  display: none;
 }
 
 .verse-list-menu .display-options-button,

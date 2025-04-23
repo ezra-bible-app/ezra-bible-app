@@ -259,7 +259,7 @@
   font-weight: bold;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 450px) {
   .tab-button {
     display: block !important;
   }
