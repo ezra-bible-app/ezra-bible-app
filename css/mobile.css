@@ -554,6 +554,86 @@ Librem 5/Pinephone etc.
   #module-search-menu {
     left: 0.7em !important;
     width: 88vw;
+    padding: 1em;
+    box-sizing: border-box;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Module search specific improvements */
+  .search-input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8em;
+  }
+
+  #module-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 2.6em;
+    font-size: 1em;
+    padding: 0.5em;
+  }
+
+  #module-search-validation-message {
+    margin-left: 0.5em;
+  }
+
+  #start-module-search-button {
+    width: 97%;
+    padding: 0.6em;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: var(--border-radius);
+  }
+
+  .search-options-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5em;
+  }
+
+  .search-select-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    margin-bottom: 0.8em;
+  }
+
+  #module-search-menu select {
+    height: 2.6em;
+    border-radius: var(--border-radius);
+    font-size: 0.95em;
+    padding: 0 0.5em;
+    border: 1px solid var(--border-color);
+    width: 100%;
+  }
+
+  #search-type, #search-scope {
+    width: 100%;
+    margin-bottom: 0.3em;
+  }
+
+  .search-checkbox-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    margin-top: 0.8em;
+  }
+
+  .search-checkbox-container div {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-checkbox-container input[type="checkbox"] {
+    width: 1.4em;
+    height: 1.4em;
+    margin-right: 0.5em;
+  }
+
+  .search-checkbox-container label {
+    font-size: 1.1em;
   }
 
   .navigation-pane.navigation-pane-books {

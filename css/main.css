@@ -869,6 +869,85 @@ main.content {
   display: none;
 }
 
+#module-search-menu {
+  padding: 1.2em;
+  width: 30em;
+}
+
+.search-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+#module-search-input {
+  flex: 1;
+  height: 2.2em;
+  padding: 0.5em;
+  font-size: 1em;
+}
+
+#module-search-validation-message {
+  margin-left: 0.5em;
+}
+
+#start-module-search-button {
+  width: 97%;
+  padding: 0.6em;
+  margin-top: 0.5em;
+  font-weight: bold;
+  border-radius: var(--border-radius);
+}
+
+.search-options-container {
+  margin-top: 1em;
+}
+
+.search-select-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+  margin-bottom: 1em;
+}
+
+#search-type, #search-scope {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  height: 2.5em;
+}
+
+.search-checkbox-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+}
+
+.search-checkbox-container div {
+  display: flex;
+  align-items: center;
+}
+
+.search-checkbox-container input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+.darkmode--activated #module-search-menu {
+  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
+  color: var(--text-color);
+}
+
+/* Keep the existing style for mobile screens in the media query */
+@media screen and (max-width: 450px) {
+  #module-search-menu {
+    left: 0.7em !important;
+    width: 88vw;
+    padding: 1em;
+    box-sizing: border-box;
+  }
+}
+
 #display-options-menu {
   padding-top: 0.5em;
   width: 41em;
@@ -1576,7 +1655,7 @@ li.book-unavailable a:focus,
 }
 
 #module-search-menu {
-  padding: 1em;
+  padding: 1.2em;
 }
 
 #start-module-search-button {
@@ -1649,7 +1728,7 @@ li.book-unavailable a:focus,
     width: 21em;
   }
   #module-search-menu {
-    width: 30em;
+    width: 24em;
   }
 }
 
