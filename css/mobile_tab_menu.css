@@ -1,0 +1,317 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+.mobile-tab-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  visibility: hidden;
+}
+
+.mobile-tab-menu.visible {
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.mobile-tab-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  user-select: none;
+}
+
+.mobile-tab-menu-header h2 {
+  color: var(--text-color);
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.mobile-tab-menu-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.mobile-tab-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.mobile-tab-tile {
+  position: relative;
+  background-color: var(--background-color-darker);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+  overflow: hidden;
+  /* Dark mode optimizations */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-tab-tile:hover {
+  background-color: rgba(var(--accent-color-rgb), 0.15);
+  border-color: var(--highlight-border-color);
+}
+
+.mobile-tab-tile.active {
+  background-color: var(--accent-color);
+  border-color: var(--highlight-border-color);
+  color: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+.mobile-tab-tile:active {
+  transform: scale(0.98);
+}
+
+.mobile-tab-tile i {
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+  opacity: 0.8;
+}
+
+.mobile-tab-tile.active i {
+  opacity: 1;
+}
+
+.mobile-tab-tile-title {
+  font-weight: bold;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.darkmode--activated .mobile-tab-tile-title {
+  color: var(--text-color);
+}
+
+.mobile-tab-tile-translation {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 0.2rem;
+  padding: 0.2rem 0.5rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.mobile-tab-tile.active .mobile-tab-tile-translation {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-tab-add-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-style: dashed;
+  opacity: 0.8;
+}
+
+.mobile-tab-add-tile:hover {
+  opacity: 1;
+  background-color: rgba(var(--accent-color-rgb), 0.1);
+}
+
+.mobile-tab-add-tile i {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Close button for tab tiles */
+.mobile-tab-close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0.7;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.mobile-tab-close-button i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.mobile-tab-close-button:hover {
+  opacity: 1;
+  background-color: rgba(var(--accent-color-rgb), 0.3);
+}
+
+.mobile-tab-tile.active .mobile-tab-close-button {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+/* Dark mode optimization - make close button more visible */
+.darkmode--activated .mobile-tab-close-button {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.darkmode--activated .mobile-tab-close-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.darkmode--activated .mobile-tab-tile.active .mobile-tab-close-button {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Tab count overlay for the tab button */
+.tab-count-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  pointer-events: none; /* Allow clicks to pass through to the button */
+}
+
+/* Special styling for the tab button */
+.tab-button {
+  display: none;
+  position: relative;
+  width: calc(var(--button-size) - 2px);
+  height: calc(var(--button-size) - 2px);
+  padding: 0;
+  border-radius: 12px !important; /* Make it more rounded */
+  font-weight: bold;
+  text-align: center;
+  background-color: var(--background-color-darker) !important;
+  color: var(--text-color);
+  border: 2px solid var(--accent-color) !important;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.tab-button::before, .tab-button.active::before {
+  content: attr(data-tab-count);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 450px) {
+  .tab-button {
+    display: block !important;
+  }
+  
+  .tab-button.active {
+    border-color: var(--highlight-border-color) !important;
+    background-color: var(--accent-color) !important;
+  }
+}
+
+/* Animation for tab button when new tab is added non-interactively */
+@keyframes tab-button-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); background-color: var(--highlight-object-color); }
+  100% { transform: scale(1); }
+}
+
+@keyframes tab-button-pulse-dark {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); background-color: var(--highlight-object-color-dark); }
+  100% { transform: scale(1); }
+}
+
+.tab-button-animation {
+  animation: tab-button-pulse 0.5s ease-in-out 2;
+}
+
+.darkmode--activated .tab-button-animation {
+  animation-name: tab-button-pulse-dark;
+}
+
+/* Dark mode optimizations for the tab tiles */
+.darkmode--activated .mobile-tab-tile {
+  border-color: #444;
+  color: var(--text-color);
+}
+
+.darkmode--activated .mobile-tab-tile:hover {
+  background-color: rgba(40, 40, 40, 0.8);
+  border-color: #666;
+}
+
+.darkmode--activated .mobile-tab-tile i {
+  color: var(--accent-color-light);
+}
+
+.darkmode--activated .mobile-tab-add-tile {
+  border-color: #444;
+}
+
+.darkmode--activated .mobile-tab-tile-translation {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white; /* Ensure translation ID text is visible */
+}

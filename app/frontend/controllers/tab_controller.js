@@ -26,6 +26,8 @@ const cacheController = require('./cache_controller.js');
 const eventController = require('./event_controller.js');
 const referenceVerseController = require('../controllers/reference_verse_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const PlatformHelper = require('../../lib/platform_helper.js');
+const { platform } = require('chart.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -47,6 +49,7 @@ class TabController {
     this.lastSelectedTabIndex = null;
     this.verseBoxHelper = new VerseBoxHelper();
     this.tabOperationsEnabled = true;
+    this._platformHelper = new PlatformHelper();
   }
 
   init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, defaultBibleTranslationId) {
@@ -131,10 +134,6 @@ class TabController {
       const currentTabIndex = this.getSelectedTabIndex();
       await this.populateTab(currentTabIndex, true, true, true);
     });
-
-    /*eventController.subscribe('on-note-file-changed', async () => {
-      await this.populateFromMetaTabs(true);
-    });*/
   }
 
   initFirstTab() {
@@ -194,7 +193,10 @@ class TabController {
       savedMetaTabs.push(copiedMetaTab);
     }
 
+    // Save the currently selected tab index
+    const selectedTabIndex = this.getSelectedTabIndex();
     await cacheController.setCachedItem('tabConfiguration', savedMetaTabs);
+    await cacheController.setCachedItem('selectedTabIndex', selectedTabIndex);
   }
 
   disableTabOperations() {
@@ -232,10 +234,6 @@ class TabController {
     let savedMetaTabs = await cacheController.getCachedItem('tabConfiguration', [], false);
     let loadedTabCount = 0;
     let tabCount = savedMetaTabs.length;
-
-    if (platformHelper.isMobile()) {
-      tabCount = 1;
-    }
 
     for (let i = 0; i < tabCount; i++) {
       var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i], i);
@@ -281,10 +279,6 @@ class TabController {
 
     if (cacheInvalid) {
       console.log("Cache is invalid. New app version?");
-    }
-
-    if (platformHelper.isMobile()) {
-      tabCount = 1;
     }
 
     for (let i = 0; i < tabCount; i++) {
@@ -378,8 +372,17 @@ class TabController {
     // Give the UI some time to render
     await waitUntilIdle();
 
-    // Call this method explicitly to initialize the first tab
-    await eventController.publishAsync('on-tab-selected', 0);
+    // Restore the previously selected tab if available
+    if (loadedTabCount > 0 && await cacheController.hasCachedItem('selectedTabIndex')) {
+      const selectedTabIndex = await cacheController.getCachedItem('selectedTabIndex', 0);
+      // Make sure the index is valid (not larger than the number of loaded tabs)
+      const validIndex = Math.min(selectedTabIndex, loadedTabCount - 1);
+      this.tabs.tabs('select', validIndex);
+      await eventController.publishAsync('on-tab-selected', validIndex);
+    } else {
+      // Call this method explicitly to initialize the first tab
+      await eventController.publishAsync('on-tab-selected', 0);
+    }
 
     await waitUntilIdle();
 
@@ -446,6 +449,16 @@ class TabController {
             this.savePreviousTabScrollPosition();
           }
 
+          // Update the current tab title label when switching tabs
+          var tabsElement = $('#' + this.tabsElement);
+          var tab = $(tabsElement.find('li')[index]);
+          var link = $(tab.find('a')[0]);
+          var linkText = link.html().split(' ');
+          linkText.pop(); // Remove the translation ID part if present
+          var title = linkText.join(' ');
+          var currentTabTitleLabel = tabsElement.find('.current-tab-title-label');
+          currentTabTitleLabel.html(title);
+
           if (metaTab.getTextType() != null) {
             var currentVerseListFrame = verseListController.getCurrentVerseListFrame(index);
             var currentVerseList = verseListController.getCurrentVerseList(index);
@@ -465,6 +478,12 @@ class TabController {
           }
 
           this.lastSelectedTabIndex = index;
+          
+          // Save only the selected tab index when tab selection changes
+          if (this.persistanceEnabled) {
+            cacheController.setCachedItem('selectedTabIndex', index);
+          }
+          
           eventController.publish('on-tab-selected', ui.index);
         }
       },
@@ -662,13 +681,22 @@ class TabController {
     for (var i = 0; i < all_tabs.length; i++) {
       var current_href = $(all_tabs[i]).find('a').attr('href');
       if (current_href == href) {
-        this.metaTabs.splice(i, 1);
-        this.tabs.tabs("remove", i);
+        this.removeTabByIndex(i);
         break;
       }
     }
+  }
 
+  removeTabByIndex(index) {
+    if (index < 0 || index >= this.metaTabs.length) {
+      return;
+    }
+
+    this.metaTabs.splice(index, 1);
+    this.tabs.tabs("remove", index);
     this.updateFirstTabCloseButton();
+    eventController.publish('on-tab-removed');
+
     this.saveTabConfiguration();
   }
 
@@ -803,11 +831,19 @@ class TabController {
         var tagTitle = "";
         if (verseReference != null) tagTitle += verseReference + " &ndash; ";
 
-        if (platformHelper.isElectron()) {
+        if (platformHelper.isElectron() && !platformHelper.isMobile()) {
           tagTitle += i18n.t('tags.verses-tagged-with') + " ";
         }
 
-        tagTitle += "<i>" + tagTitleList + "</i>";
+        if (!platformHelper.isMobile()) {
+          tagTitle += "<i>";
+        }
+
+        tagTitle += tagTitleList;
+
+        if (!platformHelper.isMobile()) {
+          tagTitle += "</i>";
+        }
 
         this.setTabTitle(tagTitle, currentTranslationId, index);
         this.getTab(index).setTaggedVersesTitle(tagTitle);
@@ -962,11 +998,20 @@ class TabController {
           if (localizedReference != null) tagTitle += localizedReference + " &ndash; ";
         }
 
-        if (platformHelper.isElectron()) {
+        if (platformHelper.isElectron() && !platformHelper.isMobile()) {
           tagTitle += i18n.t('tags.verses-tagged-with') + " ";
         }
 
+        if (!platformHelper.isMobile()) {
+          tagTitle += "<i>";
+        }
+
         tagTitle += "<i>" + tag_list.join(', ') + "</i>";
+
+        if (!platformHelper.isMobile()) {
+          tagTitle += "</i>";
+        }
+
 
         this.setTabTitle(tagTitle, currentMetaTab.getBibleTranslationId(), i);
         currentMetaTab.setTaggedVersesTitle(tagTitle);

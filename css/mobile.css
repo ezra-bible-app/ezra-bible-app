@@ -575,13 +575,23 @@ Librem 5/Pinephone etc.
   #showHeaderNavigationOption,
   #bookLoadingModeOption-button,
   #showFootnotesOption,
-  #openVerseListsInNewTabOption,
   #showTabSearchOption {
     display: none;
   }
 
-  .backButtonNavigation {
-    display: block !important;
+  .mobileButtonNavigation {
+    display: flex !important;
+  }
+
+  .app-info-button {
+    display: none !important;
+  }
+
+  .mobileButtonNavigation .app-info-button {
+    width: 2.5em;
+    height: 2.5em;
+    display: flex !important;
+    font-size: 1em;
   }
 
   #display-options-menu {/*Scrollable settings if there is not enough space vertically */

@@ -53,6 +53,7 @@ const transChangeTitles = require('../components/trans_change_titles.js');
 const sectionLabelHelper = require('../helpers/section_label_helper.js');
 const typeFaceSettings = require('../components/type_face_settings.js');
 const clipboardController = require('./clipboard_controller.js');
+const MobileTabController = require('./mobile_tab_controller.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -110,6 +111,10 @@ class AppController {
     this.init_component("InfoPopup", "info_popup");
     this.init_component("TextSizeSettings", "textSizeSettings");
     this.init_component("VerseStatisticsChart", "verse_statistics_chart");
+    
+    if (platformHelper.isMobile()) {
+      this.init_component("MobileTabController", "mobile_tab_controller");
+    }
 
     /**@type {import('../components/module_assistant/module_assistant')} */
     this.moduleAssistant = document.querySelector('module-assistant');
@@ -132,6 +137,10 @@ class AppController {
     moduleUpdateController.init();
     transChangeTitles.init();
     clipboardController.init();
+    
+    if (platformHelper.isMobile()) {
+      this.mobile_tab_controller.init();
+    }
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
@@ -229,6 +238,7 @@ class AppController {
     let bookSelectButton = currentVerseListMenu.querySelector('.book-select-button');
     let moduleSearchButton = currentVerseListMenu.querySelector('.module-search-button');
     let copyButton = currentVerseListMenu.querySelector('.copy-button');
+    let tabButton = currentVerseListMenu.querySelector('.tab-button');
 
     let bibleTranslations = await ipcNsi.getAllLocalModules();
     if (bibleTranslations != null && bibleTranslations.length > 0) {
@@ -245,6 +255,10 @@ class AppController {
 
     $(copyButton).unbind('click').bind('click', (event) => {
       clipboardController.handleCopyButtonClick(event);
+    });
+
+    $(tabButton).unbind('click').bind('click', () => {
+      eventController.publish('on-tab-menu-clicked');
     });
 
     let verseContextMenu = document.getElementById('verse-context-menu');

@@ -57,6 +57,7 @@
   <link href="css/note_files_panel.css" rel="stylesheet" type="text/css" />
   <link href="css/verse_notes.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/mobile_tab_menu.css" media="screen" rel="stylesheet" type="text/css" />
   <link id="cordova-theme-css" href="" media="screen" rel="stylesheet" type="text/css" />
 
   <!-- JQUERY JS FILES -->
@@ -152,6 +153,18 @@
 
       <aside id="tool-panel">
       </aside>
+
+      <div id="mobile-tab-menu" class="mobile-tab-menu">
+        <div class="mobile-tab-menu-header">
+          <h2 i18n="general.tabs"></h2>
+          <button class="mobile-tab-menu-close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="mobile-tab-tiles">
+          <!-- Tab tiles will be dynamically generated here -->
+        </div>
+      </div>
 
       <footer id="detail-panel"></footer>
     </div> <!-- app-container -->

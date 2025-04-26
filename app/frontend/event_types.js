@@ -24,7 +24,7 @@
  * @typedef { "on-verse-list-init" | "on-bible-text-loaded" | "on-translation1-changed" | "on-translation2-changed" | "on-verses-selected" } BibleTextEvents
  */
 /**
- * @typedef { "on-tab-selected" | "on-tab-added" } TabEvents
+ * @typedef { "on-tab-selected" | "on-tab-added" | "on-tab-removed" | "on-tab-menu-clicked" } TabEvents
  */
 /**
  * @typedef { "on-tab-search-results-available" | "on-tab-search-reset" } TabSearchEvents

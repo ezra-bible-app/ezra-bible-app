@@ -121,10 +121,12 @@ class PanelButtons extends HTMLElement {
     }
 
     const slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
-    slottedElements.forEach(el => this._initButton(el));
+    slottedElements.forEach(el => {
+      this._initButton(el);
+    });
 
     if (!this._activePanel || this._platformHelper.isMobile()) {
-      this._activePanel = "";
+      this._activePanel = '';
       this.toolPanelElement.classList.add('hidden');
     } else {
       await this._togglePanel(this._activePanel, true);
@@ -145,7 +147,7 @@ class PanelButtons extends HTMLElement {
     }
     this.panelEvents[targetPanel] = buttonElement.getAttribute('event');
 
-    const defaultOpen = (buttonElement.getAttribute('default') == "true");
+    const defaultOpen = (buttonElement.getAttribute('default') == 'true');
     if (this._activePanel === null && defaultOpen) {
       this._activePanel = targetPanel;
     }
@@ -163,7 +165,7 @@ class PanelButtons extends HTMLElement {
     // if active panel - hide the whole tool panel
     if (this._activePanel === targetPanel) {
       if (hideIfActive) {
-        this._activePanel = "";
+        this._activePanel = '';
         this.toolPanelElement.classList.add('hidden');
         this._togglePanel(targetPanel, false);
       }
