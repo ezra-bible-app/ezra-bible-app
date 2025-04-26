@@ -87,6 +87,26 @@ class ModuleSearchController {
         });
       }
 
+      // Add additional event handlers for mobile platforms to ensure Enter key works
+      moduleSearchInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+          this.startSearch(event);
+        }
+      });
+
+      // Handle form submission which can be triggered by Enter key on mobile keyboards
+      moduleSearchInput.addEventListener('submit', (event) => {
+        event.preventDefault();
+        this.startSearch(event);
+      });
+
+      // For input elements, we can also listen for the input event with Enter key
+      moduleSearchInput.addEventListener('input', (event) => {
+        if (event.inputType === 'insertLineBreak') {
+          this.startSearch(event);
+        }
+      });
+
       moduleSearchInput.addEventListener('keyup', () => {
         this.validateSearchTerm();
       });
