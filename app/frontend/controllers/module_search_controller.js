@@ -36,6 +36,8 @@ class ModuleSearchController {
     this.verseSearch = new VerseSearch();
     this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
     this.currentSearchCancelled = false;
+    this.searchDebounceTimer = null;
+    this.isSearchInProgress = false;
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       await waitUntilIdle();
@@ -423,164 +425,181 @@ class ModuleSearchController {
       event.stopPropagation();
     }
     
-    if (searchTerm !== undefined) {
-      this.currentSearchTerm = searchTerm;
-    } else {
-      this.currentSearchTerm = this.getSearchTerm();
-    }
-
-    if (this.currentSearchTerm == null || this.currentSearchTerm.length == 0) {
+    // Prevent duplicate search execution on single key press
+    if (this.isSearchInProgress) {
       return;
     }
-
-    this.currentSearchTabIndex = app_controller.tab_controller.getSelectedTabIndex();
-
-    // Do not allow another concurrent search, disable the search menu button
-    $('.module-search-button').addClass('ui-state-disabled');
-
-    this.disableOtherFunctionsDuringSearch();
-
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
-
-    if (tabIndex === undefined) {
-      var tab = app_controller.tab_controller.getTab();
-
-      tab.setSearchOptions(this.getSearchType(),
-                           this.getSearchScope(),
-                           this.isCaseSensitive(),
-                           this.useWordBoundaries(),
-                           this.useExtendedVerseBoundaries());
-      
-      if (!showSearchResultsInPopup) {
-        tab.setTextType('search_results');
-        tab.setSearchCancelled(false);
-      }
-    }
-
-    await eventController.publishAsync('on-module-search-started', tabIndex);
-
-    //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
-    var currentTab = app_controller.tab_controller.getTab(tabIndex);
-
-    if (currentTab != null) {
-      var currentBibleTranslationId = currentTab.getBibleTranslationId();
-      var searchType = currentTab.getSearchOptions()['searchType'];
-
-      var searchScope = currentTab.getSearchOptions()['searchScope'];
-      if (searchScope == null) {
-        searchScope = "BIBLE";
-      }
-
-      const isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
-      const useWordBoundaries = currentTab.getSearchOptions()['wordBoundaries'];
-      const useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
-
-      if (searchType == "strongsNumber" && event != null) {
-        if (!app_controller.word_study_controller.isValidStrongsKey(this.currentSearchTerm)) {
-          return;
-        }
-
-        app_controller.word_study_controller.showStrongsInfo(this.currentSearchTerm, false /* do not show strongs box */);
-      }
-
-      app_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
-
-      if (!showSearchResultsInPopup) {
-        // Set book, tagIdList and xrefs to null, since we just switched to search content
-        currentTab.setBook(null, null, null);
-        currentTab.setTagIdList("");
-        currentTab.setXrefs(null);
-        currentTab.setReferenceVerseElementId(null);
-        app_controller.tag_selection_menu.resetTagMenu();
-      }
-
-      this.hideSearchMenu();
-
-      var searchProgressBar = verseListController.getCurrentSearchProgressBar();
-
-      if (showSearchResultsInPopup) {
-        await waitUntilIdle();
-
-        this.clearModuleSearchHeader(tabIndex);
-
-        const dialogWidth = uiHelper.getMaxDialogWidth();
-        const dialogHeight = 550;
-        const draggable = true;
-        const position = [55, 120];
     
-        let dialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
-        dialogOptions.title = `${i18n.t("bible-browser.search-result-header")} <i>${this.currentSearchTerm}</i>`;
-        dialogOptions.dialogClass = 'ezra-dialog search-results-box';
-        
-        const $dialogBox = $('#search-results-box');
-        $dialogBox.dialog(dialogOptions);
-        uiHelper.fixDialogCloseIconOnAndroid('search-results-box');
-      }
-
-      if (tabIndex == undefined || tabIndex == app_controller.tab_controller.getSelectedTabIndex()) {
-        var cancelSearchButtonContainer = verseListController.getCurrentSearchCancelButtonContainer(tabIndex);
-        var cancelSearchButton = cancelSearchButtonContainer.find('button');
-        cancelSearchButton.removeClass('ui-state-disabled');
-
-        uiHelper.initProgressBar(searchProgressBar);
-        searchProgressBar.show();
-        cancelSearchButtonContainer.show();
-      }
-
-      if (showSearchResultsInPopup) {
-        $('#search-results-box-content')[0].innerHTML = '';
-      } else {
-        // Only reset view if we got an event (in other words: not initially)
-        await app_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
-      }
-
-      try {
-        if (window.Sentry != null) {
-          Sentry.addBreadcrumb({category: "app",
-                                message: `Performing module search in ${currentBibleTranslationId}`,
-                                level: "info"});
-        }
-
-        var searchResults = await ipcNsi.getModuleSearchResults(
-          (progress) => {
-            var progressPercent = progress.totalPercent;
-            searchProgressBar.progressbar("value", progressPercent);
-            if (progressPercent >= CANCEL_SEARCH_PERCENT_LIMIT) {
-              this.disableCancelButton();
-            }
-          },
-          currentBibleTranslationId,
-          this.currentSearchTerm,
-          searchType,
-          searchScope,
-          isCaseSensitive,
-          useWordBoundaries,
-          useExtendedVerseBoundaries
-        );
-
-        //console.log("Got " + searchResults.length + " from Sword");
-        currentTab.setSearchResults(searchResults);
-
-        this.currentSearchResultBookId = -1; // all books requested
-        if (this.searchResultsExceedPerformanceLimit(this.currentSearchTabIndex)) {
-          this.currentSearchResultBookId = 0; // no books requested - only list headers at first
-        }
-
-        let target=undefined;
-        if (showSearchResultsInPopup) {
-          target = $('#search-results-box-content');
-        }
-  
-        await this.renderCurrentSearchResults(this.currentSearchResultBookId, this.currentSearchTabIndex, target);
-      } catch (error) {
-        console.log(error);
-        verseListController.hideVerseListLoadingIndicator();
-        this.enableOtherFunctionsAfterSearch();
-      }
+    // Debounce search execution
+    if (this.searchDebounceTimer) {
+      clearTimeout(this.searchDebounceTimer);
     }
+    
+    this.searchDebounceTimer = setTimeout(async () => {
+      this.isSearchInProgress = true;
+      
+      if (searchTerm !== undefined) {
+        this.currentSearchTerm = searchTerm;
+      } else {
+        this.currentSearchTerm = this.getSearchTerm();
+      }
 
-    // We're done with the search and so we're re-enabling the search menu button
-    $('.module-search-button').removeClass('ui-state-disabled');
+      if (this.currentSearchTerm == null || this.currentSearchTerm.length == 0) {
+        this.isSearchInProgress = false;
+        return;
+      }
+
+      this.currentSearchTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+
+      // Do not allow another concurrent search, disable the search menu button
+      $('.module-search-button').addClass('ui-state-disabled');
+
+      this.disableOtherFunctionsDuringSearch();
+
+      const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+
+      if (tabIndex === undefined) {
+        var tab = app_controller.tab_controller.getTab();
+
+        tab.setSearchOptions(this.getSearchType(),
+                            this.getSearchScope(),
+                            this.isCaseSensitive(),
+                            this.useWordBoundaries(),
+                            this.useExtendedVerseBoundaries());
+        
+        if (!showSearchResultsInPopup) {
+          tab.setTextType('search_results');
+          tab.setSearchCancelled(false);
+        }
+      }
+
+      await eventController.publishAsync('on-module-search-started', tabIndex);
+
+      //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
+      var currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+      if (currentTab != null) {
+        var currentBibleTranslationId = currentTab.getBibleTranslationId();
+        var searchType = currentTab.getSearchOptions()['searchType'];
+
+        var searchScope = currentTab.getSearchOptions()['searchScope'];
+        if (searchScope == null) {
+          searchScope = "BIBLE";
+        }
+
+        const isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
+        const useWordBoundaries = currentTab.getSearchOptions()['wordBoundaries'];
+        const useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
+
+        if (searchType == "strongsNumber" && event != null) {
+          if (!app_controller.word_study_controller.isValidStrongsKey(this.currentSearchTerm)) {
+            this.isSearchInProgress = false;
+            return;
+          }
+
+          app_controller.word_study_controller.showStrongsInfo(this.currentSearchTerm, false /* do not show strongs box */);
+        }
+
+        app_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
+
+        if (!showSearchResultsInPopup) {
+          // Set book, tagIdList and xrefs to null, since we just switched to search content
+          currentTab.setBook(null, null, null);
+          currentTab.setTagIdList('');
+          currentTab.setXrefs(null);
+          currentTab.setReferenceVerseElementId(null);
+          app_controller.tag_selection_menu.resetTagMenu();
+        }
+
+        this.hideSearchMenu();
+
+        var searchProgressBar = verseListController.getCurrentSearchProgressBar();
+
+        if (showSearchResultsInPopup) {
+          await waitUntilIdle();
+
+          this.clearModuleSearchHeader(tabIndex);
+
+          const dialogWidth = uiHelper.getMaxDialogWidth();
+          const dialogHeight = 550;
+          const draggable = true;
+          const position = [55, 120];
+      
+          let dialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+          dialogOptions.title = `${i18n.t("bible-browser.search-result-header")} <i>${this.currentSearchTerm}</i>`;
+          dialogOptions.dialogClass = 'ezra-dialog search-results-box';
+          
+          const $dialogBox = $('#search-results-box');
+          $dialogBox.dialog(dialogOptions);
+          uiHelper.fixDialogCloseIconOnAndroid('search-results-box');
+        }
+
+        if (tabIndex == undefined || tabIndex == app_controller.tab_controller.getSelectedTabIndex()) {
+          var cancelSearchButtonContainer = verseListController.getCurrentSearchCancelButtonContainer(tabIndex);
+          var cancelSearchButton = cancelSearchButtonContainer.find('button');
+          cancelSearchButton.removeClass('ui-state-disabled');
+
+          uiHelper.initProgressBar(searchProgressBar);
+          searchProgressBar.show();
+          cancelSearchButtonContainer.show();
+        }
+
+        if (showSearchResultsInPopup) {
+          $('#search-results-box-content')[0].innerHTML = '';
+        } else {
+          // Only reset view if we got an event (in other words: not initially)
+          await app_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
+        }
+
+        try {
+          if (window.Sentry != null) {
+            Sentry.addBreadcrumb({category: "app",
+                                  message: `Performing module search in ${currentBibleTranslationId}`,
+                                  level: "info"});
+          }
+
+          var searchResults = await ipcNsi.getModuleSearchResults(
+            (progress) => {
+              var progressPercent = progress.totalPercent;
+              searchProgressBar.progressbar("value", progressPercent);
+              if (progressPercent >= CANCEL_SEARCH_PERCENT_LIMIT) {
+                this.disableCancelButton();
+              }
+            },
+            currentBibleTranslationId,
+            this.currentSearchTerm,
+            searchType,
+            searchScope,
+            isCaseSensitive,
+            useWordBoundaries,
+            useExtendedVerseBoundaries
+          );
+
+          //console.log("Got " + searchResults.length + " from Sword");
+          currentTab.setSearchResults(searchResults);
+
+          this.currentSearchResultBookId = -1; // all books requested
+          if (this.searchResultsExceedPerformanceLimit(this.currentSearchTabIndex)) {
+            this.currentSearchResultBookId = 0; // no books requested - only list headers at first
+          }
+
+          let target=undefined;
+          if (showSearchResultsInPopup) {
+            target = $('#search-results-box-content');
+          }
+    
+          await this.renderCurrentSearchResults(this.currentSearchResultBookId, this.currentSearchTabIndex, target);
+        } catch (error) {
+          console.log(error);
+          verseListController.hideVerseListLoadingIndicator();
+          this.enableOtherFunctionsAfterSearch();
+        }
+      }
+
+      // We're done with the search and so we're re-enabling the search menu button
+      $('.module-search-button').removeClass('ui-state-disabled');
+      this.isSearchInProgress = false;
+    }, 50); // Short delay to debounce multiple events
   }
 
   highlightSearchResults(searchTerm, tabIndex=undefined) {
