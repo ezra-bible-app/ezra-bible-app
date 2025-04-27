@@ -118,6 +118,23 @@ class TabController {
       }
     });
 
+    eventController.subscribe('on-tab-scrolled', (data) => {
+      if (data && data.scrollPosition) {
+        const tabIndex = data.tabIndex;
+        const scrollPosition = data.scrollPosition;
+        const metaTab = this.getTab(tabIndex);
+        
+        if (metaTab) {
+          metaTab.setLocation(scrollPosition);
+          
+          // Save tab configuration if persistence is enabled
+          if (this.persistanceEnabled) {
+            this.saveTabConfiguration();
+          }
+        }
+      }
+    });
+
     eventController.subscribe('on-db-refresh', async () => {
       verseListController.resetVerseListView();
       if (this.loadingCompleted) {

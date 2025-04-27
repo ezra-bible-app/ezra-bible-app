@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -33,6 +32,8 @@ const Mousetrap = require('mousetrap');
 module.exports.init = function() {
   this.platformHelper = new PlatformHelper();
   this.hammer = null;
+  this.scrollDebounceTimeout = null;
+  this.scrollDebounceDelay = 200; // ms
 
   eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
 
@@ -41,6 +42,7 @@ module.exports.init = function() {
   eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
     this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
+    this.initScrollListener(tabIndex);
 
     if (this.platformHelper.isCordova()) {
       this.initSwipeEvents(tabIndex);
@@ -604,4 +606,30 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
       }
     }
   });
+};
+
+module.exports.initScrollListener = function(tabIndex=undefined) {
+  let verseListFrame = this.getCurrentVerseListFrame(tabIndex);
+
+  verseListFrame.on('scroll', () => {
+    if (this.scrollDebounceTimeout) {
+      clearTimeout(this.scrollDebounceTimeout);
+    }
+
+    this.scrollDebounceTimeout = setTimeout(() => {
+      this.handleScrollEvent(tabIndex);
+    }, this.scrollDebounceDelay);
+  });
+};
+
+module.exports.handleScrollEvent = function(tabIndex=undefined) {
+  let firstVisibleVerseAnchor = this.getFirstVisibleVerseAnchor();
+  
+  if (firstVisibleVerseAnchor) {
+    // Emit the on-tab-scrolled event
+    eventController.publish('on-tab-scrolled', {
+      tabIndex: tabIndex === undefined ? app_controller.tab_controller.getSelectedTabIndex() : tabIndex,
+      scrollPosition: firstVisibleVerseAnchor
+    });
+  }
 };
