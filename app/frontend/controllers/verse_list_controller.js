@@ -174,63 +174,84 @@ module.exports.getFirstVisibleVerseAnchor = function() {
 
   if (verseListFrame != null && verseListFrame.length > 0) {
     let verseListFrameRect = verseListFrame[0].getBoundingClientRect();
-
-    let currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane()[0];
-    let currentNavigationPaneWidth = currentNavigationPane.offsetWidth;
-
-    // We need to a add a few pixels to the coordinates of the verseListFrame so that we actually hit an element within the verseListFrame
-    const VERSE_LIST_CHILD_ELEMENT_OFFSET = 15;
-    let firstElementOffsetX = verseListFrameRect.x + currentNavigationPaneWidth + VERSE_LIST_CHILD_ELEMENT_OFFSET;
-    let firstElementOffsetY = verseListFrameRect.y + VERSE_LIST_CHILD_ELEMENT_OFFSET;
     
-    let currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY);
-
-    if (currentElement != null && currentElement.classList != null && currentElement.classList.contains('verse-list')) {
-      // If the current element is the verse-list then we try once more 10 pixels lower.
-      currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY + 10);
-    }
-
-    if (currentElement == null) {
-      return null;
-    }
-
-    if (currentElement.classList != null && 
-        (currentElement.classList.contains('sword-section-title') ||
-          currentElement.classList.contains('tag-browser-verselist-book-header'))) {
-      // We are dealing with a section header element (either sword-section-title or tag-browser-verselist-book-header)
-
-      if (currentElement.previousElementSibling != null &&
-          currentElement.previousElementSibling.nodeName == 'A') {
-
-        currentElement = currentElement.previousElementSibling;
-      }
-    } else {
-      // We are dealing with an element inside a verse-box
-      const MAX_ELEMENT_NESTING = 7;
-
-      // Traverse up the DOM to find the verse-box
-      for (let i = 0; i < MAX_ELEMENT_NESTING; i++) {
-        if (currentElement == null) {
-          break;
-        }
-
-        if (currentElement.classList != null && currentElement.classList.contains('verse-box')) {
-
-          // We have gotten a verse-box ... now get the a.nav element inside it!
-          currentElement = currentElement.querySelector('a.nav');
-
-          // Leave the loop since we found the anchor!
-          break;
-
-        } else {
-          // Proceed with the next parentNode
-          currentElement = currentElement.parentNode;
+    // Special handling for mobile
+    if (this.platformHelper.isMobile()) {
+      // Get the first verse box that's within the viewport
+      const verseBoxes = verseListFrame.find('.verse-box').toArray();
+      const viewportHeight = window.innerHeight;
+      
+      for (let i = 0; i < verseBoxes.length; i++) {
+        const rect = verseBoxes[i].getBoundingClientRect();
+        // Check if verse box is at least partially visible in viewport
+        if (rect.top < viewportHeight && rect.bottom > 0) {
+          const anchor = verseBoxes[i].querySelector('a.nav');
+          if (anchor) {
+            firstVisibleVerseAnchor = anchor.name;
+            break;
+          }
         }
       }
-    }
+    } else { // Desktop implementation
+      
+      let currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane()[0];
+      let currentNavigationPaneWidth = currentNavigationPane.offsetWidth;
 
-    if (currentElement != null && currentElement.nodeName == 'A') {
-      firstVisibleVerseAnchor = currentElement.name;
+      // We need to a add a few pixels to the coordinates of the verseListFrame
+      // so that we actually hit an element within the verseListFrame
+      const VERSE_LIST_CHILD_ELEMENT_OFFSET = 15;
+      let firstElementOffsetX = verseListFrameRect.x + currentNavigationPaneWidth + VERSE_LIST_CHILD_ELEMENT_OFFSET;
+      let firstElementOffsetY = verseListFrameRect.y + VERSE_LIST_CHILD_ELEMENT_OFFSET;
+      
+      let currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY);
+
+      if (currentElement != null && currentElement.classList != null && currentElement.classList.contains('verse-list')) {
+        // If the current element is the verse-list then we try once more 10 pixels lower.
+        currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY + 10);
+      }
+
+      if (currentElement == null) {
+        return null;
+      }
+
+      if (currentElement.classList != null && 
+          (currentElement.classList.contains('sword-section-title') ||
+            currentElement.classList.contains('tag-browser-verselist-book-header'))) {
+        // We are dealing with a section header element (either sword-section-title or tag-browser-verselist-book-header)
+
+        if (currentElement.previousElementSibling != null &&
+            currentElement.previousElementSibling.nodeName == 'A') {
+
+          currentElement = currentElement.previousElementSibling;
+        }
+      } else {
+        // We are dealing with an element inside a verse-box
+        const MAX_ELEMENT_NESTING = 7;
+
+        // Traverse up the DOM to find the verse-box
+        for (let i = 0; i < MAX_ELEMENT_NESTING; i++) {
+          if (currentElement == null) {
+            break;
+          }
+
+          if (currentElement.classList != null && currentElement.classList.contains('verse-box')) {
+
+            // We have gotten a verse-box ... now get the a.nav element inside it!
+            currentElement = currentElement.querySelector('a.nav');
+
+            // Leave the loop since we found the anchor!
+            break;
+
+          } else {
+            // Proceed with the next parentNode
+            currentElement = currentElement.parentNode;
+          }
+        }
+      }
+
+      if (currentElement != null && currentElement.nodeName == 'A') {
+        firstVisibleVerseAnchor = currentElement.name;
+      }
     }
   }
 

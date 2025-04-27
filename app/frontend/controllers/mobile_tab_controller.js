@@ -153,6 +153,7 @@ class MobileTabController {
         if (tileElement) {
           tileElement.addEventListener('click', () => {
             if (app_controller && app_controller.tab_controller && app_controller.tab_controller.tabs) {
+              // Switch to the selected tab
               app_controller.tab_controller.tabs.tabs('select', index);
               this.hideMobileTabMenu();
             }
