@@ -185,7 +185,16 @@ module.exports.getFirstVisibleVerseAnchor = function() {
         const rect = verseBoxes[i].getBoundingClientRect();
         // Check if verse box is at least partially visible in viewport
         if (rect.top < viewportHeight && rect.bottom > 0) {
-          const anchor = verseBoxes[i].querySelector('a.nav');
+          let anchor = null;
+
+          if (i < verseBoxes.length - 1) {
+            // Select the anchor of the next verse box
+            anchor = verseBoxes[i + 1].querySelector('a.nav');
+          } else {
+            // Select the anchor of the current verse box
+            anchor = verseBoxes[i].querySelector('a.nav');
+          }
+
           if (anchor) {
             firstVisibleVerseAnchor = anchor.name;
             break;
