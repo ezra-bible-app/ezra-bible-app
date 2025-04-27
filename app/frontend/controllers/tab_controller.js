@@ -27,7 +27,6 @@ const eventController = require('./event_controller.js');
 const referenceVerseController = require('../controllers/reference_verse_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
-const { platform } = require('chart.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
