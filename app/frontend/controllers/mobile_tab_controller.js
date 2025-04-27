@@ -153,9 +153,6 @@ class MobileTabController {
         if (tileElement) {
           tileElement.addEventListener('click', () => {
             if (app_controller && app_controller.tab_controller && app_controller.tab_controller.tabs) {
-              // Save the scroll position of the current tab before switching
-              app_controller.tab_controller.savePreviousTabScrollPosition();
-              
               // Switch to the selected tab
               app_controller.tab_controller.tabs.tabs('select', index);
               this.hideMobileTabMenu();
