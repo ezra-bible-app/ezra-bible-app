@@ -1705,7 +1705,6 @@ class TagsController {
       lastScrollTime = now;
       
       const scrollPosition = tagsPanel.scrollTop;
-      const viewportHeight = tagsPanel.clientHeight;
       const scrollHeight = tagsPanel.scrollHeight;
       
       // Calculate virtual position based on total tags and currently loaded tags
@@ -1718,6 +1717,7 @@ class TagsController {
       // Load more tags if needed and we're approaching the end of loaded tags
       if (targetTagIndex + this.tagBatchSize > this.currentTagIndex && 
           this.currentTagIndex < this.fullTagList.length) {
+
         this.loadMoreTags(scrollPosition, virtualScrollRatio);
       }
     });
