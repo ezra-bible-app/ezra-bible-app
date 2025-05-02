@@ -1648,6 +1648,25 @@ class TagsController {
   initLazyLoading() {
     const tagsPanel = document.getElementById('tags-content-global');
     
+    // Set up a fixed estimated height for the entire tag list before any tags are loaded
+    this.averageTagHeight = 40; // Fixed estimate for tag height
+    const estimatedTotalHeight = this.fullTagList.length * this.averageTagHeight;
+    
+    // Create a fixed-size virtual height container
+    this.virtualHeightContainer = document.createElement('div');
+    this.virtualHeightContainer.className = 'virtual-height-container';
+    this.virtualHeightContainer.style.height = estimatedTotalHeight + 'px';
+    this.virtualHeightContainer.style.position = 'absolute';
+    this.virtualHeightContainer.style.visibility = 'hidden';
+    this.virtualHeightContainer.style.top = '0';
+    this.virtualHeightContainer.style.left = '0';
+    this.virtualHeightContainer.style.width = '1px';
+    this.virtualHeightContainer.style.pointerEvents = 'none';
+    tagsPanel.appendChild(this.virtualHeightContainer);
+    
+    // Calculate and store the ratio between real content and virtual height
+    this.realToVirtualRatio = 0;
+    
     // Initialize PerfectScrollbar
     this.ps = new PerfectScrollbar(tagsPanel, {
       wheelSpeed: 1,
@@ -1656,21 +1675,35 @@ class TagsController {
       suppressScrollX: true
     });
     
-    // Add scroll event listener to the tags panel
+    // Add scroll event listener to the tags panel with throttling
+    let lastScrollTime = 0;
+    const scrollThrottle = 50; // ms
+    
     tagsPanel.addEventListener('scroll', () => {
-      if (this.isLoadingTags) return;
+      const now = Date.now();
+      if (now - lastScrollTime < scrollThrottle || this.isLoadingTags) return;
+      lastScrollTime = now;
       
-      const scrollPosition = tagsPanel.scrollTop + tagsPanel.clientHeight;
+      const scrollPosition = tagsPanel.scrollTop;
+      const viewportHeight = tagsPanel.clientHeight;
       const scrollHeight = tagsPanel.scrollHeight;
       
-      // Load more tags when scrolled to near the bottom (within 200px)
-      if (scrollPosition > scrollHeight - 200 && this.currentTagIndex < this.fullTagList.length) {
-        this.loadMoreTags();
+      // Calculate virtual position based on total tags and currently loaded tags
+      const virtualScrollPosition = (scrollPosition / scrollHeight) * estimatedTotalHeight;
+      const virtualScrollRatio = virtualScrollPosition / estimatedTotalHeight;
+      
+      // Determine which chunk of tags should be loaded based on virtual scroll position
+      const targetTagIndex = Math.floor(virtualScrollRatio * this.fullTagList.length);
+      
+      // Load more tags if needed and we're approaching the end of loaded tags
+      if (targetTagIndex + this.tagBatchSize > this.currentTagIndex && 
+          this.currentTagIndex < this.fullTagList.length) {
+        this.loadMoreTags(scrollPosition, virtualScrollRatio);
       }
     });
   }
-  
-  async loadMoreTags() {
+
+  async loadMoreTags(savedScrollPosition = null, virtualScrollRatio = null) {
     // Don't load if we're already loading or if we've loaded all tags
     if (this.isLoadingTags || this.currentTagIndex >= this.fullTagList.length) {
       return;
@@ -1678,13 +1711,19 @@ class TagsController {
     
     this.isLoadingTags = true;
     
-    // Show loading indicator if available
+    // Get the tags panel and scrollbar elements
+    const tagsPanel = document.getElementById('tags-content-global');
     const loadingContainer = document.getElementById('lazy-loading-container');
+    
+    // Show loading indicator if available
     if (loadingContainer) {
       loadingContainer.style.display = 'block';
     }
     
-    await waitUntilIdle(); // Allow UI to breathe
+    // Save current scroll metrics
+    const beforeHeight = tagsPanel.scrollHeight;
+    const viewportHeight = tagsPanel.clientHeight;
+    const originalScrollTop = savedScrollPosition !== null ? savedScrollPosition : tagsPanel.scrollTop;
     
     // Calculate the batch of tags to load
     const endIndex = Math.min(this.currentTagIndex + this.tagBatchSize, this.fullTagList.length);
@@ -1693,14 +1732,17 @@ class TagsController {
     // Generate HTML for this batch
     const tagListHtml = this.generateTagListHtml(tagsToLoad, this.fullTagStatistics);
     
-    // Append the new tags to the container
-    const tagsContentGlobal = document.getElementById('tags-content-global');
+    // Append the new tags to the container without affecting scroll position
     const tempContainer = document.createElement('div');
     tempContainer.innerHTML = tagListHtml;
     
     // Append each tag individually to maintain event binding
     while (tempContainer.firstChild) {
-      tagsContentGlobal.insertBefore(tempContainer.firstChild, loadingContainer);
+      if (loadingContainer) {
+        tagsPanel.insertBefore(tempContainer.firstChild, loadingContainer);
+      } else {
+        tagsPanel.appendChild(tempContainer.firstChild);
+      }
     }
     
     // Update the current index
@@ -1714,17 +1756,37 @@ class TagsController {
     // Configure the new tag elements
     uiHelper.configureButtonStyles('#tags-content-global');
     
+    // Update PerfectScrollbar to reflect new content
+    if (this.ps) {
+      // Preserve the scroll position based on the virtual scroll ratio
+      if (virtualScrollRatio !== null) {
+        // Calculate where the scroll position should be based on the virtual ratio
+        const afterHeight = tagsPanel.scrollHeight;
+        const scrollableHeight = afterHeight - viewportHeight;
+        const targetScrollTop = Math.round(virtualScrollRatio * scrollableHeight);
+        
+        // Set the new scroll position
+        tagsPanel.scrollTop = targetScrollTop;
+      } else {
+        // No virtual ratio provided, maintain absolute position
+        tagsPanel.scrollTop = originalScrollTop;
+      }
+      
+      // Update the scrollbar to reflect the new state
+      this.ps.update();
+    }
+    
     // Apply current filter if there's a search or filter active
     if (this.tag_list_filter) {
       const tagsSearchInput = document.getElementById('tags-search-input');
       const searchValue = tagsSearchInput ? tagsSearchInput.value : '';
       
       if (searchValue && searchValue.length > 0) {
-        // Re-apply search filter if there's text in the search box
+        // Re-apply search filter
         this.tag_list_filter.hideAllCheckboxTags();
         
         // Show only tags that match the current search
-        const tagLabels = tagsContentGlobal.querySelectorAll('.cb-label');
+        const tagLabels = tagsPanel.querySelectorAll('.cb-label');
         let visibleCounter = 1;
         
         for (let i = 0; i < tagLabels.length; i++) {
@@ -1742,7 +1804,7 @@ class TagsController {
           }
         }
       } else {
-        // Check if there's an active filter by looking at the active filter button
+        // Check if there's an active filter
         const filterButtonActive = document.getElementById('tag-list-filter-button-active');
         if (filterButtonActive && filterButtonActive.style.display !== 'none') {
           // Re-apply the active filter
@@ -1757,19 +1819,19 @@ class TagsController {
               
               switch (selectedType) {
                 case 'assigned':
-                  $(tagsContentGlobal).find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').each((index, checkboxTag) => {
+                  $(tagsPanel).find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').each((index, checkboxTag) => {
                     visibleCounter = this.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
                   });
                   break;
                   
                 case 'unassigned':
-                  $(tagsContentGlobal).find('.checkbox-tag[book-assignment-count="' + 0 + '"]').each((index, checkboxTag) => {
+                  $(tagsPanel).find('.checkbox-tag[book-assignment-count="' + 0 + '"]').each((index, checkboxTag) => {
                     visibleCounter = this.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
                   });
                   break;
                   
                 case 'recently-used':
-                  $(tagsContentGlobal).find('.checkbox-tag').filter((index, element) => {
+                  $(tagsPanel).find('.checkbox-tag').filter((index, element) => {
                     return !this.tag_store.filterRecentlyUsedTags(element);
                   }).each((index, checkboxTag) => {
                     visibleCounter = this.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
