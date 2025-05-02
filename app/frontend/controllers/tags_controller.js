@@ -1301,24 +1301,56 @@ class TagsController {
   }
 
   generateTagListHtml(tag_list, tag_statistics) {
+    // Get currently selected verse tags
+    const versesSelected = app_controller.verse_selection.getSelectedVerseBoxes().length > 0;
+    let selectedVerseTags = [];
+    
+    if (versesSelected) {
+      selectedVerseTags = app_controller.verse_selection.getCurrentSelectionTags();
+    }
+    
     let html = '';
     tag_list.forEach(tag => {
       const tagStats = tag_statistics[tag.id] || { bookCount: 0, globalCount: 0 };
       const bookCount = tagStats.bookAssignmentCount;
       const globalCount = tagStats.globalAssignmentCount;
       const isAssigned = bookCount > 0;
-      const tagCounts = bookCount + ' | ' + globalCount;
+      const tagCounts = this.isBookView ? (bookCount + ' | ' + globalCount) : globalCount;
       const lastUsedTimestamp = parseInt(tag.lastUsed || 0);
       const cbId = 'tag-' + tag.id;
+      
+      // Check if this tag is in the current verse selection and if it's fully assigned
+      let isTagActiveInSelection = false;
+      let isTagPartialInSelection = false;
+      let postfixHtml = '';
+      
+      if (versesSelected) {
+        selectedVerseTags.forEach(selectedTag => {
+          if (selectedTag.title === tag.title) {
+            if (selectedTag.complete) {
+              isTagActiveInSelection = true;
+            } else {
+              isTagPartialInSelection = true;
+              postfixHtml = '&nbsp;*';
+            }
+          }
+        });
+      }
+      
+      // Determine tag button state and title
+      const tagButtonTitle = isTagActiveInSelection ? this.unassign_tag_label : this.assign_tag_label;
+      const tagButtonClass = isTagActiveInSelection ? 'active' : '';
+      const tagLabelClass = isAssigned ? 'cb-label-assigned' : '';
+      const tagLabelUnderline = isTagPartialInSelection ? 'underline' : '';
 
       html += `
         <div class="checkbox-tag" tag-id="${tag.id}" book-assignment-count="${bookCount}" global-assignment-count="${globalCount}" last-used-timestamp="${lastUsedTimestamp}">
-          <i id="${cbId}" class="fas fa-tag tag-button button-small" title="${isAssigned ? this.unassign_tag_label : this.assign_tag_label}"></i>
+          <i id="${cbId}" class="fas fa-tag tag-button button-small ${tagButtonClass}" title="${tagButtonTitle}"></i>
           
           <div class="cb-input-label-stats">
-            <span class="cb-label ${isAssigned ? 'cb-label-assigned' : ''}">${tag.title}</span>
+            <span class="cb-label ${tagLabelClass} ${tagLabelUnderline}">${tag.title}</span>
             <span class="cb-label-tag-assignment-count" id="cb-label-tag-assignment-count-${tag.id}">(${tagCounts})</span>
-            <span class="cb-label-postfix"></span>
+            <span class="cb-label-postfix">${postfixHtml}</span>
           </div>
           
           <i title="${i18n.t('tags.edit-tag')}" class="fas fa-pen edit-icon edit-button button-small"></i>
