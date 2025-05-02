@@ -25,6 +25,7 @@ const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const { showDialog } = require('../helpers/ezra_helper.js');
+const PerfectScrollbar = require('perfect-scrollbar');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -1646,6 +1647,14 @@ class TagsController {
 
   initLazyLoading() {
     const tagsPanel = document.getElementById('tags-content-global');
+    
+    // Initialize PerfectScrollbar
+    this.ps = new PerfectScrollbar(tagsPanel, {
+      wheelSpeed: 1,
+      wheelPropagation: true,
+      minScrollbarLength: 30,
+      suppressScrollX: true
+    });
     
     // Add scroll event listener to the tags panel
     tagsPanel.addEventListener('scroll', () => {
