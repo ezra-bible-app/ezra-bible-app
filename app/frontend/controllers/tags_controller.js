@@ -1677,13 +1677,13 @@ class TagsController {
     const tagsPanel = document.getElementById('tags-content-global');
     
     // Set up a fixed estimated height for the entire tag list before any tags are loaded
-    this.averageTagHeight = 40; // Fixed estimate for tag height
+    this.averageTagHeight = platformHelper.isMobile() ? 2.5 : 2; // Fixed estimate for tag height
     const estimatedTotalHeight = this.fullTagList.length * this.averageTagHeight;
     
     // Create a fixed-size virtual height container
     this.virtualHeightContainer = document.createElement('div');
     this.virtualHeightContainer.className = 'virtual-height-container';
-    this.virtualHeightContainer.style.height = estimatedTotalHeight + 'px';
+    this.virtualHeightContainer.style.height = estimatedTotalHeight + 'em';
     this.virtualHeightContainer.style.position = 'absolute';
     this.virtualHeightContainer.style.visibility = 'hidden';
     this.virtualHeightContainer.style.top = '0';
