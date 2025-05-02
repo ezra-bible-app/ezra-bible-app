@@ -1257,12 +1257,9 @@ class TagsController {
     // Clear the container and initialize it
     global_tags_box_el.innerHTML = '';
     
-    // Add a lazy loading container with initial message
+    // Set the tag list to be empty
     if (tag_list.length > this.tagBatchSize) {
-      global_tags_box_el.innerHTML = `
-        <div id="lazy-loading-container" style="text-align: center; margin-top: 10px; display: none;">
-          <span>${i18n.t('general.loading')}...</span>
-        </div>`;
+      global_tags_box_el.innerHTML = '';
     }
     
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
@@ -1713,12 +1710,6 @@ class TagsController {
     
     // Get the tags panel and scrollbar elements
     const tagsPanel = document.getElementById('tags-content-global');
-    const loadingContainer = document.getElementById('lazy-loading-container');
-    
-    // Show loading indicator if available
-    if (loadingContainer) {
-      loadingContainer.style.display = 'block';
-    }
     
     // Save current scroll metrics
     const viewportHeight = tagsPanel.clientHeight;
@@ -1737,20 +1728,11 @@ class TagsController {
     
     // Append each tag individually to maintain event binding
     while (tempContainer.firstChild) {
-      if (loadingContainer) {
-        tagsPanel.insertBefore(tempContainer.firstChild, loadingContainer);
-      } else {
-        tagsPanel.appendChild(tempContainer.firstChild);
-      }
+      tagsPanel.appendChild(tempContainer.firstChild);
     }
     
     // Update the current index
     this.currentTagIndex = endIndex;
-    
-    // Hide loading indicator if we've loaded all tags
-    if (this.currentTagIndex >= this.fullTagList.length && loadingContainer) {
-      loadingContainer.style.display = 'none';
-    }
     
     // Configure the new tag elements
     uiHelper.configureButtonStyles('#tags-content-global');

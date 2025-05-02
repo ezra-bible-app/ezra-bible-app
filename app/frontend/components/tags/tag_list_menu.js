@@ -122,7 +122,7 @@ const template = html`
 #new-standard-tag-button {
   float: right;
   margin-left: 1em;
-  margin-right: 0.5em;
+  margin-right: 0.8em;
   padding: 0.2em;
   padding-left: 0.4em;
   padding-right: 0.4em;
