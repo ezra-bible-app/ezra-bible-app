@@ -1317,7 +1317,7 @@ class TagsController {
 
       html += `
         <div class="checkbox-tag" tag-id="${tag.id}" book-assignment-count="${bookCount}" global-assignment-count="${globalCount}" last-used-timestamp="${lastUsedTimestamp}">
-          <i id="${cbId}" class="fas fa-tag tag-button button-small ${isAssigned ? 'active' : ''}" title="${isAssigned ? this.unassign_tag_label : this.assign_tag_label}"></i>
+          <i id="${cbId}" class="fas fa-tag tag-button button-small" title="${isAssigned ? this.unassign_tag_label : this.assign_tag_label}"></i>
           
           <div class="cb-input-label-stats">
             <span class="cb-label ${isAssigned ? 'cb-label-assigned' : ''}">${tag.title}</span>
@@ -1721,7 +1721,6 @@ class TagsController {
     }
     
     // Save current scroll metrics
-    const beforeHeight = tagsPanel.scrollHeight;
     const viewportHeight = tagsPanel.clientHeight;
     const originalScrollTop = savedScrollPosition !== null ? savedScrollPosition : tagsPanel.scrollTop;
     
