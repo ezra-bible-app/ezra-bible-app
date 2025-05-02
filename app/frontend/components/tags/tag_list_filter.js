@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -171,34 +170,169 @@ class TagListFilter {
     });
   }
 
-  handleTagSearchInput(e) {
-    clearTimeout(tags_controller.tag_search_timeout);
-    var search_value = $(e.target).val();
-
-    this.tag_search_timeout = setTimeout(() => {
-      //console.time('filter-tag-list');
-      this.hideAllCheckboxTags();
-
-      var tags_content = document.getElementById('tags-content-global');
-      var tag_labels = tags_content.querySelectorAll('.cb-label');
-      var visibleCounter = 1;
-
-      for (let i = 0; i < tag_labels.length; i++) {
-        let current_label = $(tag_labels[i]);
-
-        if (this.tagTitleMatchesFilter(current_label.text(), search_value)) {
-          let checkboxTag = $(current_label.closest('.checkbox-tag'));
-          checkboxTag.removeClass('hidden');
-
-          if (search_value != "") {
-            this.addAlternatingClass(checkboxTag[0], visibleCounter);
-          }
-
-          visibleCounter += 1;
-        }
+  handleTagSearchInput(event) {
+    let currentFilterString = document.getElementById('tags-search-input').value;
+    
+    // If there's an active tag filter menu, hide it
+    if (document.getElementById('tag-filter-menu') && 
+        document.getElementById('tag-filter-menu').style.display == 'block') {
+      this.hideTagFilterMenu();
+    }
+    
+    // Reset the filter menu button to show normal state
+    const filterButton = document.getElementById('tag-list-filter-button');
+    const filterButtonActive = document.getElementById('tag-list-filter-button-active');
+    
+    if (filterButton) {
+      filterButton.style.display = '';
+    }
+    
+    if (filterButtonActive) {
+      filterButtonActive.style.display = 'none';
+    }
+    
+    // Clear all the filter radio buttons and check the "all" filter
+    const allTagsFilter = document.getElementById('all-tags-filter');
+    if (allTagsFilter) {
+      // Get all filter radio buttons
+      const filterRadios = document.querySelectorAll('#tag-filter-menu input[type="radio"]');
+      for (let i = 0; i < filterRadios.length; i++) {
+        filterRadios[i].checked = false;
       }
-      //console.timeEnd('filter-tag-list');
-    }, 200);
+      
+      // Check the "all" filter
+      allTagsFilter.checked = true;
+    }
+    
+    if (currentFilterString == '') {
+      // No filter - show all tags
+      this.showAllCheckboxTags();
+    } else {
+      // If the tag controller has full tag list, perform search against all tags
+      if (tags_controller && tags_controller.fullTagList && tags_controller.fullTagList.length > 0) {
+        this.performFullTagSearch(currentFilterString);
+      } else {
+        // Fall back to filtering only visible tags
+        this.performVisibleTagsSearch(currentFilterString);
+      }
+    }
+    
+    // Update the scrollbar after filtering
+    if (tags_controller && tags_controller.ps) {
+      tags_controller.ps.update();
+    }
+  }
+  
+  performFullTagSearch(searchString) {
+    const tagsContentGlobal = document.getElementById('tags-content-global');
+    
+    // First, hide all currently visible tags
+    this.hideAllCheckboxTags();
+    
+    // Keep track of how many tags match
+    let matchedTags = [];
+    
+    // Search through the full tag list to find matches
+    if (tags_controller && tags_controller.fullTagList) {
+      tags_controller.fullTagList.forEach(tag => {
+        if (this.tagTitleMatchesFilter(tag.title, searchString)) {
+          matchedTags.push(tag.id);
+        }
+      });
+    }
+    
+    // Clear the tags container and load all matching tags at once
+    if (matchedTags.length > 0) {
+      // Get all currently loaded tags
+      const loadedTags = tagsContentGlobal.querySelectorAll('.checkbox-tag');
+      
+      // Show the ones that match
+      let visibleCounter = 1;
+      loadedTags.forEach(tagElement => {
+        const tagId = parseInt(tagElement.getAttribute('tag-id'));
+        
+        if (matchedTags.includes(tagId)) {
+          tagElement.classList.remove('hidden');
+          this.addAlternatingClass(tagElement, visibleCounter);
+          visibleCounter++;
+        } else {
+          tagElement.classList.add('hidden');
+        }
+      });
+      
+      // Check if we need to load more tags
+      const loadedTagIds = Array.from(loadedTags).map(tag => parseInt(tag.getAttribute('tag-id')));
+      const tagsToLoad = matchedTags.filter(id => !loadedTagIds.includes(id));
+      
+      if (tagsToLoad.length > 0) {
+        // Load the additional matching tags
+        this.loadMatchingTags(tagsToLoad);
+      }
+    }
+    
+    // Update the scrollbar after filtering
+    if (tags_controller && tags_controller.ps) {
+      setTimeout(() => {
+        tags_controller.ps.update();
+      }, 10);
+    }
+  }
+  
+  async loadMatchingTags(tagIds) {
+    if (!tags_controller || !tags_controller.fullTagList) return;
+    
+    // Get tags that match the IDs
+    const tagsToLoad = tags_controller.fullTagList.filter(tag => tagIds.includes(tag.id));
+    
+    if (tagsToLoad.length === 0) return;
+    
+    // Generate HTML for these tags
+    const tagListHtml = tags_controller.generateTagListHtml(tagsToLoad, tags_controller.fullTagStatistics);
+    
+    // Add these tags to the container
+    const tagsPanel = document.getElementById('tags-content-global');
+    if (!tagsPanel) return;
+    
+    const tempContainer = document.createElement('div');
+    tempContainer.innerHTML = tagListHtml;
+    
+    // Append each tag individually to maintain event binding
+    let visibleCounter = document.querySelectorAll('#tags-content-global .checkbox-tag:not(.hidden)').length + 1;
+    
+    while (tempContainer.firstChild) {
+      tagsPanel.appendChild(tempContainer.firstChild);
+      
+      // Get the tag we just added and make sure it exists before modifying it
+      const addedTag = tagsPanel.lastChild;
+      if (addedTag && addedTag.classList) {
+        addedTag.classList.remove('hidden');
+        this.addAlternatingClass(addedTag, visibleCounter);
+        visibleCounter++;
+      }
+    }
+    
+    // Configure the new tag elements
+    uiHelper.configureButtonStyles('#tags-content-global');
+  }
+  
+  performVisibleTagsSearch(searchString) {
+    // This is the original method for filtering only visible tags
+    this.hideAllCheckboxTags();
+    
+    const tagLabels = document.querySelectorAll('#tags-content-global .cb-label');
+    let visibleCounter = 1;
+    
+    for (let i = 0; i < tagLabels.length; i++) {
+      const currentLabel = $(tagLabels[i]);
+      
+      if (this.tagTitleMatchesFilter(currentLabel.text(), searchString)) {
+        const checkboxTag = $(currentLabel.closest('.checkbox-tag'));
+        checkboxTag.removeClass('hidden');
+        
+        this.addAlternatingClass(checkboxTag[0], visibleCounter);
+        visibleCounter += 1;
+      }
+    }
   }
 }
 
