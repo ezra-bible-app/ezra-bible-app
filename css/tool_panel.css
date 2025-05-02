@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -597,4 +596,21 @@ table.tag-statistics a:hover {
 
 .tool-panel-reference-box sup {
   margin-right: 0.2em;
+}
+
+/* Perfect Scrollbar Fixes */
+/* Fix for ps__rail-y creating empty space at the top on mobile devices */
+.ps {
+  overflow: auto !important;
+}
+
+.ps .ps__rail-y {
+  /* Make sure the rail is positioned at the top initially */
+  top: 0 !important;
+  height: auto !important;
+}
+
+/* Ensure proper initialization */
+#tags-content-global {
+  -webkit-overflow-scrolling: touch;
 }
