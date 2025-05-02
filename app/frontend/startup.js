@@ -96,7 +96,6 @@ class Startup {
     require('./components/tags/tag_list_menu.js');
     require('./components/tags/tag_group_list.js');
     require('./components/tags/tag_group_assignment_list.js');
-    require('./components/tags/tag_list.js');
     require('./components/tags/tag_distribution_matrix.js');
     require('./components/options_menu/config_option.js');
     require('./components/options_menu/select_option.js');
