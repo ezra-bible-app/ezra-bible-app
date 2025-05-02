@@ -36,8 +36,6 @@ const { showDialog } = require('../helpers/ezra_helper.js');
  */
 class TagsController {
   constructor() {
-    loadScript('app/templates/tag_list.js');
-
     this.tag_store = new TagStore();
     this.tag_list_filter = new TagListFilter();
 
@@ -1237,22 +1235,14 @@ class TagsController {
   }
 
   async renderTags(tag_list, tag_statistics, is_book=false) {
-    //console.time("renderTags");
+    console.time("renderTags");
     var current_book = app_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
 
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
     this.verses_were_selected_before = true;
 
-    // eslint-disable-next-line no-undef
-    var all_tags_html = tagListTemplate({
-      tags: tag_list,
-      tagStatistics: tag_statistics,
-      current_book: current_book,
-      current_filter: $('#tags-search-input').val(),
-      edit_tag_label: i18n.t("tags.edit-tag"),
-      delete_tag_label: i18n.t("tags.delete-tag"),
-    });
+    var all_tags_html = this.generateTagListHtml(tag_list, tag_statistics);
 
     global_tags_box_el.innerHTML = '';
     global_tags_box_el.innerHTML = all_tags_html;
@@ -1278,7 +1268,36 @@ class TagsController {
     this.new_tag_created = false;
 
     tags_controller.hideTagListLoadingIndicator();
-    //console.timeEnd("renderTags");
+    console.timeEnd("renderTags");
+  }
+
+  generateTagListHtml(tag_list, tag_statistics) {
+    let html = '';
+    tag_list.forEach(tag => {
+      const tagStats = tag_statistics[tag.id] || { bookCount: 0, globalCount: 0 };
+      const bookCount = tagStats.bookAssignmentCount;
+      const globalCount = tagStats.globalAssignmentCount;
+      const isAssigned = bookCount > 0;
+      const tagCounts = bookCount + ' | ' + globalCount;
+      const lastUsedTimestamp = parseInt(tag.lastUsed || 0);
+      const cbId = 'tag-' + tag.id;
+
+      html += `
+        <div class="checkbox-tag" tag-id="${tag.id}" book-assignment-count="${bookCount}" global-assignment-count="${globalCount}" last-used-timestamp="${lastUsedTimestamp}">
+          <i id="${cbId}" class="fas fa-tag tag-button button-small ${isAssigned ? 'active' : ''}" title="${isAssigned ? this.unassign_tag_label : this.assign_tag_label}"></i>
+          
+          <div class="cb-input-label-stats">
+            <span class="cb-label ${isAssigned ? 'cb-label-assigned' : ''}">${tag.title}</span>
+            <span class="cb-label-tag-assignment-count" id="cb-label-tag-assignment-count-${tag.id}">(${tagCounts})</span>
+            <span class="cb-label-postfix"></span>
+          </div>
+          
+          <i title="${i18n.t('tags.edit-tag')}" class="fas fa-pen edit-icon edit-button button-small"></i>
+          <i title="${i18n.t('tags.delete-tag')}" class="fas fa-trash-alt delete-icon delete-button button-small"></i>
+        </div>
+      `;
+    });
+    return html;
   }
 
   async handleEditTagClick(event) {
