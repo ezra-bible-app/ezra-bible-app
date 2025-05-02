@@ -597,20 +597,3 @@ table.tag-statistics a:hover {
 .tool-panel-reference-box sup {
   margin-right: 0.2em;
 }
-
-/* Perfect Scrollbar Fixes */
-/* Fix for ps__rail-y creating empty space at the top on mobile devices */
-.ps {
-  overflow: auto !important;
-}
-
-.ps .ps__rail-y {
-  /* Make sure the rail is positioned at the top initially */
-  top: 0 !important;
-  height: auto !important;
-}
-
-/* Ensure proper initialization */
-#tags-content-global {
-  -webkit-overflow-scrolling: touch;
-}

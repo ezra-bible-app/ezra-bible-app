@@ -25,7 +25,6 @@ const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const { showDialog } = require('../helpers/ezra_helper.js');
-const PerfectScrollbar = require('perfect-scrollbar');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -1664,14 +1663,6 @@ class TagsController {
     // Calculate and store the ratio between real content and virtual height
     this.realToVirtualRatio = 0;
     
-    // Initialize PerfectScrollbar
-    this.ps = new PerfectScrollbar(tagsPanel, {
-      wheelSpeed: 1,
-      wheelPropagation: true,
-      minScrollbarLength: 30,
-      suppressScrollX: true
-    });
-    
     // Add scroll event listener to the tags panel with throttling
     let lastScrollTime = 0;
     const scrollThrottle = 50; // ms
@@ -1736,25 +1727,19 @@ class TagsController {
     
     // Configure the new tag elements
     uiHelper.configureButtonStyles('#tags-content-global');
-    
-    // Update PerfectScrollbar to reflect new content
-    if (this.ps) {
-      // Preserve the scroll position based on the virtual scroll ratio
-      if (virtualScrollRatio !== null) {
-        // Calculate where the scroll position should be based on the virtual ratio
-        const afterHeight = tagsPanel.scrollHeight;
-        const scrollableHeight = afterHeight - viewportHeight;
-        const targetScrollTop = Math.round(virtualScrollRatio * scrollableHeight);
-        
-        // Set the new scroll position
-        tagsPanel.scrollTop = targetScrollTop;
-      } else {
-        // No virtual ratio provided, maintain absolute position
-        tagsPanel.scrollTop = originalScrollTop;
-      }
+  
+    // Preserve the scroll position based on the virtual scroll ratio
+    if (virtualScrollRatio !== null) {
+      // Calculate where the scroll position should be based on the virtual ratio
+      const afterHeight = tagsPanel.scrollHeight;
+      const scrollableHeight = afterHeight - viewportHeight;
+      const targetScrollTop = Math.round(virtualScrollRatio * scrollableHeight);
       
-      // Update the scrollbar to reflect the new state
-      this.ps.update();
+      // Set the new scroll position
+      tagsPanel.scrollTop = targetScrollTop;
+    } else {
+      // No virtual ratio provided, maintain absolute position
+      tagsPanel.scrollTop = originalScrollTop;
     }
     
     // Apply current filter if there's a search or filter active
