@@ -1244,7 +1244,6 @@ class TagsController {
   }
 
   async renderTags(tag_list, tag_statistics, is_book=false) {
-    console.time('renderTags');
     var global_tags_box_el = document.getElementById('tags-content-global');
     
     // Store the full tag list and statistics for lazy loading
@@ -1297,7 +1296,6 @@ class TagsController {
     this.new_tag_created = false;
 
     tags_controller.hideTagListLoadingIndicator();
-    console.timeEnd('renderTags');
   }
 
   generateTagListHtml(tag_list, tag_statistics) {
@@ -1410,17 +1408,44 @@ class TagsController {
   }
 
   updateTagCountAfterRendering(is_book = false) {
-    const globalTagCount = document.querySelectorAll('#tags-content-global .checkbox-tag').length;
-    const globalUsedTagCount = document.querySelectorAll('#tags-content-global .cb-label-assigned').length;
-    const tagListStats = document.querySelector('#tags-content #tag-list-stats');
-    let tagListStatsContent = '';
-
-    if (is_book) {
-      tagListStatsContent += `${globalUsedTagCount} ${i18n.t('tags.stats-used')} / `;
+    // Use the full tag list for accurate total count instead of counting DOM elements
+    const globalTagCount = this.fullTagList ? this.fullTagList.length : 0;
+    
+    // Calculate used tags based on tag statistics
+    let globalUsedTagCount = 0;
+    
+    if (this.fullTagStatistics) {
+      // Count tags that have at least one assignment
+      for (const tagId in this.fullTagStatistics) {
+        if (this.fullTagStatistics.hasOwnProperty(tagId)) {
+          const stats = this.fullTagStatistics[tagId];
+          if (is_book) {
+            // For book view: count tags with book assignments
+            if (stats.bookAssignmentCount > 0) {
+              globalUsedTagCount++;
+            }
+          } else {
+            // For global view: count tags with any assignments
+            if (stats.globalAssignmentCount > 0) {
+              globalUsedTagCount++;
+            }
+          }
+        }
+      }
     }
-
-    tagListStatsContent += `${globalTagCount} ${i18n.t('tags.stats-total')}`;
-    tagListStats.textContent = tagListStatsContent;
+    
+    // Update the tag list stats display
+    const tagListStats = document.querySelector('#tags-content #tag-list-stats');
+    if (tagListStats) {
+      let tagListStatsContent = '';
+      
+      if (is_book) {
+        tagListStatsContent += `${globalUsedTagCount} ${i18n.t('tags.stats-used')} / `;
+      }
+      
+      tagListStatsContent += `${globalTagCount} ${i18n.t('tags.stats-total')}`;
+      tagListStats.textContent = tagListStatsContent;
+    }
   }
 
   removeEventListeners(element_list, type, listener) {
