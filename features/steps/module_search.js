@@ -34,7 +34,7 @@ When('I perform the search', {timeout: 50 * 1000}, async function () {
 
   await startSearchButton.click();
   await uiHelper.waitUntilGlobalLoaderIsHidden(50000);
-  await spectronHelper.sleep(2000);
+  await spectronHelper.sleep(3000);
 });
 
 Then('there are {int} search results', {timeout: 10 * 1000}, async function (searchResultCount) {
