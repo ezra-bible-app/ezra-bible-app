@@ -28,6 +28,52 @@ class TagListFilter {
   constructor() {
   }
 
+  /**
+   * Reapplies the current filter to the tag list
+   * @param {string} searchValue - Current search input value
+   * @param {boolean} isFilterActive - Whether a filter is currently active
+   * @param {string} filterType - The type of filter ('all', 'assigned', 'unassigned', 'recently-used')
+   */
+  reapplyCurrentFilter(searchValue = null, isFilterActive = null, filterType = null) {
+    // If parameters aren't provided, get the current filter state
+    if (searchValue === null || isFilterActive === null || filterType === null) {
+      const tagsSearchInput = document.getElementById('tags-search-input');
+      searchValue = tagsSearchInput ? tagsSearchInput.value : '';
+      
+      const filterButtonActive = document.getElementById('tag-list-filter-button-active');
+      isFilterActive = filterButtonActive && filterButtonActive.style.display !== 'none';
+      
+      const activeFilterOption = document.querySelector('#tag-filter-menu input:checked');
+      filterType = activeFilterOption ? activeFilterOption.value : 'all';
+    }
+
+    // Apply search filter if there's a search value
+    if (searchValue && searchValue.length > 0) {
+      const tagsSearchInput = document.getElementById('tags-search-input');
+      tagsSearchInput.value = searchValue;
+      this.handleTagSearchInput({target: tagsSearchInput});
+    } 
+    // Apply tag filter type if filter is active and not set to 'all'
+    else if (isFilterActive && filterType !== 'all') {
+      // Make sure the filter button is active
+      const filterButtonActive = document.getElementById('tag-list-filter-button-active');
+      const filterButtonInactive = document.getElementById('tag-list-filter-button');
+      
+      if (filterButtonActive.style.display === 'none') {
+        // Activate the filter button
+        filterButtonActive.style.display = '';
+        filterButtonInactive.style.display = 'none';
+      }
+      
+      // Set the radio button in the filter menu
+      const filterInput = document.querySelector(`#tag-filter-menu input[value="${filterType}"]`);
+      if (filterInput) {
+        filterInput.checked = true;
+        this.handleTagFilterTypeClick({target: filterInput});
+      }
+    }
+  }
+
   stringMatches(search_string, search_value) {
     if (search_value == "") {
       return true;

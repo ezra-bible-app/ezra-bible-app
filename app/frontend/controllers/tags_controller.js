@@ -182,7 +182,7 @@ class TagsController {
         this.skipFilterDuringUpdate = false;
         
         // Apply the filter once, after the tag list is fully updated
-        this.reapplyCurrentFilter(currentSearchValue, isFilterActive, currentFilterType);
+        this.tag_list_filter.reapplyCurrentFilter(currentSearchValue, isFilterActive, currentFilterType);
         
         this.hideTagListLoadingIndicator();
       }
@@ -1299,7 +1299,7 @@ class TagsController {
     // Only apply filters automatically if not skipping
     if (!this.skipFilterDuringUpdate) {
       // Apply any existing filters
-      this.reapplyCurrentFilter();
+      this.tag_list_filter.reapplyCurrentFilter();
     }
     
     // Update UI elements
@@ -1733,7 +1733,7 @@ class TagsController {
       await this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
       
       // Simply reapply the filter that was active before updating the tag list
-      this.reapplyCurrentFilter(currentSearchValue, isFilterActive, currentFilterType);
+      this.tag_list_filter.reapplyCurrentFilter(currentSearchValue, isFilterActive, currentFilterType);
 
       this.hideTagListLoadingIndicator();
     }
@@ -1841,122 +1841,19 @@ class TagsController {
       // No virtual ratio provided, maintain absolute position
       tagsPanel.scrollTop = originalScrollTop;
     }
+
+    const tagsSearchInput = document.getElementById('tags-search-input');
+    const currentSearchValue = tagsSearchInput ? tagsSearchInput.value : '';
     
-    // Apply current filter if there's a search or filter active
-    if (this.tag_list_filter) {
-      const tagsSearchInput = document.getElementById('tags-search-input');
-      const searchValue = tagsSearchInput ? tagsSearchInput.value : '';
-      
-      if (searchValue && searchValue.length > 0) {
-        // Re-apply search filter
-        this.tag_list_filter.hideAllCheckboxTags();
-        
-        // Show only tags that match the current search
-        const tagLabels = tagsPanel.querySelectorAll('.cb-label');
-        let visibleCounter = 1;
-        
-        for (let i = 0; i < tagLabels.length; i++) {
-          const currentLabel = $(tagLabels[i]);
-          
-          if (this.tag_list_filter.tagTitleMatchesFilter(currentLabel.text(), searchValue)) {
-            const checkboxTag = $(currentLabel.closest('.checkbox-tag'));
-            checkboxTag.removeClass('hidden');
-            
-            if (searchValue !== '') {
-              this.tag_list_filter.addAlternatingClass(checkboxTag[0], visibleCounter);
-            }
-            
-            visibleCounter += 1;
-          }
-        }
-      } else {
-        // Check if there's an active filter
-        const filterButtonActive = document.getElementById('tag-list-filter-button-active');
-        if (filterButtonActive && filterButtonActive.style.display !== 'none') {
-          // Re-apply the active filter
-          const activeFilterOption = document.querySelector('#tag-filter-menu input:checked');
-          if (activeFilterOption) {
-            const selectedType = activeFilterOption.value;
-            
-            // Re-apply the selected filter
-            if (selectedType !== 'all') {
-              // Apply filtering logic based on the filter type
-              let visibleCounter = 1;
-              
-              switch (selectedType) {
-                case 'assigned':
-                  $(tagsPanel).find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').each((index, checkboxTag) => {
-                    visibleCounter = this.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
-                  });
-                  break;
-                  
-                case 'unassigned':
-                  $(tagsPanel).find('.checkbox-tag[book-assignment-count="' + 0 + '"]').each((index, checkboxTag) => {
-                    visibleCounter = this.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
-                  });
-                  break;
-                  
-                case 'recently-used':
-                  $(tagsPanel).find('.checkbox-tag').filter((index, element) => {
-                    return !this.tag_store.filterRecentlyUsedTags(element);
-                  }).each((index, checkboxTag) => {
-                    visibleCounter = this.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
-                  });
-                  break;
-              }
-            }
-          }
-        }
-      }
-    }
+    const filterButtonActive = document.getElementById('tag-list-filter-button-active');
+    const isFilterActive = filterButtonActive && filterButtonActive.style.display !== 'none';
+    
+    const activeFilterOption = document.querySelector('#tag-filter-menu input:checked');
+    const currentFilterType = activeFilterOption ? activeFilterOption.value : 'all';
+
+    this.tag_list_filter.reapplyCurrentFilter(currentSearchValue, isFilterActive, currentFilterType);
     
     this.isLoadingTags = false;
-  }
-
-  /**
-   * Reapplies the current filter to the tag list
-   * @param {string} searchValue - Current search input value
-   * @param {boolean} isFilterActive - Whether a filter is currently active
-   * @param {string} filterType - The type of filter ('all', 'assigned', 'unassigned', 'recently-used')
-   */
-  reapplyCurrentFilter(searchValue = null, isFilterActive = null, filterType = null) {
-    // If parameters aren't provided, get the current filter state
-    if (searchValue === null || isFilterActive === null || filterType === null) {
-      const tagsSearchInput = document.getElementById('tags-search-input');
-      searchValue = tagsSearchInput ? tagsSearchInput.value : '';
-      
-      const filterButtonActive = document.getElementById('tag-list-filter-button-active');
-      isFilterActive = filterButtonActive && filterButtonActive.style.display !== 'none';
-      
-      const activeFilterOption = document.querySelector('#tag-filter-menu input:checked');
-      filterType = activeFilterOption ? activeFilterOption.value : 'all';
-    }
-
-    // Apply search filter if there's a search value
-    if (searchValue && searchValue.length > 0) {
-      const tagsSearchInput = document.getElementById('tags-search-input');
-      tagsSearchInput.value = searchValue;
-      this.tag_list_filter.handleTagSearchInput({target: tagsSearchInput});
-    } 
-    // Apply tag filter type if filter is active and not set to 'all'
-    else if (isFilterActive && filterType !== 'all') {
-      // Make sure the filter button is active
-      const filterButtonActive = document.getElementById('tag-list-filter-button-active');
-      const filterButtonInactive = document.getElementById('tag-list-filter-button');
-      
-      if (filterButtonActive.style.display === 'none') {
-        // Activate the filter button
-        filterButtonActive.style.display = '';
-        filterButtonInactive.style.display = 'none';
-      }
-      
-      // Set the radio button in the filter menu
-      const filterInput = document.querySelector(`#tag-filter-menu input[value="${filterType}"]`);
-      if (filterInput) {
-        filterInput.checked = true;
-        this.tag_list_filter.handleTagFilterTypeClick({target: filterInput});
-      }
-    }
   }
 }
 
