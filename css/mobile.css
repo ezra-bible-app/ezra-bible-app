@@ -715,6 +715,9 @@ Librem 5/Pinephone etc.
 
   #tags-content-global loading-indicator {
     margin-top: 3em !important;
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
   }
 
   .Android .button-small:not(#new-standard-tag-button, .copy-button) {
