@@ -29,13 +29,14 @@ class TagListFilter {
   }
 
   /**
-   * Reapplies the current filter to the tag list
-   * @param {string} searchValue - Current search input value
-   * @param {boolean} isFilterActive - Whether a filter is currently active
-   * @param {string} filterType - The type of filter ('all', 'assigned', 'unassigned', 'recently-used')
+   * Reapplies the current filter to the tag list.
+   * When called without parameters, the method automatically detects the current filter state.
+   * @param {string} searchValue - Optional: Current search input value
+   * @param {boolean} isFilterActive - Optional: Whether a filter is currently active
+   * @param {string} filterType - Optional: The type of filter ('all', 'assigned', 'unassigned', 'recently-used')
    */
   reapplyCurrentFilter(searchValue = null, isFilterActive = null, filterType = null) {
-    // If parameters aren't provided, get the current filter state
+    // If parameters aren't provided, get the current filter state from the DOM
     if (searchValue === null || isFilterActive === null || filterType === null) {
       const tagsSearchInput = document.getElementById('tags-search-input');
       searchValue = tagsSearchInput ? tagsSearchInput.value : '';

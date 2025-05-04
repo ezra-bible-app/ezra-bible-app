@@ -149,17 +149,6 @@ class TagsController {
       let tagGroupId = tagGroup ? tagGroup.id : null;
       this.currentTagGroupId = tagGroupId;
       this.currentTagGroupTitle = tagGroup ? tagGroup.title : null;
-
-      // Save the current filter state before changing tag groups
-      const tagsSearchInput = document.getElementById('tags-search-input');
-      const currentSearchValue = tagsSearchInput ? tagsSearchInput.value : '';
-      
-      const filterButtonActive = document.getElementById('tag-list-filter-button-active');
-      const isFilterActive = filterButtonActive && filterButtonActive.style.display !== 'none';
-      
-      const activeFilterOption = document.querySelector('#tag-filter-menu input:checked');
-      const currentFilterType = activeFilterOption ? activeFilterOption.value : 'all';
-
       ipcSettings.set('lastUsedTagGroupId', tagGroupId);
 
       document.getElementById('tags-search-input').style.removeProperty('display');
@@ -182,7 +171,7 @@ class TagsController {
         this.skipFilterDuringUpdate = false;
         
         // Apply the filter once, after the tag list is fully updated
-        this.tag_list_filter.reapplyCurrentFilter(currentSearchValue, isFilterActive, currentFilterType);
+        this.tag_list_filter.reapplyCurrentFilter();
         
         this.hideTagListLoadingIndicator();
       }
@@ -1711,16 +1700,6 @@ class TagsController {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var tagCount = await ipcDb.getTagCount();
 
-    // Save the current filter state
-    const tagsSearchInput = document.getElementById('tags-search-input');
-    const currentSearchValue = tagsSearchInput ? tagsSearchInput.value : '';
-    
-    const filterButtonActive = document.getElementById('tag-list-filter-button-active');
-    const isFilterActive = filterButtonActive && filterButtonActive.style.display !== 'none';
-    
-    const activeFilterOption = document.querySelector('#tag-filter-menu input:checked');
-    const currentFilterType = activeFilterOption ? activeFilterOption.value : 'all';
-
     if (currentTab !== undefined) {
       if (tagCount > 0) {
         this.showTagListLoadingIndicator();
@@ -1732,8 +1711,10 @@ class TagsController {
       var currentTabContentId = currentTab.getContentId();
       await this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
       
-      // Simply reapply the filter that was active before updating the tag list
-      this.tag_list_filter.reapplyCurrentFilter(currentSearchValue, isFilterActive, currentFilterType);
+      // Simply reapply the filter - the TagListFilter will detect the current state
+      if (!this.skipFilterDuringUpdate) {
+        this.tag_list_filter.reapplyCurrentFilter();
+      }
 
       this.hideTagListLoadingIndicator();
     }
@@ -1842,16 +1823,7 @@ class TagsController {
       tagsPanel.scrollTop = originalScrollTop;
     }
 
-    const tagsSearchInput = document.getElementById('tags-search-input');
-    const currentSearchValue = tagsSearchInput ? tagsSearchInput.value : '';
-    
-    const filterButtonActive = document.getElementById('tag-list-filter-button-active');
-    const isFilterActive = filterButtonActive && filterButtonActive.style.display !== 'none';
-    
-    const activeFilterOption = document.querySelector('#tag-filter-menu input:checked');
-    const currentFilterType = activeFilterOption ? activeFilterOption.value : 'all';
-
-    this.tag_list_filter.reapplyCurrentFilter(currentSearchValue, isFilterActive, currentFilterType);
+    this.tag_list_filter.reapplyCurrentFilter();
     
     this.isLoadingTags = false;
   }
