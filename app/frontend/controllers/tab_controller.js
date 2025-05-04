@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -404,6 +403,9 @@ class TabController {
 
     this.loadingCompleted = true;
     this.persistanceEnabled = true;
+    
+    // Notify that tab controller has completed loading
+    eventController.publish('on-tab-controller-loaded');
   }
 
   initTabs() {
@@ -802,8 +804,11 @@ class TabController {
       link.html(tabTitle);
     }
 
-    var currentTabTitleLabel = tabsElement.find('.current-tab-title-label');
-    currentTabTitleLabel.html(title);
+    // Only update the current tab title label if this is the currently selected tab
+    if (index === this.getSelectedTabIndex()) {
+      var currentTabTitleLabel = tabsElement.find('.current-tab-title-label');
+      currentTabTitleLabel.html(title);
+    }
   }
 
   getTabTitle() {

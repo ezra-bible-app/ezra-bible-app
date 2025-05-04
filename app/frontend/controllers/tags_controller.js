@@ -20,11 +20,11 @@ const TagStore = require('../components/tags/tag_store.js');
 const TagListFilter = require('../components/tags/tag_list_filter.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
-require('../components/emoji_button_trigger.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const { showDialog } = require('../helpers/ezra_helper.js');
+require('../components/emoji_button_trigger.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
