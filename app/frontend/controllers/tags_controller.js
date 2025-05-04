@@ -225,6 +225,36 @@ class TagsController {
     this.initDeleteTagConfirmationDialog(true);
   }
 
+  /**
+   * Helper method to initialize a dialog with common options
+   * @param {string} dialogId - The ID of the dialog element (without #)
+   * @param {string} dialogClass - The class to apply to the dialog
+   * @param {string} title - The dialog title
+   * @param {number} width - Dialog width
+   * @param {number} height - Dialog height (null for auto height)
+   * @param {Object} buttons - Dialog buttons configuration
+   * @param {Object} additionalOptions - Any additional dialog options to override defaults
+   * @returns {Object} The dialog options object
+   */
+  initDialogWithOptions(dialogId, dialogClass, title, width, height, buttons, additionalOptions = {}) {
+    const draggable = true;
+    const position = [55, 120];
+    
+    let options = uiHelper.getDialogOptions(width, height, draggable, position);
+    options.dialogClass = `ezra-dialog ${dialogClass}`;
+    options.title = title;
+    options.autoOpen = false;
+    options.buttons = buttons;
+    
+    // Apply any additional options
+    Object.assign(options, additionalOptions);
+    
+    $(`#${dialogId}`).dialog(options);
+    uiHelper.fixDialogCloseIconOnAndroid(dialogClass);
+    
+    return options;
+  }
+
   initNewTagDialog(force=false) {
     if (!force && this.newTagDialogInitDone) {
       return;
@@ -232,30 +262,29 @@ class TagsController {
 
     this.newTagDialogInitDone = true;
 
-    const dialogWidth = 450;
-    const dialogHeight = 470;
-    const draggable = true;
-    const position = [55, 120];
-
-    const new_standard_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
-    new_standard_tag_dlg_options.dialogClass = 'ezra-dialog new-tag-dialog';
-    new_standard_tag_dlg_options.title = i18n.t('tags.new-tag');
-    new_standard_tag_dlg_options.autoOpen = false;
-    new_standard_tag_dlg_options.buttons = {};
-
-    new_standard_tag_dlg_options.buttons[i18n.t('general.cancel')] = function() {
+    const buttons = {};
+    buttons[i18n.t('general.cancel')] = function() {
       setTimeout(() => {
         $(this).dialog('close');
       }, 100);
     };
 
-    new_standard_tag_dlg_options.buttons[i18n.t('tags.create-tag')] = {
+    buttons[i18n.t('tags.create-tag')] = {
       id: 'create-tag-button',
       text: i18n.t('tags.create-tag'),
       click: function() {
         tags_controller.saveNewTag(this);
       }
     };
+
+    this.initDialogWithOptions(
+      'new-standard-tag-dialog',
+      'new-tag-dialog',
+      i18n.t('tags.new-tag'),
+      450,
+      470,
+      buttons
+    );
 
     document.getElementById('create-note-file-checkbox').addEventListener('change', function() {
       tags_controller.createNoteFile = this.checked;
@@ -285,9 +314,6 @@ class TagsController {
       $('#add-tags-to-group-dialog').dialog('open');
       await waitUntilIdle();
     });
-
-    $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
-    uiHelper.fixDialogCloseIconOnAndroid('new-tag-dialog');
 
     const tagTitleInput = document.getElementById('new-standard-tag-title-input');
     if (!tagTitleInput.classList.contains('bound')) {
@@ -335,21 +361,11 @@ class TagsController {
 
     this.addTagsToGroupDialogInitDone = true;
 
-    var dialogWidth = 450;
-    var dialogHeight = 480;
-    var draggable = true;
-    var position = [55, 120];
-
-    let addTagsToGroupDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
-    addTagsToGroupDialogOptions.dialogClass = 'ezra-dialog add-tags-to-group-dialog';
-    addTagsToGroupDialogOptions.title = i18n.t("tags.add-tags-to-group");
-    addTagsToGroupDialogOptions.autoOpen = false;
-  
-    addTagsToGroupDialogOptions.buttons = {};
-    addTagsToGroupDialogOptions.buttons[i18n.t("general.cancel")] = function() {
+    const buttons = {};
+    buttons[i18n.t("general.cancel")] = function() {
       $(this).dialog("close");
     };
-    addTagsToGroupDialogOptions.buttons[i18n.t("tags.add-tags-to-group")] = {
+    buttons[i18n.t("tags.add-tags-to-group")] = {
       id: 'add-tags-to-group-button',
       text: i18n.t("tags.add-tags-to-group"),
       click: function() {
@@ -360,14 +376,20 @@ class TagsController {
       }
     };
 
+    this.initDialogWithOptions(
+      'add-tags-to-group-dialog',
+      'add-tags-to-group-dialog',
+      i18n.t("tags.add-tags-to-group"),
+      450,
+      480,
+      buttons
+    );
+
     document.getElementById('add-tags-to-group-filter-input').addEventListener('keyup', () => {
       let currentFilterString = document.getElementById('add-tags-to-group-filter-input').value;
       const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
       addTagsToGroupTagList.filter = currentFilterString;
     });
-
-    $('#add-tags-to-group-dialog').dialog(addTagsToGroupDialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('add-tags-to-group-dialog');
   }
 
   async addTagsToGroup(tagGroupId, tagList) {
@@ -434,23 +456,22 @@ class TagsController {
 
     this.deleteTagConfirmationDialogInitDone = true;
 
-    var dialogWidth = 400;
-    var dialogHeight = null;
-    var draggable = true;
-    var position = [55, 120];
-
-    let delete_tag_confirmation_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
-    delete_tag_confirmation_dlg_options.dialogClass = 'ezra-dialog delete-tag-confirmation-dialog';
-    delete_tag_confirmation_dlg_options.title = i18n.t("tags.delete-tag");
-    delete_tag_confirmation_dlg_options.autoOpen = false;
-  
-    delete_tag_confirmation_dlg_options.buttons = {};
-    delete_tag_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
+    const buttons = {};
+    buttons[i18n.t("general.cancel")] = function() {
       setTimeout(() => { $(this).dialog("close"); }, 100);
     };
-    delete_tag_confirmation_dlg_options.buttons[i18n.t("tags.delete-tag")] = function() {
+    buttons[i18n.t("tags.delete-tag")] = function() {
       tags_controller.deleteTagAfterConfirmation();
     };
+
+    this.initDialogWithOptions(
+      'delete-tag-confirmation-dialog',
+      'delete-tag-confirmation-dialog',
+      i18n.t("tags.delete-tag"),
+      400,
+      null,
+      buttons
+    );
 
     document.getElementById('permanently-delete-tag').addEventListener('change', function() {
       let permanentlyDeleteTagWarning = document.getElementById('permanently-delete-tag-warning');
@@ -461,9 +482,6 @@ class TagsController {
         permanentlyDeleteTagWarning.style.visibility = 'hidden';
       }
     });
-
-    $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
-    uiHelper.fixDialogCloseIconOnAndroid('delete-tag-confirmation-dialog');
   }
 
   initRemoveTagAssignmentConfirmationDialog(force=false) {
@@ -473,25 +491,26 @@ class TagsController {
 
     this.removeTagAssignmentConfirmationDialogInitDone = true;
 
-    let remove_tag_assignment_confirmation_dlg_options = uiHelper.getDialogOptions(360, null, true, [55, 120]);
-    remove_tag_assignment_confirmation_dlg_options.dialogClass = 'ezra-dialog remove-tag-assignment-confirmation-dialog';
-    remove_tag_assignment_confirmation_dlg_options.autoOpen = false;
-    remove_tag_assignment_confirmation_dlg_options.title = i18n.t("tags.remove-tag-assignment");
-  
-    remove_tag_assignment_confirmation_dlg_options.buttons = {};
-    remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
+    const buttons = {};
+    buttons[i18n.t("general.cancel")] = function() {
       tags_controller.remove_tag_assignment_job.tag_button.addClass('active');
       tags_controller.remove_tag_assignment_job = null;
-  
+
       $(this).dialog("close");
     };
 
-    remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("tags.remove-tag-assignment")] = function() {
+    buttons[i18n.t("tags.remove-tag-assignment")] = function() {
       tags_controller.removeTagAssignmentAfterConfirmation();
     };
 
-    $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
-    uiHelper.fixDialogCloseIconOnAndroid('remove-tag-assignment-confirmation-dialog');
+    this.initDialogWithOptions(
+      'remove-tag-assignment-confirmation-dialog',
+      'remove-tag-assignment-confirmation-dialog',
+      i18n.t("tags.remove-tag-assignment"),
+      360,
+      null,
+      buttons
+    );
 
     // eslint-disable-next-line no-unused-vars
     $('#remove-tag-assignment-confirmation-dialog').bind('dialogbeforeclose', function(event) {
@@ -509,22 +528,12 @@ class TagsController {
 
     this.editTagDialogInitDone = true;
 
-    var dialogWidth = 450;
-    var dialogHeight = 400;
-    var draggable = true;
-    var position = [55, 120];
-
-    let edit_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
-    edit_tag_dlg_options.dialogClass = 'ezra-dialog edit-tag-dialog';
-    edit_tag_dlg_options.title = i18n.t("tags.edit-tag");
-    edit_tag_dlg_options.autoOpen = false;
-
-    edit_tag_dlg_options.buttons = {};
-    edit_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
+    const buttons = {};
+    buttons[i18n.t("general.cancel")] = function() {
       setTimeout(() => { $(this).dialog("close"); }, 100);
     };
 
-    edit_tag_dlg_options.buttons[i18n.t("general.save")] = {
+    buttons[i18n.t("general.save")] = {
       id: 'edit-tag-button',
       text: i18n.t("general.save"),
       click: function() {
@@ -532,9 +541,15 @@ class TagsController {
       }
     };
 
-    $('#edit-tag-dialog').dialog(edit_tag_dlg_options);
-    uiHelper.fixDialogCloseIconOnAndroid('edit-tag-dialog');
-  
+    this.initDialogWithOptions(
+      'edit-tag-dialog',
+      'edit-tag-dialog',
+      i18n.t("tags.edit-tag"),
+      450,
+      400,
+      buttons
+    );
+
     // Handle the enter key in the tag title field and rename the tag when it is pressed
     $('#rename-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
       if (event.which == 13) {
