@@ -20,11 +20,11 @@ const TagStore = require('../components/tags/tag_store.js');
 const TagListFilter = require('../components/tags/tag_list_filter.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
-require('../components/emoji_button_trigger.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const { showDialog } = require('../helpers/ezra_helper.js');
+require('../components/emoji_button_trigger.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -36,8 +36,6 @@ const { showDialog } = require('../helpers/ezra_helper.js');
  */
 class TagsController {
   constructor() {
-    loadScript('app/templates/tag_list.js');
-
     this.tag_store = new TagStore();
     this.tag_list_filter = new TagListFilter();
 
@@ -77,6 +75,18 @@ class TagsController {
     this.lastContentId = null;
     this.currentTagGroupId = null;
     this.currentTagGroupTitle = null;
+
+    // Lazy loading properties
+    this.tagBatchSize = 50; // Number of tags to load at once
+    this.currentTagIndex = 0; // Current position in the tag list
+    this.fullTagList = []; // Complete list of tags
+    this.fullTagStatistics = {}; // Complete tag statistics
+    this.isLoadingTags = false; // Flag to prevent multiple load operations
+    this.scrollListenerAdded = false; // Flag to track if scroll listener is added
+    this.isBookView = false; // Flag to track if we're in book view
+    
+    // Flag to prevent double filter application
+    this.skipFilterDuringUpdate = false;
 
     this.subscribeEvents();
   }
@@ -139,7 +149,6 @@ class TagsController {
       let tagGroupId = tagGroup ? tagGroup.id : null;
       this.currentTagGroupId = tagGroupId;
       this.currentTagGroupTitle = tagGroup ? tagGroup.title : null;
-
       ipcSettings.set('lastUsedTagGroupId', tagGroupId);
 
       document.getElementById('tags-search-input').style.removeProperty('display');
@@ -152,7 +161,18 @@ class TagsController {
       if (this.isTagPanelActive()) {
         this.showTagListLoadingIndicator();
         await waitUntilIdle();
+        
+        // Set flag to prevent automatic filter application during tag list update
+        this.skipFilterDuringUpdate = true;
+        
         await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
+        
+        // Reset the flag
+        this.skipFilterDuringUpdate = false;
+        
+        // Apply the filter once, after the tag list is fully updated
+        this.tag_list_filter.reapplyCurrentFilter();
+        
         this.hideTagListLoadingIndicator();
       }
     });
@@ -1237,48 +1257,125 @@ class TagsController {
   }
 
   async renderTags(tag_list, tag_statistics, is_book=false) {
-    //console.time("renderTags");
-    var current_book = app_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
-
+    
+    // Store the full tag list and statistics for lazy loading
+    this.fullTagList = tag_list;
+    this.fullTagStatistics = tag_statistics;
+    this.currentTagIndex = 0;
+    this.isBookView = is_book;
+    
+    // Clear the container and initialize it
+    global_tags_box_el.innerHTML = '';
+    
+    // Set the tag list to be empty
+    if (tag_list.length > this.tagBatchSize) {
+      global_tags_box_el.innerHTML = '';
+    }
+    
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
     this.verses_were_selected_before = true;
 
-    // eslint-disable-next-line no-undef
-    var all_tags_html = tagListTemplate({
-      tags: tag_list,
-      tagStatistics: tag_statistics,
-      current_book: current_book,
-      current_filter: $('#tags-search-input').val(),
-      edit_tag_label: i18n.t("tags.edit-tag"),
-      delete_tag_label: i18n.t("tags.delete-tag"),
-    });
-
-    global_tags_box_el.innerHTML = '';
-    global_tags_box_el.innerHTML = all_tags_html;
-
-    await app_controller.tag_statistics.refreshBookTagStatistics(tag_list, tag_statistics, current_book);
+    // Add scroll listener if not already added
+    if (!this.scrollListenerAdded) {
+      this.initLazyLoading();
+      this.scrollListenerAdded = true;
+    }
+    
+    // Load the first batch of tags
+    await this.loadMoreTags();
+    
+    // Only apply filters automatically if not skipping
+    if (!this.skipFilterDuringUpdate) {
+      // Apply any existing filters
+      this.tag_list_filter.reapplyCurrentFilter();
+    }
+    
+    // Update UI elements
+    await app_controller.tag_statistics.refreshBookTagStatistics(tag_list, tag_statistics, app_controller.tab_controller.getTab().getBook());
     uiHelper.configureButtonStyles('#tags-content');
 
+    // Update tag states and counts
     tags_controller.updateTagsViewAfterVerseSelection(true);
     tags_controller.updateTagCountAfterRendering(is_book);
     await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
 
+    // Handle search input and new tag creation
     var old_tags_search_input_value = $('#tags-search-input')[0].value;    
-    if (this.new_tag_created && old_tags_search_input_value != "") {
+    if (this.new_tag_created && old_tags_search_input_value != '') {
       // If the newly created tag doesn't match the current search input
       // we remove the current search condition. Otherwise the new tag
       // wouldn't show up in the list as expected.
       if (!tags_controller.tag_list_filter.stringMatches(this.last_created_tag,
                                                          $('#tags-search-input')[0].value)) {
-        $('#tags-search-input')[0].value = "";
-        old_tags_search_input_value = "";
+        $('#tags-search-input')[0].value = '';
+        old_tags_search_input_value = '';
       }
     }    
     this.new_tag_created = false;
 
     tags_controller.hideTagListLoadingIndicator();
-    //console.timeEnd("renderTags");
+  }
+
+  generateTagListHtml(tag_list, tag_statistics) {
+    // Get currently selected verse tags
+    const versesSelected = app_controller.verse_selection.getSelectedVerseBoxes().length > 0;
+    let selectedVerseTags = [];
+    
+    if (versesSelected) {
+      selectedVerseTags = app_controller.verse_selection.getCurrentSelectionTags();
+    }
+    
+    let html = '';
+    tag_list.forEach(tag => {
+      const tagStats = tag_statistics[tag.id] || { bookCount: 0, globalCount: 0 };
+      const bookCount = tagStats.bookAssignmentCount;
+      const globalCount = tagStats.globalAssignmentCount;
+      const isAssigned = bookCount > 0;
+      const tagCounts = this.isBookView ? (bookCount + ' | ' + globalCount) : globalCount;
+      const lastUsedTimestamp = parseInt(tag.lastUsed || 0);
+      const cbId = 'tag-' + tag.id;
+      
+      // Check if this tag is in the current verse selection and if it's fully assigned
+      let isTagActiveInSelection = false;
+      let isTagPartialInSelection = false;
+      let postfixHtml = '';
+      
+      if (versesSelected) {
+        selectedVerseTags.forEach(selectedTag => {
+          if (selectedTag.title === tag.title) {
+            if (selectedTag.complete) {
+              isTagActiveInSelection = true;
+            } else {
+              isTagPartialInSelection = true;
+              postfixHtml = '&nbsp;*';
+            }
+          }
+        });
+      }
+      
+      // Determine tag button state and title
+      const tagButtonTitle = isTagActiveInSelection ? this.unassign_tag_label : this.assign_tag_label;
+      const tagButtonClass = isTagActiveInSelection ? 'active' : '';
+      const tagLabelClass = isAssigned ? 'cb-label-assigned' : '';
+      const tagLabelUnderline = isTagPartialInSelection ? 'underline' : '';
+
+      html += `
+        <div class="checkbox-tag" tag-id="${tag.id}" book-assignment-count="${bookCount}" global-assignment-count="${globalCount}" last-used-timestamp="${lastUsedTimestamp}">
+          <i id="${cbId}" class="fas fa-tag tag-button button-small ${tagButtonClass}" title="${tagButtonTitle}"></i>
+          
+          <div class="cb-input-label-stats">
+            <span class="cb-label ${tagLabelClass} ${tagLabelUnderline}">${tag.title}</span>
+            <span class="cb-label-tag-assignment-count" id="cb-label-tag-assignment-count-${tag.id}">(${tagCounts})</span>
+            <span class="cb-label-postfix">${postfixHtml}</span>
+          </div>
+          
+          <i title="${i18n.t('tags.edit-tag')}" class="fas fa-pen edit-icon edit-button button-small"></i>
+          <i title="${i18n.t('tags.delete-tag')}" class="fas fa-trash-alt delete-icon delete-button button-small"></i>
+        </div>
+      `;
+    });
+    return html;
   }
 
   async handleEditTagClick(event) {
@@ -1330,17 +1427,44 @@ class TagsController {
   }
 
   updateTagCountAfterRendering(is_book = false) {
-    const globalTagCount = document.querySelectorAll('#tags-content-global .checkbox-tag').length;
-    const globalUsedTagCount = document.querySelectorAll('#tags-content-global .cb-label-assigned').length;
-    const tagListStats = document.querySelector('#tags-content #tag-list-stats');
-    let tagListStatsContent = '';
-
-    if (is_book) {
-      tagListStatsContent += `${globalUsedTagCount} ${i18n.t('tags.stats-used')} / `;
+    // Use the full tag list for accurate total count instead of counting DOM elements
+    const globalTagCount = this.fullTagList ? this.fullTagList.length : 0;
+    
+    // Calculate used tags based on tag statistics
+    let globalUsedTagCount = 0;
+    
+    if (this.fullTagStatistics) {
+      // Count tags that have at least one assignment
+      for (const tagId in this.fullTagStatistics) {
+        if (this.fullTagStatistics.hasOwnProperty(tagId)) {
+          const stats = this.fullTagStatistics[tagId];
+          if (is_book) {
+            // For book view: count tags with book assignments
+            if (stats.bookAssignmentCount > 0) {
+              globalUsedTagCount++;
+            }
+          } else {
+            // For global view: count tags with any assignments
+            if (stats.globalAssignmentCount > 0) {
+              globalUsedTagCount++;
+            }
+          }
+        }
+      }
     }
-
-    tagListStatsContent += `${globalTagCount} ${i18n.t('tags.stats-total')}`;
-    tagListStats.textContent = tagListStatsContent;
+    
+    // Update the tag list stats display
+    const tagListStats = document.querySelector('#tags-content #tag-list-stats');
+    if (tagListStats) {
+      let tagListStatsContent = '';
+      
+      if (is_book) {
+        tagListStatsContent += `${globalUsedTagCount} ${i18n.t('tags.stats-used')} / `;
+      }
+      
+      tagListStatsContent += `${globalTagCount} ${i18n.t('tags.stats-total')}`;
+      tagListStats.textContent = tagListStatsContent;
+    }
   }
 
   removeEventListeners(element_list, type, listener) {
@@ -1586,11 +1710,122 @@ class TagsController {
       var currentTabBook = currentTab.getBook();
       var currentTabContentId = currentTab.getContentId();
       await this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
+      
+      // Simply reapply the filter - the TagListFilter will detect the current state
+      if (!this.skipFilterDuringUpdate) {
+        this.tag_list_filter.reapplyCurrentFilter();
+      }
 
       this.hideTagListLoadingIndicator();
     }
 
     await this.updateTagUiBasedOnTagAvailability(tagCount);
+  }
+
+  initLazyLoading() {
+    const tagsPanel = document.getElementById('tags-content-global');
+    
+    // Set up a fixed estimated height for the entire tag list before any tags are loaded
+    this.averageTagHeight = platformHelper.isMobile() ? 2.5 : 2; // Fixed estimate for tag height
+    const estimatedTotalHeight = this.fullTagList.length * this.averageTagHeight;
+    
+    // Create a fixed-size virtual height container
+    this.virtualHeightContainer = document.createElement('div');
+    this.virtualHeightContainer.className = 'virtual-height-container';
+    this.virtualHeightContainer.style.height = estimatedTotalHeight + 'em';
+    this.virtualHeightContainer.style.position = 'absolute';
+    this.virtualHeightContainer.style.visibility = 'hidden';
+    this.virtualHeightContainer.style.top = '0';
+    this.virtualHeightContainer.style.left = '0';
+    this.virtualHeightContainer.style.width = '1px';
+    this.virtualHeightContainer.style.pointerEvents = 'none';
+    tagsPanel.appendChild(this.virtualHeightContainer);
+    
+    // Calculate and store the ratio between real content and virtual height
+    this.realToVirtualRatio = 0;
+    
+    // Add scroll event listener to the tags panel with throttling
+    let lastScrollTime = 0;
+    const scrollThrottle = 50; // ms
+    
+    tagsPanel.addEventListener('scroll', () => {
+      const now = Date.now();
+      if (now - lastScrollTime < scrollThrottle || this.isLoadingTags) return;
+      lastScrollTime = now;
+      
+      const scrollPosition = tagsPanel.scrollTop;
+      const scrollHeight = tagsPanel.scrollHeight;
+      
+      // Calculate virtual position based on total tags and currently loaded tags
+      const virtualScrollPosition = (scrollPosition / scrollHeight) * estimatedTotalHeight;
+      const virtualScrollRatio = virtualScrollPosition / estimatedTotalHeight;
+      
+      // Determine which chunk of tags should be loaded based on virtual scroll position
+      const targetTagIndex = Math.floor(virtualScrollRatio * this.fullTagList.length);
+      
+      // Load more tags if needed and we're approaching the end of loaded tags
+      if (targetTagIndex + this.tagBatchSize > this.currentTagIndex && 
+          this.currentTagIndex < this.fullTagList.length) {
+
+        this.loadMoreTags(scrollPosition, virtualScrollRatio);
+      }
+    });
+  }
+
+  async loadMoreTags(savedScrollPosition = null, virtualScrollRatio = null) {
+    // Don't load if we're already loading or if we've loaded all tags
+    if (this.isLoadingTags || this.currentTagIndex >= this.fullTagList.length) {
+      return;
+    }
+    
+    this.isLoadingTags = true;
+    
+    // Get the tags panel and scrollbar elements
+    const tagsPanel = document.getElementById('tags-content-global');
+    
+    // Save current scroll metrics
+    const viewportHeight = tagsPanel.clientHeight;
+    const originalScrollTop = savedScrollPosition !== null ? savedScrollPosition : tagsPanel.scrollTop;
+    
+    // Calculate the batch of tags to load
+    const endIndex = Math.min(this.currentTagIndex + this.tagBatchSize, this.fullTagList.length);
+    const tagsToLoad = this.fullTagList.slice(this.currentTagIndex, endIndex);
+    
+    // Generate HTML for this batch
+    const tagListHtml = this.generateTagListHtml(tagsToLoad, this.fullTagStatistics);
+    
+    // Append the new tags to the container without affecting scroll position
+    const tempContainer = document.createElement('div');
+    tempContainer.innerHTML = tagListHtml;
+    
+    // Append each tag individually to maintain event binding
+    while (tempContainer.firstChild) {
+      tagsPanel.appendChild(tempContainer.firstChild);
+    }
+    
+    // Update the current index
+    this.currentTagIndex = endIndex;
+    
+    // Configure the new tag elements
+    uiHelper.configureButtonStyles('#tags-content-global');
+  
+    // Preserve the scroll position based on the virtual scroll ratio
+    if (virtualScrollRatio !== null) {
+      // Calculate where the scroll position should be based on the virtual ratio
+      const afterHeight = tagsPanel.scrollHeight;
+      const scrollableHeight = afterHeight - viewportHeight;
+      const targetScrollTop = Math.round(virtualScrollRatio * scrollableHeight);
+      
+      // Set the new scroll position
+      tagsPanel.scrollTop = targetScrollTop;
+    } else {
+      // No virtual ratio provided, maintain absolute position
+      tagsPanel.scrollTop = originalScrollTop;
+    }
+
+    this.tag_list_filter.reapplyCurrentFilter();
+    
+    this.isLoadingTags = false;
   }
 }
 
