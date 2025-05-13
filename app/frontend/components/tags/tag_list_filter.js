@@ -72,6 +72,9 @@ class TagListFilter {
         filterInput.checked = true;
         this.handleTagFilterTypeClick({target: filterInput});
       }
+    } else {
+      // Make sure the loading indicator is hidden in any case
+      tags_controller.hideTagListLoadingIndicator();
     }
   }
 
@@ -170,6 +173,9 @@ class TagListFilter {
     }
 
     tags_controller.tag_list_filter.hideTagSelectionFilterLoadingIndicator();
+    
+    // Make sure the main loading indicator is hidden
+    tags_controller.hideTagListLoadingIndicator();
 
     setTimeout(() => {
       tags_controller.tag_list_filter.hideTagFilterMenuIfInToolBar();
@@ -269,6 +275,9 @@ class TagListFilter {
     if (tags_controller && tags_controller.ps) {
       tags_controller.ps.update();
     }
+    
+    // Make sure the loading indicator is hidden
+    tags_controller.hideTagListLoadingIndicator();
   }
   
   performFullTagSearch(searchString) {
