@@ -298,7 +298,7 @@ class TagListFilter {
       });
     }
     
-    // Clear the tags container and load all matching tags at once
+    // Show matching tags
     if (matchedTags.length > 0) {
       // Get all currently loaded tags
       const loadedTags = tagsContentGlobal.querySelectorAll('.checkbox-tag');
@@ -317,29 +317,42 @@ class TagListFilter {
         }
       });
       
-      // Check if we need to load more tags
+      // Check if we need to load more tags by comparing loaded tag IDs with all matched tag IDs
       const loadedTagIds = Array.from(loadedTags).map(tag => parseInt(tag.getAttribute('tag-id')));
       const tagsToLoad = matchedTags.filter(id => !loadedTagIds.includes(id));
       
       if (tagsToLoad.length > 0) {
-        // Load the additional matching tags
+        // Load the additional matching tags that aren't currently in the DOM
         this.loadMatchingTags(tagsToLoad);
       }
     }
     
-    // Update the scrollbar after filtering
+    // Update the scrollbar after filtering, with a small delay to allow DOM updates
     if (tags_controller && tags_controller.ps) {
       setTimeout(() => {
         tags_controller.ps.update();
-      }, 10);
+      }, 50);
     }
   }
   
   async loadMatchingTags(tagIds) {
     if (!tags_controller || !tags_controller.fullTagList) return;
     
-    // Get tags that match the IDs
-    const tagsToLoad = tags_controller.fullTagList.filter(tag => tagIds.includes(tag.id));
+    // First check which tags are already in the DOM to avoid duplicates
+    const tagsPanel = document.getElementById('tags-content-global');
+    if (!tagsPanel) return;
+    
+    const existingTagElements = tagsPanel.querySelectorAll('.checkbox-tag');
+    const existingTagIds = Array.from(existingTagElements).map(tag => parseInt(tag.getAttribute('tag-id')));
+    
+    // Filter out tag IDs that are already in the DOM
+    const uniqueTagIds = tagIds.filter(id => !existingTagIds.includes(id));
+    
+    // If all requested tags are already in the DOM, nothing to do
+    if (uniqueTagIds.length === 0) return;
+    
+    // Get tags that match the IDs and aren't already in the DOM
+    const tagsToLoad = tags_controller.fullTagList.filter(tag => uniqueTagIds.includes(tag.id));
     
     if (tagsToLoad.length === 0) return;
     
@@ -347,9 +360,6 @@ class TagListFilter {
     const tagListHtml = tags_controller.generateTagListHtml(tagsToLoad, tags_controller.fullTagStatistics);
     
     // Add these tags to the container
-    const tagsPanel = document.getElementById('tags-content-global');
-    if (!tagsPanel) return;
-    
     const tempContainer = document.createElement('div');
     tempContainer.innerHTML = tagListHtml;
     
