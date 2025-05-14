@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -19,6 +18,13 @@
 const eventController = require('../../../controllers/event_controller.js');
 const ezraHelper = require('../../../helpers/ezra_helper.js');
 
+/**
+ * The TagStore manages all tag-related data in the application.
+ * 
+ * It maintains the list of tags, handles tag statistics for Bible books,
+ * and responds to tag events (creation, deletion, renaming, group changes).
+ * The TagStore also tracks tag usage timestamps for organizing recently used tags.
+ */
 class TagStore {
   constructor() {
     this.tagList = null;
