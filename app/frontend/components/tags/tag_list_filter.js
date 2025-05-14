@@ -290,8 +290,8 @@ class TagListFilter {
     let matchedTags = [];
     
     // Search through the full tag list to find matches
-    if (tags_controller && tags_controller.fullTagList) {
-      tags_controller.fullTagList.forEach(tag => {
+    if (tags_controller && tags_controller.tag_list_renderer.fullTagList) {
+      tags_controller.tag_list_renderer.fullTagList.forEach(tag => {
         if (this.tagTitleMatchesFilter(tag.title, searchString)) {
           matchedTags.push(tag.id);
         }
@@ -336,7 +336,7 @@ class TagListFilter {
   }
   
   async loadMatchingTags(tagIds) {
-    if (!tags_controller || !tags_controller.fullTagList) return;
+    if (!tags_controller || !tags_controller.tag_list_renderer.fullTagList) return;
     
     // First check which tags are already in the DOM to avoid duplicates
     const tagsPanel = document.getElementById('tags-content-global');
@@ -352,12 +352,16 @@ class TagListFilter {
     if (uniqueTagIds.length === 0) return;
     
     // Get tags that match the IDs and aren't already in the DOM
-    const tagsToLoad = tags_controller.fullTagList.filter(tag => uniqueTagIds.includes(tag.id));
+    const tagsToLoad = tags_controller.tag_list_renderer.fullTagList.filter(tag => uniqueTagIds.includes(tag.id));
     
     if (tagsToLoad.length === 0) return;
     
     // Generate HTML for these tags
-    const tagListHtml = tags_controller.generateTagListHtml(tagsToLoad, tags_controller.fullTagStatistics);
+    // Use the full tag statistics from the renderer to ensure count information is included
+    const tagListHtml = tags_controller.generateTagListHtml(
+      tagsToLoad, 
+      tags_controller.tag_list_renderer.fullTagStatistics
+    );
     
     // Add these tags to the container
     const tempContainer = document.createElement('div');
