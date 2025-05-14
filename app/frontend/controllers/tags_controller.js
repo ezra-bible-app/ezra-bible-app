@@ -299,8 +299,8 @@ class TagsController {
     this.tag_operations_manager.uncheckAllCheckboxElements();
   }
 
-  async removeTagById(tagId, tagTitle) {
-    await this.tag_operations_manager.removeTagById(tagId, tagTitle);
+  async removeTagById(tagId) {
+    await this.tag_operations_manager.removeTagById(tagId);
   }
 
   updateTagInView(tagId, newTitle) {

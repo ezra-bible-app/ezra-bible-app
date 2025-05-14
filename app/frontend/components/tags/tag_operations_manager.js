@@ -506,9 +506,8 @@ class TagOperationsManager {
    * Remove a tag by ID
    * 
    * @param {number} tagId - The tag ID
-   * @param {string} tagTitle - The tag title
    */
-  async removeTagById(tagId, tagTitle) {
+  async removeTagById(tagId) {
     const tagsContentGlobal = document.getElementById('tags-content-global');
     const checkboxTag = tagsContentGlobal.querySelector(`.checkbox-tag[tag-id="${tagId}"]`);
     

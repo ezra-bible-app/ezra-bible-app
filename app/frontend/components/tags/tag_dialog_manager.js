@@ -386,7 +386,7 @@ class TagDialogManager {
         await eventController.publishAsync('on-tag-deleted', this.tag_to_be_deleted);
       }
 
-      await this.tagsController.removeTagById(this.tag_to_be_deleted, this.tag_to_be_deleted_title);
+      await this.tagsController.removeTagById(this.tag_to_be_deleted);
 
       await this.tagsController.updateTagsViewAfterVerseSelection(true);
       await this.tagsController.updateTagUiBasedOnTagAvailability();
