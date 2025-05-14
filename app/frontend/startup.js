@@ -52,7 +52,7 @@ class Startup {
     window.reference_separator = ':';
 
     window.app_controller = null;
-    window.tags_controller = null;
+    window.tag_assignment_panel = null;
 
     if (window.sendCrashReports == null) {
       window.sendCrashReports = false;
@@ -184,12 +184,12 @@ class Startup {
 
   async initControllers() {
     const AppController = require('./controllers/app_controller.js');
-    const TagsController = require('./controllers/tags_controller.js');
+    const TagAssignmentPanel = require('./components/tool_panel/tag_assignment_panel/tag_assignment_panel.js');
 
     window.app_controller = new AppController();
     await app_controller.init();
 
-    window.tags_controller = new TagsController();
+    window.tag_assignment_panel = new TagAssignmentPanel();
 
     const ThemeController = require('./controllers/theme_controller.js');
     window.theme_controller = new ThemeController();
@@ -198,7 +198,7 @@ class Startup {
   initUi() {
     this._platformHelper.addPlatformCssClass();
 
-    tags_controller.initTagsUI();
+    tag_assignment_panel.initTagsUI();
     uiHelper.configureButtonStyles();
     
     if (platformHelper.isElectron()) {

@@ -16,8 +16,8 @@ GNU General Public License for more details.
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { waitUntilIdle, showDialog } = require('../../helpers/ezra_helper.js');
-const eventController = require('../../controllers/event_controller.js');
+const { waitUntilIdle, showDialog } = require('../../../helpers/ezra_helper.js');
+const eventController = require('../../../controllers/event_controller.js');
 
 /**
  * The TagDialogManager handles all functionality related to tag dialogs.
@@ -96,7 +96,7 @@ class TagDialogManager {
       id: 'create-tag-button',
       text: i18n.t('tags.create-tag'),
       click: function() {
-        tags_controller.tag_dialog_manager.saveNewTag(this);
+        tag_assignment_panel.tag_dialog_manager.saveNewTag(this);
       }
     };
 
@@ -190,7 +190,7 @@ class TagDialogManager {
         $(this).dialog('close');
 
         const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
-        tags_controller.addTagsToGroup(tags_controller.currentTagGroupId, addTagsToGroupTagList.addList);
+        tag_assignment_panel.addTagsToGroup(tag_assignment_panel.currentTagGroupId, addTagsToGroupTagList.addList);
       }
     };
 

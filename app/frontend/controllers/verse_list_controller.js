@@ -40,7 +40,7 @@ module.exports.init = function() {
   eventController.subscribe('on-verse-list-init', async (tabIndex) => { this.updateVerseListClasses(tabIndex); });
 
   eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
-    this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
+    this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
     this.initScrollListener(tabIndex);
 
@@ -50,7 +50,7 @@ module.exports.init = function() {
   });
 
   eventController.subscribeMultiple(['on-tag-group-filter-enabled', 'on-tag-group-member-changed'], async () => {
-    this.applyTagGroupFilter(tags_controller.currentTagGroupId);
+    this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId);
   });
 
   eventController.subscribe('on-tag-group-filter-disabled', async () => {
@@ -578,7 +578,7 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
 
   } else {
     // Show tags filtered by current tag group
-    let tagGroupMemberIds = await tags_controller.tag_store.getTagGroupMemberIds(tagGroupId);
+    let tagGroupMemberIds = await tag_assignment_panel.tag_store.getTagGroupMemberIds(tagGroupId);
 
     allTagElements.forEach((tagElement) => {
       let currentTagId = parseInt(tagElement.getAttribute('tag-id'));

@@ -16,11 +16,11 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
-const VerseBox = require('../../ui_models/verse_box.js');
-const { waitUntilIdle, showDialog } = require('../../helpers/ezra_helper.js');
-const eventController = require('../../controllers/event_controller.js');
-const verseListController = require('../../controllers/verse_list_controller.js');
+const VerseBoxHelper = require('../../../helpers/verse_box_helper.js');
+const VerseBox = require('../../../ui_models/verse_box.js');
+const { waitUntilIdle, showDialog } = require('../../../helpers/ezra_helper.js');
+const eventController = require('../../../controllers/event_controller.js');
+const verseListController = require('../../../controllers/verse_list_controller.js');
 
 /**
  * The TagOperationsManager handles tag assignment, removal, selection state management,

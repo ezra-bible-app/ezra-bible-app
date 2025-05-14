@@ -237,7 +237,7 @@ class TagDistributionMatrix extends HTMLElement {
       let tagId = tagIdList[i];
 
       let currentTagRow = document.createElement('tr');
-      let currentTag = await tags_controller.tag_store.getTag(tagId);
+      let currentTag = await tag_assignment_panel.tag_store.getTag(tagId);
 
       if (currentTag == null) {
         continue;

@@ -50,7 +50,7 @@ class TagManager extends ItemListManager {
   }
 
   async getDbItems() {
-    let dbItems = await tags_controller.tag_store.getTagList();
+    let dbItems = await tag_assignment_panel.tag_store.getTagList();
     return dbItems;
   }
 }

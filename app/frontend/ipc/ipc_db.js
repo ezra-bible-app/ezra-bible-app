@@ -82,7 +82,7 @@ class IpcDb {
 
   async updateTagsOnVerses(tagId, verseBoxes, action) {
     var increment = (action == "add" ? true : false);
-    tags_controller.updateTagVerseCount(tagId, verseBoxes, increment);
+    tag_assignment_panel.updateTagVerseCount(tagId, verseBoxes, increment);
 
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var referenceSeparator = await i18nHelper.getReferenceSeparator(bibleTranslationId);

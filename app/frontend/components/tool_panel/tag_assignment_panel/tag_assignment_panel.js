@@ -9,35 +9,32 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-   See the GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const TagStore = require('../components/tags/tag_store.js');
-const TagListFilter = require('../components/tags/tag_list_filter.js');
-const TagListRenderer = require('../components/tags/tag_list_renderer.js');
-const TagDialogManager = require('../components/tags/tag_dialog_manager.js');
-const TagOperationsManager = require('../components/tags/tag_operations_manager.js');
-const VerseBoxHelper = require('../helpers/verse_box_helper.js');
-const VerseBox = require('../ui_models/verse_box.js');
-const { waitUntilIdle } = require('../helpers/ezra_helper.js');
-const eventController = require('./event_controller.js');
-const verseListController = require('../controllers/verse_list_controller.js');
-const { showDialog } = require('../helpers/ezra_helper.js');
-require('../components/emoji_button_trigger.js');
+const TagStore = require('../../tags/tag_store.js');
+const TagListFilter = require('./tag_list_filter.js');
+const TagListRenderer = require('./tag_list_renderer.js');
+const TagDialogManager = require('./tag_dialog_manager.js');
+const TagOperationsManager = require('./tag_operations_manager.js');
+const VerseBoxHelper = require('../../../helpers/verse_box_helper.js');
+const { waitUntilIdle } = require('../../../helpers/ezra_helper.js');
+const eventController = require('../../../controllers/event_controller.js');
+require('../../emoji_button_trigger.js');
 
 /**
- * The TagsController handles most functionality related to tagging of verses.
+ * The TagAssignmentPanel handles most functionality related to tagging of verses.
  * 
- * Like all other controllers it is only initialized once. It is accessible at the
- * global object `app_controller.tags_controller`.
+ * Like other components it is only initialized once. It is accessible at the
+ * global object `app_controller.tag_assignment_panel`.
  * 
- * @category Controller
+ * @category Component
  */
-class TagsController {
+class TagAssignmentPanel {
   constructor() {
     this.tag_store = new TagStore();
     this.tag_list_filter = new TagListFilter();
@@ -211,7 +208,7 @@ class TagsController {
   }
 
   /**
-   * Update button state (enabled / disabled) based on tag title validation
+   * Update button state based on tag title validation
    * 
    * @param {string} tagTitle - The tag title
    * @param {string} buttonId - The button ID
@@ -439,4 +436,4 @@ class TagsController {
   }
 }
 
-module.exports = TagsController;
+module.exports = TagAssignmentPanel;

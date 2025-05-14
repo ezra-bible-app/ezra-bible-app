@@ -16,8 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { waitUntilIdle, sleep } = require('../../helpers/ezra_helper.js');
-const eventController = require('../../controllers/event_controller.js');
+const { waitUntilIdle, sleep } = require('../../../helpers/ezra_helper.js');
+const eventController = require('../../../controllers/event_controller.js');
 
 /**
  * The TagListFilter component implements the filter functionality of the tag list.
@@ -74,7 +74,7 @@ class TagListFilter {
       }
     } else {
       // Make sure the loading indicator is hidden in any case
-      tags_controller.hideTagListLoadingIndicator();
+      tag_assignment_panel.hideTagListLoadingIndicator();
     }
   }
 
@@ -124,16 +124,16 @@ class TagListFilter {
 
   async handleTagFilterTypeClick(e) {
     await waitUntilIdle();
-    tags_controller.tag_list_filter.showTagSelectionFilterLoadingIndicator();
+    tag_assignment_panel.tag_list_filter.showTagSelectionFilterLoadingIndicator();
     await sleep(500);
 
     var selected_type = $(e.target)[0].value;
     var tags_content_global = $('#tags-content-global');
 
     if (selected_type != "all") {
-      tags_controller.tag_list_filter.hideAllCheckboxTags();
+      tag_assignment_panel.tag_list_filter.hideAllCheckboxTags();
     } else {
-      tags_controller.tag_list_filter.showAllCheckboxTags();
+      tag_assignment_panel.tag_list_filter.showAllCheckboxTags();
     }
 
     $('#tag-list-filter-button-active').hide();
@@ -143,7 +143,7 @@ class TagListFilter {
     switch (selected_type) {
       case "assigned":
         tags_content_global.find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').each((index, checkboxTag) => {
-          visibleCounter = tags_controller.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
+          visibleCounter = tag_assignment_panel.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
         });
 
         $('#tag-list-filter-button-active').show();
@@ -151,7 +151,7 @@ class TagListFilter {
 
       case "unassigned":
         tags_content_global.find('.checkbox-tag[book-assignment-count="' + 0 + '"]').each((index, checkboxTag) => {
-          visibleCounter = tags_controller.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
+          visibleCounter = tag_assignment_panel.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
         });
 
         $('#tag-list-filter-button-active').show();
@@ -159,9 +159,9 @@ class TagListFilter {
       
       case "recently-used":
         tags_content_global.find('.checkbox-tag').filter((index, element) => {
-          return !tags_controller.tag_store.filterRecentlyUsedTags(element);
+          return !tag_assignment_panel.tag_store.filterRecentlyUsedTags(element);
         }).each((index, checkboxTag) => {
-          visibleCounter = tags_controller.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
+          visibleCounter = tag_assignment_panel.tag_list_filter.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
         });
 
         $('#tag-list-filter-button-active').show();
@@ -172,16 +172,16 @@ class TagListFilter {
         break;
     }
 
-    tags_controller.tag_list_filter.hideTagSelectionFilterLoadingIndicator();
+    tag_assignment_panel.tag_list_filter.hideTagSelectionFilterLoadingIndicator();
     
     // Make sure the main loading indicator is hidden
-    tags_controller.hideTagListLoadingIndicator();
+    tag_assignment_panel.hideTagListLoadingIndicator();
     
     // Update the virtual height container to match visible tags
-    tags_controller.updateVirtualContainerSize();
+    tag_assignment_panel.updateVirtualContainerSize();
 
     setTimeout(() => {
-      tags_controller.tag_list_filter.hideTagFilterMenuIfInToolBar();
+      tag_assignment_panel.tag_list_filter.hideTagFilterMenuIfInToolBar();
     }, 500);
   }
 
@@ -269,15 +269,15 @@ class TagListFilter {
     }
     
     // Update the scrollbar after filtering
-    if (tags_controller && tags_controller.ps) {
-      tags_controller.ps.update();
+    if (tag_assignment_panel && tag_assignment_panel.ps) {
+      tag_assignment_panel.ps.update();
     }
     
     // Make sure the loading indicator is hidden
-    tags_controller.hideTagListLoadingIndicator();
+    tag_assignment_panel.hideTagListLoadingIndicator();
     
     // Update the virtual height container to match visible tags
-    tags_controller.updateVirtualContainerSize();
+    tag_assignment_panel.updateVirtualContainerSize();
   }
   
   performFullTagSearch(searchString) {
@@ -290,8 +290,8 @@ class TagListFilter {
     let matchedTags = [];
     
     // Search through the full tag list to find matches
-    if (tags_controller && tags_controller.tag_list_renderer.fullTagList) {
-      tags_controller.tag_list_renderer.fullTagList.forEach(tag => {
+    if (tag_assignment_panel && tag_assignment_panel.tag_list_renderer.fullTagList) {
+      tag_assignment_panel.tag_list_renderer.fullTagList.forEach(tag => {
         if (this.tagTitleMatchesFilter(tag.title, searchString)) {
           matchedTags.push(tag.id);
         }
@@ -328,15 +328,15 @@ class TagListFilter {
     }
     
     // Update the scrollbar after filtering, with a small delay to allow DOM updates
-    if (tags_controller && tags_controller.ps) {
+    if (tag_assignment_panel && tag_assignment_panel.ps) {
       setTimeout(() => {
-        tags_controller.ps.update();
+        tag_assignment_panel.ps.update();
       }, 50);
     }
   }
   
   async loadMatchingTags(tagIds) {
-    if (!tags_controller || !tags_controller.tag_list_renderer.fullTagList) return;
+    if (!tag_assignment_panel || !tag_assignment_panel.tag_list_renderer.fullTagList) return;
     
     // First check which tags are already in the DOM to avoid duplicates
     const tagsPanel = document.getElementById('tags-content-global');
@@ -352,15 +352,15 @@ class TagListFilter {
     if (uniqueTagIds.length === 0) return;
     
     // Get tags that match the IDs and aren't already in the DOM
-    const tagsToLoad = tags_controller.tag_list_renderer.fullTagList.filter(tag => uniqueTagIds.includes(tag.id));
+    const tagsToLoad = tag_assignment_panel.tag_list_renderer.fullTagList.filter(tag => uniqueTagIds.includes(tag.id));
     
     if (tagsToLoad.length === 0) return;
     
     // Generate HTML for these tags
     // Use the full tag statistics from the renderer to ensure count information is included
-    const tagListHtml = tags_controller.generateTagListHtml(
+    const tagListHtml = tag_assignment_panel.generateTagListHtml(
       tagsToLoad, 
-      tags_controller.tag_list_renderer.fullTagStatistics
+      tag_assignment_panel.tag_list_renderer.fullTagStatistics
     );
     
     // Add these tags to the container

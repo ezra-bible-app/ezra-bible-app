@@ -147,7 +147,7 @@ After("@cleanup-after-scenario", async function() {
   await spectronHelper.sleep(500);
 
   await spectronHelper.getWebClient().execute(async () => {
-    await tags_controller.updateTagsView(true);
+    await tag_assignment_panel.updateTagsView(true);
     
     const eventController = require('./app/frontend/controllers/event_controller.js');
     await eventController.publishAsync('on-tag-group-renamed');

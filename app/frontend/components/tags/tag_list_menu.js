@@ -268,7 +268,7 @@ class TagListMenu extends HTMLElement {
     this.localize();
 
     this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', async function(event) {
-      setTimeout(() => { tags_controller.handleNewTagButtonClick(event); }, 100);
+      setTimeout(() => { tag_assignment_panel.handleNewTagButtonClick(event); }, 100);
     });
 
     this.shadowRoot.getElementById('all-tags-link').querySelector('a').addEventListener('click', async (event) => {

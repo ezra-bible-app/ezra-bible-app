@@ -237,8 +237,8 @@ class TagGroupList extends HTMLElement {
         if (currentBook != null) {
           let tagGroupUsedInBook = true;
 
-          if (tags_controller.tagGroupUsed()) {
-            const currentTagGroupId = tags_controller.currentTagGroupId;
+          if (tag_assignment_panel.tagGroupUsed()) {
+            const currentTagGroupId = tag_assignment_panel.currentTagGroupId;
 
             const dbBibleBook = await ipcDb.getBibleBook(currentBook);
             const bibleBookId = dbBibleBook.id;

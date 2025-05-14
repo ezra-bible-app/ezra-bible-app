@@ -208,7 +208,7 @@ class AppController {
   async loadSettings() {
     try {
       if (this.tab_controller.getTab().isValid() && await ipcDb.getTagCount() > 0) {
-        tags_controller.showTagListLoadingIndicator();
+        tag_assignment_panel.showTagListLoadingIndicator();
       }
 
       typeFaceSettings.init();
@@ -216,9 +216,9 @@ class AppController {
       await this.tab_controller.loadTabConfiguration();
 
       if (await ipcSettings.has('lastUsedTagGroupId')) {
-        tags_controller.currentTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
+        tag_assignment_panel.currentTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
         const tagGroupList = document.getElementById('tag-panel-tag-group-list');
-        const tagGroup = await tagGroupList._tagGroupManager.getItemById(tags_controller.currentTagGroupId);
+        const tagGroup = await tagGroupList._tagGroupManager.getItemById(tag_assignment_panel.currentTagGroupId);
         await eventController.publishAsync('on-tag-group-selected', tagGroup);
       }
 
@@ -490,7 +490,7 @@ class AppController {
       );
 
       await waitUntilIdle();
-      tags_controller.updateTagList(null, tags_controller.currentTagGroupId, currentTab.getContentId());
+      tag_assignment_panel.updateTagList(null, tag_assignment_panel.currentTagGroupId, currentTab.getContentId());
     }
   }
 
