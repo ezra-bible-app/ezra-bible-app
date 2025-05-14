@@ -265,13 +265,7 @@ class TagListFilter {
       // No filter - show all tags
       this.showAllCheckboxTags();
     } else {
-      // If the tag controller has full tag list, perform search against all tags
-      if (tags_controller && tags_controller.fullTagList && tags_controller.fullTagList.length > 0) {
-        this.performFullTagSearch(currentFilterString);
-      } else {
-        // Fall back to filtering only visible tags
-        this.performVisibleTagsSearch(currentFilterString);
-      }
+      this.performFullTagSearch(currentFilterString);
     }
     
     // Update the scrollbar after filtering
@@ -386,26 +380,6 @@ class TagListFilter {
     
     // Configure the new tag elements
     uiHelper.configureButtonStyles('#tags-content-global');
-  }
-  
-  performVisibleTagsSearch(searchString) {
-    // This is the original method for filtering only visible tags
-    this.hideAllCheckboxTags();
-    
-    const tagLabels = document.querySelectorAll('#tags-content-global .cb-label');
-    let visibleCounter = 1;
-    
-    for (let i = 0; i < tagLabels.length; i++) {
-      const currentLabel = $(tagLabels[i]);
-      
-      if (this.tagTitleMatchesFilter(currentLabel.text(), searchString)) {
-        const checkboxTag = $(currentLabel.closest('.checkbox-tag'));
-        checkboxTag.removeClass('hidden');
-        
-        this.addAlternatingClass(checkboxTag[0], visibleCounter);
-        visibleCounter += 1;
-      }
-    }
   }
 }
 
