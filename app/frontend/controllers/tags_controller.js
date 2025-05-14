@@ -42,10 +42,8 @@ class TagsController {
     this.tag_list_filter = new TagListFilter();
     this.tag_list_renderer = new TagListRenderer(this);
     this.tag_dialog_manager = new TagDialogManager(this);
-
     this.verse_box_helper = new VerseBoxHelper();
 
-    this.new_standard_tag_button = document.getElementById('new-standard-tag-button');
     this.verse_selection_blocked = false;
     this.verses_were_selected_before = false;
 
@@ -53,29 +51,13 @@ class TagsController {
     this.unassign_tag_label = i18n.t('tags.remove-tag-assignment');
     this.assign_tag_hint = i18n.t('tags.assign-tag-hint');
 
-    this.tag_to_be_deleted = null;
-    this.tag_to_be_deleted_title = null;
-    this.tag_to_be_deleted_is_global = false;
-    this.permanently_delete_tag = true;
-
-    this.remove_tag_assignment_job = null;
     this.new_tag_created = false;
     this.last_created_tag = '';
-
-    this.edit_tag_id = null;
 
     this.loading_indicator = '<img class="loading-indicator" style="float: left; margin-left: 0.5em;" ' +
                              'width="16" height="16" src="images/loading_animation.gif" />';
 
-    this.selected_verse_references = [];
-    this.selected_verse_boxes = [];
-
     this.initialRenderingDone = false;
-    this.newTagDialogInitDone = false;
-    this.addTagsToGroupDialogInitDone = false;
-    this.deleteTagConfirmationDialogInitDone = false;
-    this.removeTagAssignmentConfirmationDialogInitDone = false;
-    this.editTagDialogInitDone = false;
     this.lastContentId = null;
     this.currentTagGroupId = null;
     this.currentTagGroupTitle = null;
