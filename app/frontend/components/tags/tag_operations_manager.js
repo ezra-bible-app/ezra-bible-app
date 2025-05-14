@@ -662,27 +662,6 @@ class TagOperationsManager {
       await this.tagsController.updateTagsView(currentTabIndex, true);
     }
   }
-
-  /**
-   * Update button state based on tag title validation
-   * 
-   * @param {string} tagTitle - The tag title
-   * @param {string} buttonId - The button ID
-   * @returns {boolean} Whether the tag exists
-   */
-  async updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId) {
-    tagTitle = tagTitle.trim();
-    const tagExisting = await this.tagsController.tag_store.tagExists(tagTitle);
-    const tagButton = document.getElementById(buttonId);
-
-    if (tagExisting || tagTitle == '') {
-      uiHelper.disableButton(tagButton);
-    } else {
-      uiHelper.enableButton(tagButton);
-    }
-
-    return tagExisting;
-  }
 }
 
 module.exports = TagOperationsManager;

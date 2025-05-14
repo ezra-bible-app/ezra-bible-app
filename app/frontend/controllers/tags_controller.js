@@ -210,8 +210,25 @@ class TagsController {
     await this.tag_operations_manager.addTagsToGroup(tagGroupId, tagList);
   }
 
+  /**
+   * Update button state (enabled / disabled) based on tag title validation
+   * 
+   * @param {string} tagTitle - The tag title
+   * @param {string} buttonId - The button ID
+   * @returns {boolean} Whether the tag exists
+   */
   async updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId) {
-    return this.tag_operations_manager.updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId);
+    tagTitle = tagTitle.trim();
+    const tagExisting = await this.tag_store.tagExists(tagTitle);
+    const tagButton = document.getElementById(buttonId);
+
+    if (tagExisting || tagTitle == '') {
+      uiHelper.disableButton(tagButton);
+    } else {
+      uiHelper.enableButton(tagButton);
+    }
+
+    return tagExisting;
   }
 
   async assignLastTag() {
