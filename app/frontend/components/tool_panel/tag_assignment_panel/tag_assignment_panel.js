@@ -9,7 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
@@ -409,6 +409,10 @@ class TagAssignmentPanel {
 
   updateVirtualContainerSize() {
     this.tag_list_renderer.updateVirtualContainerSize();
+  }
+
+  updateTagCountAfterRendering(isBook=false) {
+    this.tag_list_renderer.updateTagCountAfterRendering(isBook);
   }
 
   bindTagEvents() {
