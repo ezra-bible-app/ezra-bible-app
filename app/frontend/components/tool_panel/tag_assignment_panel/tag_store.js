@@ -16,8 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const eventController = require('../../controllers/event_controller.js');
-const ezraHelper = require('../../helpers/ezra_helper.js');
+const eventController = require('../../../controllers/event_controller.js');
+const ezraHelper = require('../../../helpers/ezra_helper.js');
 
 class TagStore {
   constructor() {
