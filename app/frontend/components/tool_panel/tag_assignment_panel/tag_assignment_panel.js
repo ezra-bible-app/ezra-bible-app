@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const TagStore = require('../../tags/tag_store.js');
+const TagStore = require('./tag_store.js');
 const TagListFilter = require('./tag_list_filter.js');
 const TagListRenderer = require('./tag_list_renderer.js');
 const TagDialogManager = require('./tag_dialog_manager.js');
