@@ -10,7 +10,7 @@
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -47,6 +47,9 @@ class TagDialogManager {
     this.tag_to_be_deleted_title = null;
     this.tag_to_be_deleted_is_global = false;
     this.permanently_delete_tag = true;
+    
+    this.remove_tag_assignment_job = null;
+    this.persistence_ongoing = false;
   }
   
   /**
@@ -312,25 +315,25 @@ class TagDialogManager {
     remove_tag_assignment_confirmation_dlg_options.title = i18n.t('tags.remove-tag-assignment');
   
     remove_tag_assignment_confirmation_dlg_options.buttons = {};
-    remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t('general.cancel')] = function() {
-      tags_controller.remove_tag_assignment_job.tag_button.addClass('active');
-      tags_controller.remove_tag_assignment_job = null;
+    remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t('general.cancel')] = () => {
+      this.remove_tag_assignment_job.tag_button.addClass('active');
+      this.remove_tag_assignment_job = null;
   
-      $(this).dialog('close');
+      $('#remove-tag-assignment-confirmation-dialog').dialog('close');
     };
 
-    remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t('tags.remove-tag-assignment')] = function() {
-      tags_controller.removeTagAssignmentAfterConfirmation();
+    remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t('tags.remove-tag-assignment')] = () => {
+      this.removeTagAssignmentAfterConfirmation();
     };
 
     $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
     uiHelper.fixDialogCloseIconOnAndroid('remove-tag-assignment-confirmation-dialog');
 
     // eslint-disable-next-line no-unused-vars
-    $('#remove-tag-assignment-confirmation-dialog').bind('dialogbeforeclose', function(event) {
-      if (!tags_controller.persistence_ongoing && tags_controller.remove_tag_assignment_job != null) {
-        tags_controller.remove_tag_assignment_job.tag_button.addClass('active');
-        tags_controller.remove_tag_assignment_job = null;
+    $('#remove-tag-assignment-confirmation-dialog').bind('dialogbeforeclose', (event) => {
+      if (!this.persistence_ongoing && this.remove_tag_assignment_job != null) {
+        this.remove_tag_assignment_job.tag_button.addClass('active');
+        this.remove_tag_assignment_job = null;
       }
     });
   }
@@ -699,6 +702,56 @@ class TagDialogManager {
 
     await eventController.publishAsync('on-tag-created', result.dbObject.id);
     uiHelper.hideTextLoadingIndicator();
+  }
+
+  /**
+   * Remove tag assignment after user confirmation
+   */
+  async removeTagAssignmentAfterConfirmation() {
+    this.persistence_ongoing = true;
+    $('#remove-tag-assignment-confirmation-dialog').dialog('close');
+
+    var job = this.remove_tag_assignment_job;
+    this.tagsController.changeVerseListTagInfo(job.id,
+                                          job.cb_label,
+                                          job.xml_verse_selection,
+                                          'remove');
+
+    job.tag_button.attr('title', i18n.t('tags.assign-tag'));
+    job.checkboxTag.append(this.tagsController.loading_indicator);
+
+    var verse_boxes = [];
+    var currentVerseList = verseListController.getCurrentVerseList();
+
+    for (let i = 0; i < job.verse_ids.length; i++) {
+      var currentVerseReferenceId = job.verse_ids[i];
+      var currentVerseBox = currentVerseList[0].querySelector('.verse-reference-id-' + currentVerseReferenceId);
+      verse_boxes.push(currentVerseBox);
+    }
+
+    var result = await ipcDb.removeTagFromVerses(job.id, verse_boxes);
+    if (result.success == false) {
+      var message = `The tag <i>${job.cb_label}</i> could not be removed from the selected verses.<br>
+                    An unexpected database error occurred:<br><br>
+                    ${result.exception}<br><br>
+                    Please restart the app.`;
+
+      await showDialog('Database Error', message);
+      uiHelper.hideTextLoadingIndicator();
+      return;
+    }
+
+    await eventController.publishAsync('on-latest-tag-changed', {
+      'tagId': job.id,
+      'added': false
+    });
+
+    var currentBook = app_controller.tab_controller.getTab().getBook();
+    this.tagsController.updateTagCountAfterRendering(currentBook != null);
+    await this.tagsController.updateTagUiBasedOnTagAvailability();
+
+    this.remove_tag_assignment_job = null;
+    this.persistence_ongoing = false;
   }
 }
 

@@ -449,7 +449,7 @@ class TagsController {
 
     } else {
 
-      tags_controller.remove_tag_assignment_job = {
+      tags_controller.setRemoveTagAssignmentJob({
         'id': id,
         'is_global': is_global,
         'cb_label': cb_label,
@@ -458,10 +458,10 @@ class TagsController {
         'verse_ids': current_verse_reference_ids,
         'xml_verse_selection': $.create_xml_doc(current_verse_selection),
         'tag_button': $(tag_button)
-      };
+      });
 
       if (current_verse_list.length > 1) {
-        tags_controller.initRemoveTagAssignmentConfirmationDialog();
+        tags_controller.tag_dialog_manager.initRemoveTagAssignmentConfirmationDialog();
 
         $('#remove-tag-assignment-name').html(cb_label);
         $('#remove-tag-assignment-confirmation-dialog').dialog('open');
@@ -541,51 +541,11 @@ class TagsController {
   }
 
   async removeTagAssignmentAfterConfirmation() {
-    tags_controller.persistence_ongoing = true;
-    $('#remove-tag-assignment-confirmation-dialog').dialog('close');
+    this.tag_dialog_manager.removeTagAssignmentAfterConfirmation();
+  }
 
-    var job = tags_controller.remove_tag_assignment_job;
-    tags_controller.changeVerseListTagInfo(job.id,
-                                           job.cb_label,
-                                           job.xml_verse_selection,
-                                           "remove");
-
-    job.tag_button.attr('title', i18n.t("tags.assign-tag"));
-    job.checkboxTag.append(tags_controller.loading_indicator);
-
-    var verse_boxes = [];
-
-    var currentVerseList = verseListController.getCurrentVerseList();
-
-    for (let i = 0; i < job.verse_ids.length; i++) {
-      var currentVerseReferenceId = job.verse_ids[i];
-      var currentVerseBox = currentVerseList[0].querySelector('.verse-reference-id-' + currentVerseReferenceId);
-      verse_boxes.push(currentVerseBox);
-    }
-
-    var result = await ipcDb.removeTagFromVerses(job.id, verse_boxes);
-    if (result.success == false) {
-      var message = `The tag <i>${job.cb_label}</i> could not be removed from the selected verses.<br>
-                    An unexpected database error occurred:<br><br>
-                    ${result.exception}<br><br>
-                    Please restart the app.`;
-
-      await showDialog('Database Error', message);
-      uiHelper.hideTextLoadingIndicator();
-      return;
-    }
-
-    await eventController.publishAsync('on-latest-tag-changed', {
-      'tagId': job.id,
-      'added': false
-    });
-
-    var currentBook = app_controller.tab_controller.getTab().getBook();
-    tags_controller.updateTagCountAfterRendering(currentBook != null);
-    tags_controller.updateTagUiBasedOnTagAvailability();
-
-    tags_controller.remove_tag_assignment_job = null;
-    tags_controller.persistence_ongoing = false;
+  setRemoveTagAssignmentJob(job) {
+    this.tag_dialog_manager.remove_tag_assignment_job = job;
   }
 
   /**
