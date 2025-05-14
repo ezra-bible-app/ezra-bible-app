@@ -10,7 +10,7 @@
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -176,6 +176,9 @@ class TagListFilter {
     
     // Make sure the main loading indicator is hidden
     tags_controller.hideTagListLoadingIndicator();
+    
+    // Update the virtual height container to match visible tags
+    tags_controller.updateVirtualContainerSize();
 
     setTimeout(() => {
       tags_controller.tag_list_filter.hideTagFilterMenuIfInToolBar();
@@ -278,6 +281,9 @@ class TagListFilter {
     
     // Make sure the loading indicator is hidden
     tags_controller.hideTagListLoadingIndicator();
+    
+    // Update the virtual height container to match visible tags
+    tags_controller.updateVirtualContainerSize();
   }
   
   performFullTagSearch(searchString) {

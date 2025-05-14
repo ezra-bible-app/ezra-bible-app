@@ -1827,6 +1827,41 @@ class TagsController {
     
     this.isLoadingTags = false;
   }
+
+  /**
+   * Updates the virtual height container size based on the number of visible tags
+   * This ensures that the scrollbar accurately reflects the actual visible content
+   */
+  updateVirtualContainerSize() {
+    // Only proceed if virtualHeightContainer exists
+    if (!this.virtualHeightContainer) return;
+    
+    // Count visible tags
+    const tagsPanel = document.getElementById('tags-content-global');
+    const visibleTags = tagsPanel.querySelectorAll('.checkbox-tag:not(.hidden)').length;
+    
+    // Get total tags for comparison
+    const totalTags = this.fullTagList ? this.fullTagList.length : 0;
+    
+    if (visibleTags === 0 || totalTags === 0) return;
+    
+    // Calculate new height as a proportion of the original height
+    const ratio = visibleTags / totalTags;
+    const newHeight = Math.max(
+      this.averageTagHeight * visibleTags, 
+      ratio * (this.fullTagList.length * this.averageTagHeight)
+    );
+    
+    // Apply the new height to the virtual container
+    this.virtualHeightContainer.style.height = newHeight + 'em';
+    
+    // Update scrollbar
+    if (this.ps) {
+      setTimeout(() => {
+        this.ps.update();
+      }, 50);
+    }
+  }
 }
 
 module.exports = TagsController;
