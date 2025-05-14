@@ -77,15 +77,6 @@ class TagsController {
     this.lastContentId = null;
     this.currentTagGroupId = null;
     this.currentTagGroupTitle = null;
-
-    // Lazy loading properties
-    this.tagBatchSize = 50; // Number of tags to load at once
-    this.currentTagIndex = 0; // Current position in the tag list
-    this.fullTagList = []; // Complete list of tags
-    this.fullTagStatistics = {}; // Complete tag statistics
-    this.isLoadingTags = false; // Flag to prevent multiple load operations
-    this.scrollListenerAdded = false; // Flag to track if scroll listener is added
-    this.isBookView = false; // Flag to track if we're in book view
     
     // Flag to prevent double filter application
     this.skipFilterDuringUpdate = false;
@@ -1570,116 +1561,6 @@ class TagsController {
     return this.tag_list_renderer.generateTagListHtml(tagList, tagStatistics);
   }
 
-  initLazyLoading() {
-    const tagsPanel = document.getElementById('tags-content-global');
-    
-    // Set up a fixed estimated height for the entire tag list before any tags are loaded
-    this.averageTagHeight = platformHelper.isMobile() ? 2.5 : 2; // Fixed estimate for tag height
-    const estimatedTotalHeight = this.fullTagList.length * this.averageTagHeight;
-    
-    // Create a fixed-size virtual height container
-    this.virtualHeightContainer = document.createElement('div');
-    this.virtualHeightContainer.className = 'virtual-height-container';
-    this.virtualHeightContainer.style.height = estimatedTotalHeight + 'em';
-    this.virtualHeightContainer.style.position = 'absolute';
-    this.virtualHeightContainer.style.visibility = 'hidden';
-    this.virtualHeightContainer.style.top = '0';
-    this.virtualHeightContainer.style.left = '0';
-    this.virtualHeightContainer.style.width = '1px';
-    this.virtualHeightContainer.style.pointerEvents = 'none';
-    tagsPanel.appendChild(this.virtualHeightContainer);
-    
-    // Calculate and store the ratio between real content and virtual height
-    this.realToVirtualRatio = 0;
-    
-    // Add scroll event listener to the tags panel with throttling
-    let lastScrollTime = 0;
-    const scrollThrottle = 50; // ms
-    
-    tagsPanel.addEventListener('scroll', () => {
-      const now = Date.now();
-      if (now - lastScrollTime < scrollThrottle || this.isLoadingTags) return;
-      lastScrollTime = now;
-      
-      const scrollPosition = tagsPanel.scrollTop;
-      const scrollHeight = tagsPanel.scrollHeight;
-      
-      // Calculate virtual position based on total tags and currently loaded tags
-      const virtualScrollPosition = (scrollPosition / scrollHeight) * estimatedTotalHeight;
-      const virtualScrollRatio = virtualScrollPosition / estimatedTotalHeight;
-      
-      // Determine which chunk of tags should be loaded based on virtual scroll position
-      const targetTagIndex = Math.floor(virtualScrollRatio * this.fullTagList.length);
-      
-      // Load more tags if needed and we're approaching the end of loaded tags
-      if (targetTagIndex + this.tagBatchSize > this.currentTagIndex && 
-          this.currentTagIndex < this.fullTagList.length) {
-
-        this.loadMoreTags(scrollPosition, virtualScrollRatio);
-      }
-    });
-  }
-
-  async loadMoreTags(savedScrollPosition = null, virtualScrollRatio = null) {
-    // Don't load if we're already loading or if we've loaded all tags
-    if (this.isLoadingTags || this.currentTagIndex >= this.fullTagList.length) {
-      return;
-    }
-    
-    this.isLoadingTags = true;
-    
-    // Get the tags panel and scrollbar elements
-    const tagsPanel = document.getElementById('tags-content-global');
-    
-    // Save current scroll metrics
-    const viewportHeight = tagsPanel.clientHeight;
-    const originalScrollTop = savedScrollPosition !== null ? savedScrollPosition : tagsPanel.scrollTop;
-    
-    // Calculate the batch of tags to load
-    const endIndex = Math.min(this.currentTagIndex + this.tagBatchSize, this.fullTagList.length);
-    const tagsToLoad = this.fullTagList.slice(this.currentTagIndex, endIndex);
-    
-    // Generate HTML for this batch
-    const tagListHtml = this.generateTagListHtml(tagsToLoad, this.fullTagStatistics);
-    
-    // Append the new tags to the container without affecting scroll position
-    const tempContainer = document.createElement('div');
-    tempContainer.innerHTML = tagListHtml;
-    
-    // Append each tag individually to maintain event binding
-    while (tempContainer.firstChild) {
-      tagsPanel.appendChild(tempContainer.firstChild);
-    }
-    
-    // Update the current index
-    this.currentTagIndex = endIndex;
-    
-    // Configure the new tag elements
-    uiHelper.configureButtonStyles('#tags-content-global');
-  
-    // Preserve the scroll position based on the virtual scroll ratio
-    if (virtualScrollRatio !== null) {
-      // Calculate where the scroll position should be based on the virtual ratio
-      const afterHeight = tagsPanel.scrollHeight;
-      const scrollableHeight = afterHeight - viewportHeight;
-      const targetScrollTop = Math.round(virtualScrollRatio * scrollableHeight);
-      
-      // Set the new scroll position
-      tagsPanel.scrollTop = targetScrollTop;
-    } else {
-      // No virtual ratio provided, maintain absolute position
-      tagsPanel.scrollTop = originalScrollTop;
-    }
-
-    this.tag_list_filter.reapplyCurrentFilter();
-    
-    this.isLoadingTags = false;
-  }
-
-  /**
-   * Updates the virtual height container size based on the number of visible tags
-   * This ensures that the scrollbar accurately reflects the actual visible content
-   */
   updateVirtualContainerSize() {
     this.tag_list_renderer.updateVirtualContainerSize();
   }
