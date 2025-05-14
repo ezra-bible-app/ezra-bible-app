@@ -228,42 +228,6 @@ class TagsController {
     this.tag_dialog_manager.handleEditTagClick(event);
   }
 
-  deleteTagAfterConfirmation() {
-    this.tag_dialog_manager.deleteTagAfterConfirmation();
-  }
-
-  closeDialogAndUpdateTag() {
-    this.tag_dialog_manager.closeDialogAndUpdateTag();
-  }
-
-  handleEditTagChange() {
-    this.tag_dialog_manager.handleEditTagChange();
-  }
-
-  initNewTagDialog(force=false) {
-    this.tag_dialog_manager.initNewTagDialog(force);
-  }
-
-  initAddTagsToGroupDialog(force=false) {
-    this.tag_dialog_manager.initAddTagsToGroupDialog(force);
-  }
-
-  initEditTagDialog(force=false) {
-    this.tag_dialog_manager.initEditTagDialog(force);
-  }
-
-  initDeleteTagConfirmationDialog(force=false) {
-    this.tag_dialog_manager.initDeleteTagConfirmationDialog(force);
-  }
-
-  initRemoveTagAssignmentConfirmationDialog(force=false) {
-    this.tag_dialog_manager.initRemoveTagAssignmentConfirmationDialog(force);
-  }
-
-  saveNewTag(e) {
-    this.tag_dialog_manager.saveNewTag(e);
-  }
-
   async updateAddTagToGroupTagList() {
     const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
     addTagsToGroupTagList.tagManager.reset();
