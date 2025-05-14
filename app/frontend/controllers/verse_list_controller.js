@@ -43,7 +43,11 @@ module.exports.init = function() {
     this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
     this.initScrollListener(tabIndex);
+  });
 
+  // Subscribe to tab selection events to initialize swipe events for the active tab
+  eventController.subscribe('on-tab-selected', async (tabIndex) => {
+    // Only initialize swipe events if we're on a mobile device
     if (this.platformHelper.isCordova()) {
       this.initSwipeEvents(tabIndex);
     }
