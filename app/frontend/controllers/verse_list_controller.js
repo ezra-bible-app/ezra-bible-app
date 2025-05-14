@@ -633,3 +633,39 @@ module.exports.handleScrollEvent = function(tabIndex=undefined) {
     });
   }
 };
+
+/**
+ * Update the tag list in the existing verse lists when tags have been assigned/removed
+ * 
+ * @param {number} tag_id - The tag ID
+ * @param {string} tag_title - The tag title
+ * @param {XMLDocument} verse_selection - The verse selection as an XML document
+ * @param {string} action - The action ('assign' or 'remove')
+ */
+module.exports.changeVerseListTagInfo = async function(tag_id, tag_title, verse_selection, action) {
+  verse_selection = $(verse_selection);
+  const selected_verses = verse_selection.find('verse');
+  const current_verse_list_frame = this.getCurrentVerseListFrame();
+
+  for (let i = 0; i < selected_verses.length; i++) {
+    const current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
+    const current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
+
+    const verseBoxObj = new VerseBox(current_verse_box);
+    const highlight = (action == 'assign');
+
+    verseBoxObj.changeVerseListTagInfo(tag_id, tag_title, action, highlight);
+  }
+
+  for (let i = 0; i < selected_verses.length; i++) {
+    const current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
+    const current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
+
+    await app_controller.verse_box_helper.iterateAndChangeAllDuplicateVerseBoxes(current_verse_box, 
+      { tag_id: tag_id, tag_title: tag_title, action: action }, 
+      (changedValue, targetVerseBox) => {
+        const verseBoxObj = new VerseBox(targetVerseBox);
+        verseBoxObj.changeVerseListTagInfo(changedValue.tag_id, changedValue.tag_title, changedValue.action);
+      });
+  }
+};

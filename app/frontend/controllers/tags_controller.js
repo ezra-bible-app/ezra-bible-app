@@ -20,6 +20,7 @@ const TagStore = require('../components/tags/tag_store.js');
 const TagListFilter = require('../components/tags/tag_list_filter.js');
 const TagListRenderer = require('../components/tags/tag_list_renderer.js');
 const TagDialogManager = require('../components/tags/tag_dialog_manager.js');
+const TagOperationsManager = require('../components/tags/tag_operations_manager.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
@@ -42,20 +43,11 @@ class TagsController {
     this.tag_list_filter = new TagListFilter();
     this.tag_list_renderer = new TagListRenderer(this);
     this.tag_dialog_manager = new TagDialogManager(this);
+    this.tag_operations_manager = new TagOperationsManager(this);
     this.verse_box_helper = new VerseBoxHelper();
-
-    this.verse_selection_blocked = false;
-    this.verses_were_selected_before = false;
-
-    this.assign_tag_label = i18n.t('tags.assign-tag');
-    this.unassign_tag_label = i18n.t('tags.remove-tag-assignment');
-    this.assign_tag_hint = i18n.t('tags.assign-tag-hint');
 
     this.new_tag_created = false;
     this.last_created_tag = '';
-
-    this.loading_indicator = '<img class="loading-indicator" style="float: left; margin-left: 0.5em;" ' +
-                             'width="16" height="16" src="images/loading_animation.gif" />';
 
     this.initialRenderingDone = false;
     this.lastContentId = null;
@@ -211,566 +203,91 @@ class TagsController {
   }
 
   async updateAddTagToGroupTagList() {
-    const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
-    addTagsToGroupTagList.tagManager.reset();
-    addTagsToGroupTagList.tagManager.setFilter('');
-    await addTagsToGroupTagList.tagManager.refreshItemList();
-    let tagList = await this.tag_store.getTagList();
-    let tagIdList = await this.tag_store.getTagGroupMemberIds(this.currentTagGroupId, tagList);
-    addTagsToGroupTagList.tagManager.setExcludeItems(tagIdList);
-    addTagsToGroupTagList.tagManager.excludeItems();
-
-    let tagCount = addTagsToGroupTagList.tagManager.getAllItemElements().length;
-    return tagCount;
+    return this.tag_operations_manager.updateAddTagToGroupTagList();
   }
 
   async addTagsToGroup(tagGroupId, tagList) {
-    let successCount = 0;
-
-    for (let i = 0; i < tagList.length; i++) {
-      let tagId = tagList[i];
-      let tag = await this.tag_store.getTag(tagId);
-
-      let result = await ipcDb.updateTag(tagId, tag.title, [ tagGroupId ], []);
-
-      if (result.success == false) {
-        var message = `The tag <i>${tag.title}</i> could not be updated.<br>
-                      An unexpected database error occurred:<br><br>
-                      ${result.exception}<br><br>
-                      Please restart the app.`;
-
-        await showDialog('Database Error', message);
-        uiHelper.hideTextLoadingIndicator();
-        return;
-      } else {
-        successCount += 1;
-
-        await eventController.publishAsync('on-tag-group-member-changed', {
-          tagId: tagId,
-          addTagGroups: [ tagGroupId ],
-          removeTagGroups: []
-        });
-      }
-    }
-
-    if (successCount >= 1) {
-      await eventController.publishAsync('on-tag-group-multiple-members-changed');
-    }
-
-    if (this.tagGroupUsed()) {
-      const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
-      await this.updateTagsView(currentTabIndex, true);
-    }
-  }
-
-  tagGroupUsed() {
-    return this.currentTagGroupId != null && this.currentTagGroupId > 0;
+    await this.tag_operations_manager.addTagsToGroup(tagGroupId, tagList);
   }
 
   async updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId) {
-    tagTitle = tagTitle.trim();
-    const tagExisting = await this.tag_store.tagExists(tagTitle);
-    let tagButton = document.getElementById(buttonId);
-
-    if (tagExisting || tagTitle == "") {
-      uiHelper.disableButton(tagButton);
-    } else {
-      uiHelper.enableButton(tagButton);
-    }
-
-    return tagExisting;
+    return this.tag_operations_manager.updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId);
   }
 
   async assignLastTag() {
-    app_controller.hideAllMenus();
-    uiHelper.showTextLoadingIndicator();
-    await waitUntilIdle();
-
-    if (this.tag_store.latest_tag_id != null) {
-      var checkboxTag = this.getCheckboxTag(this.tag_store.latest_tag_id);
-      await this.clickCheckBoxTag(checkboxTag);
-    }
-
-    uiHelper.hideTextLoadingIndicator();
+    await this.tag_operations_manager.assignLastTag();
   }
 
   async handleTagLabelClick(event) {
-    var checkboxTag = $(event.target).closest('.checkbox-tag');
-    await this.clickCheckBoxTag(checkboxTag);
+    await this.tag_operations_manager.handleTagLabelClick(event);
   }
 
   async clickCheckBoxTag(checkboxTag) {
-    var current_verse_list = app_controller.verse_selection.selectedVerseReferences;
-
-    if (!tags_controller.is_blocked && current_verse_list.length > 0) {
-      this.toggleTagButton(checkboxTag);
-      await tags_controller.handleCheckboxTagStateChange(checkboxTag);
-    }
+    await this.tag_operations_manager.clickCheckBoxTag(checkboxTag);
   }
 
   toggleTagButton(checkboxTag) {
-    var tag_button = checkboxTag[0].querySelector('.tag-button');
-    var isActive = tag_button.classList.contains('active');
-
-    if (isActive) {
-      tag_button.classList.remove('active');
-      tag_button.classList.add('no-hl');
-
-      if (platformHelper.isElectron()) {
-        tag_button.addEventListener('mouseleave', tags_controller.removeTagButtonNoHl);
-      }
-    } else {
-      tag_button.classList.add('active');
-    }
+    this.tag_operations_manager.toggleTagButton(checkboxTag);
   }
 
   removeTagButtonNoHl(event) {
-    event.target.classList.remove('no-hl');
-    event.target.removeEventListener('mouseleave', tags_controller.removeTagButtonNoHl);
+    this.tag_operations_manager.removeTagButtonNoHl(event);
   }
 
   async handleTagCbClick(event) {
-    await waitUntilIdle();
-
-    var checkboxTag = $(event.target).closest('.checkbox-tag');
-    this.toggleTagButton(checkboxTag);
-    await tags_controller.handleCheckboxTagStateChange(checkboxTag);
+    await this.tag_operations_manager.handleTagCbClick(event);
   }
 
   async handleCheckboxTagStateChange(checkboxTag) {
-    var current_verse_list = app_controller.verse_selection.selectedVerseReferences;
-
-    if (tags_controller.is_blocked || current_verse_list.length == 0) {
-      return;
-    }
-
-    tags_controller.is_blocked = true;
-    setTimeout(function() {
-      tags_controller.is_blocked = false;
-    }, 300);
-
-    var id = parseInt(checkboxTag.attr('tag-id'));
-    var tag_button = checkboxTag[0].querySelector('.tag-button');
-    var cb_label = checkboxTag.find('.cb-label').html();
-    var tag_button_is_active = tag_button.classList.contains('active');
-
-    var current_verse_selection = app_controller.verse_selection.getSelectionAsXml(); 
-    var current_verse_reference_ids = app_controller.verse_selection.getSelectionAsVerseReferenceIds();
-
-    checkboxTag.find('.cb-label').removeClass('underline');
-    checkboxTag.find('.cb-label-postfix').html('');
-
-    var is_global = false;
-    if (checkboxTag.find('.is-global').html() == 'true') {
-      is_global = true;
-    }
-
-    if (tag_button_is_active) {
-      // Update last used timestamp
-      var current_timestamp = new Date(Date.now()).getTime();
-      checkboxTag.attr('last-used-timestamp', current_timestamp);
-
-      this.tag_store.updateTagTimestamp(id, current_timestamp);
-      await this.tag_store.updateLatestAndOldestTagData();
-
-      app_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
-      app_controller.tag_selection_menu.applyCurrentFilters();
-
-      $(tag_button).attr('title', i18n.t("tags.remove-tag-assignment"));
-
-      var filteredVerseBoxes = [];
-      var currentVerseList = verseListController.getCurrentVerseList();
-
-      // Create a list of filtered ids, that only contains the verses that do not have the selected tag yet
-      for (let i = 0; i < current_verse_reference_ids.length; i++) {
-        var currentVerseReferenceId = current_verse_reference_ids[i];
-        var currentVerseBox = currentVerseList[0].querySelector('.verse-reference-id-' + currentVerseReferenceId);
-
-        if (currentVerseBox != null) {
-          var existingTagIdElements = currentVerseBox.querySelectorAll('.tag-id');
-          var existingTagIds = [];
-          
-          for (let j = 0; j < existingTagIdElements.length; j++) {
-            var currentTagId = parseInt(existingTagIdElements[j].innerText);
-            existingTagIds.push(currentTagId);
-          }
-
-          if (!existingTagIds.includes(id)) {
-            filteredVerseBoxes.push(currentVerseBox);
-          }
-        }
-      }
-
-      var result = await ipcDb.assignTagToVerses(id, filteredVerseBoxes);
-      if (result.success == false) {
-        var message = `The tag <i>${cb_label}</i> could not be assigned to the selected verses.<br>
-                      An unexpected database error occurred:<br><br>
-                      ${result.exception}<br><br>
-                      Please restart the app.`;
-
-        await showDialog('Database Error', message);
-        uiHelper.hideTextLoadingIndicator();
-        return;
-      }
-
-      tags_controller.changeVerseListTagInfo(id,
-                                             cb_label,
-                                             $.create_xml_doc(current_verse_selection),
-                                             "assign");
-
-      await eventController.publishAsync('on-latest-tag-changed', {
-        'tagId': id,
-        'added': true
-      });
-
-      var currentBook = app_controller.tab_controller.getTab().getBook();
-
-      tags_controller.updateTagCountAfterRendering(currentBook != null);
-      await tags_controller.updateTagsViewAfterVerseSelection(true);
-      await tags_controller.updateTagUiBasedOnTagAvailability();
-
-    } else {
-
-      tags_controller.setRemoveTagAssignmentJob({
-        'id': id,
-        'is_global': is_global,
-        'cb_label': cb_label,
-        'checkboxTag': checkboxTag,
-        'verse_list': current_verse_list,
-        'verse_ids': current_verse_reference_ids,
-        'xml_verse_selection': $.create_xml_doc(current_verse_selection),
-        'tag_button': $(tag_button)
-      });
-
-      if (current_verse_list.length > 1) {
-        tags_controller.tag_dialog_manager.initRemoveTagAssignmentConfirmationDialog();
-
-        $('#remove-tag-assignment-name').html(cb_label);
-        $('#remove-tag-assignment-confirmation-dialog').dialog('open');
-      } else {
-        await tags_controller.removeTagAssignmentAfterConfirmation();
-        await tags_controller.updateTagsViewAfterVerseSelection(true);
-      }
-    }
+    await this.tag_operations_manager.handleCheckboxTagStateChange(checkboxTag);
   }
   
   getCheckboxTag(id) {
-    const tagsContentGlobal = document.getElementById('tags-content-global');
-    if (!tagsContentGlobal) {
-      return $();
-    }
-
-    const checkboxTag = tagsContentGlobal.querySelector(`.checkbox-tag[tag-id="${id}"]`);
-    return checkboxTag ? $(checkboxTag) : $();
+    return this.tag_operations_manager.getCheckboxTag(id);
   }
 
   updateTagVerseCount(id, verseBoxes, to_increment) {
-    var count = verseBoxes.length;
-    var checkboxTag = tags_controller.getCheckboxTag(id);
-    var cb_label_element = checkboxTag.find('.cb-label');
-    var tag_title = cb_label_element.text();
-    var tag_assignment_count_element = checkboxTag.find('.cb-label-tag-assignment-count');
-    var tag_assignment_count_values = tag_assignment_count_element.text().substring(
-      1, tag_assignment_count_element.text().length - 1
-    );
-
-    var current_book_count = 0;
-    var current_global_count = 0;
-    var new_book_count = 0;
-    var new_global_count = 0;
-
-    var currentBook = app_controller.tab_controller.getTab().getBook();
-
-    if (currentBook == null) {
-      current_global_count = parseInt(tag_assignment_count_values);
-    } else {
-      current_book_count = parseInt(tag_assignment_count_values.split('|')[0]);
-      current_global_count = parseInt(tag_assignment_count_values.split('|')[1]);
-    }
-
-    if (to_increment) {
-      new_book_count = current_book_count + count;
-      new_global_count = current_global_count + count;
-    } else {
-      new_book_count = current_book_count - count;
-      new_global_count = current_global_count - count;
-    }
-
-    if (new_book_count > 0) {
-      cb_label_element.addClass('cb-label-assigned');
-    } else {
-      cb_label_element.removeClass('cb-label-assigned');
-    }
-
-    checkboxTag.attr('book-assignment-count', new_book_count);
-    checkboxTag.attr('global-assignment-count', new_global_count);
-
-    var new_label = "";
-    if (currentBook == null) {
-      new_label = "(" + new_global_count + ")";
-    } else {
-      new_label = "(" + new_book_count + " | " + new_global_count + ")";
-    }
-
-    tag_assignment_count_element.text(new_label);
-
-    // Update tag count in tag store statistics
-    var bookList = this.verse_box_helper.getBookListFromVerseBoxes(verseBoxes);
-    tags_controller.tag_store.updateTagCount(id, bookList, count, to_increment);
-
-    // Update tag count in tag selection menu as well
-    app_controller.tag_selection_menu.updateVerseCountInTagMenu(tag_title, new_global_count);
+    this.tag_operations_manager.updateTagVerseCount(id, verseBoxes, to_increment);
   }
 
-  async removeTagAssignmentAfterConfirmation() {
-    this.tag_dialog_manager.removeTagAssignmentAfterConfirmation();
+  async changeVerseListTagInfo(tag_id, tag_title, verse_selection, action) {
+    await this.tag_operations_manager.changeVerseListTagInfo(tag_id, tag_title, verse_selection, action);
   }
 
-  setRemoveTagAssignmentJob(job) {
-    this.tag_dialog_manager.remove_tag_assignment_job = job;
-  }
-
-  /**
-   * This function updates the tag info in existing verse lists after tags have been assigned/removed.
-   * It does this for the currently opened tab and also within all other tabs where the corresponding verse is loaded.
-   */
-  async changeVerseListTagInfo(tag_id,
-                               tag_title,
-                               verse_selection,
-                               action) {
-
-    verse_selection = $(verse_selection);
-    var selected_verses = verse_selection.find('verse');
-    var current_verse_list_frame = verseListController.getCurrentVerseListFrame();
-
-    for (let i = 0; i < selected_verses.length; i++) {
-      let current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
-      let current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
-
-      let verseBoxObj = new VerseBox(current_verse_box);
-      let highlight = (action == "assign");
-
-      verseBoxObj.changeVerseListTagInfo(tag_id, tag_title, action, highlight);
-    }
-
-    for (let i = 0; i < selected_verses.length; i++) {
-      let current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
-      let current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
-
-      await this.verse_box_helper.iterateAndChangeAllDuplicateVerseBoxes(current_verse_box, { tag_id: tag_id, tag_title: tag_title, action: action }, (changedValue, targetVerseBox) => {
-        let verseBoxObj = new VerseBox(targetVerseBox);
-        verseBoxObj.changeVerseListTagInfo(changedValue.tag_id, changedValue.tag_title, changedValue.action);
-      });
-    }
-  }
-
-  sortTagLists() {
-    const globalTagsBox = document.getElementById('tags-content-global');
-    const tags = Array.from(globalTagsBox.querySelectorAll('.checkbox-tag'));
-
-    tags.sort((a, b) => {
-      const textA = a.querySelector('.cb-label').textContent.toLowerCase();
-      const textB = b.querySelector('.cb-label').textContent.toLowerCase();
-      return textA > textB ? 1 : -1;
-    });
-
-    tags.forEach(tag => globalTagsBox.appendChild(tag));
+  sortTagList() {
+    this.tag_operations_manager.sortTagList();
   }
 
   async getTagList(forceRefresh=true) {
-    var tagList = await this.tag_store.getTagList(forceRefresh);
-    return tagList;
+    return this.tag_operations_manager.getTagList(forceRefresh);
   }
 
   async updateTagList(currentBook, tagGroupId=null, contentId=null, forceRefresh=false) {
-    if (tagGroupId == null) {
-      tagGroupId = this.currentTagGroupId;
-    }
-
-    if (forceRefresh) {
-      this.initialRenderingDone = false;
-    }
-
-    if (contentId == null) {
-      contentId = currentBook;
-    }
-
-    if (contentId != this.lastContentId || forceRefresh) {
-      var tagList = await this.tag_store.getTagList(forceRefresh);
-      if (tagGroupId != null && tagGroupId > 0) {
-        tagList = await this.tag_store.getTagGroupMembers(tagGroupId, tagList);
-      }
-
-      var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
-      await this.renderTags(tagList, tagStatistics, currentBook != null);
-      this.initialRenderingDone = true;
-      await waitUntilIdle();
-
-      this.lastContentId = contentId;
-    } else {
-      app_controller.tag_statistics.highlightFrequentlyUsedTags();
-    }
-  }
-
-  async renderTags(tag_list, tag_statistics, is_book=false) {
-    // Delegate rendering to the TagListRenderer component
-    await this.tag_list_renderer.renderTags(tag_list, tag_statistics, is_book);
-    
-    // Additional controller-specific logic after rendering
-    var old_tags_search_input_value = $('#tags-search-input')[0].value;    
-    if (this.new_tag_created && old_tags_search_input_value != '') {
-      // If the newly created tag doesn't match the current search input
-      // we remove the current search condition. Otherwise the new tag
-      // wouldn't show up in the list as expected.
-      if (!this.tag_list_filter.stringMatches(this.last_created_tag,
-                                              $('#tags-search-input')[0].value)) {
-        $('#tags-search-input')[0].value = '';
-      }
-    }    
-    this.new_tag_created = false;
-  }
-
-  updateTagCountAfterRendering(is_book = false) {
-    this.tag_list_renderer.updateTagCountAfterRendering(is_book);
-  }
-
-  removeEventListeners(element_list, type, listener) {
-    for (let i = 0; i < element_list.length; i++) {
-      element_list[i].removeEventListener(type, listener);
-    }
-  }
-
-  addEventListeners(element_list, type, listener) {
-    for (let i = 0; i < element_list.length; i++) {
-      element_list[i].addEventListener(type, listener);
-    }
-  }
-
-  bindTagEvents() {
-    const tagsBox = document.getElementById('tags-content-global');
-
-    tagsBox.addEventListener('click', async (event) => {
-      const CLICK_TIMEOUT = 100;
-
-      if (event.target.matches('.delete-icon') || event.target.matches('.delete-button')) {
-        setTimeout(() => { this.handleDeleteTagButtonClick(event); }, CLICK_TIMEOUT);
-      } else if (event.target.matches('.edit-icon') || event.target.matches('.edit-button')) {
-        setTimeout(() => { this.handleEditTagClick(event); }, CLICK_TIMEOUT);
-      } else if (event.target.matches('.tag-button')) {
-        await waitUntilIdle();
-        await this.handleTagCbClick(event);
-      } else if (event.target.matches('.cb-label')) {
-        await waitUntilIdle();
-        await this.handleTagLabelClick(event);
-      }
-    });
+    await this.tag_operations_manager.updateTagList(currentBook, tagGroupId, contentId, forceRefresh);
   }
 
   updateTagTitlesInVerseList(tag_id, is_global, title) {
-    const tagClass = is_global ? 'tag-global' : 'tag-book';
-    const tagDataElements = Array.from(document.querySelectorAll(`.${tagClass} .tag-id`))
-      .filter(element => parseInt(element.textContent, 10) === tag_id)
-      .map(element => element.closest(`.${tagClass}`));
-
-    tagDataElements.forEach(tagDataElement => {
-      const tagTitleElement = tagDataElement.querySelector('.tag-title');
-      tagTitleElement.textContent = title;
-
-      const verseBoxElement = tagDataElement.closest('.verse-box');
-      const verseBoxObj = new VerseBox(verseBoxElement);
-      verseBoxObj.updateTagTooltip();
-      verseBoxObj.updateVisibleTags();
-    });
+    this.tag_operations_manager.updateTagTitlesInVerseList(tag_id, is_global, title);
   }
 
   async updateTagsViewAfterVerseSelection(force) {
-    //console.time('updateTagsViewAfterVerseSelection');
-    if (tags_controller.verse_selection_blocked && force !== true) {
-      return;
-    }
-
-    tags_controller.verse_selection_blocked = true;
-    setTimeout(function() {
-      tags_controller.verse_selection_blocked = false;
-    }, 300);
-
-    var versesSelected = app_controller.verse_selection.getSelectedVerseBoxes().length > 0;
-    var selected_verse_tags = [];
-
-    if (versesSelected) { // Verses are selected
-
-      selected_verse_tags = app_controller.verse_selection.getCurrentSelectionTags();
-      var checkboxTags = document.querySelectorAll('.checkbox-tag');
-
-      for (let i = 0; i < checkboxTags.length; i++) {
-        this.formatCheckboxElementBasedOnSelection(checkboxTags[i], selected_verse_tags);
-      }
-
-      this.verses_were_selected_before = true;
-
-    } else { // No verses are selected!
-
-      if (this.verses_were_selected_before) {
-        this.uncheckAllCheckboxElements();
-      }
-
-      this.verses_were_selected_before = false;
-    }
-
-    //console.timeEnd('updateTagsViewAfterVerseSelection');
+    await this.tag_operations_manager.updateTagsViewAfterVerseSelection(force);
   }
 
   formatCheckboxElementBasedOnSelection(cb_element, selected_verse_tags) {
-    const currentTagButton = cb_element.querySelector('.tag-button');
-    const currentTitleElement = cb_element.querySelector('.cb-label');
-    const currentTitle = currentTitleElement.innerHTML;
-    const currentTitleElementPostfix = cb_element.querySelector('.cb-label-postfix');
-    let matchFound = false;
-
-    selected_verse_tags.forEach(currentTagObj => {
-      if (currentTagObj.title === currentTitle) {
-        if (currentTagObj.complete) {
-          currentTagButton.setAttribute('title', this.unassign_tag_label);
-          currentTagButton.classList.add('active');
-          currentTitleElementPostfix.innerHTML = '';
-          currentTitleElement.classList.remove('underline');
-        } else {
-          currentTagButton.setAttribute('title', this.assign_tag_label);
-          currentTagButton.classList.remove('active');
-          currentTitleElementPostfix.innerHTML = '&nbsp;*';
-          currentTitleElement.classList.add('underline');
-        }
-        matchFound = true;
-      }
-    });
-
-    if (!matchFound) {
-      currentTagButton.classList.remove('active');
-      currentTagButton.setAttribute('title', this.assign_tag_label);
-      currentTitleElement.classList.remove('underline');
-      currentTitleElementPostfix.innerHTML = '';
-    }
-
-    if (!this.verses_were_selected_before) {
-      currentTagButton.classList.remove('disabled');
-    }
+    this.tag_operations_manager.formatCheckboxElementBasedOnSelection(cb_element, selected_verse_tags);
   }
 
   uncheckAllCheckboxElements() {
-    const allCheckboxElements = document.querySelectorAll('.checkbox-tag');
+    this.tag_operations_manager.uncheckAllCheckboxElements();
+  }
 
-    allCheckboxElements.forEach(currentCheckboxElement => {
-      const currentTagButton = currentCheckboxElement.querySelector('.tag-button');
-      currentTagButton.setAttribute('title', this.assign_tag_hint);
-      currentTagButton.classList.add('disabled');
-      currentTagButton.classList.remove('active');
+  async removeTagById(tagId, tagTitle) {
+    await this.tag_operations_manager.removeTagById(tagId, tagTitle);
+  }
 
-      const currentTitleElement = currentCheckboxElement.querySelector('.cb-label');
-      currentTitleElement.classList.remove('underline');
-
-      const currentTitleElementPostfix = currentCheckboxElement.querySelector('.cb-label-postfix');
-      currentTitleElementPostfix.innerHTML = '';
-    });
+  updateTagInView(tagId, newTitle) {
+    this.tag_operations_manager.updateTagInView(tagId, newTitle);
   }
 
   initTagsUI() {
@@ -878,6 +395,30 @@ class TagsController {
 
   updateVirtualContainerSize() {
     this.tag_list_renderer.updateVirtualContainerSize();
+  }
+
+  bindTagEvents() {
+    const tagsBox = document.getElementById('tags-content-global');
+
+    tagsBox.addEventListener('click', async (event) => {
+      const CLICK_TIMEOUT = 100;
+
+      if (event.target.matches('.delete-icon') || event.target.matches('.delete-button')) {
+        setTimeout(() => { this.handleDeleteTagButtonClick(event); }, CLICK_TIMEOUT);
+      } else if (event.target.matches('.edit-icon') || event.target.matches('.edit-button')) {
+        setTimeout(() => { this.handleEditTagClick(event); }, CLICK_TIMEOUT);
+      } else if (event.target.matches('.tag-button')) {
+        await waitUntilIdle();
+        await this.handleTagCbClick(event);
+      } else if (event.target.matches('.cb-label')) {
+        await waitUntilIdle();
+        await this.handleTagLabelClick(event);
+      }
+    });
+  }
+
+  tagGroupUsed() {
+    return this.currentTagGroupId != null && this.currentTagGroupId > 0;
   }
 }
 

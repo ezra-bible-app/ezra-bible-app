@@ -442,7 +442,7 @@ class TagDialogManager {
       this.tagsController.updateTagInView(this.edit_tag_id, newTitle);
       this.tagsController.updateTagTitlesInVerseList(this.edit_tag_id, isGlobal, newTitle);
 
-      this.tagsController.sortTagLists();
+      this.tagsController.sortTagList();
       await this.tagsController.updateTagsViewAfterVerseSelection(true);
     }
 
