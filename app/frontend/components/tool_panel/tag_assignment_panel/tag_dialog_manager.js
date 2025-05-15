@@ -9,8 +9,8 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -18,6 +18,7 @@ GNU General Public License for more details.
 
 const { waitUntilIdle, showDialog } = require('../../../helpers/ezra_helper.js');
 const eventController = require('../../../controllers/event_controller.js');
+const verseListController = require('../../../controllers/verse_list_controller.js');
 
 /**
  * The TagDialogManager handles all functionality related to tag dialogs.
@@ -298,6 +299,20 @@ class TagDialogManager {
 
     $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
     uiHelper.fixDialogCloseIconOnAndroid('delete-tag-confirmation-dialog');
+    
+    // Subscribe to the on-enter-pressed event to handle enter key press while the dialog is open
+    eventController.subscribe('on-enter-pressed', () => {
+      if ($('#delete-tag-confirmation-dialog').dialog('isOpen')) {
+        this.deleteTagAfterConfirmation();
+      }
+    });
+    
+    // Subscribe to the on-esc-pressed event to close the dialog when escape key is pressed
+    eventController.subscribe('on-esc-pressed', () => {
+      if ($('#delete-tag-confirmation-dialog').dialog('isOpen')) {
+        $('#delete-tag-confirmation-dialog').dialog('close');
+      }
+    });
   }
 
   /**
@@ -331,6 +346,20 @@ class TagDialogManager {
 
     $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
     uiHelper.fixDialogCloseIconOnAndroid('remove-tag-assignment-confirmation-dialog');
+
+    // Subscribe to the on-enter-pressed event to handle enter key press while the dialog is open
+    eventController.subscribe('on-enter-pressed', () => {
+      if ($('#remove-tag-assignment-confirmation-dialog').dialog('isOpen')) {
+        this.removeTagAssignmentAfterConfirmation();
+      }
+    });
+    
+    // Subscribe to the on-esc-pressed event to close the dialog when escape key is pressed
+    eventController.subscribe('on-esc-pressed', () => {
+      if ($('#remove-tag-assignment-confirmation-dialog').dialog('isOpen')) {
+        $('#remove-tag-assignment-confirmation-dialog').dialog('close');
+      }
+    });
 
     // eslint-disable-next-line no-unused-vars
     $('#remove-tag-assignment-confirmation-dialog').bind('dialogbeforeclose', (event) => {

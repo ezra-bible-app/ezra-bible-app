@@ -306,6 +306,9 @@ class AppController {
     Mousetrap.bind('esc', () => {
       let currentTab = app_controller.tab_controller.getTab();
       currentTab.tab_search.resetSearch();
+
+      eventController.publish('on-esc-pressed');
+
       return false;
     });
 
@@ -318,6 +321,8 @@ class AppController {
         currentTab.tab_search.mouseTrapEvent = true;
         currentTab.tab_search.jumpToNextOccurance();
       }
+      
+      eventController.publish('on-enter-pressed');
       
       return false;
     });

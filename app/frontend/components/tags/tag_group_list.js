@@ -141,6 +141,7 @@ class TagGroupList extends HTMLElement {
     this._editable = false;
     this._subscriptionDone = false;
     this._bookFilter = false;
+    this._deleteTagGroupId = null;
 
     this._tagGroupManager = new TagGroupManager((event) => { this.handleTagGroupClick(event); },
                                                 (itemId) => { this.handleTagGroupEdit(itemId); },
@@ -228,6 +229,27 @@ class TagGroupList extends HTMLElement {
 
     eventController.subscribe(this._selectAllEvent, async() => {
       await this.selectTagGroup(TAG_GROUP_ALL_TAGS);
+    });
+
+    // Subscribe to the on-enter-pressed event to handle enter key press while the dialog is open
+    eventController.subscribe('on-enter-pressed', () => {
+      if ($('#delete-tag-group-confirmation-dialog').dialog('isOpen') &&
+          this._deleteTagGroupId != null) {
+
+        this.deleteTagGroupInDb(this._deleteTagGroupId);
+
+        const $dialogBox = $('#delete-tag-group-confirmation-dialog');
+        $dialogBox.dialog('close');
+        this._deleteTagGroupId = null;
+      }
+    });
+    
+    // Subscribe to the on-esc-pressed event to close the dialog when escape key is pressed
+    eventController.subscribe('on-esc-pressed', () => {
+      if ($('#delete-tag-group-confirmation-dialog').dialog('isOpen')) {
+        const $dialogBox = $('#delete-tag-group-confirmation-dialog');
+        $dialogBox.dialog('close');
+      }
     });
 
     if (this._bookFilter) {
@@ -432,7 +454,9 @@ class TagGroupList extends HTMLElement {
         await tagGroupValidator.validateNewTagGroupTitle('rename-tag-group-title-input', 'edit-tag-group-save-button');
 
         if (event.key == 'Enter') {
-          this.renameTagGroupAndCloseDialog(itemId, $dialogBox);
+          if (!$('#edit-tag-group-save-button').hasClass('ui-state-disabled')) {
+            this.renameTagGroupAndCloseDialog(itemId, $dialogBox);
+          }
         }
       });
     
@@ -472,6 +496,8 @@ class TagGroupList extends HTMLElement {
   async handleTagGroupDelete(tagGroupId) {
     const tagGroup = await this._tagGroupManager.getItemById(tagGroupId);
     const message = i18n.t('tags.really-delete-tag-group', { tagGroupTitle: tagGroup.title, interpolation: {escapeValue: false} });
+
+    this._deleteTagGroupId = tagGroupId;
 
     const dialogBoxTemplate = html`
     <div id="delete-tag-group-confirmation-dialog" style="padding-top: 2em;">
