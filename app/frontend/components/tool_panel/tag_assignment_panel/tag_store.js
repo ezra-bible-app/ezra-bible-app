@@ -107,6 +107,14 @@ class TagStore {
     }
     
     tag.title = newTitle;
+    
+    // Sort the tagList alphabetically by title
+    if (this.tagList) {
+      this.tagList.sort((a, b) => {
+        return a.title.localeCompare(b.title);
+      });
+    }
+    
     return true;
   }
 
