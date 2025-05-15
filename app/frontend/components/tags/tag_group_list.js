@@ -210,6 +210,27 @@ class TagGroupList extends HTMLElement {
         let tagGroup = await this.createTagGroupInDb(tagGroupTitle);
         eventController.publishAsync('on-tag-group-created', tagGroup);
       });
+
+      // Subscribe to the on-enter-pressed event to handle enter key press while the dialog is open
+      eventController.subscribe('on-enter-pressed', () => {
+        if ($('#delete-tag-group-confirmation-dialog').dialog('isOpen') &&
+            this._deleteTagGroupId != null) {
+
+          this.deleteTagGroupInDb(this._deleteTagGroupId);
+
+          const $dialogBox = $('#delete-tag-group-confirmation-dialog');
+          $dialogBox.dialog('close');
+          this._deleteTagGroupId = null;
+        }
+      });
+      
+      // Subscribe to the on-esc-pressed event to close the dialog when escape key is pressed
+      eventController.subscribe('on-esc-pressed', () => {
+        if ($('#delete-tag-group-confirmation-dialog').dialog('isOpen')) {
+          const $dialogBox = $('#delete-tag-group-confirmation-dialog');
+          $dialogBox.dialog('close');
+        }
+      });
     }
 
     eventController.subscribe('on-tag-group-created', async (tagGroup) => {
@@ -229,27 +250,6 @@ class TagGroupList extends HTMLElement {
 
     eventController.subscribe(this._selectAllEvent, async() => {
       await this.selectTagGroup(TAG_GROUP_ALL_TAGS);
-    });
-
-    // Subscribe to the on-enter-pressed event to handle enter key press while the dialog is open
-    eventController.subscribe('on-enter-pressed', () => {
-      if ($('#delete-tag-group-confirmation-dialog').dialog('isOpen') &&
-          this._deleteTagGroupId != null) {
-
-        this.deleteTagGroupInDb(this._deleteTagGroupId);
-
-        const $dialogBox = $('#delete-tag-group-confirmation-dialog');
-        $dialogBox.dialog('close');
-        this._deleteTagGroupId = null;
-      }
-    });
-    
-    // Subscribe to the on-esc-pressed event to close the dialog when escape key is pressed
-    eventController.subscribe('on-esc-pressed', () => {
-      if ($('#delete-tag-group-confirmation-dialog').dialog('isOpen')) {
-        const $dialogBox = $('#delete-tag-group-confirmation-dialog');
-        $dialogBox.dialog('close');
-      }
     });
 
     if (this._bookFilter) {
