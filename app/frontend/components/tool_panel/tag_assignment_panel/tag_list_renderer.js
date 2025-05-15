@@ -38,6 +38,10 @@ class TagListRenderer {
     this.isBookView = false; // Flag to track if we're in book view
     this.virtualHeightContainer = null; // Container for virtual scrolling
     this.averageTagHeight = platformHelper.isMobile() ? 2.5 : 2; // Fixed estimate for tag height in em
+
+    this.assignTagHint = i18n.t('tags.assign-tag-hint');
+    this.removeTagAssignmentLabel = i18n.t('tags.remove-tag-assignment');
+    this.assignTagLabel = i18n.t('tags.assign-tag');
   }
 
   /**
@@ -86,6 +90,23 @@ class TagListRenderer {
     this.hideTagListLoadingIndicator();
   }
 
+  getTagButtonTitle(versesSelected, isTagActiveInSelection) {
+    let tagButtonTitle;
+
+    if (!versesSelected) {
+      // No verses selected - use hint text
+      tagButtonTitle = this.assignTagHint;
+    } else if (isTagActiveInSelection) {
+      // Verses selected and tag is active
+      tagButtonTitle = this.removeTagAssignmentLabel;
+    } else {
+      // Verses selected but tag is not active
+      tagButtonTitle = this.assignTagLabel;
+    }
+
+    return tagButtonTitle;
+  }
+
   /**
    * Generate HTML for a subset of tags
    * 
@@ -131,16 +152,22 @@ class TagListRenderer {
       }
       
       // Determine tag button state and title
-      const tagButtonTitle = isTagActiveInSelection ? 
-        this.tagsController.unassign_tag_label : 
-        this.tagsController.assign_tag_label;
+      let tagButtonTitle;
+
+      tagButtonTitle = this.getTagButtonTitle(versesSelected, isTagActiveInSelection);
+
+      // Set classes for the tag button
       const tagButtonClass = isTagActiveInSelection ? 'active' : '';
+      
+      // Add disabled class when no verses are selected
+      const disabledClass = !versesSelected ? 'disabled' : '';
+      
       const tagLabelClass = isAssigned ? 'cb-label-assigned' : '';
       const tagLabelUnderline = isTagPartialInSelection ? 'underline' : '';
 
       html += `
         <div class="checkbox-tag" tag-id="${tag.id}" book-assignment-count="${bookCount}" global-assignment-count="${globalCount}" last-used-timestamp="${lastUsedTimestamp}">
-          <i id="${cbId}" class="fas fa-tag tag-button button-small ${tagButtonClass}" title="${tagButtonTitle}"></i>
+          <i id="${cbId}" class="fas fa-tag tag-button button-small ${tagButtonClass} ${disabledClass}" title="${tagButtonTitle}"></i>
           
           <div class="cb-input-label-stats">
             <span class="cb-label ${tagLabelClass} ${tagLabelUnderline}">${tag.title}</span>
