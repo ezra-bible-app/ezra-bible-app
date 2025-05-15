@@ -9,7 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
@@ -350,7 +350,10 @@ class TagListMenu extends HTMLElement {
         await tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
 
         if (event.key == 'Enter') {
-          createTagGroup();
+          // Only proceed if the save button is enabled
+          if (!$('#create-tag-group-button').hasClass('ui-state-disabled')) {
+            createTagGroup();
+          }
         }
       });
 
