@@ -209,7 +209,8 @@ class ModuleSearchController {
       '.assign-tag-menu-button',
       '.new-standard-tag-button',
       '.display-options-button',
-      '.text-size-settings-button'
+      '.text-size-settings-button',
+      '.parallel-bible-button'
     ];
   }
 
