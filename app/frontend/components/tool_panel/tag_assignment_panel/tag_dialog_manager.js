@@ -115,6 +115,10 @@ class TagDialogManager {
 
       const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
       addTagsToGroupTagList.style.removeProperty('display');
+      addTagsToGroupTagList._tagManager.resetAndRefresh();
+
+      const addButton = document.getElementById('add-tags-to-group-button');
+      uiHelper.disableButton(addButton);
 
       if (platformHelper.isCordova()) {
         // eslint-disable-next-line no-undef
@@ -145,9 +149,12 @@ class TagDialogManager {
           if (tagExisting) {
             return;
           }
-
-          $('#new-standard-tag-dialog').dialog('close');
-          this.saveNewTag(event);
+          
+          // Only proceed if the save button is enabled
+          if (!$('#create-tag-button').hasClass('ui-state-disabled')) {
+            $('#new-standard-tag-dialog').dialog('close');
+            this.saveNewTag(event);
+          }
         }
       });
 
@@ -203,6 +210,30 @@ class TagDialogManager {
 
     $('#add-tags-to-group-dialog').dialog(addTagsToGroupDialogOptions);
     uiHelper.fixDialogCloseIconOnAndroid('add-tags-to-group-dialog');
+    
+    // Initially disable the Add tags to group button
+    uiHelper.disableButton(document.getElementById('add-tags-to-group-button'));
+    
+    // Subscribe to changes in the tag list selection
+    document.getElementById('add-tags-to-group-tag-list').addEventListener('selectionChanged', function() {
+      const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+      const addButton = document.getElementById('add-tags-to-group-button');
+      
+      if (addTagsToGroupTagList.addList && addTagsToGroupTagList.addList.length > 0) {
+        uiHelper.enableButton(addButton);
+      } else {
+        uiHelper.disableButton(addButton);
+      }
+    });
+
+    // Subscribe to the on-enter-pressed event to handle enter key press while the dialog is open
+    eventController.subscribe('on-enter-pressed', () => {
+      if ($('#add-tags-to-group-dialog').dialog('isOpen')) {
+        const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+        tag_assignment_panel.addTagsToGroup(tag_assignment_panel.currentTagGroupId, addTagsToGroupTagList.addList);
+        $('#add-tags-to-group-dialog').dialog('close');
+      }
+    });
   }
 
   /**
