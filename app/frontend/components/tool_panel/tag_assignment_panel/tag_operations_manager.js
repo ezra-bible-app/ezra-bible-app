@@ -281,7 +281,7 @@ class TagOperationsManager {
         $('#remove-tag-assignment-name').html(cb_label);
         $('#remove-tag-assignment-confirmation-dialog').dialog('open');
       } else {
-        await this.tagsController.removeTagAssignmentAfterConfirmation();
+        await this.tagsController.tag_dialog_manager.removeTagAssignmentAfterConfirmation();
         await this.updateTagsViewAfterVerseSelection(true);
       }
     }
