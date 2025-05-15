@@ -245,7 +245,10 @@ class TagDialogManager {
     // Handle the enter key in the tag title field and rename the tag when it is pressed
     $('#rename-tag-title-input:not(.bound)').addClass('bound').on('keypress', (event) => {
       if (event.which == 13) {
-        this.closeDialogAndUpdateTag();
+        // Only proceed if the save button is enabled
+        if (!$('#edit-tag-button').hasClass('ui-state-disabled')) {
+          this.closeDialogAndUpdateTag();
+        }
       }
     // eslint-disable-next-line no-unused-vars
     }).on('keyup', (event) => {
