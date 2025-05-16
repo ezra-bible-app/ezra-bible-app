@@ -185,20 +185,26 @@ function handleUserContentFontFamilyChange(fontFamily, apply=false, persist=fals
 
 // Apply font changes to user content
 function applyUserContentFontChange(selectedFont=undefined, apply=false) {
+  const sampleTextId = '#user-content-sample-text';
+  const textClasses = '.tag, .verse-notes, .CodeMirror-lines';
+  
+  applyFontChangeGeneric(selectedFont, apply, userContentSampleStylesheet, userContentStylesheet, sampleTextId, textClasses);
+}
+
+// Generic function for applying font changes
+function applyFontChangeGeneric(selectedFont=undefined, apply=false, sampleStylesheet, contentStylesheet, sampleTextId, textClasses) {
   let sampleTextCss = undefined;
   let textCss = undefined;
-  let sampleTextId = '#user-content-sample-text';
-  let textClasses = '.tag, .verse-notes, .CodeMirror-lines';
 
   if (selectedFont != null) {
     sampleTextCss = `${sampleTextId} { font-family: "${selectedFont}" }`;
     textCss = `${textClasses} { font-family: "${selectedFont}" }`;
   }
 
-  saveCssRules(userContentSampleStylesheet, sampleTextCss);
+  saveCssRules(sampleStylesheet, sampleTextCss);
 
   if (apply) {
-    saveCssRules(userContentStylesheet, textCss);
+    saveCssRules(contentStylesheet, textCss);
   }
 }
 
@@ -299,21 +305,10 @@ function handleFontFamilyChange(fontFamily, apply=false, persist=false) {
 }
 
 function applyFontChange(selectedFont=undefined, apply=false) {
-  let sampleTextCss = undefined;
-  let textCss = undefined;
-  let sampleTextId = '#bible-font-sample-text';
-  let textClasses = '.verse-text, .sword-section-title, .commentary-content, .commentary-name, .word-study-title, .dictionary-content, .book-intro';
-
-  if (selectedFont != null) {
-    sampleTextCss = `${sampleTextId} { font-family: "${selectedFont}" }`;
-    textCss = `${textClasses} { font-family: "${selectedFont}" }`;
-  }
-
-  saveCssRules(sampleTextStylesheet, sampleTextCss);
-
-  if (apply) {
-    saveCssRules(textStylesheet, textCss);
-  }
+  const sampleTextId = '#bible-font-sample-text';
+  const textClasses = '.verse-text, .sword-section-title, .commentary-content, .commentary-name, .word-study-title, .dictionary-content, .book-intro';
+  
+  applyFontChangeGeneric(selectedFont, apply, sampleTextStylesheet, textStylesheet, sampleTextId, textClasses);
 }
 
 function showDialog() {
