@@ -226,7 +226,10 @@
       "serif": "Avec empattement",
       "custom": "Personnalisée",
       "content-font-family": "Famille de polices de caractères pour le contenu",
-      "custom-content-font": "Police de caractères personnalisée pour le contenu"
+      "content-heading": "Bible Content",
+      "user-content-heading": "Tags & Notes",
+      "custom-content-font": "Police de caractères personnalisée pour le contenu",
+      "same-as-content": "Same as content"
     },
     "title": "Titre ",
     "tabs": "Tabs"

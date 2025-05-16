@@ -218,7 +218,10 @@
       "serif": "С засечками",
       "custom": "Пользовательский",
       "content-font-family": "Семейство шрифта контента",
-      "custom-content-font": "Пользовательский шрифт контента"
+      "custom-content-font": "Пользовательский шрифт контента",
+      "content-heading": "Bible Content",
+      "user-content-heading": "Tags & Notes",
+      "same-as-content": "Same as content"
     },
     "title": "Заголовок",
     "tabs": "Tabs"
@@ -494,7 +497,7 @@
   "dropbox": {
     "setup-db-sync": "Настройка Dropbox синхронизации",
     "dropbox-sync-explanation-part1": "С помощью Dropbox синхронизации можно синхронизировать вашу базу данных Ezra&nbsp;Bible&nbsp;App на разных устройствах.",
-    "dropbox-sync-explanation-part2": "База данных будет синхронизированна в следующих случаях:",
+    "dropbox-sync-explanation-part2": "База данных будет синхронизиpованна в следующих случаях:",
     "dropbox-sync-explanation-part3a": "После привязки аккаунта Dropbox первый раз.",
     "dropbox-sync-explanation-part3b": "При запуске или востановлении приложения.",
     "dropbox-sync-explanation-part3c": "Когда закрыто или остановленно.",

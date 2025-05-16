@@ -216,7 +216,10 @@
       "serif": "Serif",
       "custom": "Vlastné",
       "content-font-family": "Rodina písiem obsahu",
-      "custom-content-font": "Vlastné písmo obsahu"
+      "custom-content-font": "Vlastné písmo obsahu",
+      "content-heading": "Bible Content",
+      "user-content-heading": "Tags & Notes",
+      "same-as-content": "Same as content"
     },
     "title": "Titulok",
     "tabs": "Tabs"
