@@ -216,7 +216,10 @@
       "serif": "Із зарубками",
       "custom": "Довільний",
       "content-font-family": "Букворис вмісту",
-      "custom-content-font": "Довільний букворис вмісту"
+      "custom-content-font": "Довільний букворис вмісту",
+      "content-heading": "Bible Content",
+      "user-content-heading": "Tags & Notes",
+      "same-as-content": "Same as content"
     },
     "title": "Назва",
     "tabs": "Tabs"
