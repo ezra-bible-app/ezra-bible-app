@@ -22,24 +22,19 @@ let textStylesheet = null;
 let userContentSampleStylesheet = null;
 let userContentStylesheet = null;
 
+// Helper function to initialize a stylesheet
+function initStylesheet(id) {
+  const styleEl = $('<style id="' + id + '" />');
+  $('head').append(styleEl);
+  return styleEl[0].sheet;
+}
+
 module.exports.init = async function() {
-  // Initialize stylesheets for content text
-  let sampleTextStyleEl = $('<style id="sample-text-font" />');
-  $('head').append(sampleTextStyleEl);
-  sampleTextStylesheet = sampleTextStyleEl[0].sheet;
-
-  let textStyleEl = $('<style id="text-font" />');
-  $('head').append(textStyleEl);
-  textStylesheet = textStyleEl[0].sheet;
-
-  // Initialize stylesheets for user content (tags & notes)
-  let userContentSampleStyleEl = $('<style id="user-content-sample-text-font" />');
-  $('head').append(userContentSampleStyleEl);
-  userContentSampleStylesheet = userContentSampleStyleEl[0].sheet;
-
-  let userContentStyleEl = $('<style id="user-content-text-font" />');
-  $('head').append(userContentStyleEl);
-  userContentStylesheet = userContentStyleEl[0].sheet;
+  // Initialize stylesheets using the helper function
+  sampleTextStylesheet = initStylesheet('sample-text-font');
+  textStylesheet = initStylesheet('text-font');
+  userContentSampleStylesheet = initStylesheet('user-content-sample-text-font');
+  userContentStylesheet = initStylesheet('user-content-text-font');
 
   // Get DOM elements
   const fontFamilySelect = document.getElementById('font-family-select');
