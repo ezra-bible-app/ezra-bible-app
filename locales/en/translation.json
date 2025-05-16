@@ -216,7 +216,11 @@
       "serif": "Serif",
       "custom": "Custom",
       "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font"
+      "custom-content-font": "Custom content font",
+      "custom-user-content-font": "Custom Font:",
+      "user-content-heading": "Tags & Notes",
+      "user-content-font-family": "Font Family:",
+      "same-as-content": "Same as content"
     },
     "title": "Title",
     "tabs": "Tabs"
