@@ -308,7 +308,8 @@ h2:nth-of-type(1) {
   display: none;
 }
 
-.Android #system-font-select-box {
+.Android #system-font-select-box,
+.Android #user-content-system-font-select-box {
   display: none;
 }
 
