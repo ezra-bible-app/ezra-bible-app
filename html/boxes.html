@@ -34,102 +34,109 @@
 </div>
 
 <div id="config-typeface-box">
-  <div id="config-typeface-box-content" style="padding-top: 1em;">
-    <!-- Content Font Section -->
-    <div class="typeface-section">
-      <h3 i18n="general.type-face.content-heading">Bible Content</h3>
-      
-      <label for="font-family-select"
-             style="width: 18em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;"
-             i18n="general.type-face.content-font-family">
-      </label>
-      
-      <select is="select-option"
-              id="font-family-select"
-              settingsKey="contentTextFontFamily"
-              width="20em">
-
-        <option value="sans-serif" label="general.type-face.sans-serif"></option>
-        <option value="serif" label="general.type-face.serif"></option>
-        <option id="custom-font-family-option" value="custom" label="general.type-face.custom"></option>
-
-      </select>
-
-      <br/>
-      <div id="system-font-select-box">
-        <label for="system-font-select"
+  <div id="config-typeface-box-content">
+    <!-- Bible Content Row -->
+    <div class="typeface-row" style="display: flex;">
+      <!-- Content Font Settings -->
+      <div class="typeface-settings" style="flex: 1; padding-right: 1em;">
+        <h3 i18n="general.type-face.content-heading">Bible Content</h3>
+        
+        <label for="font-family-select"
                style="width: 18em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;"
-               i18n="general.type-face.custom-content-font"> 
+               i18n="general.type-face.content-font-family">
         </label>
-
+        
         <select is="select-option"
-                id="system-font-select"
-                settingsKey="contentTextSystemFont"
-                autoLoad="false"
-                autoSave="false"
-                width="20em"
-                disabled="disabled">
+                id="font-family-select"
+                settingsKey="contentTextFontFamily"
+                width="20em">
+
+          <option value="sans-serif" label="general.type-face.sans-serif"></option>
+          <option value="serif" label="general.type-face.serif"></option>
+          <option id="custom-font-family-option" value="custom" label="general.type-face.custom"></option>
+
         </select>
+
+        <br/>
+        <div id="system-font-select-box">
+          <label for="system-font-select"
+                 style="width: 18em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;"
+                 i18n="general.type-face.custom-content-font"> 
+          </label>
+
+          <select is="select-option"
+                  id="system-font-select"
+                  settingsKey="contentTextSystemFont"
+                  autoLoad="false"
+                  autoSave="false"
+                  width="20em"
+                  disabled="disabled">
+          </select>
+        </div>
+      </div>
+
+      <!-- Bible Content Preview -->
+      <div class="typeface-preview" style="flex: 1;">
+        <div id="bible-font-sample-text"
+             style="margin-top: 3em;
+                    padding: 1em;
+                    border: 1px solid lightgray;
+                    border-radius: 3px;
+                    font-size: 130%;">
+        </div>
       </div>
     </div>
 
-    <!-- User Content Section (New) -->
-    <div class="typeface-section" style="margin-top: 2em;">
-      <h3 i18n="general.type-face.user-content-heading">Tags & Notes</h3>
-      
-      <label for="user-content-font-family-select"
-             style="width: 18em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;"
-             i18n="general.type-face.user-content-font-family">
-      </label>
-      
-      <select is="select-option"
-              id="user-content-font-family-select"
-              settingsKey="userContentTextFontFamily"
-              width="20em">
-        <option value="sans-serif" label="general.type-face.sans-serif"></option>
-        <option value="serif" label="general.type-face.serif"></option>
-        <option id="custom-user-content-font-family-option" value="custom" label="general.type-face.custom"></option>
-        <option value="same-as-content" label="general.type-face.same-as-content"></option>
-      </select>
-
-      <br/>
-      <div id="user-content-system-font-select-box">
-        <label for="user-content-system-font-select"
+    <!-- User Content Row -->
+    <div class="typeface-row" style="display: flex;">
+      <!-- User Content Settings -->
+      <div class="typeface-settings" style="flex: 1; padding-right: 1em;">
+        <h3 i18n="general.type-face.user-content-heading">Tags & Notes</h3>
+        
+        <label for="user-content-font-family-select"
                style="width: 18em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;"
-               i18n="general.type-face.custom-user-content-font"> 
+               i18n="general.type-face.user-content-font-family">
         </label>
-
+        
         <select is="select-option"
-                id="user-content-system-font-select"
-                settingsKey="userContentTextSystemFont"
-                autoLoad="false"
-                autoSave="false"
-                width="20em"
-                disabled="disabled">
+                id="user-content-font-family-select"
+                settingsKey="userContentTextFontFamily"
+                width="20em">
+          <option value="sans-serif" label="general.type-face.sans-serif"></option>
+          <option value="serif" label="general.type-face.serif"></option>
+          <option id="custom-user-content-font-family-option" value="custom" label="general.type-face.custom"></option>
+          <option value="same-as-content" label="general.type-face.same-as-content"></option>
         </select>
+
+        <br/>
+        <div id="user-content-system-font-select-box">
+          <label for="user-content-system-font-select"
+                 style="width: 18em; display: inline-block; position: relative; top: -0.3em; left: 1.2em;"
+                 i18n="general.type-face.custom-user-content-font"> 
+          </label>
+
+          <select is="select-option"
+                  id="user-content-system-font-select"
+                  settingsKey="userContentTextSystemFont"
+                  autoLoad="false"
+                  autoSave="false"
+                  width="20em"
+                  disabled="disabled">
+          </select>
+        </div>
       </div>
-    </div>
 
-    <!-- Sample Text Section -->
-    <div id="bible-font-sample-text"
-         style="margin-left: 1em;
-                margin-right: 1em;
-                margin-top: 2em;
-                padding: 1em;
-                border: 1px solid lightgray;
-                border-radius: 3px;
-                font-size: 130%;">
-    </div>
-
-    <div id="user-content-sample-text"
-         style="margin-left: 1em;
-                margin-right: 1em;
-                margin-top: 1em;
-                padding: 1em;
-                border: 1px solid lightgray;
-                border-radius: 3px;
-                background-color: var(--background-color-lighter);
-                font-size: 110%;">
+      <!-- User Content Preview -->
+      <div class="typeface-preview" style="flex: 1;">
+        <div id="user-content-sample-text"
+             style="margin-top: 3em;
+                    padding: 1em;
+                    border: 1px solid lightgray;
+                    border-radius: 3px;
+                    background-color: var(--background-color-lighter);
+                    font-size: 110%;">
+        </div>
+      </div>
     </div>
   </div>
 </div>
