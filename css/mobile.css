@@ -810,6 +810,29 @@ Librem 5/Pinephone etc.
     height: 1.2em !important;
     padding: 0.2em 0.3em !important;
   }
+
+  /* Type face settings adjustments for mobile screens */
+  .config-typeface-dialog .typeface-row {
+    flex-direction: column !important;
+  }
+
+  .config-typeface-dialog .typeface-settings {
+    padding-right: 0 !important;
+    margin-bottom: 1em;
+  }
+
+  .config-typeface-dialog .typeface-preview {
+    width: 100%;
+  }
+
+  .config-typeface-dialog #bible-font-sample-text,
+  .config-typeface-dialog #user-content-sample-text {
+    margin-top: 0.5em !important;
+  }
+
+  .config-typeface-dialog select {
+    max-width: 18em !important;
+  }
 }
 
 /* PORTRAIT */

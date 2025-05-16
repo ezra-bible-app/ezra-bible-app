@@ -212,7 +212,10 @@
       "serif": "Serif",
       "custom": "Benutzerdefiniert",
       "content-font-family": "Schriftfamilie für Inhalte",
-      "custom-content-font": "Benutzerdefinierte Schriftart für Inhalte"
+      "content-heading": "Bible Content",
+      "user-content-heading": "Tags & Notes",
+      "custom-content-font": "Benutzerdefinierte Schriftart für Inhalte",
+      "same-as-content": "Same as content"
     },
     "title": "Titel",
     "tabs": "Tabs"

@@ -216,7 +216,10 @@
       "serif": "Serif",
       "custom": "Personalizat",
       "content-font-family": "Familia de font a conținutului",
-      "custom-content-font": "Font pesronalizat pentru conținut"
+      "custom-content-font": "Font pesronalizat pentru conținut",
+      "content-heading": "Bible Content",
+      "user-content-heading": "Tags & Notes",
+      "same-as-content": "Same as content"
     },
     "title": "Titlu",
     "tabs": "Tabs"

@@ -216,7 +216,10 @@
       "serif": "Serif",
       "custom": "Personalizada",
       "content-font-family": "Tipo de fuente del contenido",
-      "custom-content-font": "Fuente del contenido personalizada"
+      "content-heading": "Bible Content",
+      "user-content-heading": "Tags & Notes",
+      "custom-content-font": "Fuente del contenido personalizada",
+      "same-as-content": "Same as content"
     },
     "title": "Título",
     "tabs": "Tabs"

@@ -216,7 +216,10 @@
       "serif": "Serif",
       "custom": "Po meri",
       "content-font-family": "Družina pisave",
-      "custom-content-font": "Pisava po meri"
+      "custom-content-font": "Pisava po meri",
+      "content-heading": "Bible Content",
+      "user-content-heading": "Tags & Notes",
+      "same-as-content": "Same as content"
     },
     "title": "Naslov",
     "tabs": "Tabs"

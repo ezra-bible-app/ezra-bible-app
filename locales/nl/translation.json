@@ -218,7 +218,10 @@
       "serif": "Met schreef",
       "custom": "Aangepast",
       "content-font-family": "Lettertypefamilie voor inhoud",
-      "custom-content-font": "Aangepast lettertype voor inhoud"
+      "custom-content-font": "Aangepast lettertype voor inhoud",
+      "content-heading": "Bible Content",
+      "user-content-heading": "Tags & Notes",
+      "same-as-content": "Same as content"
     },
     "title": "Titel",
     "tabs": "Tabs"

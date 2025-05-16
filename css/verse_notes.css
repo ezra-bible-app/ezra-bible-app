@@ -68,7 +68,7 @@ div.CodeMirror {
   margin-left: unset !important;
 }
 
-.verse-list.limit-width:not(.verse-list-notes-column) .verse-notes:not(.book-notes):not(.tag-notes) {
+.verse-list.limit-width:not(.verse-list-notes-column) .verse-notes:not(.book-notes):not(.tag-notes):not(.verse-notes-fullscreen) {
   max-width: 55ch;
 }
 
@@ -136,6 +136,7 @@ div.CodeMirror {
   width: 100%;
   display: flex;
   padding-left: 3px;
+  font-family: sans-serif;
 }
 
 .verse-notes-buttons {
