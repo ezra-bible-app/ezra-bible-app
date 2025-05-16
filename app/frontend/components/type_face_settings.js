@@ -22,6 +22,10 @@ let textStylesheet = null;
 let userContentSampleStylesheet = null;
 let userContentStylesheet = null;
 
+// Variables to hold the applier functions
+let applyFontChange;
+let applyUserContentFontChange;
+
 // Helper function to initialize a stylesheet
 function initStylesheet(id) {
   const styleEl = $('<style id="' + id + '" />');
@@ -35,6 +39,21 @@ module.exports.init = async function() {
   textStylesheet = initStylesheet('text-font');
   userContentSampleStylesheet = initStylesheet('user-content-sample-text-font');
   userContentStylesheet = initStylesheet('user-content-text-font');
+
+  // Create font change applier functions
+  applyFontChange = createFontChangeApplier(
+    sampleTextStylesheet, 
+    textStylesheet, 
+    '#bible-font-sample-text', 
+    '.verse-text, .sword-section-title, .commentary-content, .commentary-name, .word-study-title, .dictionary-content, .book-intro'
+  );
+  
+  applyUserContentFontChange = createFontChangeApplier(
+    userContentSampleStylesheet, 
+    userContentStylesheet, 
+    '#user-content-sample-text', 
+    '.tag, .verse-notes, .CodeMirror-lines'
+  );
 
   // Get DOM elements
   const fontFamilySelect = document.getElementById('font-family-select');
@@ -183,29 +202,23 @@ function handleUserContentFontFamilyChange(fontFamily, apply=false, persist=fals
   }
 }
 
-// Apply font changes to user content
-function applyUserContentFontChange(selectedFont=undefined, apply=false) {
-  const sampleTextId = '#user-content-sample-text';
-  const textClasses = '.tag, .verse-notes, .CodeMirror-lines';
-  
-  applyFontChangeGeneric(selectedFont, apply, userContentSampleStylesheet, userContentStylesheet, sampleTextId, textClasses);
-}
+// Create a font change applier function with preconfigured parameters
+function createFontChangeApplier(sampleStylesheet, contentStylesheet, sampleTextId, textClasses) {
+  return function(selectedFont=undefined, apply=false) {
+    let sampleTextCss = undefined;
+    let textCss = undefined;
 
-// Generic function for applying font changes
-function applyFontChangeGeneric(selectedFont=undefined, apply=false, sampleStylesheet, contentStylesheet, sampleTextId, textClasses) {
-  let sampleTextCss = undefined;
-  let textCss = undefined;
+    if (selectedFont != null) {
+      sampleTextCss = `${sampleTextId} { font-family: '${selectedFont}' }`;
+      textCss = `${textClasses} { font-family: '${selectedFont}' }`;
+    }
 
-  if (selectedFont != null) {
-    sampleTextCss = `${sampleTextId} { font-family: "${selectedFont}" }`;
-    textCss = `${textClasses} { font-family: "${selectedFont}" }`;
-  }
+    saveCssRules(sampleStylesheet, sampleTextCss);
 
-  saveCssRules(sampleStylesheet, sampleTextCss);
-
-  if (apply) {
-    saveCssRules(contentStylesheet, textCss);
-  }
+    if (apply) {
+      saveCssRules(contentStylesheet, textCss);
+    }
+  };
 }
 
 async function initSampleText() {
@@ -302,13 +315,6 @@ function handleFontFamilyChange(fontFamily, apply=false, persist=false) {
     ipcSettings.set('contentTextFontFamily', fontFamily);
     ipcSettings.set('contentTextSystemFont', selectedFont);
   }
-}
-
-function applyFontChange(selectedFont=undefined, apply=false) {
-  const sampleTextId = '#bible-font-sample-text';
-  const textClasses = '.verse-text, .sword-section-title, .commentary-content, .commentary-name, .word-study-title, .dictionary-content, .book-intro';
-  
-  applyFontChangeGeneric(selectedFont, apply, sampleTextStylesheet, textStylesheet, sampleTextId, textClasses);
 }
 
 function showDialog() {
