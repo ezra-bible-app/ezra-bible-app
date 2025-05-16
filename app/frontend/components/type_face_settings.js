@@ -324,7 +324,7 @@ function showDialog() {
   const userContentFontFamilySelect = document.getElementById('user-content-font-family-select');
 
   const width = 700; // Adjusted width for row-based layout
-  const height = 600; // Adjusted height for row-based layout
+  const height = 570; // Adjusted height for row-based layout
   const draggable = false;
 
   let dialogOptions = uiHelper.getDialogOptions(width, height, draggable);

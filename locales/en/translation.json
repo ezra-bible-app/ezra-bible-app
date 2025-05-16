@@ -214,14 +214,12 @@
       "configure-typeface": "Configure typeface",
       "content-font-family": "Font Family:",
       "content-heading": "Bible Content",
+      "user-content-heading": "Tags & Notes",
       "custom-content-font": "Custom Font:",
-      "custom-user-content-font": "Custom Font:",
       "custom": "Custom font",
       "sans-serif": "Sans-serif font",
       "serif": "Serif font",
-      "same-as-content": "Same as content",
-      "user-content-heading": "Tags & Notes",
-      "user-content-font-family": "Font Family:"
+      "same-as-content": "Same as content"
     },
     "title": "Title",
     "tabs": "Tabs"
