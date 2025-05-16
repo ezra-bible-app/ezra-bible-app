@@ -193,7 +193,7 @@ function applyUserContentFontChange(selectedFont=undefined, apply=false) {
   let sampleTextCss = undefined;
   let textCss = undefined;
   let sampleTextId = '#user-content-sample-text';
-  let textClasses = '.tag, .verse-notes';
+  let textClasses = '.tag, .verse-notes, .CodeMirror-lines';
 
   if (selectedFont != null) {
     sampleTextCss = `${sampleTextId} { font-family: "${selectedFont}" }`;
@@ -242,13 +242,8 @@ async function initSampleText() {
   // Initialize user content sample text
   let userContentSample = document.getElementById('user-content-sample-text');
   userContentSample.innerHTML = `
-    <div style="margin-bottom: 0.5em;">
-      <span class="tag-like-sample" style="display: inline-block; padding: 0.2em 0.5em; margin-right: 0.5em; background: var(--tag-background); border-radius: 3px;">Important</span>
-      <span class="tag-like-sample" style="display: inline-block; padding: 0.2em 0.5em; margin-right: 0.5em; background: var(--tag-background); border-radius: 3px;">Study</span>
-      <span class="tag-like-sample" style="display: inline-block; padding: 0.2em 0.5em; background: var(--tag-background); border-radius: 3px;">Cross-reference</span>
-    </div>
     <div style="margin-top: 0.5em;">
-      <p style="margin: 0;">This is a sample note with <strong>Markdown</strong> formatting.<br/>It shows how your notes will appear.</p>
+      <p style="margin: 0;">This is a sample note with <strong>Markdown</strong> formatting. It shows how your notes will appear.</p>
     </div>
   `;
 }
@@ -331,9 +326,8 @@ function showDialog() {
   const fontFamilySelect = document.getElementById('font-family-select');
   const userContentFontFamilySelect = document.getElementById('user-content-font-family-select');
 
-  const width = 640;
-  // Increase height to accommodate new options
-  const height = 650;
+  const width = 700; // Adjusted width for row-based layout
+  const height = 600; // Adjusted height for row-based layout
   const draggable = false;
 
   let dialogOptions = uiHelper.getDialogOptions(width, height, draggable);

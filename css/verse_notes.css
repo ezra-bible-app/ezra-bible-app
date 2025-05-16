@@ -136,6 +136,7 @@ div.CodeMirror {
   width: 100%;
   display: flex;
   padding-left: 3px;
+  font-family: sans-serif;
 }
 
 .verse-notes-buttons {

@@ -211,16 +211,17 @@
     "copy-verse-reference-before-text": "Copy verses starting with reference",
     "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
-      "sans-serif": "Sans serif",
-      "serif": "Serif",
-      "custom": "Custom",
-      "content-font-family": "Content font family",
-      "custom-content-font": "Custom content font",
+      "configure-typeface": "Configure typeface",
+      "content-font-family": "Font Family:",
+      "content-heading": "Bible Content",
+      "custom-content-font": "Custom Font:",
       "custom-user-content-font": "Custom Font:",
+      "custom": "Custom font",
+      "sans-serif": "Sans-serif font",
+      "serif": "Serif font",
+      "same-as-content": "Same as content",
       "user-content-heading": "Tags & Notes",
-      "user-content-font-family": "Font Family:",
-      "same-as-content": "Same as content"
+      "user-content-font-family": "Font Family:"
     },
     "title": "Title",
     "tabs": "Tabs"
