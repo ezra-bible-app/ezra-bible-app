@@ -68,7 +68,7 @@ div.CodeMirror {
   margin-left: unset !important;
 }
 
-.verse-list.limit-width:not(.verse-list-notes-column) .verse-notes:not(.book-notes):not(.tag-notes) {
+.verse-list.limit-width:not(.verse-list-notes-column) .verse-notes:not(.book-notes):not(.tag-notes):not(.verse-notes-fullscreen) {
   max-width: 55ch;
 }
 
