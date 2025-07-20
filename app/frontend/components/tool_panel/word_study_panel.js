@@ -481,6 +481,9 @@ class WordStudyPanel {
       await app_controller.text_controller.prepareForNewText(true, true);
     }
 
+    // Prevent the on-tab-selected event from canceling our search
+    app_controller.module_search_controller.skipNextSearchCancellation = true;
+
     // Perform the Strong's search
     await app_controller.module_search_controller.startSearch(/* event */      null,
                                                              /* tabIndex */   undefined,
