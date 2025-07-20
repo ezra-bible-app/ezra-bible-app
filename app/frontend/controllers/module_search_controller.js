@@ -38,12 +38,17 @@ class ModuleSearchController {
     this.currentSearchCancelled = false;
     this.searchDebounceTimer = null;
     this.isSearchInProgress = false;
+    this.skipNextSearchCancellation = false;
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       await waitUntilIdle();
 
       // Cancel any potentially ongoing module search
-      await this.cancelAnyModuleSearch();
+      if (!this.skipNextSearchCancellation) {
+        await this.cancelAnyModuleSearch();
+      } else {
+        this.skipNextSearchCancellation = false;
+      }
 
       // Populate search menu based on last search (if any)
       this.populateSearchMenu(tabIndex);
