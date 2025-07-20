@@ -91,7 +91,7 @@ class TextController {
                                  instantLoad);
 
     await waitUntilIdle();
-    await tags_controller.updateTagList(currentBook);
+    await tag_assignment_panel.updateTagList(currentBook);
   }
 
   async prepareForNewText(resetView, isSearch = false, tabIndex = undefined) {
@@ -602,7 +602,7 @@ class TextController {
       const tagId = parseInt(selectedTagList[0]);
       tagNote = await ipcDb.getTagNote(tagId);
 
-      const tagObject = await tags_controller.tag_store.getTag(tagId);
+      const tagObject = await tag_assignment_panel.tag_store.getTag(tagId);
       if (tagObject != null && tagObject.noteFileId != null) {
         noteFileId = tagObject.noteFileId;
       }
@@ -878,7 +878,7 @@ class TextController {
         const tagIdList = currentTab.getTagIdList().split(',');
         
         const firstTagId = parseInt(tagIdList[0]);
-        const firstTagObject = await tags_controller.tag_store.getTag(firstTagId);
+        const firstTagObject = await tag_assignment_panel.tag_store.getTag(firstTagId);
 
         if (tagIdList.length === 1 && firstTagObject != null && firstTagObject.noteFileId != null) {
           app_controller.docxExport.enableExportButton(tabIndex, 'TAGGED_VERSES_WITH_NOTES');

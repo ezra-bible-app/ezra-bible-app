@@ -212,7 +212,7 @@ class VerseListPopup {
     const selectedTag = this.getSelectedTagFromClickedElement(clickedElement);
     this.currentTagTitle = selectedTag;
 
-    const tagObject = await tags_controller.tag_store.getTagByTitle(selectedTag);
+    const tagObject = await tag_assignment_panel.tag_store.getTagByTitle(selectedTag);
     
     if (tagObject != null) {
         this.currentTagId = `${tagObject.id}`;

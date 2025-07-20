@@ -9,7 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
@@ -122,7 +122,7 @@ const template = html`
 #new-standard-tag-button {
   float: right;
   margin-left: 1em;
-  margin-right: 0.5em;
+  margin-right: 0.8em;
   padding: 0.2em;
   padding-left: 0.4em;
   padding-right: 0.4em;
@@ -268,7 +268,7 @@ class TagListMenu extends HTMLElement {
     this.localize();
 
     this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', async function(event) {
-      setTimeout(() => { tags_controller.handleNewTagButtonClick(event); }, 100);
+      setTimeout(() => { tag_assignment_panel.handleNewTagButtonClick(event); }, 100);
     });
 
     this.shadowRoot.getElementById('all-tags-link').querySelector('a').addEventListener('click', async (event) => {
@@ -350,7 +350,10 @@ class TagListMenu extends HTMLElement {
         await tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
 
         if (event.key == 'Enter') {
-          createTagGroup();
+          // Only proceed if the save button is enabled
+          if (!$('#create-tag-group-button').hasClass('ui-state-disabled')) {
+            createTagGroup();
+          }
         }
       });
 

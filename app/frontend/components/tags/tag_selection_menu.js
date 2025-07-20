@@ -147,7 +147,7 @@ class TagSelectionMenu {
     var tagListContainer = this.getTagListContainer();
 
     tagListContainer.find('.tag-browser-tag').filter(function() {
-      return tags_controller.tag_store.filterRecentlyUsedTags(this);
+      return tag_assignment_panel.tag_store.filterRecentlyUsedTags(this);
     }).hide();
   }
 
@@ -228,10 +228,10 @@ class TagSelectionMenu {
   }
 
   async requestTagsForMenu(tagGroupId=null, forceRefresh=false) {
-    var tags = await tags_controller.getTagList(forceRefresh);
+    var tags = await tag_assignment_panel.getTagList(forceRefresh);
 
     if (tagGroupId != null && tagGroupId > 0) {
-      tags = await tags_controller.tag_store.getTagGroupMembers(tagGroupId, tags);
+      tags = await tag_assignment_panel.tag_store.getTagGroupMembers(tagGroupId, tags);
     }
 
     this.renderTagsInMenu(tags);

@@ -40,17 +40,21 @@ module.exports.init = function() {
   eventController.subscribe('on-verse-list-init', async (tabIndex) => { this.updateVerseListClasses(tabIndex); });
 
   eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
-    this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
+    this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
     this.initScrollListener(tabIndex);
+  });
 
+  // Subscribe to tab selection events to initialize swipe events for the active tab
+  eventController.subscribe('on-tab-selected', async (tabIndex) => {
+    // Only initialize swipe events if we're on a mobile device
     if (this.platformHelper.isCordova()) {
       this.initSwipeEvents(tabIndex);
     }
   });
 
   eventController.subscribeMultiple(['on-tag-group-filter-enabled', 'on-tag-group-member-changed'], async () => {
-    this.applyTagGroupFilter(tags_controller.currentTagGroupId);
+    this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId);
   });
 
   eventController.subscribe('on-tag-group-filter-disabled', async () => {
@@ -578,7 +582,7 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
 
   } else {
     // Show tags filtered by current tag group
-    let tagGroupMemberIds = await tags_controller.tag_store.getTagGroupMemberIds(tagGroupId);
+    let tagGroupMemberIds = await tag_assignment_panel.tag_store.getTagGroupMemberIds(tagGroupId);
 
     allTagElements.forEach((tagElement) => {
       let currentTagId = parseInt(tagElement.getAttribute('tag-id'));
@@ -631,5 +635,41 @@ module.exports.handleScrollEvent = function(tabIndex=undefined) {
       tabIndex: tabIndex === undefined ? app_controller.tab_controller.getSelectedTabIndex() : tabIndex,
       scrollPosition: firstVisibleVerseAnchor
     });
+  }
+};
+
+/**
+ * Update the tag list in the existing verse lists when tags have been assigned/removed
+ * 
+ * @param {number} tag_id - The tag ID
+ * @param {string} tag_title - The tag title
+ * @param {XMLDocument} verse_selection - The verse selection as an XML document
+ * @param {string} action - The action ('assign' or 'remove')
+ */
+module.exports.changeVerseListTagInfo = async function(tag_id, tag_title, verse_selection, action) {
+  verse_selection = $(verse_selection);
+  const selected_verses = verse_selection.find('verse');
+  const current_verse_list_frame = this.getCurrentVerseListFrame();
+
+  for (let i = 0; i < selected_verses.length; i++) {
+    const current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
+    const current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
+
+    const verseBoxObj = new VerseBox(current_verse_box);
+    const highlight = (action == 'assign');
+
+    verseBoxObj.changeVerseListTagInfo(tag_id, tag_title, action, highlight);
+  }
+
+  for (let i = 0; i < selected_verses.length; i++) {
+    const current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
+    const current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
+
+    await app_controller.verse_box_helper.iterateAndChangeAllDuplicateVerseBoxes(current_verse_box, 
+      { tag_id: tag_id, tag_title: tag_title, action: action }, 
+      (changedValue, targetVerseBox) => {
+        const verseBoxObj = new VerseBox(targetVerseBox);
+        verseBoxObj.changeVerseListTagInfo(changedValue.tag_id, changedValue.tag_title, changedValue.action);
+      });
   }
 };

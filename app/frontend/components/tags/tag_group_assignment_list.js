@@ -141,7 +141,7 @@ class TagGroupAssignmentList extends HTMLElement {
   }
 
   async setTagId(tagId) {
-    let tag = await tags_controller.tag_store.getTag(tagId);
+    let tag = await tag_assignment_panel.tag_store.getTag(tagId);
     let allItemElements = this._tagGroupManager.getAllItemElements();
 
     allItemElements.forEach((itemElement) => {
