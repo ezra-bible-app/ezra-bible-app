@@ -50,7 +50,7 @@ class NoteFilesPanel {
     });
 
     let refreshWithTagId = async (tagId) => {
-      const tagObject = await tags_controller.tag_store.getTag(tagId);
+      const tagObject = await tag_assignment_panel.tag_store.getTag(tagId);
 
       if (tagObject.noteFileId != null) {
         this.refreshNoteFiles();

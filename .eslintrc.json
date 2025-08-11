@@ -18,7 +18,7 @@
         "ipcDb": "readonly",
         "ipcGeneral": "readonly",
         "app_controller": "readonly", // FIXME: should not be global, include module directly
-        "tags_controller": "readonly", // FIXME: should not be global, include module directly
+        "tag_assignment_panel": "readonly", // FIXME: should not be global, include module directly
         "theme_controller": "readonly", // FIXME: should not be global, include module directly
         "uiHelper": "readonly", // FIXME: should not be global, include module directly
         "i18n": "readonly",

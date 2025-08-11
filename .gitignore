@@ -7,7 +7,6 @@ package-lock.json
 !/.vscode/settings.json
 /.idea
 /app/templates/verse_list.js
-/app/templates/tag_list.js
 /app/commit_info.js
 strongs_todo.txt
 .DS_Store

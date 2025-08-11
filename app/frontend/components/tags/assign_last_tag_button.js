@@ -72,7 +72,7 @@ class AssignLastTagButton {
 
   async handleClick() {
     if (!this._button[0].classList.contains('ui-state-disabled')) {
-      await tags_controller.assignLastTag();
+      await tag_assignment_panel.assignLastTag();
     }
   }
 
@@ -96,8 +96,8 @@ class AssignLastTagButton {
   }
 
   async getCurrentTag() {
-    var tagId = tags_controller.tag_store.latest_tag_id;
-    var currentTag = await tags_controller.tag_store.getTag(tagId);
+    var tagId = tag_assignment_panel.tag_store.latest_tag_id;
+    var currentTag = await tag_assignment_panel.tag_store.getTag(tagId);
     return currentTag !== null ? currentTag.title : '';
   }
 
@@ -105,7 +105,7 @@ class AssignLastTagButton {
     if (currentDbTag != undefined) {
       tagId = currentDbTag.id;
     } else if (tagId == undefined) {
-      tagId = tags_controller.tag_store.latest_tag_id;
+      tagId = tag_assignment_panel.tag_store.latest_tag_id;
     }
 
     var currentTag = null;
@@ -113,7 +113,7 @@ class AssignLastTagButton {
     if (currentDbTag != undefined) {
       currentTag = currentDbTag;
     } else {
-      currentTag = await tags_controller.tag_store.getTag(tagId);
+      currentTag = await tag_assignment_panel.tag_store.getTag(tagId);
     }
 
     if (currentTag != null) {
@@ -138,12 +138,12 @@ class AssignLastTagButton {
     var assignLastTagButtons = document.querySelectorAll('.assign-last-tag-button');
 
     if (versesSelected) {
-      if (tags_controller.tag_store.latest_tag_id != null) {
+      if (tag_assignment_panel.tag_store.latest_tag_id != null) {
         var tagFound = false;
 
         for (var i = 0; i < selectedVerseTags.length; i++) {
           var currentTagTitle = selectedVerseTags[i].title;
-          var latestTag = await tags_controller.tag_store.getTag(tags_controller.tag_store.latest_tag_id);
+          var latestTag = await tag_assignment_panel.tag_store.getTag(tag_assignment_panel.tag_store.latest_tag_id);
 
           if (currentTagTitle == latestTag.title) {
             tagFound = true;

@@ -18,7 +18,7 @@
     "dev-test": "./node_modules/.bin/cucumber-js --fail-fast",
     "full-test": "./node_modules/.bin/cucumber-js",
     "headless-test": "xvfb-run ./node_modules/.bin/cucumber-js",
-    "compile-pug": "pug --client --no-debug --pretty -n verseListTemplate app/templates/verse_list.pug && pug --client --no-debug --pretty -n tagListTemplate app/templates/tag_list.pug",
+    "compile-pug": "pug --client --no-debug --pretty -n verseListTemplate app/templates/verse_list.pug",
     "add-github-workspace-to-safe-git-dirs": "git config --global --add safe.directory /github/workspace",
     "commit-info": "git-to-json --dir app --name commit_info",
     "postinstall": "npm run compile-pug",
