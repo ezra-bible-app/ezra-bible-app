@@ -100,7 +100,7 @@ module.exports.getLanguageDetails = function (languageCode, localeCode='en') {
   if (scriptCode) {
     const scriptDetails = getDetailsByCode(scriptCode);
 
-    if (!scriptDetails) {
+    if (scriptDetails) {
       languageScript = scriptDetails[localeCode] || scriptDetails["en"];
     } else {
       console.log(`Can't retrieve script details for ${scriptCode}.`);
