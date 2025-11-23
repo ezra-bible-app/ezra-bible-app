@@ -3,4 +3,4 @@ name: 'build-trixie'
 description: 'Build Ezra Bible App for Debian Trixie'
 runs:
     using: 'docker'
-    image: 'docker://toklein/ezra-bullseye:latest'
+    image: 'docker://toklein/ezra-trixie:latest'

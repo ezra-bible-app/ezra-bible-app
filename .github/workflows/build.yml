@@ -132,6 +132,7 @@ jobs:
           with:
             name: ezra-bible-app_debian12_latest
             path: ezra-bible-app_latest.deb
+
     build-trixie:
         name: Build Debian 13 package
         runs-on: ubuntu-latest
