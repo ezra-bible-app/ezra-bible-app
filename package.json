@@ -44,6 +44,7 @@
     "deb_buster": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_debian10.json",
     "deb_bullseye": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_debian11.json",
     "deb_bookworm": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_debian12.json",
+    "deb_trixie": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_debian13.json",
     "rpm_centos": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_centos.json",
     "rpm_fedora": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora.json",
     "rpm_fedora35": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora35.json",
