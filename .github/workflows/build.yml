@@ -133,6 +133,21 @@ jobs:
             name: ezra-bible-app_debian12_latest
             path: ezra-bible-app_latest.deb
 
+    build-trixie:
+        name: Build Debian 13 package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - name: Build
+          uses: ./.github/actions/build_trixie
+          env:
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        - name: Upload deb file
+          uses: actions/upload-artifact@v4.4.0
+          with:
+            name: ezra-bible-app_debian13_latest
+            path: ezra-bible-app_latest.deb
+
     build-fedora33:
         name: Build Fedora 33 package
         runs-on: ubuntu-latest
@@ -311,7 +326,13 @@ jobs:
         with:
           name: ezra-bible-app_debian12_latest
           path: ezra-bible-app_debian12_latest
-
+      
+      - name: Download debian13 package
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: ezra-bible-app_debian13_latest
+          path: ezra-bible-app_debian13_latest
+      
       - name: Download fedora33 package
         uses: actions/download-artifact@v4.1.8
         with:
@@ -367,6 +388,7 @@ jobs:
           mv ezra-bible-app_ubuntu2404_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_ubuntu2404-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_debian11_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian11-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_debian12_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian12-${GITHUB_REF##*/}.deb
+          mv ezra-bible-app_debian13_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian13-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_centos8_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_centos8-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_centos9_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_centos9-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_opensuse_leap_15.5_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap_15.5-${GITHUB_REF##*/}.rpm
