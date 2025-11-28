@@ -100,7 +100,7 @@
     "sanitize-html": "^2.13.0",
     "sequelize": "^5.22.4",
     "simple-emoji-button": "^4.6.2",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.1.7",
     "strongs": "^1.0.2",
     "umzug": "^2.3.0"
   },
