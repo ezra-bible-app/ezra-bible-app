@@ -126,7 +126,7 @@
     "jest-environment-jsdom": "^29.0.3",
     "jsdoc": "^4.0.0",
     "node-abi": "^3.71.0",
-    "node-gyp": "^9.1.0",
+    "node-gyp": "^12.1.0",
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^5.5.1",
     "spectron": "^19.0.0",
@@ -135,7 +135,7 @@
   },
   "overrides": {
     "sqlite3": {
-      "node-gyp": "^9.1.0"
+      "node-gyp": "^12.1.0"
     }
   }
 }
