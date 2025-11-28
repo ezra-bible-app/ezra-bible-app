@@ -9,7 +9,7 @@ on:
 jobs:
     build-win32:
         name: Build Windows installer
-        runs-on: windows-2022
+        runs-on: windows-2019
         steps:
         - uses: actions/checkout@v4
         - uses: actions/setup-node@v4
@@ -17,9 +17,6 @@ jobs:
             node-version: '20.17.0'
         - name: Remove docs folder
           run: Remove-Item -Recurse -Force docs
-          shell: pwsh
-        - name: Set execution policy
-          run: Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted
           shell: pwsh
         - name: Build
           uses: nick-fields/retry@v2
