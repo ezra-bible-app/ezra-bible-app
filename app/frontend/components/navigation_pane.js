@@ -370,8 +370,8 @@ class NavigationPane {
 
     let tagGroupMembers = null;
 
-    if (tags_controller.tagGroupUsed() && tagGroupFilterOption.isChecked) {
-      tagGroupMembers = await tags_controller.tag_store.getTagGroupMemberIds(tags_controller.currentTagGroupId);
+    if (tag_assignment_panel.tagGroupUsed() && tagGroupFilterOption.isChecked) {
+      tagGroupMembers = await tag_assignment_panel.tag_store.getTagGroupMemberIds(tag_assignment_panel.currentTagGroupId);
     }
 
     for (let i = 1; i <= chapterCount; i++) {

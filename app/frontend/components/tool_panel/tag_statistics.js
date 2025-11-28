@@ -201,7 +201,7 @@ class TagStatistics {
       let helpInstructionPart1 = i18n.t('tag-statistics-panel.help-instruction-part1', { interpolation: {escapeValue: false} });
       let helpInstructionPart2 = '';
 
-      if (tags_controller.tagGroupUsed()) {
+      if (tag_assignment_panel.tagGroupUsed()) {
         helpInstructionPart2 = i18n.t('tag-statistics-panel.help-instruction-part2-tag-group', { interpolation: {escapeValue: false} });
       } else {
         helpInstructionPart2 = i18n.t('tag-statistics-panel.help-instruction-part2', { interpolation: {escapeValue: false} });

@@ -210,14 +210,14 @@ class VerseBox {
     }
 
     let tagGroupFilterOption = app_controller.optionsMenu._tagGroupFilterOption;
-    let tagGroupId = tags_controller.currentTagGroupId;
+    let tagGroupId = tag_assignment_panel.currentTagGroupId;
     let filterTags = true;
     let tagGroupMemberIds = [];
 
     if (tagGroupId == null || tagGroupId < 0 || !tagGroupFilterOption.isChecked) {
       filterTags = false;
     } else {
-      tagGroupMemberIds = await tags_controller.tag_store.getTagGroupMemberIds(tagGroupId);
+      tagGroupMemberIds = await tag_assignment_panel.tag_store.getTagGroupMemberIds(tagGroupId);
     }
 
     var tag_box = $(this.verseBoxElement).find('.tag-box');
@@ -229,7 +229,7 @@ class VerseBox {
 
     for (let i = 0; i < tag_title_array.length; i++) {
       let current_tag_title = tag_title_array[i];
-      let current_tag = await tags_controller.tag_store.getTagByTitle(current_tag_title);
+      let current_tag = await tag_assignment_panel.tag_store.getTagByTitle(current_tag_title);
 
       if (current_tag != null) {
         let visible = true;

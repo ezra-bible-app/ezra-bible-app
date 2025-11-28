@@ -69,6 +69,17 @@ class MobileTabController {
       // Update tab buttons array when a tab is removed
       this.updateTabButtons();
     });
+    
+    // Listen for the tab controller's loading completion
+    eventController.subscribe('on-tab-controller-loaded', () => {
+      // Ensure the correct tab is selected
+      const selectedTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      if (selectedTabIndex > 0) {
+        setTimeout(() => {
+          app_controller.tab_controller.tabs.tabs('select', selectedTabIndex);
+        }, 300); // Small delay to ensure DOM is ready
+      }
+    });
 
     this.isInitialized = true;
     this.refreshMobileTabMenu();

@@ -9,7 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
@@ -364,6 +364,26 @@ class ItemListManager {
     }
 
     link.classList.remove('active');
+  }
+
+  /**
+   * Resets the ItemListManager by clearing all selections and refreshing the item list.
+   * This function first clears the add and remove lists, then removes all active selections
+   * from the UI, and finally refreshes the item list.
+   */
+  async resetAndRefresh() {
+    // Reset internal selection tracking
+    this._addList = [];
+    this._removeList = [];
+    
+    // Clear all UI selections
+    let allItems = this.getAllItemElements();
+    allItems.forEach((item) => {
+      this.disableItemElement(item);
+    });
+    
+    // Refresh the displayed items
+    await this.refreshItemList();
   }
 
   getItemElementId(element) {

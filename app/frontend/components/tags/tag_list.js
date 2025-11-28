@@ -9,7 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
@@ -83,15 +83,30 @@ const template = html`
  * The TagList is a web component that lists all tags. The tags are selectable.
  * 
  * The respective element is <tag-list></tag-list>.
+ * 
+ * Events:
+ * - selectionChanged: Fired when a tag is selected or deselected.
+ * 
+ * Properties:
+ * - addList: Gets the list of tags that were selected.
+ * - isChanged: Indicates whether or not tags have been selected.
+ * - filter: Sets a filter string to filter the displayed tags.
+ * - tagManager: Gets the underlying TagManager instance.
  */
 class TagList extends HTMLElement {
   constructor() {
     super();
 
-    this._tagManager = new TagManager(() => { },
-                                      true,
-                                      false,
-                                      'tag-item');
+    this._tagManager = new TagManager((event) => {
+      // Handle tag item click
+      this.dispatchEvent(new CustomEvent('selectionChanged', {
+        bubbles: true,
+        composed: true
+      }));
+    },
+    true,
+    false,
+    'tag-item');
   }
 
   connectedCallback() {  

@@ -9,7 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
@@ -21,9 +21,31 @@ const eventController = require('../../controllers/event_controller.js');
 const { waitUntilIdle } = require("../../helpers/ezra_helper.js");
 
 /**
- * The tag group manager is a special ItemListManager for a list of tag groups.
+ * The TagGroupManager is a special ItemListManager for a list of tag groups.
+ * 
+ * This class provides functionality to manage, display, and interact with tag groups in the application.
+ * It extends the ItemListManager class and specializes in tag group-specific operations such as:
+ * - Handling tag group selection and display
+ * - Filtering tag groups by Bible book
+ * - Responding to tag group changes (rename, delete, member changes)
+ * - Managing the list of available tag groups
+ * 
+ * @class
+ * @extends ItemListManager
  */
 class TagGroupManager extends ItemListManager {
+  /**
+   * Creates a new TagGroupManager instance.
+   * 
+   * @param {Function} onClickHandler - Callback function that is invoked when a tag group is clicked.
+   * @param {Function} onEditHandler - Callback function that is invoked when the edit button for a tag group is clicked.
+   * @param {Function} onDeleteHandler - Callback function that is invoked when the delete button for a tag group is clicked.
+   * @param {boolean} selectable - Whether tag groups in this manager should be selectable. Defaults to false.
+   * @param {boolean} editable - Whether tag groups in this manager should be editable (show edit/delete buttons). Defaults to false.
+   * @param {string} cssClass - The CSS class that will be applied to each tag group element in the list.
+   * @param {Array} virtualItems - An optional array of virtual tag group items to include at the beginning of the list.
+   *                              Virtual items should have 'id' and 'title' properties. Defaults to empty array.
+   */
   constructor(onClickHandler,
               onEditHandler,
               onDeleteHandler,
@@ -63,10 +85,26 @@ class TagGroupManager extends ItemListManager {
     });
   }
 
+  /**
+   * Sets a filter to only show tag groups used in a specific Bible book.
+   * 
+   * @param {string} bookFilter - The book code (e.g., 'Gen', 'Exod', 'Matt') to filter by.
+   *                              When set, only tag groups used in this book will be shown.
+   */
   setBookFilter(bookFilter) {
     this._bookFilter = bookFilter;
   }
 
+  /**
+   * Retrieves all tag groups from the database, optionally filtered by Bible book.
+   * 
+   * This method overrides the base getDbItems method from ItemListManager.
+   * If a book filter is set, it will only return tag groups used in that book.
+   * 
+   * @async
+   * @returns {Array} An array of tag group objects, each containing 'id', 'title' and potentially 'count' properties.
+   * @override
+   */
   async getDbItems() {
     var bibleBook = null;
     var bibleBookId = 0;
