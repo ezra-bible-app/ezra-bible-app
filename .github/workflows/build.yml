@@ -19,7 +19,7 @@ jobs:
           run: Remove-Item -Recurse -Force docs
           shell: pwsh
         - name: Set execution policy
-          run: Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+          run: Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted
           shell: pwsh
         - name: Build
           uses: nick-fields/retry@v2
