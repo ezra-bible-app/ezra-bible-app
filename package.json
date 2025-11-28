@@ -129,7 +129,6 @@
     "node-gyp": "^12.1.0",
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^5.5.1",
-    "spectron": "^19.0.0",
     "terser": "^5.12.1",
     "xvfb-maybe": "^0.2.1"
   },
