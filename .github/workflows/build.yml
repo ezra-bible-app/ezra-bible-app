@@ -18,6 +18,9 @@ jobs:
         - name: Remove docs folder
           run: Remove-Item -Recurse -Force docs
           shell: pwsh
+        - name: Set execution policy
+          run: Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+          shell: pwsh
         - name: Build
           uses: nick-fields/retry@v2
           env:
