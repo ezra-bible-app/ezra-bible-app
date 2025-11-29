@@ -9,13 +9,12 @@ on:
 jobs:
     build-win32:
         name: Build Windows installer
-        if: false
-        runs-on: windows-2022
+        runs-on: windows-2025
         steps:
         - uses: actions/checkout@v4
         - uses: actions/setup-node@v4
           with:
-            node-version: '14'
+            node-version: '20.17.0'
         - name: Remove docs folder
           run: Remove-Item -Recurse -Force docs
           shell: pwsh
