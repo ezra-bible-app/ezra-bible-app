@@ -337,52 +337,49 @@ class TagListFilter {
   
   async loadMatchingTags(tagIds) {
     if (!tag_assignment_panel || !tag_assignment_panel.tag_list_renderer.fullTagList) return;
-    
-    // First check which tags are already in the DOM to avoid duplicates
+
     const tagsPanel = document.getElementById('tags-content-global');
     if (!tagsPanel) return;
-    
+
     const existingTagElements = tagsPanel.querySelectorAll('.checkbox-tag');
     const existingTagIds = Array.from(existingTagElements).map(tag => parseInt(tag.getAttribute('tag-id')));
-    
-    // Filter out tag IDs that are already in the DOM
+
     const uniqueTagIds = tagIds.filter(id => !existingTagIds.includes(id));
-    
-    // If all requested tags are already in the DOM, nothing to do
+
     if (uniqueTagIds.length === 0) return;
-    
-    // Get tags that match the IDs and aren't already in the DOM
+
     const tagsToLoad = tag_assignment_panel.tag_list_renderer.fullTagList.filter(tag => uniqueTagIds.includes(tag.id));
-    
     if (tagsToLoad.length === 0) return;
-    
-    // Generate HTML for these tags
-    // Use the full tag statistics from the renderer to ensure count information is included
+
     const tagListHtml = tag_assignment_panel.generateTagListHtml(
-      tagsToLoad, 
+      tagsToLoad,
       tag_assignment_panel.tag_list_renderer.fullTagStatistics
     );
-    
-    // Add these tags to the container
+
     const tempContainer = document.createElement('div');
     tempContainer.innerHTML = tagListHtml;
-    
-    // Append each tag individually to maintain event binding
+
     let visibleCounter = document.querySelectorAll('#tags-content-global .checkbox-tag:not(.hidden)').length + 1;
-    
+
     while (tempContainer.firstChild) {
-      tagsPanel.appendChild(tempContainer.firstChild);
-      
-      // Get the tag we just added and make sure it exists before modifying it
+      const node = tempContainer.firstChild;
+      tagsPanel.appendChild(node);
+
       const addedTag = tagsPanel.lastChild;
       if (addedTag && addedTag.classList) {
         addedTag.classList.remove('hidden');
         this.addAlternatingClass(addedTag, visibleCounter);
         visibleCounter++;
+
+        // Register the tag ID as rendered to avoid lazy loader duplicating it
+        const tagIdAttr = addedTag.getAttribute('tag-id');
+        const tagId = tagIdAttr ? parseInt(tagIdAttr) : null;
+        if (tagId !== null && tag_assignment_panel.tag_list_renderer && tag_assignment_panel.tag_list_renderer.renderedTagIds) {
+          tag_assignment_panel.tag_list_renderer.renderedTagIds.add(tagId);
+        }
       }
     }
-    
-    // Configure the new tag elements
+
     uiHelper.configureButtonStyles('#tags-content-global');
   }
 }

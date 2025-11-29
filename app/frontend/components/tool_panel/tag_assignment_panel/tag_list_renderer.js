@@ -42,6 +42,9 @@ class TagListRenderer {
     this.assignTagHint = i18n.t('tags.assign-tag-hint');
     this.removeTagAssignmentLabel = i18n.t('tags.remove-tag-assignment');
     this.assignTagLabel = i18n.t('tags.assign-tag');
+
+    // Track which tags have been rendered to avoid duplicates
+    this.renderedTagIds = new Set();
   }
 
   /**
@@ -61,8 +64,9 @@ class TagListRenderer {
     this.currentTagIndex = 0;
     this.isBookView = isBook;
     
-    // Clear the container
+    // Clear the container and reset rendered tags tracking
     globalTagsBoxEl.innerHTML = '';
+    this.renderedTagIds.clear();
     
     // Add scroll listener if not already added
     if (!this.scrollListenerAdded) {
@@ -260,13 +264,35 @@ class TagListRenderer {
     // Generate HTML for this batch
     const tagListHtml = this.generateTagListHtml(tagsToLoad, this.fullTagStatistics);
     
-    // Append the new tags to the container
+    // Append the new tags to the container, but skip duplicates
     const tempContainer = document.createElement('div');
     tempContainer.innerHTML = tagListHtml;
-    
-    // Append each tag individually to maintain event binding
+
     while (tempContainer.firstChild) {
-      tagsPanel.appendChild(tempContainer.firstChild);
+      const node = tempContainer.firstChild;
+      // Ensure it is a tag element and check for duplicates
+      const isCheckboxTag = node.classList && node.classList.contains('checkbox-tag');
+      if (isCheckboxTag) {
+        const tagIdAttr = node.getAttribute('tag-id');
+        const tagId = tagIdAttr ? parseInt(tagIdAttr) : null;
+
+        if (tagId !== null) {
+          if (!this.renderedTagIds.has(tagId)) {
+            this.renderedTagIds.add(tagId);
+            tagsPanel.appendChild(node);
+          } else {
+            // Skip duplicate element
+            tempContainer.removeChild(node);
+            continue;
+          }
+        } else {
+          // Fallback: append if we cannot determine ID
+          tagsPanel.appendChild(node);
+        }
+      } else {
+        // Non-tag node (should not happen), append safely
+        tagsPanel.appendChild(node);
+      }
     }
     
     // Update the current index
