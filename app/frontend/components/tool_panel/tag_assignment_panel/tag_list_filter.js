@@ -192,6 +192,13 @@ class TagListFilter {
     }
   }
 
+  hideTagFilterMenu() {
+    var tagFilterMenu = document.getElementById('tag-filter-menu');
+    if (tagFilterMenu) {
+      tagFilterMenu.style.display = 'none';
+    }
+  }
+
   showTagSelectionFilterLoadingIndicator() {
     var tagFilterMenu = document.getElementById('tag-filter-menu');
     if (tagFilterMenu.parentNode.getAttribute('id') != 'boxes') {
