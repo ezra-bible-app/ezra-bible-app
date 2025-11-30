@@ -371,7 +371,8 @@ class TagListRenderer {
     if (loader) {
       loader.style.display = 'block';
     }
-    loadingIndicator.style.display = 'block';
+
+    loadingIndicator.style.display = 'flex';
   }
 
   /**
