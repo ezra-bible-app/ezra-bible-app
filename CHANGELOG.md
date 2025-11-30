@@ -1,6 +1,50 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.18.0 - 2025-12-20]
+
+### Enhancements
+
+* Make font family of user content (tags / notes) customizable. ([#1204][i1204])
+* Show recently used passages in Bible book menu. ([#1224][i1224])
+* Configurable order of verse reference and verse content in copy/pasted texts. ([#1218][i1218])
+* Chrome-style tab navigation for mobile app. ([#1242][i1242])
+* Show module id, repository name and version info in module update table. ([#1239][i1239])
+
+### Fixes
+
+* Tags in tag selection menu are not sorted correctly after tag title is renamed. ([#1251][i1251])
+* Tag rename dialogue responds to enter key even if save button is disabled. ([#1252][i1252])
+* New menu button layout may not fit horizontally on mobile screens. ([#1240][i1240])
+* Empty tabs appearing after a Dropbox sync at startup. ([#1241][i1241])
+* Word boundary search option not applied correctly by search result highlighting. ([#1244][i1244])
+* Module search not responding to enter button on mobile. ([#1245][i1245])
+* Scroll position of active tab not correctly persisted. ([#1248][i1248])
+* Swipe actions are not working right after startup in case of multiple tabs. ([#1250][i1250])
+* Unable to do "Configure translations". ([#1269][i1269])
+
+### Enablers
+
+* Debian 13 package. ([#1257][i1257])
+* Fix Windows build. ([#1274][i1274])
+
+[i1204]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1204
+[i1218]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1218
+[i1224]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1224
+[i1239]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1239
+[i1240]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1240
+[i1241]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1241
+[i1242]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1242
+[i1244]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1244
+[i1245]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1245
+[i1248]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1248
+[i1250]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1250
+[i1251]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1251
+[i1252]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1252
+[i1257]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1257
+[i1269]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1269
+[i1274]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1274
+
 ## [1.17.0 - 2025-04-19]
 
 ### Features
