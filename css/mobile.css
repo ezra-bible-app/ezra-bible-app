@@ -714,7 +714,6 @@ Librem 5/Pinephone etc.
   }
 
   #tags-content-global loading-indicator {
-    display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     width: 100% !important;
