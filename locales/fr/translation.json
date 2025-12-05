@@ -218,7 +218,7 @@
     "general-options": "Options générales",
     "check-new-releases": "Vérifiez s'il y a de nouvelles versions",
     "send-crash-reports": "Envoyer les rapports d'erreurs",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Copiez les versets commençant par la référence",
     "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !",
     "type-face": {
       "configure-typeface": "Configurer la police de caractères du contenu",
@@ -226,10 +226,10 @@
       "serif": "Avec empattement",
       "custom": "Personnalisée",
       "content-font-family": "Famille de polices de caractères pour le contenu",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
+      "content-heading": "Contenu de la Bible",
+      "user-content-heading": "Étiquettes et notes",
       "custom-content-font": "Police de caractères personnalisée pour le contenu",
-      "same-as-content": "Same as content"
+      "same-as-content": "Identique au contenu"
     },
     "title": "Titre ",
     "tabs": "Tabs"
