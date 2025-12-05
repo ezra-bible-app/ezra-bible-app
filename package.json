@@ -151,7 +151,7 @@
       "**/*.node",
       "**/*.dll",
       "**/*.lib",
-      "**/*.conf"
+      "node_modules/node-sword-interface/locales.d/**"
     ],
     "win": {
       "target": [
