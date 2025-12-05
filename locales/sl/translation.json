@@ -138,7 +138,7 @@
     "config-file-path": "Pot do konfiguracije",
     "module-name": "Ime",
     "module-version": "Različica",
-    "module-version-info": "Version info",
+    "module-version-info": "Informacije o različici",
     "module-current-version": "Trenutna različica",
     "module-new-version": "Nova različica",
     "module-last-update": "Zadnja posodobitev",
@@ -208,7 +208,7 @@
     "general-options": "Glavne nastavitve",
     "check-new-releases": "Preverite za novo izdajo",
     "send-crash-reports": "Pošlji poročila o napakah",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Kopiraj vrstice, ki se pričnejo z referenco",
     "welcome-to-ezra-bible-app": "Dobrodošli v Ezra Bible aplikaciji!",
     "type-face": {
       "configure-typeface": "Konfiguracija pisave",
@@ -217,12 +217,12 @@
       "custom": "Po meri",
       "content-font-family": "Družina pisave",
       "custom-content-font": "Pisava po meri",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "content-heading": "Biblijska vsebina",
+      "user-content-heading": "Oznake & Opombe",
+      "same-as-content": "Isto kot vsebina"
     },
     "title": "Naslov",
-    "tabs": "Tabs"
+    "tabs": "Zavihki"
   },
   "data-privacy": {
     "confirm-privacy-options": "Potrdite možnosti zasebnosti podatkov",
@@ -330,7 +330,7 @@
   "bible-browser": {
     "chapter": "Poglavje",
     "chapter-header": "Pog.",
-    "recent-passages": "Recent passages",
+    "recent-passages": "Nedavne vrstice",
     "psalm": "Psalm",
     "selection": "Izbira: ",
     "loading-bible-text": "Nalaganje svetopisemskega besedila",
@@ -412,7 +412,7 @@
       "moved": "Te besede so bile v izvornem besedilu na drugem mestu",
       "tense-change": "Slovnični čas teh besed je bil spremenjen, da bi olajšali prevod"
     },
-    "empty-tab-title": "Empty tab"
+    "empty-tab-title": "Prazen zavihek"
   },
   "word-study-panel": {
     "greek-dict": "Grško preučevanje besed",
