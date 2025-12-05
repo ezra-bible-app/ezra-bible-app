@@ -33,7 +33,7 @@ jobs:
           env:
             SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Rename installer
-          run: Get-ChildItem release\packages\*Setup.exe | rename-item -NewName { "ezra-bible-app_win32_setup_latest.exe" }
+          run: Get-ChildItem release\eb-win\*Setup*.exe | rename-item -NewName { "ezra-bible-app_win32_setup_latest.exe" }
           shell: pwsh
         - name: Upload installer
           uses: actions/upload-artifact@v4.4.0
