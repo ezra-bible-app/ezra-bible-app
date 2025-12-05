@@ -1,4 +1,3 @@
-call npm run prune-node-modules
-call npm run package-win
-call npm run fix-binary-timestamps
-call npm run installer-win
+call node_modules\\.bin\\clean-modules -y
+call npm run build-win-eb
+call dir release\packages
