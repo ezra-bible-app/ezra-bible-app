@@ -141,7 +141,7 @@
     "appId": "net.ezrabibleapp.electron",
     "productName": "Ezra Bible App",
     "copyright": "Copyright © 2025 Tobias Klein",
-    "asar": true,
+    "asar": false,
     "npmRebuild": false,
     "buildDependenciesFromSource": true,
     "directories": {
