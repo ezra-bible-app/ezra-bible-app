@@ -210,7 +210,7 @@
     "general-options": "Algemene opties",
     "check-new-releases": "Kijk of er nieuwe uitgaven zijn",
     "send-crash-reports": "Foutrapporten verzenden",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Versverwijzing vóór tekst plaatsen bij kopiëren",
     "welcome-to-ezra-bible-app": "Welkom bij Ezra Bible App!",
     "type-face": {
       "configure-typeface": "Stel lettertype in",
@@ -219,9 +219,9 @@
       "custom": "Aangepast",
       "content-font-family": "Lettertypefamilie voor inhoud",
       "custom-content-font": "Aangepast lettertype voor inhoud",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "content-heading": "Bijbelinhoud",
+      "user-content-heading": "Tags & notities",
+      "same-as-content": "Zelfde als inhoud"
     },
     "title": "Titel",
     "tabs": "Tabs"
