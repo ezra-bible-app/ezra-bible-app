@@ -76,6 +76,7 @@ class IpcNsiHandler {
       }
 
       if (basePath !== undefined) {
+        console.log(`Initializing NSI with special basePath ${basePath}.`);
         nsi = new NodeSwordInterface(customSwordDir, basePath);
       } else {
         nsi = new NodeSwordInterface(customSwordDir);
