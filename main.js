@@ -22,11 +22,6 @@ const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
 const IPC = require('./app/backend/ipc/ipc.js');
 const PlatformHelper = require('./app/lib/platform_helper.js');
 
-if (process.platform === 'win32') {
-  // This is only needed for making the Windows installer work properly
-  if (require('electron-squirrel-startup')) app.quit();
-}
-
 function initGlobals() {
   global.isDev = !app.isPackaged;
   global.ipc = new IPC();
