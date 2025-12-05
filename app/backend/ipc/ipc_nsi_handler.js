@@ -59,7 +59,7 @@ class IpcNsiHandler {
     var nsi = null;
 
     var basePath = undefined;
-    if (this._platformHelper.isWindows()) {
+    if (this._platformHelper.isWin()) {
       if (process.env.NODE_ENV === 'development') {
         basePath = path.join(__dirname, 'node_modules/node-sword-interface');
       } else {
