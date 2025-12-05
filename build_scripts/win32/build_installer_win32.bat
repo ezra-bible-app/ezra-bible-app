@@ -1,3 +1,3 @@
-call node_modules\\.bin\\prune-node-modules -y
+call node_modules\\.bin\\clean-modules -y
 call npm run build-win-eb
-call dir release\eb-win
+call dir release\packages
