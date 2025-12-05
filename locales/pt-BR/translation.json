@@ -208,7 +208,7 @@
     "general-options": "Opções gerais",
     "check-new-releases": "Verifique se há novos lançamentos",
     "send-crash-reports": "Enviar relatórios de erros",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Colocar a referência do versículo antes do texto ao copiar",
     "welcome-to-ezra-bible-app": "Bem vindo ao aplicativo Bíblia Esdras!",
     "type-face": {
       "configure-typeface": "Configurar tipo de fonte do conteúdo",
@@ -217,9 +217,9 @@
       "custom": "Personalizado",
       "content-font-family": "Família de fontes do conteúdo",
       "custom-content-font": "Fonte personalizada do conteúdo",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "content-heading": "Texto bíblico",
+      "user-content-heading": "Etiquetas e notas",
+      "same-as-content": "Igual ao conteúdo"
     },
     "title": "Título",
     "tabs": "Tabs"
