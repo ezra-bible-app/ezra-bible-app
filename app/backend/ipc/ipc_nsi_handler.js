@@ -20,6 +20,7 @@ const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
 const fs = require('fs');
+const path = require('path');
 
 class IpcNsiHandler {
   constructor(customSwordDir=undefined) {
@@ -57,15 +58,34 @@ class IpcNsiHandler {
   createNsi(customSwordDir=undefined) {
     var nsi = null;
 
+    var basePath = undefined;
+    if (this._platformHelper.isWindows()) {
+      if (process.env.NODE_ENV === 'development') {
+        basePath = path.join(__dirname, 'node_modules/node-sword-interface');
+      } else {
+        if (process.resourcesPath != null) {
+          basePath = path.join(process.resourcesPath, 'app.asar.unpacked/node_modules/node-sword-interface');
+        }
+      }
+    }
+
     if (customSwordDir !== undefined) {
       // If the custom SWORD directory is not existing at this point ... create it!
       if (!fs.existsSync(customSwordDir)) {
         fs.mkdirSync(customSwordDir);
       }
 
-      nsi = new NodeSwordInterface(customSwordDir);
+      if (basePath !== undefined) {
+        nsi = new NodeSwordInterface(customSwordDir, basePath);
+      } else {
+        nsi = new NodeSwordInterface(customSwordDir);
+      }
     } else {
-      nsi = new NodeSwordInterface();
+      if (basePath !== undefined) {
+        nsi = new NodeSwordInterface(undefined, basePath);
+      } else {
+        nsi = new NodeSwordInterface();
+      }
     }
 
     return nsi;
