@@ -204,7 +204,7 @@
     "general-options": "Allgemeine Optionen",
     "check-new-releases": "Neue Releases abfragen",
     "send-crash-reports": "Fehlerberichte senden",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Platziere Bibelstelle vor dem Text beim Kopieren",
     "welcome-to-ezra-bible-app": "Willkommen bei Ezra Bible App!",
     "type-face": {
       "configure-typeface": "Schriftart für Inhalte konfigurieren",
@@ -212,10 +212,10 @@
       "serif": "Serif",
       "custom": "Benutzerdefiniert",
       "content-font-family": "Schriftfamilie für Inhalte",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
+      "content-heading": "Bibeltext",
+      "user-content-heading": "Tags & Notizen",
       "custom-content-font": "Benutzerdefinierte Schriftart für Inhalte",
-      "same-as-content": "Same as content"
+      "same-as-content": "Gleich wie Inhalt"
     },
     "title": "Titel",
     "tabs": "Tabs"
@@ -366,7 +366,6 @@
     "show-header-navigation": "Zeige Überschriftennavigator",
     "show-tab-search": "Zeige Suche für aktuelles Tab",
     "open-verse-lists-in-new-tab": "Verslisten in neuem Tab öffnen",
-    "open-in-new-tab": "In neuem Tab öffnen",
     "show-search-results-in-popup": "Suchergebnisse in Dialog anzeigen",
     "show-notes-tags-indicators": "Zeige Notiz/Tag Indikatoren",
     "show-tags": "Zeige Tags",
@@ -385,6 +384,7 @@
     "strongs-number-not-valid": "Dies ist keine gültige Strong's Nr.!",
     "open-new-tab": "Neuen Tab öffnen",
     "open-verselist-in-new-tab": "Versliste in neuem Tab öffnen",
+    "open-in-new-tab": "In neuem Tab öffnen",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Schriftgröße von Tags und Notizen anpassen",
     "adjust-font-size-side-panel": "Schriftgröße der Seitenleiste anpassen",
