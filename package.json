@@ -158,6 +158,14 @@
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true
-    }
+    },
+    "protocols": [
+       {
+           "name": "Ezra Bible App",
+           "schemes": [
+               "ezrabible"
+           ]
+       }
+    ]
   }
 }
