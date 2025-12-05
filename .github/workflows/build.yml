@@ -39,7 +39,7 @@ jobs:
           uses: actions/upload-artifact@v4.4.0
           with:
             name: ezra-bible-app_win32_latest
-            path: release\packages\ezra-bible-app_win32_setup_latest.exe
+            path: release\eb-win\ezra-bible-app_win32_setup_latest.exe
 
 #    build-mac:
 #        name: Build macOS DMG file
