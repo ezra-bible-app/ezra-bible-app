@@ -54,7 +54,7 @@
     "build-mac": "./build_scripts/macos/build_mac.sh",
     "build-win": "build_scripts\\win32\\build_win32.bat",
     "build-win-installer": "build_scripts\\win32\\build_installer_win32.bat",
-    "build-win-eb": "electron-builder --win --x64",
+    "build-win-eb": "electron-builder --win --ia32",
     "upload-debug-symbols-mac": "./node_modules/.bin/sentry-cli upload-dif -o tobias-klein -p ezra-bible-app ./node_modules/node-sword-interface/build/Release/node_sword_interface.node",
     "update-loc-metrics": "./build_scripts/update_loc_metrics.sh",
     "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh",
