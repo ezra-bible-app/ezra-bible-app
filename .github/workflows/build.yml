@@ -43,7 +43,7 @@ jobs:
 
     build-mac:
         name: Build macOS DMG file
-        runs-on: [self-hosted, macOS]
+        runs-on: [macOS]
         steps:
         - uses: actions/checkout@v4
         - name: Build
