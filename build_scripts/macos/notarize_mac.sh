@@ -1,15 +1,21 @@
 #!/bin/bash
 
-echo "Enter your Apple ID:"
-read APPLE_ID
+if [ -z "$APPLE_ID" ]; then
+  echo "Enter your Apple ID:"
+  read APPLE_ID
+fi
 
-echo ""
-echo "Enter your Apple ID password:"
-read APPLE_ID_PW
+if [ -z "$APPLE_ID_PW" ]; then
+  echo ""
+  echo "Enter your Apple ID password:"
+  read APPLE_ID_PW
+fi
 
-echo ""
-echo "Enter your Apple Team ID (get this from https://developer.apple.com/account):"
-read APPLE_TEAM_ID
+if [ -z "$APPLE_TEAM_ID" ]; then
+  echo ""
+  echo "Enter your Apple Team ID (get this from https://developer.apple.com/account):"
+  read APPLE_TEAM_ID
+fi
 
 echo ""
 
