@@ -51,6 +51,12 @@ jobs:
           run: npm run build-mac
         - name: Sign
           run: npm run sign-mac
+        - name: Notarize
+          env:
+            APPLE_ID: ${{ secrets.APPLE_ID }}
+            APPLE_ID_PW: ${{ secrets.APPLE_ID_PW }}
+            APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          run: npm run notarize-mac
         - name: Create DMG
           run: npm run dmg-mac
         - name: Rename DMG
