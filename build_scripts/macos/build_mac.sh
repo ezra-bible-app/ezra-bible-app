@@ -4,7 +4,6 @@
 # Set minimum macOS version to 10.10 (Yosemite)
 export MACOSX_DEPLOYMENT_TARGET=10.10
 
-# Assume Node.js is already installed on the runner
 npm install
 npm run compile-pug
 npm run commit-info
