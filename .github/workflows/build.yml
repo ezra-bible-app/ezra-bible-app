@@ -44,6 +44,7 @@ jobs:
     build-mac:
         name: Build macOS DMG file
         runs-on: [macOS]
+        timeout-minutes: 10
         steps:
         - uses: actions/checkout@v4
         - name: Build
