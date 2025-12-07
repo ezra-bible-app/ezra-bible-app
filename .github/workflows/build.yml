@@ -10,7 +10,7 @@ jobs:
     build-win32:
         name: Build Windows installer
         runs-on: [self-hosted-win10]
-#        if: github.event_name == 'release'
+        if: github.event_name == 'release'
         steps:
         - uses: actions/checkout@v4
         - uses: actions/setup-node@v4
@@ -45,7 +45,7 @@ jobs:
     build-mac:
         name: Build macOS DMG file
         runs-on: [macOS]
-#        if: github.event_name == 'release'
+        if: github.event_name == 'release'
         timeout-minutes: 40
         steps:
         - uses: actions/checkout@v4
