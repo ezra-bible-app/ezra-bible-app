@@ -60,8 +60,8 @@ class IpcNsiHandler {
 
     var basePath = undefined;
     if (this._platformHelper.isWin()) {
-      if (process.env.NODE_ENV === 'development') {
-        basePath = path.join(__dirname, 'node_modules/node-sword-interface');
+      if (global.isDev) {
+        basePath = path.join(__dirname, '../../../node_modules/node-sword-interface');
       } else {
         if (process.resourcesPath != null) {
           basePath = path.join(process.resourcesPath, 'app.asar.unpacked/node_modules/node-sword-interface');
