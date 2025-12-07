@@ -49,6 +49,9 @@ jobs:
         timeout-minutes: 40
         steps:
         - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
+          with:
+            node-version: '22.12.0'
         - name: Build
           run: npm run build-mac
         - name: Sign
