@@ -45,7 +45,7 @@ jobs:
     build-mac:
         name: Build macOS DMG file
         runs-on: [macOS]
-        if: github.event_name == 'release'
+#        if: github.event_name == 'release'
         timeout-minutes: 40
         steps:
         - uses: actions/checkout@v4
