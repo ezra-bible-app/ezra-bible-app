@@ -103,8 +103,8 @@
     "umzug": "^2.3.0"
   },
   "devDependencies": {
-    "@electron/notarize": "^2.2.0",
-    "@electron/osx-sign": "^1.0.5",
+    "@electron/notarize": "^3.1.1",
+    "@electron/osx-sign": "^2.3.0",
     "@electron/rebuild": "^3.6.0",
     "@sentry/cli": "^2.58.2",
     "better-docs": "^2.3.2",
