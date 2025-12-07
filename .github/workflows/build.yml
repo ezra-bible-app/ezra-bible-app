@@ -45,7 +45,7 @@ jobs:
     build-mac:
         name: Build macOS DMG file
         runs-on: [macOS]
-        if: github.event_name == 'release'
+#        if: github.event_name == 'release'
         timeout-minutes: 40
         steps:
         - uses: actions/checkout@v4
@@ -67,10 +67,19 @@ jobs:
         - name: Rename DMG
           run: mv "release/Ezra Bible App".dmg release/ezra-bible-app.dmg
         - name: Upload dmg
-          uses: actions/upload-artifact@v4.4.0
+          uses: nick-fields/retry@v2
           with:
-            name: ezra-bible-app_macos_latest
-            path: release/ezra-bible-app.dmg
+            timeout_minutes: 25
+            max_attempts: 3
+            command: |
+              gh workflow-run download-artifact --name ezra-bible-app_macos_latest || \
+              echo "Uploading artifact..." && \
+              gh api \
+                -X PUT \
+                -H "Content-Type: application/zip" \
+                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                /repos/${{ github.repository }}/actions/artifacts \
+                --input release/ezra-bible-app.dmg
 
     build-ubuntu-2004:
       name: Build Ubuntu 20.04 package
