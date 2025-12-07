@@ -291,7 +291,7 @@ jobs:
             path: ezra-bible-app_latest.rpm
 
     release:
-      if: "github.event.release"
+      if: github.event_name == 'release'
       name: Publish release artifacts
       runs-on: ubuntu-latest
       needs: [ build-win32, build-mac, build-ubuntu-2004, build-ubuntu-2204,
