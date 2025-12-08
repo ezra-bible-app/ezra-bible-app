@@ -75,7 +75,7 @@ jobs:
             timeout_minutes: 25
             max_attempts: 3
             command: |
-              gh workflow run download-artifact --name ezra-bible-app_macos_latest || \
+              gh workflow run download-artifact ezra-bible-app_macos_latest || \
               echo "Uploading artifact..." && \
               gh api \
                 -X PUT \
