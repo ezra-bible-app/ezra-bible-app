@@ -53,6 +53,7 @@ jobs:
           with:
             node-version: '22.12.0'
         - name: Build
+
           run: npm run build-mac
         - name: Sign
           run: npm run sign-mac
@@ -68,11 +69,13 @@ jobs:
           run: mv "release/Ezra Bible App".dmg release/ezra-bible-app.dmg
         - name: Upload dmg
           uses: nick-fields/retry@v2
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             timeout_minutes: 25
             max_attempts: 3
             command: |
-              gh workflow-run download-artifact --name ezra-bible-app_macos_latest || \
+              gh workflow run download-artifact --name ezra-bible-app_macos_latest || \
               echo "Uploading artifact..." && \
               gh api \
                 -X PUT \
