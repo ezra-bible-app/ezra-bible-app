@@ -68,21 +68,11 @@ jobs:
         - name: Rename DMG
           run: mv "release/Ezra Bible App".dmg release/ezra-bible-app.dmg
         - name: Upload dmg
-          uses: nick-fields/retry@v2
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          uses: softprops/action-gh-release@v1
           with:
-            timeout_minutes: 25
-            max_attempts: 3
-            command: |
-              gh workflow run download-artifact ezra-bible-app_macos_latest || \
-              echo "Uploading artifact..." && \
-              gh api \
-                -X PUT \
-                -H "Content-Type: application/zip" \
-                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                /repos/${{ github.repository }}/actions/artifacts \
-                --input release/ezra-bible-app.dmg
+            files: release/ezra-bible-app.dmg
+            retry-count: 3
+            retry-delay-seconds: 5
 
     build-ubuntu-2004:
       name: Build Ubuntu 20.04 package
