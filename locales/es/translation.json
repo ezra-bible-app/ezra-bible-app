@@ -208,7 +208,7 @@
     "general-options": "Opciones Generales",
     "check-new-releases": "Buscar nuevas versiones",
     "send-crash-reports": "Enviar reporte de errores",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Copiar versículo con referencia al inicio",
     "welcome-to-ezra-bible-app": "Bienvenido a Ezra Bible App!",
     "type-face": {
       "configure-typeface": "Configure el tipo de fuente",
@@ -216,13 +216,13 @@
       "serif": "Serif",
       "custom": "Personalizada",
       "content-font-family": "Tipo de fuente del contenido",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "custom-content-font": "Fuente del contenido personalizada",
-      "same-as-content": "Same as content"
+      "content-heading": "Contenido Bíblico",
+      "user-content-heading": "Notas y Etiquetas",
+      "custom-content-font": "Fuente Personalizada",
+      "same-as-content": "Igual al contenido"
     },
     "title": "Título",
-    "tabs": "Tabs"
+    "tabs": "Pestañas"
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirme preferencias sobre la privacidad de datos",
