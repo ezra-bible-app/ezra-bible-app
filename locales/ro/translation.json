@@ -208,18 +208,18 @@
     "general-options": "Opțiuni generale",
     "check-new-releases": "Verifică lansări noi",
     "send-crash-reports": "Trimite rapoarte de eroare",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Copiază versetele începând cu referința",
     "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
+      "configure-typeface": "Configurează fontul conținutului",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Personalizat",
       "content-font-family": "Familia de font a conținutului",
-      "custom-content-font": "Font pesronalizat pentru conținut",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "custom-content-font": "Font personalizat pentru conținut",
+      "content-heading": "Conținut Biblic",
+      "user-content-heading": "Etichete & Notițe",
+      "same-as-content": "Cum este și conținutul"
     },
     "title": "Titlu",
     "tabs": "Tabs"
