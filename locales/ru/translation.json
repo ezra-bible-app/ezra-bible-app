@@ -210,7 +210,7 @@
     "general-options": "Общие настройки",
     "check-new-releases": "Проверять наличие обновлений",
     "send-crash-reports": "Посылать отчеты об ошибках",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Копировать стихи начиная с ссылки",
     "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!",
     "type-face": {
       "configure-typeface": "Настройки шрифта контента",
@@ -219,9 +219,9 @@
       "custom": "Пользовательский",
       "content-font-family": "Семейство шрифта контента",
       "custom-content-font": "Пользовательский шрифт контента",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "content-heading": "Содержимое Библии",
+      "user-content-heading": "Метки и заметки",
+      "same-as-content": "Как содержимое"
     },
     "title": "Заголовок",
     "tabs": "Tabs"
