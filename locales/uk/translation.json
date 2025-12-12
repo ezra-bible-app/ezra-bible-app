@@ -208,7 +208,7 @@
     "general-options": "Загальні налаштування",
     "check-new-releases": "Перевіряти наявність оновлень",
     "send-crash-reports": "Відсилати звіти щодо помилок",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Копіювати вірші, починаючи з посилання",
     "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!",
     "type-face": {
       "configure-typeface": "Налаштування букворису вмісту",
@@ -217,9 +217,9 @@
       "custom": "Довільний",
       "content-font-family": "Букворис вмісту",
       "custom-content-font": "Довільний букворис вмісту",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "content-heading": "Текст Біблії",
+      "user-content-heading": "Міти та нотатки",
+      "same-as-content": "Як у вмісті"
     },
     "title": "Назва",
     "tabs": "Tabs"
