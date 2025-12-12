@@ -27,7 +27,9 @@ All notable changes to Ezra Bible App are documented in this file.
 
 * Debian 13 package. ([#1257][i1257])
 * Fix Windows build. ([#1274][i1274])
+* Signed installer for Windows. ([#40][i40])
 
+[i40] https://github.com/ezra-bible-app/ezra-bible-app/issues/40
 [i1204]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1204
 [i1218]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1218
 [i1224]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1224
