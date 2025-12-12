@@ -84,7 +84,11 @@ class BookSelectionMenu {
     });
 
     eventController.subscribe('on-translation-added', async (moduleCode) => {
-      await this.updateAvailableBooks(undefined, moduleCode);
+      const bibleModules = await ipcNsi.getAllLocalModules('BIBLE');
+
+      if (bibleModules.length == 1) { // First Bible module added. In this case we need to update the book list
+        await this.updateAvailableBooks(undefined, moduleCode);
+      }
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -102,7 +106,6 @@ class BookSelectionMenu {
         const textType = metaTab.getTextType();
         if (textType == 'book') this.highlightCurrentlySelectedBookInMenu(tabIndex);
       }
-
     });
 
     eventController.subscribe('on-tab-added', async () => {
