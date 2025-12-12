@@ -156,7 +156,8 @@
         "nsis"
       ],
       "icon": "icons/ezra.ico",
-      "artifactName": "${productName}-Setup-${version}.${ext}"
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "certificateSubjectName": "Open Source Developer, Tobias Klein"
     },
     "nsis": {
       "oneClick": false,
