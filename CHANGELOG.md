@@ -28,6 +28,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Debian 13 package. ([#1257][i1257])
 * Fix Windows build. ([#1274][i1274])
 * Signed installer for Windows. ([#40][i40])
+* Production status enabled for Dropbox integration, see discussion [#1082](https://github.com/ezra-bible-app/ezra-bible-app/discussions/1082).
 
 [i40]: https://github.com/ezra-bible-app/ezra-bible-app/issues/40
 [i1204]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1204
