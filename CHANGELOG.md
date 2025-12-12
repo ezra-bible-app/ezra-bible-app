@@ -3,12 +3,15 @@ All notable changes to Ezra Bible App are documented in this file.
 
 ## [1.18.0 - 2025-12-20]
 
+### Features
+
+* Chrome-style tab navigation for mobile app. ([#1242][i1242])
+* Show recently used passages in Bible book menu. ([#1224][i1224])
+
 ### Enhancements
 
 * Make font family of user content (tags / notes) customizable. ([#1204][i1204])
-* Show recently used passages in Bible book menu. ([#1224][i1224])
 * Configurable order of verse reference and verse content in copy/pasted texts. ([#1218][i1218])
-* Chrome-style tab navigation for mobile app. ([#1242][i1242])
 * Show module id, repository name and version info in module update table. ([#1239][i1239])
 
 ### Fixes
