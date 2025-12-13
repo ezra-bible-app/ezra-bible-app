@@ -26,6 +26,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Swipe actions are not working right after startup in case of multiple tabs. ([#1250][i1250])
 * Unable to do "Configure translations". ([#1269][i1269])
 * Bible book menu partially not working after adding additional Bible translation with more books than previously installed ones (like apocrypha). ([#1285][i1285])
+* The Apostle's Bible's First Verse of Each Chapter Not Displayed. ([#1264][i1264])
 
 ### Enablers
 
@@ -49,6 +50,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1251]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1251
 [i1252]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1252
 [i1257]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1257
+[i1264]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1264
 [i1269]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1269
 [i1274]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1274
 [i1285]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1285
