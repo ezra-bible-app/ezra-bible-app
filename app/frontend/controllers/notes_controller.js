@@ -418,7 +418,7 @@ class NotesController {
           }
         }
 
-        if (result.success == false) {
+        if (result != null && result.success == false) {
           let message = `The note could not be saved.<br>
                         An unexpected database error occurred:<br><br>
                         ${result.exception}<br><br>
