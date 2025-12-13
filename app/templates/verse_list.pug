@@ -26,10 +26,7 @@ if renderTagNotes
   - var tagIntroRaw = ''
   - var tagIntroText = ''
   - var tagNoteId = ''
-  - var tagId = ''
   - var verseTagKeys = Object.keys(verseTags)
-  if verseTagKeys.length > 0 && verseTags[verseTagKeys[0]].length > 0
-    - tagId = verseTags[verseTagKeys[0]][0].tagId
   - var tagIntroUpdated = ''
 
   if tagNote == null || tagNote.introduction == null
@@ -281,10 +278,6 @@ if renderTagNotes
   - var tagConclusionRaw = ''
   - var tagConclusionText = ''
   - var tagNoteId = ''
-  - var tagId = ''
-  - var verseTagKeys = Object.keys(verseTags)
-  if verseTagKeys.length > 0 && verseTags[verseTagKeys[0]].length > 0
-    - tagId = verseTags[verseTagKeys[0]][0].tagId
   - var tagConclusionUpdated = ''
 
   if tagNote == null || tagNote.conclusion == null
