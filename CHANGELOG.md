@@ -16,6 +16,7 @@ All notable changes to Ezra Bible App are documented in this file.
 
 ### Fixes
 
+* Unable to do "Configure translations". ([#1269][i1269])
 * Tags in tag selection menu are not sorted correctly after tag title is renamed. ([#1251][i1251])
 * Tag rename dialogue responds to enter key even if save button is disabled. ([#1252][i1252])
 * New menu button layout may not fit horizontally on mobile screens. ([#1240][i1240])
@@ -24,7 +25,6 @@ All notable changes to Ezra Bible App are documented in this file.
 * Module search not responding to enter button on mobile. ([#1245][i1245])
 * Scroll position of active tab not correctly persisted. ([#1248][i1248])
 * Swipe actions are not working right after startup in case of multiple tabs. ([#1250][i1250])
-* Unable to do "Configure translations". ([#1269][i1269])
 * Bible book menu partially not working after adding additional Bible translation with more books than previously installed ones (like apocrypha). ([#1285][i1285])
 * The Apostle's Bible's First Verse of Each Chapter Not Displayed. ([#1264][i1264])
 
