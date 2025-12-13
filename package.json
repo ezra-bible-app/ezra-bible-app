@@ -34,7 +34,6 @@
     "dmg-mac": "electron-installer-dmg \"release/Ezra Bible App-darwin-x64/Ezra Bible App.app\" \"Ezra Bible App\" --out=release --overwrite --icon=icons/ezra.icns",
     "show-mac-ids": "security find-identity -v -p codesigning",
     "fix-binary-timestamps": "powershell build_scripts\\win32\\fix_binary_timestamps.ps1",
-    "installer-win": "node build_scripts\\win32\\generate_installer.js",
     "deb_2004": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu2004.json",
     "deb_2204": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu2204.json",
     "deb_2404": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu2404.json",
