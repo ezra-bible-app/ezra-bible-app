@@ -208,7 +208,7 @@
     "general-options": "Všeobecné možnosti",
     "check-new-releases": "Kontrola aktualizácií",
     "send-crash-reports": "Odoslať chybové hlásenia",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Skopírovať verše začínajúce od odkazu",
     "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
     "type-face": {
       "configure-typeface": "Nakonfigurujte typ písma obsahu",
@@ -217,12 +217,12 @@
       "custom": "Vlastné",
       "content-font-family": "Rodina písiem obsahu",
       "custom-content-font": "Vlastné písmo obsahu",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "content-heading": "Obsah Biblie",
+      "user-content-heading": "Značky a poznámky",
+      "same-as-content": "Rovnaké ako obsah"
     },
     "title": "Titulok",
-    "tabs": "Tabs"
+    "tabs": "Karty"
   },
   "data-privacy": {
     "confirm-privacy-options": "Potvrďte ochranu osobných údajov",
@@ -332,7 +332,7 @@
   "bible-browser": {
     "chapter": "Kapitola",
     "chapter-header": "Kap.",
-    "recent-passages": "Recent passages",
+    "recent-passages": "Nedávne pasáže",
     "psalm": "Žalm",
     "selection": "Výber: ",
     "loading-bible-text": "Nahrávam text Biblie",
