@@ -250,9 +250,18 @@ class BookSelectionMenu {
   async loadChapterList(bookChapterCount, currentChapter=null) {
     var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
     menuChapterList.innerHTML = `
+      <div class="mobileButtonNavigation" style="margin-left: 1em; margin-top: 1em;">
+        <button id="chapterMenuBackButton" class="button" style="font-size: 0.9em">
+          <i class="fas fa-angles-left"></i>
+          <span i18n="general.back"></span>
+        </button>
+      </div>
+
       <h2>${this.currentBookTitle}</h2>
       <div id='chapter-list-chapters'></div>
     `;
+
+    $(menuChapterList).localize();
 
     var chapters = menuChapterList.querySelector('#chapter-list-chapters');
 
