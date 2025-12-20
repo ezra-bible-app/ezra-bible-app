@@ -172,6 +172,7 @@
     "rename": "Preimenuj",
     "loading": "Nalaganje",
     "update": "Posodobitev",
+    "warning": "Warning",
     "new-release-available-title": "Nova različica je na voljo!",
     "new-release-available-body": "Na voljo je nova izdaja Ezra Bible aplikacije!",
     "latest-version": "Najnovejša različica",
@@ -432,7 +433,8 @@
     "default-header": "<b>Slovar</b>",
     "help-no-dicts": "Na voljo ni nobenih slovarjev.",
     "open-in-word-study": "Odpri v preučevanju besed",
-    "filter-placeholder": "Filter..."
+    "filter-placeholder": "Filter...",
+    "warning-cross-reference-not-found": "Cross-reference not found in the current Bible translation! Try switching to another Bible translation."
   },
   "tag-statistics-panel": {
     "default-header": "Statistika oznak",

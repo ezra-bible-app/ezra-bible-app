@@ -172,6 +172,7 @@
     "rename": "Premenovať",
     "loading": "Nahrávam",
     "update": "Aktualizácia",
+    "warning": "Warning",
     "new-release-available-title": "Je k dispozícií nová verzia!",
     "new-release-available-body": "Je k dispozícií nová verzia projektu Ezra!",
     "latest-version": "Najnovšia verzia",
@@ -434,7 +435,8 @@
     "default-header": "<b>Slovník</b>",
     "help-no-dicts": "Nie sú k dispozícii žiadne slovníky.",
     "open-in-word-study": "Otvoriť v štúdiu Slova",
-    "filter-placeholder": "Filter..."
+    "filter-placeholder": "Filter...",
+    "warning-cross-reference-not-found": "Cross-reference not found in the current Bible translation! Try switching to another Bible translation."
   },
   "tag-statistics-panel": {
     "default-header": "Štatistika značiek",

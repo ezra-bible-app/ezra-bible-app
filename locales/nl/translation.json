@@ -174,6 +174,7 @@
     "rename": "Hernoemen",
     "loading": "Laden",
     "update": "Bijwerken",
+    "warning": "Warning",
     "new-release-available-title": "Nieuwe uitgave beschikbaar!",
     "new-release-available-body": "Een nieuwe uitgave van Ezra Bible App is beschikbaar!",
     "latest-version": "Nieuwste versie",
@@ -435,7 +436,8 @@
     "default-header": "<b>Woordenboek</b>",
     "help-no-dicts": "Er zijn geen woordenboeken beschikbaar.",
     "open-in-word-study": "Open in woordstudie",
-    "filter-placeholder": "Filteren..."
+    "filter-placeholder": "Filteren...",
+    "warning-cross-reference-not-found": "Cross-reference not found in the current Bible translation! Try switching to another Bible translation."
   },
   "tag-statistics-panel": {
     "default-header": "Tag-statistieken",

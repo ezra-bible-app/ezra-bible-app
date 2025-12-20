@@ -172,6 +172,7 @@
     "rename": "Redenumește",
     "loading": "Se încarcă",
     "update": "Actualizează",
+    "warning": "Warning",
     "new-release-available-title": "Versiune nouă disponibilă!",
     "new-release-available-body": "O versiune nouă pentru Ezra Bible App este disponibilă!",
     "latest-version": "Versiune recentă",
@@ -434,7 +435,8 @@
     "default-header": "<b>Dicționar</b>",
     "help-no-dicts": "Nu există niciun dicționar disponibil.",
     "open-in-word-study": "Deschide în Studiu Cuvânt",
-    "filter-placeholder": "Filtare..."
+    "filter-placeholder": "Filtare...",
+    "warning-cross-reference-not-found": "Cross-reference not found in the current Bible translation! Try switching to another Bible translation."
   },
   "tag-statistics-panel": {
     "default-header": "Statistici etichete",

@@ -172,6 +172,7 @@
     "rename": "Renomear",
     "loading": "Carregando",
     "update": "Atualizar",
+    "warning": "Warning",
     "new-release-available-title": "Nova versão disponível!",
     "new-release-available-body": "Uma nova versão da Bíblia Esdras está disponível!",
     "latest-version": "Última versão",
@@ -431,7 +432,8 @@
     "default-header": "<b>Dicionário</b>",
     "help-no-dicts": "Não há dicionários disponíveis.",
     "open-in-word-study": "Abrir no estudo de palavras",
-    "filter-placeholder": "Filtrar..."
+    "filter-placeholder": "Filtrar...",
+    "warning-cross-reference-not-found": "Cross-reference not found in the current Bible translation! Try switching to another Bible translation."
   },
   "tag-statistics-panel": {
     "default-header": "Estatísticas de etiquetas",

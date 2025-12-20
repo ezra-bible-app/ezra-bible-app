@@ -172,6 +172,7 @@
     "rename": "Перейменувати",
     "loading": "Завантаження",
     "update": "Оновити",
+    "warning": "Warning",
     "new-release-available-title": "Новий випуск доступний!",
     "new-release-available-body": "Доступний новий випуск Біблійного застосунку Єздри!",
     "latest-version": "Остання версія",
@@ -435,7 +436,8 @@
     "default-header": "<b>Словник</b>",
     "help-no-dicts": "Відсутні встановленні словники.",
     "open-in-word-study": "Відкрити у тлумачі слів",
-    "filter-placeholder": "Цідило..."
+    "filter-placeholder": "Цідило...",
+    "warning-cross-reference-not-found": "Cross-reference not found in the current Bible translation! Try switching to another Bible translation."
   },
   "tag-statistics-panel": {
     "default-header": "Перелік міт",

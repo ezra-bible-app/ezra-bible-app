@@ -172,6 +172,7 @@
     "rename": "Renombrar",
     "loading": "Cargando",
     "update": "Actualizar",
+    "warning": "Warning",
     "new-release-available-title": "Nueva versión disponible!",
     "new-release-available-body": "Una nueva versión de Ezra Bible App está disponible!",
     "latest-version": "Última versión",
@@ -431,7 +432,8 @@
     "default-header": "<b>Diccionario</b>",
     "help-no-dicts": "No hay diccionarios disponibles.",
     "open-in-word-study": "Abrir en estudio de palabra",
-    "filter-placeholder": "Filtros..."
+    "filter-placeholder": "Filtros...",
+    "warning-cross-reference-not-found": "Cross-reference not found in the current Bible translation! Try switching to another Bible translation."
   },
   "tag-statistics-panel": {
     "default-header": "Estadística de etiquetas",

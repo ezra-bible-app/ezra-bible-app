@@ -277,6 +277,8 @@ class VerseListPopup {
     this.currentPopupTitle = await this.getPopupTitle(clickedElement, "COMMENTARY_DICT_XREFS", withReferenceVerse);
     this.currentReferenceType = "COMMENTARY_DICT_XREFS";
 
+    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+
     if (withReferenceVerse) {
       this.currentReferenceVerseBox = $(app_controller.verse_selection.getSelectedVerseBoxes()[0]);
     } else {
@@ -292,7 +294,6 @@ class VerseListPopup {
         return;
       }
 
-      const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
       this.currentXrefs = await swordModuleHelper.getReferencesFromOsisRef(bibleTranslationId, osisRef);
 
     } else {
@@ -305,6 +306,16 @@ class VerseListPopup {
       const currentChapter = new VerseBox(firstSelectedVerseBox).getChapter();
 
       this.currentXrefs = await swordModuleHelper.getReferencesFromScripRef(referenceString, currentBook, currentChapter);
+    }
+
+    if (this.currentXrefs == null || this.currentXrefs.length == 0) {
+      // Generate a warning message with the iziToast library
+      iziToast.warning({
+        title: i18n.t('general.warning'),
+        message: i18n.t('dictionary-panel.warning-cross-reference-not-found'),
+        position: platformHelper.getIziPosition(),
+        timeout: 5000
+      });
     }
   }
 
