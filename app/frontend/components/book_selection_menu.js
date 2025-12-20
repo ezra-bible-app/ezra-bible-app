@@ -254,7 +254,7 @@ class BookSelectionMenu {
   async loadChapterList(bookChapterCount, currentChapter=null) {
     var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
     menuChapterList.innerHTML = `
-      <div class="mobileButtonNavigation" style="margin-left: 1em; margin-top: 1em;">
+      <div class="mobileButtonNavigation" style="margin-top: 1em; justify-content: center;">
         <button id="chapterMenuBackButton" class="button" style="font-size: 0.9em">
           <i class="fas fa-angles-left"></i>
           <span i18n="general.back"></span>
