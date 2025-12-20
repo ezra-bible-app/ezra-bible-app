@@ -31,6 +31,7 @@ class BookSelectionMenu {
     this.book_menu_is_opened = false;
     this.init_completed = false;
     this.recentPassagesKey = 'recentPassages';
+    this.chapterMenuOpenedFromBookMenu = false;
   }
 
   async init() {
@@ -225,6 +226,9 @@ class BookSelectionMenu {
       this.currentBookTitle = bookTitle;
       this.currentReferenceBookTitle = referenceBookTitle;
 
+      // Remember whether the chapter menu was opened from the book menu
+      this.chapterMenuOpenedFromBookMenu = this.book_menu_is_opened;
+
       await this.loadChapterList(bookChapterCount, currentChapter);
     } else {
       const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(
@@ -265,6 +269,21 @@ class BookSelectionMenu {
 
     var chapters = menuChapterList.querySelector('#chapter-list-chapters');
 
+    // Handle back button: close chapter list and optionally reopen book menu
+    var chapterMenuBackButton = document.getElementById('chapterMenuBackButton');
+    chapterMenuBackButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      var bookMenu = document.getElementById('book-selection-menu');
+      bookMenu.classList.remove('select-chapter');
+
+      if (!this.chapterMenuOpenedFromBookMenu) {
+        // Close book menu completely
+        this.hideBookMenu(true);
+      }
+    });
+
     for (let c = 1; c <= bookChapterCount; c++) {
       let newLink = document.createElement('a');
       newLink.href = c;
@@ -295,8 +314,8 @@ class BookSelectionMenu {
     }
   }
 
-  hideBookMenu() {
-    if (this.book_menu_is_opened) {
+  hideBookMenu(force=false) {
+    if (this.book_menu_is_opened || force) {
       document.getElementById('app-container').classList.remove('fullscreen-menu');
 
       var bookMenu = document.querySelector('#app-container #book-selection-menu');
@@ -309,6 +328,8 @@ class BookSelectionMenu {
         var bookButton = currentVerseListMenu.querySelector('.book-select-button');
         bookButton.classList.remove('ui-state-active');
       }
+    
+      this.chapterMenuOpenedFromBookMenu = false;
     }
   }
 
@@ -343,6 +364,8 @@ class BookSelectionMenu {
     let bookTitleTranslation = await ipcDb.getBookTitleTranslation(bookCode);
 
     this.handleBookMenuClick();
+    this.chapterMenuOpenedFromBookMenu = false;
+    this.book_menu_is_opened = false;
     await this.selectBibleBook(bookCode, bookTitleTranslation, bookLongTitle, currentChapter);
   }
 

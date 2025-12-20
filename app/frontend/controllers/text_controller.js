@@ -53,7 +53,7 @@ class TextController {
       uiHelper.showTextLoadingIndicator();
     }
 
-    app_controller.book_selection_menu.hideBookMenu();
+    app_controller.book_selection_menu.hideBookMenu(true);
     await waitUntilIdle();
 
     app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
