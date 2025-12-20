@@ -34,6 +34,9 @@ All notable changes to Ezra Bible App are documented in this file.
 * Fix Windows build. ([#1274][i1274])
 * Signed installer for Windows. ([#40][i40])
 * Production status enabled for Dropbox integration, see discussion [#1082](https://github.com/ezra-bible-app/ezra-bible-app/discussions/1082).
+* Implement latest Google Play store requirements:
+  * [Support 16KB page size](https://android-developers.googleblog.com/2025/05/prepare-play-apps-for-devices-with-16kb-page-size.html).
+  * [Target Android 15 (API level 35)](https://support.google.com/googleplay/android-developer/answer/11926878)
 
 [i40]: https://github.com/ezra-bible-app/ezra-bible-app/issues/40
 [i1204]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1204
