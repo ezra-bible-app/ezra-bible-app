@@ -193,11 +193,9 @@ class StepLanguages extends HTMLElement {
     await waitUntilIdle();
     this._allLanguages.appendChild(containerLongList);
 
-    await waitUntilIdle();
     this._updateLanguageCount(languageModuleCount, this._allLanguages);
     this._updateLanguageCount(languageModuleCount, containerLongList);
     
-    await waitUntilIdle();
     this._loading.hide();
   }
 
