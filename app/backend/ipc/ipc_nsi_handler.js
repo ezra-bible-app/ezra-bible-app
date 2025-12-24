@@ -167,6 +167,33 @@ class IpcNsiHandler {
       }
     });
 
+    this._ipcMain.add('nsi_syncLocalModulesDataWithDropbox', async () => {
+      const result = {
+        synced: false,
+        lastDropboxSyncResult: null
+      };
+
+      if (!global.dropboxHandler.hasValidDropboxConfig()) {
+        return result;
+      }
+
+      const userDataDir = this._platformHelper.getUserDataPath();
+      const localModulesFilePath = path.join(userDataDir, 'local_modules.json');
+      const dropboxFilePath = '/local_modules.json';
+
+      try {
+        const syncResult = await global.dropboxHandler.syncFileWithDropbox(localModulesFilePath, dropboxFilePath, global.connectionType, false);
+        if (syncResult >= 0) {
+          result.synced = true;
+        }
+        result.lastDropboxSyncResult = syncResult;
+      } catch (e) {
+        console.error('Error while syncing local_modules.json with Dropbox:', e);
+      }
+
+      return result;
+    });
+
     this._ipcMain.add('nsi_getRepoNames', () => {
       return this._nsi.getRepoNames();
     });

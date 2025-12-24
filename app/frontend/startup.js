@@ -506,6 +506,7 @@ class Startup {
     }
 
     await ipcNsi.persistLocalModulesData();
+    await ipcNsi.syncLocalModulesDataWithDropbox();
 
     this.showDatabaseErrorsIfAny(initDbResult);
 
