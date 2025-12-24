@@ -264,6 +264,11 @@ async function handleDropboxConfigurationSave() {
 
   if (dbSyncDropboxLinkStatus == 'LINKED' && !dbSyncFirstSyncDone) {
     await ipcDb.syncDropbox();
+
+    if (dbSyncSwordConfig) {
+      await ipcNsi.syncLocalModulesDataWithDropbox();
+    }
+
     await eventController.publishAsync('on-db-refresh');
     await module.exports.showSyncResultMessage();
   }

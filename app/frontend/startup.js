@@ -505,8 +505,14 @@ class Startup {
       await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
     }
 
-    await ipcNsi.persistLocalModulesData();
-    await ipcNsi.syncLocalModulesDataWithDropbox();
+    const dbSyncDropboxLinkStatus = await ipcSettings.get('dropboxLinkStatus', null);
+    const syncDropboxSwordConfig = await ipcSettings.get('dropboxSyncSwordConfig', false);
+
+    if (dbSyncDropboxLinkStatus == 'LINKED' && syncDropboxSwordConfig) {
+      console.log("Syncing SWORD modules configuration with Dropbox.");
+      await ipcNsi.persistLocalModulesData();
+      await ipcNsi.syncLocalModulesDataWithDropbox();
+    }
 
     this.showDatabaseErrorsIfAny(initDbResult);
 
