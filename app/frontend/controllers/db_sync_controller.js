@@ -9,8 +9,7 @@
 
    Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with Ezra Bible App. See the file LICENSE.
@@ -40,6 +39,7 @@ const DROPBOX_LAST_SYNC_TIME_KEY = 'lastDropboxSyncTime';
 const DROPBOX_FIRST_SYNC_DONE_KEY = 'firstDropboxSyncDone';
 const DROPBOX_LAST_DOWNLOAD_TIME_KEY = 'lastDropboxDownloadTime';
 const DROPBOX_LAST_UPLOAD_TIME_KEY = 'lastDropboxUploadTime';
+const DROPBOX_SYNC_SWORD_CONFIG_KEY = 'dropboxSyncSwordConfig';
 
 let dbSyncInitDone = false;
 let dbSyncDropboxToken = null;
@@ -47,6 +47,7 @@ let dbSyncDropboxRefreshToken = null;
 let dbSyncDropboxLinkStatus = null;
 let dbSyncOnlyWifi = false;
 let dbSyncAfterChanges = false;
+let dbSyncSwordConfig = false;
 let dbSyncFirstSyncDone = false;
 let lastConnectionType = undefined;
 
@@ -174,10 +175,12 @@ async function initDbSync() {
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
   dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
   dbSyncAfterChanges = await ipcSettings.get(DROPBOX_SYNC_AFTER_CHANGES_KEY, false);
+  dbSyncSwordConfig = await ipcSettings.get(DROPBOX_SYNC_SWORD_CONFIG_KEY, false);
   dbSyncFirstSyncDone = await ipcSettings.get(DROPBOX_FIRST_SYNC_DONE_KEY, false);
 
   document.getElementById('only-sync-on-wifi').checked = dbSyncOnlyWifi;
   document.getElementById('sync-dropbox-after-changes').checked = dbSyncAfterChanges;
+  document.getElementById('sync-dropbox-sword-config').checked = dbSyncSwordConfig;
   updateDropboxLinkStatusLabel();
 
   if (dbSyncInitDone) {
@@ -234,6 +237,7 @@ async function handleDropboxConfigurationSave() {
 
   dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
   dbSyncAfterChanges = document.getElementById('sync-dropbox-after-changes').checked;
+  dbSyncSwordConfig = document.getElementById('sync-dropbox-sword-config').checked;
 
   if (resetDropboxConfiguration) {
     dbSyncDropboxToken = null;
@@ -256,6 +260,7 @@ async function handleDropboxConfigurationSave() {
   await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
   await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
   await ipcSettings.set(DROPBOX_SYNC_AFTER_CHANGES_KEY, dbSyncAfterChanges);
+  await ipcSettings.set(DROPBOX_SYNC_SWORD_CONFIG_KEY, dbSyncSwordConfig);
 
   if (dbSyncDropboxLinkStatus == 'LINKED' && !dbSyncFirstSyncDone) {
     await ipcDb.syncDropbox();
