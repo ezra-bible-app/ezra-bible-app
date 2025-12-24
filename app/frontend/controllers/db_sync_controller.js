@@ -56,6 +56,15 @@ let resetDropboxConfiguration = false;
 let dbxAuth = getDropboxAuth();
 
 module.exports.init = function() {
+  eventController.subscribe('on-startup-completed', async () => {
+    await syncSwordModuleConfig();
+  });
+
+  eventController.subscribeMultiple(['on-module-install-completed',
+                                     'on-module-removal-completed'], async () => {
+    await syncSwordModuleConfig();
+  });
+
   if (platformHelper.isElectron()) {
 
     require('electron').ipcRenderer.on('dropbox-synced', () => {
@@ -355,4 +364,15 @@ async function setupDropboxAuthentication() {
       uiHelper.openLinkInBrowser(authUrl);
     })
     .catch((error) => console.error(error));
+}
+
+async function syncSwordModuleConfig() {
+  const dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
+  const dropboxSyncSwordConfig = await ipcSettings.get(DROPBOX_SYNC_SWORD_CONFIG_KEY, false);
+
+  if (dbSyncDropboxLinkStatus == 'LINKED' && dropboxSyncSwordConfig) {
+    console.log("Syncing SWORD modules configuration with Dropbox.");
+    await ipcNsi.persistLocalModulesData();
+    await ipcNsi.syncLocalModulesDataWithDropbox();
+  }
 }

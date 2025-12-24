@@ -134,6 +134,7 @@ class StepInstall extends HTMLElement {
     this.querySelector('#cancel-module-installation-button').classList.add('ui-state-disabled');
     assistantController.setInstallDone();
     assistantHelper.unlockDialog('module-settings-assistant-add');
+    eventController.publishAsync('on-module-install-completed');
   }
 
   async _installModule(moduleCode) {

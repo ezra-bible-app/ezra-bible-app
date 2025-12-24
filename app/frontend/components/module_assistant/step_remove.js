@@ -69,6 +69,8 @@ class StepRemove extends HTMLElement {
 
       assistantController.setInstallDone();
       assistantHelper.unlockDialog('module-settings-assistant-remove');
+
+      eventController.publishAsync('on-module-removal-completed');
     }, 800);
   }
 
