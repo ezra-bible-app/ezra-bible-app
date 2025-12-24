@@ -431,24 +431,7 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getLocalModulesData', () => {
-      try {
-        const userDataDir = this._platformHelper.getUserDataPath();
-        const targetFile = path.join(userDataDir, 'module_selection.json');
-
-        if (!fs.existsSync(targetFile)) {
-          return [];
-        }
-
-        const fileContent = fs.readFileSync(targetFile, 'utf8');
-        if (fileContent.trim() === '') {
-          return [];
-        }
-
-        return JSON.parse(fileContent);
-      } catch (e) {
-        console.error('Error while loading local modules metadata:', e);
-        return [];
-      }
+      return this.getLocalModulesData();
     });
 
     this._ipcMain.add('nsi_syncLocalModulesDataWithDropbox', async () => {
@@ -480,6 +463,27 @@ class IpcNsiHandler {
 
       return result;
     });
+  }
+
+  getLocalModulesData() {
+    try {
+      const userDataDir = this._platformHelper.getUserDataPath();
+      const targetFile = path.join(userDataDir, 'module_selection.json');
+
+      if (!fs.existsSync(targetFile)) {
+        return [];
+      }
+
+      const fileContent = fs.readFileSync(targetFile, 'utf8');
+      if (fileContent.trim() === '') {
+        return [];
+      }
+
+      return JSON.parse(fileContent);
+    } catch (e) {
+      console.error('Error while loading local modules metadata:', e);
+      return [];
+    }
   }
 
   setMainWindow(mainWindow) {
