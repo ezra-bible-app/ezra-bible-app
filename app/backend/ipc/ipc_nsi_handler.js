@@ -452,7 +452,7 @@ class IpcNsiHandler {
         const syncResult = await global.dropboxHandler.syncFileWithDropbox(localFilePath,
                                                                            dropboxFilePath,
                                                                            global.connectionType,
-                                                                           false);
+                                                                           true);
         if (syncResult >= 0) {
           result.synced = true;
         }
