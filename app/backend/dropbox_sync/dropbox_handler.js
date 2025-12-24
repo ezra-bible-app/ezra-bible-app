@@ -107,13 +107,20 @@ class DropboxHandler {
       return;
     }
 
+    const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
+
+    let prioritizeRemote = false;
+    if (!firstDropboxSyncDone) {
+      prioritizeRemote = true;
+    }
+
     this.initDropboxSync();
 
     const databaseFilePath = this.getDatabaseFilePath();
     const dropboxFilePath = '/ezra.sqlite';
     const initialLocalHash = await this._dropboxSync.getLocalFileHash(databaseFilePath);
 
-    const result = await this.syncFileWithDropbox(databaseFilePath, dropboxFilePath, connectionType);
+    const result = await this.syncFileWithDropbox(databaseFilePath, dropboxFilePath, connectionType, prioritizeRemote);
 
     const finalLocalHash = await this._dropboxSync.getLocalFileHash(databaseFilePath);
     const fileHasChanged = finalLocalHash != initialLocalHash;
@@ -164,11 +171,11 @@ class DropboxHandler {
       lastDropboxSyncResult = 'SYNC FAILED';
     } else if (result == -4) {
       lastDropboxSyncResult = 'UPLOAD FAILED | DROPBOX FILE CORRUPTED';
-    } else if (result < -4) {
+    } else if (result == -5) {
+      lastDropboxSyncResult = 'AUTH FAILED';
+    } else if (result < -5) {
       lastDropboxSyncResult = 'FAILED';
     }
-
-    const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
 
     if (result >= 0 && !firstDropboxSyncDone) {
       this._config.set('firstDropboxSyncDone', true);
@@ -193,7 +200,7 @@ class DropboxHandler {
     return lastDropboxSyncResult;
   }
 
-  async syncFileWithDropbox(localFilePath, dropboxFilePath, connectionType) {
+  async syncFileWithDropbox(localFilePath, dropboxFilePath, connectionType, prioritizeRemote=false) {
     let onlySyncOnWifi = this._config.get('dropboxOnlyWifi', false);
 
     if (connectionType !== undefined && onlySyncOnWifi && connectionType != 'wifi') {
@@ -209,12 +216,6 @@ class DropboxHandler {
 
     console.log(`Synchronizing file ${localFilePath} with Dropbox!`);
 
-    const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
-
-    let prioritizeRemote = false;
-    if (!firstDropboxSyncDone) {
-      prioritizeRemote = true;
-    }
 
     let authenticated = false;
 
@@ -247,7 +248,7 @@ class DropboxHandler {
 
     } else {
       console.warn('Dropbox could not be authenticated!');
-      result = 'AUTH FAILED';
+      result = -5; // AUTH FAILED
     }
 
     return result;
