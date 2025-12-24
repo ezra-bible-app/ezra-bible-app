@@ -64,6 +64,7 @@ class IpcNsiHandler {
         basePath = path.join(__dirname, '../../../node_modules/node-sword-interface');
       } else {
         if (process.resourcesPath != null) {
+          // In production mode on Windows, the basePath is inside app.asar.unpacked
           basePath = path.join(process.resourcesPath, 'app.asar.unpacked/node_modules/node-sword-interface');
         }
       }
