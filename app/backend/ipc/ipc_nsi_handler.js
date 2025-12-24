@@ -126,75 +126,6 @@ class IpcNsiHandler {
       return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
 
-    this._ipcMain.add('nsi_persistLocalModulesData', async () => {
-      try {
-        const moduleTypes = ['BIBLE', 'DICT', 'COMMENTARY'];
-        let allModules = [];
-
-        for (let i = 0; i < moduleTypes.length; i++) {
-          const currentType = moduleTypes[i];
-          const modulesOfType = this._nsi.getAllLocalModules(currentType) || [];
-
-          const mappedModules = modulesOfType
-            .filter(function(mod) {
-              return mod.repository !== undefined && mod.repository !== '';
-            })
-            .map(function(mod) {
-              return {
-                name: mod.name,
-                type: currentType,
-                description: mod.description,
-                repository: mod.repository
-              };
-            });
-
-          allModules = allModules.concat(mappedModules);
-        }
-
-        const userDataDir = this._platformHelper.getUserDataPath();
-        const targetFile = path.join(userDataDir, 'module_selection.json');
-
-        // Ensure that the user data directory exists and create it if not.
-        if (!fs.existsSync(userDataDir)) {
-          fs.mkdirSync(userDataDir, { recursive: true });
-        }
-
-        fs.writeFileSync(targetFile, JSON.stringify(allModules, null, 2), 'utf8');
-
-        return 0;
-      } catch (e) {
-        console.error('Error while persisting local modules metadata:', e);
-        return -1;
-      }
-    });
-
-    this._ipcMain.add('nsi_syncLocalModulesDataWithDropbox', async () => {
-      const result = {
-        synced: false,
-        lastDropboxSyncResult: null
-      };
-
-      if (!global.dropboxHandler.hasValidDropboxConfig()) {
-        return result;
-      }
-
-      const userDataDir = this._platformHelper.getUserDataPath();
-      const localFilePath = path.join(userDataDir, 'module_selection.json');
-      const dropboxFilePath = '/module_selection.json';
-
-      try {
-        const syncResult = await global.dropboxHandler.syncFileWithDropbox(localFilePath, dropboxFilePath, global.connectionType, false);
-        if (syncResult >= 0) {
-          result.synced = true;
-        }
-        result.lastDropboxSyncResult = syncResult;
-      } catch (e) {
-        console.error('Error while syncing module_selection.json with Dropbox:', e);
-      }
-
-      return result;
-    });
-
     this._ipcMain.add('nsi_getRepoNames', () => {
       return this._nsi.getRepoNames();
     });
@@ -455,6 +386,78 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getSwordPath', () => {
       return this._nsi.getSwordPath();
+    });
+
+    this._ipcMain.add('nsi_persistLocalModulesData', async () => {
+      try {
+        const moduleTypes = ['BIBLE', 'DICT', 'COMMENTARY'];
+        let allModules = [];
+
+        for (let i = 0; i < moduleTypes.length; i++) {
+          const currentType = moduleTypes[i];
+          const modulesOfType = this._nsi.getAllLocalModules(currentType) || [];
+
+          const mappedModules = modulesOfType
+            .filter(function(mod) {
+              return mod.repository !== undefined && mod.repository !== '';
+            })
+            .map(function(mod) {
+              return {
+                name: mod.name,
+                type: currentType,
+                description: mod.description,
+                repository: mod.repository
+              };
+            });
+
+          allModules = allModules.concat(mappedModules);
+        }
+
+        const userDataDir = this._platformHelper.getUserDataPath();
+        const targetFile = path.join(userDataDir, 'module_selection.json');
+
+        // Ensure that the user data directory exists and create it if not.
+        if (!fs.existsSync(userDataDir)) {
+          fs.mkdirSync(userDataDir, { recursive: true });
+        }
+
+        fs.writeFileSync(targetFile, JSON.stringify(allModules, null, 2), 'utf8');
+
+        return 0;
+      } catch (e) {
+        console.error('Error while persisting local modules metadata:', e);
+        return -1;
+      }
+    });
+
+    this._ipcMain.add('nsi_syncLocalModulesDataWithDropbox', async () => {
+      const result = {
+        synced: false,
+        lastDropboxSyncResult: null
+      };
+
+      if (!global.dropboxHandler.hasValidDropboxConfig()) {
+        return result;
+      }
+
+      const userDataDir = this._platformHelper.getUserDataPath();
+      const localFilePath = path.join(userDataDir, 'module_selection.json');
+      const dropboxFilePath = '/module_selection.json';
+
+      try {
+        const syncResult = await global.dropboxHandler.syncFileWithDropbox(localFilePath,
+                                                                           dropboxFilePath,
+                                                                           global.connectionType,
+                                                                           false);
+        if (syncResult >= 0) {
+          result.synced = true;
+        }
+        result.lastDropboxSyncResult = syncResult;
+      } catch (e) {
+        console.error('Error while syncing module_selection.json with Dropbox:', e);
+      }
+
+      return result;
     });
   }
 
