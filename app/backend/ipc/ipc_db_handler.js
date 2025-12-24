@@ -18,7 +18,6 @@
 
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
-const DropboxHandler = require('../dropbox_sync/dropbox_handler.js');
 const path = require('path');
 const fs = require('fs');
 
@@ -32,8 +31,7 @@ class IpcDbHandler {
     // eslint-disable-next-line no-undef
     this._config = global.ipc.ipcSettingsHandler.getConfig();
 
-    this.dropboxHandler = new DropboxHandler();
-
+    this.dropboxHandler = global.dropboxHandler;
     this.initIpcInterface();
   }
 

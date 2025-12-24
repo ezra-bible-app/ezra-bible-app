@@ -22,6 +22,7 @@ const IpcNsiHandler = require('./ipc_nsi_handler.js');
 const IpcDbHandler = require('./ipc_db_handler.js');
 const IpcGeneralHandler = require('./ipc_general_handler.js');
 const IpcSettingsHandler = require('./ipc_settings_handler.js');
+const DropboxHandler = require('../dropbox_sync/dropbox_handler.js');
 
 class IPC {
   constructor() {
@@ -76,6 +77,8 @@ class IPC {
       }
 
       global.ipcNsiHandler = new IpcNsiHandler(customSwordDir);
+
+      global.dropboxHandler = new DropboxHandler();
 
       if (this.platformHelper.isElectron()) {
         global.ipcNsiHandler.setMainWindow(electronMainWindow);
