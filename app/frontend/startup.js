@@ -477,8 +477,6 @@ class Startup {
       }
     }
 
-    //await app_controller.translation_controller.installStrongsIfNeeded();
-
     let checkNewReleasesOption = app_controller.optionsMenu._checkNewReleasesOption;
 
     if (this._platformHelper.isElectron() && checkNewReleasesOption.isChecked) {
