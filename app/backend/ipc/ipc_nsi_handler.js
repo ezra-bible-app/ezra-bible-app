@@ -152,8 +152,9 @@ class IpcNsiHandler {
         }
 
         const userDataDir = this._platformHelper.getUserDataPath();
-        const targetFile = path.join(userDataDir, 'local_modules.json');
+        const targetFile = path.join(userDataDir, 'module_selection.json');
 
+        // Ensure that the user data directory exists and create it if not.
         if (!fs.existsSync(userDataDir)) {
           fs.mkdirSync(userDataDir, { recursive: true });
         }
@@ -178,17 +179,17 @@ class IpcNsiHandler {
       }
 
       const userDataDir = this._platformHelper.getUserDataPath();
-      const localModulesFilePath = path.join(userDataDir, 'local_modules.json');
-      const dropboxFilePath = '/local_modules.json';
+      const localFilePath = path.join(userDataDir, 'module_selection.json');
+      const dropboxFilePath = '/module_selection.json';
 
       try {
-        const syncResult = await global.dropboxHandler.syncFileWithDropbox(localModulesFilePath, dropboxFilePath, global.connectionType, false);
+        const syncResult = await global.dropboxHandler.syncFileWithDropbox(localFilePath, dropboxFilePath, global.connectionType, false);
         if (syncResult >= 0) {
           result.synced = true;
         }
         result.lastDropboxSyncResult = syncResult;
       } catch (e) {
-        console.error('Error while syncing local_modules.json with Dropbox:', e);
+        console.error('Error while syncing module_selection.json with Dropbox:', e);
       }
 
       return result;
