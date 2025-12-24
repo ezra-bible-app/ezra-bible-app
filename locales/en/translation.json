@@ -173,6 +173,7 @@
     "loading": "Loading",
     "update": "Update",
     "warning": "Warning",
+    "start": "Start",
     "new-release-available-title": "New release available!",
     "new-release-available-body": "A new release of Ezra Bible App is available!",
     "latest-version": "Latest version",
@@ -537,6 +538,12 @@
     "access-method-message-part4": "The link of Ezra Bible App to your Dropbox account has been reset.<br/>",
     "access-method-message-part5": "These are the actions you need to take now:",
     "access-method-message-part6": "Re-configure the Dropbox account link.",
-    "access-method-message-part7": "Upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same."
+    "access-method-message-part7": "Upgrade Ezra Bible App on all your devices to ensure that the Dropbox sync method is the same.",
+    "module-sync-intro": "Ezra Bible App can synchronize your installed SWORD modules with the configuration stored in Dropbox.",
+    "sync-modules": "Synchronize modules",
+    "sync-modules-title": "Synchronize modules with Dropbox configuration",
+    "module-sync-details": "Ezra Bible App can now synchronize the installed modules with the configuration stored in Dropbox.",
+    "modules-to-install": "Modules to install",
+    "modules-to-uninstall": "Modules to uninstall"
   }
 }
