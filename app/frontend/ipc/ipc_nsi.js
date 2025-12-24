@@ -345,6 +345,11 @@ class IpcNsi {
     var returnValue = this._ipcRenderer.call('nsi_getSwordPath');
     return returnValue;
   }
+
+  async persistLocalModulesData() {
+    var returnValue = this._ipcRenderer.call('nsi_persistLocalModulesData');
+    return returnValue;
+  }
 }
 
 module.exports = IpcNsi;

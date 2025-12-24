@@ -125,7 +125,45 @@ class IpcNsiHandler {
       var repoUpdateStatus = await this._nsi.updateRepositoryConfig(progressCB);
       return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
-    
+
+    // New IPC handler: export metadata of all local modules to JSON
+    this._ipcMain.add('nsi_persistLocalModulesData', async () => {
+      try {
+        const moduleTypes = ['BIBLE', 'DICT', 'COMMENTARY'];
+        let allModules = [];
+
+        for (let i = 0; i < moduleTypes.length; i++) {
+          const currentType = moduleTypes[i];
+          const modulesOfType = this._nsi.getAllLocalModules(currentType) || [];
+
+          const mappedModules = modulesOfType.map((mod) => {
+            return {
+              name: mod.name,
+              type: mod.type,
+              language: mod.language,
+              version: mod.version
+            };
+          });
+
+          allModules = allModules.concat(mappedModules);
+        }
+
+        const userDataDir = this._platformHelper.getUserDataPath();
+        const targetFile = path.join(userDataDir, 'local_modules.json');
+
+        if (!fs.existsSync(userDataDir)) {
+          fs.mkdirSync(userDataDir, { recursive: true });
+        }
+
+        fs.writeFileSync(targetFile, JSON.stringify(allModules, null, 2), 'utf8');
+
+        return 0;
+      } catch (e) {
+        console.error('Error while persisting local modules metadata:', e);
+        return -1;
+      }
+    });
+
     this._ipcMain.add('nsi_getRepoNames', () => {
       return this._nsi.getRepoNames();
     });

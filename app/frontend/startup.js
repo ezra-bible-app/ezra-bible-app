@@ -505,6 +505,8 @@ class Startup {
       await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
     }
 
+    await ipcNsi.persistLocalModulesData();
+
     this.showDatabaseErrorsIfAny(initDbResult);
 
     await eventController.publishAsync('on-startup-completed');
