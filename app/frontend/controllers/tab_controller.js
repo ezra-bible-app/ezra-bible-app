@@ -136,13 +136,25 @@ class TabController {
     });
 
     eventController.subscribe('on-db-refresh', async () => {
-      verseListController.resetVerseListView();
-      if (this.loadingCompleted) {
-        // If tabs are already loaded, just repopulate them with fresh data
-        await this.populateFromMetaTabs(true);
-      } else {
-        // Initial loading during startup
-        await this.loadTabConfiguration(true);
+      let tabsValid = true;
+
+      for (let i = 0; i < this.metaTabs.length; i++) {
+        if (!this.metaTabs[i].isValid()) {
+          tabsValid = false;
+          break;
+        }
+      }
+
+      if (tabsValid) {
+        verseListController.resetVerseListView();
+
+        if (this.loadingCompleted) {
+          // If tabs are already loaded, just repopulate them with fresh data
+          await this.populateFromMetaTabs(true);
+        } else {
+          // Initial loading during startup
+          await this.loadTabConfiguration(true);
+        }
       }
     });
 
