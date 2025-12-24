@@ -18,7 +18,7 @@
 
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
-const DropboxSync = require('../db_sync/dropbox_sync.js');
+const DropboxHandler = require('../db_sync/dropbox_handler.js');
 const path = require('path');
 const fs = require('fs');
 
@@ -31,36 +31,31 @@ class IpcDbHandler {
     this.dbDir = null;
     // eslint-disable-next-line no-undef
     this._config = global.ipc.ipcSettingsHandler.getConfig();
-    this._dropboxSyncTimeout = null;
-    this._dropboxSyncInProgress = false;
-    this._dropboxAccessUpgradeNeeded = false;
+
+    this.dropboxHandler = new DropboxHandler();
+    this.dropboxHandler.setPlatformHelper(this.platformHelper);
 
     this.initIpcInterface();
   }
 
-  hasValidDropboxConfig() {
-    return this._config !== undefined &&
-           this._config.has('dropboxToken') &&
-           this._config.get('dropboxToken') != null &&
-           this._config.get('dropboxToken') != "" &&
-           !this._config.has('customDatabaseDir');
-  }
-
-  async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {
+  async initDatabase(isDebug, androidVersion, connectionType) {
     const DbHelper = require('../database/db_helper.js');
     let userDataDir = this.platformHelper.getUserDataPath(androidVersion);
 
     dbHelper = new DbHelper(userDataDir);
     this.dbDir = dbHelper.getDatabaseDir(isDebug);
+    this.dropboxHandler.setDbContext(this.dbDir, dbHelper);
+    this.dropboxHandler.setCallbacks(() => this.initModels(),
+                                     () => this.triggerDatabaseReload());
 
     console.log(`Initializing database at ${this.dbDir}`);
 
-    const fs = require('fs');
-    if (!fs.existsSync(this.dbDir)) {
+    const fsLocal = require('fs');
+    if (!fsLocal.existsSync(this.dbDir)) {
       try {
-        fs.mkdirSync(this.dbDir);
+        fsLocal.mkdirSync(this.dbDir);
       } catch (e) {
-        throw("Could not create db directory at " + this.dbDir);
+        throw('Could not create db directory at ' + this.dbDir);
       }
     }
 
@@ -69,9 +64,7 @@ class IpcDbHandler {
     try {
       await dbHelper.initDatabase(this.dbDir);
 
-      // Asynchronously create a database backup in case we have an issue with the production database in the future
       dbHelper.createDatabaseBackup();
-
     } catch (exception) {
       console.error(`ERROR: Could not initialize database at ${this.dbDir} (${exception.name}). Attempting to restore last backup while keeping the potentially corrupt file.`);
       returnCode = -1;
@@ -79,23 +72,20 @@ class IpcDbHandler {
       let backupRestored = false;
 
       try {
-
         dbHelper.renameCorruptDatabase(1);
         backupRestored = dbHelper.restoreDatabaseBackup();
 
         if (!backupRestored) {
-          console.log('No backup available. Restoring from template.')
+          console.log('No backup available. Restoring from template.');
         }
 
         await dbHelper.initDatabase(this.dbDir);
-
-      } catch (exception) {
-
+      } catch (exception2) {
         if (backupRestored) {
-          console.error(`ERROR: Database initialization failed even based on restoring backup (${exception.name}). Resetting database from empty template while keeping the potentially corrupt file.`)
+          console.error(`ERROR: Database initialization failed even based on restoring backup (${exception2.name}). Resetting database from empty template while keeping the potentially corrupt file.`);
           returnCode = -2;
         } else {
-          console.error(`FATAL: Resetting database from empty template failed!`);
+          console.error('FATAL: Resetting database from empty template failed!');
           returnCode = -3;
         }
 
@@ -103,38 +93,15 @@ class IpcDbHandler {
           try {
             dbHelper.renameCorruptDatabase(2);
             await dbHelper.initDatabase(this.dbDir);
-
-          } catch (exception) {
-            console.error(`FATAL: Resetting database from empty template failed!`);
+          } catch (exception3) {
+            console.error('FATAL: Resetting database from empty template failed!');
             returnCode = -3;
           }
         }
       }
     }
 
-    if (this.hasValidDropboxConfig()) {
-      let dropboxConfigValid = true;
-      let lastUsedVersion = this._config.get('lastUsedVersion', '');
-      if (lastUsedVersion != '') {
-        lastUsedVersion = lastUsedVersion.split('.');
-        let lastMajorVersion = parseInt(lastUsedVersion[0]);
-        let lastMinorVersion = parseInt(lastUsedVersion[1]);
-
-        if (lastMajorVersion == 1 && lastMinorVersion < 15) {
-          console.log('WARNING: Resetting dropbox configuration, since this version of Ezra Bible App uses a new way to connect with Dropbox!');
-          this.resetDropboxConfig();
-          dropboxConfigValid = false;
-          this._dropboxAccessUpgradeNeeded = true;
-        }
-      }
-      
-      if (dropboxConfigValid) {
-        // We run this operation asynchronously, so that startup is not blocked in case of issues (like if there is no internet connection)
-        this.syncDatabaseWithDropbox(connectionType).then((result) => {
-          console.log(`Last Dropbox sync result: ${result}`);
-        });
-      }
-    }
+    await this.dropboxHandler.initDropboxAfterDatabaseInit(connectionType);
 
     this.initModels();
     return returnCode;
@@ -144,168 +111,8 @@ class IpcDbHandler {
     if (this.dbDir != null) {
       global.models = require('../database/models')(this.dbDir);
     } else {
-      console.error('ERROR: dbDir is null! Cannot init models.')
+      console.error('ERROR: dbDir is null! Cannot init models.');
     }
-  }
-
-  resetDropboxConfig() {
-    this._config.set('lastDropboxSyncResult', '');
-    this._config.set('lastDropboxSyncTime', '');
-    this._config.set('lastDropboxDownloadTime', '');
-    this._config.set('lastDropboxUploadTime', '');
-    this._config.set('firstDropboxSyncDone', false);
-    this._config.set('dropboxToken', '');
-    this._config.set('dropboxRefreshToken', '');
-    this._config.set('dropboxLinkStatus', null);
-  }
-
-  async syncDatabaseWithDropbox(connectionType=undefined, notifyFrontend=false) {
-    let onlySyncOnWifi = this._config.get('dropboxOnlyWifi', false);
-
-    if (this.dbDir == null) {
-      console.error('ERROR: dbDir is null! Cannot sync database with Dropbox');
-      return;
-    }
-
-    if (connectionType !== undefined && onlySyncOnWifi && connectionType != 'wifi') {
-      console.log(`Configured to only sync Dropbox on Wifi. Not syncing, since we are currently on ${connectionType}.`);
-      return;
-    }
-
-    let dropboxToken = this._config.get('dropboxToken');
-    if (dropboxToken == "" || dropboxToken == null) {
-      return;
-    }
-
-    const dropboxRefreshToken = this._config.get('dropboxRefreshToken');
-    if (dropboxRefreshToken == "" || dropboxRefreshToken == null) {
-      return;
-    }
-
-    if (this._dropboxSyncInProgress) {
-      return;
-    }
-
-    this._dropboxSyncInProgress = true;
-
-    console.log('Synchronizing database with Dropbox!');
-
-    const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
-    const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
-    const databaseFilePath = this.getDatabaseFilePath();
-    const dropboxFilePath = `/ezra.sqlite`;
-
-    let prioritizeRemote = false;
-    if (!firstDropboxSyncDone) {
-      prioritizeRemote = true;
-    }
-
-    let dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
-
-    let authenticated = false;
-    let lastDropboxSyncResult = null;
-
-    try {
-      let refreshedAccessToken = await dropboxSync.refreshAccessToken();
-
-      if (refreshedAccessToken == dropboxToken) {
-        console.log('Existing Dropbox token valid!');
-      } else {
-        console.log('Refreshed Dropbox access token!');
-        dropboxToken = refreshedAccessToken;
-        this._config.set('dropboxToken', refreshedAccessToken);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-
-    try {
-      await dropboxSync.testAuthentication();
-      authenticated = true;
-    } catch (e) {
-      console.log(e);
-    }
-
-    if (authenticated) {
-      console.log(`Dropbox authenticated! Attempting to synchronize local file ${databaseFilePath} with Dropbox!`);
-
-      const initialLocalHash = await dropboxSync.getLocalFileHash(databaseFilePath);
-
-      let result = await dropboxSync.syncFileTwoWay(databaseFilePath, dropboxFilePath, prioritizeRemote);
-
-      const finalLocalHash = await dropboxSync.getLocalFileHash(databaseFilePath);
-      const fileHasChanged = finalLocalHash != initialLocalHash;
-
-      if (result == 1) {
-        lastDropboxSyncResult = 'DOWNLOAD';
-        this._config.set('lastDropboxDownloadTime', new Date());
-
-        try {
-          await dbHelper.initDatabase(this.dbDir);
-
-        } catch (exception) {
-
-          console.error('ERROR: Received Dropbox file appears corrupt. Initiating measures for recovery.')
-          lastDropboxSyncResult = await this.handleCorruptDropboxFileDownload();
-        }
-
-        // Reload models after 
-        this.initModels();
-        this.triggerDatabaseReload();
-
-      } else if (result == 2) {
-        lastDropboxSyncResult = 'UPLOAD';
-        this._config.set('lastDropboxUploadTime', new Date());
-      } else if (result == 0) {
-        lastDropboxSyncResult = 'NONE';
-      } else if (result == -1) {
-        lastDropboxSyncResult = 'DOWNLOAD FAILED';
-
-        console.error('ERROR: The Dropbox download has failed.');
-
-        if (fileHasChanged) {
-          console.log('Since the database was changed based on a failed download: Initiate measures for recovery.');
-          lastDropboxSyncResult = await this.handleFailedDropboxDownload();
-
-          // Reload models after 
-          this.initModels();
-          this.triggerDatabaseReload();
-        }
-
-      } else if (result == -2) {
-        lastDropboxSyncResult = 'UPLOAD FAILED';
-      } else if (result == -3) {
-        lastDropboxSyncResult = 'SYNC FAILED';
-      } else if (result == -4) {
-        lastDropboxSyncResult = 'UPLOAD FAILED | DROPBOX FILE CORRUPTED';
-      } else if (result < -4) {
-        lastDropboxSyncResult = 'FAILED';
-      }
-
-      if (result >= 0 && !firstDropboxSyncDone) {
-        this._config.set('firstDropboxSyncDone', true);
-      }
-    } else {
-      console.warn('Dropbox could not be authenticated!');
-      lastDropboxSyncResult = 'AUTH FAILED';
-    }
-
-    this._config.set('lastDropboxSyncResult', lastDropboxSyncResult);
-    this._config.set('lastDropboxSyncTime', new Date());
-
-    this._dropboxSyncInProgress = false;
-
-    if (notifyFrontend && lastDropboxSyncResult != null) {
-      if (this.platformHelper.isElectron()) {
-        if (global.mainWindow != null && global.mainWindow.webContents != null) {
-          global.mainWindow.webContents.send('dropbox-synced');
-        }
-      } else if (this.platformHelper.isCordova()) {
-        cordova.channel.post('dropbox-synced', '');
-      }
-    }
-
-    return lastDropboxSyncResult;
   }
 
   triggerDatabaseReload() {
@@ -324,113 +131,24 @@ class IpcDbHandler {
     }
   }
 
-  async handleCorruptDropboxFileDownload() {
-    let lastDropboxSyncResult = null;
-
-    dbHelper.renameCorruptDatabase(1);
-    let backupRestored = dbHelper.restoreDatabaseBackup();
-
-    if (backupRestored) {
-      lastDropboxSyncResult = 'DOWNLOAD FAILED | DROPBOX FILE CORRUPTED';
-    } else {
-      lastDropboxSyncResult = 'DOWNLOAD FAILED | LOCAL DB CORRUPTED | DATABASE RESET';
-      dbHelper.renameCorruptDatabase(2);
-    }
-
-    try {
-      await dbHelper.initDatabase(this.dbDir);
-    } catch (exception) {
-      lastDropboxSyncResult = 'DOWNLOAD FAILED | LOCAL DB CORRUPTED | DATABASE RESET FAILED';
-    }
-
-    return lastDropboxSyncResult;
-  }
-
-  async handleFailedDropboxDownload() {
-    let lastDropboxSyncResult = null;
-
-    // The download has failed - we attempt to restore the backup database.
-    let backupRestored = dbHelper.restoreDatabaseBackup();
-
-    if (backupRestored) {
-      try {
-        await dbHelper.initDatabase(this.dbDir);
-
-      } catch (exception) {
-        dbHelper.renameCorruptDatabase(1);
-
-        try {
-          await dbHelper.initDatabase(this.dbDir);
-          lastDropboxSyncResult = 'DOWNLOAD FAILED | DATABASE RESET';
-
-        } catch (exception) {
-          lastDropboxSyncResult = 'DOWNLOAD FAILED | DATABASE RESET FAILED';
-        }
-      }
-    } else {
-      lastDropboxSyncResult = 'DOWNLOAD FAILED | LOCAL DB CORRUPTED | DATABASE RESET';
-
-      dbHelper.renameCorruptDatabase(2);
-
-      try {
-        await dbHelper.initDatabase(this.dbDir);
-      } catch (exception) {
-        lastDropboxSyncResult = 'DOWNLOAD FAILED | LOCAL DB CORRUPTED | DATABASE RESET FAILED';
-      }
-    }
-
-    // Reload models after 
-    this.initModels();
-
-    return lastDropboxSyncResult;
-  }
-
   async closeDatabase() {
-    this.cancelDropboxSyncTimeout();
+    this.dropboxHandler.cancelDropboxSyncTimeout();
 
     if (global.sequelize != null) {
       await global.sequelize.close();
       global.sequelize = null;
     }
 
-    let result = await this.syncDatabaseWithDropbox(global.connectionType);
+    let result = await this.dropboxHandler.syncDatabaseWithDropbox(global.connectionType, false);
     console.log(`Last Dropbox sync result: ${result}`);
   }
 
   getDatabaseFilePath() {
-    return this.dbDir + path.sep + "ezra.sqlite";
+    return this.dbDir + path.sep + 'ezra.sqlite';
   }
 
   async triggerDropboxSyncIfConfigured() {
-    const DROPBOX_SYNC_TIMEOUT_MS = 2 * 60 * 1000;
-
-    if (!this.hasValidDropboxConfig()) {
-      return;
-    }
-
-    if (this._config.has('dropboxSyncAfterChanges') &&
-        this._config.get('dropboxSyncAfterChanges') == false) {
-      
-      return;
-    }
-
-    this.cancelDropboxSyncTimeout();
-
-    console.log(`Starting new Dropbox sync in ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
-    this._dropboxSyncTimeout = setTimeout(async () => {
-      console.log(`Syncing Dropbox based on timeout after ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
-      this.syncDatabaseWithDropbox(global.connectionType, true).then((result) => {
-        console.log(`Last Dropbox sync result: ${result}`);
-      });
-    }, DROPBOX_SYNC_TIMEOUT_MS);
-  }
-
-  cancelDropboxSyncTimeout() {
-    if (this._dropboxSyncTimeout !== null) {
-      console.log('Cancelling existing Dropbox sync timeout!');
-      clearTimeout(this._dropboxSyncTimeout);
-      this._dropboxSyncTimeout = null;
-    }
+    await this.dropboxHandler.triggerDropboxSyncIfConfigured();
   }
 
   initIpcInterface() {
@@ -439,14 +157,14 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_syncDropbox', async(connectionType) => {
-      if (this.hasValidDropboxConfig()) {
-        let result = await this.syncDatabaseWithDropbox(connectionType);
+      if (this.dropboxHandler.hasValidDropboxConfig()) {
+        let result = await this.dropboxHandler.syncDatabaseWithDropbox(connectionType, false);
         console.log(`Last Dropbox sync result: ${result}`);
       }
     });
 
     this._ipcMain.add('db_isDropboxAccessUpgradeNeeded', async() => {
-      return this._dropboxAccessUpgradeNeeded;
+      return this.dropboxHandler.isDropboxAccessUpgradeNeeded();
     });
 
     this._ipcMain.add('db_getDatabasePath', async() => {
@@ -463,11 +181,11 @@ class IpcDbHandler {
 
     this._ipcMain.add('db_createNewTag', async (newTagTitle, createNoteFile=false, tagGroups=null) => {
       let result = await global.models.Tag.createNewTag(newTagTitle, createNoteFile);
-      
+
       if (tagGroups != null) {
         for (let i = 0; i < tagGroups.length; i++) {
           let tagGroupId = tagGroups[i];
-          
+
           if (tagGroupId != null && tagGroupId > 0) {
             let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
             await tagGroup.addTag(result.dbObject.id);
@@ -475,7 +193,7 @@ class IpcDbHandler {
         }
       }
 
-      this.triggerDropboxSyncIfConfigured();
+      await this.triggerDropboxSyncIfConfigured();
 
       return result;
     });
@@ -483,7 +201,7 @@ class IpcDbHandler {
     this._ipcMain.add('db_removeTag', async (id, deleteNoteFile=false) => {
       let result = await global.models.Tag.destroyTag(id, deleteNoteFile);
 
-      this.triggerDropboxSyncIfConfigured();
+      await this.triggerDropboxSyncIfConfigured();
 
       return result;
     });
@@ -491,7 +209,7 @@ class IpcDbHandler {
     this._ipcMain.add('db_updateTag', async(id, newTitle, addTagGroups, removeTagGroups) => {
       let result = await global.models.Tag.updateTag(id, newTitle, addTagGroups, removeTagGroups);
 
-      this.triggerDropboxSyncIfConfigured();
+      await this.triggerDropboxSyncIfConfigured();
 
       return result;
     });
@@ -499,7 +217,7 @@ class IpcDbHandler {
     this._ipcMain.add('db_updateTagsOnVerses', async (tagId, verseObjects, versification, action) => {
       let result = await global.models.Tag.updateTagsOnVerses(tagId, verseObjects, versification, action);
 
-      this.triggerDropboxSyncIfConfigured();
+      await this.triggerDropboxSyncIfConfigured();
 
       return result;
     });
