@@ -231,7 +231,6 @@ class DropboxHandler {
 
     console.log(`Synchronizing file ${localFilePath} with Dropbox!`);
 
-
     let authenticated = false;
 
     try {

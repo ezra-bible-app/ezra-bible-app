@@ -126,7 +126,6 @@ class IpcNsiHandler {
       return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
 
-    // New IPC handler: export metadata of all local modules to JSON
     this._ipcMain.add('nsi_persistLocalModulesData', async () => {
       try {
         const moduleTypes = ['BIBLE', 'DICT', 'COMMENTARY'];
