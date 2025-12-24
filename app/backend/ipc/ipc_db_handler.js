@@ -18,7 +18,7 @@
 
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
-const DropboxHandler = require('../db_sync/dropbox_handler.js');
+const DropboxHandler = require('../dropbox_sync/dropbox_handler.js');
 const path = require('path');
 const fs = require('fs');
 
