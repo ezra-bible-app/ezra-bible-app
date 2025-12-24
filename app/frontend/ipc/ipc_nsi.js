@@ -351,6 +351,11 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getLocalModulesData() {
+    var returnValue = this._ipcRenderer.call('nsi_getLocalModulesData');
+    return returnValue;
+  }
+
   async syncLocalModulesDataWithDropbox() {
     var returnValue = this._ipcRenderer.call('nsi_syncLocalModulesDataWithDropbox');
     return returnValue;
