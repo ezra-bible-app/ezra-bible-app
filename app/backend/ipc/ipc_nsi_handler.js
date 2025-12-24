@@ -136,14 +136,18 @@ class IpcNsiHandler {
           const currentType = moduleTypes[i];
           const modulesOfType = this._nsi.getAllLocalModules(currentType) || [];
 
-          const mappedModules = modulesOfType.map((mod) => {
-            return {
-              name: mod.name,
-              type: mod.type,
-              language: mod.language,
-              version: mod.version
-            };
-          });
+          const mappedModules = modulesOfType
+            .filter(function(mod) {
+              return mod.repository !== undefined && mod.repository !== '';
+            })
+            .map(function(mod) {
+              return {
+                name: mod.name,
+                type: currentType,
+                description: mod.description,
+                repository: mod.repository
+              };
+            });
 
           allModules = allModules.concat(mappedModules);
         }
