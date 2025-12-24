@@ -91,7 +91,7 @@ class DropboxSync {
   async syncFileTwoWay(filePath, dropboxPath, prioritizeRemote=false) {
     if (!fs.existsSync(filePath)) {
       console.warn(`File ${filePath} does not exist!`);
-      return -5;
+      return -6;
     }
 
     let isSynced = null;
