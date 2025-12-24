@@ -430,6 +430,27 @@ class IpcNsiHandler {
       }
     });
 
+    this._ipcMain.add('nsi_getLocalModulesData', () => {
+      try {
+        const userDataDir = this._platformHelper.getUserDataPath();
+        const targetFile = path.join(userDataDir, 'module_selection.json');
+
+        if (!fs.existsSync(targetFile)) {
+          return [];
+        }
+
+        const fileContent = fs.readFileSync(targetFile, 'utf8');
+        if (fileContent.trim() === '') {
+          return [];
+        }
+
+        return JSON.parse(fileContent);
+      } catch (e) {
+        console.error('Error while loading local modules metadata:', e);
+        return [];
+      }
+    });
+
     this._ipcMain.add('nsi_syncLocalModulesDataWithDropbox', async () => {
       const result = {
         synced: false,
