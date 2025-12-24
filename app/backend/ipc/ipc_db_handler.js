@@ -33,7 +33,6 @@ class IpcDbHandler {
     this._config = global.ipc.ipcSettingsHandler.getConfig();
 
     this.dropboxHandler = new DropboxHandler();
-    this.dropboxHandler.setPlatformHelper(this.platformHelper);
 
     this.initIpcInterface();
   }
