@@ -199,8 +199,6 @@ class DropboxHandler {
     this._config.set('lastDropboxSyncResult', lastDropboxSyncResult);
     this._config.set('lastDropboxSyncTime', new Date());
 
-    this._dropboxSyncInProgress = false;
-
     if (notifyFrontend && lastDropboxSyncResult != null && this.platformHelper != null) {
       if (this.platformHelper.isElectron()) {
         if (global.mainWindow != null && global.mainWindow.webContents != null) {
@@ -224,6 +222,7 @@ class DropboxHandler {
     }
 
     if (this._dropboxSyncInProgress) {
+      console.log(`Dropbox sync already in progress. Skipping new sync request for file ${localFilePath}.`);
       return;
     }
 
@@ -264,6 +263,8 @@ class DropboxHandler {
       console.warn('Dropbox could not be authenticated!');
       result = -5; // AUTH FAILED
     }
+
+    this._dropboxSyncInProgress = false;
 
     return result;
   }
