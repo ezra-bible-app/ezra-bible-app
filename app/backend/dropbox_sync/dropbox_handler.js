@@ -83,93 +83,73 @@ class DropboxHandler {
     return this.dbDir + path.sep + 'ezra.sqlite';
   }
 
-  async syncDatabaseWithDropbox(connectionType, notifyFrontend) {
-    let onlySyncOnWifi = this._config.get('dropboxOnlyWifi', false);
+  initDropboxSync() {
+    if (this._dropboxSync == null) {
+      const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
 
+      this._dropboxToken = this._config.get('dropboxToken');
+      if (this._dropboxToken == '' || this._dropboxToken == null) {
+        throw('No Dropbox token found!');
+      }
+
+      const dropboxRefreshToken = this._config.get('dropboxRefreshToken');
+      if (dropboxRefreshToken == '' || dropboxRefreshToken == null) {
+        throw('No Dropbox refresh token found!');
+      }
+
+      this._dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, this._dropboxToken, dropboxRefreshToken);
+    }
+  }
+
+  async syncDatabaseWithDropbox(connectionType, notifyFrontend) {
     if (this.dbDir == null) {
       console.error('ERROR: dbDir is null! Cannot sync database with Dropbox');
       return;
     }
 
-    if (connectionType !== undefined && onlySyncOnWifi && connectionType != 'wifi') {
-      console.log(`Configured to only sync Dropbox on Wifi. Not syncing, since we are currently on ${connectionType}.`);
-      return;
-    }
+    this.initDropboxSync();
 
-    let dropboxToken = this._config.get('dropboxToken');
-    if (dropboxToken == '' || dropboxToken == null) {
-      return;
-    }
-
-    const dropboxRefreshToken = this._config.get('dropboxRefreshToken');
-    if (dropboxRefreshToken == '' || dropboxRefreshToken == null) {
-      return;
-    }
-
-    if (this._dropboxSyncInProgress) {
-      return;
-    }
-
-    this._dropboxSyncInProgress = true;
-
-    console.log('Synchronizing database with Dropbox!');
-
-    const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
-    const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
     const databaseFilePath = this.getDatabaseFilePath();
     const dropboxFilePath = '/ezra.sqlite';
+    const initialLocalHash = await this._dropboxSync.getLocalFileHash(databaseFilePath);
 
-    let prioritizeRemote = false;
-    if (!firstDropboxSyncDone) {
-      prioritizeRemote = true;
-    }
+    const result = await this.syncFileWithDropbox(databaseFilePath, dropboxFilePath, connectionType);
 
-    let dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
+    const finalLocalHash = await this._dropboxSync.getLocalFileHash(databaseFilePath);
+    const fileHasChanged = finalLocalHash != initialLocalHash;
 
-    let authenticated = false;
     let lastDropboxSyncResult = null;
 
-    try {
-      let refreshedAccessToken = await dropboxSync.refreshAccessToken();
+    if (result == 1) {
+      lastDropboxSyncResult = 'DOWNLOAD';
+      this._config.set('lastDropboxDownloadTime', new Date());
 
-      if (refreshedAccessToken == dropboxToken) {
-        console.log('Existing Dropbox token valid!');
-      } else {
-        console.log('Refreshed Dropbox access token!');
-        dropboxToken = refreshedAccessToken;
-        this._config.set('dropboxToken', refreshedAccessToken);
+      try {
+        await this.dbHelper.initDatabase(this.dbDir);
+      } catch (exception) {
+        console.error('ERROR: Received Dropbox file appears corrupt. Initiating measures for recovery.');
+        lastDropboxSyncResult = await this.handleCorruptDropboxFileDownload();
       }
-    } catch (e) {
-      console.log(e);
-    }
 
-    try {
-      await dropboxSync.testAuthentication();
-      authenticated = true;
-    } catch (e) {
-      console.log(e);
-    }
+      if (this.initModelsCallback != null) {
+        this.initModelsCallback();
+      }
+      if (this.triggerDatabaseReloadCallback != null) {
+        this.triggerDatabaseReloadCallback();
+      }
+    } else if (result == 2) {
+      lastDropboxSyncResult = 'UPLOAD';
+      this._config.set('lastDropboxUploadTime', new Date());
+    } else if (result == 0) {
+      lastDropboxSyncResult = 'NONE';
+    } else if (result == -1) {
+      lastDropboxSyncResult = 'DOWNLOAD FAILED';
 
-    if (authenticated) {
-      console.log(`Dropbox authenticated! Attempting to synchronize local file ${databaseFilePath} with Dropbox!`);
+      console.error('ERROR: The Dropbox download has failed.');
 
-      const initialLocalHash = await dropboxSync.getLocalFileHash(databaseFilePath);
-
-      let result = await dropboxSync.syncFileTwoWay(databaseFilePath, dropboxFilePath, prioritizeRemote);
-
-      const finalLocalHash = await dropboxSync.getLocalFileHash(databaseFilePath);
-      const fileHasChanged = finalLocalHash != initialLocalHash;
-
-      if (result == 1) {
-        lastDropboxSyncResult = 'DOWNLOAD';
-        this._config.set('lastDropboxDownloadTime', new Date());
-
-        try {
-          await this.dbHelper.initDatabase(this.dbDir);
-        } catch (exception) {
-          console.error('ERROR: Received Dropbox file appears corrupt. Initiating measures for recovery.');
-          lastDropboxSyncResult = await this.handleCorruptDropboxFileDownload();
-        }
+      if (fileHasChanged) {
+        console.log('Since the database was changed based on a failed download: Initiate measures for recovery.');
+        lastDropboxSyncResult = await this.handleFailedDropboxDownload();
 
         if (this.initModelsCallback != null) {
           this.initModelsCallback();
@@ -177,43 +157,21 @@ class DropboxHandler {
         if (this.triggerDatabaseReloadCallback != null) {
           this.triggerDatabaseReloadCallback();
         }
-      } else if (result == 2) {
-        lastDropboxSyncResult = 'UPLOAD';
-        this._config.set('lastDropboxUploadTime', new Date());
-      } else if (result == 0) {
-        lastDropboxSyncResult = 'NONE';
-      } else if (result == -1) {
-        lastDropboxSyncResult = 'DOWNLOAD FAILED';
-
-        console.error('ERROR: The Dropbox download has failed.');
-
-        if (fileHasChanged) {
-          console.log('Since the database was changed based on a failed download: Initiate measures for recovery.');
-          lastDropboxSyncResult = await this.handleFailedDropboxDownload();
-
-          if (this.initModelsCallback != null) {
-            this.initModelsCallback();
-          }
-          if (this.triggerDatabaseReloadCallback != null) {
-            this.triggerDatabaseReloadCallback();
-          }
-        }
-      } else if (result == -2) {
-        lastDropboxSyncResult = 'UPLOAD FAILED';
-      } else if (result == -3) {
-        lastDropboxSyncResult = 'SYNC FAILED';
-      } else if (result == -4) {
-        lastDropboxSyncResult = 'UPLOAD FAILED | DROPBOX FILE CORRUPTED';
-      } else if (result < -4) {
-        lastDropboxSyncResult = 'FAILED';
       }
+    } else if (result == -2) {
+      lastDropboxSyncResult = 'UPLOAD FAILED';
+    } else if (result == -3) {
+      lastDropboxSyncResult = 'SYNC FAILED';
+    } else if (result == -4) {
+      lastDropboxSyncResult = 'UPLOAD FAILED | DROPBOX FILE CORRUPTED';
+    } else if (result < -4) {
+      lastDropboxSyncResult = 'FAILED';
+    }
 
-      if (result >= 0 && !firstDropboxSyncDone) {
-        this._config.set('firstDropboxSyncDone', true);
-      }
-    } else {
-      console.warn('Dropbox could not be authenticated!');
-      lastDropboxSyncResult = 'AUTH FAILED';
+    const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
+
+    if (result >= 0 && !firstDropboxSyncDone) {
+      this._config.set('firstDropboxSyncDone', true);
     }
 
     this._config.set('lastDropboxSyncResult', lastDropboxSyncResult);
@@ -233,6 +191,66 @@ class DropboxHandler {
     }
 
     return lastDropboxSyncResult;
+  }
+
+  async syncFileWithDropbox(localFilePath, dropboxFilePath, connectionType) {
+    let onlySyncOnWifi = this._config.get('dropboxOnlyWifi', false);
+
+    if (connectionType !== undefined && onlySyncOnWifi && connectionType != 'wifi') {
+      console.log(`Configured to only sync Dropbox on Wifi. Not syncing, since we are currently on ${connectionType}.`);
+      return;
+    }
+
+    if (this._dropboxSyncInProgress) {
+      return;
+    }
+
+    this._dropboxSyncInProgress = true;
+
+    console.log(`Synchronizing file ${localFilePath} with Dropbox!`);
+
+    const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
+
+    let prioritizeRemote = false;
+    if (!firstDropboxSyncDone) {
+      prioritizeRemote = true;
+    }
+
+    let authenticated = false;
+
+    try {
+      let refreshedAccessToken = await this._dropboxSync.refreshAccessToken();
+
+      if (refreshedAccessToken == this._dropboxToken) {
+        console.log('Existing Dropbox token valid!');
+      } else {
+        console.log('Refreshed Dropbox access token!');
+        this._dropboxToken = refreshedAccessToken;
+        this._config.set('dropboxToken', refreshedAccessToken);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    try {
+      await this._dropboxSync.testAuthentication();
+      authenticated = true;
+    } catch (e) {
+      console.log(e);
+    }
+
+    let result = null;
+
+    if (authenticated) {
+      console.log(`Dropbox authenticated! Attempting to synchronize local file ${localFilePath} with Dropbox!`);
+      result = await this._dropboxSync.syncFileTwoWay(localFilePath, dropboxFilePath, prioritizeRemote);
+
+    } else {
+      console.warn('Dropbox could not be authenticated!');
+      result = 'AUTH FAILED';
+    }
+
+    return result;
   }
 
   async handleCorruptDropboxFileDownload() {
