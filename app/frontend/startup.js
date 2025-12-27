@@ -139,9 +139,9 @@ class Startup {
       boxes = loadFile('html/boxes.html');
 
     } else {
-      // Development & Cordova/Android
+      // Development & Cordova
 
-      console.log("Loading HTML files via Development / Cordova / Android approach");
+      console.log("Loading HTML files via Development / Cordova approach");
 
       // Note that for Cordova these readFileSync calls are all inlined, which means the content of those files
       // becomes part of the bundle when bundling up the sources with Browserify.
@@ -458,8 +458,10 @@ class Startup {
     // Save some meta data about versions used
     cacheController.saveLastUsedVersion();
 
-    if (platformHelper.isCordova()) {
-      ipcSettings.set('lastUsedAndroidVersion', getPlatform().getAndroidVersion());
+    if (platformHelper.isAndroid()) {
+      ipcSettings.set('lastUsedAndroidVersion', getPlatform().getOSVersion());
+    } else {
+      // FIXME: Implement for iOS
     }
 
     // Confirm privacy options at first startup
