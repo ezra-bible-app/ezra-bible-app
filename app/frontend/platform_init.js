@@ -32,11 +32,12 @@ const CHROMIUM_VERSION_MIN = 57; // Do not support Chromium/WebView below the ve
 const CHROMIUM_VERSION_UP_TO_DATE = 83; // Version that works without extra hacks
 
 window.initPlatform = function() {
-  if (isAndroidWebView()) {
+  if (isAndroidWebView()) { //  Android WebView
     const webViewVersion = getChromiumMajorVersion();
 
     window.isAndroid = true;
     window.isElectron = false;
+    window.isIPhone = false;
     
     if (webViewVersion) {
       if (webViewVersion >= CHROMIUM_VERSION_MIN) {
@@ -58,10 +59,20 @@ window.initPlatform = function() {
 
       window.addEventListener('load', showIncompatibleWebviewMessage);
     }
+  } else if (isIPhoneWebView()) { // iPhone WebView
+    
+    window.isIPhone = true;
+    window.isAndroid = false;
+    window.isElectron = false;
+    window.isDev = false;
+
+    loadScript('dist/ezra_init.js');
+
   } else if (isElectronRenderer()) { // Electron!
 
     window.isElectron = true;
     window.isAndroid = false;
+    window.isIPhone = false;
     window.isDev = false;
 
     if (typeof window !== 'undefined' &&
@@ -151,6 +162,17 @@ function isElectronRenderer() {
 
 function isAndroidWebView() {
   return navigator.userAgent.indexOf('; wv') != -1;
+}
+
+function isIPhoneWebView() {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+  // iOS detection from: http://stackoverflow.com/a/9039885/177710
+  var isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+
+  var isWebView = isIOS && !userAgent.match(/Safari/);
+
+  return isWebView;
 }
 
 function getOutdatedWebViewMessage() {
