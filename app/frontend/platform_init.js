@@ -37,7 +37,7 @@ window.initPlatform = function() {
 
     window.isAndroid = true;
     window.isElectron = false;
-    window.isIPhone = false;
+    window.isIOS = false;
     
     if (webViewVersion) {
       if (webViewVersion >= CHROMIUM_VERSION_MIN) {
@@ -59,9 +59,9 @@ window.initPlatform = function() {
 
       window.addEventListener('load', showIncompatibleWebviewMessage);
     }
-  } else if (isIPhoneWebView()) { // iPhone WebView
+  } else if (isIOSWebView()) { // iOS WebView
     
-    window.isIPhone = true;
+    window.isIOS = true;
     window.isAndroid = false;
     window.isElectron = false;
     window.isDev = false;
@@ -72,7 +72,7 @@ window.initPlatform = function() {
 
     window.isElectron = true;
     window.isAndroid = false;
-    window.isIPhone = false;
+    window.isIOS = false;
     window.isDev = false;
 
     if (typeof window !== 'undefined' &&
@@ -164,7 +164,7 @@ function isAndroidWebView() {
   return navigator.userAgent.indexOf('; wv') != -1;
 }
 
-function isIPhoneWebView() {
+function isIOSWebView() {
   var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
   // iOS detection from: http://stackoverflow.com/a/9039885/177710
