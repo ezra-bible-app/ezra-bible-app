@@ -170,12 +170,14 @@ class PlatformHelper {
       element.classList.add('OSX');
     } else if (this.isCordova()) {
       element.classList.add('Cordova');
-      if (window.isChromiumOlder()) {
-        element.classList.add('webview-older'); // in Android it's possible to have lower versions of WebView
-      }
 
       if (this.isAndroid()) {
         element.classList.add('Android');
+
+        if (window.isChromiumOlder()) {
+          element.classList.add('webview-older'); // in Android it's possible to have lower versions of WebView
+        }
+
       } else if (this.isIOS()) {
         element.classList.add('IOS');
       }
