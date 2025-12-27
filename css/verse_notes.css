@@ -22,7 +22,7 @@ div.CodeMirror {
   border-radius: 4px;
 }
 
-.Android .verse-notes:not(.verse-notes-fullscreen) div.CodeMirror {
+.Cordova .verse-notes:not(.verse-notes-fullscreen) div.CodeMirror {
   height: 200px !important;
 }
 
@@ -103,7 +103,7 @@ div.CodeMirror {
   min-height: 18em;
 }
 
-.Android .verse-list-with-notes:not(.verse-list-scroll-notes) .verse-notes-text.edited {
+.Cordova .verse-list-with-notes:not(.verse-list-scroll-notes) .verse-notes-text.edited {
   min-height: 12em;
 }
 
@@ -113,7 +113,7 @@ div.CodeMirror {
   overflow-x: hidden;
 }
 
-.Android .verse-list-scroll-notes .verse-notes-text {
+.Cordova .verse-list-scroll-notes .verse-notes-text {
   max-height: 200px;
 }
 

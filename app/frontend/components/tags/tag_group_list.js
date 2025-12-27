@@ -76,7 +76,7 @@ const template = html`
   align-items: center;
 }
 
-.Android .tag-group {
+.Cordova .tag-group {
   height: 2.5em;
   padding-top: 0.8em;
 }

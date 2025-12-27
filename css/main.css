@@ -304,12 +304,12 @@ h2:nth-of-type(1) {
   margin: 1.5em;
 }
 
-.Android #check-new-releases-box {
+.Cordova #check-new-releases-box {
   display: none;
 }
 
-.Android #system-font-select-box,
-.Android #user-content-system-font-select-box {
+.Cordova #system-font-select-box,
+.Cordova #user-content-system-font-select-box {
   display: none;
 }
 
@@ -336,24 +336,24 @@ a.chapter-nav:visited {
   margin: 1em;
 }
 
-.Android a.chapter-nav:link,
-.Android a.chapter-nav:visited {
+.Cordova a.chapter-nav:link,
+.Cordova a.chapter-nav:visited {
   text-decoration: underline;
 }
 
-.Android .ui-dialog-titlebar-close.ui-state-hover {
+.Cordova .ui-dialog-titlebar-close.ui-state-hover {
   border: unset !important;
 }
 
-.Android .ui-dialog-titlebar-close.ui-state-active,
-.Android .ui-dialog-titlebar-close.ui-state-focus {
+.Cordova .ui-dialog-titlebar-close.ui-state-active,
+.Cordova .ui-dialog-titlebar-close.ui-state-focus {
   border: unset !important;
   background: unset !important;
   font-weight: unset !important;
   color: unset !important;
 }
 
-.Android.darkmode--activated .close-dialog-icon {
+.Cordova.darkmode--activated .close-dialog-icon {
   color: unset !important;
 }
 
@@ -396,12 +396,12 @@ a.chapter-nav:hover {
   flex: 0 0;
 }
 
-.Android .verse-reference {
+.Cordova .verse-reference {
   margin-left: unset !important;
   flex-direction: column; /* This ensures that the verse reference and the notes/tags indicators are shown above each other */
 }
 
-.Android .verse-reference-content {
+.Cordova .verse-reference-content {
   margin-bottom: 0.1em;
   order: -1; /* Make sure that the verse reference itself comes first (compared to notes/tags indicators) */
 }
@@ -566,12 +566,12 @@ a.chapter-nav:hover {
   display: none !important;
 }
 
-.Android #only-sync-on-wifi-option {
+.Cordova #only-sync-on-wifi-option {
   display: flex !important;
 }
 
 /* The following option is not needed on Android, because it is not supported. */
-.Android #showFootnotesOption {
+.Cordova #showFootnotesOption {
   display: none !important;
 }
 
@@ -740,11 +740,11 @@ a.chapter-nav:hover {
   /*visibility: hidden;*/
 }
 
-.Android .notes-info {
+.Cordova .notes-info {
   font-size: 125%;
 }
 
-.Android .tag-info {
+.Cordova .tag-info {
   display: none; /* The tag info is not needed on mobile! */
 }
 
@@ -966,7 +966,7 @@ main.content {
 }
 
 /* We do not check for new releases on Android and therefore do not show this option. */
-.Android #checkNewReleasesOption {
+.Cordova #checkNewReleasesOption {
   display: none;
 }
 
@@ -1034,7 +1034,7 @@ main.content {
   border-radius: 4px;
 }
 
-.Android #book-selection-menu-chapter-list #chapter-list-chapters {
+.Cordova #book-selection-menu-chapter-list #chapter-list-chapters {
   max-inline-size: 34em;
 }
 
@@ -1473,7 +1473,7 @@ li.book-unavailable a:focus,
 }
 
 /* On Android we disable the possibility to export tagged verses to a document */
-.Android .export-docx-button {
+.Cordova .export-docx-button {
   display: none;
 }
 
@@ -1744,11 +1744,11 @@ li.book-unavailable a:focus,
   margin-right: 0.5em;
 }
 
-.Android .tag-browser-tag-cb {
+.Cordova .tag-browser-tag-cb {
   margin-top: inherit;
 }
 
-.Android #tag-selection-recently-used-checkbox {
+.Cordova #tag-selection-recently-used-checkbox {
   float: left;
   margin-right: 0.5em;
 }
@@ -1760,7 +1760,7 @@ li.book-unavailable a:focus,
   contain-intrinsic-size: 1.2em;
 }
 
-.Android .tag-browser-tag {
+.Cordova .tag-browser-tag {
   margin-bottom: 1em;
 }
 
@@ -2009,13 +2009,13 @@ tr.compare-translation-row:nth-child(odd) {
   font-size: 1em;
 }
 
-.Android,
-.Android button,
-.Android select,
-.Android .verse-list-content,
-.Android .loading-indicator-text,
-.Android .loading-subtitle,
-.Android div.CodeMirror {
+.Cordova,
+.Cordova button,
+.Cordova select,
+.Cordova .verse-list-content,
+.Cordova .loading-indicator-text,
+.Cordova .loading-subtitle,
+.Cordova div.CodeMirror {
   font-family: Roboto, sans-serif;
 }
 

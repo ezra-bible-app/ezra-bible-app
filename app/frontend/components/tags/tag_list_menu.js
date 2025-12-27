@@ -132,7 +132,7 @@ const template = html`
   font-size: 1em;
 }
 
-.Android #new-standard-tag-button {
+.Cordova #new-standard-tag-button {
   height: unset !important;
   font-size: 0.9em;
 }
