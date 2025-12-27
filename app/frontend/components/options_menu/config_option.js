@@ -40,7 +40,7 @@ const template = html`
     margin: 0.4em;
   }
   
-  .Android .switch-box input {
+  .Cordova .switch-box input {
     margin: 0.2em;
   }
 </style>

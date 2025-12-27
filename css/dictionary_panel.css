@@ -34,7 +34,7 @@
   height: calc(100% - 6.8em);
 }
 
-.Android #dictionary-panel-keys {
+.Cordova #dictionary-panel-keys {
   height: calc(100% - 5.6em) !important;
 }
 
@@ -67,7 +67,7 @@
     height: calc(100% - 5.5em) !important;
   }
 
-  .Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+  .Cordova #dictionary-panel.dict-entry-shown #dictionary-panel-content {
     height: calc(100% - 6.7em) !important;
   }
 
@@ -120,7 +120,7 @@
   border-bottom-right-radius: 0;
 }
 
-.Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+.Cordova #dictionary-panel.dict-entry-shown #dictionary-panel-content {
   height: calc(50% - 3.8em);
 }
 
@@ -220,19 +220,19 @@
 
 /* LANDSCAPE */
 @media screen and (min-aspect-ratio: 13/10) {
-  .Android #dictionary-panel-filter {
+  .Cordova #dictionary-panel-filter {
     width: 9em !important;
   }
 
-  .Android #dictionary-panel-keys {
+  .Cordova #dictionary-panel-keys {
     height: calc(100% - 6.7em) !important;
   }
 
-  .Android #dictionary-panel.dict-entry-shown #dictionary-panel-keys {
+  .Cordova #dictionary-panel.dict-entry-shown #dictionary-panel-keys {
     display: none !important;
   }
 
-  .Android #dictionary-panel.dict-entry-shown #dictionary-panel-content {
+  .Cordova #dictionary-panel.dict-entry-shown #dictionary-panel-content {
     height: calc(80% - 2.4em) !important;
     border-top: 0 !important;
   }

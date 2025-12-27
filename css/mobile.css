@@ -266,7 +266,7 @@ Librem 5/Pinephone etc.
     height: 1.5rem;
   }
 
-  .Android #book-selection-menu-chapter-list #chapter-list-chapters {
+  .Cordova #book-selection-menu-chapter-list #chapter-list-chapters {
     max-inline-size: 24em !important;
   }
 
@@ -530,11 +530,11 @@ Librem 5/Pinephone etc.
     height: calc(100% - 13em) !important;
   }
 
-  .Android .tag-group, .Android .checkbox-tag {
+  .Cordova .tag-group, .Cordova .checkbox-tag {
     padding-top: unset !important;
   }
 
-  .Android .tag-group a {
+  .Cordova .tag-group a {
     max-width: 16em !important;
   }
 
@@ -720,7 +720,7 @@ Librem 5/Pinephone etc.
     width: 100% !important;
   }
 
-  .Android .button-small:not(#new-standard-tag-button, .copy-button) {
+  .Cordova .button-small:not(#new-standard-tag-button, .copy-button) {
     font-size: 0.9em !important;
     width: 16px !important;
     height: 16px !important;
@@ -763,7 +763,7 @@ Librem 5/Pinephone etc.
     font-size: 0.8em !important;
   }
 
-  .Android .verse-list-scroll-notes .verse-notes-text {
+  .Cordova .verse-list-scroll-notes .verse-notes-text {
     max-height: 130px !important;
   }
 
