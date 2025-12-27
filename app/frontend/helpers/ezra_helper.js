@@ -32,9 +32,14 @@ module.exports.sleep = async function (time) {
 
 module.exports.waitUntilIdle = async function () {
   return new Promise(resolve => {
-    window.requestIdleCallback(() => {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        resolve();
+      });
+    } else {
+      // Fallback for Safari
       resolve();
-    });
+    }
   });
 };
 
@@ -43,7 +48,7 @@ module.exports.getPlatform = function() {
 
   if (platformHelper.isElectron()) {
     platform = window.electronPlatform;
-  } else if (platformHelper.isAndroid()) {
+  } else if (platformHelper.isAndroid() || platformHelper.isIOS()) {
     platform = window.cordovaPlatform;
   }
 

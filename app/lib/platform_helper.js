@@ -86,6 +86,16 @@ class PlatformHelper {
     return false;
   }
 
+  isIOS() {
+    if (typeof navigator !== 'undefined') {
+      return navigator.userAgent.match('iPhone') !== null || navigator.userAgent.match('iPad') !== null;
+    } else if (this.isCordova()) {
+      return device.platform === 'iOS';
+    }
+
+    return false;
+  }
+
   isCordova() {
     if (this.isCordovaFrontend() || this.isCordovaBackend()){
       return true;
