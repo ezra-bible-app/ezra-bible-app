@@ -33,10 +33,10 @@ class Main {
     this.isDebug = isDebug;
     this.androidVersion = null;
 
-    if (!isDebug) {
+    /*if (!isDebug) {
       console.log('Initializing Sentry');
       this.initSentry();
-    }
+    }*/
 
     console.log('Initializing app events');
     this.initAppEvents();
@@ -50,7 +50,7 @@ class Main {
     cordova.channel.send(`nodejs: cordova_main.js loaded / data dir: ${dataDir}`);
   }
 
-  initSentry() {
+  /*initSentry() {
     const pjson = require('./package.json');
     const version = pjson.version;
 
@@ -75,7 +75,7 @@ class Main {
       console.error('Sentry initialization failed with an error!');
       console.log(error);
     }
-  }
+  }*/
 
   initPersistentIpc(androidVersion=undefined) {
     console.log("Initializing persistent IPC!");
