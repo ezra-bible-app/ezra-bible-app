@@ -92,6 +92,11 @@ class Startup {
   }
 
   loadWebComponents() {
+    if (this._platformHelper.isIOS()) {
+      // Add Polyfill for custom elements on iOS Safari
+      require('@ungap/custom-elements');
+    }
+
     require('./components/tool_panel/panel_buttons.js');
     require('./components/tags/tag_list_menu.js');
     require('./components/tags/tag_group_list.js');
