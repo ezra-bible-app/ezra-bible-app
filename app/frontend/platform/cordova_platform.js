@@ -89,7 +89,7 @@ class CordovaPlatform {
     }, false);
   }
 
-  getAndroidVersion() {
+  getOSVersion() {
     // This makes use of the cordova-plugin-device plugin
     let version = parseInt(device.version);
     return version;
@@ -249,10 +249,10 @@ class CordovaPlatform {
   }
 
   isAndroidWithScopedStorage() {
-    const androidVersion = this.getAndroidVersion();
+    const osVersion = this.getOSVersion();
     const FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE = 11;
 
-    return androidVersion >= FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE;
+    return device.platform == "Android" && osVersion >= FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE;
   }
 
   async startNodeJsEngine() {
@@ -275,22 +275,26 @@ class CordovaPlatform {
       window.ipcI18n = new IpcI18n();
       await i18nController.initI18N();
 
-      const androidVersion = this.getAndroidVersion();
+      const osVersion = this.getOSVersion();
 
-      if (androidVersion >= 11) {
-        // On Android 11 we start directly without asking for storage permissions, because we store everything internally
+      if (device.platform == "Android") {
+        if (osVersion >= 11) {
+          // On Android 11 we start directly without asking for storage permissions, because we store everything internally
+          this.initPersistenceAndStart();
+        } else {
+          // On Android < 11 we first need to check storage permissions, because we are using the external storage (/sdcard).
+          this.hasPermission().then((result) => {
+            if (result == true) {
+              this.initPersistenceAndStart();
+            } else {
+              this.showPermissionInfo();
+            }
+          }, () => {
+            console.log("Failed to check existing permissions ...");
+          });
+        }
+      } else if (device.platform == "iOS") {
         this.initPersistenceAndStart();
-      } else {
-        // On Android < 11 we first need to check storage permissions, because we are using the external storage (/sdcard).
-        this.hasPermission().then((result) => {
-          if (result == true) {
-            this.initPersistenceAndStart();
-          } else {
-            this.showPermissionInfo();
-          }
-        }, () => {
-          console.log("Failed to check existing permissions ...");
-        });
       }
     });
   }
@@ -298,7 +302,7 @@ class CordovaPlatform {
   async initPersistenceAndStart() {
     uiHelper.showGlobalLoadingIndicator();
 
-    const androidVersion = this.getAndroidVersion();
+    const androidVersion = this.getOSVersion();
     window.ipcGeneral = new IpcGeneral();
 
     uiHelper.updateLoadingSubtitle("cordova.init-sword", "Initializing SWORD");
