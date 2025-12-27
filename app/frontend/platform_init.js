@@ -149,8 +149,14 @@ window.isStartupCompleted = function() {
 
 function getChromiumMajorVersion() {
   var chromiumVersion = window.getChromiumVersion();
-  var splittedVersion = chromiumVersion.split('.');
-  chromiumVersion = parseInt(splittedVersion[0]);
+
+  if (chromiumVersion != null) {
+    var splittedVersion = chromiumVersion.split('.');
+    chromiumVersion = parseInt(splittedVersion[0]);
+  } else {
+    chromiumVersion = null;
+  }
+
   return chromiumVersion;
 }
 
