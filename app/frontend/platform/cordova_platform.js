@@ -324,20 +324,32 @@ class CordovaPlatform {
     if (this._isFullScreenMode) {
       this._isFullScreenMode = false;
 
-      AndroidFullScreen.showSystemUI(() => {
-        // console.log("Left fullscreen mode");
-      }, () => {
-        console.error("Could not leave immersive mode");
-      });
+      if (device.platform == "Android") {
+        AndroidFullScreen.showSystemUI(() => {
+          // console.log("Left fullscreen mode");
+        }, () => {
+          console.error("Could not leave immersive mode");
+        });
+      } else if (device.platform == "iOS") {
+        if (window.StatusBar) {
+          StatusBar.show();
+        }
+      }
 
     } else {
       this._isFullScreenMode = true;
 
-      AndroidFullScreen.immersiveMode(() => {
-        // console.log("Entered immersive / fullscreen mode");
-      }, () => {
-        console.error("Could not switch to immersive mode");
-      });
+      if (device.platform == "Android") {
+        AndroidFullScreen.immersiveMode(() => {
+          // console.log("Entered immersive / fullscreen mode");
+        }, () => {
+          console.error("Could not switch to immersive mode");
+        });
+      } else if (device.platform == "iOS") {
+        if (window.StatusBar) {
+          StatusBar.hide();
+        }
+      }
     }
   }
 
