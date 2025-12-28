@@ -109,7 +109,9 @@ each bibleBook in bibleBooks
   if verses1.length > 0 && verses1[0].verseNr != 1
     - old_chapter = verses1[0].chapter
 
-  - var bibleBookId = bibleBook.shortTitle.toLowerCase()
+  - var bibleBookId = null
+  if bibleBook.shortTitle != null
+    - bibleBookId = bibleBook.shortTitle.toLowerCase()
   
   each verse, index in verses1
     unless verse.bibleBookShortTitle.toLowerCase() == bibleBookId
