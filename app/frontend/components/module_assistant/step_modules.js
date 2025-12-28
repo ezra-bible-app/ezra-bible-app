@@ -190,7 +190,8 @@ class StepModules extends HTMLElement {
     const installedModules = new Set(assistantController.get('installedModules'));
 
     const sectionOptions = {columns: 1, 
-                            rowGap: '1.5em', 
+                            rowGap: '1.5em',
+                            extraIndent: true, 
                             info: true};
 
     for (const language of languageCodes) {
