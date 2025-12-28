@@ -57,6 +57,9 @@ if renderBookNotes
   if firstBibleBookId != null
     - var firstVerseReferenceIdClass = 'verse-nr-0 verse-reference-id-' + firstBibleBookId.toLowerCase();
     - bookNotesClassList += firstVerseReferenceIdClass;
+    - firstBibleBookId = firstBibleBookId.toLowerCase()
+  else
+    - firstBibleBookId = ''
 
   - var bookNotesRaw = ''
   - var bookNotesText = ''
@@ -72,7 +75,7 @@ if renderBookNotes
       if bookNotes.updatedAt != null
         - bookNotesUpdate = helper.getLocalizedDate(bookNotes.updatedAt);
 
-  div(class=bookNotesClassList, verse-reference-id=firstBibleBookId.toLowerCase(), notes-content=bookNotesRaw)
+  div(class=bookNotesClassList, verse-reference-id=firstBibleBookId, notes-content=bookNotesRaw)
     div(class='verse-notes-text external') !{bookNotesText}
     div(class='verse-notes-status-bar')
       div(class='verse-notes-buttons')
