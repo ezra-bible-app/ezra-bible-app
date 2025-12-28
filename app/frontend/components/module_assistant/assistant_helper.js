@@ -112,7 +112,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
     }
   }
 
-  const paddingLeft = options.extraIndent ? '1em' : '0';
+  const paddingLeft = options.extraIndent ? '0.5em' : '0';
   const rowHight = options.limitRows ? '1.8em' : 'auto';
 
   const template = html`
