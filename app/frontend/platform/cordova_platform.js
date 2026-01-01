@@ -272,13 +272,12 @@ class CordovaPlatform {
 
         // List the files within the home directory
         const fs = require('fs');
-        fs.readdir(homeDir, (err, files) => {
-          if (err) {
-            console.error("Error reading iOS home directory: " + err);
-          } else {
-            console.log("Files in iOS home directory: " + files.join(', '));
-          }
-        });
+        try {
+          const files = fs.readdirSync(homeDir);
+          console.log("Files in iOS home directory: " + files.join(', '));
+        } catch (err) {
+          console.error("Error reading iOS home directory: " + err);
+        }
       }
 
       const Main = require('cordova_main.js');
