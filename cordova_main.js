@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Tobias Klein <contact@ezra-project.net>
+   Copyright (C) 2019 - 2026 Tobias Klein <contact@ezra-project.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
