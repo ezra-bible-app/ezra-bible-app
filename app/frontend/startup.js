@@ -466,7 +466,7 @@ class Startup {
     if (platformHelper.isAndroid()) {
       ipcSettings.set('lastUsedAndroidVersion', getPlatform().getOSVersion());
     } else {
-      // FIXME: Implement for iOS
+      ipcSettings.set('lastUsedIOSVersion', getPlatform().getOSVersion());
     }
 
     // Confirm privacy options at first startup
