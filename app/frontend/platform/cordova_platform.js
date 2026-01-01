@@ -278,7 +278,7 @@ class CordovaPlatform {
           } else {
             console.log("Files in iOS home directory: " + files.join(', '));
           }
-        }
+        });
       }
 
       const Main = require('cordova_main.js');
