@@ -262,23 +262,7 @@ class CordovaPlatform {
     nodejs.channel.setListener(this.mainProcessListener);
 
     nodejs.startWithScript(`
-      const platform = process.platform;
-      console.log("Running NodeJS on platform " + platform);
-
-      if (platform === 'ios') {
-        const os = require('os');
-        const homeDir = os.homedir();
-        console.log("iOS home directory: " + homeDir);
-
-        // List the files within the home directory
-        const fs = require('fs');
-        try {
-          const files = fs.readdirSync(homeDir);
-          console.log("Files in iOS home directory: " + files.join(', '));
-        } catch (err) {
-          console.error("Error reading iOS home directory: " + err);
-        }
-      }
+      console.log("Running NodeJS on platform " + process.platform);
 
       const Main = require('cordova_main.js');
 
