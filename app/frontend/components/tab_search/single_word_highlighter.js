@@ -40,7 +40,20 @@ class SingleWordHighlighter {
     }
     
     var regexSearchString = new RegExp(regexPattern, regexOptions);
-    var highlightedVerseText = verseHtml.replace(regexSearchString, (match, p1, p2, offset, string) => {
+    var highlightedVerseText = verseHtml.replace(regexSearchString, (...args) => {
+      var match = args[0];
+      var offset, string, p1, p2;
+
+      if (wordBoundaries) {
+        p1 = args[1];
+        p2 = args[2];
+        offset = args[3];
+        string = args[4];
+      } else {
+        offset = args[1];
+        string = args[2];
+      }
+
       if (this.isOccuranceValid(match, offset, string)) {
         if (wordBoundaries) {
           // If using word boundaries, we need to preserve the boundary characters
