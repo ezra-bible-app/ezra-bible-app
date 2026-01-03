@@ -465,7 +465,7 @@ class Startup {
 
     if (platformHelper.isAndroid()) {
       ipcSettings.set('lastUsedAndroidVersion', getPlatform().getOSVersion());
-    } else {
+    } else if (platformHelper.isIOS()) {
       ipcSettings.set('lastUsedIOSVersion', getPlatform().getOSVersion());
     }
 
