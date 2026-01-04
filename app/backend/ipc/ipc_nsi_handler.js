@@ -595,11 +595,23 @@ class IpcNsiHandler {
     let dropboxPath = `${repoPath}/packages/${zipFile}`;
     
     try {
-      if (progressCB) progressCB(0.1);
+      if (progressCB) progressCB({ totalPercent: 10, message: '' });
       
-      await dropboxSync.downloadFile(dropboxPath, tempDir);
+      try {
+        await dropboxSync.downloadFile(dropboxPath, tempDir);
+      } catch (e) {
+        // Check for path not found error and retry with lowercase filename
+        if (e && e.error && e.error.error_summary && e.error.error_summary.includes('path/not_found')) {
+          console.log(`Module zip not found at ${dropboxPath}, retrying with lowercase filename...`);
+          zipFile = `${moduleCode.toLowerCase()}.zip`;
+          dropboxPath = `${repoPath}/packages/${zipFile}`;
+          await dropboxSync.downloadFile(dropboxPath, tempDir);
+        } else {
+          throw e;
+        }
+      }
       
-      if (progressCB) progressCB(0.5);
+      if (progressCB) progressCB({ totalPercent: 50, message: '' });
       
       const zipFilePath = path.join(tempDir, zipFile);
       const swordPath = this._nsi.getSwordPath();
@@ -607,7 +619,7 @@ class IpcNsiHandler {
       console.log(`Installing Dropbox module ${moduleCode} from ${zipFilePath} to ${swordPath}`);
       this._nsi.unZip(zipFilePath, swordPath);
       
-      if (progressCB) progressCB(1.0);
+      if (progressCB) progressCB({ totalPercent: 100, message: '' });
       
     } catch (error) {
       console.error('Error installing Dropbox module:', error);
