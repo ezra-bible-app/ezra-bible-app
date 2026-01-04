@@ -176,11 +176,11 @@ class InfoPopup {
       <div id='app-info-tabs-1' class='info-tabs scrollable' style='padding-top: 1.2em;'>
         <select id='info-popup-module-select' name='info-popup-module-select'></select>
 
-        <div id='app-info-module-description'>
+        <div id='app-info-module-description' style='padding-top: 1em;'>
         ${moduleDescription}
         </div>
 
-        <div id='app-info-module-info' style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid var(--border-color)">
+        <div id='app-info-module-info' style='margin-top: 1.5em; padding-top: 1em; border-top: 1px solid var(--border-color)'>
         ${moduleInfo}
         </div>
       </div>
