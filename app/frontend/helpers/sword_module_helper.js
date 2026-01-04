@@ -22,6 +22,7 @@
  */
 
 const i18nHelper = require('./i18n_helper.js');
+const rtfHelper = require('./rtf_helper.js');
 
 const PUBLIC_LICENSES = ['Public Domain', 'General public license for distribution for any purpose'];
 
@@ -174,9 +175,9 @@ module.exports.getModuleAbout = async function(swordModuleOrId) {
   }
   
   const about = `
-    <p class="external">
-      ${swordModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>")}
-    </p>`;
+    <div class="external">
+      ${rtfHelper.rtfToHtml(swordModule.about)}
+    </div>`;
 
   return about;
 };
