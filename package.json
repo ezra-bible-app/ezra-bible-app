@@ -157,7 +157,13 @@
       ],
       "icon": "icons/ezra.ico",
       "artifactName": "${productName}-Setup-${version}.${ext}",
-      "certificateSubjectName": "Open Source Developer, Tobias Klein"
+      "certificateSubjectName": "Open Source Developer, Tobias Klein",
+      "signAndEditExecutables": true,
+      "signExts": [
+        "exe",
+        "dll",
+        "node"
+      ]
     },
     "nsis": {
       "oneClick": false,
