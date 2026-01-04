@@ -220,7 +220,11 @@ class IpcNsiHandler {
       if (moduleCode == null) {
         return null;
       } else {
-        let module = this._nsi.getRepoModule(moduleCode);
+        let module = null;
+        
+        if (this._nsi.isModuleAvailableInRepo(moduleCode)) {
+          module = this._nsi.getRepoModule(moduleCode);
+        }
 
         if (!module) {
            const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
@@ -497,7 +501,13 @@ class IpcNsiHandler {
     const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
     const tempDir = os.tmpdir();
     const modsFile = 'mods.d.tar.gz';
-    const dropboxPath = `/${customModuleRepo}/${modsFile}`;
+    
+    let repoPath = customModuleRepo || '';
+    repoPath = repoPath.trim();
+    if (!repoPath.startsWith('/')) repoPath = '/' + repoPath;
+    if (repoPath.endsWith('/')) repoPath = repoPath.slice(0, -1);
+    
+    const dropboxPath = `${repoPath}/${modsFile}`;
     
     try {
       await dropboxSync.downloadFile(dropboxPath, tempDir);
@@ -575,8 +585,14 @@ class IpcNsiHandler {
     
     const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
     const tempDir = os.tmpdir();
-    const zipFile = `${moduleCode}.zip`;
-    const dropboxPath = `/${customModuleRepo}/${zipFile}`;
+    
+    let repoPath = customModuleRepo || '';
+    repoPath = repoPath.trim();
+    if (!repoPath.startsWith('/')) repoPath = '/' + repoPath;
+    if (repoPath.endsWith('/')) repoPath = repoPath.slice(0, -1);
+
+    let zipFile = `${moduleCode}.zip`;
+    let dropboxPath = `${repoPath}/packages/${zipFile}`;
     
     try {
       if (progressCB) progressCB(0.1);
@@ -588,6 +604,7 @@ class IpcNsiHandler {
       const zipFilePath = path.join(tempDir, zipFile);
       const swordPath = this._nsi.getSwordPath();
       
+      console.log(`Installing Dropbox module ${moduleCode} from ${zipFilePath} to ${swordPath}`);
       this._nsi.unZip(zipFilePath, swordPath);
       
       if (progressCB) progressCB(1.0);
