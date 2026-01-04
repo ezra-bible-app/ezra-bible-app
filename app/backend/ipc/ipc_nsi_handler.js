@@ -19,8 +19,10 @@
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
+const DropboxSync = require('../db_sync/dropbox_sync.js');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 class IpcNsiHandler {
   constructor(customSwordDir=undefined) {
@@ -97,12 +99,23 @@ class IpcNsiHandler {
     return this._nsi;
   }
 
-  getLanguageModuleCount(selectedRepos, language, moduleType) {
+  getLanguageModuleCount(selectedRepos, language, moduleType, dropboxModules=[]) {
     var count = 0;
 
     for (var i = 0; i < selectedRepos.length; i++) {
       var currentRepo = selectedRepos[i];
-      count += this._nsi.getRepoLanguageModuleCount(currentRepo, language, moduleType);
+      if (currentRepo === 'Dropbox') {
+         const filtered = dropboxModules.filter(m => {
+            if (m.language !== language) return false;
+            if (moduleType === 'BIBLE' && m.type !== 'Biblical Texts') return false;
+            if (moduleType === 'COMMENTARY' && m.type !== 'Commentaries') return false;
+            if (moduleType === 'DICTIONARY' && m.type !== 'Lexicons / Dictionaries') return false;
+            return true;
+         });
+         count += filtered.length;
+      } else {
+        count += this._nsi.getRepoLanguageModuleCount(currentRepo, language, moduleType);
+      }
     }
 
     return count;
@@ -126,19 +139,74 @@ class IpcNsiHandler {
       return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
     
-    this._ipcMain.add('nsi_getRepoNames', () => {
-      return this._nsi.getRepoNames();
+    this._ipcMain.add('nsi_getRepoNames', async () => {
+      let repoNames = this._nsi.getRepoNames();
+      
+      const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+      const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+
+      if (dropboxToken && customModuleRepo) {
+        repoNames.push('Dropbox');
+      }
+
+      return repoNames;
     });
 
-    this._ipcMain.add('nsi_getRepoLanguages', (repositoryName, moduleType) => {
+    this._ipcMain.add('nsi_getRepoLanguages', async (repositoryName, moduleType) => {
+      if (repositoryName === 'Dropbox') {
+        const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+        const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+        const modules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+        
+        const languages = new Set();
+        modules.forEach(m => {
+          if (moduleType === 'BIBLE' && m.type === 'Biblical Texts') languages.add(m.language);
+          if (moduleType === 'COMMENTARY' && m.type === 'Commentaries') languages.add(m.language);
+          if (moduleType === 'DICTIONARY' && m.type === 'Lexicons / Dictionaries') languages.add(m.language);
+        });
+        
+        return Array.from(languages);
+      }
       return this._nsi.getRepoLanguages(repositoryName, moduleType);
     });
 
-    this._ipcMain.add('nsi_getAllRepoModules', (repositoryName, moduleType) => {
+    this._ipcMain.add('nsi_getAllRepoModules', async (repositoryName, moduleType) => {
+      if (repositoryName === 'Dropbox') {
+        const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+        const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+        const modules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+        
+        return modules.filter(m => {
+          if (moduleType === 'BIBLE') return m.type === 'Biblical Texts';
+          if (moduleType === 'COMMENTARY') return m.type === 'Commentaries';
+          if (moduleType === 'DICTIONARY') return m.type === 'Lexicons / Dictionaries';
+          return true;
+        });
+      }
+
       return this._nsi.getAllRepoModules(repositoryName, moduleType);
     });
 
-    this._ipcMain.add('nsi_getRepoModulesByLang', (repositoryName, language, moduleType, headersFilter, strongsFilter, hebrewStrongsKeys, greekStrongsKeys) => {
+    this._ipcMain.add('nsi_getRepoModulesByLang', async (repositoryName, language, moduleType, headersFilter, strongsFilter, hebrewStrongsKeys, greekStrongsKeys) => {
+      if (repositoryName === 'Dropbox') {
+        const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+        const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+        const modules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+        
+        return modules.filter(m => {
+          if (m.language !== language) return false;
+          
+          if (moduleType === 'BIBLE' && m.type !== 'Biblical Texts') return false;
+          if (moduleType === 'COMMENTARY' && m.type !== 'Commentaries') return false;
+          if (moduleType === 'DICTIONARY' && m.type !== 'Lexicons / Dictionaries') return false;
+          
+          // Note: Additional filters (headers, strongs, etc.) are not fully supported for Dropbox modules 
+          // as we don't have full metadata without installing, but we can check basic properties if available in config.
+          // For now, we return all matching language/type.
+          
+          return true;
+        });
+      }
       return this._nsi.getRepoModulesByLang(repositoryName,
                                             language,
                                             moduleType,
@@ -148,11 +216,26 @@ class IpcNsiHandler {
                                             greekStrongsKeys);
     });
 
-    this._ipcMain.add('nsi_getRepoModule', (moduleCode) => {
+    this._ipcMain.add('nsi_getRepoModule', async (moduleCode) => {
       if (moduleCode == null) {
         return null;
       } else {
-        return this._nsi.getRepoModule(moduleCode);
+        let module = this._nsi.getRepoModule(moduleCode);
+
+        if (!module) {
+           const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+           const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+
+           if (dropboxToken && customModuleRepo) {
+               const dropboxModules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+               module = dropboxModules.find(m => m.name === moduleCode);
+               if (module) {
+                   module.repositoryName = 'Dropbox';
+               }
+           }
+        }
+
+        return module;
       }
     });
 
@@ -164,13 +247,20 @@ class IpcNsiHandler {
       return this._nsi.getAllLocalModules(moduleType);
     });
 
-    this._ipcMain.add('nsi_getAllLanguageModuleCount', (selectedRepos, languageCodeArray, moduleType='BIBLE') => {
+    this._ipcMain.add('nsi_getAllLanguageModuleCount', async (selectedRepos, languageCodeArray, moduleType='BIBLE') => {
       var allLanguageModuleCount = {};
+      
+      let dropboxModules = [];
+      if (selectedRepos.includes('Dropbox')) {
+         const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+         const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+         dropboxModules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+      }
 
       for (let i = 0; i < languageCodeArray.length; i++) {
         const currentLanguageCode = languageCodeArray[i];
 
-        const currentLanguageModuleCount = this.getLanguageModuleCount(selectedRepos, currentLanguageCode, moduleType);
+        const currentLanguageModuleCount = this.getLanguageModuleCount(selectedRepos, currentLanguageCode, moduleType, dropboxModules);
         allLanguageModuleCount[currentLanguageCode] = currentLanguageModuleCount;
       }
 
@@ -179,6 +269,20 @@ class IpcNsiHandler {
 
     this._ipcMain.addWithProgressCallback('nsi_installModule', async (progressCB, moduleCode) => { 
       try {
+        // Check if module is from Dropbox
+        const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+        const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+        
+        if (dropboxToken && customModuleRepo) {
+          const dropboxModules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+          const dropboxModule = dropboxModules.find(m => m.name === moduleCode);
+          
+          if (dropboxModule) {
+            await this.installDropboxModule(moduleCode, progressCB);
+            return 0;
+          }
+        }
+
         await this._nsi.installModule(moduleCode, progressCB); 
         return 0;
       } catch (e) {
@@ -387,6 +491,111 @@ class IpcNsiHandler {
     this._ipcMain.add('nsi_getSwordPath', () => {
       return this._nsi.getSwordPath();
     });
+  }
+
+  async getDropboxModules(dropboxToken, customModuleRepo) {
+    const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
+    const tempDir = os.tmpdir();
+    const modsFile = 'mods.d.tar.gz';
+    const dropboxPath = `/${customModuleRepo}/${modsFile}`;
+    
+    try {
+      await dropboxSync.downloadFile(dropboxPath, tempDir);
+      const tarballPath = path.join(tempDir, modsFile);
+      
+      const extractDir = path.join(tempDir, 'dropbox_mods');
+      if (!fs.existsSync(extractDir)) {
+        fs.mkdirSync(extractDir);
+      }
+      
+      this._nsi.unTarGZ(tarballPath, extractDir);
+      
+      const modules = [];
+      const modsDDir = path.join(extractDir, 'mods.d');
+      
+      if (fs.existsSync(modsDDir)) {
+        const files = fs.readdirSync(modsDDir);
+        for (const file of files) {
+          if (file.endsWith('.conf')) {
+            const configPath = path.join(modsDDir, file);
+            const moduleConfig = this.parseModuleConfig(configPath);
+            if (moduleConfig) {
+              moduleConfig.repositoryName = 'Dropbox';
+              modules.push(moduleConfig);
+            }
+          }
+        }
+      }
+      
+      return modules;
+    } catch (error) {
+      console.error('Error fetching Dropbox modules:', error);
+      return [];
+    }
+  }
+
+  parseModuleConfig(configPath) {
+    try {
+      const content = fs.readFileSync(configPath, 'utf-8');
+      const lines = content.split('\n');
+      const config = {};
+      let currentSection = null;
+
+      for (const line of lines) {
+        const trimmedLine = line.trim();
+        if (trimmedLine.startsWith('[') && trimmedLine.endsWith(']')) {
+          currentSection = trimmedLine.substring(1, trimmedLine.length - 1);
+          config.name = currentSection;
+        } else if (trimmedLine.includes('=')) {
+          const parts = trimmedLine.split('=');
+          const key = parts[0].trim();
+          const value = parts.slice(1).join('=').trim();
+          
+          if (key === 'Description') config.description = value;
+          if (key === 'Lang') config.language = value;
+          if (key === 'Version') config.version = value;
+          if (key === 'About') config.about = value;
+          if (key === 'ModDrv') {
+             if (value === 'zText') config.type = 'Biblical Texts';
+             if (value === 'zCom') config.type = 'Commentaries';
+             if (value === 'zLD') config.type = 'Lexicons / Dictionaries';
+          }
+        }
+      }
+      return config;
+    } catch (e) {
+      console.error('Error parsing module config:', e);
+      return null;
+    }
+  }
+
+  async installDropboxModule(moduleCode, progressCB) {
+    const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+    const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+    
+    const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
+    const tempDir = os.tmpdir();
+    const zipFile = `${moduleCode}.zip`;
+    const dropboxPath = `/${customModuleRepo}/${zipFile}`;
+    
+    try {
+      if (progressCB) progressCB(0.1);
+      
+      await dropboxSync.downloadFile(dropboxPath, tempDir);
+      
+      if (progressCB) progressCB(0.5);
+      
+      const zipFilePath = path.join(tempDir, zipFile);
+      const swordPath = this._nsi.getSwordPath();
+      
+      this._nsi.unZip(zipFilePath, swordPath);
+      
+      if (progressCB) progressCB(1.0);
+      
+    } catch (error) {
+      console.error('Error installing Dropbox module:', error);
+      throw error;
+    }
   }
 
   setMainWindow(mainWindow) {

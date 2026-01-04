@@ -521,6 +521,7 @@
     "dropbox-link-status-linking-failed": "Linking failed!",
     "only-sync-on-wifi": "Only sync on WiFi",
     "sync-after-changes": "Sync database after changes",
+    "custom-module-repo-folder": "Custom Module Repository Folder",
     "dropbox-sync-info": "Dropbox synchronization info",
     "last-dropbox-sync-time": "Last sync",
     "last-dropbox-sync-result": "Last sync result",

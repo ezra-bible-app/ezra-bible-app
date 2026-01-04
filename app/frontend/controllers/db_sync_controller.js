@@ -35,6 +35,7 @@ const DROPBOX_REFRESH_TOKEN_SETTINGS_KEY = 'dropboxRefreshToken';
 const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
 const DROPBOX_ONLY_WIFI_SETTINGS_KEY = 'dropboxOnlyWifi';
 const DROPBOX_SYNC_AFTER_CHANGES_KEY = 'dropboxSyncAfterChanges';
+const DROPBOX_CUSTOM_MODULE_REPO_SETTINGS_KEY = 'dropboxCustomModuleRepo';
 const DROPBOX_LAST_SYNC_RESULT_KEY = 'lastDropboxSyncResult';
 const DROPBOX_LAST_SYNC_TIME_KEY = 'lastDropboxSyncTime';
 const DROPBOX_FIRST_SYNC_DONE_KEY = 'firstDropboxSyncDone';
@@ -47,6 +48,7 @@ let dbSyncDropboxRefreshToken = null;
 let dbSyncDropboxLinkStatus = null;
 let dbSyncOnlyWifi = false;
 let dbSyncAfterChanges = false;
+let dbSyncCustomModuleRepo = null;
 let dbSyncFirstSyncDone = false;
 let lastConnectionType = undefined;
 
@@ -173,10 +175,12 @@ async function initDbSync() {
   dbSyncDropboxRefreshToken = await ipcSettings.get(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
   dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
-  dbSyncAfterChanges = await ipcSettings.get(DROPBOX_SYNC_AFTER_CHANGES_KEY, false);
+  dbSyncCustomModuleRepo = await ipcSettings.get(DROPBOX_CUSTOM_MODULE_REPO_SETTINGS_KEY, "custom_module_repo");
   dbSyncFirstSyncDone = await ipcSettings.get(DROPBOX_FIRST_SYNC_DONE_KEY, false);
 
   document.getElementById('only-sync-on-wifi').checked = dbSyncOnlyWifi;
+  document.getElementById('sync-dropbox-after-changes').checked = dbSyncAfterChanges;
+  document.getElementById('custom-module-repo-folder').value = dbSyncCustomModuleRepo
   document.getElementById('sync-dropbox-after-changes').checked = dbSyncAfterChanges;
   updateDropboxLinkStatusLabel();
 
@@ -232,6 +236,11 @@ async function initDbSync() {
 async function handleDropboxConfigurationSave() {
   $('#db-sync-box').dialog("close");
 
+  dbSyncCustomModuleRepo = document.getElementById('custom-module-repo-folder').value;
+
+  if (!dbSyncCustomModuleRepo) {
+    dbSyncCustomModuleRepo = "custom_module_repo";
+  }
   dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
   dbSyncAfterChanges = document.getElementById('sync-dropbox-after-changes').checked;
 
@@ -251,6 +260,7 @@ async function handleDropboxConfigurationSave() {
   if (dbSyncDropboxLinkStatus == 'LINKED' || resetDropboxConfiguration == true) {
     await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
     await ipcSettings.set(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, dbSyncDropboxRefreshToken);
+  await ipcSettings.set(DROPBOX_CUSTOM_MODULE_REPO_SETTINGS_KEY, dbSyncCustomModuleRepo);
   }
 
   await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
