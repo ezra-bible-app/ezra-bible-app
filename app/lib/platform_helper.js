@@ -314,6 +314,15 @@ class PlatformHelper {
     }
   }
 
+  getTempDir() {
+    if (this.isElectron()) {
+      const { app } = require('electron');
+      return app.getPath('temp');
+    } else if (this.isCordova()) {
+      return cordova.file.tempDirectory;
+    }
+  }
+
   getSearchResultPerformanceLimit() {
     if (this.isElectron()) {
       return 500;

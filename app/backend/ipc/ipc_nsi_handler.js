@@ -500,7 +500,7 @@ class IpcNsiHandler {
 
   async getDropboxModules(dropboxToken, customModuleRepo) {
     const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
-    const tempDir = os.tmpdir();
+    const tempDir = this._platformHelper.getTempDir();
     const modsFile = 'mods.d.tar.gz';
     
     let repoPath = customModuleRepo || '';
@@ -586,7 +586,7 @@ class IpcNsiHandler {
     const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
     
     const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
-    const tempDir = os.tmpdir();
+    const tempDir = this._platformHelper.getTempDir();
     
     let repoPath = customModuleRepo || '';
     repoPath = repoPath.trim();
