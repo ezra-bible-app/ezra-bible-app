@@ -531,7 +531,7 @@ class IpcNsiHandler {
             const configPath = path.join(modsDDir, file);
             const moduleConfig = this.parseModuleConfig(configPath);
             if (moduleConfig) {
-              moduleConfig.repositoryName = 'Dropbox';
+              moduleConfig.repository = 'Dropbox';
               modules.push(moduleConfig);
             }
           }
@@ -566,6 +566,7 @@ class IpcNsiHandler {
           if (key === 'Lang') config.language = value;
           if (key === 'Version') config.version = value;
           if (key === 'About') config.about = value;
+          if (key === 'InstallSize') config.size = parseInt(value);
           if (key === 'ModDrv') {
              if (value === 'zText') config.type = 'Biblical Texts';
              if (value === 'zCom') config.type = 'Commentaries';
