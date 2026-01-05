@@ -283,8 +283,8 @@ class IpcNsiHandler {
           const dropboxModule = dropboxModules.find(m => m.name === moduleCode);
           
           if (dropboxModule) {
-            await this.installDropboxModule(moduleCode, progressCB);
-            return 0;
+            let result = await this.installDropboxModule(moduleCode, progressCB);
+            return result;
           }
         }
 
@@ -607,15 +607,21 @@ class IpcNsiHandler {
       const swordPath = this._nsi.getSwordPath();
       
       console.log(`Installing Dropbox module ${moduleCode} from ${zipFilePath} to ${swordPath}`);
-      this._nsi.unZip(zipFilePath, swordPath);
-      this._nsi.refreshLocalModules();
+      const unzipSuccessful = this._nsi.unZip(zipFilePath, swordPath);
 
-      console.log(`Dropbox module ${moduleCode} installed successfully.`);
-      if (progressCB) progressCB({ totalPercent: 100, message: '' });
+      if (unzipSuccessful) {
+        this._nsi.refreshLocalModules();
+        console.log(`Dropbox module ${moduleCode} installed successfully.`);
+        if (progressCB) progressCB({ totalPercent: 100, message: '' });
+        return 0;
+      } else {
+        console.log(`Failed to unzip Dropbox module ${moduleCode}.`);
+        return -1;
+      }
       
     } catch (error) {
       console.error('Error installing Dropbox module:', error);
-      throw error;
+      return -1;
     }
   }
 
