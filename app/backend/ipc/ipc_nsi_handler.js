@@ -607,6 +607,7 @@ class IpcNsiHandler {
       
       console.log(`Installing Dropbox module ${moduleCode} from ${zipFilePath} to ${swordPath}`);
       this._nsi.unZip(zipFilePath, swordPath);
+      this._nsi.refreshLocalModules();
 
       console.log(`Dropbox module ${moduleCode} installed successfully.`);
       if (progressCB) progressCB({ totalPercent: 100, message: '' });
