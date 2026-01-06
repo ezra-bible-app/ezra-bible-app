@@ -631,13 +631,40 @@ module.exports.showDropboxZipInstallDialog = async function() {
 
   async function loadDropboxZipFiles() {
     try {
-      const zipFiles = await ipcGeneral.dropboxListZipFiles();
+      const response = await ipcGeneral.dropboxListZipFiles();
       
-      console.log('Received zipFiles:', zipFiles);
+      console.log('Received response:', response);
       
       const zipFileList = document.getElementById('zip-file-list');
       zipFileList.innerHTML = '';
 
+      // Check if response indicates an error
+      if (!response.success) {
+        zipFileList.innerHTML = `
+          <div style="padding: 2em; text-align: center;">
+            <p style="color: #d00; margin-bottom: 1em;">${i18n.t('dropbox.error-loading-files')}</p>
+            <p style="color: #666; font-size: 0.9em; margin-bottom: 1.5em;">${response.error}</p>
+            <button id="retry-load-files" class="ui-button ui-widget ui-corner-all" style="padding: 0.5em 1em;">
+              ${i18n.t('general.retry')}
+            </button>
+          </div>
+        `;
+        $('#install-zip-modules-button').button('disable');
+        
+        document.getElementById('retry-load-files').addEventListener('click', async () => {
+          const zipFileList = document.getElementById('zip-file-list');
+          zipFileList.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: center; padding: 2em;">
+              <p style="margin: 0 1em 0 0;">${i18n.t('dropbox.loading-zip-files')}</p>
+              <loading-indicator></loading-indicator>
+            </div>
+          `;
+          await loadDropboxZipFiles();
+        });
+        return;
+      }
+
+      const zipFiles = response.files;
       if (!zipFiles || !Array.isArray(zipFiles) || zipFiles.length === 0) {
         zipFileList.innerHTML = `<p style="text-align: center; color: #888;">${i18n.t('dropbox.no-zip-files-found')}</p>`;
         $('#install-zip-modules-button').button('disable');
@@ -669,8 +696,28 @@ module.exports.showDropboxZipInstallDialog = async function() {
     } catch (error) {
       console.error('Error loading Dropbox zip files:', error);
       const zipFileList = document.getElementById('zip-file-list');
-      zipFileList.innerHTML = `<p style="text-align: center; color: #d00;">Error loading files: ${error.message}</p>`;
+      zipFileList.innerHTML = `
+        <div style="padding: 2em; text-align: center;">
+          <p style="color: #d00; margin-bottom: 1em;">${i18n.t('dropbox.error-loading-files')}</p>
+          <p style="color: #666; font-size: 0.9em; margin-bottom: 1.5em;">${error.message}</p>
+          <button id="retry-load-files" class="ui-button ui-widget ui-corner-all" style="padding: 0.5em 1em;">
+            ${i18n.t('general.retry')}
+          </button>
+        </div>
+      `;
       $('#install-zip-modules-button').button('disable');
+      
+      // Add click handler for retry button
+      document.getElementById('retry-load-files').addEventListener('click', async () => {
+        const zipFileList = document.getElementById('zip-file-list');
+        zipFileList.innerHTML = `
+          <div style="display: flex; align-items: center; justify-content: center; padding: 2em;">
+            <p style="margin: 0 1em 0 0;">${i18n.t('dropbox.loading-zip-files')}</p>
+            <loading-indicator></loading-indicator>
+          </div>
+        `;
+        await loadDropboxZipFiles();
+      });
     }
   }
 

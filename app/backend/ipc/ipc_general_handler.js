@@ -166,11 +166,26 @@ class IpcGeneralHandler {
       const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
       
       if (!dropboxToken) {
-        throw new Error('Dropbox not linked');
+        return {
+          success: false,
+          error: 'Dropbox not linked'
+        };
       }
       
-      const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
-      return await dropboxModuleHelper.listZipFiles(dropboxToken, dropboxRefreshToken);
+      try {
+        const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
+        const files = await dropboxModuleHelper.listZipFiles(dropboxToken, dropboxRefreshToken);
+        return {
+          success: true,
+          files: files
+        };
+      } catch (error) {
+        return {
+          success: false,
+          error: error.message || 'Unknown error',
+          errorCode: error.code
+        };
+      }
     });
 
     this._ipcMain.add('general_dropboxInstallZipModule', async(filename) => {
@@ -178,11 +193,22 @@ class IpcGeneralHandler {
       const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
       
       if (!dropboxToken) {
-        throw new Error('Dropbox not linked');
+        return {
+          success: false,
+          error: 'Dropbox not linked'
+        };
       }
       
-      const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
-      return await dropboxModuleHelper.installModuleFromZip(filename, dropboxToken, dropboxRefreshToken);
+      try {
+        const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
+        return await dropboxModuleHelper.installModuleFromZip(filename, dropboxToken, dropboxRefreshToken);
+      } catch (error) {
+        return {
+          success: false,
+          error: error.message || 'Unknown error',
+          errorCode: error.code
+        };
+      }
     });
   }
 }

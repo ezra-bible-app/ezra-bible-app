@@ -347,6 +347,17 @@ class DropboxModuleHelper {
       
     } catch (error) {
       console.error('Error listing zip files from Dropbox:', error);
+      
+      // Provide more user-friendly error messages for common network issues
+      if (error.code === 'EAI_AGAIN' || error.errno === 'EAI_AGAIN' || 
+          error.code === 'ENOTFOUND' || error.code === 'ETIMEDOUT' ||
+          error.type === 'system') {
+        const networkError = new Error('Unable to connect to Dropbox. Please check your internet connection.');
+        networkError.code = 'NETWORK_ERROR';
+        networkError.originalError = error;
+        throw networkError;
+      }
+      
       throw error;
     }
   }
