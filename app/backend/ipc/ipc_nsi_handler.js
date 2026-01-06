@@ -31,7 +31,6 @@ class IpcNsiHandler {
     this._nsi = null;
     this._customSwordDir = customSwordDir;
     this._dropboxModulesCache = null;
-    this._dropboxModulesCacheKey = null;
 
     this.initNSI(this._customSwordDir);
     this.initIpcInterface();
@@ -150,9 +149,10 @@ class IpcNsiHandler {
       let repoNames = this._nsi.getRepoNames();
       
       const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+      const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
       const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
 
-      if (dropboxToken && customModuleRepo) {
+      if (dropboxToken && useCustomModuleRepo && customModuleRepo) {
         repoNames.push('Dropbox');
       }
 
@@ -162,8 +162,9 @@ class IpcNsiHandler {
     this._ipcMain.add('nsi_getRepoLanguages', async (repositoryName, moduleType) => {
       if (repositoryName === 'Dropbox') {
         const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+        const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
         const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
-        const modules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+        const modules = await this.getDropboxModules(dropboxToken, useCustomModuleRepo && customModuleRepo ? customModuleRepo : null);
         
         const languages = new Set();
         modules.forEach(m => {
@@ -180,8 +181,9 @@ class IpcNsiHandler {
     this._ipcMain.add('nsi_getAllRepoModules', async (repositoryName, moduleType) => {
       if (repositoryName === 'Dropbox') {
         const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+        const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
         const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
-        const modules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+        const modules = await this.getDropboxModules(dropboxToken, useCustomModuleRepo && customModuleRepo ? customModuleRepo : null);
         
         return modules.filter(m => {
           if (moduleType === 'BIBLE') return m.type === 'Biblical Texts';
@@ -197,8 +199,9 @@ class IpcNsiHandler {
     this._ipcMain.add('nsi_getRepoModulesByLang', async (repositoryName, language, moduleType, headersFilter, strongsFilter, hebrewStrongsKeys, greekStrongsKeys) => {
       if (repositoryName === 'Dropbox') {
         const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+        const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
         const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
-        const modules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+        const modules = await this.getDropboxModules(dropboxToken, useCustomModuleRepo && customModuleRepo ? customModuleRepo : null);
         
         return modules.filter(m => {
           if (m.language !== language) return false;
@@ -235,9 +238,10 @@ class IpcNsiHandler {
 
         if (!module) {
            const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+           const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
            const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
 
-           if (dropboxToken && customModuleRepo) {
+           if (dropboxToken && useCustomModuleRepo && customModuleRepo) {
                const dropboxModules = await this.getDropboxModules(dropboxToken, customModuleRepo);
                module = dropboxModules.find(m => m.name === moduleCode);
                if (module) {
@@ -264,8 +268,11 @@ class IpcNsiHandler {
       let dropboxModules = [];
       if (selectedRepos.includes('Dropbox')) {
          const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+         const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
          const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
-         dropboxModules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+         if (useCustomModuleRepo && customModuleRepo) {
+           dropboxModules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+         }
       }
 
       for (let i = 0; i < languageCodeArray.length; i++) {
@@ -282,9 +289,10 @@ class IpcNsiHandler {
       try {
         // Check if module is from Dropbox
         const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+        const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
         const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
         
-        if (dropboxToken && customModuleRepo) {
+        if (dropboxToken && useCustomModuleRepo && customModuleRepo) {
           const dropboxModules = await this.getDropboxModules(dropboxToken, customModuleRepo);
           const dropboxModule = dropboxModules.find(m => m.name === moduleCode);
           
@@ -505,6 +513,10 @@ class IpcNsiHandler {
   }
 
   async getDropboxModules(dropboxToken, customModuleRepo) {
+    if (!customModuleRepo) {
+      return [];
+    }
+
     if (this._dropboxModulesCache) {
       return this._dropboxModulesCache;
     }

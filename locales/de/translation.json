@@ -506,6 +506,8 @@
     "dropbox-link-status-linking-failed": "Verbindung fehlgeschlagen!",
     "only-sync-on-wifi": "Nur bei WLAN Verbindung synchronisieren",
     "sync-after-changes": "Datenbank nach Änderungen synchronisieren",
+    "use-custom-module-repo": "Verwende benutzerdefiniertes Modul-Repository",
+    "custom-module-repo-folder": "Benutzerdefiniertes Modul-Repository Verzeichnis",
     "dropbox-sync-info": "Informationen zur Dropbox Synchronisation",
     "last-dropbox-sync-time": "Zuletzt synchronisiert",
     "last-dropbox-sync-result": "Letztes Synchronisationsergebnis",
