@@ -23,9 +23,9 @@ const eventController = require('../../controllers/event_controller.js');
 const referenceVerseController = require('../../controllers/reference_verse_controller.js');
 const verseListController = require('../../controllers/verse_list_controller.js');
 const dbSyncController = require('../../controllers/db_sync_controller.js');
+const dropboxZipInstallController = require('../../controllers/dropbox_zip_install_controller.js');
 const moduleUpdateController = require('../../controllers/module_update_controller.js');
 const typeFaceSettings = require('../type_face_settings.js');
-const { Mutex } = require('async-mutex');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -83,7 +83,7 @@ class OptionsMenu {
 
     $('#install-dropbox-zip-button').bind('click', async () => {
       this.hideDisplayMenu();
-      await dbSyncController.showDropboxZipInstallDialog();
+      await dropboxZipInstallController.showDropboxZipInstallDialog();
     });
 
     $('#displayOptionsBackButton').bind('click', () => {
