@@ -190,54 +190,36 @@ class IpcNsiHandler {
       
       console.log('[IpcNsiHandler] Index file found');
 
-      // Check if required folders exist and count their entries
-      const requiredFolders = ['mods.d', 'modules', 'packages'];
-      const folderCounts = {};
+      // Check if packages folder exists
+      const packagesPath = `${repoPath}/packages`;
+      console.log('[IpcNsiHandler] Checking for packages folder:', packagesPath);
       
-      for (const folder of requiredFolders) {
-        const folderPath = `${repoPath}/${folder}`;
-        console.log('[IpcNsiHandler] Checking folder:', folderPath);
+      try {
+        const metadata = await dropboxSync.getFileMetaData(packagesPath);
         
-        try {
-          const metadata = await dropboxSync.getFileMetaData(folderPath);
-          
-          if (metadata['.tag'] !== 'folder') {
-            console.log('[IpcNsiHandler] Validation failed:', folder, 'is not a folder');
-            return { valid: false, error: `${folder} is not a folder` };
-          }
-
-          // Check if folder is not empty by listing its contents
-          const folderContents = await dropboxSync.listFolder(folderPath);
-          folderCounts[folder] = folderContents.length;
-          console.log(`[IpcNsiHandler] ${folder} folder contains ${folderContents.length} items`);
-          
-          if (!folderContents || folderContents.length === 0) {
-            console.log('[IpcNsiHandler] Validation failed:', folder, 'folder is empty');
-            return { valid: false, error: `${folder} folder is empty` };
-          }
-        } catch (e) {
-          if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') !== -1) {
-            console.log('[IpcNsiHandler] Validation failed:', folder, 'folder not found');
-            return { valid: false, error: `${folder} folder not found` };
-          }
-          console.error('[IpcNsiHandler] Error checking folder', folder, ':', e);
-          throw e;
+        if (metadata['.tag'] !== 'folder') {
+          console.log('[IpcNsiHandler] Validation failed: packages is not a folder');
+          return { valid: false, error: 'packages is not a folder' };
         }
+        
+        console.log('[IpcNsiHandler] packages folder exists');
+        
+        // Check if packages folder is not empty
+        const folderContents = await dropboxSync.listFolder(packagesPath);
+        console.log(`[IpcNsiHandler] packages folder contains ${folderContents.length} items`);
+        
+        if (!folderContents || folderContents.length === 0) {
+          console.log('[IpcNsiHandler] Validation failed: packages folder is empty');
+          return { valid: false, error: 'packages folder is empty' };
+        }
+      } catch (e) {
+        if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') !== -1) {
+          console.log('[IpcNsiHandler] Validation failed: packages folder not found');
+          return { valid: false, error: 'packages folder not found' };
+        }
+        console.error('[IpcNsiHandler] Error checking packages folder:', e);
+        throw e;
       }
-
-      // Verify that mods.d and packages have the same number of entries
-      const modsDCount = folderCounts['mods.d'];
-      const packagesCount = folderCounts['packages'];
-      
-      console.log('[IpcNsiHandler] Folder entry counts - mods.d:', modsDCount, 'packages:', packagesCount);
-      
-      if (modsDCount !== packagesCount) {
-        const errorMsg = `Folder entry count mismatch: mods.d (${modsDCount}), packages (${packagesCount})`;
-        console.log('[IpcNsiHandler] Validation failed:', errorMsg);
-        return { valid: false, error: errorMsg };
-      }
-      
-      console.log('[IpcNsiHandler] mods.d and packages folders have matching entry counts');
 
       console.log('[IpcNsiHandler] Validation successful - all checks passed');
       return { valid: true, error: '' };
