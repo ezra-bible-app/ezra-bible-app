@@ -20,6 +20,22 @@ const DropboxSync = require('./dropbox_sync.js');
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * DropboxModuleHelper provides functionality for managing SWORD Bible modules
+ * stored in a custom Dropbox repository.
+ * 
+ * This helper class handles:
+ * - Validation of custom Dropbox module repository structure
+ * - Caching and retrieval of available modules from Dropbox
+ * - Parsing of SWORD module configuration files
+ * - Installation of modules from Dropbox to the local SWORD directory
+ * 
+ * The custom repository is expected to have the following structure:
+ * - /mods.d.tar.gz - Compressed archive containing mods.d directory with module configuration files
+ * - /packages/ - Directory containing module installation packages (.zip files)
+ * 
+ * @class DropboxModuleHelper
+ */
 class DropboxModuleHelper {
   constructor(platformHelper, nsi) {
     this._platformHelper = platformHelper;
