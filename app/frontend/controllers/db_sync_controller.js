@@ -649,8 +649,11 @@ module.exports.showDropboxZipInstallDialog = async function() {
         fileItem.style.padding = '0.5em';
         fileItem.style.borderBottom = '1px solid #ccc';
         
-        // Show relative path (remove /Apps/Ezra Bible App prefix for display)
-        const displayPath = file.path.replace('/Apps/Ezra Bible App/', '');
+        // Show relative path (remove /Apps/Ezra Bible App prefix and leading slash for display)
+        let displayPath = file.path;
+        if (displayPath.startsWith('/')) {
+          displayPath = displayPath.substring(1);
+        }
         
         fileItem.innerHTML = `
           <label style="cursor: pointer; display: flex; align-items: center;">
