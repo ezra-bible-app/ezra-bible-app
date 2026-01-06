@@ -671,6 +671,9 @@ module.exports.showDropboxZipInstallDialog = async function() {
         return;
       }
 
+      // Enable the install button when files are found
+      $('#install-zip-modules-button').button('enable');
+
       zipFiles.forEach((file) => {
         const fileItem = document.createElement('div');
         fileItem.className = 'zip-file-item';
