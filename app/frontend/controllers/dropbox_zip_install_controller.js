@@ -219,7 +219,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
         <table style="width: 100%; border-collapse: collapse;">
           <thead>
             <tr style="border-bottom: 2px solid #ccc;">
-              <th style="text-align: left; padding: 0.5em;">Module</th>
+              <th style="text-align: left; padding: 0.5em; max-width: 200px;">Module</th>
               <th style="text-align: left; padding: 0.5em; width: 120px;">Status</th>
             </tr>
           </thead>
@@ -246,7 +246,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
         row.id = moduleId;
         row.style.borderBottom = '1px solid #eee';
         row.innerHTML = `
-          <td style="padding: 0.5em;">${displayPath}</td>
+          <td style="padding: 0.5em; max-width: 200px; word-break: break-word; overflow-wrap: break-word;">${displayPath}</td>
           <td style="padding: 0.5em;">
             <span style="display: flex; align-items: center;">
               <loading-indicator style="width: 16px; height: 16px;"></loading-indicator>
