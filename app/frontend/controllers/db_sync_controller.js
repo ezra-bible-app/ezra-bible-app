@@ -552,14 +552,16 @@ function handleRedirect(url) {
     dbxAuth.setCodeVerifier(window.sessionStorage.getItem('codeVerifier'));
 
     dbxAuth.getAccessTokenFromCode(REDIRECT_URI, getCodeFromUrl(url))
-      .then((response) => {
+      .then(async (response) => {
         dbSyncDropboxToken = response.result.access_token;
         dbSyncDropboxRefreshToken = response.result.refresh_token;
         dbSyncDropboxLinkStatus = 'LINKED';
         updateDropboxLinkStatusLabel();
 
-        // This configuration will be permanently stored
-        // once the user hits the save button of the Dropbox configuration dialog
+        // Save the Dropbox configuration immediately so that custom module repo validation can access it
+        await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
+        await ipcSettings.set(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, dbSyncDropboxRefreshToken);
+        await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
 
       }).catch((error) => {
         dbSyncDropboxLinkStatus = 'FAILED';
