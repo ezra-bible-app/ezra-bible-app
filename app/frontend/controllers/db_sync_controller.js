@@ -826,7 +826,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
 
       // Refresh module list if any modules were installed
       if (successCount > 0) {
-        eventController.publishAsync('on-locale-changed');
+        await app_controller.translation_controller.initTranslationsMenu();
       }
 
     } catch (error) {
