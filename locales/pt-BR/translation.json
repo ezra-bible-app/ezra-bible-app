@@ -491,8 +491,8 @@
     "waiting-app-ready": "Aguardando aplicativo ficar pronto"
   },
   "dropbox": {
-    "setup-db-sync": "Configurar sincronização via Dropbox",
-    "dropbox-sync-explanation-part1": "A sincronização via Dropbox pode ser usada para sincronizar o banco de dados do aplicativo Bíblia Esdras em vários dispositivos.",
+    "setup-dropbox": "Setup Dropbox functions",
+    "dropbox-sync-explanation-part1": "Dropbox can be used to synchronize your Ezra&nbsp;Bible&nbsp;App database across multiple devices. Also, you can setup a custom module repository.",
     "dropbox-sync-explanation-part2": "O banco de dados será sincronizado nos seguintes eventos:",
     "dropbox-sync-explanation-part3a": "Após vincular a conta do Dropbox pela primeira vez.",
     "dropbox-sync-explanation-part3b": "Ao inicializar o aplicativo ou ao reinicializar.",

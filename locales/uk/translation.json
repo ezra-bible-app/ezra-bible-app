@@ -495,8 +495,8 @@
     "waiting-app-ready": "Очікування готовності застосунку"
   },
   "dropbox": {
-    "setup-db-sync": "Налаштувати позгоду з Dropbox",
-    "dropbox-sync-explanation-part1": "Позгода з Dropbox може узгодити вашу базу даних Біблійного&nbsp;застосунку&nbsp;Єздри між різними пристроями.",
+    "setup-dropbox": "Setup Dropbox functions",
+    "dropbox-sync-explanation-part1": "Dropbox can be used to synchronize your Ezra&nbsp;Bible&nbsp;App database across multiple devices. Also, you can setup a custom module repository.",
     "dropbox-sync-explanation-part2": "Базу даних буде узгоджено у наступних випадках:",
     "dropbox-sync-explanation-part3a": "Відразу після першої прив'язки обліковки Dropbox.",
     "dropbox-sync-explanation-part3b": "При запуску або відновленні застосунка.",

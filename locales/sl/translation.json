@@ -492,8 +492,8 @@
     "waiting-app-ready": "Čakanje, da se aplikacija pripravi"
   },
   "dropbox": {
-    "setup-db-sync": "Nastavitev sinhronizacije Dropbox",
-    "dropbox-sync-explanation-part1": "Sinhronizacijo Dropboxa lahko uporabite za sinhronizacijo baze podatkov aplikacije Ezra&nbsp;Bible&nbsp;App v več napravah.",
+    "setup-dropbox": "Setup Dropbox functions",
+    "dropbox-sync-explanation-part1": "Dropbox can be used to synchronize your Ezra&nbsp;Bible&nbsp;App database across multiple devices. Also, you can setup a custom module repository.",
     "dropbox-sync-explanation-part2": "Podatkovna baza se bo sinhronizirala v naslednjih primerih:",
     "dropbox-sync-explanation-part3a": "Po prvi povezavi računa Dropbox.",
     "dropbox-sync-explanation-part3b": "Ob zagonu aplikacije ali ob ponovnem zagonu.",

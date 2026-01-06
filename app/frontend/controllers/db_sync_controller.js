@@ -205,7 +205,7 @@ async function initDbSync() {
   var position = [55, 120];
 
   let dbSyncDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
-  dbSyncDialogOptions.title = i18n.t("dropbox.setup-db-sync");
+  dbSyncDialogOptions.title = i18n.t("dropbox.setup-dropbox");
   dbSyncDialogOptions.dialogClass = 'ezra-dialog db-sync-dialog';
   dbSyncDialogOptions.autoOpen = false;
   dbSyncDialogOptions.buttons = {};
