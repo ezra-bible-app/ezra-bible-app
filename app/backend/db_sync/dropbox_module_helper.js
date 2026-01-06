@@ -396,13 +396,24 @@ class DropboxModuleHelper {
       const hasModsD = fs.existsSync(modsDPath) && fs.statSync(modsDPath).isDirectory();
       const hasModules = fs.existsSync(modulesPath) && fs.statSync(modulesPath).isDirectory();
       
-      // Find .conf file in mods.d directory
+      // Find .conf file in mods.d directory and extract module ID from its content
       let moduleId = null;
       if (hasModsD) {
         const files = fs.readdirSync(modsDPath);
         const confFile = files.find(f => f.endsWith('.conf'));
         if (confFile) {
-          moduleId = path.basename(confFile, '.conf');
+          // Read the .conf file content to extract the actual module ID
+          const confFilePath = path.join(modsDPath, confFile);
+          const confContent = fs.readFileSync(confFilePath, 'utf8');
+          
+          // Extract module ID from the section header [ModuleID]
+          const moduleIdMatch = confContent.match(/^\[([^\]]+)\]/m);
+          if (moduleIdMatch) {
+            moduleId = moduleIdMatch[1];
+            console.log(`[validateModuleZip] Extracted module ID from .conf file: ${moduleId}`);
+          } else {
+            console.warn(`[validateModuleZip] Could not extract module ID from ${confFile}`);
+          }
         }
       }
       
@@ -410,7 +421,9 @@ class DropboxModuleHelper {
       let alreadyInstalled = false;
       if (moduleId) {
         const localModule = this._nsi.getLocalModule(moduleId);
+        console.log(`[validateModuleZip] Checking if ${moduleId} is installed:`, localModule);
         alreadyInstalled = localModule !== undefined && localModule !== null;
+        console.log(`[validateModuleZip] Module ${moduleId} already installed: ${alreadyInstalled}`);
       }
       
       // Clean up temp files and directories
@@ -461,12 +474,17 @@ class DropboxModuleHelper {
     // Extract filename from path
     const filename = path.basename(dropboxPath);
     
+    console.log(`[installModuleFromZip] Installing from: ${dropboxPath}`);
+    
     try {
       await dropboxSync.refreshAccessToken();
       // Validate first
       const validation = await this.validateModuleZip(dropboxPath, dropboxToken, dropboxRefreshToken);
       
+      console.log(`[installModuleFromZip] Validation result:`, validation);
+      
       if (!validation.valid) {
+        console.log(`[installModuleFromZip] Validation failed - invalid structure`);
         return {
           success: false,
           alreadyInstalled: false,
@@ -475,12 +493,15 @@ class DropboxModuleHelper {
       }
       
       if (validation.alreadyInstalled) {
+        console.log(`[installModuleFromZip] Module ${validation.moduleId} is already installed - skipping`);
         return {
           success: false,
           alreadyInstalled: true,
           moduleId: validation.moduleId
         };
       }
+      
+      console.log(`[installModuleFromZip] Proceeding with installation of ${validation.moduleId}`);
       
       // Download zip file
       await dropboxSync.downloadFile(dropboxPath, tempDir);

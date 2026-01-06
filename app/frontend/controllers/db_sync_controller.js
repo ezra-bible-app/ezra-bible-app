@@ -575,7 +575,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
   if (!dbSyncDropboxLinkStatus || dbSyncDropboxLinkStatus !== 'LINKED') {
     // eslint-disable-next-line no-undef
     iziToast.error({
-      title: i18n.t('dropbox.install-from-zip-title'),
+      title: i18n.t('dropbox.install-from-zip'),
       message: i18n.t('dropbox.dropbox-not-linked'),
       position: platformHelper.getIziPosition(),
       timeout: 7000
@@ -588,8 +588,9 @@ module.exports.showDropboxZipInstallDialog = async function() {
   <div id="dropbox-zip-install-dialog" style="padding: 1em;">
     <p style="margin-top: 0;">${i18n.t('dropbox.install-from-zip-explanation')}</p>
     <div id="zip-file-list" style="max-height: 300px; overflow-y: auto; margin: 1em 0;">
-      <div style="text-align: center; padding: 2em;">
-        <div class="loader" style="display: inline-block;"></div>
+      <div style="display: flex; align-items: center; justify-content: center; padding: 2em;">
+        <p style="margin: 0 1em 0 0;">${i18n.t('dropbox.loading-zip-files')}</p>
+        <loading-indicator></loading-indicator>
       </div>
     </div>
   </div>
@@ -602,7 +603,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
   const height = 500;
 
   let dialogOptions = uiHelper.getDialogOptions(width, height, true);
-  dialogOptions.title = i18n.t('dropbox.install-from-zip-title');
+  dialogOptions.title = i18n.t('dropbox.install-from-zip');
   dialogOptions.dialogClass = 'ezra-dialog dropbox-zip-install-dialog';
   dialogOptions.close = () => {
     $dialogBox.dialog('destroy');
@@ -681,17 +682,33 @@ module.exports.showDropboxZipInstallDialog = async function() {
 
     const selectedFiles = Array.from(checkboxes).map(cb => cb.dataset.filepath);
 
-    // Disable dialog buttons during installation
+    // Disable install button during installation, change cancel to close
     $('#install-zip-modules-button').button('disable');
-    $('.ui-dialog-buttonpane button:contains("Cancel")').button('disable');
+    $dialogBox.dialog('option', 'buttons', [
+      {
+        text: i18n.t('general.finish'),
+        click: function() {
+          $(this).dialog('close');
+        }
+      }
+    ]);
 
-    // Show validation progress
+    // Show installation progress table
     const zipFileList = document.getElementById('zip-file-list');
     const originalContent = zipFileList.innerHTML;
     zipFileList.innerHTML = `
-      <div style="text-align: center; padding: 2em;">
-        <div class="loader" style="display: inline-block;"></div>
-        <p style="margin-top: 1em;">${i18n.t('dropbox.validating-modules')}</p>
+      <div style="padding: 1em;">
+        <p style="margin-bottom: 1em;">${i18n.t('dropbox.installing-modules')}</p>
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #ccc;">
+              <th style="text-align: left; padding: 0.5em;">Module</th>
+              <th style="text-align: left; padding: 0.5em; width: 120px;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="installation-status-table">
+          </tbody>
+        </table>
       </div>
     `;
 
@@ -700,56 +717,67 @@ module.exports.showDropboxZipInstallDialog = async function() {
     let failedCount = 0;
 
     try {
-      // Validate and install each file
-      for (const filepath of selectedFiles) {
-        // Display just the relative path for user feedback
-        const displayPath = filepath.replace('/Apps/Ezra Bible App/', '');
-        
-        zipFileList.innerHTML = `
-          <div style="text-align: center; padding: 2em;">
-            <div class="loader" style="display: inline-block;"></div>
-            <p style="margin-top: 1em;">${i18n.t('dropbox.installing-modules')}</p>
-            <p style="font-size: 0.9em; color: #666;">${displayPath}</p>
-          </div>
-        `;
+      const statusTable = document.getElementById('installation-status-table');
 
+      // Process each file
+      for (const filepath of selectedFiles) {
+        const displayPath = filepath.replace('/Apps/Ezra Bible App/', '').replace(/^\//, '');
+        const moduleId = `module-${selectedFiles.indexOf(filepath)}`;
+        
+        // Add row to table with pending status
+        const row = document.createElement('tr');
+        row.id = moduleId;
+        row.style.borderBottom = '1px solid #eee';
+        row.innerHTML = `
+          <td style="padding: 0.5em;">${displayPath}</td>
+          <td style="padding: 0.5em;">
+            <span style="display: flex; align-items: center;">
+              <loading-indicator style="width: 16px; height: 16px;"></loading-indicator>
+              <span style="margin-left: 0.5em;">Processing...</span>
+            </span>
+          </td>
+        `;
+        statusTable.appendChild(row);
+
+        // Install the module
         const result = await ipcGeneral.dropboxInstallZipModule(filepath);
 
+        // Update row with result
+        const statusCell = row.querySelector('td:last-child');
         if (result.success) {
           successCount++;
+          statusCell.innerHTML = '<span style="color: green;">✓ Installed</span>';
         } else if (result.alreadyInstalled) {
           skippedCount++;
+          statusCell.innerHTML = '<span style="color: #888;">⊘ Already installed</span>';
         } else {
           failedCount++;
+          const errorMsg = result.error || 'Unknown error';
+          statusCell.innerHTML = `<span style="color: red;">✗ Failed</span>`;
+          statusCell.title = errorMsg;
         }
       }
 
-      // Show summary
-      let summaryMessage = '';
-      if (successCount > 0) {
-        summaryMessage += i18n.t('dropbox.modules-installed', { count: successCount }) + '<br>';
-      }
-      if (skippedCount > 0) {
-        summaryMessage += i18n.t('dropbox.modules-skipped', { count: skippedCount }) + '<br>';
-      }
-      if (failedCount > 0) {
-        summaryMessage += i18n.t('dropbox.modules-failed', { count: failedCount });
-      }
-
-      // eslint-disable-next-line no-undef
-      iziToast.success({
-        title: i18n.t('dropbox.installation-complete'),
-        message: summaryMessage,
-        position: platformHelper.getIziPosition(),
-        timeout: 8000
-      });
+      // Add summary row
+      const summaryRow = document.createElement('tr');
+      summaryRow.style.borderTop = '2px solid #ccc';
+      summaryRow.style.fontWeight = 'bold';
+      summaryRow.innerHTML = `
+        <td style="padding: 1em 0.5em;">Summary</td>
+        <td style="padding: 1em 0.5em;">
+          <div style="font-size: 0.9em;">
+            ${successCount > 0 ? `<div style="color: green;">${successCount} installed</div>` : ''}
+            ${skippedCount > 0 ? `<div style="color: #888;">${skippedCount} skipped</div>` : ''}
+            ${failedCount > 0 ? `<div style="color: red;">${failedCount} failed</div>` : ''}
+          </div>
+        </td>
+      `;
+      statusTable.appendChild(summaryRow);
 
       // Refresh module list if any modules were installed
       if (successCount > 0) {
         eventController.publishAsync('on-locale-changed');
       }
-
-      $dialogBox.dialog('close');
 
     } catch (error) {
       console.error('Error installing zip modules:', error);
@@ -758,7 +786,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
       
       // eslint-disable-next-line no-undef
       iziToast.error({
-        title: i18n.t('dropbox.install-from-zip-title'),
+        title: i18n.t('dropbox.install-from-zip'),
         message: error.message || 'Installation failed',
         position: platformHelper.getIziPosition(),
         timeout: 7000
