@@ -101,6 +101,11 @@ class IpcNsiHandler {
     return this._nsi;
   }
 
+  getDropboxCacheFilePath() {
+    const userDataDir = this._platformHelper.getUserDataPath();
+    return path.join(userDataDir, 'dropbox_modules_cache.json');
+  }
+
   getLanguageModuleCount(selectedRepos, language, moduleType, dropboxModules=[]) {
     var count = 0;
 
@@ -137,11 +142,11 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig', async (progressCB) => {
-      if (this._dropboxModulesCache) {
-        return this._dropboxModulesCache = null;
-      }
-
       var repoUpdateStatus = await this._nsi.updateRepositoryConfig(progressCB);
+      
+      // Update Dropbox modules cache
+      await this.updateDropboxModulesCache();
+      
       return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
     
@@ -160,12 +165,10 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getRepoLanguages', async (repositoryName, moduleType) => {
-      const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
       const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
-      const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
 
       if (useCustomModuleRepo && repositoryName === 'Dropbox') {
-        const modules = await this.getDropboxModules(dropboxToken, customModuleRepo);
+        const modules = await this.getDropboxModules();
         
         const languages = new Set();
         modules.forEach(m => {
@@ -184,10 +187,7 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getAllRepoModules', async (repositoryName, moduleType) => {
       if (repositoryName === 'Dropbox') {
-        const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
-        const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
-        const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
-        const modules = await this.getDropboxModules(dropboxToken, useCustomModuleRepo && customModuleRepo ? customModuleRepo : null);
+        const modules = await this.getDropboxModules();
         
         return modules.filter(m => {
           if (moduleType === 'BIBLE') return m.type === 'Biblical Texts';
@@ -516,34 +516,38 @@ class IpcNsiHandler {
     });
   }
 
-  async getDropboxModules(dropboxToken, customModuleRepo) {
-    if (!customModuleRepo) {
-      return [];
+  async updateDropboxModulesCache() {
+    const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+    const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
+    const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+
+    if (!dropboxToken || !useCustomModuleRepo || !customModuleRepo) {
+      // No Dropbox configuration, clear cache
+      const cacheFile = this.getDropboxCacheFilePath();
+      if (fs.existsSync(cacheFile)) {
+        fs.unlinkSync(cacheFile);
+      }
+      return;
     }
 
-    if (this._dropboxModulesCache) {
-      return this._dropboxModulesCache;
-    }
-    
-    const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
-    const tempDir = this._platformHelper.getTempDir();
-    const modsFile = 'mods.d.tar.gz';
-    
-    let repoPath = customModuleRepo || '';
-    repoPath = repoPath.trim();
-    if (!repoPath.startsWith('/')) repoPath = '/' + repoPath;
-    if (repoPath.endsWith('/')) repoPath = repoPath.slice(0, -1);
-    
-    const dropboxPath = `${repoPath}/${modsFile}`;
-    
     try {
+      const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
+      const tempDir = this._platformHelper.getTempDir();
+      const modsFile = 'mods.d.tar.gz';
+      
+      let repoPath = customModuleRepo.trim();
+      if (!repoPath.startsWith('/')) repoPath = '/' + repoPath;
+      if (repoPath.endsWith('/')) repoPath = repoPath.slice(0, -1);
+      
+      const dropboxPath = `${repoPath}/${modsFile}`;
+      
       await dropboxSync.downloadFile(dropboxPath, tempDir);
       
       const tarballPath = path.join(tempDir, modsFile);
       const extractDir = path.join(tempDir, 'dropbox_mods');
       
       if (!fs.existsSync(extractDir)) {
-        fs.mkdirSync(extractDir);
+        fs.mkdirSync(extractDir, { recursive: true });
       }
       
       this._nsi.unTarGZ(tarballPath, extractDir);
@@ -570,13 +574,31 @@ class IpcNsiHandler {
         console.warn('[Dropbox] mods.d directory not found after extraction');
       }
       
-      this._dropboxModulesCache = modules;
-      return modules;
+      // Save to persistent cache
+      const cacheFile = this.getDropboxCacheFilePath();
+      fs.writeFileSync(cacheFile, JSON.stringify(modules, null, 2), 'utf-8');
+      
     } catch (error) {
-      console.error('[Dropbox] Error fetching Dropbox modules:', error);
-      console.error('[Dropbox] Error stack:', error.stack);
-      return [];
+      console.error('[Dropbox] Error updating Dropbox modules cache:', error);
     }
+  }
+
+  async getDropboxModules() {
+    // Read from persistent cache
+    const cacheFile = this.getDropboxCacheFilePath();
+    
+    if (fs.existsSync(cacheFile)) {
+      try {
+        const content = fs.readFileSync(cacheFile, 'utf-8');
+        const modules = JSON.parse(content);
+        return modules;
+      } catch (error) {
+        console.error('[Dropbox] Error reading Dropbox modules cache:', error);
+        return [];
+      }
+    }
+    
+    return [];
   }
 
   parseModuleConfig(configPath) {
