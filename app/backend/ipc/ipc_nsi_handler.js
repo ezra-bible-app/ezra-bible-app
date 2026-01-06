@@ -30,6 +30,8 @@ class IpcNsiHandler {
     this._platformHelper = new PlatformHelper();
     this._nsi = null;
     this._customSwordDir = customSwordDir;
+    this._dropboxModulesCache = null;
+    this._dropboxModulesCacheKey = null;
 
     this.initNSI(this._customSwordDir);
     this.initIpcInterface();
@@ -136,6 +138,10 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig', async (progressCB) => {
+      if (this._dropboxModulesCache) {
+        return this._dropboxModulesCache = null;
+      }
+
       var repoUpdateStatus = await this._nsi.updateRepositoryConfig(progressCB);
       return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
@@ -499,6 +505,10 @@ class IpcNsiHandler {
   }
 
   async getDropboxModules(dropboxToken, customModuleRepo) {
+    if (this._dropboxModulesCache) {
+      return this._dropboxModulesCache;
+    }
+    
     const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
     const tempDir = this._platformHelper.getTempDir();
     const modsFile = 'mods.d.tar.gz';
@@ -538,6 +548,7 @@ class IpcNsiHandler {
         }
       }
       
+      this._dropboxModulesCache = modules;
       return modules;
     } catch (error) {
       console.error('Error fetching Dropbox modules:', error);
