@@ -81,6 +81,11 @@ class OptionsMenu {
       await dbSyncController.showDbSyncConfigDialog();
     });
 
+    $('#install-dropbox-zip-button').bind('click', async () => {
+      this.hideDisplayMenu();
+      await dbSyncController.showDropboxZipInstallDialog();
+    });
+
     $('#displayOptionsBackButton').bind('click', () => {
       setTimeout(() => { this.hideDisplayMenu(); }, 100);
     });

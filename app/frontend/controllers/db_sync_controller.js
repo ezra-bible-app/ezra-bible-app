@@ -28,6 +28,7 @@ const Dropbox = require('dropbox');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
 const eventController = require('./event_controller.js');
+const { html } = require('../helpers/ezra_helper.js');
 
 const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
 const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
@@ -567,3 +568,202 @@ async function setupDropboxAuthentication() {
     })
     .catch((error) => console.error(error));
 }
+module.exports.showDropboxZipInstallDialog = async function() {
+  await initDbSync();
+
+  // Check if Dropbox is linked
+  if (!dbSyncDropboxLinkStatus || dbSyncDropboxLinkStatus !== 'LINKED') {
+    // eslint-disable-next-line no-undef
+    iziToast.error({
+      title: i18n.t('dropbox.install-from-zip-title'),
+      message: i18n.t('dropbox.dropbox-not-linked'),
+      position: platformHelper.getIziPosition(),
+      timeout: 7000
+    });
+    return;
+  }
+
+  // Create dialog HTML
+  const dialogBoxTemplate = html`
+  <div id="dropbox-zip-install-dialog" style="padding: 1em;">
+    <p style="margin-top: 0;">${i18n.t('dropbox.install-from-zip-explanation')}</p>
+    <div id="zip-file-list" style="max-height: 300px; overflow-y: auto; margin: 1em 0;">
+      <div style="text-align: center; padding: 2em;">
+        <div class="loader" style="display: inline-block;"></div>
+      </div>
+    </div>
+  </div>
+  `;
+
+  document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
+  const $dialogBox = $('#dropbox-zip-install-dialog');
+
+  const width = 600;
+  const height = 500;
+
+  let dialogOptions = uiHelper.getDialogOptions(width, height, true);
+  dialogOptions.title = i18n.t('dropbox.install-from-zip-title');
+  dialogOptions.dialogClass = 'ezra-dialog dropbox-zip-install-dialog';
+  dialogOptions.close = () => {
+    $dialogBox.dialog('destroy');
+    $dialogBox.remove();
+  };
+
+  dialogOptions.buttons = {};
+  dialogOptions.buttons[i18n.t('general.cancel')] = function() {
+    $dialogBox.dialog('close');
+  };
+  dialogOptions.buttons[i18n.t('general.install')] = {
+    id: 'install-zip-modules-button',
+    text: i18n.t('general.install'),
+    click: async () => {
+      await installSelectedZipModules();
+    }
+  };
+
+  $dialogBox.dialog(dialogOptions);
+  uiHelper.fixDialogCloseIconOnAndroid('dropbox-zip-install-dialog');
+  Mousetrap.bind('esc', () => { $dialogBox.dialog('close'); });
+
+  // Load zip files from Dropbox
+  await loadDropboxZipFiles();
+
+  async function loadDropboxZipFiles() {
+    try {
+      const zipFiles = await ipcGeneral.dropboxListZipFiles();
+      
+      console.log('Received zipFiles:', zipFiles);
+      
+      const zipFileList = document.getElementById('zip-file-list');
+      zipFileList.innerHTML = '';
+
+      if (!zipFiles || !Array.isArray(zipFiles) || zipFiles.length === 0) {
+        zipFileList.innerHTML = `<p style="text-align: center; color: #888;">${i18n.t('dropbox.no-zip-files-found')}</p>`;
+        $('#install-zip-modules-button').button('disable');
+        return;
+      }
+
+      zipFiles.forEach((file) => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'zip-file-item';
+        fileItem.style.padding = '0.5em';
+        fileItem.style.borderBottom = '1px solid #ccc';
+        
+        // Show relative path (remove /Apps/Ezra Bible App prefix for display)
+        const displayPath = file.path.replace('/Apps/Ezra Bible App/', '');
+        
+        fileItem.innerHTML = `
+          <label style="cursor: pointer; display: flex; align-items: center;">
+            <input type="checkbox" class="zip-file-checkbox" data-filepath="${file.path}" style="margin-right: 0.5em;">
+            <span style="flex: 1;">${displayPath}</span>
+            <span class="validation-status" style="margin-left: auto; font-size: 0.9em;"></span>
+          </label>
+        `;
+        zipFileList.appendChild(fileItem);
+      });
+
+    } catch (error) {
+      console.error('Error loading Dropbox zip files:', error);
+      const zipFileList = document.getElementById('zip-file-list');
+      zipFileList.innerHTML = `<p style="text-align: center; color: #d00;">Error loading files: ${error.message}</p>`;
+      $('#install-zip-modules-button').button('disable');
+    }
+  }
+
+  async function installSelectedZipModules() {
+    const checkboxes = document.querySelectorAll('.zip-file-checkbox:checked');
+    if (checkboxes.length === 0) {
+      return;
+    }
+
+    const selectedFiles = Array.from(checkboxes).map(cb => cb.dataset.filepath);
+
+    // Disable dialog buttons during installation
+    $('#install-zip-modules-button').button('disable');
+    $('.ui-dialog-buttonpane button:contains("Cancel")').button('disable');
+
+    // Show validation progress
+    const zipFileList = document.getElementById('zip-file-list');
+    const originalContent = zipFileList.innerHTML;
+    zipFileList.innerHTML = `
+      <div style="text-align: center; padding: 2em;">
+        <div class="loader" style="display: inline-block;"></div>
+        <p style="margin-top: 1em;">${i18n.t('dropbox.validating-modules')}</p>
+      </div>
+    `;
+
+    let successCount = 0;
+    let skippedCount = 0;
+    let failedCount = 0;
+
+    try {
+      // Validate and install each file
+      for (const filepath of selectedFiles) {
+        // Display just the relative path for user feedback
+        const displayPath = filepath.replace('/Apps/Ezra Bible App/', '');
+        
+        zipFileList.innerHTML = `
+          <div style="text-align: center; padding: 2em;">
+            <div class="loader" style="display: inline-block;"></div>
+            <p style="margin-top: 1em;">${i18n.t('dropbox.installing-modules')}</p>
+            <p style="font-size: 0.9em; color: #666;">${displayPath}</p>
+          </div>
+        `;
+
+        const result = await ipcGeneral.dropboxInstallZipModule(filepath);
+
+        if (result.success) {
+          successCount++;
+        } else if (result.alreadyInstalled) {
+          skippedCount++;
+        } else {
+          failedCount++;
+        }
+      }
+
+      // Show summary
+      let summaryMessage = '';
+      if (successCount > 0) {
+        summaryMessage += i18n.t('dropbox.modules-installed', { count: successCount }) + '<br>';
+      }
+      if (skippedCount > 0) {
+        summaryMessage += i18n.t('dropbox.modules-skipped', { count: skippedCount }) + '<br>';
+      }
+      if (failedCount > 0) {
+        summaryMessage += i18n.t('dropbox.modules-failed', { count: failedCount });
+      }
+
+      // eslint-disable-next-line no-undef
+      iziToast.success({
+        title: i18n.t('dropbox.installation-complete'),
+        message: summaryMessage,
+        position: platformHelper.getIziPosition(),
+        timeout: 8000
+      });
+
+      // Refresh module list if any modules were installed
+      if (successCount > 0) {
+        eventController.publishAsync('on-locale-changed');
+      }
+
+      $dialogBox.dialog('close');
+
+    } catch (error) {
+      console.error('Error installing zip modules:', error);
+      
+      zipFileList.innerHTML = originalContent;
+      
+      // eslint-disable-next-line no-undef
+      iziToast.error({
+        title: i18n.t('dropbox.install-from-zip-title'),
+        message: error.message || 'Installation failed',
+        position: platformHelper.getIziPosition(),
+        timeout: 7000
+      });
+
+      // Re-enable buttons
+      $('#install-zip-modules-button').button('enable');
+      $('.ui-dialog-buttonpane button:contains("Cancel")').button('enable');
+    }
+  }
+};

@@ -313,6 +313,217 @@ class DropboxModuleHelper {
       return -1;
     }
   }
+
+  async listZipFiles(dropboxToken, dropboxRefreshToken) {
+    const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, dropboxRefreshToken);
+    const rootPath = '';
+    
+    try {
+      await dropboxSync.refreshAccessToken();
+      
+      // Recursive function to list files in a folder and its subfolders
+      const listFilesRecursive = async (folderPath) => {
+        const entries = await dropboxSync.listFolder(folderPath);
+        let zipFiles = [];
+        
+        for (const entry of entries) {
+          if (entry['.tag'] === 'file' && entry.name.toLowerCase().endsWith('.zip')) {
+            zipFiles.push({
+              name: entry.name,
+              path: entry.path_display,
+              size: entry.size
+            });
+          } else if (entry['.tag'] === 'folder') {
+            // Recursively search in subdirectories
+            const subFolderZipFiles = await listFilesRecursive(entry.path_display);
+            zipFiles = zipFiles.concat(subFolderZipFiles);
+          }
+        }
+        
+        return zipFiles;
+      };
+      
+      return await listFilesRecursive(rootPath);
+      
+    } catch (error) {
+      console.error('Error listing zip files from Dropbox:', error);
+      throw error;
+    }
+  }
+
+  async validateModuleZip(dropboxPath, dropboxToken, dropboxRefreshToken) {
+    const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, dropboxRefreshToken);
+    const tempDir = this._platformHelper.getTempDir();
+    const extractDir = path.join(tempDir, `extract_${Date.now()}`);
+    
+    // Extract filename from path
+    const filename = path.basename(dropboxPath);
+    
+    try {
+      await dropboxSync.refreshAccessToken();
+      // Download zip file to temp directory
+      await dropboxSync.downloadFile(dropboxPath, tempDir);
+      const zipFilePath = path.join(tempDir, filename);
+      
+      // Create extraction directory
+      if (!fs.existsSync(extractDir)) {
+        fs.mkdirSync(extractDir, { recursive: true });
+      }
+      
+      // Extract zip to temp directory
+      const unzipSuccessful = this._nsi.unZip(zipFilePath, extractDir);
+      
+      if (!unzipSuccessful) {
+        // Clean up
+        if (fs.existsSync(zipFilePath)) {
+          fs.unlinkSync(zipFilePath);
+        }
+        if (fs.existsSync(extractDir)) {
+          fs.rmdirSync(extractDir, { recursive: true });
+        }
+        return {
+          valid: false,
+          moduleId: null,
+          alreadyInstalled: false,
+          error: 'Failed to extract zip file'
+        };
+      }
+      
+      // Check for required directories
+      const modsDPath = path.join(extractDir, 'mods.d');
+      const modulesPath = path.join(extractDir, 'modules');
+      
+      const hasModsD = fs.existsSync(modsDPath) && fs.statSync(modsDPath).isDirectory();
+      const hasModules = fs.existsSync(modulesPath) && fs.statSync(modulesPath).isDirectory();
+      
+      // Find .conf file in mods.d directory
+      let moduleId = null;
+      if (hasModsD) {
+        const files = fs.readdirSync(modsDPath);
+        const confFile = files.find(f => f.endsWith('.conf'));
+        if (confFile) {
+          moduleId = path.basename(confFile, '.conf');
+        }
+      }
+      
+      // Check if module is already installed
+      let alreadyInstalled = false;
+      if (moduleId) {
+        const localModule = this._nsi.getLocalModule(moduleId);
+        alreadyInstalled = localModule !== undefined && localModule !== null;
+      }
+      
+      // Clean up temp files and directories
+      if (fs.existsSync(zipFilePath)) {
+        fs.unlinkSync(zipFilePath);
+      }
+      if (fs.existsSync(extractDir)) {
+        fs.rmdirSync(extractDir, { recursive: true });
+      }
+      
+      return {
+        valid: hasModsD && hasModules && moduleId !== null,
+        moduleId: moduleId,
+        alreadyInstalled: alreadyInstalled,
+        hasModsD: hasModsD,
+        hasModules: hasModules
+      };
+      
+    } catch (error) {
+      console.error('Error validating module zip:', error);
+      
+      // Clean up on error
+      try {
+        const zipFilePath = path.join(tempDir, filename);
+        if (fs.existsSync(zipFilePath)) {
+          fs.unlinkSync(zipFilePath);
+        }
+        if (fs.existsSync(extractDir)) {
+          fs.rmdirSync(extractDir, { recursive: true });
+        }
+      } catch (cleanupError) {
+        console.error('Error during cleanup:', cleanupError);
+      }
+      
+      return {
+        valid: false,
+        moduleId: null,
+        alreadyInstalled: false,
+        error: error.message
+      };
+    }
+  }
+
+  async installModuleFromZip(dropboxPath, dropboxToken, dropboxRefreshToken) {
+    const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, dropboxRefreshToken);
+    const tempDir = this._platformHelper.getTempDir();
+    
+    // Extract filename from path
+    const filename = path.basename(dropboxPath);
+    
+    try {
+      await dropboxSync.refreshAccessToken();
+      // Validate first
+      const validation = await this.validateModuleZip(dropboxPath, dropboxToken, dropboxRefreshToken);
+      
+      if (!validation.valid) {
+        return {
+          success: false,
+          alreadyInstalled: false,
+          error: 'Invalid module structure'
+        };
+      }
+      
+      if (validation.alreadyInstalled) {
+        return {
+          success: false,
+          alreadyInstalled: true,
+          moduleId: validation.moduleId
+        };
+      }
+      
+      // Download zip file
+      await dropboxSync.downloadFile(dropboxPath, tempDir);
+      const zipFilePath = path.join(tempDir, filename);
+      
+      // Install to SWORD directory
+      const swordPath = this._nsi.getSwordPath();
+      console.log(`Installing module from ${zipFilePath} to ${swordPath}`);
+      
+      const unzipSuccessful = this._nsi.unZip(zipFilePath, swordPath);
+      
+      // Clean up temp file
+      if (fs.existsSync(zipFilePath)) {
+        fs.unlinkSync(zipFilePath);
+      }
+      
+      if (unzipSuccessful) {
+        this._nsi.refreshLocalModules();
+        console.log(`Module ${validation.moduleId} installed successfully from zip.`);
+        
+        return {
+          success: true,
+          alreadyInstalled: false,
+          moduleId: validation.moduleId
+        };
+      } else {
+        console.log(`Failed to unzip module from ${filename}.`);
+        return {
+          success: false,
+          alreadyInstalled: false,
+          error: 'Failed to extract zip file'
+        };
+      }
+      
+    } catch (error) {
+      console.error('Error installing module from zip:', error);
+      return {
+        success: false,
+        alreadyInstalled: false,
+        error: error.message
+      };
+    }
+  }
 }
 
 module.exports = DropboxModuleHelper;

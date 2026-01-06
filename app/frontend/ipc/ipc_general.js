@@ -92,6 +92,14 @@ class IpcGeneral {
   async setSendCrashReports(sendCrashReports) {
     return await this._ipcRenderer.call('general_setSendCrashReports', sendCrashReports);
   }
+
+  async dropboxListZipFiles() {
+    return await this._ipcRenderer.call('general_dropboxListZipFiles');
+  }
+
+  async dropboxInstallZipModule(filename) {
+    return await this._ipcRenderer.call('general_dropboxInstallZipModule', filename);
+  }
 }
 
 module.exports = IpcGeneral;

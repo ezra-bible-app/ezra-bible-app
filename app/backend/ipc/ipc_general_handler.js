@@ -160,6 +160,30 @@ class IpcGeneralHandler {
 
       console.log(`sendCrashReports: ${global.sendCrashReports}`);
     });
+
+    this._ipcMain.add('general_dropboxListZipFiles', async() => {
+      const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+      const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
+      
+      if (!dropboxToken) {
+        throw new Error('Dropbox not linked');
+      }
+      
+      const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
+      return await dropboxModuleHelper.listZipFiles(dropboxToken, dropboxRefreshToken);
+    });
+
+    this._ipcMain.add('general_dropboxInstallZipModule', async(filename) => {
+      const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+      const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
+      
+      if (!dropboxToken) {
+        throw new Error('Dropbox not linked');
+      }
+      
+      const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
+      return await dropboxModuleHelper.installModuleFromZip(filename, dropboxToken, dropboxRefreshToken);
+    });
   }
 }
 

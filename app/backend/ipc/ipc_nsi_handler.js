@@ -101,6 +101,10 @@ class IpcNsiHandler {
     return this._nsi;
   }
 
+  getDropboxModuleHelper() {
+    return this._dropboxModuleHelper;
+  }
+
   getLanguageModuleCount(selectedRepos, language, moduleType, dropboxModules=[]) {
     var count = 0;
 
