@@ -197,6 +197,7 @@ async function initDbSync() {
   document.getElementById('sync-dropbox-after-changes').checked = dbSyncAfterChanges;
   updateCustomModuleRepoVisibility();
   updateDropboxLinkStatusLabel();
+  updateCustomModuleRepoCheckboxState();
 
   if (dbSyncInitDone) {
     return;
@@ -243,6 +244,7 @@ async function initDbSync() {
     // Disable custom module repo when link is reset
     document.getElementById('use-custom-module-repo').checked = false;
     updateCustomModuleRepoVisibility();
+    updateCustomModuleRepoCheckboxState();
     
     // Clear validation state
     lastValidatedRepoPath = null;
@@ -306,6 +308,21 @@ async function initDbSync() {
   uiHelper.fixDialogCloseIconOnAndroid('db-sync-dialog');
 
   dbSyncInitDone = true;
+}
+
+function updateCustomModuleRepoCheckboxState() {
+  const checkbox = document.getElementById('use-custom-module-repo');
+  const isLinked = dbSyncDropboxLinkStatus == 'LINKED' && !resetDropboxConfiguration;
+  
+  if (checkbox) {
+    checkbox.disabled = !isLinked;
+    
+    // If Dropbox is not linked, uncheck the checkbox and hide settings
+    if (!isLinked && checkbox.checked) {
+      checkbox.checked = false;
+      updateCustomModuleRepoVisibility();
+    }
+  }
 }
 
 function updateCustomModuleRepoVisibility() {
@@ -526,6 +543,8 @@ function updateDropboxLinkStatusLabel(resetLink=false) {
     $('#dropbox-link-status').removeClass('success');
     $('#dropbox-link-status').removeClass('failed');
   }
+  
+  updateCustomModuleRepoCheckboxState();
 }
 
 // Parses the url and gets the access token if it is in the urls hash
