@@ -136,6 +136,119 @@ class IpcNsiHandler {
     return localeCode.replace('-', '_');
   }
 
+  async validateCustomModuleRepo(customModuleRepo) {
+    console.log('[IpcNsiHandler] Starting validation of custom module repo:', customModuleRepo);
+    
+    const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+
+    if (!dropboxToken) {
+      console.log('[IpcNsiHandler] Validation failed: Dropbox account not linked');
+      return { valid: false, error: 'Dropbox account not linked' };
+    }
+
+    if (!customModuleRepo || customModuleRepo.trim() === '') {
+      console.log('[IpcNsiHandler] Validation failed: Custom module repository path is empty');
+      return { valid: false, error: 'Custom module repository path is empty' };
+    }
+
+    try {
+      const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
+
+      let repoPath = customModuleRepo.trim();
+      if (!repoPath.startsWith('/')) repoPath = '/' + repoPath;
+      if (repoPath.endsWith('/')) repoPath = repoPath.slice(0, -1);
+      
+      console.log('[IpcNsiHandler] Normalized repo path:', repoPath);
+
+      // Check if the repository folder exists
+      console.log('[IpcNsiHandler] Checking if repository folder exists:', repoPath);
+      try {
+        const repoMetadata = await dropboxSync.getFileMetaData(repoPath);
+        if (repoMetadata['.tag'] !== 'folder') {
+          console.log('[IpcNsiHandler] Validation failed: Repository path is not a folder');
+          return { valid: false, error: 'Repository path is not a folder' };
+        }
+        console.log('[IpcNsiHandler] Repository folder exists');
+      } catch (e) {
+        if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') !== -1) {
+          console.log('[IpcNsiHandler] Validation failed: Repository folder not found');
+          return { valid: false, error: 'Repository folder not found' };
+        }
+        console.error('[IpcNsiHandler] Error checking repository folder:', e);
+        throw e;
+      }
+
+      // Check if mods.d.tar.gz exists
+      const modsIndexPath = `${repoPath}/mods.d.tar.gz`;
+      console.log('[IpcNsiHandler] Checking for index file:', modsIndexPath);
+      const modsIndexExists = await dropboxSync.isDropboxFileExisting(modsIndexPath);
+      
+      if (!modsIndexExists) {
+        console.log('[IpcNsiHandler] Validation failed: Index file not found');
+        return { valid: false, error: 'Index file mods.d.tar.gz not found' };
+      }
+      
+      console.log('[IpcNsiHandler] Index file found');
+
+      // Check if required folders exist and count their entries
+      const requiredFolders = ['mods.d', 'modules', 'packages'];
+      const folderCounts = {};
+      
+      for (const folder of requiredFolders) {
+        const folderPath = `${repoPath}/${folder}`;
+        console.log('[IpcNsiHandler] Checking folder:', folderPath);
+        
+        try {
+          const metadata = await dropboxSync.getFileMetaData(folderPath);
+          
+          if (metadata['.tag'] !== 'folder') {
+            console.log('[IpcNsiHandler] Validation failed:', folder, 'is not a folder');
+            return { valid: false, error: `${folder} is not a folder` };
+          }
+
+          // Check if folder is not empty by listing its contents
+          const folderContents = await dropboxSync.listFolder(folderPath);
+          folderCounts[folder] = folderContents.length;
+          console.log(`[IpcNsiHandler] ${folder} folder contains ${folderContents.length} items`);
+          
+          if (!folderContents || folderContents.length === 0) {
+            console.log('[IpcNsiHandler] Validation failed:', folder, 'folder is empty');
+            return { valid: false, error: `${folder} folder is empty` };
+          }
+        } catch (e) {
+          if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') !== -1) {
+            console.log('[IpcNsiHandler] Validation failed:', folder, 'folder not found');
+            return { valid: false, error: `${folder} folder not found` };
+          }
+          console.error('[IpcNsiHandler] Error checking folder', folder, ':', e);
+          throw e;
+        }
+      }
+
+      // Verify that mods.d and packages have the same number of entries
+      const modsDCount = folderCounts['mods.d'];
+      const modulesCount = folderCounts['modules'];
+      const packagesCount = folderCounts['packages'];
+      
+      console.log('[IpcNsiHandler] Folder entry counts - mods.d:', modsDCount, 'modules:', modulesCount, 'packages:', packagesCount);
+      
+      if (modsDCount !== packagesCount) {
+        const errorMsg = `Folder entry count mismatch: mods.d (${modsDCount}), packages (${packagesCount})`;
+        console.log('[IpcNsiHandler] Validation failed:', errorMsg);
+        return { valid: false, error: errorMsg };
+      }
+      
+      console.log('[IpcNsiHandler] mods.d and packages folders have matching entry counts');
+
+      console.log('[IpcNsiHandler] Validation successful - all checks passed');
+      return { valid: true, error: '' };
+
+    } catch (error) {
+      console.error('[IpcNsiHandler] Error validating custom module repo:', error);
+      return { valid: false, error: 'Validation failed: ' + (error.message || 'Unknown error') };
+    }
+  }
+
   initIpcInterface() {
     this._ipcMain.add('nsi_repositoryConfigExisting', () => {
       return this._nsi.repositoryConfigExisting();
@@ -513,6 +626,10 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getSwordPath', () => {
       return this._nsi.getSwordPath();
+    });
+
+    this._ipcMain.add('nsi_validateCustomModuleRepo', async (customModuleRepo) => {
+      return await this.validateCustomModuleRepo(customModuleRepo);
     });
   }
 

@@ -23,7 +23,7 @@ const template = html`
 <style>
 </style>
  
-<div class="loader" style="position: relative; float: right; display: block;">
+<div class="loader" style="position: relative; float: right;">
   <div class="bounce1"></div>
   <div class="bounce2"></div>
   <div class="bounce3"></div>

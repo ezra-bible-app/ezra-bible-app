@@ -55,6 +55,9 @@ let dbSyncFirstSyncDone = false;
 let lastConnectionType = undefined;
 
 let resetDropboxConfiguration = false;
+let lastValidatedRepoPath = null;
+let lastValidationResult = null;
+let validationDebounceTimer = null;
 
 let dbxAuth = getDropboxAuth();
 
@@ -236,6 +239,38 @@ async function initDbSync() {
     updateCustomModuleRepoVisibility();
   });
 
+  $('#custom-module-repo-folder').bind('input', () => {
+    // Clear validation cache when path changes
+    lastValidatedRepoPath = null;
+    lastValidationResult = null;
+    hideValidationStatus();
+    
+    // Debounced validation on input
+    clearTimeout(validationDebounceTimer);
+    
+    const useCustomModuleRepo = document.getElementById('use-custom-module-repo').checked;
+    const customModuleRepo = document.getElementById('custom-module-repo-folder').value;
+    
+    if (useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED' && customModuleRepo && customModuleRepo.trim() !== '') {
+      validationDebounceTimer = setTimeout(async () => {
+        await validateRepoPath(customModuleRepo);
+      }, 1000);
+    }
+  });
+
+  $('#custom-module-repo-folder').bind('blur', async () => {
+    // Clear any pending debounced validation
+    clearTimeout(validationDebounceTimer);
+    
+    // Validate immediately on blur
+    const useCustomModuleRepo = document.getElementById('use-custom-module-repo').checked;
+    const customModuleRepo = document.getElementById('custom-module-repo-folder').value;
+    
+    if (useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED' && customModuleRepo && customModuleRepo.trim() !== '') {
+      await validateRepoPath(customModuleRepo);
+    }
+  });
+
   $('#db-sync-box').dialog(dbSyncDialogOptions);
   uiHelper.fixDialogCloseIconOnAndroid('db-sync-dialog');
 
@@ -250,14 +285,139 @@ function updateCustomModuleRepoVisibility() {
     customModuleRepoSettings.style.display = 'block';
   } else {
     customModuleRepoSettings.style.display = 'none';
+    hideValidationStatus();
+  }
+}
+
+function showValidationLoading() {
+  document.getElementById('custom-repo-validation-loading').style.display = 'block';
+  document.getElementById('custom-repo-validation-status').style.visibility = 'hidden';
+  
+  // Disable save button during validation
+  const saveButton = document.getElementById('save-db-sync-config-button');
+  if (saveButton) {
+    saveButton.disabled = true;
+    saveButton.classList.add('ui-state-disabled');
+  }
+}
+
+function hideValidationLoading() {
+  document.getElementById('custom-repo-validation-loading').style.display = 'none';
+  
+  // Re-enable save button after validation
+  const saveButton = document.getElementById('save-db-sync-config-button');
+  if (saveButton) {
+    saveButton.disabled = false;
+    saveButton.classList.remove('ui-state-disabled');
+  }
+}
+
+function showValidationSuccess() {
+  const statusDiv = document.getElementById('custom-repo-validation-status');
+  const messageSpan = document.getElementById('custom-repo-validation-message');
+  
+  messageSpan.textContent = '✓ ' + i18n.t('dropbox.repo-validation-success');
+  messageSpan.style.color = 'green';
+  statusDiv.style.visibility = 'visible';
+  
+  // Enable save button on successful validation
+  const saveButton = document.getElementById('save-db-sync-config-button');
+  if (saveButton) {
+    saveButton.disabled = false;
+    saveButton.classList.remove('ui-state-disabled');
+  }
+}
+
+function showValidationError(errorMessage) {
+  const statusDiv = document.getElementById('custom-repo-validation-status');
+  const messageSpan = document.getElementById('custom-repo-validation-message');
+  
+  messageSpan.textContent = '✗ ' + errorMessage;
+  messageSpan.style.color = 'red';
+  statusDiv.style.visibility = 'visible';
+  
+  // Disable save button on validation error
+  const saveButton = document.getElementById('save-db-sync-config-button');
+  if (saveButton) {
+    saveButton.disabled = true;
+    saveButton.classList.add('ui-state-disabled');
+  }
+}
+
+function hideValidationStatus() {
+  document.getElementById('custom-repo-validation-status').style.visibility = 'hidden';
+  document.getElementById('custom-repo-validation-loading').style.display = 'none';
+  
+  // Disable save button when validation status is hidden (no validation yet)
+  const saveButton = document.getElementById('save-db-sync-config-button');
+  if (saveButton) {
+    saveButton.disabled = true;
+    saveButton.classList.add('ui-state-disabled');
+  }
+}
+
+async function validateRepoPath(customModuleRepo) {
+  // Check cache first
+  if (lastValidatedRepoPath === customModuleRepo && lastValidationResult !== null) {
+    // Use cached result
+    if (lastValidationResult.valid) {
+      showValidationSuccess();
+    } else {
+      showValidationError(lastValidationResult.error);
+    }
+    return lastValidationResult;
+  }
+
+  showValidationLoading();
+  
+  try {
+    const validationResult = await ipcNsi.validateCustomModuleRepo(customModuleRepo);
+    
+    hideValidationLoading();
+    
+    if (!validationResult.valid) {
+      showValidationError(validationResult.error);
+    } else {
+      showValidationSuccess();
+    }
+    
+    // Cache the validation result
+    lastValidatedRepoPath = customModuleRepo;
+    lastValidationResult = validationResult;
+    
+    return validationResult;
+    
+  } catch (error) {
+    hideValidationLoading();
+    const errorResult = { valid: false, error: 'Validation timeout or error: ' + error.message };
+    showValidationError(errorResult.error);
+    
+    // Cache the error result
+    lastValidatedRepoPath = customModuleRepo;
+    lastValidationResult = errorResult;
+    
+    return errorResult;
   }
 }
 
 async function handleDropboxConfigurationSave() {
+  const useCustomModuleRepo = document.getElementById('use-custom-module-repo').checked;
+  const customModuleRepo = document.getElementById('custom-module-repo-folder').value;
+
+  // Validate custom module repo if enabled
+  if (useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED') {
+    const validationResult = await validateRepoPath(customModuleRepo);
+    
+    if (!validationResult.valid) {
+      return; // Don't close dialog, validation failed
+    }
+  }
+
+  // Validation passed or not required, proceed with save
   $('#db-sync-box').dialog("close");
 
-  dbSyncUseCustomModuleRepo = document.getElementById('use-custom-module-repo').checked;
-  dbSyncCustomModuleRepo = document.getElementById('custom-module-repo-folder').value;
+  dbSyncUseCustomModuleRepo = useCustomModuleRepo;
+  dbSyncCustomModuleRepo = customModuleRepo;
 
   if (!dbSyncCustomModuleRepo) {
     dbSyncCustomModuleRepo = "custom_module_repo";

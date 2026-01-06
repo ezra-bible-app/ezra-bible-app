@@ -523,6 +523,8 @@
     "sync-after-changes": "Sync database after changes",
     "use-custom-module-repo": "Use custom module repository",
     "custom-module-repo-folder": "Custom Module Repository Folder",
+    "validating-repo": "Validating repository...",
+    "repo-validation-success": "Repository structure is valid",
     "dropbox-sync-info": "Dropbox synchronization info",
     "last-dropbox-sync-time": "Last sync",
     "last-dropbox-sync-result": "Last sync result",

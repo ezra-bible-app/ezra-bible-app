@@ -508,6 +508,8 @@
     "sync-after-changes": "Datenbank nach Änderungen synchronisieren",
     "use-custom-module-repo": "Verwende benutzerdefiniertes Modul-Repository",
     "custom-module-repo-folder": "Benutzerdefiniertes Modul-Repository Verzeichnis",
+    "validating-repo": "Repository wird validiert...",
+    "repo-validation-success": "Repository-Struktur ist gültig",
     "dropbox-sync-info": "Informationen zur Dropbox Synchronisation",
     "last-dropbox-sync-time": "Zuletzt synchronisiert",
     "last-dropbox-sync-result": "Letztes Synchronisationsergebnis",

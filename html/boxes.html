@@ -183,7 +183,14 @@
 
     <div id="custom-module-repo-settings" style="margin-left: 2em;">
       <label for="custom-module-repo-folder" i18n="dropbox.custom-module-repo-folder"></label>
-      <text-field id="custom-module-repo-folder" type="text" style="width: 95%; margin-bottom: 1em;"></text-field>
+      <div style="display: flex; align-items: center; margin-bottom: 0.5em;">
+        <text-field id="custom-module-repo-folder" type="text" style="flex: 1; margin-right: 0.5em; max-width: 20em;"></text-field>
+        <loading-indicator id="custom-repo-validation-loading" style="display: none; width: 5em;"></loading-indicator>
+      </div>
+      
+      <div id="custom-repo-validation-status" style="visibility: hidden; margin-bottom: 1em; min-height: 1.5em;">
+        <span id="custom-repo-validation-message"></span>
+      </div>
     </div>
 
     <div id="only-sync-on-wifi-option">
