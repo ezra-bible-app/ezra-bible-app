@@ -319,7 +319,17 @@ class PlatformHelper {
       const { app } = require('electron');
       return app.getPath('temp');
     } else if (this.isCordova()) {
-      return cordova.file.tempDirectory;
+      const fs = require('fs');
+      const path = require('path');
+      const userDataDir = this.getUserDataPath();
+      const tempDir = path.join(userDataDir, 'temp');
+      
+      // Ensure temp directory exists
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, { recursive: true });
+      }
+      
+      return tempDir;
     }
   }
 

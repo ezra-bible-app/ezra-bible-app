@@ -538,9 +538,10 @@ class IpcNsiHandler {
     
     try {
       await dropboxSync.downloadFile(dropboxPath, tempDir);
-      const tarballPath = path.join(tempDir, modsFile);
       
+      const tarballPath = path.join(tempDir, modsFile);
       const extractDir = path.join(tempDir, 'dropbox_mods');
+      
       if (!fs.existsSync(extractDir)) {
         fs.mkdirSync(extractDir);
       }
@@ -552,6 +553,7 @@ class IpcNsiHandler {
       
       if (fs.existsSync(modsDDir)) {
         const files = fs.readdirSync(modsDDir);
+        
         for (const file of files) {
           if (file.endsWith('.conf')) {
             const configPath = path.join(modsDDir, file);
@@ -559,15 +561,20 @@ class IpcNsiHandler {
             if (moduleConfig) {
               moduleConfig.repository = 'Dropbox';
               modules.push(moduleConfig);
+            } else {
+              console.warn('[Dropbox] Failed to parse config for:', file);
             }
           }
         }
+      } else {
+        console.warn('[Dropbox] mods.d directory not found after extraction');
       }
       
       this._dropboxModulesCache = modules;
       return modules;
     } catch (error) {
-      console.error('Error fetching Dropbox modules:', error);
+      console.error('[Dropbox] Error fetching Dropbox modules:', error);
+      console.error('[Dropbox] Error stack:', error.stack);
       return [];
     }
   }
