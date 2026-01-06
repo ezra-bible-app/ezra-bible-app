@@ -54,12 +54,12 @@ class DropboxModuleHelper {
 
     if (!dropboxToken) {
       console.log('[DropboxModuleHelper] Validation failed: Dropbox account not linked');
-      return { valid: false, error: 'Dropbox account not linked' };
+      return { valid: false, errorKey: 'dropbox.repo-validation-error-not-linked' };
     }
 
     if (!customModuleRepo || customModuleRepo.trim() === '') {
       console.log('[DropboxModuleHelper] Validation failed: Custom module repository path is empty');
-      return { valid: false, error: 'Custom module repository path is empty' };
+      return { valid: false, errorKey: 'dropbox.repo-validation-error-empty-path' };
     }
 
     try {
@@ -77,13 +77,13 @@ class DropboxModuleHelper {
         const repoMetadata = await dropboxSync.getFileMetaData(repoPath);
         if (repoMetadata['.tag'] !== 'folder') {
           console.log('[DropboxModuleHelper] Validation failed: Repository path is not a folder');
-          return { valid: false, error: 'Repository path is not a folder' };
+          return { valid: false, errorKey: 'dropbox.repo-validation-error-not-a-folder' };
         }
         console.log('[DropboxModuleHelper] Repository folder exists');
       } catch (e) {
         if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') !== -1) {
           console.log('[DropboxModuleHelper] Validation failed: Repository folder not found');
-          return { valid: false, error: 'Repository folder not found' };
+          return { valid: false, errorKey: 'dropbox.repo-validation-error-not-found' };
         }
         console.error('[DropboxModuleHelper] Error checking repository folder:', e);
         throw e;
@@ -96,7 +96,7 @@ class DropboxModuleHelper {
       
       if (!modsIndexExists) {
         console.log('[DropboxModuleHelper] Validation failed: Index file not found');
-        return { valid: false, error: 'Index file mods.d.tar.gz not found' };
+        return { valid: false, errorKey: 'dropbox.repo-validation-error-index-not-found' };
       }
       
       console.log('[DropboxModuleHelper] Index file found');
@@ -110,7 +110,7 @@ class DropboxModuleHelper {
         
         if (metadata['.tag'] !== 'folder') {
           console.log('[DropboxModuleHelper] Validation failed: packages is not a folder');
-          return { valid: false, error: 'packages is not a folder' };
+          return { valid: false, errorKey: 'dropbox.repo-validation-error-packages-not-a-folder' };
         }
         
         console.log('[DropboxModuleHelper] packages folder exists');
@@ -121,23 +121,23 @@ class DropboxModuleHelper {
         
         if (!folderContents || folderContents.length === 0) {
           console.log('[DropboxModuleHelper] Validation failed: packages folder is empty');
-          return { valid: false, error: 'packages folder is empty' };
+          return { valid: false, errorKey: 'dropbox.repo-validation-error-packages-empty' };
         }
       } catch (e) {
         if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') !== -1) {
           console.log('[DropboxModuleHelper] Validation failed: packages folder not found');
-          return { valid: false, error: 'packages folder not found' };
+          return { valid: false, errorKey: 'dropbox.repo-validation-error-packages-not-found' };
         }
         console.error('[DropboxModuleHelper] Error checking packages folder:', e);
         throw e;
       }
 
       console.log('[DropboxModuleHelper] Validation successful - all checks passed');
-      return { valid: true, error: '' };
+      return { valid: true, errorKey: '' };
 
     } catch (error) {
       console.error('[DropboxModuleHelper] Error validating custom module repo:', error);
-      return { valid: false, error: 'Validation failed: ' + (error.message || 'Unknown error') };
+      return { valid: false, errorKey: 'dropbox.repo-validation-error-unknown', errorParams: { error: error.message || 'Unknown error' } };
     }
   }
 

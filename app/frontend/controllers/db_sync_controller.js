@@ -349,10 +349,11 @@ function showValidationSuccess() {
   }
 }
 
-function showValidationError(errorMessage) {
+function showValidationError(errorKey, errorParams = {}) {
   const statusDiv = document.getElementById('custom-repo-validation-status');
   const messageSpan = document.getElementById('custom-repo-validation-message');
   
+  const errorMessage = i18n.t(errorKey, errorParams);
   messageSpan.textContent = '✗ ' + errorMessage;
   messageSpan.style.color = 'red';
   statusDiv.style.visibility = 'visible';
@@ -384,7 +385,7 @@ async function validateRepoPath(customModuleRepo) {
     if (lastValidationResult.valid) {
       showValidationSuccess();
     } else {
-      showValidationError(lastValidationResult.error);
+      showValidationError(lastValidationResult.errorKey, lastValidationResult.errorParams);
     }
     return lastValidationResult;
   }
@@ -397,7 +398,7 @@ async function validateRepoPath(customModuleRepo) {
     hideValidationLoading();
     
     if (!validationResult.valid) {
-      showValidationError(validationResult.error);
+      showValidationError(validationResult.errorKey, validationResult.errorParams);
     } else {
       showValidationSuccess();
     }
@@ -410,8 +411,8 @@ async function validateRepoPath(customModuleRepo) {
     
   } catch (error) {
     hideValidationLoading();
-    const errorResult = { valid: false, error: 'Validation timeout or error: ' + error.message };
-    showValidationError(errorResult.error);
+    const errorResult = { valid: false, errorKey: 'dropbox.repo-validation-error-unknown', errorParams: { error: error.message } };
+    showValidationError(errorResult.errorKey, errorResult.errorParams);
     
     // Cache the error result
     lastValidatedRepoPath = customModuleRepo;
