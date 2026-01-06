@@ -227,10 +227,9 @@ class IpcNsiHandler {
 
       // Verify that mods.d and packages have the same number of entries
       const modsDCount = folderCounts['mods.d'];
-      const modulesCount = folderCounts['modules'];
       const packagesCount = folderCounts['packages'];
       
-      console.log('[IpcNsiHandler] Folder entry counts - mods.d:', modsDCount, 'modules:', modulesCount, 'packages:', packagesCount);
+      console.log('[IpcNsiHandler] Folder entry counts - mods.d:', modsDCount, 'packages:', packagesCount);
       
       if (modsDCount !== packagesCount) {
         const errorMsg = `Folder entry count mismatch: mods.d (${modsDCount}), packages (${packagesCount})`;

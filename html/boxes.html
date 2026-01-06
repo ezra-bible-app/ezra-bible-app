@@ -184,8 +184,12 @@
     <div id="custom-module-repo-settings" style="margin-left: 2em;">
       <label for="custom-module-repo-folder" i18n="dropbox.custom-module-repo-folder"></label>
       <div style="display: flex; align-items: center; margin-bottom: 0.5em;">
-        <text-field id="custom-module-repo-folder" type="text" style="flex: 1; margin-right: 0.5em; max-width: 20em;"></text-field>
-        <loading-indicator id="custom-repo-validation-loading" style="display: none; width: 5em;"></loading-indicator>
+        <text-field id="custom-module-repo-folder" type="text" style="flex: 1; max-width: 20em;"></text-field>
+        <button id="validate-custom-repo-button" 
+                class="fg-button ui-corner-all ui-state-default" 
+                style="padding: 0.3em 0.8em; white-space: nowrap;"
+                i18n="dropbox.validate-repo"></button>
+        <loading-indicator id="custom-repo-validation-loading" style="display: none; width: 5em; margin-left: 1em;"></loading-indicator>
       </div>
       
       <div id="custom-repo-validation-status" style="visibility: hidden; margin-bottom: 1em; min-height: 1.5em;">

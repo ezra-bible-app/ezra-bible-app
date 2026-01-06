@@ -508,6 +508,7 @@
     "sync-after-changes": "Datenbank nach Änderungen synchronisieren",
     "use-custom-module-repo": "Verwende benutzerdefiniertes Modul-Repository",
     "custom-module-repo-folder": "Benutzerdefiniertes Modul-Repository Verzeichnis",
+    "validate-repo": "Validieren",
     "validating-repo": "Repository wird validiert...",
     "repo-validation-success": "Repository-Struktur ist gültig",
     "dropbox-sync-info": "Informationen zur Dropbox Synchronisation",

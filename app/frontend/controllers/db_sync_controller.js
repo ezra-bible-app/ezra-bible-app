@@ -271,6 +271,19 @@ async function initDbSync() {
     }
   });
 
+  $('#validate-custom-repo-button').bind('click', async () => {
+    // Clear any pending debounced validation
+    clearTimeout(validationDebounceTimer);
+    
+    // Trigger validation immediately
+    const useCustomModuleRepo = document.getElementById('use-custom-module-repo').checked;
+    const customModuleRepo = document.getElementById('custom-module-repo-folder').value;
+    
+    if (useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED' && customModuleRepo && customModuleRepo.trim() !== '') {
+      await validateRepoPath(customModuleRepo);
+    }
+  });
+
   $('#db-sync-box').dialog(dbSyncDialogOptions);
   uiHelper.fixDialogCloseIconOnAndroid('db-sync-dialog');
 
