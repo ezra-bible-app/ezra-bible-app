@@ -253,6 +253,14 @@ class DropboxModuleHelper {
              if (value === 'zCom') config.type = 'Commentaries';
              if (value === 'zLD') config.type = 'Lexicons / Dictionaries';
           }
+          if (key === 'GlobalOptionFilter') {
+            if (value === 'OSISStrongs') {
+              config.hasStrongs = true;
+            }
+            if (value === 'OSISHeadings') {
+              config.hasHeadings = true;
+            }
+          }
         }
       }
       return config;

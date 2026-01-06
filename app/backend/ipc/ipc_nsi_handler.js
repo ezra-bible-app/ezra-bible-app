@@ -212,13 +212,16 @@ class IpcNsiHandler {
           if (moduleType === 'COMMENTARY' && m.type !== 'Commentaries') return false;
           if (moduleType === 'DICTIONARY' && m.type !== 'Lexicons / Dictionaries') return false;
           
-          // Note: Additional filters (headers, strongs, etc.) are not fully supported for Dropbox modules 
-          // as we don't have full metadata without installing, but we can check basic properties if available in config.
-          // For now, we return all matching language/type.
+          // Apply headings filter
+          if (headersFilter === true && !m.hasHeadings) return false;
+          
+          // Apply strongs filter
+          if (strongsFilter === true && !m.hasStrongs) return false;
           
           return true;
         });
       }
+
       return this._nsi.getRepoModulesByLang(repositoryName,
                                             language,
                                             moduleType,
