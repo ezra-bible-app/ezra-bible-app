@@ -268,8 +268,9 @@ class IpcNsiHandler {
       const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
       const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
       const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+      const customModuleRepoValidated = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepoValidated');
 
-      if (dropboxToken && useCustomModuleRepo && customModuleRepo) {
+      if (dropboxToken && useCustomModuleRepo && customModuleRepo && customModuleRepoValidated) {
         repoNames.push('Dropbox');
       }
 
@@ -278,8 +279,9 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getRepoLanguages', async (repositoryName, moduleType) => {
       const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
+      const customModuleRepoValidated = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepoValidated');
 
-      if (useCustomModuleRepo && repositoryName === 'Dropbox') {
+      if (useCustomModuleRepo && customModuleRepoValidated && repositoryName === 'Dropbox') {
         const modules = await this.getDropboxModules();
         
         const languages = new Set();
@@ -317,7 +319,8 @@ class IpcNsiHandler {
         const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
         const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
         const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
-        const modules = await this.getDropboxModules(dropboxToken, useCustomModuleRepo && customModuleRepo ? customModuleRepo : null);
+        const customModuleRepoValidated = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepoValidated');
+        const modules = await this.getDropboxModules(dropboxToken, useCustomModuleRepo && customModuleRepo && customModuleRepoValidated ? customModuleRepo : null);
         
         return modules.filter(m => {
           if (m.language !== language) return false;

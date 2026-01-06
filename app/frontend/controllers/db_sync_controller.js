@@ -37,6 +37,7 @@ const DROPBOX_ONLY_WIFI_SETTINGS_KEY = 'dropboxOnlyWifi';
 const DROPBOX_SYNC_AFTER_CHANGES_KEY = 'dropboxSyncAfterChanges';
 const DROPBOX_USE_CUSTOM_MODULE_REPO_SETTINGS_KEY = 'dropboxUseCustomModuleRepo';
 const DROPBOX_CUSTOM_MODULE_REPO_SETTINGS_KEY = 'dropboxCustomModuleRepo';
+const DROPBOX_CUSTOM_MODULE_REPO_VALIDATED_SETTINGS_KEY = 'dropboxCustomModuleRepoValidated';
 const DROPBOX_LAST_SYNC_RESULT_KEY = 'lastDropboxSyncResult';
 const DROPBOX_LAST_SYNC_TIME_KEY = 'lastDropboxSyncTime';
 const DROPBOX_FIRST_SYNC_DONE_KEY = 'firstDropboxSyncDone';
@@ -299,6 +300,13 @@ function updateCustomModuleRepoVisibility() {
   } else {
     customModuleRepoSettings.style.display = 'none';
     hideValidationStatus();
+    
+    // Enable save button when custom module repo is disabled (no validation required)
+    const saveButton = document.getElementById('save-db-sync-config-button');
+    if (saveButton) {
+      saveButton.disabled = false;
+      saveButton.classList.remove('ui-state-disabled');
+    }
   }
 }
 
@@ -461,6 +469,13 @@ async function handleDropboxConfigurationSave() {
   await ipcSettings.set(DROPBOX_SYNC_AFTER_CHANGES_KEY, dbSyncAfterChanges);
   await ipcSettings.set(DROPBOX_USE_CUSTOM_MODULE_REPO_SETTINGS_KEY, dbSyncUseCustomModuleRepo);
   await ipcSettings.set(DROPBOX_CUSTOM_MODULE_REPO_SETTINGS_KEY, dbSyncCustomModuleRepo);
+  
+  // Only mark as validated if custom repo is enabled and validation passed
+  if (dbSyncUseCustomModuleRepo && lastValidationResult && lastValidationResult.valid) {
+    await ipcSettings.set(DROPBOX_CUSTOM_MODULE_REPO_VALIDATED_SETTINGS_KEY, true);
+  } else {
+    await ipcSettings.set(DROPBOX_CUSTOM_MODULE_REPO_VALIDATED_SETTINGS_KEY, false);
+  }
 
   if (dbSyncDropboxLinkStatus == 'LINKED' && !dbSyncFirstSyncDone) {
     await ipcDb.syncDropbox();
