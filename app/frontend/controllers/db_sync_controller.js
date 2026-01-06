@@ -644,14 +644,14 @@ module.exports.showDropboxZipInstallDialog = async function() {
           <div style="padding: 2em; text-align: center;">
             <p style="color: #d00; margin-bottom: 1em;">${i18n.t('dropbox.error-loading-files')}</p>
             <p style="color: #666; font-size: 0.9em; margin-bottom: 1.5em;">${response.error}</p>
-            <button id="retry-load-files" class="ui-button ui-widget ui-corner-all" style="padding: 0.5em 1em;">
+            <button id="retry-load-files">
               ${i18n.t('general.retry')}
             </button>
           </div>
         `;
         $('#install-zip-modules-button').button('disable');
         
-        document.getElementById('retry-load-files').addEventListener('click', async () => {
+        $('#retry-load-files').button().click(async () => {
           const zipFileList = document.getElementById('zip-file-list');
           zipFileList.innerHTML = `
             <div style="display: flex; align-items: center; justify-content: center; padding: 2em;">
