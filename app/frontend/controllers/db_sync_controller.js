@@ -239,6 +239,15 @@ async function initDbSync() {
   $('#reset-dropbox-account-link').bind('click', async () => {
     resetDropboxConfiguration = true;
     updateDropboxLinkStatusLabel(true);
+    
+    // Disable custom module repo when link is reset
+    document.getElementById('use-custom-module-repo').checked = false;
+    updateCustomModuleRepoVisibility();
+    
+    // Clear validation state
+    lastValidatedRepoPath = null;
+    lastValidationResult = null;
+    clearTimeout(validationDebounceTimer);
   });
 
   $('#use-custom-module-repo').bind('change', () => {
@@ -257,7 +266,8 @@ async function initDbSync() {
     const useCustomModuleRepo = document.getElementById('use-custom-module-repo').checked;
     const customModuleRepo = document.getElementById('custom-module-repo-folder').value;
     
-    if (useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED' && customModuleRepo && customModuleRepo.trim() !== '') {
+    // Don't validate if Dropbox link is being reset
+    if (!resetDropboxConfiguration && useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED' && customModuleRepo && customModuleRepo.trim() !== '') {
       validationDebounceTimer = setTimeout(async () => {
         await validateRepoPath(customModuleRepo);
       }, 1000);
@@ -272,7 +282,8 @@ async function initDbSync() {
     const useCustomModuleRepo = document.getElementById('use-custom-module-repo').checked;
     const customModuleRepo = document.getElementById('custom-module-repo-folder').value;
     
-    if (useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED' && customModuleRepo && customModuleRepo.trim() !== '') {
+    // Don't validate if Dropbox link is being reset
+    if (!resetDropboxConfiguration && useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED' && customModuleRepo && customModuleRepo.trim() !== '') {
       await validateRepoPath(customModuleRepo);
     }
   });
@@ -285,7 +296,8 @@ async function initDbSync() {
     const useCustomModuleRepo = document.getElementById('use-custom-module-repo').checked;
     const customModuleRepo = document.getElementById('custom-module-repo-folder').value;
     
-    if (useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED' && customModuleRepo && customModuleRepo.trim() !== '') {
+    // Don't validate if Dropbox link is being reset
+    if (!resetDropboxConfiguration && useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED' && customModuleRepo && customModuleRepo.trim() !== '') {
       await validateRepoPath(customModuleRepo);
     }
   });
@@ -431,8 +443,8 @@ async function handleDropboxConfigurationSave() {
   const useCustomModuleRepo = document.getElementById('use-custom-module-repo').checked;
   const customModuleRepo = document.getElementById('custom-module-repo-folder').value;
 
-  // Validate custom module repo if enabled
-  if (useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED') {
+  // Validate custom module repo if enabled and not resetting Dropbox
+  if (!resetDropboxConfiguration && useCustomModuleRepo && dbSyncDropboxLinkStatus == 'LINKED') {
     const validationResult = await validateRepoPath(customModuleRepo);
     
     if (!validationResult.valid) {
@@ -456,6 +468,9 @@ async function handleDropboxConfigurationSave() {
     dbSyncDropboxToken = null;
     dbSyncDropboxRefreshToken = null;
     dbSyncDropboxLinkStatus = null;
+    
+    // Disable custom module repo when Dropbox link is reset
+    dbSyncUseCustomModuleRepo = false;
 
     await ipcSettings.delete(DROPBOX_LAST_SYNC_RESULT_KEY);
     await ipcSettings.delete(DROPBOX_LAST_SYNC_TIME_KEY);
