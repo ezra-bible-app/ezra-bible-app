@@ -160,11 +160,12 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getRepoLanguages', async (repositoryName, moduleType) => {
-      if (repositoryName === 'Dropbox') {
-        const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
-        const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
-        const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
-        const modules = await this.getDropboxModules(dropboxToken, useCustomModuleRepo && customModuleRepo ? customModuleRepo : null);
+      const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+      const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
+      const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+
+      if (useCustomModuleRepo && repositoryName === 'Dropbox') {
+        const modules = await this.getDropboxModules(dropboxToken, customModuleRepo);
         
         const languages = new Set();
         modules.forEach(m => {
@@ -174,8 +175,11 @@ class IpcNsiHandler {
         });
         
         return Array.from(languages);
+
+      } else {
+
+        return this._nsi.getRepoLanguages(repositoryName, moduleType);
       }
-      return this._nsi.getRepoLanguages(repositoryName, moduleType);
     });
 
     this._ipcMain.add('nsi_getAllRepoModules', async (repositoryName, moduleType) => {
