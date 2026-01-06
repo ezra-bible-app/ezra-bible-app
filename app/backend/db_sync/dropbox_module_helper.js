@@ -533,10 +533,15 @@ class DropboxModuleHelper {
         this._nsi.refreshLocalModules();
         console.log(`Module ${validation.moduleId} installed successfully from zip.`);
         
+        // Get the installed module to retrieve its type
+        const installedModule = this._nsi.getLocalModule(validation.moduleId);
+        const moduleType = installedModule ? installedModule.type : null;
+        
         return {
           success: true,
           alreadyInstalled: false,
-          moduleId: validation.moduleId
+          moduleId: validation.moduleId,
+          moduleType: moduleType
         };
       } else {
         console.log(`Failed to unzip module from ${filename}.`);

@@ -797,6 +797,15 @@ module.exports.showDropboxZipInstallDialog = async function() {
         if (result.success) {
           successCount++;
           statusCell.innerHTML = '<span style="color: green;">✓ Installed</span>';
+          
+          // Raise appropriate event based on module type
+          if (result.moduleType === 'Biblical Texts') {
+            await eventController.publishAsync('on-translation-added', result.moduleId);
+          } else if (result.moduleType === 'Lexicons / Dictionaries') {
+            await eventController.publishAsync('on-dictionary-added', result.moduleId);
+          } else if (result.moduleType === 'Commentaries') {
+            await eventController.publishAsync('on-commentary-added', result.moduleId);
+          }
         } else if (result.alreadyInstalled) {
           skippedCount++;
           statusCell.innerHTML = '<span style="color: #888;">⊘ Already installed</span>';
@@ -823,11 +832,6 @@ module.exports.showDropboxZipInstallDialog = async function() {
         </td>
       `;
       statusTable.appendChild(summaryRow);
-
-      // Refresh module list if any modules were installed
-      if (successCount > 0) {
-        await app_controller.translation_controller.initTranslationsMenu();
-      }
 
     } catch (error) {
       console.error('Error installing zip modules:', error);
