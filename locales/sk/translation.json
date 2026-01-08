@@ -509,6 +509,7 @@
     "dropbox-link-status-not-linked": "Neprepojené",
     "dropbox-link-status-linked": "Prepojené",
     "dropbox-link-status-linking-failed": "Prepojenie zlyhalo",
+    "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Synchronizácia len cez WiFi",
     "sync-after-changes": "Synchronizovať databázu po zmenách",
     "use-custom-module-repo": "Use custom module repository",

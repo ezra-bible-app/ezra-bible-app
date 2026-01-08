@@ -504,6 +504,7 @@
     "dropbox-link-status-not-linked": "Nicht verbunden",
     "dropbox-link-status-linked": "Verbunden",
     "dropbox-link-status-linking-failed": "Verbindung fehlgeschlagen!",
+    "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Nur bei WLAN Verbindung synchronisieren",
     "sync-after-changes": "Datenbank nach Änderungen synchronisieren",
     "use-custom-module-repo": "Verwende benutzerdefiniertes Modul-Repository",

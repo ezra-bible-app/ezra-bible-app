@@ -509,6 +509,7 @@
     "dropbox-link-status-not-linked": "Neconectat",
     "dropbox-link-status-linked": "Conectat",
     "dropbox-link-status-linking-failed": "Conectare eșuată!",
+    "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Sincronizare doar prin WiFi",
     "sync-after-changes": "Sincronizează bază de date după modificări",
     "use-custom-module-repo": "Use custom module repository",

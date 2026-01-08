@@ -35,6 +35,7 @@ const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
 const DROPBOX_REFRESH_TOKEN_SETTINGS_KEY = 'dropboxRefreshToken';
 const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
 const DROPBOX_ONLY_WIFI_SETTINGS_KEY = 'dropboxOnlyWifi';
+const DROPBOX_ENABLE_BACKGROUND_SYNC_KEY = 'dropboxEnableBackgroundSync';
 const DROPBOX_SYNC_AFTER_CHANGES_KEY = 'dropboxSyncAfterChanges';
 const DROPBOX_USE_CUSTOM_MODULE_REPO_SETTINGS_KEY = 'dropboxUseCustomModuleRepo';
 const DROPBOX_CUSTOM_MODULE_REPO_SETTINGS_KEY = 'dropboxCustomModuleRepo';
@@ -50,6 +51,7 @@ let dbSyncDropboxToken = null;
 let dbSyncDropboxRefreshToken = null;
 let dbSyncDropboxLinkStatus = null;
 let dbSyncOnlyWifi = false;
+let dbSyncEnableBackgroundSync = true;
 let dbSyncAfterChanges = false;
 let dbSyncUseCustomModuleRepo = false;
 let dbSyncCustomModuleRepo = null;
@@ -186,11 +188,13 @@ async function initDbSync() {
   dbSyncDropboxRefreshToken = await ipcSettings.get(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
   dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
+  dbSyncEnableBackgroundSync = await ipcSettings.get(DROPBOX_ENABLE_BACKGROUND_SYNC_KEY, true);
   dbSyncUseCustomModuleRepo = await ipcSettings.get(DROPBOX_USE_CUSTOM_MODULE_REPO_SETTINGS_KEY, false);
   dbSyncCustomModuleRepo = await ipcSettings.get(DROPBOX_CUSTOM_MODULE_REPO_SETTINGS_KEY, "custom_module_repo");
   dbSyncFirstSyncDone = await ipcSettings.get(DROPBOX_FIRST_SYNC_DONE_KEY, false);
 
   document.getElementById('only-sync-on-wifi').checked = dbSyncOnlyWifi;
+  document.getElementById('database-sync').checked = dbSyncEnableBackgroundSync;
   document.getElementById('sync-dropbox-after-changes').checked = dbSyncAfterChanges;
   document.getElementById('use-custom-module-repo').checked = dbSyncUseCustomModuleRepo;
   document.getElementById('custom-module-repo-folder').value = dbSyncCustomModuleRepo
@@ -479,6 +483,7 @@ async function handleDropboxConfigurationSave() {
     dbSyncCustomModuleRepo = "custom_module_repo";
   }
   dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
+  dbSyncEnableBackgroundSync = document.getElementById('database-sync').checked;
   dbSyncAfterChanges = document.getElementById('sync-dropbox-after-changes').checked;
 
   if (resetDropboxConfiguration) {
@@ -504,6 +509,7 @@ async function handleDropboxConfigurationSave() {
 
   await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
   await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
+  await ipcSettings.set(DROPBOX_ENABLE_BACKGROUND_SYNC_KEY, dbSyncEnableBackgroundSync);
   await ipcSettings.set(DROPBOX_SYNC_AFTER_CHANGES_KEY, dbSyncAfterChanges);
   await ipcSettings.set(DROPBOX_USE_CUSTOM_MODULE_REPO_SETTINGS_KEY, dbSyncUseCustomModuleRepo);
   await ipcSettings.set(DROPBOX_CUSTOM_MODULE_REPO_SETTINGS_KEY, dbSyncCustomModuleRepo);

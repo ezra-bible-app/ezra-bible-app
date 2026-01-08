@@ -408,6 +408,12 @@ class IpcDbHandler {
       return;
     }
 
+    if (this._config.has('dropboxEnableBackgroundSync') &&
+        this._config.get('dropboxEnableBackgroundSync') == false) {
+      
+      return;
+    }
+
     if (this._config.has('dropboxSyncAfterChanges') &&
         this._config.get('dropboxSyncAfterChanges') == false) {
       

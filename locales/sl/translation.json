@@ -507,6 +507,7 @@
     "dropbox-link-status-not-linked": "Ni povezano",
     "dropbox-link-status-linked": "Povezano",
     "dropbox-link-status-linking-failed": "Povezovanje ni uspelo!",
+    "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Sinhronizira se samo na brezžičnem omrežju WiFi",
     "sync-after-changes": "Po spremembah sinhroniziraj podatkovno zbirko",
     "use-custom-module-repo": "Use custom module repository",

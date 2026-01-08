@@ -510,6 +510,7 @@
     "dropbox-link-status-not-linked": "Niet gekoppeld",
     "dropbox-link-status-linked": "Gekoppeld",
     "dropbox-link-status-linking-failed": "Koppeling gefaald!",
+    "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Alleen synchroniseren op WiFi",
     "sync-after-changes": "Synchroniseer databank na wijzigingen",
     "use-custom-module-repo": "Use custom module repository",

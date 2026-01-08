@@ -512,6 +512,7 @@
     "dropbox-link-status-not-linked": "Не связанно",
     "dropbox-link-status-linked": "Связанно",
     "dropbox-link-status-linking-failed": "Привязка не удалась!",
+    "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Синхронизация только по WiFi",
     "sync-after-changes": "Синхронизировать базу данных после изменений",
     "use-custom-module-repo": "Use custom module repository",

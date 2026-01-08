@@ -522,6 +522,7 @@
     "dropbox-link-status-not-linked": "Not linked",
     "dropbox-link-status-linked": "Linked",
     "dropbox-link-status-linking-failed": "Linking failed!",
+    "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Only sync on WiFi",
     "sync-after-changes": "Sync database after changes",
     "use-custom-module-repo": "Use custom module repository",
