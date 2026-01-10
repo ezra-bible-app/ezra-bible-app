@@ -50,6 +50,10 @@ class PlatformHelper {
   }
 
   isMac() {
+    if (this.isCordova()) {
+      return false;
+    }
+
     if (typeof navigator !== 'undefined') {
       return navigator.platform.match('Mac') !== null;
     } else if (typeof process !== 'undefined') {
@@ -126,6 +130,10 @@ class PlatformHelper {
 
   // https://github.com/electron/electron/issues/2288
   isElectron() {
+    if (this.isCordova()) {
+      return false;
+    }
+
     // Renderer process
     if (this.isElectronRenderer()) {
       return true;
