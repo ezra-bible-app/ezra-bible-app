@@ -1448,7 +1448,8 @@ li.book-unavailable a:focus,
 #show-commentary-settings-button,
 #show-typeface-settings-button,
 #setup-db-sync-button,
-#show-module-update-button {
+#show-module-update-button,
+#install-dropbox-zip-button {
   padding: 0.5em;
   display: block;
   width: 100%;

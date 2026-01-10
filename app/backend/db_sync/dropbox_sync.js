@@ -60,6 +60,11 @@ class DropboxSync {
     return folders;
   }
 
+  async listFolder(folderPath) {
+    let response = await this._dbx.filesListFolder({path: folderPath});
+    return response.result.entries;
+  }
+
   async testAuthentication() {
     await this.getFolders();
   }

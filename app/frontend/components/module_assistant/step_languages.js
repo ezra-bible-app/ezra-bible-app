@@ -289,6 +289,12 @@ async function getAvailableLanguagesFromRepos() {
   for (const currentRepo of repositories) {
     var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, assistantController.get('moduleType'));
 
+    // Ensure repoLanguages is iterable
+    if (!repoLanguages || !Array.isArray(repoLanguages)) {
+      console.warn(`getRepoLanguages returned non-iterable value for repository ${currentRepo}:`, repoLanguages);
+      repoLanguages = [];
+    }
+
     for (const currentLanguageCode of repoLanguages) {
       const languageInfo = languageMapper.getLanguageDetails(currentLanguageCode, i18nController.getLocale());
 
