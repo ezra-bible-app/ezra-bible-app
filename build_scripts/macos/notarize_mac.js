@@ -30,7 +30,7 @@ async function notarizeEzra() {
     return process.exit(1);
   }
   
-  console.log(`Notarizing for architecture: ${arch}`);
+  console.log(`Notarizing app for architecture: ${arch}`);
   
   var notarized = false;
   notarized = await notarizeApp(`release/Ezra Bible App-darwin-${arch}`, "Ezra Bible App", "net.ezrabibleapp.electron");
