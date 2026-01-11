@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ARCH=${1:-x64}
+
 if [ -z "$APPLE_ID" ]; then
   echo "Enter your Apple ID:"
   read APPLE_ID
@@ -22,9 +24,9 @@ echo ""
 export APPLE_ID="${APPLE_ID}"
 export APPLE_ID_PW="${APPLE_ID_PW}"
 export APPLE_TEAM_ID="${APPLE_TEAM_ID}"
+export ARCH="${ARCH}"
 
-echo "Notarizing app ..."
-node build_scripts/macos/notarize_mac.js
+node build_scripts/macos/notarize_mac.js "${ARCH}"
 
 if [ $? -eq 0 ]; then
     echo "App was notarized successfully!"
