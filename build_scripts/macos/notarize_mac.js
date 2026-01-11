@@ -21,8 +21,19 @@ async function notarizeApp(appOutDir, appName, appBundleId) {
 }
 
 async function notarizeEzra() {
+  // Get architecture from command line argument, default to x64
+  const arch = process.argv[2] || 'x64';
+  
+  // Validate architecture
+  if (arch !== 'x64' && arch !== 'arm64') {
+    console.error("Error: Invalid architecture. Use 'x64' or 'arm64'");
+    return process.exit(1);
+  }
+  
+  console.log(`Notarizing for architecture: ${arch}`);
+  
   var notarized = false;
-  notarized = await notarizeApp("release/Ezra Bible App-darwin-x64", "Ezra Bible App", "net.ezrabibleapp.electron");
+  notarized = await notarizeApp(`release/Ezra Bible App-darwin-${arch}`, "Ezra Bible App", "net.ezrabibleapp.electron");
     
   if (notarized) {
     return process.exit(0);
