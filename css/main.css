@@ -978,7 +978,7 @@ main.content {
 }
 
 #book-selection-menu {
-  width: 40em;
+  width: 55em;
   margin-right: 2em;
 }
 
@@ -992,8 +992,8 @@ main.content {
 
 #book-selection-menu-chapter-list {
   display: none;
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   min-height: 20em;
   max-height: 38.3em;
   overflow-y: auto;
@@ -1001,18 +1001,6 @@ main.content {
 
 .select-chapter #book-selection-menu-chapter-list {
   display: block;
-}
-
-@media only screen and (min-width: 1000px) {
-  #book-selection-menu {
-    width: 75em;
-  }
-
-  #book-selection-menu-chapter-list {
-    min-height: 20.5em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-  }
 }
 
 #book-selection-menu-chapter-list h2 {

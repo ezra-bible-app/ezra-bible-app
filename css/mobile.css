@@ -16,6 +16,64 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+@media screen and (max-width: 850px) {
+
+  .recently-opened-passages {
+    margin-right: 2em;
+  }
+
+  .recently-opened-passages h3 {
+    text-align: center;
+  }
+
+  .recently-opened-passages ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5em;
+    padding: 0.5em 0;
+  }
+
+  .recently-opened-passages li {
+    flex: 0 1 auto;
+    margin: 0;
+    padding: 0.5em;
+    text-align: center;
+  }
+
+  .book-selection-menu-nav-content {
+    display: block;
+  }
+
+  #book-selection-menu {
+    height: 100vh;
+    width: 97%;
+    top: 0 !important;
+    left: 0 !important;
+    padding-left: 1em;
+  }
+
+  #book-selection-menu .mobileButtonNavigation {
+    display: flex !important;
+  }
+
+  #book-selection-menu-book-list, #book-selection-menu-chapter-list {
+    padding: 0;
+    height: 100% !important;
+    overflow-y: auto;
+  }
+
+  .book-list-column {
+    padding-inline-start: 0px;
+    max-width: 90vw;
+  }
+
+  .book-list-column li {
+    padding: 0;
+    margin: 0;
+  }
+}
+
 /*
 Necessary styles for smaller screen devices,
 Librem 5/Pinephone etc.
@@ -234,14 +292,6 @@ Librem 5/Pinephone etc.
     padding-bottom: 0.5em !important;
   }
 
-  #book-selection-menu {
-    height: 100vh;
-    width: 97%;
-    top: 0 !important;
-    left: 0 !important;
-    padding-left: 1em;
-  }
-
   .fullscreen #book-selection-menu {
     height: 100%;
   }
@@ -439,22 +489,6 @@ Librem 5/Pinephone etc.
   #module-step-wrapper #module-list#module-list {
     margin: 2px;
     padding: 2px;
-  }
-
-  #book-selection-menu-book-list, #book-selection-menu-chapter-list {
-    padding: 0;
-    height: 100% !important;
-    overflow-y: auto;
-  }
-
-  .book-list-column {
-    padding-inline-start: 0px;
-    max-width: 90vw;
-  }
-
-  .book-list-column li {
-    padding: 0;
-    margin: 0;
   }
 
   #info-popup.ui-dialog-content {
@@ -845,33 +879,6 @@ Librem 5/Pinephone etc.
   .verse-list-without-tags .verse-notes:not(.book-notes),
   .verse-list-content .verse-notes:not(.book-notes) {
     width: 92% !important;
-  }
-
-  .book-selection-menu-nav-content {
-    display: block;
-  }
-
-  .recently-opened-passages {
-    margin-right: 2em;
-  }
-
-  .recently-opened-passages h3 {
-    text-align: center;
-  }
-
-  .recently-opened-passages ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5em;
-    padding: 0.5em 0;
-  }
-
-  .recently-opened-passages li {
-    flex: 0 1 auto;
-    margin: 0;
-    padding: 0.5em;
-    text-align: center;
   }
 
   /* The copy button does not fit on smaller screens */
