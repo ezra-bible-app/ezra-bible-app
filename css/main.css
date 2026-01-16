@@ -1047,7 +1047,7 @@ main.content {
 
 #book-selection-menu-book-list {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
 }
 
@@ -1068,76 +1068,46 @@ main.content {
   text-align: center;
 }
 
+.ot-books {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(14, 1fr);
+  flex-basis: 53%;
+}
+
 .apocryphal-books {
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  border-top: 1px solid lightgray;
-  padding-top: 0.8em;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(14, 1fr);
+  border-left: 1px solid lightgray;
+  border-top: none;
+  padding-top: unset;
+  flex-basis: 20%;
 }
 
 .nt-books {
-  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  flex-basis: 52%; /* 3 columns of 7 column layout + divider */ 
+  padding-bottom: 2em; /* to align NT and OT rows */
 }
 
 .book-1John, .book-2John, .book-3John, .book-Jude, .book-Rev {
-  grid-column-start: 4;
+  grid-column-start: auto;
 }
 
 .ot-nt-divider {
-  margin-top: 0.2em;
-  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  border-top: none;
+  margin-top: 0;
+  padding-left: 0.5em;
 }
 
 .book-list-column li{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 1.8em;
+  line-height: 2em;
 }
 
-/* Formatting for large tablets and desktop */
-@media only screen and (min-width: 1000px) {
-  #book-selection-menu-book-list {
-    flex-direction: row;
-  }
-
-  .ot-books {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(14, 1fr);
-    flex-basis: 53%;
-  }
-
-  .apocryphal-books {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(14, 1fr);
-    border-left: 1px solid lightgray;
-    border-top: none;
-    padding-top: unset;
-    flex-basis: 20%;
-  }
-
-  .nt-books {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(10, 1fr);
-    flex-basis: 52%; /* 3 columns of 7 column layout + divider */ 
-    padding-bottom: 2em; /* to align NT and OT rows */
-  }
-
-  .book-1John, .book-2John, .book-3John, .book-Jude, .book-Rev {
-    grid-column-start: auto;
-  }
-
-  .ot-nt-divider {
-    border-left: 1px solid lightgray;
-    border-top: none;
-    margin-top: 0;
-    padding-left: 0.5em;
-  }
-
-  .book-list-column li {
-    line-height: 2em;
-  }
-}
 
 .verse-list-menu .focused-button {
   border: 1px dashed var(--accent-color);
