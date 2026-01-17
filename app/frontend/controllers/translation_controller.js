@@ -36,14 +36,14 @@ class TranslationController {
   constructor() {
     this.translationCount = null;
 
-    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+    eventController.subscribe('on-bible-text-loaded', async (context) => {
       if (app_controller.isStartupCompleted()) {
-        const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+        const currentVerseListMenu = app_controller.getCurrentVerseListMenu(context.tabIndex);
         const bibleSelect1 = currentVerseListMenu.find('#bible-select1');
         const bibleSelect2 = currentVerseListMenu.find('#bible-select2');
 
-        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, tabIndex, true);
-        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, tabIndex, true);
+        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, context.tabIndex, true);
+        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, context.tabIndex, true);
       }
     });
 

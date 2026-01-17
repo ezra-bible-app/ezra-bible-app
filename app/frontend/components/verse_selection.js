@@ -73,8 +73,8 @@ class VerseSelection {
       }
     });
 
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
-      this.init(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', (context) => {
+      this.init(context.tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {

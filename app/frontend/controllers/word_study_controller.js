@@ -91,8 +91,8 @@ class WordStudyController {
       this.runAvailabilityCheck();
     });
 
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
-      this.bindAfterBibleTextLoaded(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', (context) => {
+      this.bindAfterBibleTextLoaded(context.tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', () => {

@@ -306,7 +306,8 @@ class BookSelectionMenu {
                                                 this.currentBookTitle,
                                                 this.currentReferenceBookTitle,
                                                 instantLoad,
-                                                selectedChapter);
+                                                selectedChapter,
+                                                true); // explicitChapterNavigation = true
 
         // Update recent passages with the correct chapter
         await this.updateRecentPassages(this.currentBookCode, selectedChapter);

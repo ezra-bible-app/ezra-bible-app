@@ -29,8 +29,8 @@ class SwordNotes {
   constructor() {
     this.notesCharacter = null;
 
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
-      this.initForTab(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', (context) => {
+      this.initForTab(context.tabIndex);
     });
   }
   
