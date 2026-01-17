@@ -842,8 +842,8 @@ Librem 5/Pinephone etc.
   }
 
   /* Force horizontal display of verse notes in Portrait mode */
-  .verse-list-without-tags .verse-notes:not(.book-notes),
-  .verse-list-content .verse-notes:not(.book-notes) {
+  .verse-list-without-tags .verse-notes:not(.book-notes):not(.verse-notes-fullscreen),
+  .verse-list-content .verse-notes:not(.book-notes):not(.verse-notes-fullscreen) {
     width: 92% !important;
   }
 
