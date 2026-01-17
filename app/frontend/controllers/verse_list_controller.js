@@ -193,23 +193,7 @@ module.exports.getFirstVisibleVerseAnchor = function() {
         // Check if verse box is at least partially visible in viewport
         // We add a small buffer (10px) to avoid selecting verses with just a tiny sliver visible at the bottom
         if (rect.top < window.innerHeight && rect.bottom > (frameTop + 10)) {
-          let anchor = null;
-
-          // iOS Safari has different scroll behavior than Android Chrome
-          // We need to determine which verse to use based on visibility
-          if (this.platformHelper.isIOS()) {
-            // iOS: Use the current verse. 
-            // The loop condition (rect.bottom > frameTop + 10) ensures we ignore verses 
-            // that are almost entirely scrolled past (sliver < 10px).
-            anchor = verseBoxes[i].querySelector('a.nav');
-          } else {
-            // Android: Use next verse box anchor
-            if (i < verseBoxes.length - 1) {
-              anchor = verseBoxes[i + 1].querySelector('a.nav');
-            } else {
-              anchor = verseBoxes[i].querySelector('a.nav');
-            }
-          }
+          let anchor = verseBoxes[i].querySelector('a.nav');
 
           if (anchor) {
             firstVisibleVerseAnchor = anchor.name;
