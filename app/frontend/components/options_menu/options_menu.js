@@ -136,9 +136,9 @@ class OptionsMenu {
     await this.adjustOptionsMenuForPlatform();
     this.refreshViewBasedOnOptions();
 
-    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
-      this.showOrHideSectionTitlesBasedOnOption(tabIndex);
-      this.showOrHideStrongsBasedOnOption(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', async (context) => {
+      this.showOrHideSectionTitlesBasedOnOption(context.tabIndex);
+      this.showOrHideStrongsBasedOnOption(context.tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {

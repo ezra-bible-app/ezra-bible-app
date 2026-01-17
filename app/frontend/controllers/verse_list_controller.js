@@ -39,10 +39,10 @@ module.exports.init = function() {
 
   eventController.subscribe('on-verse-list-init', async (tabIndex) => { this.updateVerseListClasses(tabIndex); });
 
-  eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
-    this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId, tabIndex);
-    this.bindEventsAfterBibleTextLoaded(tabIndex);
-    this.initScrollListener(tabIndex);
+  eventController.subscribe('on-bible-text-loaded', async (context) => {
+    this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId, context.tabIndex);
+    this.bindEventsAfterBibleTextLoaded(context.tabIndex);
+    this.initScrollListener(context.tabIndex);
   });
 
   // Subscribe to tab selection events to initialize swipe events for the active tab

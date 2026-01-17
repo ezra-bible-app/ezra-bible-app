@@ -58,8 +58,8 @@ class NotesController {
     this.clickEventHappened = false;
     this._reset();
 
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
-      this.initForTab(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', (context) => {
+      this.initForTab(context.tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', () => {

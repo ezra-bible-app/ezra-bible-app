@@ -107,10 +107,16 @@ class TabController {
       this.closeTabsWithDeletedTag(Number(deletedTagId));
     });
 
-    eventController.subscribe('on-bible-text-loaded', () => {
+    eventController.subscribe('on-bible-text-loaded', (context) => {
       let bibleTranslationId = this.getTab().getBibleTranslationId();
       this.setBibleTranslationId(bibleTranslationId);
-      this.restoreScrollPosition();
+      
+      // Skip scroll restoration when user explicitly selects a chapter
+      // to ensure we scroll to verse 1 instead
+      const explicitChapterNavigation = context && context.explicitChapterNavigation;
+      if (!explicitChapterNavigation) {
+        this.restoreScrollPosition();
+      }
 
       if (this.persistanceEnabled) {
         this.lastSelectedTabIndex = this.getSelectedTabIndex();

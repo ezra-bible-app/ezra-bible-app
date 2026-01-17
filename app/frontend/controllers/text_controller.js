@@ -48,10 +48,13 @@ class TextController {
     return this.textUpdateInProgress;
   }
 
-  async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined) {
+  async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined, explicitChapterNavigation = false) {
     if (platformHelper.isCordova()) {
       uiHelper.showTextLoadingIndicator();
     }
+
+    // Store the navigation context for use in on-bible-text-loaded event
+    this._explicitChapterNavigation = explicitChapterNavigation;
 
     app_controller.book_selection_menu.hideBookMenu(true);
     await waitUntilIdle();
@@ -1010,7 +1013,15 @@ class TextController {
       if (listType != 'search_results' ||
           listType == 'search_results' && !showSearchResultsInPopup) {
 
-        await eventController.publishAsync('on-bible-text-loaded', tabIndex);
+        const navigationContext = {
+          tabIndex: tabIndex,
+          explicitChapterNavigation: this._explicitChapterNavigation || false
+        };
+        
+        await eventController.publishAsync('on-bible-text-loaded', navigationContext);
+        
+        // Reset the flag after publishing
+        this._explicitChapterNavigation = false;
       }
 
       uiHelper.hideTextLoadingIndicator();

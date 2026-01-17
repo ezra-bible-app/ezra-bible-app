@@ -23,8 +23,8 @@ const verseListController = require('../controllers/verse_list_controller.js');
 module.exports.init = function() {
   // This feature only works on desktop
   if (platformHelper.isElectron()) {
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
-      initTransChangeTitlesForTab(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', (context) => {
+      initTransChangeTitlesForTab(context.tabIndex);
     });
 
     eventController.subscribe('on-locale-changed', () => {
