@@ -68,6 +68,16 @@
     max-width: 90vw;
   }
 
+  .ot-books {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+  }
+
+  .nt-books {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+  }
+
   .book-list-column li {
     padding: 0;
     margin: 0;
