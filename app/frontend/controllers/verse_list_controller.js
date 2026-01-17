@@ -189,18 +189,23 @@ module.exports.getFirstVisibleVerseAnchor = function() {
       
       for (let i = 0; i < verseBoxes.length; i++) {
         const rect = verseBoxes[i].getBoundingClientRect();
+        
         // Check if verse box is at least partially visible in viewport
         if (rect.top < viewportHeight && rect.bottom > 0) {
           let anchor = null;
 
           // iOS Safari has different scroll behavior than Android Chrome
-          // On Android, we need to save the next verse to compensate for scroll positioning
-          // On iOS, we should save the current verse as-is
+          // We need to determine which verse to use based on visibility
           if (this.platformHelper.isIOS()) {
-            // iOS: Use current verse box anchor
-            anchor = verseBoxes[i].querySelector('a.nav');
+            // iOS: Check if the verse top is visible (not scrolled past)
+            // If the top is above the viewport, use the next verse
+            if (rect.top < 0 && i < verseBoxes.length - 1) {
+              anchor = verseBoxes[i + 1].querySelector('a.nav');
+            } else {
+              anchor = verseBoxes[i].querySelector('a.nav');
+            }
           } else {
-            // Android: Use next verse box anchor
+            // Android: Use next verse box anchor (original behavior)
             if (i < verseBoxes.length - 1) {
               anchor = verseBoxes[i + 1].querySelector('a.nav');
             } else {
