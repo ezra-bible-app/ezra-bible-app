@@ -538,6 +538,22 @@
     "access-method-message-part4": "El vínculo de Ezra Bible App hacia su cuenta en Dropbox ha sido reseteado.<br/>",
     "access-method-message-part5": "Estas son las acciones que deberá tomar ahora:",
     "access-method-message-part6": "Re-configure el enlace a Dropbox .",
-    "access-method-message-part7": "Actualice Ezra Bible App en todos sus dispositivos a la última versión para asegurarse que el método de sincronización usado con Dropbox es el mismo en todos sus dispositivos."
+    "access-method-message-part7": "Actualice Ezra Bible App en todos sus dispositivos a la última versión para asegurarse que el método de sincronización usado con Dropbox es el mismo en todos sus dispositivos.",
+    "install-from-zip": "Install modules from Dropbox",
+    "install-from-zip-explanation": "Select one or more module zip files from your Dropbox to install:",
+    "loading-zip-files": "Loading zip files from Dropbox...",
+    "error-loading-files": "Error loading files from Dropbox",
+    "no-zip-files-found": "No zip files found in Dropbox",
+    "validating-modules": "Validating modules...",
+    "installing-modules": "Installing modules...",
+    "validation-failed": "Invalid module structure",
+    "module-already-installed": "Already installed",
+    "ready-to-install": "Ready to install",
+    "installation-complete": "Installation complete",
+    "modules-installed": "{{count}} module(s) installed successfully",
+    "modules-skipped": "{{count}} module(s) skipped (already installed)",
+    "modules-failed": "{{count}} module(s) failed to install",
+    "install-summary": "Installation Summary",
+    "dropbox-not-linked": "Dropbox account is not linked. Please setup Dropbox first."
   }
 }

@@ -544,6 +544,22 @@
     "access-method-message-part4": "Привязка Ezra Bible App к вашему аккаунту Dropbox сброшена.<br/>",
     "access-method-message-part5": "Вам необходимо выполнить следующие действия:",
     "access-method-message-part6": "Перенастроить привязку аккаунта Dropbox.",
-    "access-method-message-part7": "Обновить Ezra Bible App на всех ваших устройствах чтобы убедиться, что метод синхронизации Dropbox одинаковий для всех устройсв."
+    "access-method-message-part7": "Обновить Ezra Bible App на всех ваших устройствах чтобы убедиться, что метод синхронизации Dropbox одинаковий для всех устройсв.",
+    "install-from-zip": "Install modules from Dropbox",
+    "install-from-zip-explanation": "Select one or more module zip files from your Dropbox to install:",
+    "loading-zip-files": "Loading zip files from Dropbox...",
+    "error-loading-files": "Error loading files from Dropbox",
+    "no-zip-files-found": "No zip files found in Dropbox",
+    "validating-modules": "Validating modules...",
+    "installing-modules": "Installing modules...",
+    "validation-failed": "Invalid module structure",
+    "module-already-installed": "Already installed",
+    "ready-to-install": "Ready to install",
+    "installation-complete": "Installation complete",
+    "modules-installed": "{{count}} module(s) installed successfully",
+    "modules-skipped": "{{count}} module(s) skipped (already installed)",
+    "modules-failed": "{{count}} module(s) failed to install",
+    "install-summary": "Installation Summary",
+    "dropbox-not-linked": "Dropbox account is not linked. Please setup Dropbox first."
   }
 }
