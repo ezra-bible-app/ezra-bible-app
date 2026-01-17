@@ -181,8 +181,8 @@ module.exports.getFirstVisibleVerseAnchor = function() {
   if (verseListFrame != null && verseListFrame.length > 0) {
     let verseListFrameRect = verseListFrame[0].getBoundingClientRect();
     
-    // Special handling for mobile
-    if (this.platformHelper.isMobile()) {
+    // Special handling for Cordova / mobile devices
+    if (this.platformHelper.isCordova()) {
       // Get the first verse box that's within the viewport
       const verseBoxes = verseListFrame.find('.verse-box').toArray();
       const viewportHeight = window.innerHeight;
@@ -193,12 +193,19 @@ module.exports.getFirstVisibleVerseAnchor = function() {
         if (rect.top < viewportHeight && rect.bottom > 0) {
           let anchor = null;
 
-          if (i < verseBoxes.length - 1) {
-            // Select the anchor of the next verse box
-            anchor = verseBoxes[i + 1].querySelector('a.nav');
-          } else {
-            // Select the anchor of the current verse box
+          // iOS Safari has different scroll behavior than Android Chrome
+          // On Android, we need to save the next verse to compensate for scroll positioning
+          // On iOS, we should save the current verse as-is
+          if (this.platformHelper.isIOS()) {
+            // iOS: Use current verse box anchor
             anchor = verseBoxes[i].querySelector('a.nav');
+          } else {
+            // Android: Use next verse box anchor
+            if (i < verseBoxes.length - 1) {
+              anchor = verseBoxes[i + 1].querySelector('a.nav');
+            } else {
+              anchor = verseBoxes[i].querySelector('a.nav');
+            }
           }
 
           if (anchor) {
