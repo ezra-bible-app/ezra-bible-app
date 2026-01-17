@@ -183,61 +183,40 @@ module.exports.getFirstVisibleVerseAnchor = function() {
     
     // Special handling for Cordova / mobile devices
     if (this.platformHelper.isCordova()) {
-      console.log('[ScrollPosition] Platform:', this.platformHelper.isIOS() ? 'iOS' : 'Android');
-      console.log('[ScrollPosition] Viewport height:', window.innerHeight);
-      
       // Get the first verse box that's within the viewport
       const verseBoxes = verseListFrame.find('.verse-box').toArray();
+      let frameTop = verseListFrameRect.top;
       
       for (let i = 0; i < verseBoxes.length; i++) {
         const rect = verseBoxes[i].getBoundingClientRect();
-        const verseBox = new VerseBox(verseBoxes[i]);
-        const verseRef = verseBox.getVerseReferenceId();
-        
-        console.log(`[ScrollPosition] Verse ${i} (${verseRef}): top=${rect.top.toFixed(1)}, bottom=${rect.bottom.toFixed(1)}, height=${rect.height.toFixed(1)}`);
         
         // Check if verse box is at least partially visible in viewport
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
+        // We add a small buffer (10px) to avoid selecting verses with just a tiny sliver visible at the bottom
+        if (rect.top < window.innerHeight && rect.bottom > (frameTop + 10)) {
           let anchor = null;
-          let selectedIndex = i;
-          let reason = '';
 
           // iOS Safari has different scroll behavior than Android Chrome
           // We need to determine which verse to use based on visibility
           if (this.platformHelper.isIOS()) {
-            // iOS: Check if the verse top is visible (not scrolled past)
-            // If the top is above the viewport, use the next verse
-            if (rect.top < 0 && i < verseBoxes.length - 1) {
-              anchor = verseBoxes[i + 1].querySelector('a.nav');
-              selectedIndex = i + 1;
-              reason = 'iOS - verse scrolled past, using next';
-            } else {
-              anchor = verseBoxes[i].querySelector('a.nav');
-              reason = 'iOS - verse visible, using current';
-            }
+            // iOS: Use the current verse. 
+            // The loop condition (rect.bottom > frameTop + 10) ensures we ignore verses 
+            // that are almost entirely scrolled past (sliver < 10px).
+            anchor = verseBoxes[i].querySelector('a.nav');
           } else {
-            // Android: Use next verse box anchor (original behavior)
+            // Android: Use next verse box anchor
             if (i < verseBoxes.length - 1) {
               anchor = verseBoxes[i + 1].querySelector('a.nav');
-              selectedIndex = i + 1;
-              reason = 'Android - using next verse';
             } else {
               anchor = verseBoxes[i].querySelector('a.nav');
-              reason = 'Android - last verse, using current';
             }
           }
 
           if (anchor) {
             firstVisibleVerseAnchor = anchor.name;
-            const selectedVerseBox = new VerseBox(verseBoxes[selectedIndex]);
-            console.log(`[ScrollPosition] SELECTED: verse ${selectedIndex} (${selectedVerseBox.getVerseReferenceId()}) - anchor: ${firstVisibleVerseAnchor}`);
-            console.log(`[ScrollPosition] Reason: ${reason}`);
             break;
           }
         }
       }
-      
-      console.log('[ScrollPosition] Final anchor:', firstVisibleVerseAnchor);
     } else { // Desktop implementation
       
       let currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane()[0];
