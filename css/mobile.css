@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/* Styles valid both for mobiles and tablets */
 @media screen and (max-width: 850px) {
 
   .recently-opened-passages {
