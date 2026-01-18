@@ -121,15 +121,28 @@ class DropboxSync {
 
       const dropboxFileExisting = await this.isDropboxFileExisting(dropboxPath);
       let dropboxFileNewer = false;
+      let remoteFileLarger = false;
 
       if (dropboxFileExisting) {
         console.log('Checking which one is newer ...');
         dropboxFileNewer = await this.isDropboxFileNewer(dropboxPath, filePath);
+
+        // Check if remote file is larger than local file
+        const remoteMetaData = await this.getFileMetaData(dropboxPath);
+        const remoteSize = remoteMetaData.size;
+        const localSize = fs.statSync(filePath).size;
+        remoteFileLarger = remoteSize > localSize;
+
+        if (remoteFileLarger) {
+          console.log(`Remote file (${remoteSize} bytes) is larger than local file (${localSize} bytes). Will prioritize remote.`);
+        }
       }
 
-      if (dropboxFileExisting && (dropboxFileNewer || prioritizeRemote)) {
+      if (dropboxFileExisting && (dropboxFileNewer || prioritizeRemote || remoteFileLarger)) {
         if (prioritizeRemote) {
           console.log(`We are going to prioritize the remote file ${dropboxPath} and download it!`);
+        } else if (remoteFileLarger) {
+          console.log(`The remote file is larger than the local file. Downloading the Dropbox file to prevent data loss.`);
         } else {
           console.log(`The Dropbox file at ${dropboxPath} is newer than the local file at ${filePath}. Downloading the Dropbox file.`);
         }
@@ -183,9 +196,12 @@ class DropboxSync {
       await this.getFileMetaData(dropboxPath);
       return true;
     } catch (e) {
-      if (e.error.error_summary.indexOf('not_found') != -1) {
+      // Check if the error has the expected structure
+      if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') != -1) {
         return false;
       } else {
+        // Network error or other API error - rethrow to abort sync rather than assuming file doesn't exist
+        console.error('Error checking if Dropbox file exists (not a "not_found" error):', e);
         throw e;
       }
     }
