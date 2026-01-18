@@ -546,6 +546,10 @@ a.chapter-nav:hover {
   margin-left: 0.5em;
 }
 
+#db-sync-box-content .disabled-option {
+  opacity: 0.5;
+}
+
 #dropbox-link-status {
   width: fit-content !important;
   margin-left: 0.5em;

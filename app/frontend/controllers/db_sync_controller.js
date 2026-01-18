@@ -184,6 +184,10 @@ function initAuthCallbacks() {
 }
 
 async function initDbSync() {
+  // Reset the resetDropboxConfiguration flag to ensure clean state when dialog is opened
+  // This handles the case where the user clicked Reset but then cancelled the dialog
+  resetDropboxConfiguration = false;
+
   dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxRefreshToken = await ipcSettings.get(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
@@ -201,7 +205,7 @@ async function initDbSync() {
   document.getElementById('sync-dropbox-after-changes').checked = dbSyncAfterChanges;
   updateCustomModuleRepoVisibility();
   updateDropboxLinkStatusLabel();
-  updateCustomModuleRepoCheckboxState();
+  updateDropboxOptionsState();
 
   if (dbSyncInitDone) {
     return;
@@ -248,7 +252,7 @@ async function initDbSync() {
     // Disable custom module repo when link is reset
     document.getElementById('use-custom-module-repo').checked = false;
     updateCustomModuleRepoVisibility();
-    updateCustomModuleRepoCheckboxState();
+    updateDropboxOptionsState();
     
     // Clear validation state
     lastValidatedRepoPath = null;
@@ -314,18 +318,56 @@ async function initDbSync() {
   dbSyncInitDone = true;
 }
 
-function updateCustomModuleRepoCheckboxState() {
-  const checkbox = document.getElementById('use-custom-module-repo');
+function updateDropboxOptionsState() {
   const isLinked = dbSyncDropboxLinkStatus == 'LINKED' && !resetDropboxConfiguration;
   
-  if (checkbox) {
-    checkbox.disabled = !isLinked;
-    
-    // If Dropbox is not linked, uncheck the checkbox and hide settings
-    if (!isLinked && checkbox.checked) {
-      checkbox.checked = false;
-      updateCustomModuleRepoVisibility();
+  // List of all checkbox IDs that should be disabled when Dropbox is not linked
+  const checkboxIds = [
+    'database-sync',
+    'sync-dropbox-after-changes',
+    'only-sync-on-wifi',
+    'use-custom-module-repo'
+  ];
+  
+  checkboxIds.forEach(id => {
+    const checkbox = document.getElementById(id);
+    if (checkbox) {
+      checkbox.disabled = !isLinked;
+      
+      // Toggle disabled-option class on parent element for visual feedback
+      const parentDiv = checkbox.parentElement;
+      if (parentDiv) {
+        if (!isLinked) {
+          parentDiv.classList.add('disabled-option');
+        } else {
+          parentDiv.classList.remove('disabled-option');
+        }
+      }
     }
+  });
+  
+  // Handle custom module repo specific elements
+  const customRepoFolder = document.getElementById('custom-module-repo-folder');
+  const validateButton = document.getElementById('validate-custom-repo-button');
+  
+  if (customRepoFolder) {
+    customRepoFolder.disabled = !isLinked;
+  }
+  
+  if (validateButton) {
+    validateButton.disabled = !isLinked;
+    if (!isLinked) {
+      validateButton.classList.add('ui-state-disabled');
+    } else {
+      validateButton.classList.remove('ui-state-disabled');
+    }
+  }
+  
+  // If Dropbox is not linked, uncheck the custom module repo checkbox and hide settings
+  const useCustomModuleRepoCheckbox = document.getElementById('use-custom-module-repo');
+  if (useCustomModuleRepoCheckbox && !isLinked && useCustomModuleRepoCheckbox.checked) {
+    useCustomModuleRepoCheckbox.checked = false;
+    updateCustomModuleRepoVisibility();
   }
 }
 
@@ -550,7 +592,7 @@ function updateDropboxLinkStatusLabel(resetLink=false) {
     $('#dropbox-link-status').removeClass('failed');
   }
   
-  updateCustomModuleRepoCheckboxState();
+  updateDropboxOptionsState();
 }
 
 // Parses the url and gets the access token if it is in the urls hash
@@ -582,6 +624,7 @@ function handleRedirect(url) {
         dbSyncDropboxRefreshToken = response.result.refresh_token;
         dbSyncDropboxLinkStatus = 'LINKED';
         updateDropboxLinkStatusLabel();
+        updateDropboxOptionsState();
 
         // Save the Dropbox configuration immediately so that custom module repo validation can access it
         await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
