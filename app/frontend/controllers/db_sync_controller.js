@@ -117,6 +117,11 @@ module.exports.showDbSyncConfigDialog = async function() {
   $('#db-sync-box').dialog("open");
 };
 
+module.exports.isDropboxLinked = async function() {
+  const linkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
+  return linkStatus === 'LINKED';
+};
+
 module.exports.showSyncResultMessage = async function() {
   let onlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
   if (onlyWifi && navigator.connection.type != 'wifi') {

@@ -276,11 +276,27 @@ class OptionsMenu {
     }
   }
 
-  handleMenuClick(event) {
+  async updateDropboxZipButtonState() {
+    const button = document.getElementById('install-dropbox-zip-button');
+    if (button) {
+      const isLinked = await dbSyncController.isDropboxLinked();
+      button.disabled = !isLinked;
+      if (!isLinked) {
+        button.classList.add('ui-state-disabled');
+      } else {
+        button.classList.remove('ui-state-disabled');
+      }
+    }
+  }
+
+  async handleMenuClick(event) {
     if (this.menuIsOpened) {
       app_controller.handleBodyClick();
     } else {
       app_controller.hideAllMenus();
+
+      // Update the Install modules from Dropbox button state
+      await this.updateDropboxZipButtonState();
 
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');

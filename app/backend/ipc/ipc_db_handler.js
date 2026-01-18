@@ -112,6 +112,9 @@ class IpcDbHandler {
       }
     }
 
+    // Initialize models before Dropbox sync, since sync needs access to global.models
+    this.initModels();
+
     if (this.hasValidDropboxConfig()) {
       let dropboxConfigValid = true;
       let lastUsedVersion = this._config.get('lastUsedVersion', '');
@@ -136,7 +139,6 @@ class IpcDbHandler {
       }
     }
 
-    this.initModels();
     return returnCode;
   }
 
@@ -163,15 +165,13 @@ class IpcDbHandler {
     try {
       const noteCount = await global.models.Note.count();
       const tagCount = await global.models.Tag.count();
-      const verseReferenceCount = await global.models.VerseReference.count();
-      const verseTagCount = await global.models.VerseTag.count();
 
-      const isEmpty = noteCount === 0 && tagCount === 0 && verseReferenceCount === 0 && verseTagCount === 0;
+      const isEmpty = noteCount === 0 && tagCount === 0;
 
       if (isEmpty) {
-        console.log('Local database is empty (0 Notes, Tags, VerseReferences, and VerseTags).');
+        console.log('Local database is empty (0 Notes, 0 Tags).');
       } else {
-        console.log(`Local database content: ${noteCount} Notes, ${tagCount} Tags, ${verseReferenceCount} VerseReferences, ${verseTagCount} VerseTags.`);
+        console.log(`Local database content: ${noteCount} Notes, ${tagCount} Tags.`);
       }
 
       return isEmpty;
@@ -418,13 +418,14 @@ class IpcDbHandler {
   async closeDatabase() {
     this.cancelDropboxSyncTimeout();
 
+    // Sync with Dropbox before closing the database connection
+    let result = await this.syncDatabaseWithDropbox(global.connectionType);
+    console.log(`Last Dropbox sync result: ${result}`);
+
     if (global.sequelize != null) {
       await global.sequelize.close();
       global.sequelize = null;
     }
-
-    let result = await this.syncDatabaseWithDropbox(global.connectionType);
-    console.log(`Last Dropbox sync result: ${result}`);
   }
 
   getDatabaseFilePath() {
