@@ -215,8 +215,9 @@ div.CodeMirror {
   position: fixed;
   top: 0;
   left: 0;
+  width: 100vw !important;
   margin: 0 !important;
-  box-sizing: unset !important;
+  box-sizing: border-box !important;
   height: 100%;
   overflow-x: hidden !important;
   z-index: 1000;

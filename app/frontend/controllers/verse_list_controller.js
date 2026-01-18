@@ -39,10 +39,10 @@ module.exports.init = function() {
 
   eventController.subscribe('on-verse-list-init', async (tabIndex) => { this.updateVerseListClasses(tabIndex); });
 
-  eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
-    this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId, tabIndex);
-    this.bindEventsAfterBibleTextLoaded(tabIndex);
-    this.initScrollListener(tabIndex);
+  eventController.subscribe('on-bible-text-loaded', async (context) => {
+    this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId, context.tabIndex);
+    this.bindEventsAfterBibleTextLoaded(context.tabIndex);
+    this.initScrollListener(context.tabIndex);
   });
 
   // Subscribe to tab selection events to initialize swipe events for the active tab
@@ -181,25 +181,19 @@ module.exports.getFirstVisibleVerseAnchor = function() {
   if (verseListFrame != null && verseListFrame.length > 0) {
     let verseListFrameRect = verseListFrame[0].getBoundingClientRect();
     
-    // Special handling for mobile
-    if (this.platformHelper.isMobile()) {
+    // Special handling for Cordova / mobile devices
+    if (this.platformHelper.isCordova()) {
       // Get the first verse box that's within the viewport
       const verseBoxes = verseListFrame.find('.verse-box').toArray();
-      const viewportHeight = window.innerHeight;
+      let frameTop = verseListFrameRect.top;
       
       for (let i = 0; i < verseBoxes.length; i++) {
         const rect = verseBoxes[i].getBoundingClientRect();
+        
         // Check if verse box is at least partially visible in viewport
-        if (rect.top < viewportHeight && rect.bottom > 0) {
-          let anchor = null;
-
-          if (i < verseBoxes.length - 1) {
-            // Select the anchor of the next verse box
-            anchor = verseBoxes[i + 1].querySelector('a.nav');
-          } else {
-            // Select the anchor of the current verse box
-            anchor = verseBoxes[i].querySelector('a.nav');
-          }
+        // We add a small buffer (10px) to avoid selecting verses with just a tiny sliver visible at the bottom
+        if (rect.top < window.innerHeight && rect.bottom > (frameTop + 10)) {
+          let anchor = verseBoxes[i].querySelector('a.nav');
 
           if (anchor) {
             firstVisibleVerseAnchor = anchor.name;

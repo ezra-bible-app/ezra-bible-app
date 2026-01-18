@@ -23,9 +23,9 @@ class TagStatistics {
   constructor() {
     this._frequentTagsList = [];
 
-    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
-      this.disableIfNeeded(tabIndex);
-      this.clearTagStatisticsPanelIfNeeded(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', async (context) => {
+      this.disableIfNeeded(context.tabIndex);
+      this.clearTagStatisticsPanelIfNeeded(context.tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {
