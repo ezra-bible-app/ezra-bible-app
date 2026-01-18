@@ -71,51 +71,41 @@ class DropboxModuleHelper {
       
       console.log('[DropboxModuleHelper] Normalized repo path:', repoPath);
 
-      // Check if the repository folder exists
-      console.log('[DropboxModuleHelper] Checking if repository folder exists:', repoPath);
+      // List the repository folder contents - this checks if repo exists and gets contents in one API call
+      console.log('[DropboxModuleHelper] Listing repository folder:', repoPath);
+      let repoContents;
       try {
-        const repoMetadata = await dropboxSync.getFileMetaData(repoPath);
-        if (repoMetadata['.tag'] !== 'folder') {
-          console.log('[DropboxModuleHelper] Validation failed: Repository path is not a folder');
-          return { valid: false, errorKey: 'dropbox.repo-validation-error-not-a-folder' };
-        }
-        console.log('[DropboxModuleHelper] Repository folder exists');
+        repoContents = await dropboxSync.listFolder(repoPath);
+        console.log(`[DropboxModuleHelper] Repository folder contains ${repoContents.length} items`);
       } catch (e) {
         if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') !== -1) {
           console.log('[DropboxModuleHelper] Validation failed: Repository folder not found');
           return { valid: false, errorKey: 'dropbox.repo-validation-error-not-found' };
         }
-        console.error('[DropboxModuleHelper] Error checking repository folder:', e);
+        console.error('[DropboxModuleHelper] Error listing repository folder:', e);
         throw e;
       }
 
-      // Check if mods.d.tar.gz exists
-      const modsIndexPath = `${repoPath}/mods.d.tar.gz`;
-      console.log('[DropboxModuleHelper] Checking for index file:', modsIndexPath);
-      const modsIndexExists = await dropboxSync.isDropboxFileExisting(modsIndexPath);
-      
+      // Check if mods.d.tar.gz exists in the listing
+      const modsIndexExists = repoContents.some(item => item.name === 'mods.d.tar.gz' && item['.tag'] === 'file');
       if (!modsIndexExists) {
         console.log('[DropboxModuleHelper] Validation failed: Index file not found');
         return { valid: false, errorKey: 'dropbox.repo-validation-error-index-not-found' };
       }
-      
       console.log('[DropboxModuleHelper] Index file found');
 
-      // Check if packages folder exists
+      // Check if packages folder exists in the listing
+      const packagesFolder = repoContents.find(item => item.name === 'packages' && item['.tag'] === 'folder');
+      if (!packagesFolder) {
+        console.log('[DropboxModuleHelper] Validation failed: packages folder not found');
+        return { valid: false, errorKey: 'dropbox.repo-validation-error-packages-not-found' };
+      }
+      console.log('[DropboxModuleHelper] packages folder exists');
+
+      // Check if packages folder is not empty (second API call)
       const packagesPath = `${repoPath}/packages`;
-      console.log('[DropboxModuleHelper] Checking for packages folder:', packagesPath);
-      
+      console.log('[DropboxModuleHelper] Listing packages folder:', packagesPath);
       try {
-        const metadata = await dropboxSync.getFileMetaData(packagesPath);
-        
-        if (metadata['.tag'] !== 'folder') {
-          console.log('[DropboxModuleHelper] Validation failed: packages is not a folder');
-          return { valid: false, errorKey: 'dropbox.repo-validation-error-packages-not-a-folder' };
-        }
-        
-        console.log('[DropboxModuleHelper] packages folder exists');
-        
-        // Check if packages folder is not empty
         const folderContents = await dropboxSync.listFolder(packagesPath);
         console.log(`[DropboxModuleHelper] packages folder contains ${folderContents.length} items`);
         
@@ -124,11 +114,7 @@ class DropboxModuleHelper {
           return { valid: false, errorKey: 'dropbox.repo-validation-error-packages-empty' };
         }
       } catch (e) {
-        if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') !== -1) {
-          console.log('[DropboxModuleHelper] Validation failed: packages folder not found');
-          return { valid: false, errorKey: 'dropbox.repo-validation-error-packages-not-found' };
-        }
-        console.error('[DropboxModuleHelper] Error checking packages folder:', e);
+        console.error('[DropboxModuleHelper] Error listing packages folder:', e);
         throw e;
       }
 
