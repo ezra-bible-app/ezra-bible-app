@@ -159,6 +159,29 @@ class IpcDbHandler {
     this._config.set('dropboxLinkStatus', null);
   }
 
+  async isDatabaseEmpty() {
+    try {
+      const noteCount = await global.models.Note.count();
+      const tagCount = await global.models.Tag.count();
+      const verseReferenceCount = await global.models.VerseReference.count();
+      const verseTagCount = await global.models.VerseTag.count();
+
+      const isEmpty = noteCount === 0 && tagCount === 0 && verseReferenceCount === 0 && verseTagCount === 0;
+
+      if (isEmpty) {
+        console.log('Local database is empty (0 Notes, Tags, VerseReferences, and VerseTags).');
+      } else {
+        console.log(`Local database content: ${noteCount} Notes, ${tagCount} Tags, ${verseReferenceCount} VerseReferences, ${verseTagCount} VerseTags.`);
+      }
+
+      return isEmpty;
+    } catch (e) {
+      console.error('Error checking if database is empty:', e);
+      // If we cannot determine emptiness, assume it's not empty to be safe
+      return false;
+    }
+  }
+
   async syncDatabaseWithDropbox(connectionType=undefined, notifyFrontend=false) {
     let onlySyncOnWifi = this._config.get('dropboxOnlyWifi', false);
 
@@ -197,6 +220,13 @@ class IpcDbHandler {
 
     let prioritizeRemote = false;
     if (!firstDropboxSyncDone) {
+      prioritizeRemote = true;
+    }
+
+    // Check if local database is empty - if so, prioritize remote to prevent overwriting remote data
+    const localDbEmpty = await this.isDatabaseEmpty();
+    if (localDbEmpty) {
+      console.log('Local database is empty. Will prioritize remote database if it exists.');
       prioritizeRemote = true;
     }
 
