@@ -357,10 +357,14 @@ class DropboxModuleHelper {
     const filename = path.basename(dropboxPath);
     
     try {
+      console.log(`[validateModuleZip] Starting validation for: ${dropboxPath}`);
       await dropboxSync.refreshAccessToken();
+      console.log(`[validateModuleZip] Access token refreshed, downloading file...`);
+      
       // Download zip file to temp directory
       await dropboxSync.downloadFile(dropboxPath, tempDir);
       const zipFilePath = path.join(tempDir, filename);
+      console.log(`[validateModuleZip] Downloaded to: ${zipFilePath}`);
       
       // Create extraction directory
       if (!fs.existsSync(extractDir)) {
@@ -368,9 +372,11 @@ class DropboxModuleHelper {
       }
       
       // Extract zip to temp directory
+      console.log(`[validateModuleZip] Extracting to: ${extractDir}`);
       const unzipSuccessful = this._nsi.unZip(zipFilePath, extractDir);
       
       if (!unzipSuccessful) {
+        console.log(`[validateModuleZip] Unzip failed for: ${zipFilePath}`);
         // Clean up
         if (fs.existsSync(zipFilePath)) {
           fs.unlinkSync(zipFilePath);
@@ -382,9 +388,11 @@ class DropboxModuleHelper {
           valid: false,
           moduleId: null,
           alreadyInstalled: false,
-          error: 'Failed to extract zip file'
+          error: `Failed to extract zip file: ${zipFilePath}`
         };
       }
+      
+      console.log(`[validateModuleZip] Unzip successful, checking structure...`);
       
       // Check for required directories
       const modsDPath = path.join(extractDir, 'mods.d');
@@ -393,6 +401,7 @@ class DropboxModuleHelper {
       const hasModsD = fs.existsSync(modsDPath) && fs.statSync(modsDPath).isDirectory();
       const hasModules = fs.existsSync(modulesPath) && fs.statSync(modulesPath).isDirectory();
       
+      console.log(`[validateModuleZip] hasModsD=${hasModsD}, hasModules=${hasModules}`);
       // Find .conf file in mods.d directory and extract module ID from its content
       let moduleId = null;
       if (hasModsD) {
@@ -482,10 +491,13 @@ class DropboxModuleHelper {
       
       if (!validation.valid) {
         console.log(`[installModuleFromZip] Validation failed - invalid structure`);
+        const errorDetails = `hasModsD=${validation.hasModsD}, hasModules=${validation.hasModules}, moduleId=${validation.moduleId}`;
+        console.log(`[installModuleFromZip] Validation details: ${errorDetails}`);
         return {
           success: false,
           alreadyInstalled: false,
-          error: 'Invalid module structure'
+          error: 'Invalid module structure',
+          errorDetails: validation.error || errorDetails
         };
       }
       
@@ -534,16 +546,19 @@ class DropboxModuleHelper {
         return {
           success: false,
           alreadyInstalled: false,
-          error: 'Failed to extract zip file'
+          error: 'Failed to extract zip file',
+          errorDetails: `zipFilePath=${zipFilePath}, swordPath=${swordPath}`
         };
       }
       
     } catch (error) {
       console.error('Error installing module from zip:', error);
+      console.error('Error stack:', error.stack);
       return {
         success: false,
         alreadyInstalled: false,
-        error: error.message
+        error: error.message,
+        errorDetails: error.stack || error.code || 'No additional details'
       };
     }
   }

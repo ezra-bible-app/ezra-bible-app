@@ -192,21 +192,30 @@ class IpcGeneralHandler {
       const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
       const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
       
+      console.log(`[IpcGeneralHandler] dropboxInstallZipModule called for: ${filename}`);
+      
       if (!dropboxToken) {
+        console.log('[IpcGeneralHandler] Dropbox not linked');
         return {
           success: false,
-          error: 'Dropbox not linked'
+          error: 'Dropbox not linked',
+          errorDetails: 'No Dropbox token found in configuration'
         };
       }
       
       try {
         const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
-        return await dropboxModuleHelper.installModuleFromZip(filename, dropboxToken, dropboxRefreshToken);
+        const result = await dropboxModuleHelper.installModuleFromZip(filename, dropboxToken, dropboxRefreshToken);
+        console.log(`[IpcGeneralHandler] installModuleFromZip result:`, JSON.stringify(result));
+        return result;
       } catch (error) {
+        console.error('[IpcGeneralHandler] Error in dropboxInstallZipModule:', error);
+        console.error('[IpcGeneralHandler] Error stack:', error.stack);
         return {
           success: false,
           error: error.message || 'Unknown error',
-          errorCode: error.code
+          errorCode: error.code,
+          errorDetails: error.stack || 'No stack trace available'
         };
       }
     });

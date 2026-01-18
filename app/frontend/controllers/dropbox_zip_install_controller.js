@@ -271,6 +271,9 @@ module.exports.showDropboxZipInstallDialog = async function() {
         // Install the module
         const result = await ipcGeneral.dropboxInstallZipModule(filepath);
 
+        // Log the full result for debugging
+        console.log(`[DropboxZipInstall] Installation result for ${displayPath}:`, JSON.stringify(result, null, 2));
+
         // Update row with result
         const statusCell = row.querySelector('td:last-child');
         if (result.success) {
@@ -291,8 +294,10 @@ module.exports.showDropboxZipInstallDialog = async function() {
         } else {
           failedCount++;
           const errorMsg = result.error || 'Unknown error';
-          statusCell.innerHTML = `<span style="color: red;">✗ Failed</span>`;
-          statusCell.title = errorMsg;
+          const errorDetails = result.errorDetails || '';
+          const fullError = errorDetails ? `${errorMsg}: ${errorDetails}` : errorMsg;
+          console.error(`[DropboxZipInstall] Failed to install ${displayPath}: ${fullError}`);
+          statusCell.innerHTML = `<span style="color: red;" title="${fullError}">✗ Failed: ${errorMsg}</span>`;
         }
       }
 
