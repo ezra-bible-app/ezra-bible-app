@@ -345,6 +345,12 @@ class IpcNsi {
     var returnValue = this._ipcRenderer.call('nsi_getSwordPath');
     return returnValue;
   }
+
+  async validateCustomModuleRepo(customModuleRepo) {
+    var timeoutMs = 60000;
+    var returnValue = this._ipcRenderer.callWithTimeout('nsi_validateCustomModuleRepo', timeoutMs, customModuleRepo);
+    return returnValue;
+  }
 }
 
 module.exports = IpcNsi;

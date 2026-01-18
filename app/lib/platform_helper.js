@@ -83,7 +83,10 @@ class PlatformHelper {
   isAndroid() {
     if (typeof navigator !== 'undefined') {
       return navigator.userAgent.match('Android') !== null;
-    } else if (this.isCordova()) {
+    } else if (this.isCordovaBackend()) {
+      // In backend context, use process.platform (nodejs-mobile sets this to 'android')
+      return process.platform === 'android';
+    } else if (this.isCordovaFrontend()) {
       return device.platform === 'Android';
     }
 
@@ -93,7 +96,10 @@ class PlatformHelper {
   isIOS() {
     if (typeof navigator !== 'undefined') {
       return navigator.userAgent.match('iPhone') !== null || navigator.userAgent.match('iPad') !== null;
-    } else if (this.isCordova()) {
+    } else if (this.isCordovaBackend()) {
+      // In backend context, use process.platform (nodejs-mobile sets this to 'ios')
+      return process.platform === 'ios';
+    } else if (this.isCordovaFrontend()) {
       return device.platform === 'iOS';
     }
 
@@ -310,15 +316,38 @@ class PlatformHelper {
 
       let userDataDir = "";
 
-      if (androidVersion !== undefined && androidVersion >= 11) {
+      if (this.isIOS()) {
+        // iOS: Use cordova.app.datadir() which returns the app's Documents directory
+        userDataDir = cordova.app.datadir() + '/ezra';
+      } else if (androidVersion !== undefined && androidVersion >= 11) {
+        // Android 11+: Use scoped storage
         userDataDir = cordova.app.datadir() + '/ezra';
       } else {
+        // Android < 11: Use external storage
         const appId = 'net.ezrabibleapp.cordova';
-        // TODO adapt this for ios later
         userDataDir = `/sdcard/Android/data/${appId}`;
       }
 
       return userDataDir;
+    }
+  }
+
+  getTempDir() {
+    if (this.isElectron()) {
+      const { app } = require('electron');
+      return app.getPath('temp');
+    } else if (this.isCordova()) {
+      const fs = require('fs');
+      const path = require('path');
+      const userDataDir = this.getUserDataPath();
+      const tempDir = path.join(userDataDir, 'temp');
+      
+      // Ensure temp directory exists
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, { recursive: true });
+      }
+      
+      return tempDir;
     }
   }
 

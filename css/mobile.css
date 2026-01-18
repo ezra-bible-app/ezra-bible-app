@@ -173,6 +173,11 @@ Librem 5/Pinephone etc.
     box-shadow: unset !important;
   }
 
+  .dropbox-zip-install-dialog #zip-file-list {
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+  }
+
   .verse-list-without-user-data-indicators .verse-reference {
     width: unset;
     margin-left: unset;

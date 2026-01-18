@@ -546,6 +546,10 @@ a.chapter-nav:hover {
   margin-left: 0.5em;
 }
 
+#db-sync-box-content .disabled-option {
+  opacity: 0.5;
+}
+
 #dropbox-link-status {
   width: fit-content !important;
   margin-left: 0.5em;
@@ -1406,7 +1410,8 @@ li.book-unavailable a:focus,
 #show-commentary-settings-button,
 #show-typeface-settings-button,
 #setup-db-sync-button,
-#show-module-update-button {
+#show-module-update-button,
+#install-dropbox-zip-button {
   padding: 0.5em;
   display: block;
   width: 100%;

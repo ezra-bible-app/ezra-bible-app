@@ -167,6 +167,12 @@ async function getRepoModuleDetails(repos) {
   for(const repo of repos) {
     const allRepoModules = await ipcNsi.getAllRepoModules(repo, moduleType);
 
+    // Ensure allRepoModules is iterable
+    if (!allRepoModules || !Array.isArray(allRepoModules)) {
+      console.warn(`getAllRepoModules returned non-iterable value for repository ${repo}:`, allRepoModules);
+      continue; // Skip this repository
+    }
+
     let repoLanguageCodes = new Set();
     let count = 0;
 

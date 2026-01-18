@@ -19,6 +19,7 @@
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
+const DropboxModuleHelper = require('../db_sync/dropbox_module_helper.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -27,8 +28,11 @@ class IpcNsiHandler {
     this._ipcMain = new IpcMain();
     this._platformHelper = new PlatformHelper();
     this._nsi = null;
+    this._customSwordDir = customSwordDir;
+    this._dropboxModulesCache = null;
 
-    this.initNSI(customSwordDir);
+    this.initNSI(this._customSwordDir);
+    this._dropboxModuleHelper = new DropboxModuleHelper(this._platformHelper, this._nsi);
     this.initIpcInterface();
   }
 
@@ -97,12 +101,27 @@ class IpcNsiHandler {
     return this._nsi;
   }
 
-  getLanguageModuleCount(selectedRepos, language, moduleType) {
+  getDropboxModuleHelper() {
+    return this._dropboxModuleHelper;
+  }
+
+  getLanguageModuleCount(selectedRepos, language, moduleType, dropboxModules=[]) {
     var count = 0;
 
     for (var i = 0; i < selectedRepos.length; i++) {
       var currentRepo = selectedRepos[i];
-      count += this._nsi.getRepoLanguageModuleCount(currentRepo, language, moduleType);
+      if (currentRepo === 'Dropbox') {
+         const filtered = dropboxModules.filter(m => {
+            if (m.language !== language) return false;
+            if (moduleType === 'BIBLE' && m.type !== 'Biblical Texts') return false;
+            if (moduleType === 'COMMENTARY' && m.type !== 'Commentaries') return false;
+            if (moduleType === 'DICTIONARY' && m.type !== 'Lexicons / Dictionaries') return false;
+            return true;
+         });
+         count += filtered.length;
+      } else {
+        count += this._nsi.getRepoLanguageModuleCount(currentRepo, language, moduleType);
+      }
     }
 
     return count;
@@ -123,22 +142,90 @@ class IpcNsiHandler {
 
     this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig', async (progressCB) => {
       var repoUpdateStatus = await this._nsi.updateRepositoryConfig(progressCB);
+      
+      // Update Dropbox modules cache
+      await this._dropboxModuleHelper.updateDropboxModulesCache();
+      
       return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
     
-    this._ipcMain.add('nsi_getRepoNames', () => {
-      return this._nsi.getRepoNames();
+    this._ipcMain.add('nsi_getRepoNames', async () => {
+      let repoNames = this._nsi.getRepoNames();
+      
+      const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+      const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
+      const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+      const customModuleRepoValidated = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepoValidated');
+
+      if (dropboxToken && useCustomModuleRepo && customModuleRepo && customModuleRepoValidated) {
+        repoNames.push('Dropbox');
+      }
+
+      return repoNames;
     });
 
-    this._ipcMain.add('nsi_getRepoLanguages', (repositoryName, moduleType) => {
-      return this._nsi.getRepoLanguages(repositoryName, moduleType);
+    this._ipcMain.add('nsi_getRepoLanguages', async (repositoryName, moduleType) => {
+      const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
+      const customModuleRepoValidated = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepoValidated');
+
+      if (useCustomModuleRepo && customModuleRepoValidated && repositoryName === 'Dropbox') {
+        const modules = await this._dropboxModuleHelper.getDropboxModules();
+        
+        const languages = new Set();
+        modules.forEach(m => {
+          if (moduleType === 'BIBLE' && m.type === 'Biblical Texts') languages.add(m.language);
+          if (moduleType === 'COMMENTARY' && m.type === 'Commentaries') languages.add(m.language);
+          if (moduleType === 'DICTIONARY' && m.type === 'Lexicons / Dictionaries') languages.add(m.language);
+        });
+        
+        return Array.from(languages);
+
+      } else {
+
+        return this._nsi.getRepoLanguages(repositoryName, moduleType);
+      }
     });
 
-    this._ipcMain.add('nsi_getAllRepoModules', (repositoryName, moduleType) => {
+    this._ipcMain.add('nsi_getAllRepoModules', async (repositoryName, moduleType) => {
+      if (repositoryName === 'Dropbox') {
+        const modules = await this._dropboxModuleHelper.getDropboxModules();
+        
+        return modules.filter(m => {
+          if (moduleType === 'BIBLE') return m.type === 'Biblical Texts';
+          if (moduleType === 'COMMENTARY') return m.type === 'Commentaries';
+          if (moduleType === 'DICTIONARY') return m.type === 'Lexicons / Dictionaries';
+          return true;
+        });
+      }
+
       return this._nsi.getAllRepoModules(repositoryName, moduleType);
     });
 
-    this._ipcMain.add('nsi_getRepoModulesByLang', (repositoryName, language, moduleType, headersFilter, strongsFilter, hebrewStrongsKeys, greekStrongsKeys) => {
+    this._ipcMain.add('nsi_getRepoModulesByLang', async (repositoryName, language, moduleType, headersFilter, strongsFilter, hebrewStrongsKeys, greekStrongsKeys) => {
+      if (repositoryName === 'Dropbox') {
+        const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+        const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
+        const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+        const customModuleRepoValidated = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepoValidated');
+        const modules = await this._dropboxModuleHelper.getDropboxModules(dropboxToken, useCustomModuleRepo && customModuleRepo && customModuleRepoValidated ? customModuleRepo : null);
+        
+        return modules.filter(m => {
+          if (m.language !== language) return false;
+          
+          if (moduleType === 'BIBLE' && m.type !== 'Biblical Texts') return false;
+          if (moduleType === 'COMMENTARY' && m.type !== 'Commentaries') return false;
+          if (moduleType === 'DICTIONARY' && m.type !== 'Lexicons / Dictionaries') return false;
+          
+          // Apply headings filter
+          if (headersFilter === true && !m.hasHeadings) return false;
+          
+          // Apply strongs filter
+          if (strongsFilter === true && !m.hasStrongs) return false;
+          
+          return true;
+        });
+      }
+
       return this._nsi.getRepoModulesByLang(repositoryName,
                                             language,
                                             moduleType,
@@ -148,11 +235,31 @@ class IpcNsiHandler {
                                             greekStrongsKeys);
     });
 
-    this._ipcMain.add('nsi_getRepoModule', (moduleCode) => {
+    this._ipcMain.add('nsi_getRepoModule', async (moduleCode) => {
       if (moduleCode == null) {
         return null;
       } else {
-        return this._nsi.getRepoModule(moduleCode);
+        let module = null;
+        
+        if (this._nsi.isModuleAvailableInRepo(moduleCode)) {
+          module = this._nsi.getRepoModule(moduleCode);
+        }
+
+        if (!module) {
+           const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+           const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
+           const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+
+           if (dropboxToken && useCustomModuleRepo && customModuleRepo) {
+               const dropboxModules = await this._dropboxModuleHelper.getDropboxModules(dropboxToken, customModuleRepo);
+               module = dropboxModules.find(m => m.name === moduleCode);
+               if (module) {
+                   module.repositoryName = 'Dropbox';
+               }
+           }
+        }
+
+        return module;
       }
     });
 
@@ -164,13 +271,23 @@ class IpcNsiHandler {
       return this._nsi.getAllLocalModules(moduleType);
     });
 
-    this._ipcMain.add('nsi_getAllLanguageModuleCount', (selectedRepos, languageCodeArray, moduleType='BIBLE') => {
+    this._ipcMain.add('nsi_getAllLanguageModuleCount', async (selectedRepos, languageCodeArray, moduleType='BIBLE') => {
       var allLanguageModuleCount = {};
+      
+      let dropboxModules = [];
+      if (selectedRepos.includes('Dropbox')) {
+         const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+         const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
+         const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+         if (useCustomModuleRepo && customModuleRepo) {
+           dropboxModules = await this._dropboxModuleHelper.getDropboxModules(dropboxToken, customModuleRepo);
+         }
+      }
 
       for (let i = 0; i < languageCodeArray.length; i++) {
         const currentLanguageCode = languageCodeArray[i];
 
-        const currentLanguageModuleCount = this.getLanguageModuleCount(selectedRepos, currentLanguageCode, moduleType);
+        const currentLanguageModuleCount = this.getLanguageModuleCount(selectedRepos, currentLanguageCode, moduleType, dropboxModules);
         allLanguageModuleCount[currentLanguageCode] = currentLanguageModuleCount;
       }
 
@@ -179,6 +296,21 @@ class IpcNsiHandler {
 
     this._ipcMain.addWithProgressCallback('nsi_installModule', async (progressCB, moduleCode) => { 
       try {
+        // Check if module is from Dropbox
+        const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+        const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
+        const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+        
+        if (dropboxToken && useCustomModuleRepo && customModuleRepo) {
+          const dropboxModules = await this._dropboxModuleHelper.getDropboxModules(dropboxToken, customModuleRepo);
+          const dropboxModule = dropboxModules.find(m => m.name === moduleCode);
+          
+          if (dropboxModule) {
+            let result = await this._dropboxModuleHelper.installDropboxModule(moduleCode, progressCB);
+            return result;
+          }
+        }
+
         await this._nsi.installModule(moduleCode, progressCB); 
         return 0;
       } catch (e) {
@@ -386,6 +518,10 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getSwordPath', () => {
       return this._nsi.getSwordPath();
+    });
+
+    this._ipcMain.add('nsi_validateCustomModuleRepo', async (customModuleRepo) => {
+      return await this._dropboxModuleHelper.validateCustomModuleRepo(customModuleRepo);
     });
   }
 

@@ -160,6 +160,65 @@ class IpcGeneralHandler {
 
       console.log(`sendCrashReports: ${global.sendCrashReports}`);
     });
+
+    this._ipcMain.add('general_dropboxListZipFiles', async() => {
+      const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+      const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
+      
+      if (!dropboxToken) {
+        return {
+          success: false,
+          error: 'Dropbox not linked'
+        };
+      }
+      
+      try {
+        const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
+        const files = await dropboxModuleHelper.listZipFiles(dropboxToken, dropboxRefreshToken);
+        return {
+          success: true,
+          files: files
+        };
+      } catch (error) {
+        return {
+          success: false,
+          error: error.message || 'Unknown error',
+          errorCode: error.code
+        };
+      }
+    });
+
+    this._ipcMain.add('general_dropboxInstallZipModule', async(filename) => {
+      const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+      const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
+      
+      console.log(`[IpcGeneralHandler] dropboxInstallZipModule called for: ${filename}`);
+      
+      if (!dropboxToken) {
+        console.log('[IpcGeneralHandler] Dropbox not linked');
+        return {
+          success: false,
+          error: 'Dropbox not linked',
+          errorDetails: 'No Dropbox token found in configuration'
+        };
+      }
+      
+      try {
+        const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
+        const result = await dropboxModuleHelper.installModuleFromZip(filename, dropboxToken, dropboxRefreshToken);
+        console.log(`[IpcGeneralHandler] installModuleFromZip result:`, JSON.stringify(result));
+        return result;
+      } catch (error) {
+        console.error('[IpcGeneralHandler] Error in dropboxInstallZipModule:', error);
+        console.error('[IpcGeneralHandler] Error stack:', error.stack);
+        return {
+          success: false,
+          error: error.message || 'Unknown error',
+          errorCode: error.code,
+          errorDetails: error.stack || 'No stack trace available'
+        };
+      }
+    });
   }
 }
 

@@ -23,9 +23,9 @@ const eventController = require('../../controllers/event_controller.js');
 const referenceVerseController = require('../../controllers/reference_verse_controller.js');
 const verseListController = require('../../controllers/verse_list_controller.js');
 const dbSyncController = require('../../controllers/db_sync_controller.js');
+const dropboxZipInstallController = require('../../controllers/dropbox_zip_install_controller.js');
 const moduleUpdateController = require('../../controllers/module_update_controller.js');
 const typeFaceSettings = require('../type_face_settings.js');
-const { Mutex } = require('async-mutex');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -79,6 +79,11 @@ class OptionsMenu {
     $('#setup-db-sync-button').bind('click', async () => {
       this.hideDisplayMenu();
       await dbSyncController.showDbSyncConfigDialog();
+    });
+
+    $('#install-dropbox-zip-button').bind('click', async () => {
+      this.hideDisplayMenu();
+      await dropboxZipInstallController.showDropboxZipInstallDialog();
     });
 
     $('#displayOptionsBackButton').bind('click', () => {
@@ -271,11 +276,27 @@ class OptionsMenu {
     }
   }
 
-  handleMenuClick(event) {
+  async updateDropboxZipButtonState() {
+    const button = document.getElementById('install-dropbox-zip-button');
+    if (button) {
+      const isLinked = await dbSyncController.isDropboxLinked();
+      button.disabled = !isLinked;
+      if (!isLinked) {
+        button.classList.add('ui-state-disabled');
+      } else {
+        button.classList.remove('ui-state-disabled');
+      }
+    }
+  }
+
+  async handleMenuClick(event) {
     if (this.menuIsOpened) {
       app_controller.handleBodyClick();
     } else {
       app_controller.hideAllMenus();
+
+      // Update the Install modules from Dropbox button state
+      await this.updateDropboxZipButtonState();
 
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
