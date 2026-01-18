@@ -138,21 +138,17 @@ module.exports.showDropboxZipInstallDialog = async function() {
         return;
       }
 
-      // Enable the install button when files are found
-      $('#install-zip-modules-button').button('enable');
 
+      // Render file list
       zipFiles.forEach((file) => {
         const fileItem = document.createElement('div');
         fileItem.className = 'zip-file-item';
         fileItem.style.padding = '0.5em';
         fileItem.style.borderBottom = '1px solid #ccc';
-        
-        // Show relative path (remove /Apps/Ezra Bible App prefix and leading slash for display)
         let displayPath = file.path;
         if (displayPath.startsWith('/')) {
           displayPath = displayPath.substring(1);
         }
-        
         fileItem.innerHTML = `
           <label style="cursor: pointer; display: flex; align-items: center;">
             <input type="checkbox" class="zip-file-checkbox" data-filepath="${file.path}" style="margin-right: 0.5em;">
@@ -162,6 +158,22 @@ module.exports.showDropboxZipInstallDialog = async function() {
         `;
         zipFileList.appendChild(fileItem);
       });
+
+      // Enable/disable install button based on selection
+      function updateInstallButtonState() {
+        const checked = document.querySelectorAll('.zip-file-checkbox:checked').length > 0;
+        if (checked) {
+          $('#install-zip-modules-button').button('enable');
+        } else {
+          $('#install-zip-modules-button').button('disable');
+        }
+      }
+      // Attach event listeners
+      zipFileList.querySelectorAll('.zip-file-checkbox').forEach(cb => {
+        cb.addEventListener('change', updateInstallButtonState);
+      });
+      // Initial state
+      updateInstallButtonState();
 
     } catch (error) {
       console.error('Error loading Dropbox zip files:', error);
@@ -199,7 +211,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
 
     const selectedFiles = Array.from(checkboxes).map(cb => cb.dataset.filepath);
 
-    // Disable install button during installation, change cancel to close
+    // Always disable install button during installation
     $('#install-zip-modules-button').button('disable');
     $dialogBox.dialog('option', 'buttons', [
       {
