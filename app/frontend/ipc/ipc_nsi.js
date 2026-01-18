@@ -347,7 +347,7 @@ class IpcNsi {
   }
 
   async validateCustomModuleRepo(customModuleRepo) {
-    var timeoutMs = 30000;
+    var timeoutMs = 60000;
     var returnValue = this._ipcRenderer.callWithTimeout('nsi_validateCustomModuleRepo', timeoutMs, customModuleRepo);
     return returnValue;
   }
