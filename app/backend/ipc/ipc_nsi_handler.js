@@ -23,6 +23,8 @@ const DropboxModuleHelper = require('../db_sync/dropbox_module_helper.js');
 const fs = require('fs');
 const path = require('path');
 
+const DEFAULT_REPO_TIMEOUT = 20000;
+
 class IpcNsiHandler {
   constructor(customSwordDir=undefined) {
     this._ipcMain = new IpcMain();
@@ -82,15 +84,15 @@ class IpcNsiHandler {
 
       if (basePath !== undefined) {
         console.log(`Initializing NSI with special basePath ${basePath}.`);
-        nsi = new NodeSwordInterface(customSwordDir, basePath);
+        nsi = new NodeSwordInterface(customSwordDir, basePath, DEFAULT_REPO_TIMEOUT);
       } else {
-        nsi = new NodeSwordInterface(customSwordDir);
+        nsi = new NodeSwordInterface(customSwordDir, undefined, DEFAULT_REPO_TIMEOUT);
       }
     } else {
       if (basePath !== undefined) {
-        nsi = new NodeSwordInterface(undefined, basePath);
+        nsi = new NodeSwordInterface(undefined, basePath, DEFAULT_REPO_TIMEOUT);
       } else {
-        nsi = new NodeSwordInterface();
+        nsi = new NodeSwordInterface(undefined, undefined, DEFAULT_REPO_TIMEOUT);
       }
     }
 
