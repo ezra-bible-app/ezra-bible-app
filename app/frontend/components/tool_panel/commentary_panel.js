@@ -116,8 +116,6 @@ class CommentaryPanel {
 
     $('#commentary-settings-dialog').dialog(dialogOptions);
 
-    uiHelper.fixDialogCloseIconOnAndroid('commentary-settings-dialog');
-
     $('#commentary-panel-settings-button').on('click', async (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -165,6 +163,7 @@ class CommentaryPanel {
 
     $('#commentary-settings-dialog').dialog('open');
 
+    uiHelper.fixDialogCloseIconOnAndroid('commentary-settings-dialog');
     Mousetrap.bind('esc', () => { $('#commentary-settings-dialog').dialog('close'); });
   }
 
