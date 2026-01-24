@@ -318,7 +318,7 @@ async function initDbSync() {
   });
 
   $('#db-sync-box').dialog(dbSyncDialogOptions);
-  uiHelper.fixDialogCloseIconOnAndroid('db-sync-dialog');
+  uiHelper.fixDialogCloseIconOnCordova('db-sync-dialog');
 
   dbSyncInitDone = true;
 }

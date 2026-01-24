@@ -162,7 +162,7 @@ class ModuleAssistant extends HTMLElement{
     Mousetrap.bind('esc', () => { $('#module-settings-assistant').dialog("close"); });
 
     $('#module-settings-assistant').dialog(moduleSettingsDialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('module-assistant-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('module-assistant-dialog');
 
     assistantHelper.unlockDialog();
   }

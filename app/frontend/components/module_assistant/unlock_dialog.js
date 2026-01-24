@@ -137,7 +137,7 @@ class UnlockDialog extends HTMLElement {
     };
     
     $(unlockDialog).dialog(unlockDialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('unlock-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('unlock-dialog');
     this._unlockDialogOpened = true;
     inputElement.focus();
   }

@@ -461,7 +461,7 @@ class TagGroupList extends HTMLElement {
       });
     
       $dialogBox.dialog(dialogOptions);
-      uiHelper.fixDialogCloseIconOnAndroid('rename-tag-group-dialog');
+      uiHelper.fixDialogCloseIconOnCordova('rename-tag-group-dialog');
 
       tagGroupValidator.validateNewTagGroupTitle('rename-tag-group-title-input', 'edit-tag-group-save-button');
 
@@ -540,7 +540,7 @@ class TagGroupList extends HTMLElement {
       };
 
       $dialogBox.dialog(dialogOptions);
-      uiHelper.fixDialogCloseIconOnAndroid('delete-tag-group-confirmation-dialog');
+      uiHelper.fixDialogCloseIconOnCordova('delete-tag-group-confirmation-dialog');
     });
   }
 

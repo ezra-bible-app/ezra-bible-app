@@ -75,7 +75,7 @@ class NewReleaseChecker {
       dialogClass: 'ezra-dialog new-release-dialog'
     });
 
-    uiHelper.fixDialogCloseIconOnAndroid('new-release-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('new-release-dialog');
 
     infoBox.dialog("open");
     infoBox.append('<p>' + i18n.t('general.new-release-available-body') + '</p>');

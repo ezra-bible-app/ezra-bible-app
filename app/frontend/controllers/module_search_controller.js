@@ -537,7 +537,7 @@ class ModuleSearchController {
           
           const $dialogBox = $('#search-results-box');
           $dialogBox.dialog(dialogOptions);
-          uiHelper.fixDialogCloseIconOnAndroid('search-results-box');
+          uiHelper.fixDialogCloseIconOnCordova('search-results-box');
         }
 
         if (tabIndex == undefined || tabIndex == app_controller.tab_controller.getSelectedTabIndex()) {

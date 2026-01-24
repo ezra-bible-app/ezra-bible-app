@@ -242,7 +242,7 @@ class UiHelper {
     }
   }
 
-  fixDialogCloseIconOnAndroid(dialogClass) {
+  fixDialogCloseIconOnCordova(dialogClass) {
     if (!platformHelper.isCordova()) {
       return;
     }

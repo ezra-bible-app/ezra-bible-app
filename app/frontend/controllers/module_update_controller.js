@@ -146,7 +146,7 @@ module.exports.showModuleUpdateDialog = async function() {
     Mousetrap.bind('esc', () => { $dialogBox.dialog("close"); });
 
     $dialogBox.dialog(dialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('module-update-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('module-update-dialog');
 
     document.getElementById('update-modules-button').addEventListener('click', () => {
       let dialogContent = document.getElementById('module-update-dialog-content');

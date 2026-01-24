@@ -245,7 +245,7 @@ class CordovaPlatform {
     dialogOptions.dialogClass = 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize';
 
     this.getPermissionBox().dialog(dialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('welcome-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('welcome-dialog');
   }
 
   isAndroidWithScopedStorage() {

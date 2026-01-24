@@ -90,7 +90,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
   };
 
   $dialogBox.dialog(dialogOptions);
-  uiHelper.fixDialogCloseIconOnAndroid('dropbox-zip-install-dialog');
+  uiHelper.fixDialogCloseIconOnCordova('dropbox-zip-install-dialog');
   Mousetrap.bind('esc', () => { $dialogBox.dialog('close'); });
 
   // Load zip files from Dropbox

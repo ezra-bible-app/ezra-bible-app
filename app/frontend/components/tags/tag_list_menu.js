@@ -358,7 +358,7 @@ class TagListMenu extends HTMLElement {
       });
 
       $dialogBox.dialog(dialogOptions);
-      uiHelper.fixDialogCloseIconOnAndroid('add-tag-group-dialog');
+      uiHelper.fixDialogCloseIconOnCordova('add-tag-group-dialog');
 
       tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
 

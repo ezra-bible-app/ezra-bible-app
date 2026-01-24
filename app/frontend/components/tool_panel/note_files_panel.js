@@ -169,7 +169,7 @@ class NoteFilesPanel {
       });
 
       $dialogBox.dialog(dialogOptions);
-      uiHelper.fixDialogCloseIconOnAndroid('add-note-file-dialog');
+      uiHelper.fixDialogCloseIconOnCordova('add-note-file-dialog');
 
       document.getElementById('note-file-title-value').focus();
     });
@@ -314,7 +314,7 @@ class NoteFilesPanel {
       };
 
       $dialogBox.dialog(dialogOptions);
-      uiHelper.fixDialogCloseIconOnAndroid('delete-note-file-dialog');
+      uiHelper.fixDialogCloseIconOnCordova('delete-note-file-dialog');
     });
   }
 
@@ -393,7 +393,7 @@ class NoteFilesPanel {
       });
 
       $dialogBox.dialog(dialogOptions);
-      uiHelper.fixDialogCloseIconOnAndroid('edit-note-file-dialog');
+      uiHelper.fixDialogCloseIconOnCordova('edit-note-file-dialog');
 
       const inputField = document.getElementById('edit-note-file-title-value');
       inputField.focus();

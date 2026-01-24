@@ -135,7 +135,7 @@ class TagDialogManager {
     });
 
     $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
-    uiHelper.fixDialogCloseIconOnAndroid('new-tag-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('new-tag-dialog');
 
     const tagTitleInput = document.getElementById('new-standard-tag-title-input');
     if (!tagTitleInput.classList.contains('bound')) {
@@ -209,7 +209,7 @@ class TagDialogManager {
     });
 
     $('#add-tags-to-group-dialog').dialog(addTagsToGroupDialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('add-tags-to-group-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('add-tags-to-group-dialog');
     
     // Initially disable the Add tags to group button
     uiHelper.disableButton(document.getElementById('add-tags-to-group-button'));
@@ -272,7 +272,7 @@ class TagDialogManager {
     };
 
     $('#edit-tag-dialog').dialog(edit_tag_dlg_options);
-    uiHelper.fixDialogCloseIconOnAndroid('edit-tag-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('edit-tag-dialog');
   
     // Handle the enter key in the tag title field and rename the tag when it is pressed
     $('#rename-tag-title-input:not(.bound)').addClass('bound').on('keypress', (event) => {
@@ -329,7 +329,7 @@ class TagDialogManager {
     });
 
     $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
-    uiHelper.fixDialogCloseIconOnAndroid('delete-tag-confirmation-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('delete-tag-confirmation-dialog');
     
     // Subscribe to the on-enter-pressed event to handle enter key press while the dialog is open
     eventController.subscribe('on-enter-pressed', () => {
@@ -376,7 +376,7 @@ class TagDialogManager {
     };
 
     $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
-    uiHelper.fixDialogCloseIconOnAndroid('remove-tag-assignment-confirmation-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('remove-tag-assignment-confirmation-dialog');
 
     // Subscribe to the on-enter-pressed event to handle enter key press while the dialog is open
     eventController.subscribe('on-enter-pressed', () => {

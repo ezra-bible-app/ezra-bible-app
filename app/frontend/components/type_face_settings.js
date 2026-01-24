@@ -353,7 +353,7 @@ function showDialog() {
 
   Mousetrap.bind('esc', () => { $box.dialog('close'); });
   $box.dialog(dialogOptions);
-  uiHelper.fixDialogCloseIconOnAndroid('config-typeface-dialog');
+  uiHelper.fixDialogCloseIconOnCordova('config-typeface-dialog');
 }
 
 function saveCssRules(stylesheet, cssRules=undefined) {
