@@ -253,7 +253,7 @@ class PanelButtons extends HTMLElement {
     this._disabledPanels.delete(panelId);
   }
 
-  _handleTabAdded() {
+  async _handleTabAdded() {
     // Check if we're in portrait mode on a mobile/tablet device
     const isPortrait = screen.orientation && screen.orientation.type && screen.orientation.type.startsWith('portrait');
     const isMobile = this._platformHelper.isMobile();
@@ -261,10 +261,11 @@ class PanelButtons extends HTMLElement {
 
     // Close the panel if in portrait mode on mobile and panel is open
     if (isPortrait && isMobile && isPanelOpen) {
+      const currentPanel = this._activePanel;
       this._activePanel = '';
       this.toolPanelElement.classList.add('hidden');
-      this._togglePanel(this._activePanel, false);
-      ipcSettings.set(SETTINGS_KEY, this._activePanel);
+      await this._togglePanel(currentPanel, false);
+      await ipcSettings.set(SETTINGS_KEY, this._activePanel);
     }
   }
 
