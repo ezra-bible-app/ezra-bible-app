@@ -108,7 +108,6 @@ class PanelButtons extends HTMLElement {
     this._activePanel = null;
     this.panelEvents = {};
     this._disabledPanels = new Set();
-    this._tabAddedSubscription = null;
 
     this._platformHelper = new PlatformHelper();
   }
@@ -134,19 +133,12 @@ class PanelButtons extends HTMLElement {
     }
 
     // Subscribe to tab-added event to close panel in portrait mode on mobile/tablet
-    this._tabAddedSubscription = eventController.subscribe('on-tab-added', () => {
+    eventController.subscribe('on-tab-added', () => {
       this._handleTabAdded().catch(err => {
         console.error('Error handling tab added event:', err);
       });
     });
     
-  }
-
-  disconnectedCallback() {
-    if (this._tabAddedSubscription) {
-      this._tabAddedSubscription.remove();
-      this._tabAddedSubscription = null;
-    }
   }
 
   _initButton(buttonElement) {
