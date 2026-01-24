@@ -456,6 +456,8 @@
     "default-header": "<b>Bijbelcommentaar</b>",
     "commentaries-for": "Commentaren voor",
     "show-commentaries": "Toon commentaren",
+    "configure-commentaries": "Configure commentaries",
+    "select-which-commentaries-to-display": "Select which commentaries to display in the commentary panel:",
     "copy-commentary-to-clipboard": "Kopieer commentaar naar het klembord",
     "copy-commentary-to-clipboard-success": "Commentaar naar klembord gekopieerd!",
     "help-instruction": "Selecteer een vers om de commentaarinhoud weer te geven.<br><br> Dit gebied zal dan automatisch het geselecteerde vers uit alle beschikbare commentaren weergeven.",

@@ -453,6 +453,8 @@
     "default-header": "<b>Komentar Svetega pisma</b>",
     "commentaries-for": "Komentarji za",
     "show-commentaries": "Prikaži komentarje",
+    "configure-commentaries": "Configure commentaries",
+    "select-which-commentaries-to-display": "Select which commentaries to display in the commentary panel:",
     "copy-commentary-to-clipboard": "Komentarje kopiraj na odložišče",
     "copy-commentary-to-clipboard-success": "Komentarji kopirani na odložišče!",
     "help-instruction": "Za prikaz vsebine komentarja izberite vrstico.<br><br> To področje bo nato samodejno prikazalo seznam izbrane vrstice iz vseh razpoložljivih komentarjev.",

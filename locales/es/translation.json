@@ -452,6 +452,8 @@
     "default-header": "<b>Comentario bíblico</b>",
     "commentaries-for": "Comentarios para",
     "show-commentaries": "Mostrar comentarios",
+    "configure-commentaries": "Configure commentaries",
+    "select-which-commentaries-to-display": "Select which commentaries to display in the commentary panel:",
     "copy-commentary-to-clipboard": "Copiar comentario al portapapeles",
     "copy-commentary-to-clipboard-success": "Comentario copiado al portapapeles!",
     "help-instruction": "Para mostrar el contenido del comentario, seleccione un verso.<br><br> Esta área mostrará entonces una lista con todos los comentarios disponibles para el versículo seleccionado.",
