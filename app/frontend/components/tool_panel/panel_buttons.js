@@ -131,6 +131,13 @@ class PanelButtons extends HTMLElement {
     } else {
       await this._togglePanel(this._activePanel, true);
     }
+
+    // Subscribe to tab-added event to close panel in portrait mode on mobile/tablet
+    eventController.subscribe('on-tab-added', () => {
+      this._handleTabAdded().catch(err => {
+        console.error('Error handling tab added event:', err);
+      });
+    });
     
   }
 
@@ -246,6 +253,39 @@ class PanelButtons extends HTMLElement {
 
     button.disabled = false;
     this._disabledPanels.delete(panelId);
+  }
+
+  async _handleTabAdded() {
+    // Check if toolPanelElement is available
+    if (!this.toolPanelElement) {
+      return;
+    }
+
+    // Check if we're in portrait mode on a mobile/tablet device
+    let isPortrait = false;
+    
+    // On Cordova (native mobile apps), use screen.orientation API
+    // On desktop/web, always use aspect ratio for reliability
+    if (this._platformHelper.isCordova() && typeof screen !== 'undefined' && screen.orientation && screen.orientation.type) {
+      isPortrait = screen.orientation.type.startsWith('portrait');
+    } else {
+      // Check aspect ratio (portrait if height/width > 13/10)
+      // This matches the CSS media query: max-aspect-ratio: 13/10
+      const aspectRatio = window.innerHeight / window.innerWidth;
+      isPortrait = aspectRatio > 13 / 10;
+    }
+    
+    const isMobile = this._platformHelper.isMobile() || this._platformHelper.isCordova();
+    const isPanelOpen = this._activePanel !== '' && !this.toolPanelElement.classList.contains('hidden');
+
+    // Close the panel if in portrait mode on mobile and panel is open
+    if (isPortrait && isMobile && isPanelOpen) {
+      const currentPanel = this._activePanel;
+      this._activePanel = '';
+      this.toolPanelElement.classList.add('hidden');
+      await this._togglePanel(currentPanel, false);
+      await ipcSettings.set(SETTINGS_KEY, this._activePanel);
+    }
   }
 
 }
