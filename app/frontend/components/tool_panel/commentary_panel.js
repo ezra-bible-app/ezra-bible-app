@@ -94,7 +94,7 @@ class CommentaryPanel {
     dialogOptions.autoOpen = false;
     dialogOptions.dialogClass = 'ezra-dialog';
     dialogOptions.title = i18n.t('commentary-panel.configure-commentaries');
-    dialogOptions.closeOnEscape = true;
+
     dialogOptions.buttons = {
       OK: {
         text: i18n.t('general.ok'),
