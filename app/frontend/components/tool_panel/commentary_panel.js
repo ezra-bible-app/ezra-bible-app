@@ -62,10 +62,95 @@ class CommentaryPanel {
 
     this._verseBoxHelper = new VerseBoxHelper();
     this._referenceBoxHelper = new ReferenceBoxHelper(this.getMainContent(), this.getReferenceBox());
+    this.initCommentarySettingsDialog();
   }
 
   setRefreshBlocked(refreshBlocked) {
     this.refreshBlocked = refreshBlocked;
+  }
+
+  initCommentarySettingsDialog() {
+    $('#commentary-settings-dialog').dialog({
+      autoOpen: false,
+      width: 500,
+      height: 'auto',
+      modal: true,
+      title: i18n.t('commentary-panel.configure-commentaries'),
+      dialogClass: 'ezra-dialog',
+      buttons: {
+        OK: {
+          text: i18n.t('general.ok'),
+          click: async () => {
+            await this.saveCommentarySettings();
+            $('#commentary-settings-dialog').dialog('close');
+            
+            let selectedVerseBoxes = app_controller.verse_selection.getSelectedElements();
+            this.performRefresh(selectedVerseBoxes);
+          }
+        },
+        Cancel: {
+          text: i18n.t('general.cancel'),
+          click: () => {
+            $('#commentary-settings-dialog').dialog('close');
+          }
+        }
+      }
+    });
+
+    uiHelper.fixDialogCloseIconOnAndroid('ezra-dialog');
+
+    $('#commentary-panel-settings-button').on('click', async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      await this.showCommentarySettingsDialog();
+    });
+  }
+
+  async showCommentarySettingsDialog() {
+    let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
+    
+    allCommentaries.sort((a, b) => {
+      if (a.description < b.description) return -1;
+      if (a.description > b.description) return 1;
+      return 0;
+    });
+
+    let commentarySettingsList = document.getElementById('commentary-settings-list');
+    commentarySettingsList.innerHTML = '';
+
+    for (let commentary of allCommentaries) {
+      if (commentary.category == 'Images') {
+        continue;
+      }
+
+      const isVisible = await ipcSettings.get(`commentaryVisible.${commentary.name}`, true);
+      
+      let checkboxId = `commentary-checkbox-${commentary.name}`;
+      let label = document.createElement('label');
+      label.setAttribute('for', checkboxId);
+      
+      let checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = checkboxId;
+      checkbox.checked = isVisible;
+      checkbox.setAttribute('data-commentary-name', commentary.name);
+      
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(commentary.description));
+      
+      commentarySettingsList.appendChild(label);
+    }
+
+    $('#commentary-settings-dialog').dialog('open');
+  }
+
+  async saveCommentarySettings() {
+    let checkboxes = document.querySelectorAll('#commentary-settings-list input[type="checkbox"]');
+    
+    for (let checkbox of checkboxes) {
+      let commentaryName = checkbox.getAttribute('data-commentary-name');
+      await ipcSettings.set(`commentaryVisible.${commentaryName}`, checkbox.checked);
+    }
   }
 
   getMainContent() {
@@ -343,7 +428,7 @@ class CommentaryPanel {
   }
 
   async getCommentaryContent(selectedVerseBoxes=undefined) {
-    let commentaryContent = "";
+    let commentaryContent = '';
 
     if (selectedVerseBoxes != null) {
       if (selectedVerseBoxes.length != 0) {
@@ -364,6 +449,12 @@ class CommentaryPanel {
 
           // We do not support Images
           if (currentCommentary.category == 'Images') {
+            continue;
+          }
+
+          // Check if commentary is visible in settings
+          const isVisible = await ipcSettings.get(`commentaryVisible.${currentCommentary.name}`, true);
+          if (!isVisible) {
             continue;
           }
 
@@ -400,8 +491,8 @@ class CommentaryPanel {
         if (commentaryContent.length == 0) {
 
           commentaryContent = "<div style='margin-top: 0.5em;'>" + 
-                              i18n.t("commentary-panel.no-commentaries-available-for-this-verse") +
-                              "</div>";
+                              i18n.t('commentary-panel.no-commentaries-available-for-this-verse') +
+                              '</div>';
         }
       }
     }

@@ -37,6 +37,35 @@
   font-size: 120%;
 }
 
+#commentary-panel-settings-button {
+  float: right;
+  margin-right: 0.5em;
+  margin-top: 0.3em;
+  padding: 0.3em 0.5em;
+  cursor: pointer;
+}
+
+#commentary-settings-dialog {
+  max-height: 60vh;
+}
+
+#commentary-settings-list {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+#commentary-settings-list label {
+  display: block;
+  margin-bottom: 0.5em;
+  cursor: pointer;
+  user-select: none;
+}
+
+#commentary-settings-list input[type="checkbox"] {
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+
 #commentary-panel-wrapper {
   height: 100%;
 }
