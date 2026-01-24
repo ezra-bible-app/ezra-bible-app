@@ -39,13 +39,31 @@ module.exports.rtfToHtml = function(rtf) {
   let buffer = "";
   let alignDivOpen = false;
 
+  // Pattern to match common HTML tags (opening, closing, self-closing with optional attributes)
+  const htmlTagPattern = /<\/?(?:a|b|i|u|p|br|div|span|strong|em|blockquote|ul|ol|li|h[1-6]|table|tr|td|th|thead|tbody|font|sub|sup|hr)(?:\s[^>]*)?\/?>/gi;
+
   const escapeHtml = (text) => {
-    return text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+    // Split by HTML tags, preserving the tags in the result
+    let parts = text.split(htmlTagPattern);
+    let tags = text.match(htmlTagPattern) || [];
+
+    let result = '';
+    for (let j = 0; j < parts.length; j++) {
+      // Escape the non-tag part
+      result += parts[j]
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+      // Append the preserved HTML tag if it exists
+      if (j < tags.length) {
+        result += tags[j];
+      }
+    }
+
+    return result;
   };
 
   const flush = () => {
