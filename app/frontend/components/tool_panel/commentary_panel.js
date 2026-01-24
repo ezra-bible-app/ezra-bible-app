@@ -21,6 +21,7 @@ const VerseBox = require("../../ui_models/verse_box.js");
 const { getPlatform } = require('../../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
 const ReferenceBoxHelper = require('./reference_box_helper.js');
+const Mousetrap = require('mousetrap');
 
 /**
  * The CommentaryPanel component implements a tool panel that shows Bible commentaries for selected verses
@@ -70,34 +71,38 @@ class CommentaryPanel {
   }
 
   initCommentarySettingsDialog() {
-    $('#commentary-settings-dialog').dialog({
-      autoOpen: false,
-      width: 500,
-      height: 'auto',
-      modal: true,
-      title: i18n.t('commentary-panel.configure-commentaries'),
-      dialogClass: 'ezra-dialog',
-      buttons: {
-        OK: {
-          text: i18n.t('general.ok'),
-          click: async () => {
-            await this.saveCommentarySettings();
-            $('#commentary-settings-dialog').dialog('close');
-            
-            let selectedVerseBoxes = app_controller.verse_selection.getSelectedElements();
-            this.performRefresh(selectedVerseBoxes);
-          }
-        },
-        Cancel: {
-          text: i18n.t('general.cancel'),
-          click: () => {
-            $('#commentary-settings-dialog').dialog('close');
-          }
+    let width = 500;
+    let height = null;
+    let draggable = true;
+
+    let dialogOptions = uiHelper.getDialogOptions(width, height, draggable);
+    
+    dialogOptions.autoOpen = false;
+    dialogOptions.dialogClass = 'ezra-dialog';
+    dialogOptions.title = i18n.t('commentary-panel.configure-commentaries');
+    dialogOptions.closeOnEscape = true;
+    dialogOptions.buttons = {
+      OK: {
+        text: i18n.t('general.ok'),
+        click: async () => {
+          await this.saveCommentarySettings();
+          $('#commentary-settings-dialog').dialog('close');
+          
+          let selectedVerseBoxes = app_controller.verse_selection.getSelectedElements();
+          this.performRefresh(selectedVerseBoxes);
+        }
+      },
+      Cancel: {
+        text: i18n.t('general.cancel'),
+        click: () => {
+          $('#commentary-settings-dialog').dialog('close');
         }
       }
-    });
+    };
 
-    uiHelper.fixDialogCloseIconOnAndroid('ezra-dialog');
+    $('#commentary-settings-dialog').dialog(dialogOptions);
+
+    uiHelper.fixDialogCloseIconOnAndroid('commentary-settings-dialog');
 
     $('#commentary-panel-settings-button').on('click', async (event) => {
       event.preventDefault();
@@ -142,6 +147,8 @@ class CommentaryPanel {
     }
 
     $('#commentary-settings-dialog').dialog('open');
+
+    Mousetrap.bind('esc', () => { $('#commentary-settings-dialog').dialog('close'); });
   }
 
   async saveCommentarySettings() {
