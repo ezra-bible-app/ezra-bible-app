@@ -131,6 +131,11 @@ class PanelButtons extends HTMLElement {
     } else {
       await this._togglePanel(this._activePanel, true);
     }
+
+    // Subscribe to tab-added event to close panel in portrait mode on mobile/tablet
+    eventController.subscribe('on-tab-added', () => {
+      this._handleTabAdded();
+    });
     
   }
 
@@ -246,6 +251,21 @@ class PanelButtons extends HTMLElement {
 
     button.disabled = false;
     this._disabledPanels.delete(panelId);
+  }
+
+  _handleTabAdded() {
+    // Check if we're in portrait mode on a mobile/tablet device
+    const isPortrait = screen.orientation && screen.orientation.type && screen.orientation.type.startsWith('portrait');
+    const isMobile = this._platformHelper.isMobile();
+    const isPanelOpen = this._activePanel !== '' && !this.toolPanelElement.classList.contains('hidden');
+
+    // Close the panel if in portrait mode on mobile and panel is open
+    if (isPortrait && isMobile && isPanelOpen) {
+      this._activePanel = '';
+      this.toolPanelElement.classList.add('hidden');
+      this._togglePanel(this._activePanel, false);
+      ipcSettings.set(SETTINGS_KEY, this._activePanel);
+    }
   }
 
 }
