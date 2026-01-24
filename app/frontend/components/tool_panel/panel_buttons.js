@@ -274,7 +274,7 @@ class PanelButtons extends HTMLElement {
                        screen.orientation && 
                        screen.orientation.type && 
                        screen.orientation.type.startsWith('portrait');
-    const isMobile = this._platformHelper.isMobile();
+    const isMobile = this._platformHelper.isMobile() || this._platformHelper.isCordova();
     const isPanelOpen = this._activePanel !== '' && !this.toolPanelElement.classList.contains('hidden');
 
     // Close the panel if in portrait mode on mobile and panel is open
