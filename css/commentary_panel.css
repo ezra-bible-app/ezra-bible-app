@@ -40,17 +40,12 @@
 #commentary-panel-settings-button {
   float: right;
   margin-right: 0.5em;
-  margin-top: -2em;
+  margin-top: -2.2em;
   padding: 0.3em 0.5em;
   cursor: pointer;
 }
 
-#commentary-settings-dialog {
-  max-height: 60vh;
-}
-
 #commentary-settings-list {
-  max-height: 50vh;
   overflow-y: auto;
 }
 
