@@ -458,7 +458,7 @@
     "commentaries-for": "Commentaries for",
     "show-commentaries": "Show commentaries",
     "configure-commentaries": "Configure commentaries",
-    "configure-commentaries-info": "Select which commentaries to display in the commentary panel:",
+    "select-which-commentaries-to-display": "Select which commentaries to display in the commentary panel:",
     "copy-commentary-to-clipboard": "Copy commentary to clipboard",
     "copy-commentary-to-clipboard-success": "Commentary copied to clipboard!",
     "help-instruction": "To show commentary content, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries.",
