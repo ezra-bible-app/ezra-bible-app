@@ -57,7 +57,12 @@ class CommentaryPanel {
       }
     });
 
-    eventController.subscribeMultiple(['on-commentary-added', 'on-commentary-removed'], () => {
+    eventController.subscribe('on-commentary-added', () => {
+      refreshWithSelection();
+    });
+
+    eventController.subscribe('on-commentary-removed', async (moduleCode) => {
+      await ipcSettings.delete(`commentaryVisible.${moduleCode}`);
       refreshWithSelection();
     });
 
