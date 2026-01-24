@@ -135,7 +135,9 @@ class PanelButtons extends HTMLElement {
 
     // Subscribe to tab-added event to close panel in portrait mode on mobile/tablet
     this._tabAddedSubscription = eventController.subscribe('on-tab-added', () => {
-      this._handleTabAdded();
+      this._handleTabAdded().catch(err => {
+        console.error('Error handling tab added event:', err);
+      });
     });
     
   }
@@ -262,6 +264,11 @@ class PanelButtons extends HTMLElement {
   }
 
   async _handleTabAdded() {
+    // Check if toolPanelElement is available
+    if (!this.toolPanelElement) {
+      return;
+    }
+
     // Check if we're in portrait mode on a mobile/tablet device
     const isPortrait = typeof screen !== 'undefined' && 
                        screen.orientation && 
