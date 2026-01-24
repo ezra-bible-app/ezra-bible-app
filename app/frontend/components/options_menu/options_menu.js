@@ -94,15 +94,18 @@ class OptionsMenu {
     var showSearchResultsInPopupByDefault = false;
     var bookChapterNavDefault = true;
     var userDataIndicatorDefault = true;
+    var selectChapterBeforeLoadingDefault = false;
 
     if (this.platformHelper.isCordova() && !this.platformHelper.isMobile()) {
       openVerseListsInNewTabByDefault = true;
     }
 
     if (this.platformHelper.isMobile()) {
-      showSearchResultsInPopupByDefault = true;
+      openVerseListsInNewTabByDefault = true;
+      showSearchResultsInPopupByDefault = false;
       bookChapterNavDefault = false;
       userDataIndicatorDefault = false;
+      selectChapterBeforeLoadingDefault = true;
     }
 
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
@@ -126,7 +129,7 @@ class OptionsMenu {
     this._keepScreenAwakeOption = this.initConfigOption('keepScreenAwakeOption', () => { this.keepScreenAwakeBasedOnOption(); });
     this._textSizeAdjustTagsNotesOption = this.initConfigOption('adjustTagsNotesTextSizeOption', () => { app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked); }, true);
     this._adjustSidePanelTextSizeOption = this.initConfigOption('adjustSidePanelTextSizeOption', () => { app_controller.textSizeSettings.updateSidePanel(this._adjustSidePanelTextSizeOption.isChecked); });
-    this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {});
+    this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {}, selectChapterBeforeLoadingDefault);
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
