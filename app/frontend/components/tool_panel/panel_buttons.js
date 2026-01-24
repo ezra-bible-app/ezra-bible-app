@@ -275,9 +275,10 @@ class PanelButtons extends HTMLElement {
     if (typeof screen !== 'undefined' && screen.orientation && screen.orientation.type) {
       isPortrait = screen.orientation.type.startsWith('portrait');
     } else {
-      // Fallback: Check aspect ratio (portrait if height > width * 10/13)
+      // Fallback: Check aspect ratio (portrait if height/width > 13/10)
       // This matches the CSS media query: max-aspect-ratio: 13/10
-      isPortrait = window.innerHeight > window.innerWidth * (10 / 13);
+      const aspectRatio = window.innerHeight / window.innerWidth;
+      isPortrait = aspectRatio > 13 / 10;
     }
     
     const isMobile = this._platformHelper.isMobile() || this._platformHelper.isCordova();
