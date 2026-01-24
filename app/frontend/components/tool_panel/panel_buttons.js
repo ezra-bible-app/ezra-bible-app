@@ -108,6 +108,7 @@ class PanelButtons extends HTMLElement {
     this._activePanel = null;
     this.panelEvents = {};
     this._disabledPanels = new Set();
+    this._tabAddedSubscription = null;
 
     this._platformHelper = new PlatformHelper();
   }
@@ -133,10 +134,17 @@ class PanelButtons extends HTMLElement {
     }
 
     // Subscribe to tab-added event to close panel in portrait mode on mobile/tablet
-    eventController.subscribe('on-tab-added', () => {
+    this._tabAddedSubscription = eventController.subscribe('on-tab-added', () => {
       this._handleTabAdded();
     });
     
+  }
+
+  disconnectedCallback() {
+    if (this._tabAddedSubscription) {
+      this._tabAddedSubscription.remove();
+      this._tabAddedSubscription = null;
+    }
   }
 
   _initButton(buttonElement) {
@@ -255,7 +263,10 @@ class PanelButtons extends HTMLElement {
 
   async _handleTabAdded() {
     // Check if we're in portrait mode on a mobile/tablet device
-    const isPortrait = screen.orientation && screen.orientation.type && screen.orientation.type.startsWith('portrait');
+    const isPortrait = typeof screen !== 'undefined' && 
+                       screen.orientation && 
+                       screen.orientation.type && 
+                       screen.orientation.type.startsWith('portrait');
     const isMobile = this._platformHelper.isMobile();
     const isPanelOpen = this._activePanel !== '' && !this.toolPanelElement.classList.contains('hidden');
 
