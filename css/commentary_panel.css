@@ -50,7 +50,8 @@
 }
 
 #commentary-settings-list label {
-  display: block;
+  display: flex;
+  align-items: flex-start;
   margin-bottom: 0.5em;
   cursor: pointer;
   user-select: none;
@@ -58,6 +59,8 @@
 
 #commentary-settings-list input[type="checkbox"] {
   margin-right: 0.5em;
+  margin-top: 0.2em;
+  flex-shrink: 0;
   cursor: pointer;
 }
 
