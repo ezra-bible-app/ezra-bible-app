@@ -270,10 +270,16 @@ class PanelButtons extends HTMLElement {
     }
 
     // Check if we're in portrait mode on a mobile/tablet device
-    const isPortrait = typeof screen !== 'undefined' && 
-                       screen.orientation && 
-                       screen.orientation.type && 
-                       screen.orientation.type.startsWith('portrait');
+    // Use screen.orientation API if available, fallback to aspect ratio check
+    let isPortrait = false;
+    if (typeof screen !== 'undefined' && screen.orientation && screen.orientation.type) {
+      isPortrait = screen.orientation.type.startsWith('portrait');
+    } else {
+      // Fallback: Check aspect ratio (portrait if height > width * 10/13)
+      // This matches the CSS media query: max-aspect-ratio: 13/10
+      isPortrait = window.innerHeight > window.innerWidth * (10 / 13);
+    }
+    
     const isMobile = this._platformHelper.isMobile() || this._platformHelper.isCordova();
     const isPanelOpen = this._activePanel !== '' && !this.toolPanelElement.classList.contains('hidden');
 
