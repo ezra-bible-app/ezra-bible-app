@@ -57,12 +57,21 @@ class CommentaryPanel {
       }
     });
 
-    eventController.subscribe('on-commentary-added', () => {
+    eventController.subscribe('on-commentary-added', async (moduleCode) => {
+      let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
+      if (shownCommentaries != null && !shownCommentaries.includes(moduleCode)) {
+        shownCommentaries.push(moduleCode);
+        await ipcSettings.set('shownCommentaries', shownCommentaries);
+      }
       refreshWithSelection();
     });
 
     eventController.subscribe('on-commentary-removed', async (moduleCode) => {
-      await ipcSettings.delete(`commentaryVisible.${moduleCode}`);
+      let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
+      if (shownCommentaries != null) {
+        shownCommentaries = shownCommentaries.filter(c => c !== moduleCode);
+        await ipcSettings.set('shownCommentaries', shownCommentaries);
+      }
       refreshWithSelection();
     });
 
@@ -125,6 +134,8 @@ class CommentaryPanel {
       return 0;
     });
 
+    let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
+
     let commentarySettingsList = document.getElementById('commentary-settings-list');
     commentarySettingsList.innerHTML = '';
 
@@ -133,7 +144,8 @@ class CommentaryPanel {
         continue;
       }
 
-      const isVisible = await ipcSettings.get(`commentaryVisible.${commentary.name}`, true);
+      // If shownCommentaries is null (not set yet), show all commentaries by default
+      const isVisible = shownCommentaries === null || shownCommentaries.includes(commentary.name);
       
       let checkboxId = `commentary-checkbox-${commentary.name}`;
       let label = document.createElement('label');
@@ -158,11 +170,16 @@ class CommentaryPanel {
 
   async saveCommentarySettings() {
     let checkboxes = document.querySelectorAll('#commentary-settings-list input[type="checkbox"]');
+    let shownCommentaries = [];
     
     for (let checkbox of checkboxes) {
-      let commentaryName = checkbox.getAttribute('data-commentary-name');
-      await ipcSettings.set(`commentaryVisible.${commentaryName}`, checkbox.checked);
+      if (checkbox.checked) {
+        let commentaryName = checkbox.getAttribute('data-commentary-name');
+        shownCommentaries.push(commentaryName);
+      }
     }
+    
+    await ipcSettings.set('shownCommentaries', shownCommentaries);
   }
 
   getMainContent() {
@@ -456,6 +473,8 @@ class CommentaryPanel {
         const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
         const copyCommentaryButtonTitle = i18n.t('commentary-panel.copy-commentary-to-clipboard');
 
+        let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
+
         for (let i = 0; i < allCommentaries.length; i++) {
           let currentCommentary = allCommentaries[i];
 
@@ -465,8 +484,8 @@ class CommentaryPanel {
           }
 
           // Check if commentary is visible in settings
-          const isVisible = await ipcSettings.get(`commentaryVisible.${currentCommentary.name}`, true);
-          if (!isVisible) {
+          // If shownCommentaries is null (not set yet), show all commentaries by default
+          if (shownCommentaries !== null && !shownCommentaries.includes(currentCommentary.name)) {
             continue;
           }
 
