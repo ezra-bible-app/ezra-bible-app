@@ -77,6 +77,7 @@ class CordovaPlatform {
       // eslint-disable-next-line no-unused-vars
       window.addEventListener('keyboardDidShow', (event) => {
         document.body.classList.add('keyboard-shown');
+        this.scrollSelectedVerseIntoView();
       });
 
       // cordova-plugin-ionic-keyboard event binding
@@ -379,6 +380,25 @@ class CordovaPlatform {
 
   copyToClipboard(text, html) {
     this.copyTextToClipboard(text);
+  }
+
+  scrollSelectedVerseIntoView() {
+    // Check if app_controller and verse_selection are available
+    if (typeof app_controller === 'undefined' || !app_controller.verse_selection) {
+      return;
+    }
+
+    // Get the currently selected verses
+    const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
+    
+    // If there are selected verses, scroll the first one into view
+    if (selectedVerseBoxes && selectedVerseBoxes.length > 0) {
+      const firstSelectedVerse = selectedVerseBoxes[0];
+      
+      // Use scrollIntoView with smooth behavior and center the verse in the viewport
+      // This ensures the verse is visible even with the keyboard shown
+      firstSelectedVerse.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   }
 }
 
