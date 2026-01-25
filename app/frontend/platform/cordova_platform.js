@@ -21,6 +21,7 @@
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
 const i18nController = require('../controllers/i18n_controller.js');
+const eventController = require('../controllers/event_controller.js');
 
 /**
  * This class controls Cordova platform specific functionality and it also contains the entry point to startup on Cordova (init):
@@ -77,6 +78,10 @@ class CordovaPlatform {
       // eslint-disable-next-line no-unused-vars
       window.addEventListener('keyboardDidShow', (event) => {
         document.body.classList.add('keyboard-shown');
+        // Delay scrolling to allow keyboard animation to complete
+        setTimeout(() => {
+          this.scrollSelectedVerseIntoView();
+        }, 300);
       });
 
       // cordova-plugin-ionic-keyboard event binding
@@ -84,6 +89,9 @@ class CordovaPlatform {
       window.addEventListener('keyboardDidHide', (event) => {
         document.body.classList.remove('keyboard-shown');
       });
+
+      // Set up panel event handler after app initialization
+      this.setupPanelScrollHandler();
 
       this.startNodeJsEngine();
     }, false);
@@ -379,6 +387,65 @@ class CordovaPlatform {
 
   copyToClipboard(text, html) {
     this.copyTextToClipboard(text);
+  }
+
+  scrollSelectedVerseIntoView() {
+    // Check if app_controller and verse_selection are available
+    if (typeof app_controller === 'undefined' || !app_controller.verse_selection) {
+      return;
+    }
+
+    // Get the currently selected verses
+    const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
+    
+    // If there are selected verses, scroll the first one into view within the verse-list-frame
+    if (selectedVerseBoxes?.length > 0) {
+      const firstSelectedVerse = selectedVerseBoxes[0];
+      
+      try {
+        // Get the verse list frame (the scrollable container)
+        const verseListController = require('../controllers/verse_list_controller.js');
+        const verseListFrame = verseListController.getCurrentVerseListFrame()[0];
+        
+        if (!verseListFrame) {
+          return;
+        }
+
+        // Calculate the position of the verse relative to the container
+        const verseRect = firstSelectedVerse.getBoundingClientRect();
+        const containerRect = verseListFrame.getBoundingClientRect();
+        
+        // Calculate how much to scroll to center the verse in the container
+        const relativeTop = verseRect.top - containerRect.top;
+        const containerHeight = containerRect.height;
+        const verseHeight = verseRect.height;
+        
+        // Calculate the scroll position to center the verse
+        const targetScrollTop = verseListFrame.scrollTop + relativeTop - (containerHeight / 2) + (verseHeight / 2);
+        
+        // Smooth scroll to the target position
+        verseListFrame.scrollTo({
+          top: targetScrollTop,
+          behavior: 'smooth'
+        });
+      } catch (e) {
+        // Silently ignore if scrolling fails (e.g., if element is detached from DOM)
+        console.warn('Failed to scroll selected verse into view:', e);
+      }
+    }
+  }
+
+  setupPanelScrollHandler() {
+    // Subscribe to the startup-completed event to ensure app is fully initialized
+    eventController.subscribe('on-startup-completed', () => {
+      // Subscribe to the generic panel switched event
+      // When any panel is opened (isOpen === true), scroll the selected verse into view
+      eventController.subscribe('on-panel-switched', (isOpen) => {
+        if (isOpen) {
+          this.scrollSelectedVerseIntoView();
+        }
+      });
+    });
   }
 }
 
