@@ -395,16 +395,38 @@ class CordovaPlatform {
     // Get the currently selected verses
     const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
     
-    // If there are selected verses, scroll the first one into view
+    // If there are selected verses, scroll the first one into view within the verse-list-frame
     if (selectedVerseBoxes?.length > 0) {
       const firstSelectedVerse = selectedVerseBoxes[0];
       
       try {
-        // Use scrollIntoView with smooth behavior and center the verse in the viewport
-        // This ensures the verse is visible even with the keyboard shown
-        firstSelectedVerse.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Get the verse list frame (the scrollable container)
+        const verseListController = require('../controllers/verse_list_controller.js');
+        const verseListFrame = verseListController.getCurrentVerseListFrame()[0];
+        
+        if (!verseListFrame) {
+          return;
+        }
+
+        // Calculate the position of the verse relative to the container
+        const verseRect = firstSelectedVerse.getBoundingClientRect();
+        const containerRect = verseListFrame.getBoundingClientRect();
+        
+        // Calculate how much to scroll to center the verse in the container
+        const relativeTop = verseRect.top - containerRect.top;
+        const containerHeight = containerRect.height;
+        const verseHeight = verseRect.height;
+        
+        // Calculate the scroll position to center the verse
+        const targetScrollTop = verseListFrame.scrollTop + relativeTop - (containerHeight / 2) + (verseHeight / 2);
+        
+        // Smooth scroll to the target position
+        verseListFrame.scrollTo({
+          top: targetScrollTop,
+          behavior: 'smooth'
+        });
       } catch (e) {
-        // Silently ignore if scrollIntoView fails (e.g., if element is detached from DOM)
+        // Silently ignore if scrolling fails (e.g., if element is detached from DOM)
         console.warn('Failed to scroll selected verse into view:', e);
       }
     }
