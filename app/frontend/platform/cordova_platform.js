@@ -392,12 +392,17 @@ class CordovaPlatform {
     const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
     
     // If there are selected verses, scroll the first one into view
-    if (selectedVerseBoxes && selectedVerseBoxes.length > 0) {
+    if (selectedVerseBoxes?.length > 0) {
       const firstSelectedVerse = selectedVerseBoxes[0];
       
-      // Use scrollIntoView with smooth behavior and center the verse in the viewport
-      // This ensures the verse is visible even with the keyboard shown
-      firstSelectedVerse.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      try {
+        // Use scrollIntoView with smooth behavior and center the verse in the viewport
+        // This ensures the verse is visible even with the keyboard shown
+        firstSelectedVerse.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (e) {
+        // Silently ignore if scrollIntoView fails (e.g., if element is detached from DOM)
+        console.warn('Failed to scroll selected verse into view:', e);
+      }
     }
   }
 }
