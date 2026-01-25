@@ -21,6 +21,7 @@
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
 const i18nController = require('../controllers/i18n_controller.js');
+const eventController = require('../controllers/event_controller.js');
 
 /**
  * This class controls Cordova platform specific functionality and it also contains the entry point to startup on Cordova (init):
@@ -410,41 +411,19 @@ class CordovaPlatform {
   }
 
   setupPanelScrollHandlers() {
-    // Wait for the eventController to be available and app to be initialized
-    const checkAndSetup = () => {
-      if (typeof eventController === 'undefined') {
-        // Event controller not yet available, try again in a bit
-        setTimeout(checkAndSetup, 100);
-        return;
-      }
-
-      // Subscribe to the startup-completed event to ensure app is fully initialized
-      eventController.subscribe('on-startup-completed', () => {
-        // Subscribe to all panel events
-        // When any panel is opened (isOpen === true), scroll the selected verse into view
-        const panelEvents = [
-          'on-tag-panel-switched',
-          'on-tag-statistics-panel-switched',
-          'on-word-study-panel-switched',
-          'on-compare-panel-switched',
-          'on-commentary-panel-switched',
-          'on-dictionary-panel-switched'
-        ];
-
-        panelEvents.forEach(eventName => {
-          eventController.subscribe(eventName, (isOpen) => {
-            if (isOpen) {
-              // Small delay to allow panel to fully open and adjust layout
-              setTimeout(() => {
-                this.scrollSelectedVerseIntoView();
-              }, 300);
-            }
-          });
-        });
+    // Subscribe to the startup-completed event to ensure app is fully initialized
+    eventController.subscribe('on-startup-completed', () => {
+      // Subscribe to the generic panel switched event
+      // When any panel is opened (isOpen === true), scroll the selected verse into view
+      eventController.subscribe('on-panel-switched', (isOpen) => {
+        if (isOpen) {
+          // Small delay to allow panel to fully open and adjust layout
+          setTimeout(() => {
+            this.scrollSelectedVerseIntoView();
+          }, 300);
+        }
       });
-    };
-
-    checkAndSetup();
+    });
   }
 }
 
