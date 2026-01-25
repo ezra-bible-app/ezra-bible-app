@@ -424,7 +424,7 @@ class CordovaPlatform {
         // When any panel is opened (isOpen === true), scroll the selected verse into view
         const panelEvents = [
           'on-tag-panel-switched',
-          'on-tag-statistics-panel-switched', 
+          'on-tag-statistics-panel-switched',
           'on-word-study-panel-switched',
           'on-compare-panel-switched',
           'on-commentary-panel-switched',
