@@ -90,8 +90,8 @@ class CordovaPlatform {
         document.body.classList.remove('keyboard-shown');
       });
 
-      // Set up panel event handlers after app initialization
-      this.setupPanelScrollHandlers();
+      // Set up panel event handler after app initialization
+      this.setupPanelScrollHandler();
 
       this.startNodeJsEngine();
     }, false);
@@ -435,17 +435,14 @@ class CordovaPlatform {
     }
   }
 
-  setupPanelScrollHandlers() {
+  setupPanelScrollHandler() {
     // Subscribe to the startup-completed event to ensure app is fully initialized
     eventController.subscribe('on-startup-completed', () => {
       // Subscribe to the generic panel switched event
       // When any panel is opened (isOpen === true), scroll the selected verse into view
       eventController.subscribe('on-panel-switched', (isOpen) => {
         if (isOpen) {
-          // Small delay to allow panel to fully open and adjust layout
-          setTimeout(() => {
-            this.scrollSelectedVerseIntoView();
-          }, 300);
+          this.scrollSelectedVerseIntoView();
         }
       });
     });
