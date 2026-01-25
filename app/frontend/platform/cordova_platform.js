@@ -78,7 +78,10 @@ class CordovaPlatform {
       // eslint-disable-next-line no-unused-vars
       window.addEventListener('keyboardDidShow', (event) => {
         document.body.classList.add('keyboard-shown');
-        this.scrollSelectedVerseIntoView();
+        // Delay scrolling to allow keyboard animation to complete
+        setTimeout(() => {
+          this.scrollSelectedVerseIntoView();
+        }, 300);
       });
 
       // cordova-plugin-ionic-keyboard event binding
