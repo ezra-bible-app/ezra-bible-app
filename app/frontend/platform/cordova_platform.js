@@ -448,7 +448,12 @@ class CordovaPlatform {
       // When any panel is opened (isOpen === true), scroll the selected verse into view
       eventController.subscribe('on-panel-switched', (isOpen) => {
         if (isOpen) {
-          this.scrollSelectedVerseIntoView();
+          // Only scroll selected verse into view in portrait mode
+          const isPortrait = screen.orientation.type.startsWith('portrait');
+          
+          if (isPortrait) {
+            this.scrollSelectedVerseIntoView();
+          }
         }
       });
     });
