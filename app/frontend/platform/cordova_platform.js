@@ -78,10 +78,27 @@ class CordovaPlatform {
       // eslint-disable-next-line no-unused-vars
       window.addEventListener('keyboardDidShow', (event) => {
         document.body.classList.add('keyboard-shown');
-        // Delay scrolling to allow keyboard animation to complete
-        setTimeout(() => {
-          this.scrollSelectedVerseIntoView();
-        }, 300);
+        
+        // Check if we're in portrait mode before scrolling
+        let isPortrait = false;
+        
+        // Use screen.orientation API if available (Cordova/modern browsers)
+        if (typeof screen !== 'undefined' && screen.orientation && screen.orientation.type) {
+          isPortrait = screen.orientation.type.startsWith('portrait');
+        } else {
+          // Fallback: Check aspect ratio (portrait if height/width > 13/10)
+          // This matches the CSS media query: max-aspect-ratio: 13/10
+          const aspectRatio = window.innerHeight / window.innerWidth;
+          isPortrait = aspectRatio > 13 / 10;
+        }
+        
+        // Only scroll selected verse into view in portrait mode
+        if (isPortrait) {
+          // Delay scrolling to allow keyboard animation to complete
+          setTimeout(() => {
+            this.scrollSelectedVerseIntoView();
+          }, 300);
+        }
       });
 
       // cordova-plugin-ionic-keyboard event binding
