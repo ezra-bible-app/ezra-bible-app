@@ -101,15 +101,15 @@ When working with translations or documentation, **do not translate**:
 - Node.js v18.x (compatibility with other versions not guaranteed)
 - Platform-specific build tools (see `BUILD.md` for details)
 
+### Testing Philosophy
+- **Prefer manual testing**: Changes should be verified manually by running the application
+- Automated tests (Jest, Cucumber) exist but are not required for every change
+- Focus on ensuring changes work correctly through hands-on verification
+
 ### Common Commands
 ```bash
 # Start the app in development mode
 npm start
-
-# Run tests
-npm test                # Jest unit tests
-npm run dev-test       # Cucumber tests (fail-fast)
-npm run full-test      # All Cucumber tests
 
 # Build JavaScript bundle
 npm run browserify     # Bundle and minify
@@ -125,6 +125,11 @@ npm run compile-pug
 
 # Documentation generation
 npm run doc            # Generate JSDoc documentation
+
+# Optional: Run automated tests if needed
+npm test                # Jest unit tests
+npm run dev-test       # Cucumber tests (fail-fast)
+npm run full-test      # All Cucumber tests
 ```
 
 ### Building Releases
@@ -153,7 +158,8 @@ See `BUILD.md` for detailed platform-specific build instructions.
 - **iziToast**: Notification popups
 - **Hammer.JS**: Touch gesture detection (mobile)
 
-### Testing Frameworks
+### Testing Frameworks (Optional)
+The project includes automated testing frameworks, but manual verification is preferred:
 - **Jest**: Unit testing
 - **Cucumber.js**: Behavior-driven development (BDD)
 - **Chai**: Assertion library
@@ -167,7 +173,7 @@ See `TECH.md` for complete technology stack details.
 1. Understand the architecture (backend vs frontend separation)
 2. Check if changes affect IPC communication
 3. Follow coding standards (single quotes, 2-space indentation)
-4. Test changes with `npm test` or `npm run dev-test`
+4. **Manually verify changes** by running the application (`npm start`)
 5. Update documentation if adding new features
 6. Ensure license headers remain unchanged
 
@@ -192,14 +198,14 @@ See `TECH.md` for complete technology stack details.
 1. Determine if it's frontend, backend, or both
 2. Create/update controllers and components as needed
 3. Use event system for loose coupling between components
-4. Add tests (Cucumber features or Jest unit tests)
+4. **Manually verify the feature** works by running the application
 5. Update relevant documentation
 
 ### Fixing Bugs
 1. Check if bug is frontend or backend related
-2. Add a failing test that reproduces the bug
+2. Reproduce the bug manually
 3. Implement fix following coding standards
-4. Verify fix with tests and manual testing
+4. **Verify fix through manual testing** by running the application
 
 ### Performance Optimization
 - Profile with Chrome DevTools (Electron uses Chromium)
