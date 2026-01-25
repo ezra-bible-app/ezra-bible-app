@@ -78,10 +78,16 @@ class CordovaPlatform {
       // eslint-disable-next-line no-unused-vars
       window.addEventListener('keyboardDidShow', (event) => {
         document.body.classList.add('keyboard-shown');
-        // Delay scrolling to allow keyboard animation to complete
-        setTimeout(() => {
-          this.scrollSelectedVerseIntoView();
-        }, 300);
+        
+        // Only scroll selected verse into view in portrait mode
+        const isPortrait = screen.orientation.type.startsWith('portrait');
+        
+        if (isPortrait) {
+          // Delay scrolling to allow keyboard animation to complete
+          setTimeout(() => {
+            this.scrollSelectedVerseIntoView();
+          }, 300);
+        }
       });
 
       // cordova-plugin-ionic-keyboard event binding
