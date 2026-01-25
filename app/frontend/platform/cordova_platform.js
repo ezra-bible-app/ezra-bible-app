@@ -86,6 +86,9 @@ class CordovaPlatform {
         document.body.classList.remove('keyboard-shown');
       });
 
+      // Set up panel event handlers after app initialization
+      this.setupPanelScrollHandlers();
+
       this.startNodeJsEngine();
     }, false);
   }
@@ -404,6 +407,44 @@ class CordovaPlatform {
         console.warn('Failed to scroll selected verse into view:', e);
       }
     }
+  }
+
+  setupPanelScrollHandlers() {
+    // Wait for the eventController to be available and app to be initialized
+    const checkAndSetup = () => {
+      if (typeof eventController === 'undefined') {
+        // Event controller not yet available, try again in a bit
+        setTimeout(checkAndSetup, 100);
+        return;
+      }
+
+      // Subscribe to the startup-completed event to ensure app is fully initialized
+      eventController.subscribe('on-startup-completed', () => {
+        // Subscribe to all panel events
+        // When any panel is opened (isOpen === true), scroll the selected verse into view
+        const panelEvents = [
+          'on-tag-panel-switched',
+          'on-tag-statistics-panel-switched', 
+          'on-word-study-panel-switched',
+          'on-compare-panel-switched',
+          'on-commentary-panel-switched',
+          'on-dictionary-panel-switched'
+        ];
+
+        panelEvents.forEach(eventName => {
+          eventController.subscribe(eventName, (isOpen) => {
+            if (isOpen) {
+              // Small delay to allow panel to fully open and adjust layout
+              setTimeout(() => {
+                this.scrollSelectedVerseIntoView();
+              }, 300);
+            }
+          });
+        });
+      });
+    };
+
+    checkAndSetup();
   }
 }
 
