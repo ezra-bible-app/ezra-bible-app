@@ -667,3 +667,53 @@ module.exports.changeVerseListTagInfo = async function(tag_id, tag_title, verse_
       });
   }
 };
+
+/**
+ * Scrolls the first selected verse into view within the verse list frame.
+ * This is useful when the keyboard appears or panels are toggled, to ensure
+ * the user can still see their selected verse.
+ */
+module.exports.scrollSelectedVerseIntoView = function() {
+  // Check if app_controller and verse_selection are available
+  if (typeof app_controller === 'undefined' || !app_controller.verse_selection) {
+    return;
+  }
+
+  // Get the currently selected verses
+  const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
+  
+  // If there are selected verses, scroll the first one into view within the verse-list-frame
+  if (selectedVerseBoxes != null && selectedVerseBoxes.length > 0) {
+    const firstSelectedVerse = selectedVerseBoxes[0];
+    
+    try {
+      // Get the verse list frame (the scrollable container)
+      const verseListFrame = module.exports.getCurrentVerseListFrame()[0];
+      
+      if (!verseListFrame) {
+        return;
+      }
+
+      // Calculate the position of the verse relative to the container
+      const verseRect = firstSelectedVerse.getBoundingClientRect();
+      const containerRect = verseListFrame.getBoundingClientRect();
+      
+      // Calculate how much to scroll to center the verse in the container
+      const relativeTop = verseRect.top - containerRect.top;
+      const containerHeight = containerRect.height;
+      const verseHeight = verseRect.height;
+      
+      // Calculate the scroll position to center the verse
+      const targetScrollTop = verseListFrame.scrollTop + relativeTop - (containerHeight / 2) + (verseHeight / 2);
+      
+      // Smooth scroll to the target position
+      verseListFrame.scrollTo({
+        top: targetScrollTop,
+        behavior: 'smooth'
+      });
+    } catch (e) {
+      // Silently ignore if scrolling fails (e.g., if element is detached from DOM)
+      console.warn('Failed to scroll selected verse into view:', e);
+    }
+  }
+};
