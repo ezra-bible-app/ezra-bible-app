@@ -214,9 +214,13 @@ class PanelButtons extends HTMLElement {
       panelElement.classList.remove('active');
     }
 
+    // Publish generic panel switched event for global listeners with a delay of 100ms
+    setTimeout(async () => {
+      await eventController.publishAsync('on-panel-switched', setActive);
+    }, 100);
+
+    // Publish specific panel event
     await eventController.publishAsync(this.panelEvents[panelId], setActive);
-    // Also publish generic panel switched event for global listeners
-    await eventController.publishAsync('on-panel-switched', setActive);
   }
 
   _getButtonForPanel(panelId) {
