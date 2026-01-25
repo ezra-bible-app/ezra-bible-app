@@ -92,7 +92,7 @@ class CommentaryPanel {
     let dialogOptions = uiHelper.getDialogOptions(width, height, draggable);
     
     dialogOptions.autoOpen = false;
-    dialogOptions.dialogClass = 'ezra-dialog';
+    dialogOptions.dialogClass = 'ezra-dialog commentary-settings-dialog';
     dialogOptions.title = i18n.t('commentary-panel.configure-commentaries');
 
     dialogOptions.buttons = {
