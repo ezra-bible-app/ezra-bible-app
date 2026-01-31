@@ -96,7 +96,12 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
 
   var checkboxes = [];
   if (arr instanceof Map) {
-    const sortedKeys = [...arr.keys()].sort(this.sortByText);
+    const sortedKeys = [...arr.keys()].sort((keyA, keyB) => {
+      // Sort by text property if available, otherwise fall back to key
+      let textA = arr.get(keyA).text || keyA;
+      let textB = arr.get(keyB).text || keyB;
+      return this.sortByText(textA, textB);
+    });
     for (const key of sortedKeys) {
       const item = arr.get(key);
       if (item.count === undefined || item.count && item.count !== 0) {
