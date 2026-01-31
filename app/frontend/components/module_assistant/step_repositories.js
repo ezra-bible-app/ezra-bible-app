@@ -130,9 +130,9 @@ class StepRepositories extends HTMLElement {
     
     container.innerHTML = '';
     container.appendChild(assistantHelper.listCheckboxSection(repositoryMap, 
-                                                              assistantController.get('selectedRepositories'), 
-                                                              "", 
-                                                              {rowGap: '1.5em', extraIndent: true}));
+                                  assistantController.get('selectedRepositories'), 
+                                  "", 
+                                  {rowGap: '1.5em', extraIndent: true, forceSimpleKey: true}));
     
     if (shouldAnimateIn) {
       container.animate({opacity: [0, 1]}, 200);

@@ -156,9 +156,10 @@ class StepLanguages extends HTMLElement {
     const selectedLanguages = assistantController.get('selectedLanguages');
     
     this._appendList(this._allLanguages, 
-                     languageData.appSystemLanguages, 
-                     selectedLanguages, 
-                     i18n.t('module-assistant.step-languages.app-system-languages'));
+             languageData.appSystemLanguages, 
+             selectedLanguages, 
+             i18n.t('module-assistant.step-languages.app-system-languages'),
+             true);
 
     this._allLanguages.animate({opacity: [0, 1]}, 500);
 
@@ -170,7 +171,8 @@ class StepLanguages extends HTMLElement {
       this._appendList(containerSmallList, 
                        languages[category], 
                        selectedLanguages, 
-                       i18n.t(`module-assistant.step-languages.${category}`));
+                       i18n.t(`module-assistant.step-languages.${category}`),
+                       true);
     }
       
     this._allLanguages.appendChild(containerSmallList);
@@ -187,7 +189,8 @@ class StepLanguages extends HTMLElement {
       this._appendList(containerLongList, 
                        languages[category], 
                        selectedLanguages, 
-                       category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined);
+                       category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined,
+                       true);
     }
 
     await waitUntilIdle();
@@ -199,9 +202,9 @@ class StepLanguages extends HTMLElement {
     this._loading.hide();
   }
 
-  _appendList(container, languageMap, selectedLanguages, sectionHeader) {
+  _appendList(container, languageMap, selectedLanguages, sectionHeader, forceSimpleKey) {
     if (languageMap.size > 0) {
-      container.appendChild(assistantHelper.listCheckboxSection(languageMap, selectedLanguages, sectionHeader, {limitRows: true}));
+      container.appendChild(assistantHelper.listCheckboxSection(languageMap, selectedLanguages, sectionHeader, {limitRows: true, forceSimpleKey: !!forceSimpleKey}));
     }
   }
 
