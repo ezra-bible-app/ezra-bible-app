@@ -86,8 +86,6 @@ class IpcNsi {
   }
 
   async getRepoModule(repositoryName, moduleCode) {
-    console.log(`DEBUG ipcNsi.getRepoModule called with repositoryName='${repositoryName}', moduleCode='${moduleCode}'`);
-    console.trace('getRepoModule call stack');
     var returnValue = this._ipcRenderer.call('nsi_getRepoModule', repositoryName, moduleCode);
     return returnValue;
   }
@@ -130,7 +128,6 @@ class IpcNsi {
   }
 
   async installModule(repositoryName, moduleCode, progressCallback=undefined) {
-    console.log(`DEBUG ipcNsi.installModule called with repositoryName='${repositoryName}', moduleCode='${moduleCode}'`);
     var returnValue = this._ipcRenderer.callWithProgressCallback('nsi_installModule',
                                                                  'nsi_updateInstallProgress',
                                                                  progressCallback,
@@ -141,7 +138,6 @@ class IpcNsi {
   }
 
   installModuleSync(repositoryName, moduleCode) {
-    console.log(`DEBUG ipcNsi.installModuleSync called with repositoryName='${repositoryName}', moduleCode='${moduleCode}'`);
     var returnValue = this._ipcRenderer.callSync('nsi_installModuleSync', repositoryName, moduleCode);
     return returnValue;
   }
