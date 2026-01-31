@@ -307,7 +307,7 @@ class StepModules extends HTMLElement {
       this._handleModuleToggling(checked, moduleId, repository);
     } else {
       if (checked) {
-        this.unlockDialog.show(moduleId, unlockInfo[moduleId], checkbox, () => {
+        this.unlockDialog.show(moduleId, unlockInfo[moduleId], () => {
           this._handleModuleToggling(checked, moduleId, repository);
         });
       } else {
@@ -333,8 +333,9 @@ class StepModules extends HTMLElement {
     const repositoryName = checkbox.getAttribute('repository');
 
     const moduleInfo = this.querySelector('#module-info');
-    if (moduleInfo.getAttribute('code') !== moduleCode) {
+    if (moduleInfo.getAttribute('code') !== moduleCode || moduleInfo.getAttribute('repository') !== repositoryName) {
       moduleInfo.setAttribute('code', moduleCode);
+      moduleInfo.setAttribute('repository', repositoryName);
 
       const moduleInfoContent = moduleInfo.querySelector('#module-info-content');
       const loadingIndicator = moduleInfo.querySelector('loading-indicator');
