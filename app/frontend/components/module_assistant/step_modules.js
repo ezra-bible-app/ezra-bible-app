@@ -272,6 +272,7 @@ class StepModules extends HTMLElement {
     for (const mod of installedModulesArray) {
       installedModules.set(mod.name, mod.repository || '');
     }
+
     if (checked && installedModules.has(moduleId)) {
       const installedRepo = installedModules.get(moduleId);
       checkbox.checked = false;
