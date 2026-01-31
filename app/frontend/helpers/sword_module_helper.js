@@ -29,7 +29,7 @@ const PUBLIC_LICENSES = ['Public Domain', 'General public license for distributi
 var _moduleVersificationCache = {};
 var _cachedModule;
 
-module.exports.getSwordModule = async function(moduleId, isRemote=false) {
+module.exports.getSwordModule = async function(moduleId, isRemote=false, repositoryName=null) {
   if (moduleId == null) {
     return null;
   }
@@ -39,7 +39,7 @@ module.exports.getSwordModule = async function(moduleId, isRemote=false) {
 
     try {
       if (isRemote) {
-        swordModule = await ipcNsi.getRepoModule(moduleId);
+        swordModule = await ipcNsi.getRepoModule(repositoryName, moduleId);
       } else {
         swordModule = await ipcNsi.getLocalModule(moduleId);
       }
@@ -58,9 +58,9 @@ module.exports.resetModuleCache = function() {
   _cachedModule = null;
 };
 
-module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
+module.exports.getModuleDescription = async function(moduleId, isRemote=false, repositoryName=null) {
 
-  const swordModule = await this.getSwordModule(moduleId, isRemote);
+  const swordModule = await this.getSwordModule(moduleId, isRemote, repositoryName);
 
   if (!swordModule) {
     return "No info available!";
@@ -77,9 +77,9 @@ module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
   return moduleInfo;
 };
 
-module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeModuleDescription=true) {
+module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeModuleDescription=true, repositoryName=null) {
 
-  const swordModule = await this.getSwordModule(moduleId, isRemote);
+  const swordModule = await this.getSwordModule(moduleId, isRemote, repositoryName);
 
   if (!swordModule) {
     return "No info available!";
@@ -92,7 +92,7 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
     moduleInfo = "";
 
     if (includeModuleDescription) {
-      moduleInfo += await this.getModuleDescription(moduleId, isRemote);
+      moduleInfo += await this.getModuleDescription(moduleId, isRemote, repositoryName);
     }
     
     var yes = i18n.t("general.yes");

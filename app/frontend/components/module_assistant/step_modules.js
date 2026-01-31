@@ -243,28 +243,29 @@ class StepModules extends HTMLElement {
     const checkbox = event.target;
     const moduleId = event.detail.code;
     const checked = event.detail.checked;
+    const repository = checkbox.getAttribute('repository');
 
     if (!checkbox.hasAttribute('locked')) {
 
-      this._handleModuleToggling(checked, moduleId);
+      this._handleModuleToggling(checked, moduleId, repository);
 
     } else {
       if (checked) {
         this.unlockDialog.show(moduleId, unlockInfo[moduleId], checkbox, () => {
-          this._handleModuleToggling(checked, moduleId);
+          this._handleModuleToggling(checked, moduleId, repository);
         });
       } else {
         // Checkbox unchecked!
         // Reset the unlock key for this module
         this.unlockDialog.resetKey(moduleId);
-        this._handleModuleToggling(checked, moduleId);
+        this._handleModuleToggling(checked, moduleId, repository);
       }
     }
   }
 
-  _handleModuleToggling(checked, moduleId) {
+  _handleModuleToggling(checked, moduleId, repository) {
     if (checked) {
-      assistantController.add('selectedModules', moduleId);
+      assistantController.add('selectedModules', moduleId, repository);
     } else {
       assistantController.remove('selectedModules', moduleId);
     }
@@ -272,7 +273,9 @@ class StepModules extends HTMLElement {
 
   _handleInfoClick(event) {
 
-    const moduleCode = event.currentTarget.parentElement.firstElementChild.code;
+    const checkbox = event.currentTarget.parentElement.firstElementChild;
+    const moduleCode = checkbox.code;
+    const repositoryName = checkbox.getAttribute('repository');
 
     const moduleInfo = this.querySelector('#module-info');
     if (moduleInfo.getAttribute('code') !== moduleCode) {
@@ -286,7 +289,7 @@ class StepModules extends HTMLElement {
 
       setTimeout(async () => {
         const swordModuleHelper = require('../../helpers/sword_module_helper.js');
-        moduleInfoContent.innerHTML = await swordModuleHelper.getModuleInfo(moduleCode, true);
+        moduleInfoContent.innerHTML = await swordModuleHelper.getModuleInfo(moduleCode, true, true, repositoryName);
         loadingIndicator.hide();
       }, 100);
     }  
@@ -342,6 +345,7 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
         code: swordModule.name,
         text: `${swordModule.description} [${swordModule.name}]`,
         description: `${swordModule.repository}; ${i18n.t('general.module-version')}: ${swordModule.version}; ${i18n.t("general.module-size")}: ${Math.round(swordModule.size / 1024)} KB`,
+        repository: swordModule.repository,
         hasHebrewStrongsKeys: swordModule.hasHebrewStrongsKeys,
         hasGreekStrongsKeys: swordModule.hasGreekStrongsKeys
       };

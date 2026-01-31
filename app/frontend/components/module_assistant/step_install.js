@@ -100,7 +100,7 @@ class StepInstall extends HTMLElement {
     assistantController.setInstallInProgress();
 
     const selectedModules = assistantController.get('selectedModules');
-    for (const currentModule of selectedModules) {
+    for (const [currentModule, repository] of selectedModules) {
       let unlockFailed = true;
       this._moduleInstallationCancelled = false;
       this.querySelector('#cancel-module-installation-button').classList.remove('ui-state-disabled');
@@ -108,7 +108,7 @@ class StepInstall extends HTMLElement {
       while (unlockFailed) {
         try {
           unlockFailed = false;
-          await this._installModule(currentModule);
+          await this._installModule(currentModule, repository);
         } catch (e) {
           if (e == "UnlockError") {
             unlockFailed = true;
@@ -116,7 +116,7 @@ class StepInstall extends HTMLElement {
         }
 
         if (unlockFailed) {
-          const swordModule = await ipcNsi.getRepoModule(currentModule);
+          const swordModule = await ipcNsi.getRepoModule(repository, currentModule);
           this.unlockDialog.show(swordModule.name, swordModule.unlockInfo);
 
           while (this.unlockDialog.opened) {
@@ -136,8 +136,8 @@ class StepInstall extends HTMLElement {
     assistantHelper.unlockDialog('module-settings-assistant-add');
   }
 
-  async _installModule(moduleCode) {
-    var swordModule = await ipcNsi.getRepoModule(moduleCode);
+  async _installModule(moduleCode, repository) {
+    var swordModule = await ipcNsi.getRepoModule(repository, moduleCode);
 
     this._appendInstallationInfo(swordModule.description);
 
@@ -156,7 +156,7 @@ class StepInstall extends HTMLElement {
 
       if (!moduleInstalled) {
         this.querySelector('#module-install-progress-msg').innerHTML = '';
-        let result = await ipcNsi.installModule(moduleCode, progress => this._handleModuleInstallProgress(progress));
+        let result = await ipcNsi.installModule(repository, moduleCode, progress => this._handleModuleInstallProgress(progress));
         if (result < 0) {
           /*
           These are the return codes from SWORD when the module installation fails:
@@ -213,7 +213,7 @@ class StepInstall extends HTMLElement {
 
       // Install KJV as a dependency of commentaries if it has not been installed yet
       if (moduleType == 'COMMENTARY' && !kjvAvailable) {
-        await this._installModule('KJV');
+        await this._installModule('KJV', 'CrossWire');
         await eventController.publishAsync('on-translation-added', 'KJV');
       }
     } else {
@@ -263,11 +263,11 @@ class StepInstall extends HTMLElement {
       var greekStrongsAvailable = await ipcNsi.greekStrongsAvailable();
 
       if (!hebrewStrongsAvailable) {
-        await ipcNsi.installModule("StrongsHebrew", (progress) => { this._handleModuleInstallProgress(progress); });
+        await ipcNsi.installModule('CrossWire', 'StrongsHebrew', (progress) => { this._handleModuleInstallProgress(progress); });
       }
 
       if (!greekStrongsAvailable) {
-        await ipcNsi.installModule("StrongsGreek", (progress) => { this._handleModuleInstallProgress(progress); });
+        await ipcNsi.installModule('CrossWire', 'StrongsGreek', (progress) => { this._handleModuleInstallProgress(progress); });
       }
     } catch (e) {
       strongsInstallSuccessful = false;

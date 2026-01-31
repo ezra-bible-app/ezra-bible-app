@@ -237,28 +237,28 @@ class IpcNsiHandler {
                                             greekStrongsKeys);
     });
 
-    this._ipcMain.add('nsi_getRepoModule', async (moduleCode) => {
+    this._ipcMain.add('nsi_getRepoModule', async (repositoryName, moduleCode) => {
       if (moduleCode == null) {
         return null;
       } else {
         let module = null;
-        
-        if (this._nsi.isModuleAvailableInRepo(moduleCode)) {
-          module = this._nsi.getRepoModule(moduleCode);
-        }
 
-        if (!module) {
-           const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
-           const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
-           const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+        if (repositoryName === 'Dropbox') {
+          const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+          const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
+          const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
 
-           if (dropboxToken && useCustomModuleRepo && customModuleRepo) {
-               const dropboxModules = await this._dropboxModuleHelper.getDropboxModules(dropboxToken, customModuleRepo);
-               module = dropboxModules.find(m => m.name === moduleCode);
-               if (module) {
-                   module.repositoryName = 'Dropbox';
-               }
-           }
+          if (dropboxToken && useCustomModuleRepo && customModuleRepo) {
+            const dropboxModules = await this._dropboxModuleHelper.getDropboxModules(dropboxToken, customModuleRepo);
+            module = dropboxModules.find(m => m.name === moduleCode);
+            if (module) {
+              module.repositoryName = 'Dropbox';
+            }
+          }
+        } else {
+          if (this._nsi.isModuleAvailableInRepo(moduleCode, repositoryName)) {
+            module = this._nsi.getRepoModule(repositoryName, moduleCode);
+          }
         }
 
         return module;
@@ -296,24 +296,16 @@ class IpcNsiHandler {
       return allLanguageModuleCount;
     });
 
-    this._ipcMain.addWithProgressCallback('nsi_installModule', async (progressCB, moduleCode) => { 
+    this._ipcMain.addWithProgressCallback('nsi_installModule', async (progressCB, repositoryName, moduleCode) => { 
       try {
-        // Check if module is from Dropbox
-        const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
-        const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
-        const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
-        
-        if (dropboxToken && useCustomModuleRepo && customModuleRepo) {
-          const dropboxModules = await this._dropboxModuleHelper.getDropboxModules(dropboxToken, customModuleRepo);
-          const dropboxModule = dropboxModules.find(m => m.name === moduleCode);
-          
-          if (dropboxModule) {
-            let result = await this._dropboxModuleHelper.installDropboxModule(moduleCode, progressCB);
-            return result;
-          }
+        if (repositoryName === 'Dropbox') {
+          let result = await this._dropboxModuleHelper.installDropboxModule(moduleCode, progressCB);
+          return result;
         }
 
-        await this._nsi.installModule(moduleCode, progressCB); 
+        console.log(`Installing module ${moduleCode} from repository ${repositoryName}`);
+
+        await this._nsi.installModule(repositoryName, moduleCode, progressCB); 
         return 0;
       } catch (e) {
         return -1;
@@ -324,9 +316,9 @@ class IpcNsiHandler {
       return this._nsi.cancelInstallation();
     });
 
-    this._ipcMain.addSync('nsi_installModuleSync', async (moduleCode) => {
+    this._ipcMain.addSync('nsi_installModuleSync', async (repositoryName, moduleCode) => {
       try {
-        await this._nsi.installModule(moduleCode, undefined);
+        await this._nsi.installModule(repositoryName, moduleCode, undefined);
         return 0;
       } catch (e) {
         return -1;
