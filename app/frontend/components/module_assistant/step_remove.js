@@ -95,7 +95,7 @@ class StepRemove extends HTMLElement {
 
       if (modules.length > 0) {
         if (currentBibleTranslationId == moduleCode) {
-          await eventController.publishAsync('on-translation1-changed', {from: currentBibleTranslationId, to: modules[0]});
+          await eventController.publishAsync('on-translation1-changed', {from: currentBibleTranslationId, to: modules[0].name});
         }
       } else {
         await eventController.publishAsync('on-all-translations-removed');

@@ -325,7 +325,10 @@ class TranslationController {
       localModules.sort(swordModuleHelper.sortModules);
 
       for (var i = 0; i < localModules.length; i++) {
-        translations.push(localModules[i].name);
+        translations.push({
+          name: localModules[i].name,
+          repository: localModules[i].repository || ''
+        });
       }
     }
 

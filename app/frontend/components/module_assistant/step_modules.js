@@ -187,7 +187,12 @@ class StepModules extends HTMLElement {
 
     const repositories = [...assistantController.get('selectedRepositories')];
 
-    const installedModules = new Set(assistantController.get('installedModules'));
+    // Convert installedModules array to Map for efficient lookup (moduleCode -> repository)
+    const installedModulesArray = assistantController.get('installedModules');
+    const installedModules = new Map();
+    for (const mod of installedModulesArray) {
+      installedModules.set(mod.name, mod.repository || '');
+    }
 
     const sectionOptions = {columns: 1, 
                             rowGap: '1.5em',
@@ -227,8 +232,24 @@ class StepModules extends HTMLElement {
 
       
       if (modules.size > 0) {
+        // Create a Set of installed module keys (moduleCode:repository) for the checkbox selection display
+        const installedModuleKeys = new Set();
+
+        for (const [modName, repo] of installedModules.entries()) {
+          if (!repo || repo === '') {
+            // Legacy/unknown repo: mark all checkboxes for this module code as checked
+            for (const module of modules.values()) {
+              if (module.code === modName) {
+                installedModuleKeys.add(`${modName}:${module.repository}`);
+              }
+            }
+          } else {
+            installedModuleKeys.add(`${modName}:${repo}`);
+          }
+        }
+
         const langModuleSection = assistantHelper.listCheckboxSection(modules,
-                                                                      installedModules,
+                                                                      installedModuleKeys,
                                                                       renderHeader ? i18nHelper.getLanguageName(language) : undefined,
                                                                       sectionOptions);
         filteredModuleList.append(langModuleSection);
@@ -264,6 +285,26 @@ class StepModules extends HTMLElement {
   }
 
   _handleModuleToggling(checked, moduleId, repository, checkbox) {
+    // Prevent selection if module is already installed from any repo (always up-to-date)
+    const installedModules = new Map();
+    const installedModulesArray = assistantController.get('installedModules');
+    for (const mod of installedModulesArray) {
+      installedModules.set(mod.name, mod.repository || '');
+    }
+    if (checked && installedModules.has(moduleId)) {
+      const installedRepo = installedModules.get(moduleId);
+      // Block all selections for this module code if any repo is installed (legacy or repo-aware)
+      checkbox.checked = false;
+      const position = platformHelper.getIziPosition();
+      iziToast.warning({
+        title: i18n.t('module-assistant.step-modules.duplicate-module-title'),
+        message: i18n.t('module-assistant.step-modules.already-installed-message', { moduleId: moduleId, repository: installedRepo }),
+        position: position,
+        timeout: 10000
+      });
+      return;
+    }
+
     if (checked) {
       // Check if this module ID is already selected (possibly from a different repository)
       const selectedModules = assistantController.get('selectedModules');
@@ -377,7 +418,7 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
                                                            currentModuleType);
       }
       
-      if (installedModules.has(swordModule.name)) {
+      if (isModuleInstalled(installedModules, swordModule.name, swordModule.repository)) {
         moduleInfo['disabled'] = true;
         moduleInfo['title'] = assistantHelper.localizeText("module-assistant.step-modules.module-already-installed", 
                                                            currentModuleType);
@@ -388,4 +429,29 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
   }
 
   return currentLangModules;
+}
+
+/**
+ * Check if a module is installed, considering repository matching.
+ * Falls back to name-only matching if the installed module has no repository info (legacy installs).
+ * @param {Map<string, string>} installedModules - Map of moduleCode -> repository
+ * @param {string} moduleName - The module code to check
+ * @param {string} repository - The repository of the remote module
+ * @returns {boolean} True if the module is installed from this repository (or any repo for legacy)
+ */
+function isModuleInstalled(installedModules, moduleName, repository) {
+  if (!installedModules.has(moduleName)) {
+    return false;
+  }
+  
+  const installedRepo = installedModules.get(moduleName);
+  
+  // If installed module has no repository info (legacy install or unknown source),
+  // fall back to name-only matching
+  if (!installedRepo || installedRepo === '') {
+    return true;
+  }
+  
+  // Otherwise, only mark as installed if repositories match
+  return installedRepo === repository;
 }
