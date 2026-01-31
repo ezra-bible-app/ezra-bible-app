@@ -266,10 +266,27 @@ class StepModules extends HTMLElement {
     const checked = event.detail.checked;
     const repository = checkbox.getAttribute('repository');
 
+    // Early return if module is already installed (from any repo)
+    const installedModulesArray = assistantController.get('installedModules');
+    const installedModules = new Map();
+    for (const mod of installedModulesArray) {
+      installedModules.set(mod.name, mod.repository || '');
+    }
+    if (checked && installedModules.has(moduleId)) {
+      const installedRepo = installedModules.get(moduleId);
+      checkbox.checked = false;
+      const position = platformHelper.getIziPosition();
+      iziToast.warning({
+        title: i18n.t('module-assistant.step-modules.duplicate-module-title'),
+        message: i18n.t('module-assistant.step-modules.already-installed-message', { moduleId: moduleId, repository: installedRepo }),
+        position: position,
+        timeout: 10000
+      });
+      return;
+    }
+
     if (!checkbox.hasAttribute('locked')) {
-
       this._handleModuleToggling(checked, moduleId, repository, checkbox);
-
     } else {
       if (checked) {
         this.unlockDialog.show(moduleId, unlockInfo[moduleId], checkbox, () => {
@@ -305,29 +322,23 @@ class StepModules extends HTMLElement {
       return;
     }
 
-    if (checked) {
-      // Check if this module ID is already selected (possibly from a different repository)
-      const selectedModules = assistantController.get('selectedModules');
-      if (selectedModules.has(moduleId)) {
-        const existingRepo = selectedModules.get(moduleId);
-        if (existingRepo !== repository) {
-          // Module with same ID already selected from different repo - prevent selection
-          checkbox.checked = false;
-          const position = platformHelper.getIziPosition();
-          
-          iziToast.warning({
-            title: i18n.t('module-assistant.step-modules.duplicate-module-title'),
-            message: i18n.t('module-assistant.step-modules.duplicate-module-message', { moduleId: moduleId, repository: existingRepo }),
-            position: position,
-            timeout: 10000
-          });
-          return;
-        }
+    const selectedModules = assistantController.get('selectedModules');
+    if (checked && selectedModules.has(moduleId)) {
+      const existingRepo = selectedModules.get(moduleId);
+      if (existingRepo !== repository) {
+        checkbox.checked = false;
+        const position = platformHelper.getIziPosition();
+        
+        iziToast.warning({
+          title: i18n.t('module-assistant.step-modules.duplicate-module-title'),
+          message: i18n.t('module-assistant.step-modules.duplicate-module-message', { moduleId: moduleId, repository: existingRepo }),
+          position: position,
+          timeout: 10000
+        });
+        return;
       }
-      assistantController.add('selectedModules', moduleId, repository);
-    } else {
-      assistantController.remove('selectedModules', moduleId);
     }
+    assistantController.add('selectedModules', moduleId, repository);
   }
 
   _handleInfoClick(event) {
