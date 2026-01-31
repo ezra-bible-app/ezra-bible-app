@@ -62,9 +62,12 @@ class StepRemove extends HTMLElement {
     assistantController.setInstallInProgress();
 
     const selectedModules = assistantController.get('selectedModules');
+
     setTimeout(async () => {
-      for (const currentModule of selectedModules) {
-        await this._uninstallModule(currentModule);
+      let moduleCodes = Array.from(selectedModules.keys());
+
+      for (const moduleCode of moduleCodes) {
+        await this._uninstallModule(moduleCode);
       }
 
       assistantController.setInstallDone();
