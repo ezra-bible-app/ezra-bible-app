@@ -80,7 +80,6 @@ module.exports.getModuleDescription = async function(moduleId, isRemote=false, r
 
 module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeModuleDescription=true, repositoryName=null) {
 
-  console.log(`Getting module info for ${moduleId} (isRemote=${isRemote}, repository=${repositoryName})`);
   const swordModule = await this.getSwordModule(moduleId, isRemote, repositoryName);
 
   if (!swordModule) {
