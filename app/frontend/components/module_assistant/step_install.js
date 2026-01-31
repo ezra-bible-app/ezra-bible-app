@@ -139,7 +139,7 @@ class StepInstall extends HTMLElement {
   async _installModule(moduleCode, repository) {
     var swordModule = await ipcNsi.getRepoModule(repository, moduleCode);
 
-    this._appendInstallationInfo(swordModule.description);
+    this._appendInstallationInfo(`${swordModule.description} [${swordModule.name}]`);
 
     const $progressBar = $(this.querySelector('#module-install-progress-bar'));
     uiHelper.initProgressBar($progressBar);

@@ -78,7 +78,7 @@ class StepRemove extends HTMLElement {
   async _uninstallModule(moduleCode) {
     var localModule = await ipcNsi.getLocalModule(moduleCode, true);
 
-    this._appendRemovalInfo(localModule.description);
+    this._appendRemovalInfo(`${localModule.description} [${moduleCode}]`);
 
     if (window.Sentry != null) {
       Sentry.addBreadcrumb({
