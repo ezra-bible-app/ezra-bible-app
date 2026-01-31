@@ -95,7 +95,10 @@
       "module-with": "{{module_type, capitalize}} s {{feature_type, instrumental}}",
       "module-already-installed": "Tento {{module_type, singular}} je už nainštalovaný",
       "show-module-info":"Zobraziť informácie",
-      "show-detailed-module-info": "Kliknutím na ikonu informácií zobrazíte ďalšie podrobnosti o {{module_type, singular}}."
+      "show-detailed-module-info": "Kliknutím na ikonu informácií zobrazíte ďalšie podrobnosti o {{module_type, singular}}.",
+      "duplicate-module-title": "Module already selected",
+      "duplicate-module-message": "The module {{moduleId}} is already selected from repository {{repository}}. Please deselect it first if you want to install from a different repository.",
+      "already-installed-message": "The module {{moduleId}} is already installed from repository {{repository}}. Please uninstall it first if you want to install from a different repository."
     },
     "step-install": {
       "installing-modules": "Inštaluje sa vybraný {{module_type, accusative}}",

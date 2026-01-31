@@ -95,7 +95,10 @@
       "module-with": "{{module_type, capitalize}} s {{feature_type, instrumental}}",
       "module-already-installed": "Ta {{module_type, singular}} je že nameščen!",
       "show-module-info": "Prikaži informacije",
-      "show-detailed-module-info": "Kliknite na ikono za informacije, da si ogledate več podrobnosti o {{module_type, singular}}."
+      "show-detailed-module-info": "Kliknite na ikono za informacije, da si ogledate več podrobnosti o {{module_type, singular}}.",
+      "duplicate-module-title": "Module already selected",
+      "duplicate-module-message": "The module {{moduleId}} is already selected from repository {{repository}}. Please deselect it first if you want to install from a different repository.",
+      "already-installed-message": "The module {{moduleId}} is already installed from repository {{repository}}. Please uninstall it first if you want to install from a different repository."
     },
     "step-install": {
       "installing-modules": "Namestitev izbranega {{module_type, accusative}}",
