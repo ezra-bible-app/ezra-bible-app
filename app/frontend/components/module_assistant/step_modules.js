@@ -421,7 +421,10 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
                                                            currentModuleType);
       }
 
-      currentLangModules.set(swordModule.description, moduleInfo);
+      // Use module name + repository as unique key to prevent collisions
+      // (description is not unique across repositories)
+      let moduleKey = assistantHelper.getModuleKey(swordModule.repository, swordModule.name);
+      currentLangModules.set(moduleKey, moduleInfo);
     }
   }
 

@@ -112,7 +112,10 @@ async function getInstalledModulesByLanguage() {
 
     moduleList[languageName] = moduleList[languageName] || new Map();
 
-    moduleList[languageName].set(swordModule.description, moduleInfo);
+    // Use module name + repository as unique key to prevent collisions
+    // (description is not unique across repositories)
+    let moduleKey = assistantHelper.getModuleKey(swordModule.repository, swordModule.name);
+    moduleList[languageName].set(moduleKey, moduleInfo);
   }
 
   return moduleList;

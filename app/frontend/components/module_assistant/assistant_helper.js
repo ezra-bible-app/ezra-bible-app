@@ -209,3 +209,14 @@ module.exports.localizeText = function (key, data) {
                   }
                 });
 };
+
+/**
+ * Generate a unique module key combining module name and repository.
+ * This prevents collisions when different repositories have modules with the same description.
+ * @param {string} repository - The repository name (e.g., 'CrossWire', 'eBible')
+ * @param {string} moduleName - The module code (e.g., 'BSB', 'engbsb2020eb')
+ * @returns {string} A unique key in the format 'moduleName@repository'
+ */
+module.exports.getModuleKey = function(repository, moduleName) {
+  return moduleName + '@' + (repository || 'unknown').replace(/ /g, '_');
+};
