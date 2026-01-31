@@ -247,24 +247,42 @@ class StepModules extends HTMLElement {
 
     if (!checkbox.hasAttribute('locked')) {
 
-      this._handleModuleToggling(checked, moduleId, repository);
+      this._handleModuleToggling(checked, moduleId, repository, checkbox);
 
     } else {
       if (checked) {
         this.unlockDialog.show(moduleId, unlockInfo[moduleId], checkbox, () => {
-          this._handleModuleToggling(checked, moduleId, repository);
+          this._handleModuleToggling(checked, moduleId, repository, checkbox);
         });
       } else {
         // Checkbox unchecked!
         // Reset the unlock key for this module
         this.unlockDialog.resetKey(moduleId);
-        this._handleModuleToggling(checked, moduleId, repository);
+        this._handleModuleToggling(checked, moduleId, repository, checkbox);
       }
     }
   }
 
-  _handleModuleToggling(checked, moduleId, repository) {
+  _handleModuleToggling(checked, moduleId, repository, checkbox) {
     if (checked) {
+      // Check if this module ID is already selected (possibly from a different repository)
+      const selectedModules = assistantController.get('selectedModules');
+      if (selectedModules.has(moduleId)) {
+        const existingRepo = selectedModules.get(moduleId);
+        if (existingRepo !== repository) {
+          // Module with same ID already selected from different repo - prevent selection
+          checkbox.checked = false;
+          const position = platformHelper.getIziPosition();
+          
+          iziToast.warning({
+            title: i18n.t('module-assistant.step-modules.duplicate-module-title'),
+            message: i18n.t('module-assistant.step-modules.duplicate-module-message', { moduleId: moduleId, repository: existingRepo }),
+            position: position,
+            timeout: 10000
+          });
+          return;
+        }
+      }
       assistantController.add('selectedModules', moduleId, repository);
     } else {
       assistantController.remove('selectedModules', moduleId);
