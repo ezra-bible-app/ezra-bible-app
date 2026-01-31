@@ -286,6 +286,23 @@ class StepModules extends HTMLElement {
       return;
     }
 
+    const selectedModules = assistantController.get('selectedModules');
+    if (checked && selectedModules.has(moduleId)) {
+      const existingRepo = selectedModules.get(moduleId);
+      if (existingRepo !== repository) {
+        checkbox.checked = false;
+        const position = platformHelper.getIziPosition();
+        
+        iziToast.warning({
+          title: i18n.t('module-assistant.step-modules.duplicate-module-title'),
+          message: i18n.t('module-assistant.step-modules.duplicate-module-message', { moduleId: moduleId, repository: existingRepo }),
+          position: position,
+          timeout: 10000
+        });
+        return;
+      }
+    }
+
     if (!checkbox.hasAttribute('locked')) {
       this._handleModuleToggling(checked, moduleId, repository, checkbox);
     } else {
