@@ -159,7 +159,7 @@ class StepLanguages extends HTMLElement {
              languageData.appSystemLanguages, 
              selectedLanguages, 
              i18n.t('module-assistant.step-languages.app-system-languages'),
-             true);
+             (item) => item.code);
 
     this._allLanguages.animate({opacity: [0, 1]}, 500);
 
@@ -172,7 +172,7 @@ class StepLanguages extends HTMLElement {
                        languages[category], 
                        selectedLanguages, 
                        i18n.t(`module-assistant.step-languages.${category}`),
-                       true);
+                       (item) => item.code);
     }
       
     this._allLanguages.appendChild(containerSmallList);
@@ -190,7 +190,7 @@ class StepLanguages extends HTMLElement {
                        languages[category], 
                        selectedLanguages, 
                        category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined,
-                       true);
+                       (item) => item.code);
     }
 
     await waitUntilIdle();
@@ -202,9 +202,9 @@ class StepLanguages extends HTMLElement {
     this._loading.hide();
   }
 
-  _appendList(container, languageMap, selectedLanguages, sectionHeader, forceSimpleKey) {
+  _appendList(container, languageMap, selectedLanguages, sectionHeader, keyFn) {
     if (languageMap.size > 0) {
-      container.appendChild(assistantHelper.listCheckboxSection(languageMap, selectedLanguages, sectionHeader, {limitRows: true, forceSimpleKey: !!forceSimpleKey}));
+      container.appendChild(assistantHelper.listCheckboxSection(languageMap, selectedLanguages, sectionHeader, {limitRows: true, keyFn: keyFn}));
     }
   }
 

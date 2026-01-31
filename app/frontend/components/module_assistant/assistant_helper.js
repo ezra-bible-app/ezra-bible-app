@@ -85,12 +85,16 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
     info: false,
     extraIndent: false,
     rowGap: '0.5em',
+    // keyFn: function(item) { ... }
     ...options
   };
 
+  // Default key function: module code + repository (for modules)
+  const keyFn = typeof options.keyFn === 'function'
+    ? options.keyFn
+    : (item) => `${item.code}:${item.repository || ''}`;
+
   var checkboxes = [];
-  // If options.forceSimpleKey is set, use only item.code for checked state (for languages/repos)
-  const useSimpleKey = options.forceSimpleKey === true;
   if (arr instanceof Map) {
     const sortedKeys = [...arr.keys()].sort(this.sortByText);
     for (const key of sortedKeys) {
@@ -99,7 +103,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
         if (options.info) {
           checkboxes.push('<div style="display: flex;">');
         }
-        const checkboxKey = useSimpleKey ? item.code : `${item.code}:${item.repository || ''}`;
+        const checkboxKey = keyFn(item);
         checkboxes.push(generateCheckbox(item, selected.has(checkboxKey), options));
         if (options.info) {
           checkboxes.push(generateInfoButton());
@@ -110,7 +114,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
   } else {
     for (const item of arr) {
       if (item.count === undefined || item.count && item.count !== 0) {
-        const checkboxKey = useSimpleKey ? item.code : `${item.code}:${item.repository || ''}`;
+        const checkboxKey = keyFn(item);
         checkboxes.push(generateCheckbox(item, selected.has(checkboxKey), options));
       }
     }
