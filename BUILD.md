@@ -43,7 +43,7 @@ The installer binary within that directory is named `ezra_bible_app-x.y.z-setup.
 
 The following dependencies are valid for Debian/Ubuntu based distributions. Ezra Bible App has been successfully built for other distributions as well (Linux Mint 18, Debian 10, Fedora 33, OpenSuse, CentOS). To see how the dependencies look like for your distribution, have a look at these Docker files [here](https://github.com/ezra-bible-app/ezra-bible-app-docker/tree/master/docker).
 
-Install compiler/lib dependencies by running the following command: `sudo apt-get install build-essential npm nodejs libsqlite3-0 libcurl4-gnutls-dev zlib1g-dev pkg-config git cmake subversion`
+Install compiler/lib dependencies by running the following command: `sudo apt-get install build-essential npm nodejs libsqlite3-0 libcurl4-gnutls-dev zlib1g-dev libbz2-dev liblzma-dev pkg-config git cmake subversion`
 
 ### Setup and build
 
