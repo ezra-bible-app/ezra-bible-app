@@ -306,9 +306,11 @@ class StepModules extends HTMLElement {
     // Prevent selection if module is already installed from any repo (always up-to-date)
     const installedModules = new Map();
     const installedModulesArray = assistantController.get('installedModules');
+
     for (const mod of installedModulesArray) {
       installedModules.set(mod.name, mod.repository || '');
     }
+
     if (checked && installedModules.has(moduleId)) {
       const installedRepo = installedModules.get(moduleId);
       // Block all selections for this module code if any repo is installed (legacy or repo-aware)
@@ -320,6 +322,7 @@ class StepModules extends HTMLElement {
         position: position,
         timeout: 10000
       });
+
       return;
     }
 
@@ -339,11 +342,11 @@ class StepModules extends HTMLElement {
         return;
       }
     }
+
     assistantController.add('selectedModules', moduleId, repository);
   }
 
   _handleInfoClick(event) {
-
     const checkbox = event.currentTarget.parentElement.firstElementChild;
     const moduleCode = checkbox.code;
     const repositoryName = checkbox.getAttribute('repository');
