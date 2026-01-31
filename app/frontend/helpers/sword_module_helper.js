@@ -34,12 +34,13 @@ module.exports.getSwordModule = async function(moduleId, isRemote=false, reposit
     return null;
   }
 
-  if (!_cachedModule || _cachedModule.name !== moduleId || (_cachedModule.name === moduleId && _cachedModule.remote !== isRemote)) {
+  if (!_cachedModule || _cachedModule.name !== moduleId || (_cachedModule.name === moduleId && _cachedModule.remote !== isRemote) || (isRemote && _cachedModule.repository !== repositoryName)) {
     let swordModule = null;
 
     try {
       if (isRemote) {
         swordModule = await ipcNsi.getRepoModule(repositoryName, moduleId);
+        swordModule.repository = repositoryName;
       } else {
         swordModule = await ipcNsi.getLocalModule(moduleId);
       }
@@ -79,6 +80,7 @@ module.exports.getModuleDescription = async function(moduleId, isRemote=false, r
 
 module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeModuleDescription=true, repositoryName=null) {
 
+  console.log(`Getting module info for ${moduleId} (isRemote=${isRemote}, repository=${repositoryName})`);
   const swordModule = await this.getSwordModule(moduleId, isRemote, repositoryName);
 
   if (!swordModule) {
