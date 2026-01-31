@@ -303,8 +303,6 @@ class IpcNsiHandler {
           return result;
         }
 
-        console.log(`Installing module ${moduleCode} from repository ${repositoryName}`);
-
         await this._nsi.installModule(repositoryName, moduleCode, progressCB); 
         return 0;
       } catch (e) {
@@ -318,8 +316,8 @@ class IpcNsiHandler {
 
     this._ipcMain.addSync('nsi_installModuleSync', async (repositoryName, moduleCode) => {
       try {
-        await this._nsi.installModule(repositoryName, moduleCode, undefined);
-        return 0;
+        let result = await this._nsi.installModule(repositoryName, moduleCode, undefined);
+        return result;
       } catch (e) {
         return -1;
       }
@@ -327,8 +325,8 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_uninstallModule', async (moduleCode) => {
       try {
-        await this._nsi.uninstallModule(moduleCode);
-        return 0;
+        let result = await this._nsi.uninstallModule(moduleCode);
+        return result;
       } catch (e) {
         return -1;
       }
