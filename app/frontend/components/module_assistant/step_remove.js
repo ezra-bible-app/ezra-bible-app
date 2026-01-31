@@ -62,9 +62,12 @@ class StepRemove extends HTMLElement {
     assistantController.setInstallInProgress();
 
     const selectedModules = assistantController.get('selectedModules');
+
     setTimeout(async () => {
-      for (const currentModule of selectedModules) {
-        await this._uninstallModule(currentModule);
+      let moduleCodes = Array.from(selectedModules.keys());
+
+      for (const moduleCode of moduleCodes) {
+        await this._uninstallModule(moduleCode);
       }
 
       assistantController.setInstallDone();
@@ -95,7 +98,7 @@ class StepRemove extends HTMLElement {
 
       if (modules.length > 0) {
         if (currentBibleTranslationId == moduleCode) {
-          await eventController.publishAsync('on-translation1-changed', {from: currentBibleTranslationId, to: modules[0]});
+          await eventController.publishAsync('on-translation1-changed', {from: currentBibleTranslationId, to: modules[0].name});
         }
       } else {
         await eventController.publishAsync('on-all-translations-removed');

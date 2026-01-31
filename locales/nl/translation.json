@@ -97,7 +97,10 @@
       "module-with": "{{module_type, capitalize}} met {{feature_type, instrumental}}",
       "module-already-installed": "{{module_type, singular-demonstrative-pronoun}} is reeds geinstalleerd",
       "show-module-info":"Toon info",
-      "show-detailed-module-info": "Klik op het informatie-icoontje om meer details te bekijken over {{module_type, singular}}."
+      "show-detailed-module-info": "Klik op het informatie-icoontje om meer details te bekijken over {{module_type, singular}}.",
+      "duplicate-module-title": "Module already selected",
+      "duplicate-module-message": "The module {{moduleId}} is already selected from repository {{repository}}. Please deselect it first if you want to install from a different repository.",
+      "already-installed-message": "The module {{moduleId}} is already installed from repository {{repository}}. Please uninstall it first if you want to install from a different repository."
     },
     "step-install": {
       "installing-modules": "Gekozen {{module_type, accusative}} installeren",

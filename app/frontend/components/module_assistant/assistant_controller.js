@@ -23,13 +23,13 @@ var state = {
   installedModules: [],
   selectedLanguages: new Set(),
   selectedRepositories: new Set(),
-  selectedModules: new Set(),
+  selectedModules: new Map(),
   moduleType: null, 
   reposUpdated: null,
   languageRepositories: {},
 };
 
-const stateSetItems = new Set(['selectedLanguages', 'selectedRepositories', 'selectedModules']);
+const stateSetItems = new Set(['selectedLanguages', 'selectedRepositories']);
 
 module.exports.initState = async function(moduleType) {
   if(moduleType !== 'BIBLE' && moduleType !== 'DICT' && moduleType !== 'COMMENTARY') {
@@ -41,6 +41,7 @@ module.exports.initState = async function(moduleType) {
   for(const item of stateSetItems) {
     state[item].clear();
   }
+  state.selectedModules.clear();
 
   state.installedModules = await app_controller.translation_controller.getInstalledModules(moduleType);
 
@@ -68,6 +69,10 @@ module.exports.init = (key, arr) => {
     return;
   } else if (key === 'languageRepositories') {
     state['languageRepositories'] = arr;
+    return;
+  } else if (key === 'selectedModules') {
+    state['selectedModules'] = new Map();
+    return;
   }
 
   if (!stateSetItems.has(key)) {
@@ -76,7 +81,11 @@ module.exports.init = (key, arr) => {
   state[key] = new Set(arr);
 };
 
-module.exports.add = (key, value) => {
+module.exports.add = (key, value, extraData) => {
+  if (key === 'selectedModules') {
+    state.selectedModules.set(value, extraData);
+    return;
+  }
   if (!stateSetItems.has(key)) {
     return;
   }
@@ -84,6 +93,10 @@ module.exports.add = (key, value) => {
 };
 
 module.exports.remove = (key, value) => {
+  if (key === 'selectedModules') {
+    state.selectedModules.delete(value);
+    return;
+  }
   if (!stateSetItems.has(key)) {
     return;
   }

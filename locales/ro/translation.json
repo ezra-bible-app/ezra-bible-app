@@ -95,7 +95,10 @@
       "module-with": "{{module_type, capitalize}} cu {{feature_type, instrumental}}",
       "module-already-installed": "Acest {{module_type, singular}} este deja instalat",
       "show-module-info":"Arată info",
-      "show-detailed-module-info": "Click pe iconița de informații pentru a vedea mai multe detalii despre {{module_type, singular}}."
+      "show-detailed-module-info": "Click pe iconița de informații pentru a vedea mai multe detalii despre {{module_type, singular}}.",
+      "duplicate-module-title": "Module already selected",
+      "duplicate-module-message": "The module {{moduleId}} is already selected from repository {{repository}}. Please deselect it first if you want to install from a different repository.",
+      "already-installed-message": "The module {{moduleId}} is already installed from repository {{repository}}. Please uninstall it first if you want to install from a different repository."
     },
     "step-install": {
       "installing-modules": "Instalarea {{module_type, accusative}} selectat",

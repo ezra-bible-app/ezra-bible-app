@@ -85,8 +85,8 @@ class IpcNsi {
     return returnValue;
   }
 
-  async getRepoModule(moduleCode) {
-    var returnValue = this._ipcRenderer.call('nsi_getRepoModule', moduleCode);
+  async getRepoModule(repositoryName, moduleCode) {
+    var returnValue = this._ipcRenderer.call('nsi_getRepoModule', repositoryName, moduleCode);
     return returnValue;
   }
 
@@ -101,9 +101,9 @@ class IpcNsi {
       let module = allLocalModules[i];
 
       if (module.inUserDir) {
-        let remoteModule = await ipcNsi.getRepoModule(module.name);
+        let remoteModule = await ipcNsi.getRepoModule(module.repository, module.name);
 
-        if (remoteModule.version !== undefined && module.version != remoteModule.version) {
+        if (remoteModule != null && remoteModule.version !== undefined && module.version != remoteModule.version) {
           updatedModules.push(remoteModule);
         }
       }
@@ -127,17 +127,18 @@ class IpcNsi {
     return returnValue;
   }
 
-  async installModule(moduleCode, progressCallback=undefined) {
+  async installModule(repositoryName, moduleCode, progressCallback=undefined) {
     var returnValue = this._ipcRenderer.callWithProgressCallback('nsi_installModule',
                                                                  'nsi_updateInstallProgress',
                                                                  progressCallback,
                                                                  120000,
+                                                                 repositoryName,
                                                                  moduleCode);
     return returnValue;
   }
 
-  installModuleSync(moduleCode) {
-    var returnValue = this._ipcRenderer.callSync('nsi_installModuleSync', moduleCode);
+  installModuleSync(repositoryName, moduleCode) {
+    var returnValue = this._ipcRenderer.callSync('nsi_installModuleSync', repositoryName, moduleCode);
     return returnValue;
   }
 

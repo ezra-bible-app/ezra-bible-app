@@ -102,7 +102,10 @@
       "module-already-installed_masculine": "{{module_type, singular-demonstrative-pronoun}} est déjà installé",
       "module-already-installed_feminine": "{{module_type, singular-demonstrative-pronoun}} est déjà installée",
       "show-module-info": "Afficher les informations",
-      "show-detailed-module-info": "Cliquez sur l’icône d’information pour obtenir plus de détails sur {{module_type, singular-pronoun}}."
+      "show-detailed-module-info": "Cliquez sur l’icône d’information pour obtenir plus de détails sur {{module_type, singular-pronoun}}.",
+      "duplicate-module-title": "Module already selected",
+      "duplicate-module-message": "The module {{moduleId}} is already selected from repository {{repository}}. Please deselect it first if you want to install from a different repository.",
+      "already-installed-message": "The module {{moduleId}} is already installed from repository {{repository}}. Please uninstall it first if you want to install from a different repository."
     },
     "step-install": {
       "installing-modules": "Installation du {{module_type, accusative}} sélectionné",

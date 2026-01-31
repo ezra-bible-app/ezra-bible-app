@@ -97,7 +97,10 @@
       "module-with": "{{module_type, capitalize}} с {{feature_type, instrumental}}",
       "module-already-installed": "Этот {{module_type, singular}} уже установлен!",
       "show-module-info":"Показать подробности",
-      "show-detailed-module-info": "Нажмите на иконке информации для отображения подробностей о {{module_type, singular-instrumental}}."
+      "show-detailed-module-info": "Нажмите на иконке информации для отображения подробностей о {{module_type, singular-instrumental}}.",
+      "duplicate-module-title": "Module already selected",
+      "duplicate-module-message": "The module {{moduleId}} is already selected from repository {{repository}}. Please deselect it first if you want to install from a different repository.",
+      "already-installed-message": "The module {{moduleId}} is already installed from repository {{repository}}. Please uninstall it first if you want to install from a different repository."
     },
     "step-install": {
       "installing-modules": "Установка выбранных {{module_type, genitive}}",

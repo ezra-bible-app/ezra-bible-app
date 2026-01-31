@@ -76,7 +76,7 @@ module.exports.sortByText = function (strA, strB) {
  * @returns {DocumentFragment} HTML fragment with appropriate <assistant-checkbox> elements for each item
  */
 module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", options={}) {
-  if (arr.length === 0) {
+  if (arr.length === 0 || arr.size === 0) {
     return '';
   }
 
@@ -85,8 +85,14 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
     info: false,
     extraIndent: false,
     rowGap: '0.5em',
+    // keyFn: function(item) { ... }
     ...options
   };
+
+  // Default key function: module code + repository (for modules)
+  const keyFn = typeof options.keyFn === 'function'
+    ? options.keyFn
+    : (item) => `${item.code}:${item.repository || ''}`;
 
   var checkboxes = [];
   if (arr instanceof Map) {
@@ -97,7 +103,8 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
         if (options.info) {
           checkboxes.push('<div style="display: flex;">');
         }
-        checkboxes.push(generateCheckbox(item, selected.has(typeof item === 'string' ? item : item.code), options));
+        const checkboxKey = keyFn(item);
+        checkboxes.push(generateCheckbox(item, selected.has(checkboxKey), options));
         if (options.info) {
           checkboxes.push(generateInfoButton());
           checkboxes.push('</div>');
@@ -107,7 +114,8 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
   } else {
     for (const item of arr) {
       if (item.count === undefined || item.count && item.count !== 0) {
-        checkboxes.push(generateCheckbox(item, selected.has(typeof item === 'string' ? item : item.code), options));
+        const checkboxKey = keyFn(item);
+        checkboxes.push(generateCheckbox(item, selected.has(checkboxKey), options));
       }
     }
   }

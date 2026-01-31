@@ -230,6 +230,7 @@ function refreshUpdatedModuleList() {
         updatedModules.forEach(async (module) => {
           let moduleRow = document.createElement('tr');
           moduleRow.setAttribute('module-code', module.name);
+          moduleRow.setAttribute('module-repository', module.repository);
 
           let nameCell = document.createElement('td');
           nameCell.style.paddingRight = '1em';
@@ -392,6 +393,7 @@ async function performModuleUpdate() {
     let tr = rows[i];
 
     let moduleCode = tr.getAttribute('module-code');
+    let repository = tr.getAttribute('module-repository');
     let statusCell = tr.querySelector('.status');
     let loadingIndicator = statusCell.firstChild;
     previousLoadingIndicator = loadingIndicator;
@@ -402,7 +404,7 @@ async function performModuleUpdate() {
     // Therefore, the explicit uninstall step is quite important!
     await ipcNsi.uninstallModule(moduleCode);
 
-    await ipcNsi.installModule(moduleCode);
+    await ipcNsi.installModule(repository, moduleCode);
 
     if (previousLoadingIndicator != null) {
       previousLoadingIndicator.style.display = 'none';

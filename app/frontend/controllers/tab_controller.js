@@ -1173,7 +1173,7 @@ class TabController {
   onTranslationRemoved(translationId, translationList) {
     if (translationId == this.defaultBibleTranslationId) {
       if (translationList.length > 0) {
-        this.defaultBibleTranslationId = translationList[0];
+        this.defaultBibleTranslationId = translationList[0].name;
       } else {
         this.defaultBibleTranslationId = null;
       }

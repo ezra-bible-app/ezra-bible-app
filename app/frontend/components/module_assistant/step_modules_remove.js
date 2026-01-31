@@ -54,7 +54,7 @@ class StepModulesRemove extends HTMLElement {
   async listModules() {
     const installedModulesByLanguage = await getInstalledModulesByLanguage();
     const languages = Object.keys(installedModulesByLanguage).sort(assistantHelper.sortByText);
-    assistantController.init('selectedModules', []);
+    assistantController.init('selectedModules');
 
     this.querySelector('loading-indicator').hide();
 
@@ -76,7 +76,7 @@ class StepModulesRemove extends HTMLElement {
     const checked = event.detail.checked;
     
     if (checked) {
-      assistantController.add('selectedModules', moduleId);
+      assistantController.add('selectedModules', moduleId, null);
     } else {
       assistantController.remove('selectedModules', moduleId);
     }

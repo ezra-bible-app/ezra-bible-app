@@ -95,7 +95,10 @@
       "module-with": "{{module_type, capitalize}} з {{feature_type, instrumental}}",
       "module-already-installed": "Цей {{module_type, singular}} вже встановленно!",
       "show-module-info":"Показати подробиці",
-      "show-detailed-module-info": "Натисніть на іконку інформації, щоб побачити подробиці про певний {{module_type, singular}}."
+      "show-detailed-module-info": "Натисніть на іконку інформації, щоб побачити подробиці про певний {{module_type, singular}}.",
+      "duplicate-module-title": "Module already selected",
+      "duplicate-module-message": "The module {{moduleId}} is already selected from repository {{repository}}. Please deselect it first if you want to install from a different repository.",
+      "already-installed-message": "The module {{moduleId}} is already installed from repository {{repository}}. Please uninstall it first if you want to install from a different repository."
     },
     "step-install": {
       "installing-modules": "Встановлення вибраних {{module_type, genitive}}",

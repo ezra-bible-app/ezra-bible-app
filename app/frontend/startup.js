@@ -71,7 +71,7 @@ class Startup {
       var kjvModule = await ipcNsi.getLocalModule('KJV');
       if (kjvModule == null) {
         $('#loading-subtitle').text("Installing KJV");
-        await ipcNsi.installModule('KJV');
+        await ipcNsi.installModule('CrossWire', 'KJV');
       }
     }
 
@@ -86,7 +86,7 @@ class Startup {
       var asvModule = await ipcNsi.getLocalModule('ASV');
       if (asvModule == null) {
         $('#loading-subtitle').text("Installing ASV");
-        await ipcNsi.installModule('ASV');
+        await ipcNsi.installModule('CrossWire', 'ASV');
       }
     }
   }

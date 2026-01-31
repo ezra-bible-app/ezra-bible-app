@@ -187,7 +187,12 @@ class StepModules extends HTMLElement {
 
     const repositories = [...assistantController.get('selectedRepositories')];
 
-    const installedModules = new Set(assistantController.get('installedModules'));
+    // Convert installedModules array to Map for efficient lookup (moduleCode -> repository)
+    const installedModulesArray = assistantController.get('installedModules');
+    const installedModules = new Map();
+    for (const mod of installedModulesArray) {
+      installedModules.set(mod.name, mod.repository || '');
+    }
 
     const sectionOptions = {columns: 1, 
                             rowGap: '1.5em',
@@ -227,8 +232,24 @@ class StepModules extends HTMLElement {
 
       
       if (modules.size > 0) {
+        // Create a Set of installed module keys (moduleCode:repository) for the checkbox selection display
+        const installedModuleKeys = new Set();
+
+        for (const [modName, repo] of installedModules.entries()) {
+          if (!repo || repo === '') {
+            // Legacy/unknown repo: mark all checkboxes for this module code as checked
+            for (const module of modules.values()) {
+              if (module.code === modName) {
+                installedModuleKeys.add(`${modName}:${module.repository}`);
+              }
+            }
+          } else {
+            installedModuleKeys.add(`${modName}:${repo}`);
+          }
+        }
+
         const langModuleSection = assistantHelper.listCheckboxSection(modules,
-                                                                      installedModules,
+                                                                      installedModuleKeys,
                                                                       renderHeader ? i18nHelper.getLanguageName(language) : undefined,
                                                                       sectionOptions);
         filteredModuleList.append(langModuleSection);
@@ -243,40 +264,78 @@ class StepModules extends HTMLElement {
     const checkbox = event.target;
     const moduleId = event.detail.code;
     const checked = event.detail.checked;
+    const repository = checkbox.getAttribute('repository');
+
+    // Early return if module is already installed (from any repo)
+    const installedModulesArray = assistantController.get('installedModules');
+    const installedModules = new Map();
+    for (const mod of installedModulesArray) {
+      installedModules.set(mod.name, mod.repository || '');
+    }
+
+    if (checked && installedModules.has(moduleId)) {
+      const installedRepo = installedModules.get(moduleId);
+      checkbox.checked = false;
+      const position = platformHelper.getIziPosition();
+      iziToast.warning({
+        title: i18n.t('module-assistant.step-modules.duplicate-module-title'),
+        message: i18n.t('module-assistant.step-modules.already-installed-message', { moduleId: moduleId, repository: installedRepo }),
+        position: position,
+        timeout: 10000
+      });
+      return;
+    }
+
+    const selectedModules = assistantController.get('selectedModules');
+    if (checked && selectedModules.has(moduleId)) {
+      const existingRepo = selectedModules.get(moduleId);
+      if (existingRepo !== repository) {
+        checkbox.checked = false;
+        const position = platformHelper.getIziPosition();
+        
+        iziToast.warning({
+          title: i18n.t('module-assistant.step-modules.duplicate-module-title'),
+          message: i18n.t('module-assistant.step-modules.duplicate-module-message', { moduleId: moduleId, repository: existingRepo }),
+          position: position,
+          timeout: 10000
+        });
+        return;
+      }
+    }
 
     if (!checkbox.hasAttribute('locked')) {
-
-      this._handleModuleToggling(checked, moduleId);
-
+      this._handleModuleToggling(checked, moduleId, repository);
     } else {
       if (checked) {
-        this.unlockDialog.show(moduleId, unlockInfo[moduleId], checkbox, () => {
-          this._handleModuleToggling(checked, moduleId);
+        this.unlockDialog.show(moduleId, unlockInfo[moduleId], () => {
+          this._handleModuleToggling(checked, moduleId, repository);
         });
       } else {
         // Checkbox unchecked!
         // Reset the unlock key for this module
         this.unlockDialog.resetKey(moduleId);
-        this._handleModuleToggling(checked, moduleId);
+        this._handleModuleToggling(checked, moduleId, repository);
       }
     }
   }
 
-  _handleModuleToggling(checked, moduleId) {
+  _handleModuleToggling(checked, moduleId, repository) {
     if (checked) {
-      assistantController.add('selectedModules', moduleId);
+      assistantController.add('selectedModules', moduleId, repository);
     } else {
       assistantController.remove('selectedModules', moduleId);
     }
   }
 
   _handleInfoClick(event) {
-
-    const moduleCode = event.currentTarget.parentElement.firstElementChild.code;
+    const checkbox = event.currentTarget.parentElement.firstElementChild;
+    const moduleCode = checkbox.code;
+    const repositoryName = checkbox.getAttribute('repository');
 
     const moduleInfo = this.querySelector('#module-info');
-    if (moduleInfo.getAttribute('code') !== moduleCode) {
+    if (moduleInfo.getAttribute('code') !== moduleCode || moduleInfo.getAttribute('repository') !== repositoryName) {
       moduleInfo.setAttribute('code', moduleCode);
+      moduleInfo.setAttribute('repository', repositoryName);
 
       const moduleInfoContent = moduleInfo.querySelector('#module-info-content');
       const loadingIndicator = moduleInfo.querySelector('loading-indicator');
@@ -286,7 +345,7 @@ class StepModules extends HTMLElement {
 
       setTimeout(async () => {
         const swordModuleHelper = require('../../helpers/sword_module_helper.js');
-        moduleInfoContent.innerHTML = await swordModuleHelper.getModuleInfo(moduleCode, true);
+        moduleInfoContent.innerHTML = await swordModuleHelper.getModuleInfo(moduleCode, true, true, repositoryName);
         loadingIndicator.hide();
       }, 100);
     }  
@@ -342,6 +401,7 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
         code: swordModule.name,
         text: `${swordModule.description} [${swordModule.name}]`,
         description: `${swordModule.repository}; ${i18n.t('general.module-version')}: ${swordModule.version}; ${i18n.t("general.module-size")}: ${Math.round(swordModule.size / 1024)} KB`,
+        repository: swordModule.repository,
         hasHebrewStrongsKeys: swordModule.hasHebrewStrongsKeys,
         hasGreekStrongsKeys: swordModule.hasGreekStrongsKeys
       };
@@ -355,7 +415,7 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
                                                            currentModuleType);
       }
       
-      if (installedModules.has(swordModule.name)) {
+      if (isModuleInstalled(installedModules, swordModule.name, swordModule.repository)) {
         moduleInfo['disabled'] = true;
         moduleInfo['title'] = assistantHelper.localizeText("module-assistant.step-modules.module-already-installed", 
                                                            currentModuleType);
@@ -366,4 +426,29 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
   }
 
   return currentLangModules;
+}
+
+/**
+ * Check if a module is installed, considering repository matching.
+ * Falls back to name-only matching if the installed module has no repository info (legacy installs).
+ * @param {Map<string, string>} installedModules - Map of moduleCode -> repository
+ * @param {string} moduleName - The module code to check
+ * @param {string} repository - The repository of the remote module
+ * @returns {boolean} True if the module is installed from this repository (or any repo for legacy)
+ */
+function isModuleInstalled(installedModules, moduleName, repository) {
+  if (!installedModules.has(moduleName)) {
+    return false;
+  }
+  
+  const installedRepo = installedModules.get(moduleName);
+  
+  // If installed module has no repository info (legacy install or unknown source),
+  // fall back to name-only matching
+  if (!installedRepo || installedRepo === '') {
+    return true;
+  }
+  
+  // Otherwise, only mark as installed if repositories match
+  return installedRepo === repository;
 }

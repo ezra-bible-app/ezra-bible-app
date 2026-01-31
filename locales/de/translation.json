@@ -95,7 +95,10 @@
       "module-with": "{{module_type, capitalize}} mit {{feature_type}}",
       "module-already-installed": "{{module_type, singular}} ist bereits installiert",
       "show-module-info":"Informationen zeigen",
-      "show-detailed-module-info": "Klicken Sie auf das Informationssymbol um mehr Informationen zu {{module_type, singular-dative}} anzuzeigen."
+      "show-detailed-module-info": "Klicken Sie auf das Informationssymbol um mehr Informationen zu {{module_type, singular-dative}} anzuzeigen.",
+      "duplicate-module-title": "Module already selected",
+      "duplicate-module-message": "The module {{moduleId}} is already selected from repository {{repository}}. Please deselect it first if you want to install from a different repository.",
+      "already-installed-message": "The module {{moduleId}} is already installed from repository {{repository}}. Please uninstall it first if you want to install from a different repository."
     },
     "step-install": {
       "installing-modules": "Installiere ausgewählte {{module_type, accusative}}",
