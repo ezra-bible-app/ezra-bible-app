@@ -11,7 +11,8 @@ cloc --md --exclude-dir=__tests__ \
           index.html \
           main.js \
           package.json \
-          node_modules/node-sword-interface/src \
+          node_modules/node-sword-interface/src/napi_module \
+          node_modules/node-sword-interface/src/sword_backend \
           node_modules/node-sword-interface/*.md \
           node_modules/node-sword-interface/scripts \
           node_modules/node-sword-interface/*.js \
