@@ -650,6 +650,14 @@ a.chapter-nav:hover {
   max-width: 60ch;
 }
 
+.verse-list-content.limit-width:not(.verse-list-with-second-translation) .book-intro {
+  max-width: calc(60ch + 8em);
+}
+
+.verse-list-content.limit-width:not(.verse-list-with-second-translation) .sword-section-title {
+  max-width: calc(60ch + 2em);
+}
+
 .verse-text-container.ui-selected .verse-text {
   user-select: text;
 }
