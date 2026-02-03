@@ -377,7 +377,20 @@ class TextController {
 
           if (this.platformHelper.isElectron()) {
             const sanitizeHtml = require('sanitize-html');
-            bookIntroduction = sanitizeHtml(bookIntroduction);
+
+            bookIntroduction = sanitizeHtml(bookIntroduction, {
+              // Take the default tags and add 'img' and 'center'
+              allowedTags: [ ...sanitizeHtml.defaults.allowedTags, 'img', 'center' ],
+              
+              // Since we're adding images, we allow standard image attributes as well
+              allowedAttributes: {
+                ...sanitizeHtml.defaults.allowedAttributes,
+                'img': ['src', 'alt', 'width', 'height']
+              },
+
+              // Add 'file' to the list of permitted protocols
+              allowedSchemes: [...sanitizeHtml.defaults.allowedSchemes, 'file']
+            });
           }
         }
       } catch (e) {
