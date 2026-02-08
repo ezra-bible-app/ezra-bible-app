@@ -165,6 +165,14 @@ class InfoPopup {
       `;
     }
 
+    var chromiumVersionLine = '';
+
+    if (!this.platformHelper.isIOS()) {
+      chromiumVersionLine = `
+        <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
+      `;
+    }
+
     const appInfo = html`
     <div id='app-info-tabs'>
       <ul>
@@ -212,7 +220,7 @@ class InfoPopup {
           <tr><td style='width: 15em;'>${i18n.t("general.application-version")}:</td><td>${version}</td></tr>
           <tr><td>${i18n.t("general.git-commit")}:</td><td>${gitCommit}</td></tr>
           <tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>
-          <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
+          ${chromiumVersionLine}
           <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
           <tr><td>${i18n.t("general.database-size")}:</td><td>${databaseSize}</td></tr>
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
