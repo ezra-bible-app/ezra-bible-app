@@ -293,6 +293,12 @@ class Startup {
 
       let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 80]);
 
+      // On mobile devices, ensure dialog fits within viewport accounting for UI chrome
+      if (this._platformHelper.isMobile()) {
+        const windowWidth = $(window).width();
+        dialogOptions.width = Math.min(dialogOptions.width, windowWidth * 0.95);
+      }
+
       var buttons = {};
       buttons[i18n.t('general.ok')] = function() {
         $(this).dialog('close');
