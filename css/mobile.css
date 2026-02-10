@@ -173,6 +173,19 @@ Librem 5/Pinephone etc.
     box-shadow: unset !important;
   }
 
+  /* Ensure privacy options dialog content is responsive */
+  #privacy-options-box-content {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  #privacy-options-box-content h2,
+  #privacy-options-box-content h3,
+  #privacy-options-box-content p {
+    max-width: 100%;
+    word-wrap: break-word;
+  }
+
   .dropbox-zip-install-dialog #zip-file-list {
     max-height: 70vh !important;
     overflow-y: auto !important;

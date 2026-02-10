@@ -287,8 +287,16 @@ class Startup {
 
       uiHelper.configureButtonStyles('#privacy-options-box');
       
-      const width = 800;
+      let width = 800;
       const height = 600;
+      
+      // On mobile devices, ensure dialog fits within viewport
+      if (this._platformHelper.isMobile()) {
+        const windowWidth = $(window).width();
+        // Use 95% of window width to account for dialog borders and padding
+        width = Math.min(width, windowWidth * 0.95);
+      }
+      
       const offsetLeft = ($(window).width() - width)/2;
 
       let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 80]);
