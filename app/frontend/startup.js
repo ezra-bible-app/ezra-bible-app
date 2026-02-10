@@ -287,7 +287,7 @@ class Startup {
 
       uiHelper.configureButtonStyles('#privacy-options-box');
       
-      const width = 800;
+      const width = uiHelper.getMaxDialogWidth();
       const height = 600;
       const offsetLeft = ($(window).width() - width)/2;
 
