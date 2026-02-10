@@ -35,9 +35,6 @@ window.uiHelper = new UiHelper();
 
 const { html, waitUntilIdle, getPlatform } = require('./helpers/ezra_helper.js');
 
-// Dialog width ratio for mobile devices (95% to account for borders/padding)
-const MOBILE_DIALOG_WIDTH_RATIO = 0.95;
-
 /**
  * The Startup class has the purpose to start up the application.
  * The main entry point is the method `initApplication()`.
@@ -290,16 +287,8 @@ class Startup {
 
       uiHelper.configureButtonStyles('#privacy-options-box');
       
-      let width = 800;
+      const width = 800;
       const height = 600;
-      
-      // On mobile devices, ensure dialog fits within viewport
-      if (this._platformHelper.isMobile()) {
-        const windowWidth = $(window).width();
-        // Use constant ratio to account for dialog borders and padding
-        width = Math.min(width, windowWidth * MOBILE_DIALOG_WIDTH_RATIO);
-      }
-      
       const offsetLeft = ($(window).width() - width)/2;
 
       let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 80]);

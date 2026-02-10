@@ -18,6 +18,9 @@
 
 const i18nController = require('../controllers/i18n_controller.js');
 
+// Dialog width ratio for mobile devices (95% to account for borders/padding)
+const MOBILE_DIALOG_WIDTH_RATIO = 0.95;
+
 class UiHelper {
   constructor() {
     this.app_container_height = null;
@@ -186,7 +189,9 @@ class UiHelper {
     let modal = false;
 
     if (platformHelper.isMobile() || fullscreen) {
-      width = $(window).width();
+      const windowWidth = $(window).width();
+      // Use ratio to account for dialog borders and padding
+      width = Math.min(width, windowWidth * MOBILE_DIALOG_WIDTH_RATIO);
       height = $(window).height() - 85;
 
       if (platformHelper.isCordova()) {
