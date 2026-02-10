@@ -290,8 +290,9 @@ class Startup {
       const width = 800;
       const height = 600;
       const offsetLeft = ($(window).width() - width)/2;
+      let fullscreen = this._platformHelper.isCordova();
 
-      let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 80]);
+      let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 80], false, fullscreen);
 
       var buttons = {};
       buttons[i18n.t('general.ok')] = function() {
