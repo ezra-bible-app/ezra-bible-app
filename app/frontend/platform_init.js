@@ -41,8 +41,6 @@ window.initPlatform = function() {
     
     if (webViewVersion) {
       if (webViewVersion >= CHROMIUM_VERSION_MIN) {
-        loadScript('cordova.js');
-
         window.isDev = false;
 
         loadScript('dist/ezra_init.js');
