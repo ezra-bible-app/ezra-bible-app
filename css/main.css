@@ -1536,6 +1536,12 @@ li.book-unavailable a:focus,
   margin: 1em;
 }
 
+.book-intro img,
+.sword-section-title img {
+  max-width: 100%;
+  height: auto;
+}
+
 .verse-list-with-section-titles .chapter-header {
   display: block;
 }

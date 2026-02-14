@@ -112,6 +112,11 @@ Librem 5/Pinephone etc.
     padding-bottom: 1em !important;
   }
 
+  .book-intro img,
+  .sword-section-title img {
+    display: block;
+  }
+
   /*Make dialogs not go out of screen*/
   .ui-dialog {
     max-width: 100vw;
