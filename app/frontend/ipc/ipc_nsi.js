@@ -131,7 +131,7 @@ class IpcNsi {
     var returnValue = this._ipcRenderer.callWithProgressCallback('nsi_installModule',
                                                                  'nsi_updateInstallProgress',
                                                                  progressCallback,
-                                                                 120000,
+                                                                 300000,
                                                                  repositoryName,
                                                                  moduleCode);
     return returnValue;
