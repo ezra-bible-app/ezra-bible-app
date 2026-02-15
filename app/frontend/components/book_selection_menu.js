@@ -415,7 +415,11 @@ class BookSelectionMenu {
     const recentPassagesContainer = document.querySelector('.recently-opened-passages ul');
     const recentPassagesSection = document.querySelector('.recently-opened-passages');
 
-    if (recentPassages.length <= 1) {
+    if (!recentPassages) {
+      return;
+    }
+
+    if (recentPassages && recentPassages.length <= 1) {
       recentPassagesSection.style.display = 'none'; // Hide if no entries or only one entry
       return;
     }
