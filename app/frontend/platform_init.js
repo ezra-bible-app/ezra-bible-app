@@ -169,12 +169,17 @@ function isAndroidWebView() {
 }
 
 function isIOSWebView() {
-  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  let userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
   // iOS detection from: http://stackoverflow.com/a/9039885/177710
-  var isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+  let isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
 
-  var isWebView = isIOS && !userAgent.match(/Safari/);
+  if (!isIOS) {
+    let isIPad = /Macintosh/.test(userAgent) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+    isIOS = isIPad;
+  }
+
+  let isWebView = isIOS && !userAgent.match(/Safari/);
 
   return isWebView;
 }

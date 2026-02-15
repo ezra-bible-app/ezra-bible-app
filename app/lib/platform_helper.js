@@ -95,7 +95,8 @@ class PlatformHelper {
 
   isIOS() {
     if (typeof navigator !== 'undefined') {
-      return navigator.userAgent.match('iPhone') !== null || navigator.userAgent.match('iPad') !== null;
+      const isIPad = navigator.userAgent.match(/Macintosh/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+      return navigator.userAgent.match('iPhone') !== null || navigator.userAgent.match('iPad') !== null || isIPad;
     } else if (this.isCordovaBackend()) {
       // In backend context, use process.platform (nodejs-mobile sets this to 'ios')
       return process.platform === 'ios';
