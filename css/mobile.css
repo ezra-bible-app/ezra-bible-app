@@ -881,6 +881,7 @@ Librem 5/Pinephone etc.
     width: 1em !important;
     height: 1.2em !important;
     padding: 0.2em 0.3em !important;
+    margin-left: 0.2em !important;
   }
 
   /* Type face settings adjustments for mobile screens */
