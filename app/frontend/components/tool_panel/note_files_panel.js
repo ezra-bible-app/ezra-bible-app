@@ -224,6 +224,10 @@ class NoteFilesPanel {
     standardNoteFileRow.appendChild(standardActionsCell);
     table.appendChild(standardNoteFileRow);
 
+    if (!noteFiles) {
+      return;
+    }
+
     noteFiles.forEach(noteFile => {
       const row = document.createElement('tr');
       row.setAttribute('note-file-id', noteFile.id);
