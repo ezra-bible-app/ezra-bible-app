@@ -115,6 +115,7 @@ class OptionsMenu {
     this._strongsOption = this.initConfigOption('showStrongsInlineOption', () => { this.showOrHideStrongsBasedOnOption(); });
     this._paragraphsOption = this.initConfigOption('showParagraphsOption', () => { this.showOrHideParagraphsBasedOnOption(); });
     this._redLetterOption = this.initConfigOption('redLetterOption', () => { this.renderRedLettersBasedOnOption(); });
+    this._chapterNavOption = this.initConfigOption('showChapterNavOption', () => { this.showOrHideChapterNavBasedOnOption(); }, true);
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, bookChapterNavDefault);
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
@@ -337,6 +338,20 @@ class OptionsMenu {
         bookIntro.show();
       } else {
         bookIntro.hide();
+      }
+    }
+  }
+
+  showOrHideChapterNavBasedOnOption(tabIndex=undefined) {
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      var chapterNav = currentVerseList.find('.chapter-nav');
+
+      if (this._chapterNavOption.isChecked) {
+        chapterNav.show();
+      } else {
+        chapterNav.hide();
       }
     }
   }
@@ -612,6 +627,7 @@ class OptionsMenu {
     this.lastRefreshViewTime = now;
 
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
+    this.showOrHideChapterNavBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
     this.showOrHideTabSearchFormBasedOnOption(tabIndex);
