@@ -1599,6 +1599,7 @@ li.book-unavailable a:focus,
 
 .bible-select-block.second-bible {
   display: none;
+  margin-left: 0.4em;
 }
 
 .bible-select-block select {
