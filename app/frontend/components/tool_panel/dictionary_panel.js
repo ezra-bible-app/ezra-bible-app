@@ -323,7 +323,7 @@ class DictionaryPanel {
 
     let dictHeader = `<div id='dict-entry-header'>${keyValue}</div>`;
     let closeIcon = `<div class='close-icon icon'><i class='fa-solid fa-rectangle-xmark'></i></div><br id='dict-entry-header-separator' />`;
-    let dictContent = await ipcNsi.getRawModuleEntry(currentDictionary, keyValue);
+    let dictContent = await ipcNsi.getRawModuleEntry(currentDictionary, keyValue, true);
 
     if (dictContent == null) {
       return;
