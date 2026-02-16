@@ -25,6 +25,18 @@ const path = require('path');
 
 const DEFAULT_REPO_TIMEOUT = 20000;
 
+/**
+ * SWORD module type strings as returned by node-sword-interface.
+ * These must be kept in sync with app/frontend/helpers/sword_module_helper.js
+ */
+const SWORD_MODULE_TYPE = {
+  BIBLE: 'Biblical Texts',
+  COMMENTARY: 'Commentaries',
+  DICTIONARY: 'Lexicons / Dictionaries',
+  IMAGES: 'Images',
+  MAPS: 'Maps'
+};
+
 class IpcNsiHandler {
   constructor(customSwordDir=undefined) {
     this._ipcMain = new IpcMain();
@@ -114,7 +126,9 @@ class IpcNsiHandler {
    * @returns {boolean} True if the type is a dictionary-type module
    */
   isDictionaryType(type) {
-    return type === 'Lexicons / Dictionaries' || type === 'Images' || type === 'Maps';
+    return type === SWORD_MODULE_TYPE.DICTIONARY ||
+           type === SWORD_MODULE_TYPE.IMAGES ||
+           type === SWORD_MODULE_TYPE.MAPS;
   }
 
   getLanguageModuleCount(selectedRepos, language, moduleType, dropboxModules=[]) {
@@ -125,8 +139,8 @@ class IpcNsiHandler {
       if (currentRepo === 'Dropbox') {
          const filtered = dropboxModules.filter(m => {
             if (m.language !== language) return false;
-            if (moduleType === 'BIBLE' && m.type !== 'Biblical Texts') return false;
-            if (moduleType === 'COMMENTARY' && m.type !== 'Commentaries') return false;
+            if (moduleType === 'BIBLE' && m.type !== SWORD_MODULE_TYPE.BIBLE) return false;
+            if (moduleType === 'COMMENTARY' && m.type !== SWORD_MODULE_TYPE.COMMENTARY) return false;
             if (moduleType === 'DICTIONARY' && !this.isDictionaryType(m.type)) return false;
             return true;
          });
@@ -185,8 +199,8 @@ class IpcNsiHandler {
         
         const languages = new Set();
         modules.forEach(m => {
-          if (moduleType === 'BIBLE' && m.type === 'Biblical Texts') languages.add(m.language);
-          if (moduleType === 'COMMENTARY' && m.type === 'Commentaries') languages.add(m.language);
+          if (moduleType === 'BIBLE' && m.type === SWORD_MODULE_TYPE.BIBLE) languages.add(m.language);
+          if (moduleType === 'COMMENTARY' && m.type === SWORD_MODULE_TYPE.COMMENTARY) languages.add(m.language);
           if (moduleType === 'DICTIONARY' && this.isDictionaryType(m.type)) languages.add(m.language);
         });
         
@@ -203,8 +217,8 @@ class IpcNsiHandler {
         const modules = await this._dropboxModuleHelper.getDropboxModules();
         
         return modules.filter(m => {
-          if (moduleType === 'BIBLE') return m.type === 'Biblical Texts';
-          if (moduleType === 'COMMENTARY') return m.type === 'Commentaries';
+          if (moduleType === 'BIBLE') return m.type === SWORD_MODULE_TYPE.BIBLE;
+          if (moduleType === 'COMMENTARY') return m.type === SWORD_MODULE_TYPE.COMMENTARY;
           if (moduleType === 'DICTIONARY') return this.isDictionaryType(m.type);
           return true;
         });
@@ -224,8 +238,8 @@ class IpcNsiHandler {
         return modules.filter(m => {
           if (m.language !== language) return false;
           
-          if (moduleType === 'BIBLE' && m.type !== 'Biblical Texts') return false;
-          if (moduleType === 'COMMENTARY' && m.type !== 'Commentaries') return false;
+          if (moduleType === 'BIBLE' && m.type !== SWORD_MODULE_TYPE.BIBLE) return false;
+          if (moduleType === 'COMMENTARY' && m.type !== SWORD_MODULE_TYPE.COMMENTARY) return false;
           if (moduleType === 'DICTIONARY' && !this.isDictionaryType(m.type)) return false;
           
           // Apply headings filter

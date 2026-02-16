@@ -22,6 +22,7 @@ const { getPlatform } = require('../../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
 const ReferenceBoxHelper = require('./reference_box_helper.js');
 const Mousetrap = require('mousetrap');
+const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 
 /**
  * The CommentaryPanel component implements a tool panel that shows Bible commentaries for selected verses
@@ -138,7 +139,7 @@ class CommentaryPanel {
     commentarySettingsList.innerHTML = '';
 
     for (let commentary of allCommentaries) {
-      if (commentary.category == 'Images') {
+      if (commentary.category == swordModuleHelper.SWORD_MODULE_TYPE.IMAGES) {
         continue;
       }
 
@@ -478,7 +479,7 @@ class CommentaryPanel {
           let currentCommentary = allCommentaries[i];
 
           // We do not support Images
-          if (currentCommentary.category == 'Images') {
+          if (currentCommentary.category == swordModuleHelper.SWORD_MODULE_TYPE.IMAGES) {
             continue;
           }
 

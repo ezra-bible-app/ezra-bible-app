@@ -26,6 +26,51 @@ const rtfHelper = require('./rtf_helper.js');
 
 const PUBLIC_LICENSES = ['Public Domain', 'General public license for distribution for any purpose'];
 
+/**
+ * SWORD module type strings as returned by node-sword-interface
+ */
+const SWORD_MODULE_TYPE = {
+  BIBLE: 'Biblical Texts',
+  COMMENTARY: 'Commentaries',
+  DICTIONARY: 'Lexicons / Dictionaries',
+  IMAGES: 'Images',
+  MAPS: 'Maps'
+};
+
+module.exports.SWORD_MODULE_TYPE = SWORD_MODULE_TYPE;
+
+/**
+ * Check if a module is a Bible translation
+ * @param {Object|string} moduleOrType - Module object or type string
+ * @returns {boolean} True if the module is a Bible module
+ */
+module.exports.isBibleModule = function(moduleOrType) {
+  const type = typeof moduleOrType === 'string' ? moduleOrType : moduleOrType.type;
+  return type === SWORD_MODULE_TYPE.BIBLE;
+};
+
+/**
+ * Check if a module is a Dictionary-type module (includes Lexicons, Images, Maps)
+ * @param {Object|string} moduleOrType - Module object or type string
+ * @returns {boolean} True if the module is a dictionary-type module
+ */
+module.exports.isDictionaryModule = function(moduleOrType) {
+  const type = typeof moduleOrType === 'string' ? moduleOrType : moduleOrType.type;
+  return type === SWORD_MODULE_TYPE.DICTIONARY ||
+         type === SWORD_MODULE_TYPE.IMAGES ||
+         type === SWORD_MODULE_TYPE.MAPS;
+};
+
+/**
+ * Check if a module is a Commentary
+ * @param {Object|string} moduleOrType - Module object or type string
+ * @returns {boolean} True if the module is a commentary module
+ */
+module.exports.isCommentaryModule = function(moduleOrType) {
+  const type = typeof moduleOrType === 'string' ? moduleOrType : moduleOrType.type;
+  return type === SWORD_MODULE_TYPE.COMMENTARY;
+};
+
 var _moduleVersificationCache = {};
 var _cachedModule;
 
@@ -132,7 +177,7 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
     moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + i18nHelper.getLanguageName(swordModule.language) + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + swordModule.distributionLicense + "</td></tr>";
 
-    if (swordModule.type == 'Biblical Texts') {
+    if (this.isBibleModule(swordModule)) {
       moduleInfo += "<tr><td>" + i18n.t("general.module-strongs") + ":</td><td>" + (swordModule.hasStrongs ? yes : no) + "</td></tr>";
       moduleInfo += "<tr><td>" + i18n.t("general.module-headings") + ":</td><td>" + (swordModule.hasHeadings ? yes : no) + "</td></tr>";
       moduleInfo += "<tr><td>" + i18n.t("general.module-footnotes") + ":</td><td>" + (swordModule.hasFootnotes ? yes : no) + "</td></tr>";

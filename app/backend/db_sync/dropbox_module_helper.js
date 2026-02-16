@@ -21,6 +21,18 @@ const fs = require('fs');
 const path = require('path');
 
 /**
+ * SWORD module type strings as returned by node-sword-interface.
+ * These must be kept in sync with app/frontend/helpers/sword_module_helper.js
+ */
+const SWORD_MODULE_TYPE = {
+  BIBLE: 'Biblical Texts',
+  COMMENTARY: 'Commentaries',
+  DICTIONARY: 'Lexicons / Dictionaries',
+  IMAGES: 'Images',
+  MAPS: 'Maps'
+};
+
+/**
  * DropboxModuleHelper provides functionality for managing SWORD Bible modules
  * stored in a custom Dropbox repository.
  * 
@@ -235,9 +247,9 @@ class DropboxModuleHelper {
           if (key === 'About') config.about = value;
           if (key === 'InstallSize') config.size = parseInt(value);
           if (key === 'ModDrv') {
-             if (value === 'zText') config.type = 'Biblical Texts';
-             if (value === 'zCom') config.type = 'Commentaries';
-             if (value === 'zLD') config.type = 'Lexicons / Dictionaries';
+             if (value === 'zText') config.type = SWORD_MODULE_TYPE.BIBLE;
+             if (value === 'zCom') config.type = SWORD_MODULE_TYPE.COMMENTARY;
+             if (value === 'zLD') config.type = SWORD_MODULE_TYPE.DICTIONARY;
           }
           if (key === 'GlobalOptionFilter') {
             if (value === 'OSISStrongs') {

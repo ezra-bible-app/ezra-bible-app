@@ -29,6 +29,7 @@ const platformHelper = new PlatformHelper();
 const eventController = require('./event_controller.js');
 const { html } = require('../helpers/ezra_helper.js');
 const dbSyncController = require('./db_sync_controller.js');
+const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
 module.exports.showDropboxZipInstallDialog = async function() {
   const dbSyncInitDone = await dbSyncController.isInitDone();
@@ -281,13 +282,11 @@ module.exports.showDropboxZipInstallDialog = async function() {
           statusCell.innerHTML = '<span style="color: green;">✓ Installed</span>';
           
           // Raise appropriate event based on module type
-          if (result.moduleType === 'Biblical Texts') {
+          if (swordModuleHelper.isBibleModule(result.moduleType)) {
             await eventController.publishAsync('on-translation-added', result.moduleId);
-          } else if (result.moduleType === 'Lexicons / Dictionaries' ||
-                     result.moduleType === 'Images' ||
-                     result.moduleType === 'Maps') {
+          } else if (swordModuleHelper.isDictionaryModule(result.moduleType)) {
             await eventController.publishAsync('on-dictionary-added', result.moduleId);
-          } else if (result.moduleType === 'Commentaries') {
+          } else if (swordModuleHelper.isCommentaryModule(result.moduleType)) {
             await eventController.publishAsync('on-commentary-added', result.moduleId);
           }
         } else if (result.alreadyInstalled) {
