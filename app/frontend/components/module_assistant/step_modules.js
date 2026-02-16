@@ -377,8 +377,6 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
 
     // We do not support these categories
     const unsupportedCategories = [
-      'Images',
-      'Maps',
       'Daily Devotional'
     ];
 
