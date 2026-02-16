@@ -283,7 +283,9 @@ module.exports.showDropboxZipInstallDialog = async function() {
           // Raise appropriate event based on module type
           if (result.moduleType === 'Biblical Texts') {
             await eventController.publishAsync('on-translation-added', result.moduleId);
-          } else if (result.moduleType === 'Lexicons / Dictionaries') {
+          } else if (result.moduleType === 'Lexicons / Dictionaries' ||
+                     result.moduleType === 'Images' ||
+                     result.moduleType === 'Maps') {
             await eventController.publishAsync('on-dictionary-added', result.moduleId);
           } else if (result.moduleType === 'Commentaries') {
             await eventController.publishAsync('on-commentary-added', result.moduleId);
