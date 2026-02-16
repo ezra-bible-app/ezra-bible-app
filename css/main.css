@@ -1537,7 +1537,8 @@ li.book-unavailable a:focus,
 }
 
 .book-intro img,
-.sword-section-title img {
+.sword-section-title img,
+.dict-entry img {
   max-width: 100%;
   height: auto;
 }
