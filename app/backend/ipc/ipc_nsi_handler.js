@@ -241,6 +241,8 @@ class IpcNsiHandler {
           if (moduleType === 'BIBLE' && m.type !== SWORD_MODULE_TYPE.BIBLE) return false;
           if (moduleType === 'COMMENTARY' && m.type !== SWORD_MODULE_TYPE.COMMENTARY) return false;
           if (moduleType === 'DICTIONARY' && !this.isDictionaryType(m.type)) return false;
+          if (moduleType === 'MAPS' && m.type !== SWORD_MODULE_TYPE.MAPS) return false;
+          if (moduleType === 'IMAGES' && m.type !== SWORD_MODULE_TYPE.IMAGES) return false;
           
           // Apply headings filter
           if (headersFilter === true && !m.hasHeadings) return false;
