@@ -107,6 +107,16 @@ class IpcNsiHandler {
     return this._dropboxModuleHelper;
   }
 
+  /**
+   * Checks if a module type string represents a DICTIONARY module.
+   * DICTIONARY modules include Lexicons / Dictionaries, Images, and Maps.
+   * @param {string} type - The module type string to check
+   * @returns {boolean} True if the type is a dictionary-type module
+   */
+  isDictionaryType(type) {
+    return type === 'Lexicons / Dictionaries' || type === 'Images' || type === 'Maps';
+  }
+
   getLanguageModuleCount(selectedRepos, language, moduleType, dropboxModules=[]) {
     var count = 0;
 
@@ -117,7 +127,7 @@ class IpcNsiHandler {
             if (m.language !== language) return false;
             if (moduleType === 'BIBLE' && m.type !== 'Biblical Texts') return false;
             if (moduleType === 'COMMENTARY' && m.type !== 'Commentaries') return false;
-            if (moduleType === 'DICTIONARY' && m.type !== 'Lexicons / Dictionaries') return false;
+            if (moduleType === 'DICTIONARY' && !this.isDictionaryType(m.type)) return false;
             return true;
          });
          count += filtered.length;
@@ -177,7 +187,7 @@ class IpcNsiHandler {
         modules.forEach(m => {
           if (moduleType === 'BIBLE' && m.type === 'Biblical Texts') languages.add(m.language);
           if (moduleType === 'COMMENTARY' && m.type === 'Commentaries') languages.add(m.language);
-          if (moduleType === 'DICTIONARY' && m.type === 'Lexicons / Dictionaries') languages.add(m.language);
+          if (moduleType === 'DICTIONARY' && this.isDictionaryType(m.type)) languages.add(m.language);
         });
         
         return Array.from(languages);
@@ -195,7 +205,7 @@ class IpcNsiHandler {
         return modules.filter(m => {
           if (moduleType === 'BIBLE') return m.type === 'Biblical Texts';
           if (moduleType === 'COMMENTARY') return m.type === 'Commentaries';
-          if (moduleType === 'DICTIONARY') return m.type === 'Lexicons / Dictionaries';
+          if (moduleType === 'DICTIONARY') return this.isDictionaryType(m.type);
           return true;
         });
       }
@@ -216,7 +226,7 @@ class IpcNsiHandler {
           
           if (moduleType === 'BIBLE' && m.type !== 'Biblical Texts') return false;
           if (moduleType === 'COMMENTARY' && m.type !== 'Commentaries') return false;
-          if (moduleType === 'DICTIONARY' && m.type !== 'Lexicons / Dictionaries') return false;
+          if (moduleType === 'DICTIONARY' && !this.isDictionaryType(m.type)) return false;
           
           // Apply headings filter
           if (headersFilter === true && !m.hasHeadings) return false;
@@ -349,8 +359,8 @@ class IpcNsiHandler {
       return this._nsi.isModuleReadable(moduleCode);
     });
 
-    this._ipcMain.add('nsi_getRawModuleEntry', (moduleCode, key) => {
-      return this._nsi.getRawModuleEntry(moduleCode, key);
+    this._ipcMain.add('nsi_getRawModuleEntry', (moduleCode, key, processImages=false) => {
+      return this._nsi.getRawModuleEntry(moduleCode, key, processImages);
     });
 
     this._ipcMain.add('nsi_getReferenceText', (moduleCode, key) => {

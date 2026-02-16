@@ -167,8 +167,8 @@ class IpcNsi {
     return returnValue;
   }
 
-  async getRawModuleEntry(moduleCode, key) {
-    var returnValue = this._ipcRenderer.call('nsi_getRawModuleEntry', moduleCode, key);
+  async getRawModuleEntry(moduleCode, key, processImages=false) {
+    var returnValue = this._ipcRenderer.call('nsi_getRawModuleEntry', moduleCode, key, processImages);
     return returnValue;
   }
 
