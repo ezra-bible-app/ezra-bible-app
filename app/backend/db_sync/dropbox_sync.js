@@ -62,7 +62,14 @@ class DropboxSync {
 
   async listFolder(folderPath) {
     let response = await this._dbx.filesListFolder({path: folderPath});
-    return response.result.entries;
+    let entries = response.result.entries;
+
+    while (response.result.has_more) {
+      response = await this._dbx.filesListFolderContinue({cursor: response.result.cursor});
+      entries = entries.concat(response.result.entries);
+    }
+
+    return entries;
   }
 
   async testAuthentication() {
