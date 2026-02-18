@@ -194,11 +194,21 @@ class DropboxSync {
     const fileName = response.result.name;
     const destFilePath = path.join(destinationDir, fileName);
 
-    fs.writeFileSync(destFilePath, response.result.fileBinary);
+    try {
+      fs.writeFileSync(destFilePath, response.result.fileBinary);
+    } catch (err) {
+      throw new Error(`Failed to write downloaded file to ${destFilePath}: ${err.message}`);
+    }
   }
 
   async uploadFile(filePath, dropboxPath) {
-    const fileBlob = fs.readFileSync(filePath);
+    let fileBlob;
+
+    try {
+      fileBlob = fs.readFileSync(filePath);
+    } catch (err) {
+      throw new Error(`Failed to read file ${filePath} for upload: ${err.message}`);
+    }
 
     if (fileBlob.byteLength < UPLOAD_FILE_SIZE_LIMIT) {
       return await this._withRetry(
