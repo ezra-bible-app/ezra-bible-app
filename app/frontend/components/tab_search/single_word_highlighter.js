@@ -70,6 +70,11 @@ class SingleWordHighlighter {
   }
 
   isOccuranceValid(match, offset, string) {
+    if (match == null || offset == null || string == null) {
+      // If any of the parameters are null, we cannot validate the occurance, so we consider it invalid.
+      return false;
+    }
+
     var offsetAfterMatch = offset + match.length;
     var lengthAfterMatch = string.length - offset;
     var foundOpeningAngleBracketIndex = -1;
