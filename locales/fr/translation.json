@@ -526,6 +526,7 @@
     "dropbox-link-status-linking-failed": "Échec de la liaison !",
     "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Synchroniser uniquement sur WiFi",
+    "show-developer-info": "Show developer info after Dropbox actions",
     "sync-after-changes": "Synchroniser la base de données après les modifications",
     "use-custom-module-repo": "Use custom module repository",
     "custom-module-repo-folder": "Custom Module Repository Folder",

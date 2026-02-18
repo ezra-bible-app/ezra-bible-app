@@ -520,6 +520,7 @@
     "dropbox-link-status-linking-failed": "Привязка не удалась!",
     "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Синхронизация только по WiFi",
+    "show-developer-info": "Show developer info after Dropbox actions",
     "sync-after-changes": "Синхронизировать базу данных после изменений",
     "use-custom-module-repo": "Use custom module repository",
     "custom-module-repo-folder": "Custom Module Repository Folder",

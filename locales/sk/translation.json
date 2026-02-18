@@ -518,6 +518,7 @@
     "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Synchronizácia len cez WiFi",
     "sync-after-changes": "Synchronizovať databázu po zmenách",
+    "show-developer-info": "Show developer info after Dropbox actions",
     "use-custom-module-repo": "Use custom module repository",
     "custom-module-repo-folder": "Custom Module Repository Folder",
     "validate-repo": "Validate",
