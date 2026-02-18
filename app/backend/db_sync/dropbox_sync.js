@@ -237,8 +237,8 @@ class DropboxSync {
     try {
       remoteMetaData = await this.getFileMetaData(dropboxPath);
     } catch (e) {
-      console.log(e.error.error_summary);
-      if (e.error.error_summary.indexOf('not_found') != -1) {
+      if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') != -1) {
+        console.log(e.error.error_summary);
         remoteMetaData = {};
         remoteMetaData.content_hash = "";
       } else {
