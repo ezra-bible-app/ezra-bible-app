@@ -19,8 +19,15 @@
 const Dropbox = require('dropbox');
 const isomorphicFetch = require('isomorphic-fetch');
 const fs = require('fs');
+const fsPromises = require('fs').promises;
 const path = require('path');
 const dch = require('./dropbox_content_hasher.js');
+
+// Centralized configuration constants
+const UPLOAD_FILE_SIZE_LIMIT = 150 * 1024 * 1024; // 150 MB
+const MAX_RETRIES = 3;
+const INITIAL_RETRY_DELAY_MS = 1000;
+const DEFAULT_RATE_LIMIT_DELAY_MS = 60000;
 
 class DropboxSync {
   constructor(CLIENT_ID, TOKEN, REFRESH_TOKEN) {
@@ -34,22 +41,118 @@ class DropboxSync {
       accessToken: TOKEN
     });
 
-    this._dbx = new Dropbox.Dropbox({ accessToken: this._TOKEN,
-                                      refreshToken: this._REFRESH_TOKEN,
-                                      fetch: isomorphicFetch });
+    this._dbx = new Dropbox.Dropbox({
+      clientId: this._CLIENT_ID,
+      accessToken: this._TOKEN,
+      refreshToken: this._REFRESH_TOKEN,
+      fetch: isomorphicFetch
+    });
   }
 
   async refreshAccessToken() {
     await this._dbxAuth.checkAndRefreshAccessToken();
     this._TOKEN = this._dbxAuth.getAccessToken();
-    this._dbx = new Dropbox.Dropbox({ accessToken: this._TOKEN, 
-                                      fetch: isomorphicFetch });
-    
+
+    this._dbx = new Dropbox.Dropbox({
+      clientId: this._CLIENT_ID,
+      accessToken: this._TOKEN,
+      refreshToken: this._REFRESH_TOKEN,
+      fetch: isomorphicFetch
+    });
+
     return this._TOKEN;
   }
 
+  /**
+   * Sleep helper for retry delays
+   * @param {number} ms - Milliseconds to sleep
+   * @returns {Promise<void>}
+   */
+  _sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  /**
+   * Check if an error is retryable (transient network or server errors)
+   * @param {Error} error - The error to check
+   * @returns {boolean}
+   */
+  _isRetryableError(error) {
+    // Rate limit error
+    if (error.status === 429) {
+      return true;
+    }
+
+    // Server errors (5xx)
+    if (error.status >= 500 && error.status < 600) {
+      return true;
+    }
+
+    // Network errors
+    if (error.code === 'EAI_AGAIN' ||
+        error.code === 'ETIMEDOUT' ||
+        error.code === 'ECONNRESET' ||
+        error.code === 'ENOTFOUND') {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Get retry delay, respecting rate limit headers if present
+   * @param {Error} error - The error response
+   * @param {number} attempt - Current attempt number (1-based)
+   * @returns {number} - Delay in milliseconds
+   */
+  _getRetryDelay(error, attempt) {
+    // Check for rate limit with retry-after header
+    if (error.status === 429) {
+      if (error.headers && error.headers['retry-after']) {
+        return parseInt(error.headers['retry-after'], 10) * 1000;
+      }
+      return DEFAULT_RATE_LIMIT_DELAY_MS;
+    }
+
+    // Exponential backoff for other retryable errors
+    return INITIAL_RETRY_DELAY_MS * Math.pow(2, attempt - 1);
+  }
+
+  /**
+   * Execute an API call with retry logic and exponential backoff
+   * @param {Function} apiCall - Async function that performs the API call
+   * @param {string} operationName - Name of the operation for logging
+   * @returns {Promise<*>} - Result of the API call
+   */
+  async _withRetry(apiCall, operationName = 'API call') {
+    let lastError = null;
+
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        return await apiCall();
+      } catch (error) {
+        lastError = error;
+
+        if (this._isRetryableError(error) && attempt < MAX_RETRIES) {
+          const delay = this._getRetryDelay(error, attempt);
+          console.log(`${operationName} failed (attempt ${attempt}/${MAX_RETRIES}). ` +
+                      `Retrying in ${delay}ms... Error: ${error.message || error.status}`);
+          await this._sleep(delay);
+          continue;
+        }
+
+        throw error;
+      }
+    }
+
+    throw lastError;
+  }
+
   async getFolders() {
-    let response = await this._dbx.filesListFolder({path: ''});
+    let response = await this._withRetry(
+      () => this._dbx.filesListFolder({path: ''}),
+      'filesListFolder'
+    );
     let folders = [];
 
     response.result.entries.forEach((item) => {
@@ -62,11 +165,17 @@ class DropboxSync {
   }
 
   async listFolder(folderPath) {
-    let response = await this._dbx.filesListFolder({path: folderPath});
+    let response = await this._withRetry(
+      () => this._dbx.filesListFolder({path: folderPath}),
+      'filesListFolder'
+    );
     let entries = response.result.entries;
 
     while (response.result.has_more) {
-      response = await this._dbx.filesListFolderContinue({cursor: response.result.cursor});
+      response = await this._withRetry(
+        () => this._dbx.filesListFolderContinue({cursor: response.result.cursor}),
+        'filesListFolderContinue'
+      );
       entries = entries.concat(response.result.entries);
     }
 
@@ -78,24 +187,25 @@ class DropboxSync {
   }
 
   async downloadFile(dropboxPath, destinationDir) {
-    return this._dbx.filesDownload({path: dropboxPath}).then((response) => {
-      let fileName = response.result.name;
-      const destFilePath = path.join(destinationDir, fileName);
+    const response = await this._withRetry(
+      () => this._dbx.filesDownload({path: dropboxPath}),
+      'filesDownload'
+    );
 
-      fs.writeFileSync(destFilePath, response.result.fileBinary, (err) => {
-        if (err) throw err;
-      });
-    }).catch((errorResponse) => {
-      throw errorResponse;
-    });
+    const fileName = response.result.name;
+    const destFilePath = path.join(destinationDir, fileName);
+
+    await fsPromises.writeFile(destFilePath, response.result.fileBinary);
   }
 
   async uploadFile(filePath, dropboxPath) {
-    const UPLOAD_FILE_SIZE_LIMIT = 150 * 1024 * 1024;
-    const fileBlob = fs.readFileSync(filePath);
+    const fileBlob = await fsPromises.readFile(filePath);
 
-    if ((fileBlob.byteLength) < UPLOAD_FILE_SIZE_LIMIT) {
-      return this._dbx.filesUpload({path: dropboxPath, contents: fileBlob, mode: 'overwrite'});
+    if (fileBlob.byteLength < UPLOAD_FILE_SIZE_LIMIT) {
+      return await this._withRetry(
+        () => this._dbx.filesUpload({path: dropboxPath, contents: fileBlob, mode: 'overwrite'}),
+        'filesUpload'
+      );
     } else {
       throw new Error(`File ${filePath} is bigger than the Dropbox upload allows!`);
     }
@@ -253,11 +363,11 @@ class DropboxSync {
   }
 
   async getFileMetaData(dropboxPath) {
-    return this._dbx.filesGetMetadata({path: dropboxPath}).then((response) => {
-      return response.result;
-    }).catch((errorResponse) => {
-      throw errorResponse;
-    });
+    const response = await this._withRetry(
+      () => this._dbx.filesGetMetadata({path: dropboxPath}),
+      'filesGetMetadata'
+    );
+    return response.result;
   }
 
   async getLocalFileHash(fileName) {
