@@ -19,7 +19,6 @@
 const Dropbox = require('dropbox');
 const isomorphicFetch = require('isomorphic-fetch');
 const fs = require('fs');
-const fsPromises = require('fs').promises;
 const path = require('path');
 const dch = require('./dropbox_content_hasher.js');
 
@@ -195,11 +194,11 @@ class DropboxSync {
     const fileName = response.result.name;
     const destFilePath = path.join(destinationDir, fileName);
 
-    await fsPromises.writeFile(destFilePath, response.result.fileBinary);
+    fs.writeFileSync(destFilePath, response.result.fileBinary);
   }
 
   async uploadFile(filePath, dropboxPath) {
-    const fileBlob = await fsPromises.readFile(filePath);
+    const fileBlob = fs.readFileSync(filePath);
 
     if (fileBlob.byteLength < UPLOAD_FILE_SIZE_LIMIT) {
       return await this._withRetry(
