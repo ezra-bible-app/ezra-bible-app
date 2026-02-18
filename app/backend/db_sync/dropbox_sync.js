@@ -35,6 +35,7 @@ class DropboxSync {
     });
 
     this._dbx = new Dropbox.Dropbox({ accessToken: this._TOKEN,
+                                      refreshToken: this._REFRESH_TOKEN,
                                       fetch: isomorphicFetch });
   }
 
