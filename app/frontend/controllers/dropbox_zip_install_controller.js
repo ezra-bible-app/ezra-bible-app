@@ -103,6 +103,36 @@ module.exports.showDropboxZipInstallDialog = async function() {
       
       console.log('Received response:', response);
       
+      // Show debug info if setting is enabled
+      const showDevInfo = await ipcSettings.get('dropboxShowDevInfo', false);
+      if (showDevInfo && response.debugInfo) {
+        const debugInfo = response.debugInfo;
+        const durationMs = debugInfo.endTime - debugInfo.startTime;
+        const foldersScannedStr = debugInfo.foldersScanned.join(', ');
+        const errorsStr = debugInfo.errors.length > 0 
+          ? debugInfo.errors.map(e => e.folder + ': ' + e.error).join('; ')
+          : 'None';
+        
+        const debugMessage = 
+          '<b>Duration:</b> ' + durationMs + 'ms<br/>' +
+          '<b>Folders scanned:</b> ' + debugInfo.foldersScanned.length + ' (' + foldersScannedStr + ')<br/>' +
+          '<b>Total entries:</b> ' + debugInfo.totalEntriesProcessed + '<br/>' +
+          '<b>Files found:</b> ' + debugInfo.totalFilesFound + '<br/>' +
+          '<b>Folders found:</b> ' + debugInfo.totalFoldersFound + '<br/>' +
+          '<b>Zip files:</b> ' + debugInfo.zipFilesFound + '<br/>' +
+          '<b>Errors:</b> ' + errorsStr;
+        
+        // eslint-disable-next-line no-undef
+        iziToast.info({
+          title: 'Dropbox Debug Info',
+          message: debugMessage,
+          position: platformHelper.getIziPosition(),
+          timeout: 30000,
+          layout: 2,
+          maxWidth: 500
+        });
+      }
+      
       const zipFileList = document.getElementById('zip-file-list');
       zipFileList.innerHTML = '';
 

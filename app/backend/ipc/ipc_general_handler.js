@@ -174,16 +174,18 @@ class IpcGeneralHandler {
       
       try {
         const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
-        const files = await dropboxModuleHelper.listZipFiles(dropboxToken, dropboxRefreshToken);
+        const result = await dropboxModuleHelper.listZipFiles(dropboxToken, dropboxRefreshToken);
         return {
           success: true,
-          files: files
+          files: result.files,
+          debugInfo: result.debugInfo
         };
       } catch (error) {
         return {
           success: false,
           error: error.message || 'Unknown error',
-          errorCode: error.code
+          errorCode: error.code,
+          debugInfo: error.debugInfo
         };
       }
     });

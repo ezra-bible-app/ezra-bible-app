@@ -321,22 +321,53 @@ class DropboxModuleHelper {
     const dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
     const rootPath = '';
     
+    // Debug info collection
+    const debugInfo = {
+      foldersScanned: [],
+      totalEntriesProcessed: 0,
+      totalFilesFound: 0,
+      totalFoldersFound: 0,
+      zipFilesFound: 0,
+      startTime: Date.now(),
+      endTime: null,
+      errors: []
+    };
+    
     try {
       await dropboxSync.refreshAccessToken();
       
       // Recursive function to list files in a folder and its subfolders
       const listFilesRecursive = async (folderPath) => {
-        const entries = await dropboxSync.listFolder(folderPath);
+        debugInfo.foldersScanned.push(folderPath || '/');
+        
+        let entries;
+        try {
+          entries = await dropboxSync.listFolder(folderPath);
+        } catch (folderError) {
+          debugInfo.errors.push({
+            folder: folderPath || '/',
+            error: folderError.message || String(folderError)
+          });
+          return [];
+        }
+        
+        debugInfo.totalEntriesProcessed += entries.length;
+        
         let zipFiles = [];
         
         for (const entry of entries) {
-          if (entry['.tag'] === 'file' && entry.name.toLowerCase().endsWith('.zip')) {
-            zipFiles.push({
-              name: entry.name,
-              path: entry.path_display,
-              size: entry.size
-            });
+          if (entry['.tag'] === 'file') {
+            debugInfo.totalFilesFound++;
+            if (entry.name.toLowerCase().endsWith('.zip')) {
+              debugInfo.zipFilesFound++;
+              zipFiles.push({
+                name: entry.name,
+                path: entry.path_display,
+                size: entry.size
+              });
+            }
           } else if (entry['.tag'] === 'folder') {
+            debugInfo.totalFoldersFound++;
             // Recursively search in subdirectories
             const subFolderZipFiles = await listFilesRecursive(entry.path_display);
             zipFiles = zipFiles.concat(subFolderZipFiles);
@@ -346,10 +377,21 @@ class DropboxModuleHelper {
         return zipFiles;
       };
       
-      return await listFilesRecursive(rootPath);
+      const zipFiles = await listFilesRecursive(rootPath);
+      debugInfo.endTime = Date.now();
+      
+      return {
+        files: zipFiles,
+        debugInfo: debugInfo
+      };
       
     } catch (error) {
       console.error('Error listing zip files from Dropbox:', error);
+      debugInfo.endTime = Date.now();
+      debugInfo.errors.push({
+        folder: 'general',
+        error: error.message || String(error)
+      });
       
       // Provide more user-friendly error messages for common network issues
       if (error.code === 'EAI_AGAIN' || error.errno === 'EAI_AGAIN' || 
@@ -358,9 +400,11 @@ class DropboxModuleHelper {
         const networkError = new Error('Unable to connect to Dropbox. Please check your internet connection.');
         networkError.code = 'NETWORK_ERROR';
         networkError.originalError = error;
+        networkError.debugInfo = debugInfo;
         throw networkError;
       }
       
+      error.debugInfo = debugInfo;
       throw error;
     }
   }
