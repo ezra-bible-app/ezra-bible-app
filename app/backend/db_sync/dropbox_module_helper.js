@@ -32,6 +32,8 @@ const SWORD_MODULE_TYPE = {
   MAPS: 'Maps'
 };
 
+const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
+
 /**
  * DropboxModuleHelper provides functionality for managing SWORD Bible modules
  * stored in a custom Dropbox repository.
@@ -63,6 +65,7 @@ class DropboxModuleHelper {
     console.log('[DropboxModuleHelper] Starting validation of custom module repo:', customModuleRepo);
     
     const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+    const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
 
     if (!dropboxToken) {
       console.log('[DropboxModuleHelper] Validation failed: Dropbox account not linked');
@@ -75,7 +78,7 @@ class DropboxModuleHelper {
     }
 
     try {
-      const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
+      const dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
 
       let repoPath = customModuleRepo.trim();
       if (!repoPath.startsWith('/')) repoPath = '/' + repoPath;
@@ -141,10 +144,11 @@ class DropboxModuleHelper {
 
   async updateDropboxModulesCache() {
     const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
+    const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
     const useCustomModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxUseCustomModuleRepo');
     const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
 
-    if (!dropboxToken || !useCustomModuleRepo || !customModuleRepo) {
+    if (!dropboxToken || !dropboxRefreshToken || !useCustomModuleRepo || !customModuleRepo) {
       // No Dropbox configuration, clear cache
       const cacheFile = this.getDropboxCacheFilePath();
       if (fs.existsSync(cacheFile)) {
@@ -154,7 +158,7 @@ class DropboxModuleHelper {
     }
 
     try {
-      const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
+      const dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
       const tempDir = this._platformHelper.getTempDir();
       const modsFile = 'mods.d.tar.gz';
       
@@ -271,8 +275,9 @@ class DropboxModuleHelper {
   async installDropboxModule(moduleCode, progressCB) {
     const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
     const customModuleRepo = global.ipc.ipcSettingsHandler.getConfig().get('dropboxCustomModuleRepo');
+    const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
     
-    const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, null);
+    const dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
     const tempDir = this._platformHelper.getTempDir();
     
     let repoPath = customModuleRepo || '';
@@ -313,7 +318,7 @@ class DropboxModuleHelper {
   }
 
   async listZipFiles(dropboxToken, dropboxRefreshToken) {
-    const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, dropboxRefreshToken);
+    const dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
     const rootPath = '';
     
     try {
@@ -361,7 +366,7 @@ class DropboxModuleHelper {
   }
 
   async validateModuleZip(dropboxPath, dropboxToken, dropboxRefreshToken) {
-    const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, dropboxRefreshToken);
+    const dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
     const tempDir = this._platformHelper.getTempDir();
     const extractDir = path.join(tempDir, `extract_${Date.now()}`);
     
@@ -486,7 +491,7 @@ class DropboxModuleHelper {
   }
 
   async installModuleFromZip(dropboxPath, dropboxToken, dropboxRefreshToken) {
-    const dropboxSync = new DropboxSync('6m7e5ri5udcbkp3', dropboxToken, dropboxRefreshToken);
+    const dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
     const tempDir = this._platformHelper.getTempDir();
     
     // Extract filename from path
