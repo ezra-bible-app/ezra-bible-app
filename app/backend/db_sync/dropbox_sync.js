@@ -121,18 +121,25 @@ class DropboxSync {
    * Execute an API call with retry logic and exponential backoff
    * @param {Function} apiCall - Async function that performs the API call
    * @param {string} operationName - Name of the operation for logging
-   * @returns {Promise<*>} - Result of the API call
+   * @param {boolean} trackRetries - Whether to return retry count info
+   * @returns {Promise<*>} - Result of the API call (or {result, retryCount} if trackRetries)
    */
-  async _withRetry(apiCall, operationName = 'API call') {
+  async _withRetry(apiCall, operationName = 'API call', trackRetries = false) {
     let lastError = null;
+    let retryCount = 0;
 
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
-        return await apiCall();
+        const result = await apiCall();
+        if (trackRetries) {
+          return { result, retryCount };
+        }
+        return result;
       } catch (error) {
         lastError = error;
 
         if (this._isRetryableError(error) && attempt < MAX_RETRIES) {
+          retryCount++;
           const delay = this._getRetryDelay(error, attempt);
           console.log(`${operationName} failed (attempt ${attempt}/${MAX_RETRIES}). ` +
                       `Retrying in ${delay}ms... Error: ${error.message || error.status}`);
@@ -164,21 +171,32 @@ class DropboxSync {
   }
 
   async listFolder(folderPath) {
-    let response = await this._withRetry(
+    let { result: response, retryCount } = await this._withRetry(
       () => this._dbx.filesListFolder({path: folderPath}),
-      'filesListFolder'
+      'filesListFolder',
+      true
     );
     let entries = response.result.entries;
+    let paginationCalls = 0;
+    let totalRetries = retryCount;
 
     while (response.result.has_more) {
-      response = await this._withRetry(
+      paginationCalls++;
+      const continueResult = await this._withRetry(
         () => this._dbx.filesListFolderContinue({cursor: response.result.cursor}),
-        'filesListFolderContinue'
+        'filesListFolderContinue',
+        true
       );
+      response = continueResult.result;
+      totalRetries += continueResult.retryCount;
       entries = entries.concat(response.result.entries);
     }
 
-    return entries;
+    return {
+      entries: entries,
+      retryCount: totalRetries,
+      paginationCalls: paginationCalls
+    };
   }
 
   async testAuthentication() {

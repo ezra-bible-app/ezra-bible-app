@@ -324,10 +324,14 @@ class DropboxModuleHelper {
     // Debug info collection
     const debugInfo = {
       foldersScanned: [],
+      folderDetails: [],
       totalEntriesProcessed: 0,
       totalFilesFound: 0,
       totalFoldersFound: 0,
       zipFilesFound: 0,
+      totalRetries: 0,
+      totalPaginationCalls: 0,
+      fileExtensions: {},
       startTime: Date.now(),
       endTime: null,
       errors: []
@@ -338,28 +342,52 @@ class DropboxModuleHelper {
       
       // Recursive function to list files in a folder and its subfolders
       const listFilesRecursive = async (folderPath) => {
-        debugInfo.foldersScanned.push(folderPath || '/');
+        const folderName = folderPath || '/';
+        debugInfo.foldersScanned.push(folderName);
         
-        let entries;
+        let folderResult;
         try {
-          entries = await dropboxSync.listFolder(folderPath);
+          folderResult = await dropboxSync.listFolder(folderPath);
         } catch (folderError) {
           debugInfo.errors.push({
-            folder: folderPath || '/',
+            folder: folderName,
             error: folderError.message || String(folderError)
+          });
+          debugInfo.folderDetails.push({
+            path: folderName,
+            entries: 0,
+            files: 0,
+            folders: 0,
+            zipFiles: 0,
+            retries: 0,
+            paginationCalls: 0,
+            error: true
           });
           return [];
         }
         
+        const entries = folderResult.entries;
+        debugInfo.totalRetries += folderResult.retryCount;
+        debugInfo.totalPaginationCalls += folderResult.paginationCalls;
         debugInfo.totalEntriesProcessed += entries.length;
         
         let zipFiles = [];
+        let folderFilesCount = 0;
+        let folderFoldersCount = 0;
+        let folderZipCount = 0;
         
         for (const entry of entries) {
           if (entry['.tag'] === 'file') {
             debugInfo.totalFilesFound++;
+            folderFilesCount++;
+            
+            // Track file extension
+            const ext = (entry.name.includes('.') ? entry.name.split('.').pop().toLowerCase() : 'no-ext');
+            debugInfo.fileExtensions[ext] = (debugInfo.fileExtensions[ext] || 0) + 1;
+            
             if (entry.name.toLowerCase().endsWith('.zip')) {
               debugInfo.zipFilesFound++;
+              folderZipCount++;
               zipFiles.push({
                 name: entry.name,
                 path: entry.path_display,
@@ -368,11 +396,22 @@ class DropboxModuleHelper {
             }
           } else if (entry['.tag'] === 'folder') {
             debugInfo.totalFoldersFound++;
+            folderFoldersCount++;
             // Recursively search in subdirectories
             const subFolderZipFiles = await listFilesRecursive(entry.path_display);
             zipFiles = zipFiles.concat(subFolderZipFiles);
           }
         }
+        
+        debugInfo.folderDetails.push({
+          path: folderName,
+          entries: entries.length,
+          files: folderFilesCount,
+          folders: folderFoldersCount,
+          zipFiles: folderZipCount,
+          retries: folderResult.retryCount,
+          paginationCalls: folderResult.paginationCalls
+        });
         
         return zipFiles;
       };

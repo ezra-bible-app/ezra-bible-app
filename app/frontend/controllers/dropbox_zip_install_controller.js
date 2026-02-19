@@ -108,18 +108,41 @@ module.exports.showDropboxZipInstallDialog = async function() {
       if (showDevInfo && response.debugInfo) {
         const debugInfo = response.debugInfo;
         const durationMs = debugInfo.endTime - debugInfo.startTime;
-        const foldersScannedStr = debugInfo.foldersScanned.join(', ');
+        
+        // Per-folder details with stats
+        const folderDetailsStr = debugInfo.folderDetails 
+          ? debugInfo.folderDetails.map(f => 
+              '&nbsp;&nbsp;' + f.path + ' (entries: ' + f.entries + 
+              ', files: ' + f.files + ', folders: ' + f.folders + 
+              ', zips: ' + f.zipFiles + 
+              (f.retries > 0 ? ', <b>retries: ' + f.retries + '</b>' : '') +
+              (f.paginationCalls > 0 ? ', pages: ' + f.paginationCalls : '') +
+              (f.error ? ', <span style="color:red">ERROR</span>' : '') + ')'
+            ).join('<br/>')
+          : debugInfo.foldersScanned.map(f => '&nbsp;&nbsp;' + f).join('<br/>');
+        
         const errorsStr = debugInfo.errors.length > 0 
           ? debugInfo.errors.map(e => e.folder + ': ' + e.error).join('; ')
           : 'None';
         
+        // File extensions breakdown
+        const extStr = debugInfo.fileExtensions 
+          ? Object.entries(debugInfo.fileExtensions)
+              .sort((a, b) => b[1] - a[1])
+              .map(([ext, count]) => ext + ': ' + count)
+              .join(', ')
+          : 'N/A';
+        
         const debugMessage = 
           '<b>Duration:</b> ' + durationMs + 'ms<br/>' +
-          '<b>Folders scanned:</b> ' + debugInfo.foldersScanned.length + ' (' + foldersScannedStr + ')<br/>' +
+          '<b>Total retries:</b> ' + (debugInfo.totalRetries || 0) + '<br/>' +
+          '<b>Total pagination calls:</b> ' + (debugInfo.totalPaginationCalls || 0) + '<br/>' +
+          '<b>Folders scanned:</b> ' + debugInfo.foldersScanned.length + '<br/>' + folderDetailsStr + '<br/>' +
           '<b>Total entries:</b> ' + debugInfo.totalEntriesProcessed + '<br/>' +
           '<b>Files found:</b> ' + debugInfo.totalFilesFound + '<br/>' +
           '<b>Folders found:</b> ' + debugInfo.totalFoldersFound + '<br/>' +
           '<b>Zip files:</b> ' + debugInfo.zipFilesFound + '<br/>' +
+          '<b>File extensions:</b> ' + extStr + '<br/>' +
           '<b>Errors:</b> ' + errorsStr;
         
         // eslint-disable-next-line no-undef
