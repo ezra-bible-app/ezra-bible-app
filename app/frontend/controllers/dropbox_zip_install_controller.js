@@ -113,7 +113,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
         // Per-folder details as table
         let folderDetailsStr = '';
         if (debugInfo.folderDetails && debugInfo.folderDetails.length > 0) {
-          folderDetailsStr = '<table style="width:calc(100% - 1em); font-size:0.85em; border-collapse:collapse; margin:0.5em;">' +
+          folderDetailsStr = '<table style="width:calc(100% - 2em); font-size:0.85em; border-collapse:collapse; margin:0.5em 1em;">' +
             '<tr style="border-bottom:1px solid #ccc;">' +
             '<th style="text-align:left; padding:2px 4px;">Path</th>' +
             '<th style="text-align:right; padding:2px 4px;">Entries</th>' +
@@ -153,13 +153,13 @@ module.exports.showDropboxZipInstallDialog = async function() {
           '<b>Duration:</b> ' + durationMs + 'ms<br/>' +
           '<b>Total retries:</b> ' + (debugInfo.totalRetries || 0) + '<br/>' +
           '<b>Total pagination calls:</b> ' + (debugInfo.totalPaginationCalls || 0) + '<br/>' +
-          '<b>Folders scanned:</b> ' + debugInfo.foldersScanned.length + '<br/>' + folderDetailsStr +
           '<b>Total entries:</b> ' + debugInfo.totalEntriesProcessed + '<br/>' +
           '<b>Files found:</b> ' + debugInfo.totalFilesFound + '<br/>' +
           '<b>Folders found:</b> ' + debugInfo.totalFoldersFound + '<br/>' +
           '<b>Zip files:</b> ' + debugInfo.zipFilesFound + '<br/>' +
           '<b>File extensions:</b> ' + extStr + '<br/>' +
-          '<b>Errors:</b> ' + errorsStr +
+          '<b>Errors:</b> ' + errorsStr + '<br/>' +
+          '<b>Folders scanned:</b> ' + debugInfo.foldersScanned.length + '<br/>' + folderDetailsStr +
           '</div>';
       }
       
