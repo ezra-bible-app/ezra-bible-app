@@ -103,23 +103,37 @@ module.exports.showDropboxZipInstallDialog = async function() {
       
       console.log('Received response:', response);
       
-      // Show debug info if setting is enabled
+      // Build debug info HTML if setting is enabled
+      let debugInfoHtml = '';
       const showDevInfo = await ipcSettings.get('dropboxShowDevInfo', false);
       if (showDevInfo && response.debugInfo) {
         const debugInfo = response.debugInfo;
         const durationMs = debugInfo.endTime - debugInfo.startTime;
         
-        // Per-folder details with stats
-        const folderDetailsStr = debugInfo.folderDetails 
-          ? debugInfo.folderDetails.map(f => 
-              '&nbsp;&nbsp;' + f.path + ' (entries: ' + f.entries + 
-              ', files: ' + f.files + ', folders: ' + f.folders + 
-              ', zips: ' + f.zipFiles + 
-              (f.retries > 0 ? ', <b>retries: ' + f.retries + '</b>' : '') +
-              (f.paginationCalls > 0 ? ', pages: ' + f.paginationCalls : '') +
-              (f.error ? ', <span style="color:red">ERROR</span>' : '') + ')'
-            ).join('<br/>')
-          : debugInfo.foldersScanned.map(f => '&nbsp;&nbsp;' + f).join('<br/>');
+        // Per-folder details as table
+        let folderDetailsStr = '';
+        if (debugInfo.folderDetails && debugInfo.folderDetails.length > 0) {
+          folderDetailsStr = '<table style="width:calc(100% - 1em); font-size:0.85em; border-collapse:collapse; margin:0.5em;">' +
+            '<tr style="border-bottom:1px solid #ccc;">' +
+            '<th style="text-align:left; padding:2px 4px;">Path</th>' +
+            '<th style="text-align:right; padding:2px 4px;">Entries</th>' +
+            '<th style="text-align:right; padding:2px 4px;">Files</th>' +
+            '<th style="text-align:right; padding:2px 4px;">Folders</th>' +
+            '<th style="text-align:right; padding:2px 4px;">Zips</th>' +
+            '</tr>' +
+            debugInfo.folderDetails.map(f => 
+              '<tr' + (f.error ? ' style="color:red;"' : '') + '>' +
+              '<td style="padding:2px 4px;">' + f.path + '</td>' +
+              '<td style="text-align:right; padding:2px 4px;">' + f.entries + '</td>' +
+              '<td style="text-align:right; padding:2px 4px;">' + f.files + '</td>' +
+              '<td style="text-align:right; padding:2px 4px;">' + f.folders + '</td>' +
+              '<td style="text-align:right; padding:2px 4px;">' + f.zipFiles + '</td>' +
+              '</tr>'
+            ).join('') +
+            '</table>';
+        } else {
+          folderDetailsStr = debugInfo.foldersScanned.map(f => '&nbsp;&nbsp;' + f).join('<br/>');
+        }
         
         const errorsStr = debugInfo.errors.length > 0 
           ? debugInfo.errors.map(e => e.folder + ': ' + e.error).join('; ')
@@ -133,27 +147,20 @@ module.exports.showDropboxZipInstallDialog = async function() {
               .join(', ')
           : 'N/A';
         
-        const debugMessage = 
+        debugInfoHtml = 
+          '<div style="font-size: 0.9em; color: #666; margin-top: 1em;">' +
+          '<b>Debug Info</b><br/>' +
           '<b>Duration:</b> ' + durationMs + 'ms<br/>' +
           '<b>Total retries:</b> ' + (debugInfo.totalRetries || 0) + '<br/>' +
           '<b>Total pagination calls:</b> ' + (debugInfo.totalPaginationCalls || 0) + '<br/>' +
-          '<b>Folders scanned:</b> ' + debugInfo.foldersScanned.length + '<br/>' + folderDetailsStr + '<br/>' +
+          '<b>Folders scanned:</b> ' + debugInfo.foldersScanned.length + '<br/>' + folderDetailsStr +
           '<b>Total entries:</b> ' + debugInfo.totalEntriesProcessed + '<br/>' +
           '<b>Files found:</b> ' + debugInfo.totalFilesFound + '<br/>' +
           '<b>Folders found:</b> ' + debugInfo.totalFoldersFound + '<br/>' +
           '<b>Zip files:</b> ' + debugInfo.zipFilesFound + '<br/>' +
           '<b>File extensions:</b> ' + extStr + '<br/>' +
-          '<b>Errors:</b> ' + errorsStr;
-        
-        // eslint-disable-next-line no-undef
-        iziToast.info({
-          title: 'Dropbox Debug Info',
-          message: debugMessage,
-          position: platformHelper.getIziPosition(),
-          timeout: 30000,
-          layout: 2,
-          maxWidth: 500
-        });
+          '<b>Errors:</b> ' + errorsStr +
+          '</div>';
       }
       
       const zipFileList = document.getElementById('zip-file-list');
@@ -212,6 +219,13 @@ module.exports.showDropboxZipInstallDialog = async function() {
         `;
         zipFileList.appendChild(fileItem);
       });
+
+      // Append debug info if available
+      if (debugInfoHtml) {
+        const debugDiv = document.createElement('div');
+        debugDiv.innerHTML = debugInfoHtml;
+        zipFileList.appendChild(debugDiv);
+      }
 
       // Enable/disable install button based on selection
       function updateInstallButtonState() {
