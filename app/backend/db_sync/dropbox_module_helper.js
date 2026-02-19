@@ -90,7 +90,8 @@ class DropboxModuleHelper {
       console.log('[DropboxModuleHelper] Listing repository folder:', repoPath);
       let repoContents;
       try {
-        repoContents = await dropboxSync.listFolder(repoPath);
+        const repoResult = await dropboxSync.listFolder(repoPath);
+        repoContents = repoResult.entries;
         console.log(`[DropboxModuleHelper] Repository folder contains ${repoContents.length} items`);
       } catch (e) {
         if (e.error && e.error.error_summary && e.error.error_summary.indexOf('not_found') !== -1) {
@@ -121,7 +122,8 @@ class DropboxModuleHelper {
       const packagesPath = `${repoPath}/packages`;
       console.log('[DropboxModuleHelper] Listing packages folder:', packagesPath);
       try {
-        const folderContents = await dropboxSync.listFolder(packagesPath);
+        const packagesResult = await dropboxSync.listFolder(packagesPath);
+        const folderContents = packagesResult.entries;
         console.log(`[DropboxModuleHelper] packages folder contains ${folderContents.length} items`);
         
         if (!folderContents || folderContents.length === 0) {
