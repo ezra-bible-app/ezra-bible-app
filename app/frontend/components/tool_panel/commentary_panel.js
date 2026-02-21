@@ -215,9 +215,6 @@ class CommentaryPanel {
   }
 
   showHelpBox() {
-    this.getBoxContent().innerHTML = "";
-    this.getReferenceBox().innerHTML = "";
-
     let helpBox = this.getHelpBox();
     helpBox.classList.remove('hidden');
   }
@@ -253,10 +250,7 @@ class CommentaryPanel {
       helpMessageNoKjvInstalled.style.display = 'none';
     }
 
-    if (!installPreconditionsFulfilled) {
-      this.showHelpBox();
-      return;
-    }
+    let commentaryPreconditionsFulfilled = installPreconditionsFulfilled;
 
     let panelHeader = document.getElementById('commentary-panel-header');
     let panelTitle = "";
@@ -272,30 +266,38 @@ class CommentaryPanel {
       panelTitle = i18n.t("commentary-panel.commentaries-for") + " " + 
         await app_controller.verse_selection.getSelectedVerseLabelText();
 
-      this.hideHelpBox();
+      if (commentaryPreconditionsFulfilled) {
+        this.hideHelpBox();
+      } else {
+        this.showHelpBox();
+      }
 
     } else {
       panelTitle = i18n.t("commentary-panel.default-header");
 
+      this.getBoxContent().innerHTML = '';
+      this.getReferenceBox().innerHTML = '';
       this.showHelpBox();
+      panelHeader.innerHTML = '<b>' + panelTitle + '</b>';
+      return;
     }
 
     panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
 
     if (platformHelper.isCordova()) {
 
-      this.getBoxContent().innerHTML = "";
+      this.getBoxContent().innerHTML = '';
       this.showLoadingIndicator();
-      this.performDelayedContentRefresh(selectedVerseBoxes);
+      this.performDelayedContentRefresh(selectedVerseBoxes, commentaryPreconditionsFulfilled);
 
     } else {
 
-      await this.performContentRefresh(selectedVerseBoxes);
+      await this.performContentRefresh(selectedVerseBoxes, commentaryPreconditionsFulfilled);
     }
   }
 
-  async performContentRefresh(selectedVerseBoxes=undefined) {
-    const commentaryContent = await this.getCommentaryContent(selectedVerseBoxes);
+  async performContentRefresh(selectedVerseBoxes=undefined, commentaryPreconditionsFulfilled=true) {
+    const commentaryContent = await this.getCommentaryContent(selectedVerseBoxes, commentaryPreconditionsFulfilled);
 
     if (platformHelper.isCordova()) {
       this.hideLoadingIndicator();
@@ -450,72 +452,75 @@ class CommentaryPanel {
     return processedHtml;
   }
 
-  performDelayedContentRefresh(selectedVerseBoxes=undefined) {
+  performDelayedContentRefresh(selectedVerseBoxes=undefined, commentaryPreconditionsFulfilled=true) {
     setTimeout(async () => {
-      await this.performContentRefresh(selectedVerseBoxes);
+      await this.performContentRefresh(selectedVerseBoxes, commentaryPreconditionsFulfilled);
     }, 50);
   }
 
-  async getCommentaryContent(selectedVerseBoxes=undefined) {
+  async getCommentaryContent(selectedVerseBoxes=undefined, commentaryPreconditionsFulfilled=true) {
     let commentaryContent = '';
 
     if (selectedVerseBoxes != null) {
       if (selectedVerseBoxes.length != 0) {
-        let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
 
-        // Sort commentaries by description
-        allCommentaries.sort((a,b) => {
-          if (a.description < b.description) return -1;
-          if (a.description > b.description) return 1;
-          return 0;
-        });
+        if (commentaryPreconditionsFulfilled) {
+          let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
 
-        const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
-        const copyCommentaryButtonTitle = i18n.t('commentary-panel.copy-commentary-to-clipboard');
+          // Sort commentaries by description
+          allCommentaries.sort((a,b) => {
+            if (a.description < b.description) return -1;
+            if (a.description > b.description) return 1;
+            return 0;
+          });
 
-        let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
+          const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
+          const copyCommentaryButtonTitle = i18n.t('commentary-panel.copy-commentary-to-clipboard');
 
-        for (let i = 0; i < allCommentaries.length; i++) {
-          let currentCommentary = allCommentaries[i];
+          let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
 
-          // We do not support Images
-          if (currentCommentary.category == swordModuleHelper.SWORD_MODULE_TYPE.IMAGES) {
-            continue;
-          }
+          for (let i = 0; i < allCommentaries.length; i++) {
+            let currentCommentary = allCommentaries[i];
 
-          // Check if commentary is visible in settings
-          // If shownCommentaries is null (not set yet), show all commentaries by default
-          if (shownCommentaries !== null && !shownCommentaries.includes(currentCommentary.name)) {
-            continue;
-          }
+            // We do not support Images
+            if (currentCommentary.category == swordModuleHelper.SWORD_MODULE_TYPE.IMAGES) {
+              continue;
+            }
 
-          let firstVerseBox = $(selectedVerseBoxes[0]);
-          let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
+            // Check if commentary is visible in settings
+            // If shownCommentaries is null (not set yet), show all commentaries by default
+            if (shownCommentaries !== null && !shownCommentaries.includes(currentCommentary.name)) {
+              continue;
+            }
 
-          if (verseCommentary != null && verseCommentary.length != 0) {
-            commentaryContent += `
-            <div class='sword-module commentary module-code-${currentCommentary.name.toLowerCase()}' module-context='${currentCommentary.name}'>
-              <h3>
-                <i class="fa-solid fa-circle-chevron-down commentary-accordion-button"></i>
+            let firstVerseBox = $(selectedVerseBoxes[0]);
+            let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
 
-                <div class='commentary-name'>${currentCommentary.description}</div>
+            if (verseCommentary != null && verseCommentary.length != 0) {
+              commentaryContent += `
+              <div class='sword-module commentary module-code-${currentCommentary.name.toLowerCase()}' module-context='${currentCommentary.name}'>
+                <h3>
+                  <i class="fa-solid fa-circle-chevron-down commentary-accordion-button"></i>
 
-                <div class='module-info-button fg-button ui-corner-all ui-state-default'
-                    i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
-                  <i class='fas fa-info'></i>
+                  <div class='commentary-name'>${currentCommentary.description}</div>
+
+                  <div class='module-info-button fg-button ui-corner-all ui-state-default'
+                      i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
+                    <i class='fas fa-info'></i>
+                  </div>
+
+                  <div class='copy-commentary-button fg-button ui-corner-all ui-state-default'
+                    i18n='[title]commentary-panel.copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${currentCommentary.name}'>
+                    <i class='fas fa-copy copy-icon'></i>
+                  </div>
+                </h3>
+
+                <div class='commentary-content'>
+                ${verseCommentary}
                 </div>
-
-                <div class='copy-commentary-button fg-button ui-corner-all ui-state-default'
-                  i18n='[title]commentary-panel.copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${currentCommentary.name}'>
-                  <i class='fas fa-copy copy-icon'></i>
-                </div>
-              </h3>
-
-              <div class='commentary-content'>
-              ${verseCommentary}
               </div>
-            </div>
-            `;
+              `;
+            }
           }
         }
 
