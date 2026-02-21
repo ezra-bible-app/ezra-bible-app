@@ -469,7 +469,8 @@
     "help-instruction-no-commentaries": "No commentaries have been installed, yet. You need to install at least one commentary for this functionality to work.",
     "help-instruction-no-kjv": "The KJV translation has not been installed, yet. The KJV is needed to correctly show Bible commentaries based on English versification. You can fix this by:<ul><li>Installing the KJV from the CrossWire repository</li><li>Installing a commentary (the KJV gets automatically installed in this case)</li></ul>",
     "no-commentaries-available-for-this-verse": "There are no commentaries available for this verse.",
-    "copy-button": "Copy commentary"
+    "copy-button": "Copy commentary",
+    "footnotes": "Footnotes"
   },
   "notes-panel": {
     "default-header": "<b>Note files</b>",

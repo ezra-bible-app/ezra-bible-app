@@ -151,6 +151,25 @@
   margin-bottom: 1em;
 }
 
+.footnotes-section {
+  margin-top: 2em;
+}
+
+.footnote-entry {
+  margin-bottom: 0.5em;
+}
+
+.footnote-number {
+  font-weight: bold;
+  font-size: 80%;
+  vertical-align: super;
+  margin-right: 0.3em;
+}
+
+.footnote-text {
+  display: inline;
+}
+
 .warning-text {
   color: var(--text-color-red);
 }

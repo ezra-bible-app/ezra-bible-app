@@ -519,6 +519,10 @@ class CommentaryPanel {
           }
         }
 
+        let firstVerseBox = $(selectedVerseBoxes[0]);
+        let footnotesHtml = await this.getFootnotesHtml(firstVerseBox);
+        commentaryContent += footnotesHtml;
+
         if (commentaryContent.length == 0) {
 
           commentaryContent = "<div style='margin-top: 0.5em;'>" + 
@@ -529,6 +533,81 @@ class CommentaryPanel {
     }
 
     return commentaryContent;
+  }
+
+  async getFootnotesHtml(verseBox) {
+    const tab = app_controller.tab_controller.getTab();
+    if (tab == null) {
+      return '';
+    }
+
+    const sourceTranslationId = tab.getBibleTranslationId();
+    const translationModule = await ipcNsi.getLocalModule(sourceTranslationId);
+
+    if (translationModule == null || !translationModule.hasFootnotes) {
+      return '';
+    }
+
+    let referenceVerseBox = new VerseBox(verseBox[0]);
+    let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
+    let absoluteVerseNr = referenceVerseBox.getAbsoluteVerseNumber();
+
+    let verses = await ipcNsi.getBookText(sourceTranslationId, bibleBookShortTitle, absoluteVerseNr, 1);
+    let verse = verses[0];
+
+    if (verse == null || !verse.content) {
+      return '';
+    }
+
+    let tempContainer = document.createElement('div');
+    tempContainer.innerHTML = verse.content;
+
+    let swordNotes = tempContainer.querySelectorAll('.sword-note');
+    let footnotes = [];
+
+    for (let i = 0; i < swordNotes.length; i++) {
+      let note = swordNotes[i];
+
+      if (note.hasAttribute('type') && note.getAttribute('type') == 'crossReference') {
+        continue;
+      }
+
+      let marker = note.hasAttribute('n') ? note.getAttribute('n') : String(footnotes.length + 1);
+      let text = note.textContent.trim();
+
+      if (text.length > 0) {
+        footnotes.push({ marker: marker, text: text });
+      }
+    }
+
+    if (footnotes.length == 0) {
+      return '';
+    }
+
+    let footnotesLabel = i18n.t('commentary-panel.footnotes');
+    let footnotesListHtml = '';
+
+    for (let i = 0; i < footnotes.length; i++) {
+      footnotesListHtml += `
+        <div class='footnote-entry'>
+          <span class='footnote-number'>${footnotes[i].marker}</span>
+          <span class='footnote-text'>${footnotes[i].text}</span>
+        </div>`;
+    }
+
+    let footnotesHtml = `
+      <div class='sword-module commentary footnotes-section' module-context='footnotes'>
+        <h3>
+          <i class="fa-solid fa-circle-chevron-down commentary-accordion-button"></i>
+          <div class='commentary-name'>${footnotesLabel}</div>
+        </h3>
+        <div class='commentary-content'>
+          ${footnotesListHtml}
+        </div>
+      </div>
+    `;
+
+    return footnotesHtml;
   }
 
   async getCommentaryForVerse(commentaryId, verseBox) {

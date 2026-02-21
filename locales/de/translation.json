@@ -462,7 +462,8 @@
     "help-instruction-no-commentaries": "Sie haben bisher keine Bibelkommentare installiert. Sie müssen mindestens einen Bibelkommentar installieren damit dieser Teil des Programms funktioniert.",
     "help-instruction-no-kjv": "Die KJV Übersetzung wurde nocht nicht installiert. Die KJV Übersetzung wird benötigt um Bibelkommentare basierend auf englischer Verszählung korrekt anzuzeigen. Sie können das tun indem Sie:<ul><li>Die KJV aus dem CrossWire Repository installieren.</li><li>Einen Bibelkommentar installieren (Die KJV wird dann automatisch installiert).</li></ul>",
     "no-commentaries-available-for-this-verse": "Es sind keine Bibelkommentare für diesen Vers verfügbar.",
-    "copy-button": "Bibelkommentar kopieren"
+    "copy-button": "Bibelkommentar kopieren",
+    "footnotes": "Footnotes"
   },
   "emoji": {
     "search": "Durchsuche Emojis...",

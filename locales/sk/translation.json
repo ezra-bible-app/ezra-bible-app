@@ -467,7 +467,8 @@
     "help-instruction-no-commentaries": "Zatiaľ neboli nainštalované žiadne komentáre. Aby táto funkcia fungovala, musíte nainštalovať aspoň jeden komentár.",
     "help-instruction-no-kjv": "Preklad KJV ešte nebol nainštalovaný. KJV je potrebný na správne zobrazenie biblických komentárov založených na anglickej verzii. Môžete to vyriešiť:<ul><li>Inštaláciou KJV z úložiska CrossWire</li><li>Inštaláciou komentára (v tomto prípade sa KJV nainštaluje automaticky)</li></ul>",
     "no-commentaries-available-for-this-verse": "K tomuto veršu nie sú dostupné žiadne komentáre.",
-    "copy-button": "Kopírovať komentár"
+    "copy-button": "Kopírovať komentár",
+    "footnotes": "Footnotes"
   },
   "emoji": {
     "search": "Vyhľadajte emodži...",
