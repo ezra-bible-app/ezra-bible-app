@@ -43,13 +43,13 @@ class SwordNotes {
   }
 
   getCurrentTabNotes(tabIndex) {
-    var verseList = verseListController.getCurrentVerseList(tabIndex);
-    var swordNotes = verseList[0].querySelectorAll('.sword-note');
+    let verseList = verseListController.getCurrentVerseList(tabIndex);
+    let swordNotes = verseList[0].querySelectorAll('.sword-note');
     return swordNotes;
   }
 
   createMarker(markerClass, title, content) {
-    var marker = document.createElement('div');
+    let marker = document.createElement('div');
     marker.classList.add(markerClass);
     marker.classList.add('sword-marker');
     marker.setAttribute('title', title);
@@ -59,7 +59,7 @@ class SwordNotes {
   }
 
   initForTab(tabIndex=undefined) {
-    var swordNotes = this.getCurrentTabNotes(tabIndex);
+    let swordNotes = this.getCurrentTabNotes(tabIndex);
     this.initNotes(swordNotes);
   }
 
@@ -68,22 +68,22 @@ class SwordNotes {
       return;
     }
 
-    var swordNotes = container.querySelectorAll('.sword-note');
+    let swordNotes = container.querySelectorAll('.sword-note');
     this.initNotes(swordNotes);
   }
 
   cleanNotes(swordNotes) {
-    var filteredNotes = [...swordNotes].filter(e => {
+    let filteredNotes = [...swordNotes].filter(e => {
       return e.getAttribute('type') == 'crossReference';
     });
 
-    var textNodes = [];
+    let textNodes = [];
 
     for (let i = 0; i < filteredNotes.length; i++) {
-      var currentNote = filteredNotes[i];
+      let currentNote = filteredNotes[i];
 
-      var nextNode;
-      var walk = document.createTreeWalker(currentNote, NodeFilter.SHOW_TEXT);
+      let nextNode;
+      let walk = document.createTreeWalker(currentNote, NodeFilter.SHOW_TEXT);
 
       // eslint-disable-next-line no-cond-assign
       while (nextNode = walk.nextNode()) {
@@ -104,10 +104,10 @@ class SwordNotes {
 
     // Within crossReference notes: Remove text nodes containing ';'
     this.cleanNotes(swordNotes);
-    var notesCharacter = this.getNotesCharacter();
+    let notesCharacter = this.getNotesCharacter();
 
     for (let i = 0; i < swordNotes.length; i++) {
-      var currentNote = swordNotes[i];
+      let currentNote = swordNotes[i];
 
       if (currentNote.hasAttribute('type') && currentNote.getAttribute('type') == 'crossReference') {
         this.initCrossReferenceNote(currentNote);
@@ -116,24 +116,24 @@ class SwordNotes {
       }
     }
 
-    var jqSwordNotes = $(swordNotes);
+    let jqSwordNotes = $(swordNotes);
     jqSwordNotes.css('display', 'inline-block');
     jqSwordNotes.css('margin-left', '0.1em');
     //console.timeEnd('SwordNotes.initForTab');
   }
 
   initCrossReferenceNote(note) {
-    var noteContent = note.innerHTML;
+    let noteContent = note.innerHTML;
 
     if (noteContent.indexOf("sword-xref-marker") == -1) {
-      var currentReferences = note.querySelectorAll('reference');
-      var currentTitle = "";
+      let currentReferences = note.querySelectorAll('reference');
+      let currentTitle = "";
 
       if (currentReferences.length > 1) {
-        var currentTitleArray = [];
+        let currentTitleArray = [];
 
         currentReferences.forEach(ref => {
-          var currentRef = ref.textContent;
+          let currentRef = ref.textContent;
           currentTitleArray.push(currentRef);
         });
 
@@ -144,7 +144,7 @@ class SwordNotes {
         currentTitle = currentReferences[0].textContent;
       }
 
-      var xrefMarker = this.createMarker('sword-xref-marker', currentTitle, 'x');
+      let xrefMarker = this.createMarker('sword-xref-marker', currentTitle, 'x');
       note.insertBefore(xrefMarker, note.firstChild);
     } else {
       // This is necessary when reloading a tab from cache. For some reason, the x content in the notes is not persisted.
@@ -153,11 +153,15 @@ class SwordNotes {
   }
 
   initRegularNote(note, notesCharacter) {
-    var noteContent = note.innerHTML;
+    let noteContent = note.innerHTML;
+    let hasNAttribute = note.hasAttribute('n');
+    if (hasNAttribute) {
+      notesCharacter = note.getAttribute('n');
+    }
 
     if (noteContent.indexOf("sword-note-marker") == -1) {
-      var currentTitle = note.textContent;
-      var noteMarker = this.createMarker('sword-note-marker', currentTitle, notesCharacter);
+      let currentTitle = note.textContent;
+      let noteMarker = this.createMarker('sword-note-marker', currentTitle, notesCharacter);
       note.innerText = "";
       note.insertBefore(noteMarker, note.firstChild);
     }
