@@ -592,14 +592,18 @@ class TabController {
     if (tabIndex != null && tabIndex >= this.metaTabs.length) {
       return;
     }
-    
+
     var metaTab = this.getTab(tabIndex);
     var firstVerseListAnchor = verseListController.getFirstVisibleVerseAnchor();
 
     if (metaTab != null) {
       if (firstVerseListAnchor != null) {
         metaTab.setLocation(firstVerseListAnchor);
-      } else {
+      } else if (metaTab.getLocation() == null) {
+        // Only set "top" if there's no existing saved location.
+        // During tab switching, the verse list may be temporarily hidden
+        // (loading indicator shown), causing getFirstVisibleVerseAnchor() to return null.
+        // In that case, we preserve the previously saved position.
         metaTab.setLocation("top");
       }
     }
@@ -617,12 +621,21 @@ class TabController {
     if (metaTab != null) {
       var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
 
-      if (currentVerseListFrame != null) {
-        const savedScrollTop = metaTab.getLocation();
+      if (currentVerseListFrame != null && currentVerseListFrame.length > 0) {
+        const savedLocation = metaTab.getLocation();
 
-        if (savedScrollTop != null) {
-          // console.log("Setting location to " + savedScrollTop);
-          window.location = "#" + savedScrollTop;
+        if (savedLocation != null && savedLocation !== "top") {
+          // Use scrollIntoView on the specific tab's verse list frame instead of
+          // window.location hash navigation. The hash approach is global and fragile:
+          // concurrent async show handlers can overwrite each other's hash, and
+          // setting the same hash twice causes no scroll at all.
+          let anchorElement = currentVerseListFrame[0].querySelector('a.nav[name="' + savedLocation + '"]');
+
+          if (anchorElement != null) {
+            anchorElement.scrollIntoView();
+          }
+        } else if (savedLocation === "top") {
+          currentVerseListFrame[0].scrollTop = 0;
         }
       }
     }

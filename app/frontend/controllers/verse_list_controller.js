@@ -609,7 +609,11 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
 module.exports.initScrollListener = function(tabIndex=undefined) {
   let verseListFrame = this.getCurrentVerseListFrame(tabIndex);
 
-  verseListFrame.on('scroll', () => {
+  // Remove any previously attached scroll listener to avoid accumulation
+  // when text is reloaded in the same tab.
+  verseListFrame.off('scroll.ezraScrollListener');
+
+  verseListFrame.on('scroll.ezraScrollListener', () => {
     if (this.scrollDebounceTimeout) {
       clearTimeout(this.scrollDebounceTimeout);
     }
@@ -621,12 +625,23 @@ module.exports.initScrollListener = function(tabIndex=undefined) {
 };
 
 module.exports.handleScrollEvent = function(tabIndex=undefined) {
+  // Only process scroll events for the currently visible tab.
+  // After a tab switch, a debounced scroll handler from the previous tab
+  // could fire and getFirstVisibleVerseAnchor() would return the new tab's
+  // verse, incorrectly saving it to the old tab's metaTab.
+  let currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+  let effectiveTabIndex = tabIndex === undefined ? currentTabIndex : tabIndex;
+
+  if (effectiveTabIndex !== currentTabIndex) {
+    return;
+  }
+
   let firstVisibleVerseAnchor = this.getFirstVisibleVerseAnchor();
-  
+
   if (firstVisibleVerseAnchor) {
     // Emit the on-tab-scrolled event
     eventController.publish('on-tab-scrolled', {
-      tabIndex: tabIndex === undefined ? app_controller.tab_controller.getSelectedTabIndex() : tabIndex,
+      tabIndex: effectiveTabIndex,
       scrollPosition: firstVisibleVerseAnchor
     });
   }
