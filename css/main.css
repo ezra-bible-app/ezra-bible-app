@@ -2219,6 +2219,7 @@ transchange {
 
 .sword-note-marker {
   color: var(--accent-color);
+  font-size: 80%;
 }
 
 .sword-xref-marker {
