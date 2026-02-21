@@ -634,6 +634,7 @@ function handleRedirect(url) {
         dbSyncDropboxToken = response.result.access_token;
         dbSyncDropboxRefreshToken = response.result.refresh_token;
         dbSyncDropboxLinkStatus = 'LINKED';
+        resetDropboxConfiguration = false;  // Clear reset flag on successful re-link
         updateDropboxLinkStatusLabel();
         updateDropboxOptionsState();
 
