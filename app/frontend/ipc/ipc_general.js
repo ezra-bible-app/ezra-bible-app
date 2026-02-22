@@ -97,10 +97,6 @@ class IpcGeneral {
     return await this._ipcRenderer.callWithTimeout('general_dropboxListZipFiles', 60000);
   }
 
-  async getLastDropboxDebugInfo() {
-    return await this._ipcRenderer.call('general_getLastDropboxDebugInfo');
-  }
-
   async dropboxInstallZipModule(filename) {
     return await this._ipcRenderer.call('general_dropboxInstallZipModule', filename);
   }

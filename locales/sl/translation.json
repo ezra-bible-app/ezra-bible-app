@@ -518,7 +518,6 @@
     "only-sync-on-wifi": "Sinhronizira se samo na brezžičnem omrežju WiFi",
     "sync-after-changes": "Po spremembah sinhroniziraj podatkovno zbirko",
     "use-custom-module-repo": "Use custom module repository",
-    "show-developer-info": "Show developer info after Dropbox actions",
     "custom-module-repo-folder": "Custom Module Repository Folder",
     "validate-repo": "Validate",
     "validating-repo": "Validating repository...",

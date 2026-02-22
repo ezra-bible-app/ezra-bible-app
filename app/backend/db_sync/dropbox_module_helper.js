@@ -323,130 +323,43 @@ class DropboxModuleHelper {
     const dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
     const rootPath = '';
     
-    // Debug info collection
-    const debugInfo = {
-      foldersScanned: [],
-      folderDetails: [],
-      totalEntriesProcessed: 0,
-      totalFilesFound: 0,
-      totalFoldersFound: 0,
-      zipFilesFound: 0,
-      totalRetries: 0,
-      totalPaginationCalls: 0,
-      fileExtensions: {},
-      startTime: Date.now(),
-      endTime: null,
-      errors: []
-    };
-    
     try {
       await dropboxSync.refreshAccessToken();
       
       // Recursive function to list files in a folder and its subfolders
       const listFilesRecursive = async (folderPath) => {
-        const folderName = folderPath || '/';
-        debugInfo.foldersScanned.push(folderName);
-        
         let folderResult;
         try {
           folderResult = await dropboxSync.listFolder(folderPath);
         } catch (folderError) {
-          debugInfo.errors.push({
-            folder: folderName,
-            error: folderError.message || String(folderError)
-          });
-          debugInfo.folderDetails.push({
-            path: folderName,
-            entries: 0,
-            files: 0,
-            folders: 0,
-            zipFiles: 0,
-            retries: 0,
-            paginationCalls: 0,
-            error: true
-          });
+          console.error('[listZipFiles] Error listing folder "' + (folderPath || '/') + '":', folderError.message);
           return [];
         }
         
         const entries = folderResult.entries;
-        debugInfo.totalRetries += folderResult.retryCount;
-        debugInfo.totalPaginationCalls += folderResult.paginationCalls;
-        debugInfo.totalEntriesProcessed += entries.length;
-
-        console.log('[listZipFiles] Folder "' + folderName + '": ' +
-          entries.length + ' entries, ' +
-          'retries=' + folderResult.retryCount + ', ' +
-          'pagination=' + folderResult.paginationCalls);
-        
         let zipFiles = [];
-        let folderFilesCount = 0;
-        let folderFoldersCount = 0;
-        let folderZipCount = 0;
         
         for (const entry of entries) {
-          if (entry['.tag'] === 'file') {
-            debugInfo.totalFilesFound++;
-            folderFilesCount++;
-            
-            // Track file extension
-            const ext = (entry.name.includes('.') ? entry.name.split('.').pop().toLowerCase() : 'no-ext');
-            debugInfo.fileExtensions[ext] = (debugInfo.fileExtensions[ext] || 0) + 1;
-            
-            if (entry.name.toLowerCase().endsWith('.zip')) {
-              debugInfo.zipFilesFound++;
-              folderZipCount++;
-              zipFiles.push({
-                name: entry.name,
-                path: entry.path_display,
-                size: entry.size
-              });
-            }
+          if (entry['.tag'] === 'file' && entry.name.toLowerCase().endsWith('.zip')) {
+            zipFiles.push({
+              name: entry.name,
+              path: entry.path_display,
+              size: entry.size
+            });
           } else if (entry['.tag'] === 'folder') {
-            debugInfo.totalFoldersFound++;
-            folderFoldersCount++;
             // Recursively search in subdirectories
             const subFolderZipFiles = await listFilesRecursive(entry.path_display);
             zipFiles = zipFiles.concat(subFolderZipFiles);
           }
         }
         
-        debugInfo.folderDetails.push({
-          path: folderName,
-          entries: entries.length,
-          files: folderFilesCount,
-          folders: folderFoldersCount,
-          zipFiles: folderZipCount,
-          retries: folderResult.retryCount,
-          paginationCalls: folderResult.paginationCalls
-        });
-
-        console.log('[listZipFiles] Folder "' + folderName + '" result: ' +
-          'files=' + folderFilesCount + ', folders=' + folderFoldersCount +
-          ', zips=' + folderZipCount);
-        
         return zipFiles;
       };
       
-      const zipFiles = await listFilesRecursive(rootPath);
-      debugInfo.endTime = Date.now();
-
-      console.log('[listZipFiles] Complete. Total zip files: ' + zipFiles.length +
-        ', folders scanned: ' + debugInfo.foldersScanned.length +
-        ', duration: ' + (debugInfo.endTime - debugInfo.startTime) + 'ms' +
-        ', errors: ' + debugInfo.errors.length);
-      
-      return {
-        files: zipFiles,
-        debugInfo: debugInfo
-      };
+      return await listFilesRecursive(rootPath);
       
     } catch (error) {
       console.error('Error listing zip files from Dropbox:', error);
-      debugInfo.endTime = Date.now();
-      debugInfo.errors.push({
-        folder: 'general',
-        error: error.message || String(error)
-      });
       
       // Provide more user-friendly error messages for common network issues
       if (error.code === 'EAI_AGAIN' || error.errno === 'EAI_AGAIN' || 
@@ -455,11 +368,9 @@ class DropboxModuleHelper {
         const networkError = new Error('Unable to connect to Dropbox. Please check your internet connection.');
         networkError.code = 'NETWORK_ERROR';
         networkError.originalError = error;
-        networkError.debugInfo = debugInfo;
         throw networkError;
       }
       
-      error.debugInfo = debugInfo;
       throw error;
     }
   }

@@ -531,7 +531,6 @@
     "dropbox-link-status-linking-failed": "Linking failed!",
     "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Only sync on WiFi",
-    "show-developer-info": "Show developer info after Dropbox actions",
     "sync-after-changes": "Sync database after changes",
     "use-custom-module-repo": "Use custom module repository",
     "custom-module-repo-folder": "Custom Module Repository Folder",

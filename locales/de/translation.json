@@ -528,7 +528,6 @@
     "repo-validation-error-packages-not-found": "packages-Ordner nicht gefunden",
     "repo-validation-error-packages-empty": "packages-Ordner ist leer",
     "repo-validation-error-unknown": "Validierung fehlgeschlagen: {{error}}",
-    "show-developer-info": "Show developer info after Dropbox actions",
     "dropbox-sync-info": "Informationen zur Dropbox Synchronisation",
     "last-dropbox-sync-time": "Zuletzt synchronisiert",
     "last-dropbox-sync-result": "Letztes Synchronisationsergebnis",

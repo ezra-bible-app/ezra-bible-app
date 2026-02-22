@@ -519,7 +519,6 @@
     "dropbox-link-status-linking-failed": "Помилка зв'язування!",
     "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Позгоджувати лише через WiFi",
-    "show-developer-info": "Show developer info after Dropbox actions",
     "sync-after-changes": "Позгоджувати базу даних відразу після змін",
     "use-custom-module-repo": "Use custom module repository",
     "custom-module-repo-folder": "Custom Module Repository Folder",

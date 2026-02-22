@@ -519,7 +519,6 @@
     "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Sincronizare doar prin WiFi",
     "sync-after-changes": "Sincronizează bază de date după modificări",
-    "show-developer-info": "Show developer info after Dropbox actions",
     "use-custom-module-repo": "Use custom module repository",
     "custom-module-repo-folder": "Custom Module Repository Folder",
     "validate-repo": "Validate",
