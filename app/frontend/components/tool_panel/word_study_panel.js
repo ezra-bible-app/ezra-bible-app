@@ -172,10 +172,24 @@ class WordStudyPanel {
   handleCopyButtonClick() {
     const headerText = this.wordStudyPanelHeader[0].innerText;
     const breadcrumbsText = this.wordStudyPanelBreadcrumbs[0].innerText;
-    const contentText = this.wordStudyPanelContent[0].innerText;
-    const plainText = `${headerText} - ${breadcrumbsText}\n\n${contentText}`;
 
-    const contentHtml = this.wordStudyPanelContent[0].innerHTML;
+    let contentParts = [];
+    let contentHtmlParts = [];
+    let children = this.wordStudyPanelContent[0].children;
+
+    for (let i = 0; i < children.length; i++) {
+      let child = children[i];
+      if (child.tagName === 'HR' || child.classList.contains('word-study-links')) {
+        continue;
+      }
+      contentParts.push(child.innerText);
+      contentHtmlParts.push(child.outerHTML);
+    }
+
+    const contentText = contentParts.join('\n\n');
+    const contentHtml = contentHtmlParts.join('<br/><br/>');
+
+    const plainText = `${headerText} - ${breadcrumbsText}\n\n${contentText}`;
     const htmlText = `<b>${headerText} - ${breadcrumbsText}</b><br/><br/>${contentHtml}`;
 
     getPlatform().copyToClipboard(plainText, htmlText);
@@ -439,7 +453,7 @@ class WordStudyPanel {
 
     let extendedStrongsInfo = `
       <div class='bold word-study-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
-      <p class='dictionary-content'>${findAllLink} | ${this.getBlueletterLink(strongsEntry)}</p>
+      <p class='dictionary-content word-study-links'>${findAllLink} | ${this.getBlueletterLink(strongsEntry)}</p>
       ${extraDictContent}
       <div class='dictionary-section'>
         <div class='bold word-study-title' style='margin-bottom: 1em'>Strong's
