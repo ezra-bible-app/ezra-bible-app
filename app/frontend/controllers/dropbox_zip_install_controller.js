@@ -42,9 +42,9 @@ function buildDebugInfoHtml(debugInfo) {
   // Per-folder details as table
   let folderDetailsStr = '';
   if (debugInfo.folderDetails && debugInfo.folderDetails.length > 0) {
-    folderDetailsStr = '<table style="width:calc(100% - 2em); font-size:0.85em; border-collapse:collapse; margin:0.5em 1em;">' +
+    folderDetailsStr = '<table style="width:calc(100% - 2em); table-layout:fixed; font-size:0.85em; border-collapse:collapse; margin:0.5em 1em;">' +
       '<tr style="border-bottom:1px solid #ccc;">' +
-      '<th style="text-align:left; padding:2px 4px;">Path</th>' +
+      '<th style="text-align:left; padding:2px 4px; width:50%; overflow:hidden; text-overflow:ellipsis;">Path</th>' +
       '<th style="text-align:right; padding:2px 4px;">Entries</th>' +
       '<th style="text-align:right; padding:2px 4px;">Files</th>' +
       '<th style="text-align:right; padding:2px 4px;">Folders</th>' +
@@ -52,7 +52,7 @@ function buildDebugInfoHtml(debugInfo) {
       '</tr>' +
       debugInfo.folderDetails.map(f =>
         '<tr' + (f.error ? ' style="color:red;"' : '') + '>' +
-        '<td style="padding:2px 4px;">' + f.path + '</td>' +
+        '<td style="padding:2px 4px; max-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="' + f.path + '">' + f.path + '</td>' +
         '<td style="text-align:right; padding:2px 4px;">' + f.entries + '</td>' +
         '<td style="text-align:right; padding:2px 4px;">' + f.files + '</td>' +
         '<td style="text-align:right; padding:2px 4px;">' + f.folders + '</td>' +
@@ -115,7 +115,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
   const dialogBoxTemplate = html`
   <div id="dropbox-zip-install-dialog" style="padding: 1em;">
     <p style="margin-top: 0;">${i18n.t('dropbox.install-from-zip-explanation')}</p>
-    <div id="zip-file-list" style="max-height: 300px; overflow-y: auto; margin: 1em 0;">
+    <div id="zip-file-list" class="mobile-scrollable" style="max-height: 300px; overflow-y: auto; margin: 1em 0;">
       <div style="display: flex; align-items: center; justify-content: center; padding: 2em;">
         <p style="margin: 0 1em 0 0;">${i18n.t('dropbox.loading-zip-files')}</p>
         <loading-indicator></loading-indicator>

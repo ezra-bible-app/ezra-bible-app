@@ -156,6 +156,7 @@ Librem 5/Pinephone etc.
 
   .mobile-scrollable::-webkit-scrollbar {
     width: 0.5em;
+    height: 0.5em;
     border-width: 1px;
     border-radius: var(--border-radius);
   }
@@ -180,8 +181,9 @@ Librem 5/Pinephone etc.
   }
 
   .dropbox-zip-install-dialog #zip-file-list {
-    max-height: 70vh !important;
+    max-height: calc(100vh - 15em) !important;
     overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
   }
 
   .verse-list-without-user-data-indicators .verse-reference {
