@@ -2233,6 +2233,10 @@ transchange {
   display: none;
 }
 
+.verse-list-without-chapter-nav .chapter-nav {
+  display: none;
+}
+
 .strongs-hl {
   background-color: var(--highlight-bg-color);
 }

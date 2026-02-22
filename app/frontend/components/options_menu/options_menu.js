@@ -148,6 +148,7 @@ class OptionsMenu {
     eventController.subscribe('on-bible-text-loaded', async (context) => {
       this.showOrHideSectionTitlesBasedOnOption(context.tabIndex);
       this.showOrHideStrongsBasedOnOption(context.tabIndex);
+      this.showOrHideChapterNavBasedOnOption(context.tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -345,15 +346,11 @@ class OptionsMenu {
   showOrHideChapterNavBasedOnOption(tabIndex=undefined) {
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
-    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      var chapterNav = currentVerseList.find('.chapter-nav');
-
-      if (this._chapterNavOption.isChecked) {
-        chapterNav.show();
-      } else {
-        chapterNav.hide();
-      }
-    }
+    this.toggleCssClassBasedOnOption(
+      [currentVerseList[0]],
+      this._chapterNavOption,
+      'verse-list-without-chapter-nav'
+    );
   }
 
   async showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {

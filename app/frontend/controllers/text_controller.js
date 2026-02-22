@@ -1007,6 +1007,7 @@ class TextController {
     if (isCache || listType == 'book' && !append) {
       app_controller.optionsMenu.showOrHideBookIntroductionBasedOnOption(tabIndex);
       app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
+      app_controller.optionsMenu.showOrHideChapterNavBasedOnOption(tabIndex);
     }
 
     if (isCache ||
