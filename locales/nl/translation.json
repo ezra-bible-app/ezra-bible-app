@@ -436,7 +436,9 @@
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs",
     "copy-to-clipboard": "Copy word study to clipboard",
-    "copy-to-clipboard-success": "Word study copied to clipboard!"
+    "copy-to-clipboard-success": "Word study copied to clipboard!",
+    "copy-dict-entry-to-clipboard": "Copy dictionary entry to clipboard",
+    "copy-dict-entry-to-clipboard-success": "Dictionary entry copied to clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Woordenboek</b>",

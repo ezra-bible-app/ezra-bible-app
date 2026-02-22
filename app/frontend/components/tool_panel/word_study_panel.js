@@ -159,6 +159,13 @@ class WordStudyPanel {
       });
     });
 
+    let copyDictButtons = this.wordStudyPanelContent[0].querySelectorAll('.copy-dict-button');
+    copyDictButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        this.handleCopyDictButtonClick(event);
+      });
+    });
+
     this.wordStudyPanelCopyButton.show();
   }
 
@@ -178,6 +185,30 @@ class WordStudyPanel {
   handleModuleInfoButtonClick(event) {
     let moduleCode = event.target.closest('.module-info-button').getAttribute('module');
     app_controller.info_popup.showAppInfo(moduleCode);
+  }
+
+  handleCopyDictButtonClick(event) {
+    let section = event.target.closest('.dictionary-section');
+    if (section == null) {
+      return;
+    }
+
+    let titleElement = section.querySelector('.word-study-title');
+    let contentElement = section.querySelector('.dictionary-content');
+
+    if (titleElement == null || contentElement == null) {
+      return;
+    }
+
+    let titleText = titleElement.innerText;
+    let contentText = contentElement.innerText;
+    let contentHtml = contentElement.innerHTML;
+
+    let plainText = `${titleText}\n\n${contentText}`;
+    let htmlText = `<b>${titleText}</b><br/><br/>${contentHtml}`;
+
+    getPlatform().copyToClipboard(plainText, htmlText);
+    uiHelper.showSuccessMessage(i18n.t('word-study-panel.copy-dict-entry-to-clipboard-success'));
   }
 
   getAlternativeStrongsLink(strongsKey) {
@@ -400,14 +431,19 @@ class WordStudyPanel {
 
     const findAllLink = await this.getFindAllLink(strongsEntry);
 
+    let copyDictButton = this.getCopyDictButton();
+
     let extendedStrongsInfo = `
       <div class='bold word-study-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
       <p class='dictionary-content'>${findAllLink} | ${this.getBlueletterLink(strongsEntry)}</p>
       ${extraDictContent}
-      <div class='bold word-study-title' style='margin-bottom: 1em'>Strong's
-      ${moduleInfoButton} 
+      <div class='dictionary-section'>
+        <div class='bold word-study-title' style='margin-bottom: 1em'>Strong's
+        ${moduleInfoButton}
+        ${copyDictButton}
+        </div>
+        <div class='strongs-definition dictionary-content'>${strongsEntry.definition}</div>
       </div>
-      <div class='strongs-definition dictionary-content'>${strongsEntry.definition}</div>
       ${relatedStrongsContent}`;
 
     return extendedStrongsInfo;
@@ -552,14 +588,17 @@ class WordStudyPanel {
       if (currentDictContent != undefined) {
         currentDictContent = currentDictContent.trim();
         let moduleInfoButton = this.getModuleInfoButton(moduleInfoButtonTitle, dict.name);
+        let copyDictButton = this.getCopyDictButton();
 
         let dictHeader = `
-          <div class='bold' style='margin-bottom: 1em'>
-            <span class='word-study-title'>${dict.description}</span>
-            ${moduleInfoButton}
+          <div class='dictionary-section'>
+            <div class='bold' style='margin-bottom: 1em'>
+              <span class='word-study-title'>${dict.description}</span>
+              ${moduleInfoButton}
+              ${copyDictButton}
             </div>
+            <div class='dictionary-content'>${currentDictContent}</div>
           </div>
-          <div class='dictionary-content'>${currentDictContent}</div>
           <hr></hr>
         `;
 
@@ -575,6 +614,16 @@ class WordStudyPanel {
       <div class='module-info-button fg-button ui-corner-all ui-state-default ui-state-default'
             i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${moduleCode}'>
         <i class='fas fa-info'></i>
+      </div>
+    `;
+  }
+
+  getCopyDictButton() {
+    let copyDictButtonTitle = i18n.t('word-study-panel.copy-dict-entry-to-clipboard');
+    return `
+      <div class='copy-dict-button fg-button ui-corner-all ui-state-default'
+            title='${copyDictButtonTitle}'>
+        <i class='fas fa-copy copy-icon'></i>
       </div>
     `;
   }
