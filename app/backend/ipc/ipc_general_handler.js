@@ -161,6 +161,10 @@ class IpcGeneralHandler {
       console.log(`sendCrashReports: ${global.sendCrashReports}`);
     });
 
+    // Cache for the last Dropbox debug info (separate from main response to avoid
+    // Cordova IPC serialization size issues)
+    this._lastDropboxDebugInfo = null;
+
     this._ipcMain.add('general_dropboxListZipFiles', async() => {
       const dropboxToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxToken');
       const dropboxRefreshToken = global.ipc.ipcSettingsHandler.getConfig().get('dropboxRefreshToken');
@@ -175,19 +179,32 @@ class IpcGeneralHandler {
       try {
         const dropboxModuleHelper = global.ipcNsiHandler.getDropboxModuleHelper();
         const result = await dropboxModuleHelper.listZipFiles(dropboxToken, dropboxRefreshToken);
+
+        // Store debugInfo in backend cache for separate retrieval
+        this._lastDropboxDebugInfo = result.debugInfo || null;
+        console.log('[IpcGeneralHandler] dropboxListZipFiles succeeded.',
+          'files=' + (result.files ? result.files.length : 0),
+          'debugInfoSize=' + JSON.stringify(result.debugInfo || {}).length + ' bytes');
+
         return {
           success: true,
-          files: result.files,
-          debugInfo: result.debugInfo
+          files: result.files
         };
       } catch (error) {
+        // Store debugInfo from error in cache too
+        this._lastDropboxDebugInfo = error.debugInfo || null;
+        console.error('[IpcGeneralHandler] dropboxListZipFiles failed:', error.message);
+
         return {
           success: false,
           error: error.message || 'Unknown error',
-          errorCode: error.code,
-          debugInfo: error.debugInfo
+          errorCode: error.code
         };
       }
+    });
+
+    this._ipcMain.add('general_getLastDropboxDebugInfo', async() => {
+      return this._lastDropboxDebugInfo;
     });
 
     this._ipcMain.add('general_dropboxInstallZipModule', async(filename) => {

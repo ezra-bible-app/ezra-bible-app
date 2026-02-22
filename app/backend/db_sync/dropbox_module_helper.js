@@ -372,6 +372,11 @@ class DropboxModuleHelper {
         debugInfo.totalRetries += folderResult.retryCount;
         debugInfo.totalPaginationCalls += folderResult.paginationCalls;
         debugInfo.totalEntriesProcessed += entries.length;
+
+        console.log('[listZipFiles] Folder "' + folderName + '": ' +
+          entries.length + ' entries, ' +
+          'retries=' + folderResult.retryCount + ', ' +
+          'pagination=' + folderResult.paginationCalls);
         
         let zipFiles = [];
         let folderFilesCount = 0;
@@ -414,12 +419,21 @@ class DropboxModuleHelper {
           retries: folderResult.retryCount,
           paginationCalls: folderResult.paginationCalls
         });
+
+        console.log('[listZipFiles] Folder "' + folderName + '" result: ' +
+          'files=' + folderFilesCount + ', folders=' + folderFoldersCount +
+          ', zips=' + folderZipCount);
         
         return zipFiles;
       };
       
       const zipFiles = await listFilesRecursive(rootPath);
       debugInfo.endTime = Date.now();
+
+      console.log('[listZipFiles] Complete. Total zip files: ' + zipFiles.length +
+        ', folders scanned: ' + debugInfo.foldersScanned.length +
+        ', duration: ' + (debugInfo.endTime - debugInfo.startTime) + 'ms' +
+        ', errors: ' + debugInfo.errors.length);
       
       return {
         files: zipFiles,

@@ -31,6 +31,66 @@ const { html } = require('../helpers/ezra_helper.js');
 const dbSyncController = require('./db_sync_controller.js');
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
+/**
+ * Build debug info HTML from the backend debugInfo object.
+ * @param {Object} debugInfo - The debug info collected during zip file listing
+ * @returns {string} HTML string
+ */
+function buildDebugInfoHtml(debugInfo) {
+  const durationMs = debugInfo.endTime - debugInfo.startTime;
+
+  // Per-folder details as table
+  let folderDetailsStr = '';
+  if (debugInfo.folderDetails && debugInfo.folderDetails.length > 0) {
+    folderDetailsStr = '<table style="width:calc(100% - 2em); font-size:0.85em; border-collapse:collapse; margin:0.5em 1em;">' +
+      '<tr style="border-bottom:1px solid #ccc;">' +
+      '<th style="text-align:left; padding:2px 4px;">Path</th>' +
+      '<th style="text-align:right; padding:2px 4px;">Entries</th>' +
+      '<th style="text-align:right; padding:2px 4px;">Files</th>' +
+      '<th style="text-align:right; padding:2px 4px;">Folders</th>' +
+      '<th style="text-align:right; padding:2px 4px;">Zips</th>' +
+      '</tr>' +
+      debugInfo.folderDetails.map(f =>
+        '<tr' + (f.error ? ' style="color:red;"' : '') + '>' +
+        '<td style="padding:2px 4px;">' + f.path + '</td>' +
+        '<td style="text-align:right; padding:2px 4px;">' + f.entries + '</td>' +
+        '<td style="text-align:right; padding:2px 4px;">' + f.files + '</td>' +
+        '<td style="text-align:right; padding:2px 4px;">' + f.folders + '</td>' +
+        '<td style="text-align:right; padding:2px 4px;">' + f.zipFiles + '</td>' +
+        '</tr>'
+      ).join('') +
+      '</table>';
+  } else if (debugInfo.foldersScanned) {
+    folderDetailsStr = debugInfo.foldersScanned.map(f => '&nbsp;&nbsp;' + f).join('<br/>');
+  }
+
+  const errorsStr = (debugInfo.errors && debugInfo.errors.length > 0)
+    ? debugInfo.errors.map(e => e.folder + ': ' + e.error).join('; ')
+    : 'None';
+
+  // File extensions breakdown
+  const extStr = debugInfo.fileExtensions
+    ? Object.entries(debugInfo.fileExtensions)
+        .sort((a, b) => b[1] - a[1])
+        .map(([ext, count]) => ext + ': ' + count)
+        .join(', ')
+    : 'N/A';
+
+  return '<div style="font-size: 0.9em; color: #666; margin-top: 1em;">' +
+    '<b>Debug Info</b><br/>' +
+    '<b>Duration:</b> ' + durationMs + 'ms<br/>' +
+    '<b>Total retries:</b> ' + (debugInfo.totalRetries || 0) + '<br/>' +
+    '<b>Total pagination calls:</b> ' + (debugInfo.totalPaginationCalls || 0) + '<br/>' +
+    '<b>Total entries:</b> ' + debugInfo.totalEntriesProcessed + '<br/>' +
+    '<b>Files found:</b> ' + debugInfo.totalFilesFound + '<br/>' +
+    '<b>Folders found:</b> ' + debugInfo.totalFoldersFound + '<br/>' +
+    '<b>Zip files:</b> ' + debugInfo.zipFilesFound + '<br/>' +
+    '<b>File extensions:</b> ' + extStr + '<br/>' +
+    '<b>Errors:</b> ' + errorsStr + '<br/>' +
+    '<b>Folders scanned:</b> ' + (debugInfo.foldersScanned ? debugInfo.foldersScanned.length : 0) + '<br/>' + folderDetailsStr +
+    '</div>';
+}
+
 module.exports.showDropboxZipInstallDialog = async function() {
   const dbSyncInitDone = await dbSyncController.isInitDone();
   if (!dbSyncInitDone) {
@@ -99,70 +159,52 @@ module.exports.showDropboxZipInstallDialog = async function() {
 
   async function loadDropboxZipFiles() {
     try {
-      const response = await ipcGeneral.dropboxListZipFiles();
-      
-      console.log('Received response:', response);
-      
-      // Build debug info HTML if setting is enabled
-      let debugInfoHtml = '';
+      // Read dev info setting BEFORE the IPC call
       const showDevInfo = await ipcSettings.get('dropboxShowDevInfo', false);
-      if (showDevInfo && response.debugInfo) {
-        const debugInfo = response.debugInfo;
-        const durationMs = debugInfo.endTime - debugInfo.startTime;
-        
-        // Per-folder details as table
-        let folderDetailsStr = '';
-        if (debugInfo.folderDetails && debugInfo.folderDetails.length > 0) {
-          folderDetailsStr = '<table style="width:calc(100% - 2em); font-size:0.85em; border-collapse:collapse; margin:0.5em 1em;">' +
-            '<tr style="border-bottom:1px solid #ccc;">' +
-            '<th style="text-align:left; padding:2px 4px;">Path</th>' +
-            '<th style="text-align:right; padding:2px 4px;">Entries</th>' +
-            '<th style="text-align:right; padding:2px 4px;">Files</th>' +
-            '<th style="text-align:right; padding:2px 4px;">Folders</th>' +
-            '<th style="text-align:right; padding:2px 4px;">Zips</th>' +
-            '</tr>' +
-            debugInfo.folderDetails.map(f => 
-              '<tr' + (f.error ? ' style="color:red;"' : '') + '>' +
-              '<td style="padding:2px 4px;">' + f.path + '</td>' +
-              '<td style="text-align:right; padding:2px 4px;">' + f.entries + '</td>' +
-              '<td style="text-align:right; padding:2px 4px;">' + f.files + '</td>' +
-              '<td style="text-align:right; padding:2px 4px;">' + f.folders + '</td>' +
-              '<td style="text-align:right; padding:2px 4px;">' + f.zipFiles + '</td>' +
-              '</tr>'
-            ).join('') +
-            '</table>';
-        } else {
-          folderDetailsStr = debugInfo.foldersScanned.map(f => '&nbsp;&nbsp;' + f).join('<br/>');
-        }
-        
-        const errorsStr = debugInfo.errors.length > 0 
-          ? debugInfo.errors.map(e => e.folder + ': ' + e.error).join('; ')
-          : 'None';
-        
-        // File extensions breakdown
-        const extStr = debugInfo.fileExtensions 
-          ? Object.entries(debugInfo.fileExtensions)
-              .sort((a, b) => b[1] - a[1])
-              .map(([ext, count]) => ext + ': ' + count)
-              .join(', ')
-          : 'N/A';
-        
-        debugInfoHtml = 
-          '<div style="font-size: 0.9em; color: #666; margin-top: 1em;">' +
-          '<b>Debug Info</b><br/>' +
-          '<b>Duration:</b> ' + durationMs + 'ms<br/>' +
-          '<b>Total retries:</b> ' + (debugInfo.totalRetries || 0) + '<br/>' +
-          '<b>Total pagination calls:</b> ' + (debugInfo.totalPaginationCalls || 0) + '<br/>' +
-          '<b>Total entries:</b> ' + debugInfo.totalEntriesProcessed + '<br/>' +
-          '<b>Files found:</b> ' + debugInfo.totalFilesFound + '<br/>' +
-          '<b>Folders found:</b> ' + debugInfo.totalFoldersFound + '<br/>' +
-          '<b>Zip files:</b> ' + debugInfo.zipFilesFound + '<br/>' +
-          '<b>File extensions:</b> ' + extStr + '<br/>' +
-          '<b>Errors:</b> ' + errorsStr + '<br/>' +
-          '<b>Folders scanned:</b> ' + debugInfo.foldersScanned.length + '<br/>' + folderDetailsStr +
-          '</div>';
+
+      // Show diagnostic banner so user can confirm the setting is active on this device
+      if (showDevInfo) {
+        const zipFileList = document.getElementById('zip-file-list');
+        const banner = document.createElement('div');
+        banner.id = 'dev-info-banner';
+        banner.style.cssText = 'font-size:0.85em; color:#666; padding:0.3em 1em; border-bottom:1px dashed #ccc;';
+        banner.textContent = 'Developer info: enabled, awaiting response\u2026';
+        zipFileList.prepend(banner);
       }
-      
+
+      const response = await ipcGeneral.dropboxListZipFiles();
+
+      // Log response shape for remote debugging (Safari Web Inspector / Chrome DevTools)
+      console.log('[DropboxZipInstall] Response received.',
+        'success=' + response.success,
+        'files=' + (response.files ? response.files.length : 'N/A'),
+        'hasDebugInfo=' + (typeof response.debugInfo !== 'undefined'));
+
+      // Fetch debug info via separate lightweight IPC call (avoids Cordova serialization limits)
+      let debugInfoHtml = '';
+      if (showDevInfo) {
+        let debugInfo = response.debugInfo || null;
+
+        if (!debugInfo) {
+          try {
+            debugInfo = await ipcGeneral.getLastDropboxDebugInfo();
+            console.log('[DropboxZipInstall] Fetched debugInfo via separate IPC.',
+              'hasDebugInfo=' + (debugInfo != null));
+          } catch (dbgErr) {
+            console.warn('[DropboxZipInstall] Could not fetch separate debugInfo:', dbgErr);
+          }
+        }
+
+        if (debugInfo) {
+          debugInfoHtml = buildDebugInfoHtml(debugInfo);
+        } else {
+          debugInfoHtml =
+            '<div style="font-size: 0.9em; color: #c60; margin-top: 1em;">' +
+            '<b>Debug Info</b><br/>No debug data was returned by the backend.' +
+            '</div>';
+        }
+      }
+
       const zipFileList = document.getElementById('zip-file-list');
       zipFileList.innerHTML = '';
 
@@ -177,6 +219,14 @@ module.exports.showDropboxZipInstallDialog = async function() {
             </button>
           </div>
         `;
+
+        // Append debug info even on the error path
+        if (debugInfoHtml) {
+          const debugDiv = document.createElement('div');
+          debugDiv.innerHTML = debugInfoHtml;
+          zipFileList.appendChild(debugDiv);
+        }
+
         $('#install-zip-modules-button').button('disable');
         
         $('#retry-load-files').button().click(async () => {
