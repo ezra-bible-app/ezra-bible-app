@@ -200,12 +200,14 @@ class WordStudyPanel {
       return;
     }
 
+    let headerText = this.wordStudyPanelHeader[0].innerText;
+    let breadcrumbsText = this.wordStudyPanelBreadcrumbs[0].innerText;
     let titleText = titleElement.innerText;
     let contentText = contentElement.innerText;
     let contentHtml = contentElement.innerHTML;
 
-    let plainText = `${titleText}\n\n${contentText}`;
-    let htmlText = `<b>${titleText}</b><br/><br/>${contentHtml}`;
+    let plainText = `${headerText} - ${breadcrumbsText}\n${titleText}\n\n${contentText}`;
+    let htmlText = `<b>${headerText} - ${breadcrumbsText}</b><br/><b>${titleText}</b><br/><br/>${contentHtml}`;
 
     getPlatform().copyToClipboard(plainText, htmlText);
     uiHelper.showSuccessMessage(i18n.t('word-study-panel.copy-dict-entry-to-clipboard-success'));
