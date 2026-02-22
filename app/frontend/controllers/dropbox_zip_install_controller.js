@@ -113,9 +113,9 @@ module.exports.showDropboxZipInstallDialog = async function() {
 
   // Create dialog HTML
   const dialogBoxTemplate = html`
-  <div id="dropbox-zip-install-dialog" style="padding: 1em;">
-    <p style="margin-top: 0;">${i18n.t('dropbox.install-from-zip-explanation')}</p>
-    <div id="zip-file-list" class="mobile-scrollable" style="max-height: 300px; overflow-y: auto; margin: 1em 0;">
+  <div id="dropbox-zip-install-dialog" style="padding: 1em; display: flex; flex-direction: column; height: 100%;">
+    <p style="margin-top: 0; flex-shrink: 0;">${i18n.t('dropbox.install-from-zip-explanation')}</p>
+    <div id="zip-file-list" class="mobile-scrollable" style="overflow-y: auto; margin: 1em 0; flex: 1;">
       <div style="display: flex; align-items: center; justify-content: center; padding: 2em;">
         <p style="margin: 0 1em 0 0;">${i18n.t('dropbox.loading-zip-files')}</p>
         <loading-indicator></loading-indicator>
@@ -127,8 +127,8 @@ module.exports.showDropboxZipInstallDialog = async function() {
   document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
   const $dialogBox = $('#dropbox-zip-install-dialog');
 
-  const width = 600;
-  const height = 500;
+  const width = 800;
+  const height = 600;
 
   let dialogOptions = uiHelper.getDialogOptions(width, height, true);
   dialogOptions.title = i18n.t('dropbox.install-from-zip');

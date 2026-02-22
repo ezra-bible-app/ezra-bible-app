@@ -89,6 +89,19 @@
     padding: 0;
     margin: 0;
   }
+
+  .dropbox-zip-install-dialog #dropbox-zip-install-dialog {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .dropbox-zip-install-dialog #zip-file-list {
+    flex: 1;
+    max-height: unset !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* PORTRAIT mode for mobile/tablet */
@@ -178,12 +191,6 @@ Librem 5/Pinephone etc.
 
   .ezra-dialog {
     box-shadow: unset !important;
-  }
-
-  .dropbox-zip-install-dialog #zip-file-list {
-    max-height: calc(100vh - 15em) !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
   }
 
   .verse-list-without-user-data-indicators .verse-reference {
