@@ -202,12 +202,14 @@ class WordStudyPanel {
 
     let headerText = this.wordStudyPanelHeader[0].innerText;
     let breadcrumbsText = this.wordStudyPanelBreadcrumbs[0].innerText;
+    let shortInfoElement = this.wordStudyPanelContent[0].querySelector('.word-study-title');
+    let shortInfoText = shortInfoElement ? shortInfoElement.innerText : '';
     let titleText = titleElement.innerText;
     let contentText = contentElement.innerText;
     let contentHtml = contentElement.innerHTML;
 
-    let plainText = `${headerText} - ${breadcrumbsText}\n${titleText}\n\n${contentText}`;
-    let htmlText = `<b>${headerText} - ${breadcrumbsText}</b><br/><b>${titleText}</b><br/><br/>${contentHtml}`;
+    let plainText = `${headerText} - ${breadcrumbsText}\n${shortInfoText}\n\n${titleText}\n\n${contentText}`;
+    let htmlText = `<b>${headerText} - ${breadcrumbsText}</b><br/>${shortInfoText}<br/><br/><b>${titleText}</b><br/><br/>${contentHtml}`;
 
     getPlatform().copyToClipboard(plainText, htmlText);
     uiHelper.showSuccessMessage(i18n.t('word-study-panel.copy-dict-entry-to-clipboard-success'));
