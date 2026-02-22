@@ -433,7 +433,9 @@
     "help-instruction-part4-desktop": "Ține apăsată tasta SHIFT pentru a activa funcția mouseover pentru toate versetele.",
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
-    "related-strongs": "(Strong's) Concordanțe asociate"
+    "related-strongs": "(Strong's) Concordanțe asociate",
+    "copy-to-clipboard": "Copiază studiul de cuvinte în clipboard",
+    "copy-to-clipboard-success": "Studiul de cuvinte copiat în clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Dicționar</b>",

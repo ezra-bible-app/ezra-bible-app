@@ -434,7 +434,9 @@
     "help-instruction-part4-desktop": "Утримуйте клавішу SHIFT для перегляду статей по наведенню вказівника миші у будь-якому вірші.",
     "find-all-occurrences": "Знайти всі випадки",
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
-    "related-strongs": "Пов'язані числа Стронга"
+    "related-strongs": "Пов'язані числа Стронга",
+    "copy-to-clipboard": "Скопіювати тлумач слів до кишені",
+    "copy-to-clipboard-success": "Тлумач слів скопійовано до кишені!"
   },
   "dictionary-panel": {
     "default-header": "<b>Словник</b>",

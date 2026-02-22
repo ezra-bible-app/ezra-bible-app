@@ -428,7 +428,9 @@
     "help-instruction-part4-desktop": "Halten Sie die SHIFT Taste gedrückt, um die Mausfunktion für alle Verse zu aktivieren.",
     "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
-    "related-strongs": "Verwandte Strong's"
+    "related-strongs": "Verwandte Strong's",
+    "copy-to-clipboard": "Wortstudium in Zwischenablage kopieren",
+    "copy-to-clipboard-success": "Wortstudium in Zwischenablage kopiert!"
   },
   "dictionary-panel": {
     "default-header": "<b>Wörterbuch</b>",

@@ -18,7 +18,7 @@
 
 const eventController = require('../../controllers/event_controller.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
-const { html } = require('../../helpers/ezra_helper.js');
+const { html, getPlatform } = require('../../helpers/ezra_helper.js');
 
 let jsStrongs = null;
 
@@ -37,11 +37,18 @@ class WordStudyPanel {
     this.wordStudyPanelHelp = $('#word-study-panel-help');
     this.wordStudyPanelContent = $('#word-study-panel-content');
     this.wordStudyPanelBreadcrumbs = $('#word-study-panel-breadcrumbs');
+    this.wordStudyPanelCopyButton = $('#word-study-panel-copy-button');
     this.wordStudyPanelStack = [];
     this.currentStrongsEntry = null;
     this.currentFirstStrongsEntry = null;
     this.currentAdditionalStrongsEntries = [];
     this.currentLemma = null;
+
+    this.wordStudyPanelCopyButton.on('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.handleCopyButtonClick();
+    });
 
     eventController.subscribe('on-locale-changed', () => {
       if (this.currentStrongsEntry == null) {
@@ -62,6 +69,7 @@ class WordStudyPanel {
 
   clear() {
     this.currentStrongsEntry = null;
+    this.wordStudyPanelCopyButton.hide();
 
     var strongsAvailable = this.wordStudyController.strongsAvailable;
     var dictionaryInstallStatus = i18n.t("general.installed");
@@ -150,6 +158,21 @@ class WordStudyPanel {
         this.handleModuleInfoButtonClick(event);
       });
     });
+
+    this.wordStudyPanelCopyButton.show();
+  }
+
+  handleCopyButtonClick() {
+    const headerText = this.wordStudyPanelHeader[0].innerText;
+    const breadcrumbsText = this.wordStudyPanelBreadcrumbs[0].innerText;
+    const contentText = this.wordStudyPanelContent[0].innerText;
+    const plainText = `${headerText} - ${breadcrumbsText}\n\n${contentText}`;
+
+    const contentHtml = this.wordStudyPanelContent[0].innerHTML;
+    const htmlText = `<b>${headerText} - ${breadcrumbsText}</b><br/><br/>${contentHtml}`;
+
+    getPlatform().copyToClipboard(plainText, htmlText);
+    uiHelper.showSuccessMessage(i18n.t('word-study-panel.copy-to-clipboard-success'));
   }
 
   handleModuleInfoButtonClick(event) {

@@ -434,7 +434,9 @@
     "help-instruction-part4-desktop": "Houd de SHIFT-toets ingedrukt om de muis-over-functie voor alle verzen in te schakelen.",
     "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
-    "related-strongs": "Gerelateerde Strongs"
+    "related-strongs": "Gerelateerde Strongs",
+    "copy-to-clipboard": "Woordstudie naar het klembord kopiëren",
+    "copy-to-clipboard-success": "Woordstudie naar klembord gekopieerd!"
   },
   "dictionary-panel": {
     "default-header": "<b>Woordenboek</b>",

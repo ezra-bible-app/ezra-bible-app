@@ -430,7 +430,9 @@
     "help-instruction-part4-desktop": "Segure a tecla SHIFT para ativar a função de passagem do mouse para todos os versos.",
     "find-all-occurrences": "Encontrar todas as ocorrências",
     "open-in-blueletter": "Abrir na Bíblia Blue Letter",
-    "related-strongs": "Strong's relacionados"
+    "related-strongs": "Strong's relacionados",
+    "copy-to-clipboard": "Copiar estudo de palavras para a área de transferência",
+    "copy-to-clipboard-success": "Estudo de palavras copiado para a área de transferência!"
   },
   "dictionary-panel": {
     "default-header": "<b>Dicionário</b>",
