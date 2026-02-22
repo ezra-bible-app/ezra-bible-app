@@ -431,7 +431,11 @@
     "help-instruction-part4-desktop": "Držite tipko SHIFT, da omogočite premikanja miške za vse vrstice.",
     "find-all-occurrences": "Poišči vse pojavitve",
     "open-in-blueletter": "Odpri v Blue Letter Bible",
-    "related-strongs": "Sorodne Strongove knjige"
+    "related-strongs": "Sorodne Strongove knjige",
+    "copy-to-clipboard": "Copy word study to clipboard",
+    "copy-to-clipboard-success": "Word study copied to clipboard!",
+    "copy-dict-entry-to-clipboard": "Copy dictionary entry to clipboard",
+    "copy-dict-entry-to-clipboard-success": "Dictionary entry copied to clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Slovar</b>",

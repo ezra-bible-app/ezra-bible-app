@@ -430,7 +430,11 @@
     "help-instruction-part4-desktop": "Mantenga presionada la tecla Shift para permitir ejecutar la función sobre los versículos en que se posicione el cursor.",
     "find-all-occurrences": "Encontrar todas las coincidencias",
     "open-in-blueletter": "Abrir en Blue Letter Bible",
-    "related-strongs": "Números Strongs relacionados"
+    "related-strongs": "Números Strongs relacionados",
+    "copy-to-clipboard": "Copy word study to clipboard",
+    "copy-to-clipboard-success": "Word study copied to clipboard!",
+    "copy-dict-entry-to-clipboard": "Copy dictionary entry to clipboard",
+    "copy-dict-entry-to-clipboard-success": "Dictionary entry copied to clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Diccionario</b>",

@@ -219,6 +219,18 @@
   user-select: none;
 }
 
+#word-study-panel-content {
+  user-select: text;
+}
+
+#word-study-panel-copy-button {
+  float: right;
+  margin-right: 0.5em;
+  margin-top: 0.3em;
+  padding: 0.3em 0.5em;
+  cursor: pointer;
+}
+
 .panel-wrapper {
   clear: both;
   height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */

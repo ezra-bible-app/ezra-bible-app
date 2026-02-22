@@ -433,7 +433,11 @@
     "help-instruction-part4-desktop": "Podržaním klávesu SHIFT aktivujete funkciu prejdenia myšou pre všetky verše.",
     "find-all-occurrences": "Nájsť všetky výskyty",
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
-    "related-strongs": "Súvisiace Strongy"
+    "related-strongs": "Súvisiace Strongy",
+    "copy-to-clipboard": "Copy word study to clipboard",
+    "copy-to-clipboard-success": "Word study copied to clipboard!",
+    "copy-dict-entry-to-clipboard": "Copy dictionary entry to clipboard",
+    "copy-dict-entry-to-clipboard-success": "Dictionary entry copied to clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Slovník</b>",
