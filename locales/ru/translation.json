@@ -437,8 +437,8 @@
     "find-all-occurrences": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга",
-    "copy-to-clipboard": "Скопировать изучение слов в буфер обмена",
-    "copy-to-clipboard-success": "Изучение слов скопировано в буфер обмена!"
+    "copy-to-clipboard": "Copy word study to clipboard",
+    "copy-to-clipboard-success": "Word study copied to clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Словарь</b>",

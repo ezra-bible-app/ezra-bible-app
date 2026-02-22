@@ -435,8 +435,8 @@
     "find-all-occurrences": "Знайти всі випадки",
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
     "related-strongs": "Пов'язані числа Стронга",
-    "copy-to-clipboard": "Скопіювати тлумач слів до кишені",
-    "copy-to-clipboard-success": "Тлумач слів скопійовано до кишені!"
+    "copy-to-clipboard": "Copy word study to clipboard",
+    "copy-to-clipboard-success": "Word study copied to clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Словник</b>",

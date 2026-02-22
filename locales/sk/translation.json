@@ -434,8 +434,8 @@
     "find-all-occurrences": "Nájsť všetky výskyty",
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
     "related-strongs": "Súvisiace Strongy",
-    "copy-to-clipboard": "Kopírovať štúdium slov do schránky",
-    "copy-to-clipboard-success": "Štúdium slov bolo skopírované do schránky!"
+    "copy-to-clipboard": "Copy word study to clipboard",
+    "copy-to-clipboard-success": "Word study copied to clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Slovník</b>",

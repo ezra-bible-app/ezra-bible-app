@@ -432,8 +432,8 @@
     "find-all-occurrences": "Poišči vse pojavitve",
     "open-in-blueletter": "Odpri v Blue Letter Bible",
     "related-strongs": "Sorodne Strongove knjige",
-    "copy-to-clipboard": "Besedno študijo kopiraj na odložišče",
-    "copy-to-clipboard-success": "Besedna študija kopirana na odložišče!"
+    "copy-to-clipboard": "Copy word study to clipboard",
+    "copy-to-clipboard-success": "Word study copied to clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Slovar</b>",

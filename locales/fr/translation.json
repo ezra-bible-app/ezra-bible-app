@@ -443,8 +443,8 @@
     "find-all-occurrences": "Trouver toutes les occurrences",
     "open-in-blueletter": "Ouvrir dans la Blue Letter Bible",
     "related-strongs": "Strong associés",
-    "copy-to-clipboard": "Copier l'étude de mots dans le presse-papiers",
-    "copy-to-clipboard-success": "Étude de mots copiée dans le presse-papiers !"
+    "copy-to-clipboard": "Copy word study to clipboard",
+    "copy-to-clipboard-success": "Word study copied to clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Dictionnaire</b>",

@@ -429,8 +429,8 @@
     "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's",
-    "copy-to-clipboard": "Wortstudium in Zwischenablage kopieren",
-    "copy-to-clipboard-success": "Wortstudium in Zwischenablage kopiert!"
+    "copy-to-clipboard": "Copy word study to clipboard",
+    "copy-to-clipboard-success": "Word study copied to clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Wörterbuch</b>",
