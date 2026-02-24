@@ -354,7 +354,12 @@ class DictionaryPanel {
 
     this._currentKey = key;
     key.classList.add('selected');
-    key.scrollIntoViewIfNeeded();
+
+    // Defer scrolling so it works even when the panel is not yet visible
+    // (e.g., when triggered programmatically via sword:// link before panel switch).
+    setTimeout(() => {
+      key.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }, 200);
   }
 
   initReferences() {
