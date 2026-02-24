@@ -19,6 +19,7 @@
 const eventController = require('../../controllers/event_controller.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const ReferenceBoxHelper = require('./reference_box_helper.js');
+const swordUrlHandler = require('../../helpers/sword_url_handler.js');
 
 /**
  * The DictionaryPanel component implements a tool panel that shows dictionary entries from generic dictionaries.
@@ -390,24 +391,11 @@ class DictionaryPanel {
       });
     });
 
-    // Regular hyper links are used in the Vines dictionary to reference other entries.
-    // These entries can either be from the same dictionary. E.g. <a href="sword://Vines/CLOTHING">CLOTHING</a>
-    // Or they can be links to Strongs like this: <a href="sword://StrongsRealGreek/04652">4652</a>
-    let aElements = this.getContentContainer().querySelectorAll('a');
-    // Add click event listeners to all hyper links
-    aElements.forEach((a) => {
-      // Add title to Strongs links
-      if (a.getAttribute('href').includes('Strongs')) {
-        a.setAttribute('title', i18n.t('dictionary-panel.open-in-word-study'));
-      }
-
-      a.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        this.handleHyperLinkClick(event.target);
-      });
-    });
+    // Regular hyper links are used in various dictionaries to reference other entries or modules.
+    // These can be sword:// URLs like: <a href="sword://Vines/CLOTHING">CLOTHING</a>
+    // Or links to Strongs like: <a href="sword://StrongsRealGreek/04652">4652</a>
+    // Or links to maps like: <a href="sword://NETmap/Map08">Map08</a>
+    swordUrlHandler.initSwordUrlLinks(this.getContentContainer(), this._referenceBoxHelper);
 
     // <term> references are used in the Thompson Chain Topics dictionary.
     let termElements = this.getContentContainer().querySelectorAll('term');
@@ -433,41 +421,82 @@ class DictionaryPanel {
     });
   }
 
-  async handleHyperLinkClick(link) {
-    let href = link.getAttribute('href');
+  /**
+   * Open a specific entry from a dictionary module.
+   * If the module differs from the currently selected dictionary,
+   * it switches the dropdown to that module first.
+   * @param {string} moduleCode - The dictionary module code (e.g., 'NETmap', 'Vines')
+   * @param {string} key - The entry key to open
+   */
+  async openModuleEntry(moduleCode, key) {
+    if (moduleCode == null || key == null || key == '') {
+      return;
+    }
 
-    if (href != null) {
-      // Handle links like this one: <a href="sword://StrongsRealGreek/04652">4652</a>
-      if (href.includes('Strongs')) {
-        let strongsNumber = href.split('/').pop();
-        strongsNumber = strongsNumber.replace(/^0+/, ''); // Remove leading zeros
-        const isGreek = href.includes('Greek');
-        const prefix = isGreek ? 'G' : 'H';
-        const strongsKey = `${prefix}${strongsNumber}`;
+    // If the target module is not the currently selected dictionary, switch to it
+    if (moduleCode != this._currentDict) {
+      let allDictModules = await ipcNsi.getAllLocalModules('DICT');
+      let targetModule = allDictModules.find(m => m.name == moduleCode);
 
-        await app_controller.word_study_controller._wordStudyPanel.updateWithKey(strongsKey, true);
-        this.switchToWordStudyPanel();
+      if (targetModule == null) {
+        return;
+      }
 
-      } else {
-        // Handle all other links like this one: <a href="sword://Vines/CLOTHING">CLOTHING</a>
-        href = href.replace('sword://', '');
+      // If the module is not in the filtered list (e.g., a Strongs module), we cannot open it here.
+      // Strongs modules are handled by the Word Study Panel.
+      let hasStrongs = targetModule.hasHebrewStrongsKeys || targetModule.hasGreekStrongsKeys;
+      if (hasStrongs) {
+        return;
+      }
 
-        if (href.indexOf('/') != -1) {
-          let splitHref = href.split('/');
-          let module = splitHref[0];
-          let key = splitHref[1];
+      // Add module to select dropdown if not already present
+      let selectEl = this.getSelectElement();
+      let optionExists = false;
 
-          this.openKeyFromTextReference(module, key);
+      for (let i = 0; i < selectEl.options.length; i++) {
+        if (selectEl.options[i].value == moduleCode) {
+          optionExists = true;
+          break;
         }
       }
+
+      if (!optionExists) {
+        // Module is installed but not yet in the dropdown (shouldn't normally happen, but handle gracefully)
+        return;
+      }
+
+      selectEl.value = moduleCode;
+      $(selectEl).selectmenu('refresh');
+      await this.handleDictionaryChange(moduleCode);
     }
+
+    // Wait for the key list to be loaded after handleDictionaryChange
+    await this._waitForKeyListLoaded();
+
+    this.openKeyFromTextReference(moduleCode, key);
   }
 
-  switchToWordStudyPanel() {
-    const panelButtons = document.querySelector('panel-buttons');
-    if (panelButtons) {
-      panelButtons._updatePanels('word-study-panel', false);
-    }
+  /**
+   * Wait until the current key list has been loaded after a dictionary change.
+   * handleDictionaryChange loads keys asynchronously with a 500ms setTimeout.
+   * @returns {Promise} Resolves when key list is available
+   */
+  _waitForKeyListLoaded() {
+    return new Promise((resolve) => {
+      if (this._currentKeyList && this._currentKeyList.length > 0) {
+        resolve();
+        return;
+      }
+
+      let attempts = 0;
+      let interval = setInterval(() => {
+        attempts++;
+        if ((this._currentKeyList && this._currentKeyList.length > 0) || attempts > 20) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 200);
+    });
   }
 
   openKeyFromTextReference(module, key) {

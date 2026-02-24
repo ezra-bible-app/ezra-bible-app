@@ -142,13 +142,9 @@ class WordStudyPanel {
 
     this.wordStudyPanelContent.html(extendedStrongsInfo);
 
-    // Replace sword:// links with plain text
-    this.wordStudyPanelContent.find('a').each((index, aElement) => {
-      var currentA = $(aElement);
-      if (currentA.prop('href').indexOf('sword') != -1) {
-        currentA.replaceWith(currentA.text());
-      }
-    });
+    // Handle sword:// links by attaching click handlers that navigate to the referenced module
+    const swordUrlHandler = require('../../helpers/sword_url_handler.js');
+    swordUrlHandler.initSwordUrlLinks(this.wordStudyPanelContent[0], null);
 
     uiHelper.configureButtonStyles(this.wordStudyPanelContent[0]);
 
