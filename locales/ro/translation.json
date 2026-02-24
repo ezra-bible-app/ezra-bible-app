@@ -226,7 +226,8 @@
       "same-as-content": "Cum este și conținutul"
     },
     "title": "Titlu",
-    "tabs": "Tabs"
+    "tabs": "Tabs",
+    "module-not-installed": "The module '{{module_name}}' is not installed."
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirmă opțiunile legate de confidențialitatea datelor",

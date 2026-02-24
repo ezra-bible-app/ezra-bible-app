@@ -222,7 +222,8 @@
       "same-as-content": "Gleich wie Inhalt"
     },
     "title": "Titel",
-    "tabs": "Tabs"
+    "tabs": "Tabs",
+    "module-not-installed": "The module '{{module_name}}' is not installed."
   },
   "data-privacy": {
     "confirm-privacy-options": "Datenschutzoptionen bestätigen",

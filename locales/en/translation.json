@@ -229,7 +229,8 @@
       "same-as-content": "Same as content"
     },
     "title": "Title",
-    "tabs": "Tabs"
+    "tabs": "Tabs",
+    "module-not-installed": "The module '{{module_name}}' is not installed."
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirm data privacy options",
@@ -582,8 +583,5 @@
     "modules-failed": "{{count}} module(s) failed to install",
     "install-summary": "Installation Summary",
     "dropbox-not-linked": "Dropbox account is not linked. Please setup Dropbox first."
-  },
-  "sword-url": {
-    "module-not-installed": "The module '{{module_name}}' is not installed."
   }
 }

@@ -226,7 +226,8 @@
       "same-as-content": "Rovnaké ako obsah"
     },
     "title": "Titulok",
-    "tabs": "Karty"
+    "tabs": "Karty",
+    "module-not-installed": "The module '{{module_name}}' is not installed."
   },
   "data-privacy": {
     "confirm-privacy-options": "Potvrďte ochranu osobných údajov",

@@ -205,7 +205,7 @@ async function handleScriptureReference(key, referenceBoxHelper) {
 function showModuleNotInstalledMessage(moduleName) {
   // eslint-disable-next-line no-undef
   iziToast.info({
-    message: i18n.t('sword-url.module-not-installed', { module_name: moduleName }),
+    message: i18n.t('general.module-not-installed', { module_name: moduleName }),
     position: platformHelper.getIziPosition(),
     timeout: 5000
   });

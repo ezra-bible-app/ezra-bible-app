@@ -226,7 +226,8 @@
       "same-as-content": "Igual ao conteúdo"
     },
     "title": "Título",
-    "tabs": "Tabs"
+    "tabs": "Tabs",
+    "module-not-installed": "The module '{{module_name}}' is not installed."
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirme as opções de privacidade de dados",
