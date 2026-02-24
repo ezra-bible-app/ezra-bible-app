@@ -358,7 +358,7 @@ class DictionaryPanel {
     // Defer scrolling so it works even when the panel is not yet visible
     // (e.g., when triggered programmatically via sword:// link before panel switch).
     setTimeout(() => {
-      key.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      key.scrollIntoView({ block: 'center', behavior: 'instant' });
     }, 200);
   }
 
