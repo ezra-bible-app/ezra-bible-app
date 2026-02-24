@@ -314,7 +314,7 @@ class DictionaryPanel {
     });
   }
 
-  async handleKeyClick(key) {
+  async handleKeyClick(key, scrollIntoView=false) {
     const currentDictionary = this.getSelectElement().value;
     const keyValue = key.innerText.trim();
 
@@ -355,11 +355,13 @@ class DictionaryPanel {
     this._currentKey = key;
     key.classList.add('selected');
 
-    // Defer scrolling so it works even when the panel is not yet visible
-    // (e.g., when triggered programmatically via sword:// link before panel switch).
-    setTimeout(() => {
-      key.scrollIntoView({ block: 'center', behavior: 'instant' });
-    }, 200);
+    if (scrollIntoView) {
+      // Defer scrolling so it works even when the panel is not yet visible
+      // (e.g., when triggered programmatically via sword:// link before panel switch).
+      setTimeout(() => {
+        key.scrollIntoView({ block: 'center', behavior: 'instant' });
+      }, 200);
+    }
   }
 
   initReferences() {
@@ -497,7 +499,7 @@ class DictionaryPanel {
           this.handleSectionMarkerClick(letterSectionLi, allSections);
         }
 
-        await this.handleKeyClick(dictKeyElement);
+        await this.handleKeyClick(dictKeyElement, true);
       }
     }
   }
@@ -611,7 +613,7 @@ class DictionaryPanel {
             this.handleSectionMarkerClick(letterSectionLi, allSections);
           }
 
-          this.handleKeyClick(dictKeyElement);
+          this.handleKeyClick(dictKeyElement, true);
           return true;
         }
       }
