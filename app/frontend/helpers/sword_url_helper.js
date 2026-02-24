@@ -27,7 +27,7 @@ const swordModuleHelper = require('./sword_module_helper.js');
  * When no module is specified (sword:///Key), the key is treated as a
  * scripture reference using the current Bible translation.
  *
- * @module sword_url_handler
+ * @module sword_url_helper
  * @category Helper
  */
 

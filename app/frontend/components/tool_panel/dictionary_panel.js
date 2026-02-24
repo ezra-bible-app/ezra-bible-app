@@ -19,7 +19,7 @@
 const eventController = require('../../controllers/event_controller.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const ReferenceBoxHelper = require('./reference_box_helper.js');
-const swordUrlHandler = require('../../helpers/sword_url_handler.js');
+const swordUrlHelper = require('../../helpers/sword_url_helper.js');
 
 /**
  * The DictionaryPanel component implements a tool panel that shows dictionary entries from generic dictionaries.
@@ -398,7 +398,7 @@ class DictionaryPanel {
     // These can be sword:// URLs like: <a href="sword://Vines/CLOTHING">CLOTHING</a>
     // Or links to Strongs like: <a href="sword://StrongsRealGreek/04652">4652</a>
     // Or links to maps like: <a href="sword://NETmap/Map08">Map08</a>
-    swordUrlHandler.initSwordUrlLinks(this.getContentContainer(), this._referenceBoxHelper);
+    swordUrlHelper.initSwordUrlLinks(this.getContentContainer(), this._referenceBoxHelper);
 
     // <term> references are used in the Thompson Chain Topics dictionary.
     let termElements = this.getContentContainer().querySelectorAll('term');

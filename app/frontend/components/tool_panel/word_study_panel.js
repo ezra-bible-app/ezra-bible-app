@@ -143,8 +143,8 @@ class WordStudyPanel {
     this.wordStudyPanelContent.html(extendedStrongsInfo);
 
     // Handle sword:// links by attaching click handlers that navigate to the referenced module
-    const swordUrlHandler = require('../../helpers/sword_url_handler.js');
-    swordUrlHandler.initSwordUrlLinks(this.wordStudyPanelContent[0], null);
+    const swordUrlHelper = require('../../helpers/sword_url_helper.js');
+    swordUrlHelper.initSwordUrlLinks(this.wordStudyPanelContent[0], null);
 
     uiHelper.configureButtonStyles(this.wordStudyPanelContent[0]);
 

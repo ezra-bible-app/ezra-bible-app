@@ -340,8 +340,8 @@ class CommentaryPanel {
     });
 
     // Handle sword:// links in commentary and footnote content (e.g., sword://NETmap/Map08)
-    const swordUrlHandler = require('../../helpers/sword_url_handler.js');
-    swordUrlHandler.initSwordUrlLinks(this.getBoxContent(), this._referenceBoxHelper);
+    const swordUrlHelper = require('../../helpers/sword_url_helper.js');
+    swordUrlHelper.initSwordUrlLinks(this.getBoxContent(), this._referenceBoxHelper);
 
     let accordionButtons = this.getBoxContent().querySelectorAll('.commentary-accordion-button');
 
