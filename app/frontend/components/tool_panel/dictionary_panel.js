@@ -196,9 +196,6 @@ class DictionaryPanel {
     </div>
     `;
 
-    // Use an awaitable delay so that callers can properly wait for this method to complete
-    await new Promise(resolve => setTimeout(resolve, 500));
-
     let keys = await ipcNsi.getDictModuleKeys(selectedModule);
     this._currentKeyList = keys;
 

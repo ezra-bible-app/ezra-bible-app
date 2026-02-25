@@ -130,10 +130,12 @@ module.exports.handleSwordUrl = async function(href, referenceBoxHelper) {
     await handleStrongsReference(moduleName, key);
   } else if (swordModuleHelper.isDictionaryModule(moduleInfo)) {
     await handleDictionaryReference(moduleName, key);
+  } else if (swordModuleHelper.isCommentaryModule(moduleInfo)) {
+    await handleCommentaryReference(moduleName, key);
   } else if (swordModuleHelper.isBibleModule(moduleInfo)) {
     await handleScriptureReference(key, referenceBoxHelper);
   } else {
-    // For commentary or unknown types, try opening as a dictionary entry
+    // For unknown types, try opening as a dictionary entry
     await handleDictionaryReference(moduleName, key);
   }
 };
@@ -176,6 +178,20 @@ async function handleDictionaryReference(moduleName, key) {
   await dictionaryPanel.openModuleEntry(moduleName, key);
 
   switchToPanel('dictionary-panel');
+}
+
+/**
+ * Handle navigation to a commentary module entry.
+ * Opens the entry in the Commentary Panel, switching to the correct
+ * module if necessary.
+ * @param {string} moduleName - The commentary module code
+ * @param {string} key - The entry key to open
+ */
+async function handleCommentaryReference(moduleName, key) {
+  let commentaryPanel = app_controller.commentaryPanel;
+  await commentaryPanel.openModuleEntry(moduleName, key);
+
+  switchToPanel('commentary-panel');
 }
 
 /**

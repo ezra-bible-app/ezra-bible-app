@@ -659,6 +659,91 @@ class CommentaryPanel {
 
     return commentary;
   }
+
+  /**
+   * Open a specific entry from a commentary module.
+   * This fetches the commentary content for the given reference key and
+   * renders it in the commentary panel.
+   * @param {string} moduleName - The commentary module code (e.g., 'MHC')
+   * @param {string} key - The OSIS-style reference key (e.g., 'Gen.1.1')
+   */
+  async openModuleEntry(moduleName, key) {
+    if (moduleName == null || key == null || key == '') {
+      return;
+    }
+
+    // Convert OSIS-style key (Gen.1.1) to the reference format expected by getReferenceText (Gen 1:1)
+    let reference = key.replace('.', ' ').replace('.', ':');
+
+    let moduleInfo = await ipcNsi.getLocalModule(moduleName);
+    if (moduleInfo == null) {
+      return;
+    }
+
+    let moduleReadable = true;
+    if (moduleInfo.locked) {
+      moduleReadable = await ipcNsi.isModuleReadable(moduleName);
+    }
+
+    if (!moduleReadable) {
+      return;
+    }
+
+    let commentaryEntry = await ipcNsi.getReferenceText(moduleName, reference);
+    let commentary = commentaryEntry.content;
+
+    if (commentary == null || commentary.length == 0) {
+      return;
+    }
+
+    if (platformHelper.isElectron()) {
+      commentary = this._verseBoxHelper.sanitizeHtmlCode(commentary);
+    }
+
+    let panelHeader = document.getElementById('commentary-panel-header');
+    panelHeader.innerHTML = '<b>' + moduleInfo.description + ' – ' + reference + '</b>';
+
+    this.hideHelpBox();
+
+    let commentaryHtml = `
+      <div class='sword-module commentary module-code-${moduleName.toLowerCase()}' module-context='${moduleName}'>
+        <h3>
+          <div class='commentary-name'>${moduleInfo.description}</div>
+        </h3>
+        <div class='commentary-content'>
+          ${commentary}
+        </div>
+      </div>
+    `;
+
+    this.getBoxContent().innerHTML = commentaryHtml;
+    this.getMainContent().scrollTop = 0;
+
+    this._referenceBoxHelper.hideReferenceBox();
+    this.getReferenceBox().innerHTML = '';
+
+    this.applyParagraphs();
+
+    // Handle sword:// links in the rendered commentary content
+    const swordUrlHelper = require('../../helpers/sword_url_helper.js');
+    swordUrlHelper.initSwordUrlLinks(this.getBoxContent(), this._referenceBoxHelper);
+
+    let scripRefElements = this.getBoxContent().querySelectorAll('.sword-scripref');
+    scripRefElements.forEach((scripRef) => {
+      scripRef.addEventListener('click', (event) => {
+        this._referenceBoxHelper.handleReferenceClick(event);
+      });
+    });
+
+    let referenceElements = this.getBoxContent().querySelectorAll('reference');
+    referenceElements.forEach((reference) => {
+      reference.addEventListener('click', (event) => {
+        this._referenceBoxHelper.handleReferenceClick(event);
+      });
+    });
+
+    uiHelper.configureButtonStyles(this.getBoxContent());
+  }
 }
 
 module.exports = CommentaryPanel;
