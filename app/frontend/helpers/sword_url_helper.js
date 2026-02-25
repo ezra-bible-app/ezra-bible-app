@@ -257,6 +257,22 @@ module.exports.initSwordUrlLinks = function(container, referenceBoxHelper) {
     let href = a.getAttribute('href');
 
     if (href != null && href.indexOf('sword://') != -1) {
+      // Skip links that point to the same SWORD module as the containing section
+      let parsed = parseSwordUrl(href);
+      if (parsed != null && parsed.moduleName != '') {
+        let moduleSection = a.closest('[module-context]');
+        if (moduleSection != null && moduleSection.getAttribute('module-context') === parsed.moduleName) {
+          a.style.cursor = 'default';
+          a.style.color = 'inherit';
+          a.style.textDecoration = 'none';
+          a.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+          });
+          return;
+        }
+      }
+
       a.style.cursor = 'pointer';
 
       a.addEventListener('click', (event) => {
