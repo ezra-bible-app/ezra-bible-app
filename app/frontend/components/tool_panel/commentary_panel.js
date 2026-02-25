@@ -23,6 +23,7 @@ const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
 const ReferenceBoxHelper = require('./reference_box_helper.js');
 const Mousetrap = require('mousetrap');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+const swordUrlHelper = require('../../helpers/sword_url_helper.js');
 
 /**
  * The CommentaryPanel component implements a tool panel that shows Bible commentaries for selected verses
@@ -303,13 +304,8 @@ class CommentaryPanel {
       this.hideLoadingIndicator();
     }
 
-    this.getBoxContent().innerHTML = commentaryContent;
-    this.getMainContent().scrollTop = 0;
-
-    this._referenceBoxHelper.hideReferenceBox();
-    this.getReferenceBox().innerHTML = "";
-
-    this.applyParagraphs();
+    this.renderContentInPanel(commentaryContent);
+    this.attachContentEventListeners();
 
     let moduleInfoButtons = this.getBoxContent().querySelectorAll('.module-info-button');
     moduleInfoButtons.forEach((button) => {
@@ -324,24 +320,6 @@ class CommentaryPanel {
         this.handleCopyCommentaryButtonClick(event);
       });
     });
-
-    let referenceElements = this.getBoxContent().querySelectorAll('reference');
-    referenceElements.forEach((reference) => {
-      reference.addEventListener('click', (event) => {
-        this._referenceBoxHelper.handleReferenceClick(event);
-      });
-    });
-
-    let scripRefElements = this.getBoxContent().querySelectorAll('.sword-scripref');
-    scripRefElements.forEach((scripRef) => {
-      scripRef.addEventListener('click', (event) => {
-        this._referenceBoxHelper.handleReferenceClick(event);
-      });
-    });
-
-    // Handle sword:// links in commentary and footnote content (e.g., sword://NETmap/Map08)
-    const swordUrlHelper = require('../../helpers/sword_url_helper.js');
-    swordUrlHelper.initSwordUrlLinks(this.getBoxContent(), this._referenceBoxHelper);
 
     let accordionButtons = this.getBoxContent().querySelectorAll('.commentary-accordion-button');
 
@@ -374,8 +352,6 @@ class CommentaryPanel {
         this.handleAccordionButtonClick(button);
       });
     });
-
-    uiHelper.configureButtonStyles(this.getBoxContent());
   }
 
   applyParagraphs() {
@@ -635,29 +611,81 @@ class CommentaryPanel {
 
     let kjvVerses = await ipcNsi.getBookText(targetTranslationId, bibleBookShortTitle, mappedAbsoluteVerseNumber, 1);
     let verse = kjvVerses[0];
-    let commentary = "";
 
-    if (verse != null) {
-      let reference = bibleBookShortTitle + ' ' + verse.chapter + ':' + verse.verseNr;
-      
-      const module = await ipcNsi.getLocalModule(commentaryId);
-      let moduleReadable = true;
+    if (verse == null) {
+      return '';
+    }
 
-      if (module.locked) {
-        moduleReadable = await ipcNsi.isModuleReadable(commentaryId);
-      }
+    let reference = bibleBookShortTitle + ' ' + verse.chapter + ':' + verse.verseNr;
+    return await this.fetchCommentaryEntry(commentaryId, reference);
+  }
 
-      if (moduleReadable) {
-        let commentaryEntry = await ipcNsi.getReferenceText(commentaryId, reference);
-        commentary = commentaryEntry.content;
+  /**
+   * Fetch a commentary entry for a given module and reference.
+   * Handles module readability checks and HTML sanitization.
+   * @param {string} moduleName - The commentary module code
+   * @param {string} reference - The reference string (e.g., 'Gen 1:1')
+   * @returns {Promise<string>} The commentary content HTML, or empty string if unavailable
+   */
+  async fetchCommentaryEntry(moduleName, reference) {
+    const module = await ipcNsi.getLocalModule(moduleName);
+    if (module == null) {
+      return '';
+    }
+
+    if (module.locked) {
+      let moduleReadable = await ipcNsi.isModuleReadable(moduleName);
+      if (!moduleReadable) {
+        return '';
       }
     }
+
+    let commentaryEntry = await ipcNsi.getReferenceText(moduleName, reference);
+    let commentary = commentaryEntry.content || '';
 
     if (platformHelper.isElectron()) {
       commentary = this._verseBoxHelper.sanitizeHtmlCode(commentary);
     }
 
     return commentary;
+  }
+
+  /**
+   * Render HTML content in the commentary panel and reset the panel state.
+   * @param {string} htmlContent - The HTML content to display
+   */
+  renderContentInPanel(htmlContent) {
+    this.getBoxContent().innerHTML = htmlContent;
+    this.getMainContent().scrollTop = 0;
+
+    this._referenceBoxHelper.hideReferenceBox();
+    this.getReferenceBox().innerHTML = '';
+
+    this.applyParagraphs();
+  }
+
+  /**
+   * Attach event listeners for interactive elements in the commentary panel content.
+   * This handles sword:// links, scripture references, and button styles.
+   */
+  attachContentEventListeners() {
+    swordUrlHelper.initSwordUrlLinks(this.getBoxContent(), this._referenceBoxHelper);
+
+    let referenceElements = this.getBoxContent().querySelectorAll('reference');
+    referenceElements.forEach((reference) => {
+      reference.addEventListener('click', (event) => {
+        this._referenceBoxHelper.handleReferenceClick(event);
+      });
+    });
+
+    let scripRefElements = this.getBoxContent().querySelectorAll('.sword-scripref');
+    scripRefElements.forEach((scripRef) => {
+      scripRef.addEventListener('click', (event) => {
+        this._referenceBoxHelper.handleReferenceClick(event);
+      });
+    });
+
+    uiHelper.configureButtonStyles(this.getBoxContent());
   }
 
   /**
@@ -675,29 +703,14 @@ class CommentaryPanel {
     // Convert OSIS-style key (Gen.1.1) to the reference format expected by getReferenceText (Gen 1:1)
     let reference = key.replace('.', ' ').replace('.', ':');
 
-    let moduleInfo = await ipcNsi.getLocalModule(moduleName);
-    if (moduleInfo == null) {
-      return;
-    }
-
-    let moduleReadable = true;
-    if (moduleInfo.locked) {
-      moduleReadable = await ipcNsi.isModuleReadable(moduleName);
-    }
-
-    if (!moduleReadable) {
-      return;
-    }
-
-    let commentaryEntry = await ipcNsi.getReferenceText(moduleName, reference);
-    let commentary = commentaryEntry.content;
-
+    let commentary = await this.fetchCommentaryEntry(moduleName, reference);
     if (commentary == null || commentary.length == 0) {
       return;
     }
 
-    if (platformHelper.isElectron()) {
-      commentary = this._verseBoxHelper.sanitizeHtmlCode(commentary);
+    let moduleInfo = await ipcNsi.getLocalModule(moduleName);
+    if (moduleInfo == null) {
+      return;
     }
 
     let panelHeader = document.getElementById('commentary-panel-header');
@@ -716,33 +729,8 @@ class CommentaryPanel {
       </div>
     `;
 
-    this.getBoxContent().innerHTML = commentaryHtml;
-    this.getMainContent().scrollTop = 0;
-
-    this._referenceBoxHelper.hideReferenceBox();
-    this.getReferenceBox().innerHTML = '';
-
-    this.applyParagraphs();
-
-    // Handle sword:// links in the rendered commentary content
-    const swordUrlHelper = require('../../helpers/sword_url_helper.js');
-    swordUrlHelper.initSwordUrlLinks(this.getBoxContent(), this._referenceBoxHelper);
-
-    let scripRefElements = this.getBoxContent().querySelectorAll('.sword-scripref');
-    scripRefElements.forEach((scripRef) => {
-      scripRef.addEventListener('click', (event) => {
-        this._referenceBoxHelper.handleReferenceClick(event);
-      });
-    });
-
-    let referenceElements = this.getBoxContent().querySelectorAll('reference');
-    referenceElements.forEach((reference) => {
-      reference.addEventListener('click', (event) => {
-        this._referenceBoxHelper.handleReferenceClick(event);
-      });
-    });
-
-    uiHelper.configureButtonStyles(this.getBoxContent());
+    this.renderContentInPanel(commentaryHtml);
+    this.attachContentEventListeners();
   }
 }
 
