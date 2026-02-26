@@ -221,9 +221,10 @@ class VerseBoxHelper {
     const sanitizeHtml = require('sanitize-html');
 
     htmlCode = sanitizeHtml(htmlCode, {
-      allowedTags: ['i', 'span', 'br', 'sup', 'b', 'div', 'reference'],
+      allowedTags: ['a', 'i', 'span', 'br', 'sup', 'b', 'div', 'reference'],
       /* Allow all attributes */
       allowedAttributes: false,
+      allowedSchemes: ['http', 'https', 'mailto', 'sword' ],
       allowedStyles: {
         '*': {
           // Match HEX and RGB

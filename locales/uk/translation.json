@@ -226,7 +226,8 @@
       "same-as-content": "Однаково з текстом"
     },
     "title": "Назва",
-    "tabs": "Вкладки"
+    "tabs": "Вкладки",
+    "module-not-installed": "The module '{{module_name}}' is not installed."
   },
   "data-privacy": {
     "confirm-privacy-options": "Підтвердіть налаштування конфеденційности даних",

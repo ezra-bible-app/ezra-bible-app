@@ -19,6 +19,7 @@
 const eventController = require('../../controllers/event_controller.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const ReferenceBoxHelper = require('./reference_box_helper.js');
+const swordUrlHelper = require('../../helpers/sword_url_helper.js');
 
 /**
  * The DictionaryPanel component implements a tool panel that shows dictionary entries from generic dictionaries.
@@ -94,14 +95,8 @@ class DictionaryPanel {
     return document.getElementById('dictionary-panel-reference-box');
   }
 
-  init() {
-    this.refreshDictionaries();
-
-    document.getElementById('dictionary-panel-info-button').addEventListener('click', () => {
-      const selectedModuleCode = this.getSelectElement().value;
-      app_controller.info_popup.showAppInfo(selectedModuleCode);
-    });
-
+  async init() {
+    await this.refreshDictionaries();
     this._initDone = true;
   }
 
@@ -185,6 +180,7 @@ class DictionaryPanel {
 
   async handleDictionaryChange(selectedModule) {
     this._currentDict = selectedModule;
+    this._currentKeyList = null; // Clear old keys to prevent stale data in _waitForKeyListLoaded
     await ipcSettings.set('selectedDictionary', selectedModule); // Save the selected dictionary
 
     this.closeDictEntry();
@@ -200,62 +196,60 @@ class DictionaryPanel {
     </div>
     `;
 
-    setTimeout(async () => {
-      let keys = await ipcNsi.getDictModuleKeys(selectedModule);
-      this._currentKeyList = keys;
+    let keys = await ipcNsi.getDictModuleKeys(selectedModule);
+    this._currentKeyList = keys;
 
-      let htmlList = "<ul id='dictionary-section-list' class='panel-content'>";
+    let htmlList = "<ul id='dictionary-section-list' class='panel-content'>";
 
-      if (keys.length > 0) {
-        let firstCharacter = keys[0][0];
-        let lastItemCharacter = "";
+    if (keys.length > 0) {
+      let firstCharacter = keys[0][0];
+      let lastItemCharacter = "";
 
-        // Create HTML list of dictionary keys grouped by their first character
-        for (let i = 0; i < keys.length; i++) {
-          let key = keys[i];
-          firstCharacter = key[0];
+      // Create HTML list of dictionary keys grouped by their first character
+      for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        firstCharacter = key[0];
 
-          if (firstCharacter != lastItemCharacter) {
-            if (i > 0) {
-              htmlList += '</ul></li>';
-            }
-
-            htmlList += `<li id='dict-letter-${firstCharacter.toLowerCase()}'>`;
-            htmlList += `<div class='dictionary-section-marker'>`;
-            htmlList += '<i class="fa-solid fa-circle-chevron-right dictionary-accordion-button"></i>';
-            htmlList += firstCharacter;
-            htmlList += '</div>'
-            htmlList += `<ul class='alphabetical-section hidden'>`
+        if (firstCharacter != lastItemCharacter) {
+          if (i > 0) {
+            htmlList += '</ul></li>';
           }
 
-          let currentItem = `<li class='dict-key'>${key}</li>`;
-          htmlList += currentItem;
-
-          lastItemCharacter = firstCharacter;
+          htmlList += `<li id='dict-letter-${firstCharacter.toLowerCase()}'>`;
+          htmlList += `<div class='dictionary-section-marker'>`;
+          htmlList += '<i class="fa-solid fa-circle-chevron-right dictionary-accordion-button"></i>';
+          htmlList += firstCharacter;
+          htmlList += '</div>'
+          htmlList += `<ul class='alphabetical-section hidden'>`
         }
 
-        htmlList += "</ul></li></ul>";
-      } else {
+        let currentItem = `<li class='dict-key'>${key}</li>`;
+        htmlList += currentItem;
 
-        htmlList += "</ul>";
+        lastItemCharacter = firstCharacter;
       }
 
-      this.getKeyContainer().innerHTML = htmlList;
-      this.getKeyContainer().scrollTop = 0;
+      htmlList += "</ul></li></ul>";
+    } else {
 
-      let allMarkers = this.getKeyContainer().querySelectorAll('.dictionary-section-marker');
-      let allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
+      htmlList += "</ul>";
+    }
 
-      // Add click event listeners to all section markers
-      allMarkers.forEach((marker) => {
-        marker.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          let liElement = event.target.closest('li');
-          this.handleSectionMarkerClick(liElement, allSections);
-        });
+    this.getKeyContainer().innerHTML = htmlList;
+    this.getKeyContainer().scrollTop = 0;
+
+    let allMarkers = this.getKeyContainer().querySelectorAll('.dictionary-section-marker');
+    let allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
+
+    // Add click event listeners to all section markers
+    allMarkers.forEach((marker) => {
+      marker.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        let liElement = event.target.closest('li');
+        this.handleSectionMarkerClick(liElement, allSections);
       });
-    }, 500);
+    });
   }
 
   updateSectionButton(section) {
@@ -317,7 +311,7 @@ class DictionaryPanel {
     });
   }
 
-  async handleKeyClick(key) {
+  async handleKeyClick(key, scrollIntoView=false) {
     const currentDictionary = this.getSelectElement().value;
     const keyValue = key.innerText.trim();
 
@@ -357,7 +351,14 @@ class DictionaryPanel {
 
     this._currentKey = key;
     key.classList.add('selected');
-    key.scrollIntoViewIfNeeded();
+
+    if (scrollIntoView) {
+      // Defer scrolling so it works even when the panel is not yet visible
+      // (e.g., when triggered programmatically via sword:// link before panel switch).
+      setTimeout(() => {
+        key.scrollIntoView({ block: 'center', behavior: 'instant' });
+      }, 200);
+    }
   }
 
   initReferences() {
@@ -390,24 +391,11 @@ class DictionaryPanel {
       });
     });
 
-    // Regular hyper links are used in the Vines dictionary to reference other entries.
-    // These entries can either be from the same dictionary. E.g. <a href="sword://Vines/CLOTHING">CLOTHING</a>
-    // Or they can be links to Strongs like this: <a href="sword://StrongsRealGreek/04652">4652</a>
-    let aElements = this.getContentContainer().querySelectorAll('a');
-    // Add click event listeners to all hyper links
-    aElements.forEach((a) => {
-      // Add title to Strongs links
-      if (a.getAttribute('href').includes('Strongs')) {
-        a.setAttribute('title', i18n.t('dictionary-panel.open-in-word-study'));
-      }
-
-      a.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        this.handleHyperLinkClick(event.target);
-      });
-    });
+    // Regular hyper links are used in various dictionaries to reference other entries or modules.
+    // These can be sword:// URLs like: <a href="sword://Vines/CLOTHING">CLOTHING</a>
+    // Or links to Strongs like: <a href="sword://StrongsRealGreek/04652">4652</a>
+    // Or links to maps like: <a href="sword://NETmap/Map08">Map08</a>
+    swordUrlHelper.initSwordUrlLinks(this.getContentContainer(), this._referenceBoxHelper);
 
     // <term> references are used in the Thompson Chain Topics dictionary.
     let termElements = this.getContentContainer().querySelectorAll('term');
@@ -433,41 +421,145 @@ class DictionaryPanel {
     });
   }
 
-  async handleHyperLinkClick(link) {
-    let href = link.getAttribute('href');
+  /**
+   * Open a specific entry from a dictionary module.
+   * If the module differs from the currently selected dictionary,
+   * it switches the dropdown to that module first.
+   * @param {string} moduleCode - The dictionary module code (e.g., 'NETmap', 'Vines')
+   * @param {string} key - The entry key to open
+   */
+  async openModuleEntry(moduleCode, key) {
+    if (moduleCode == null || key == null || key == '') {
+      return;
+    }
 
-    if (href != null) {
-      // Handle links like this one: <a href="sword://StrongsRealGreek/04652">4652</a>
-      if (href.includes('Strongs')) {
-        let strongsNumber = href.split('/').pop();
-        strongsNumber = strongsNumber.replace(/^0+/, ''); // Remove leading zeros
-        const isGreek = href.includes('Greek');
-        const prefix = isGreek ? 'G' : 'H';
-        const strongsKey = `${prefix}${strongsNumber}`;
+    // Ensure the panel is initialized (dropdown populated) before proceeding.
+    // This handles the case where the user clicks a sword:// link before
+    // ever opening the Dictionary Panel manually.
+    if (!this._initDone) {
+      await this.init();
+    }
 
-        await app_controller.word_study_controller._wordStudyPanel.updateWithKey(strongsKey, true);
-        this.switchToWordStudyPanel();
+    // If the target module is not the currently selected dictionary, switch to it
+    if (moduleCode != this._currentDict) {
+      let allDictModules = await ipcNsi.getAllLocalModules('DICT');
+      let targetModule = allDictModules.find(m => m.name == moduleCode);
 
-      } else {
-        // Handle all other links like this one: <a href="sword://Vines/CLOTHING">CLOTHING</a>
-        href = href.replace('sword://', '');
+      if (targetModule == null) {
+        return;
+      }
 
-        if (href.indexOf('/') != -1) {
-          let splitHref = href.split('/');
-          let module = splitHref[0];
-          let key = splitHref[1];
+      // If the module is not in the filtered list (e.g., a Strongs module), we cannot open it here.
+      // Strongs modules are handled by the Word Study Panel.
+      let hasStrongs = targetModule.hasHebrewStrongsKeys || targetModule.hasGreekStrongsKeys;
+      if (hasStrongs) {
+        return;
+      }
 
-          this.openKeyFromTextReference(module, key);
+      // Add module to select dropdown if not already present
+      let selectEl = this.getSelectElement();
+      let optionExists = false;
+
+      for (let i = 0; i < selectEl.options.length; i++) {
+        if (selectEl.options[i].value == moduleCode) {
+          optionExists = true;
+          break;
         }
+      }
+
+      if (!optionExists) {
+        // Module is installed but not yet in the dropdown (shouldn't normally happen, but handle gracefully)
+        return;
+      }
+
+      selectEl.value = moduleCode;
+      $(selectEl).selectmenu('refresh');
+      await this.handleDictionaryChange(moduleCode);
+    }
+
+    // Wait for the key list to be loaded after handleDictionaryChange
+    await this._waitForKeyListLoaded();
+
+    let entryOpened = this.openKeyFromTextReference(moduleCode, key);
+
+    // Fallback: if the standard key matching did not find the entry,
+    // try a direct DOM-based lookup with case-insensitive matching.
+    if (!entryOpened) {
+      let dictKeyElement = this._findKeyElementFuzzy(key);
+
+      if (dictKeyElement != null) {
+        const allSections = this.getKeyContainer().querySelectorAll('.alphabetical-section');
+        let letterSectionLi = dictKeyElement.parentNode.parentNode;
+        let sectionId = this.getSectionIdFromDictKeyElement(dictKeyElement);
+
+        if (sectionId != this._currentSectionId) {
+          this.handleSectionMarkerClick(letterSectionLi, allSections);
+        }
+
+        await this.handleKeyClick(dictKeyElement, true);
       }
     }
   }
 
-  switchToWordStudyPanel() {
-    const panelButtons = document.querySelector('panel-buttons');
-    if (panelButtons) {
-      panelButtons._updatePanels('word-study-panel', false);
+  /**
+   * Wait until the current key list has been loaded after a dictionary change.
+   * handleDictionaryChange loads keys asynchronously with a 500ms setTimeout.
+   * @returns {Promise} Resolves when key list is available
+   */
+  _waitForKeyListLoaded() {
+    return new Promise((resolve) => {
+      if (this._currentKeyList && this._currentKeyList.length > 0) {
+        resolve();
+        return;
+      }
+
+      let attempts = 0;
+      let interval = setInterval(() => {
+        attempts++;
+        if ((this._currentKeyList && this._currentKeyList.length > 0) || attempts > 20) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 200);
+    });
+  }
+
+  /**
+   * Find a dictionary key DOM element using case-insensitive and partial matching.
+   * Used as a fallback when the standard key matching in openKeyFromTextReference fails.
+   * @param {string} key - The key to search for
+   * @returns {HTMLElement|null} The matching DOM element, or null if not found
+   */
+  _findKeyElementFuzzy(key) {
+    if (key == null || key == '') {
+      return null;
     }
+
+    let allDictKeys = this.getKeyContainer().querySelectorAll('.dict-key');
+    let lowerKey = key.toLowerCase();
+
+    // Try exact match first
+    for (let i = 0; i < allDictKeys.length; i++) {
+      if (allDictKeys[i].innerText.trim() == key) {
+        return allDictKeys[i];
+      }
+    }
+
+    // Try case-insensitive exact match
+    for (let i = 0; i < allDictKeys.length; i++) {
+      if (allDictKeys[i].innerText.trim().toLowerCase() == lowerKey) {
+        return allDictKeys[i];
+      }
+    }
+
+    // Try case-insensitive starts-with match
+    for (let i = 0; i < allDictKeys.length; i++) {
+      if (allDictKeys[i].innerText.trim().toLowerCase().startsWith(lowerKey)) {
+        return allDictKeys[i];
+      }
+    }
+
+    return null;
   }
 
   openKeyFromTextReference(module, key) {
@@ -506,6 +598,11 @@ class DictionaryPanel {
 
         if (keyValue == key || keyValue.startsWith(key) || cleanedKeys.includes(key)) {
           let dictKeyElement = this.getDictKeyElementFromKeyString(keyValue);
+
+          if (dictKeyElement == null) {
+            continue;
+          }
+
           let sectionId = this.getSectionIdFromDictKeyElement(dictKeyElement);
           let letterSectionLi = dictKeyElement.parentNode.parentNode;
 
@@ -513,11 +610,13 @@ class DictionaryPanel {
             this.handleSectionMarkerClick(letterSectionLi, allSections);
           }
 
-          this.handleKeyClick(dictKeyElement);
-          break;
+          this.handleKeyClick(dictKeyElement, true);
+          return true;
         }
       }
     }
+
+    return false;
   }
 
   getDictKeyElementFromKeyString(keyString) {

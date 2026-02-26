@@ -228,7 +228,8 @@
       "same-as-content": "Как в тексте"
     },
     "title": "Заголовок",
-    "tabs": "Вкладки"
+    "tabs": "Вкладки",
+    "module-not-installed": "The module '{{module_name}}' is not installed."
   },
   "data-privacy": {
     "confirm-privacy-options": "Подтвердить настройки конфиденциальности данных",

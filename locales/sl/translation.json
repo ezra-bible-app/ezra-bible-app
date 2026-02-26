@@ -226,7 +226,8 @@
       "same-as-content": "Isto kot vsebina"
     },
     "title": "Naslov",
-    "tabs": "Zavihki"
+    "tabs": "Zavihki",
+    "module-not-installed": "The module '{{module_name}}' is not installed."
   },
   "data-privacy": {
     "confirm-privacy-options": "Potrdite možnosti zasebnosti podatkov",
