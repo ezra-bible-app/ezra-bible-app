@@ -1,21 +1,21 @@
 # Ezra Bible App LOC Metrics
 Language|files|blank|comment|code
 :-------|-------:|-------:|-------:|-------:
-JavaScript|195|8424|4824|30375
-JSON|18|16|0|6110
-CSS|18|1079|533|5440
-C++|19|936|474|3508
-Markdown|10|779|0|2109
-HTML|9|172|29|918
-C/C++ Header|21|332|282|852
-Pug|1|51|11|248
-Bourne Shell|15|64|96|239
+JavaScript|200|8962|5335|32698
+JSON|18|16|0|6621
+CSS|17|1074|517|5454
+C++|18|957|455|3672
+Markdown|10|803|0|2204
+HTML|9|177|29|956
+C/C++ Header|21|334|283|879
+Bourne Shell|17|96|131|347
+Pug|1|51|11|245
 DOS Batch|3|0|4|13
 XML|1|0|0|10
 PowerShell|1|2|6|7
 --------|--------|--------|--------|--------
-SUM:|311|11855|6259|49829
+SUM:|316|12472|6771|53106
 
 The above metrics include both the frontend (mostly JavaScript) and the [backend](https://github.com/ezra-bible-app/node-sword-interface) (mostly C++).
 
-Generated on Fri Dec 12 05:32:58 PM CET 2025 using [cloc](https://github.com/AlDanial/cloc).
+Generated on Fr 27. Feb 21:13:11 CET 2026 using [cloc](https://github.com/AlDanial/cloc).
