@@ -1,6 +1,65 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.19.0 - 2026-03-28]
+
+### Features
+
+* iOS and iPadOS support. ([#1314][i1314])
+* Support SWORD module image handling. ([#1295][i1295])
+* Support custom Dropbox module repository and Dropbox-based zip installations. ([#1297][i1297])
+* Visualize footnotes on mobile version. ([#850][i850])
+
+### Enhancements
+
+* Make list of shown commentaries configurable for commentary side panel. ([#1043][i1043])
+* Implement RTF Filtering for module "About" text. ([#1294][i1294])
+* Sort modules in install assistant by description instead of by code. ([#1323][i1323])
+* Optimize book selection menu for tablets in portrait orientation. ([#1305][i1305])
+* Optimize default settings on mobile, considering there are now tabs available. ([#1309][i1309])
+* Close side panel when opening new tab in portrait mode on mobile/tablet. ([#1310][i1310])
+* Scroll selected verse into view again after it disappeared due to screen keyboard or panel popup on mobile/tablet. ([#1311][i1311])
+
+### Fixes
+
+* Cross-references from dictionary panel do not work when current Bible translation does not resolve the cross-reference. ([#1289][i1289])
+* Issue when searching multiple words. ([#1290][i1290])
+* Dropbox setup triggers re-loading of tab even if tab has no content. ([#1292][i1292])
+* Odd behavior with book being opened at verse 2 instead of verse 1. ([#1298][i1298])
+* Odd display of xrefs in commentary window. ([#1300][i1300])
+* Fullscreen mode of notes not properly working. ([#1307][i1307])
+* Module name collision problem. ([#1321][i1321])
+* Display ordering problem of pre-book and pre-chapter content. ([node-sword-interface#88][nsi88])
+* Text rendering glitch with paragraph breaks. ([node-sword-interface#87][nsi87])
+
+### Enablers
+
+* Enhance macOS build scripts to support x64 and arm64 architectures. ([#1304][i1304])
+* Set up Copilot instructions. ([#1317][i1317])
+
+[i850]: https://github.com/ezra-bible-app/ezra-bible-app/issues/850
+[i1043]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1043
+[i1289]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1289
+[i1290]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1290
+[i1292]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1292
+[i1294]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1294
+[i1295]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1295
+[i1297]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1297
+[i1298]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1298
+[i1300]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1300
+[i1304]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1304
+[i1305]: https://github.com/ezra-bible-app/ezra-bible-app/pull/1305
+[i1307]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1307
+[i1309]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1309
+[i1310]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1310
+[i1311]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1311
+[i1314]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1314
+[i1317]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1317
+[i1321]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1321
+[i1323]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1323
+[nsi87]: https://github.com/ezra-bible-app/node-sword-interface/issues/87
+[nsi88]: https://github.com/ezra-bible-app/node-sword-interface/issues/88
+
 ## [1.18.0 - 2025-12-20]
 
 ### Features
