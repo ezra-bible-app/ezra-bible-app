@@ -62,15 +62,15 @@
     "installation": "Installation",
     "removal": "Entfernen",
     "update-data": { 
-      "repo-data-last-updated": "Internetarchivdaten wurden zuletzt am {{date}} aktualisiert.",
+      "repo-data-last-updated": "Modularchivdaten wurden zuletzt am {{date}} aktualisiert.",
       "update-now": "Jetzt aktualisieren",
-      "updating-repository-data": "Aktualisiere Internetarchivdaten! Das dauert ein paar Sekunden ...",
+      "updating-repository-data": "Aktualisiere Modularchivdaten! Das dauert ein paar Sekunden ...",
       "update-failed": "Aktualisierung fehlgeschlagen",
-      "update-repository-data-failed": "Aktualisieren der Internetarchivdaten fehlgeschlagen. Sind Sie offline?"
+      "update-repository-data-failed": "Aktualisieren der Modularchivdaten fehlgeschlagen. Sind Sie offline?"
     },
     "step-languages": {  
       "select-language": "Bitte wählen Sie mindestens eine der folgenden Sprachen.",
-      "total-modules-language": "Neben der Sprache wird die in den SWORD Internetarchiven verfügbare Anzahl von {{module_type}} angezeigt.",
+      "total-modules-language": "Neben der Sprache wird die in den SWORD Modularchiven verfügbare Anzahl von {{module_type}} angezeigt.",
       "loading-languages": "Lade Sprachen ...",
       "app-system-languages": "Existierende Sprachen und Systemsprachen",
       "bible-languages": "Sprachen der Bibel",
@@ -80,12 +80,12 @@
       "language-search-results": "Ergebnisse gefunden"
     },
     "step-repositories": {
-      "select-repository": "Wählen Sie mindestens eines der folgenden SWORD Internetarchive.",
-      "total-modules-repo": "Neben jedem Internetarchiv wird die Anzahl der verfügbaren {{module_type}} angezeigt.",
-      "what-is-repository": "Ein Internetarchiv ist ein Speicherplatz im Internet, der einen Satz von {{module_type, dative}} enthält.",
-      "loading-repositories": "Lade Internetarchive ...",
-      "repo-recommended": "Dieses Internetarchiv ist für den Anfang gut geeignet",
-      "more-repo-information-needed": "Sie benötigen weitere Informationen zu diesen Internetarchiven?<br/>Werfen Sie einen Blick auf das <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (Englisch)."
+      "select-repository": "Wählen Sie mindestens eines der folgenden SWORD Modularchive.",
+      "total-modules-repo": "Neben jedem Modularchiv wird die Anzahl der verfügbaren {{module_type}} angezeigt.",
+      "what-is-repository": "Ein Modularchiv ist ein Speicherplatz im Internet, der einen Satz von {{module_type, dative}} enthält.",
+      "loading-repositories": "Lade Modularchive ...",
+      "repo-recommended": "Dieses Modularchiv ist für den Anfang gut geeignet",
+      "more-repo-information-needed": "Sie benötigen weitere Informationen zu diesen Modularchiven?<br/>Werfen Sie einen Blick auf das <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (Englisch)."
     },
     "step-modules": {  
       "select-module": "Bitte wählen Sie {{module_type}} zur Installation.",
@@ -96,9 +96,9 @@
       "module-already-installed": "{{module_type, singular}} ist bereits installiert",
       "show-module-info":"Informationen zeigen",
       "show-detailed-module-info": "Klicken Sie auf das Informationssymbol um mehr Informationen zu {{module_type, singular-dative}} anzuzeigen.",
-      "duplicate-module-title": "Module already selected",
-      "duplicate-module-message": "The module {{moduleId}} is already selected from repository {{repository}}. Please deselect it first if you want to install from a different repository.",
-      "already-installed-message": "The module {{moduleId}} is already installed from repository {{repository}}. Please uninstall it first if you want to install from a different repository."
+      "duplicate-module-title": "Modul bereits ausgewählt",
+      "duplicate-module-message": "Das Modul {{moduleId}} ist bereits aus dem Modularchiv {{repository}} ausgewählt. Bitte deselektieren Sie es zuerst, wenn Sie es aus einem anderen Modularchiv installieren möchten.",
+      "already-installed-message": "Das Modul {{moduleId}} ist bereits aus dem Modularchiv {{repository}} installiert. Bitte deinstallieren Sie es zuerst, wenn Sie es aus einem anderen Modularchiv installieren möchten."
     },
     "step-install": {
       "installing-modules": "Installiere ausgewählte {{module_type, accusative}}",
@@ -165,13 +165,14 @@
     "next": "Weiter",
     "previous": "Zurück",
     "finish": "Beenden",
+    "install": "Installieren",
     "back": "Zurück",
     "save": "Speichern",
     "cancel": "Abbrechen",
     "rename": "Umbenennen",
     "loading": "Lade",
     "update": "Aktualisieren",
-    "warning": "Warning",
+    "warning": "Warnung",
     "new-release-available-title": "Neues Release verfügbar!",
     "new-release-available-body": "Ein neues Release von Ezra Bible App ist verfügbar!",
     "latest-version": "Neueste Version",
@@ -223,7 +224,7 @@
     },
     "title": "Titel",
     "tabs": "Tabs",
-    "module-not-installed": "The module '{{module_name}}' is not installed."
+    "module-not-installed": "Das Modul '{{module_name}}' ist nicht installiert."
   },
   "data-privacy": {
     "confirm-privacy-options": "Datenschutzoptionen bestätigen",
@@ -367,7 +368,7 @@
     "red-letters": "Jesu Worte in rot hervorheben",
     "show-dictionary": "Wörterbuch zeigen",
     "show-wordstudy": "Wortstudium zeigen",
-    "show-chapter-headings": "Show chapter headings",
+    "show-chapter-headings": "Zeige Kapitelüberschriften",
     "show-book-chapter-navigation": "Zeige Buch/Kapitelnavigation",
     "show-header-navigation": "Zeige Überschriftennavigator",
     "show-tab-search": "Zeige Suche für aktuelles Tab",
@@ -415,7 +416,7 @@
       "moved" : "Diese Worte waren im ursprünglichen Text an einer anderen Stelle",
       "tense-change": "Die grammatikalische Zeit dieser Worte wurde im Rahmen der Übersetzung geändert"
     },
-    "empty-tab-title": "Empty tab"
+    "empty-tab-title": "Leerer Tab"
   },
   "word-study-panel": {
     "greek-dict": "Griechisches Wortstudium",
@@ -430,17 +431,17 @@
     "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's",
-    "copy-to-clipboard": "Copy word study to clipboard",
-    "copy-to-clipboard-success": "Word study copied to clipboard!",
-    "copy-dict-entry-to-clipboard": "Copy dictionary entry to clipboard",
-    "copy-dict-entry-to-clipboard-success": "Dictionary entry copied to clipboard!"
+    "copy-to-clipboard": "Wortstudium in Zwischenablage kopieren",
+    "copy-to-clipboard-success": "Wortstudium in Zwischenablage kopiert!",
+    "copy-dict-entry-to-clipboard": "Wörterbucheintrag in Zwischenablage kopieren",
+    "copy-dict-entry-to-clipboard-success": "Wörterbucheintrag in Zwischenablage kopiert!"
   },
   "dictionary-panel": {
     "default-header": "<b>Wörterbuch</b>",
     "help-no-dicts": "Es sind keine Wörterbücher verfügbar.",
     "open-in-word-study": "Im Wortstudium öffnen",
     "filter-placeholder": "Filter...",
-    "warning-cross-reference-not-found": "Cross-reference not found in the current Bible translation! Try switching to another Bible translation."
+    "warning-cross-reference-not-found": "Parallelstelle in der aktuellen Bibelübersetzung nicht gefunden! Versuchen Sie eine andere Bibelübersetzung."
   },
   "tag-statistics-panel": {
     "default-header": "Tag Statistiken",
@@ -459,16 +460,16 @@
     "default-header": "<b>Bibelkommentare</b>",
     "commentaries-for": "Kommentare für",
     "show-commentaries": "Bibelkommentare zeigen",
-    "configure-commentaries": "Configure commentaries",
-    "select-which-commentaries-to-display": "Select which commentaries to display in the commentary panel:",
+    "configure-commentaries": "Bibelkommentare konfigurieren",
+    "select-which-commentaries-to-display": "Wählen Sie aus, welche Bibelkommentare im Kommentarbereich angezeigt werden sollen:",
     "copy-commentary-to-clipboard": "Bibelkommentar in Zwischenablage kopieren",
     "copy-commentary-to-clipboard-success": "Bibelkommentar in Zwischenablage kopiert!",
     "help-instruction": "Um Bibelkommentare zu zeigen wählen Sie einen Vers aus.<br><br> Dieser Bereich wird dann automatisch alle verfügbaren Bibelkommentare anzeigen.",
     "help-instruction-no-commentaries": "Sie haben bisher keine Bibelkommentare installiert. Sie müssen mindestens einen Bibelkommentar installieren damit dieser Teil des Programms funktioniert.",
-    "help-instruction-no-kjv": "Die KJV Übersetzung wurde nocht nicht installiert. Die KJV Übersetzung wird benötigt um Bibelkommentare basierend auf englischer Verszählung korrekt anzuzeigen. Sie können das tun indem Sie:<ul><li>Die KJV aus dem CrossWire Repository installieren.</li><li>Einen Bibelkommentar installieren (Die KJV wird dann automatisch installiert).</li></ul>",
+    "help-instruction-no-kjv": "Die KJV Übersetzung wurde nocht nicht installiert. Die KJV Übersetzung wird benötigt um Bibelkommentare basierend auf englischer Verszählung korrekt anzuzeigen. Sie können das tun indem Sie:<ul><li>Die KJV aus dem CrossWire Modularchiv installieren.</li><li>Einen Bibelkommentar installieren (Die KJV wird dann automatisch installiert).</li></ul>",
     "no-commentaries-available-for-this-verse": "Es sind keine Bibelkommentare für diesen Vers verfügbar.",
     "copy-button": "Bibelkommentar kopieren",
-    "footnotes": "Footnotes"
+    "footnotes": "Fußnoten"
   },
   "emoji": {
     "search": "Durchsuche Emojis...",
@@ -501,8 +502,8 @@
     "waiting-app-ready": "Schließe Ladevorgang ab"
   },
   "dropbox": {
-    "setup-dropbox": "Setup Dropbox",
-    "dropbox-sync-explanation-part1": "Dropbox can be used to synchronize your Ezra&nbsp;Bible&nbsp;App database across multiple devices. Also, you can setup a custom module repository.",
+    "setup-dropbox": "Dropbox einrichten",
+    "dropbox-sync-explanation-part1": "Dropbox kann verwendet werden, um Ihre Ezra&nbsp;Bible&nbsp;App Datenbank über mehrere Geräte zu synchronisieren. Außerdem können Sie ein benutzerdefiniertes Modularchiv einrichten.",
     "dropbox-sync-explanation-part2": "Die Datenbank wird bei folgenden Ereignissen synchronisiert:",
     "dropbox-sync-explanation-part3a": "Nachdem das Dropbox Konto zum Ersten mal verbunden wurde.",
     "dropbox-sync-explanation-part3b": "Nach Start der Applikation oder bei Reaktivierung.",
@@ -519,19 +520,19 @@
     "database-sync": "Database sync (Startup/Shutdown)",
     "only-sync-on-wifi": "Nur bei WLAN Verbindung synchronisieren",
     "sync-after-changes": "Datenbank nach Änderungen synchronisieren",
-    "use-custom-module-repo": "Verwende benutzerdefiniertes Modul-Repository",
-    "custom-module-repo-folder": "Benutzerdefiniertes Modul-Repository Verzeichnis",
+    "use-custom-module-repo": "Verwende benutzerdefiniertes Modularchiv",
+    "custom-module-repo-folder": "Benutzerdefiniertes Modularchiv Verzeichnis",
     "validate-repo": "Validieren",
-    "validating-repo": "Repository wird validiert...",
-    "repo-validation-success": "Repository-Struktur ist gültig",
+    "validating-repo": "Modularchiv wird validiert...",
+    "repo-validation-success": "Modularchiv-Struktur ist gültig",
     "repo-validation-error-not-linked": "Dropbox-Konto nicht verknüpft",
-    "repo-validation-error-empty-path": "Pfad zum benutzerdefinierten Modul-Repository ist leer",
-    "repo-validation-error-not-a-folder": "Repository-Pfad ist kein Ordner",
-    "repo-validation-error-not-found": "Repository-Ordner nicht gefunden",
+    "repo-validation-error-empty-path": "Pfad zum benutzerdefinierten Modularchiv ist leer",
+    "repo-validation-error-not-a-folder": "Modularchiv-Pfad ist kein Ordner",
+    "repo-validation-error-not-found": "Modularchiv-Ordner nicht gefunden",
     "repo-validation-error-index-not-found": "Index-Datei mods.d.tar.gz nicht gefunden",
     "repo-validation-error-packages-not-a-folder": "packages ist kein Ordner",
-    "repo-validation-error-packages-not-found": "packages-Ordner nicht gefunden",
-    "repo-validation-error-packages-empty": "packages-Ordner ist leer",
+    "repo-validation-error-packages-not-found": "packages Ordner nicht gefunden",
+    "repo-validation-error-packages-empty": "packages Ordner ist leer",
     "repo-validation-error-unknown": "Validierung fehlgeschlagen: {{error}}",
     "dropbox-sync-info": "Informationen zur Dropbox Synchronisation",
     "last-dropbox-sync-time": "Zuletzt synchronisiert",
@@ -549,21 +550,21 @@
     "access-method-message-part5": "Sie müssen jetzt folgende Schritte vornehmen:",
     "access-method-message-part6": "Konfigurieren Sie die Dropbox Verbindung erneut.",
     "access-method-message-part7": "Aktualisieren Sie Ezra Bible App auf allen Ihren Geräten, um sicherzustellen dass die Synchronisation auf allen Geräten einheitlich funktioniert.",
-    "install-from-zip": "Install modules from Dropbox",
-    "install-from-zip-explanation": "Select one or more module zip files from your Dropbox to install:",
-    "loading-zip-files": "Loading zip files from Dropbox...",
-    "error-loading-files": "Error loading files from Dropbox",
-    "no-zip-files-found": "No zip files found in Dropbox",
-    "validating-modules": "Validating modules...",
-    "installing-modules": "Installing modules...",
-    "validation-failed": "Invalid module structure",
-    "module-already-installed": "Already installed",
-    "ready-to-install": "Ready to install",
-    "installation-complete": "Installation complete",
-    "modules-installed": "{{count}} module(s) installed successfully",
-    "modules-skipped": "{{count}} module(s) skipped (already installed)",
-    "modules-failed": "{{count}} module(s) failed to install",
-    "install-summary": "Installation Summary",
-    "dropbox-not-linked": "Dropbox account is not linked. Please setup Dropbox first."
+    "install-from-zip": "Module aus Dropbox installieren",
+    "install-from-zip-explanation": "Wählen Sie eine oder mehrere Modul-ZIP-Dateien aus Ihrer Dropbox zur Installation:",
+    "loading-zip-files": "Lade ZIP-Dateien aus Dropbox...",
+    "error-loading-files": "Fehler beim Laden der Dateien aus Dropbox",
+    "no-zip-files-found": "Keine ZIP-Dateien in Dropbox gefunden",
+    "validating-modules": "Validiere Module...",
+    "installing-modules": "Installiere Module...",
+    "validation-failed": "Ungültige Modulstruktur",
+    "module-already-installed": "Bereits installiert",
+    "ready-to-install": "Bereit zur Installation",
+    "installation-complete": "Installation abgeschlossen",
+    "modules-installed": "{{count}} Modul(e) erfolgreich installiert",
+    "modules-skipped": "{{count}} Modul(e) übersprungen (bereits installiert)",
+    "modules-failed": "{{count}} Modul(e) konnten nicht installiert werden",
+    "install-summary": "Installationsübersicht",
+    "dropbox-not-linked": "Dropbox-Konto ist nicht verknüpft. Bitte richten Sie zuerst Dropbox ein."
   }
 }
