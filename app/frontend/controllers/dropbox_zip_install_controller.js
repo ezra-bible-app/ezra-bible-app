@@ -290,7 +290,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
           }
         } else if (result.alreadyInstalled) {
           skippedCount++;
-          statusCell.innerHTML = '<span style="color: #888;">⊘ Already installed</span>';
+          statusCell.innerHTML = `<span style="color: #888;">⊘ ${i18n.t('dropbox.module-already-installed')}</span>`;
         } else {
           failedCount++;
           const errorMsg = result.error || 'Unknown error';
@@ -306,7 +306,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
       summaryRow.style.borderTop = '2px solid #ccc';
       summaryRow.style.fontWeight = 'bold';
       summaryRow.innerHTML = `
-        <td style="padding: 1em 0.5em;">Summary</td>
+        <td style="padding: 1em 0.5em;">${i18n.t('dropbox.install-summary')}</td>
         <td style="padding: 1em 0.5em;">
           <div style="font-size: 0.9em;">
             ${successCount > 0 ? `<div style="color: green;">${successCount} installed</div>` : ''}
