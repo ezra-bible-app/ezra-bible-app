@@ -376,10 +376,10 @@
     "red-letters": "Слова Иисуса - красным",
     "show-dictionary": "Словарь",
     "show-wordstudy": "Изучение слов",
-    "show-chapter-headings": "Показывать заголовки глав",
+    "show-chapter-headings": "Заголовки глав",
     "show-book-chapter-navigation": "Навигация по главам",
     "show-header-navigation": "Навигация по заголовкам",
-    "show-tab-search": "Показать форму поиска по текущей вкладке",
+    "show-tab-search": "Поиск по текущей вкладке",
     "open-verse-lists-in-new-tab": "Списки стихов в новой вкладке",
     "open-in-new-tab": "Открыть в новой вкладке",
     "show-search-results-in-popup": "Показывать результаты поиска в модульном окне",
@@ -510,7 +510,7 @@
     "waiting-app-ready": "Ожидание готовности приложения"
   },
   "dropbox": {
-    "setup-dropbox": "Setup Dropbox",
+    "setup-dropbox": "Настройки Dropbox",
     "dropbox-sync-explanation-part1": "Dropbox можно использовать для синхронизации базы данных Ezra&nbsp;Bible&nbsp;App на нескольких устройствах. Также вы можете настроить пользовательский репозиторий модулей.",
     "dropbox-sync-explanation-part2": "База данных будет синхронизиpованна в следующих случаях:",
     "dropbox-sync-explanation-part3a": "После привязки аккаунта Dropbox первый раз.",
@@ -569,9 +569,9 @@
     "module-already-installed": "Уже установлен",
     "ready-to-install": "Готово к установке",
     "installation-complete": "Установка завершена",
-    "modules-installed": "Успешно установлено модулей: {{count}}",
-    "modules-skipped": "Пропущено модулей (уже установлены): {{count}}",
-    "modules-failed": "Не удалось установить модулей: {{count}}",
+    "modules-installed": "{{count}} модулей успешно установлено",
+    "modules-skipped": "{{count}} модулей пропущено (уже установлены)",
+    "modules-failed": "{{count}} модулей не удалось установить",
     "install-summary": "Итоги установки",
     "dropbox-not-linked": "Аккаунт Dropbox не связан. Сначала настройте Dropbox."
   }
