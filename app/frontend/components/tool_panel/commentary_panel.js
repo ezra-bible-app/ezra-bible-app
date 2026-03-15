@@ -602,21 +602,21 @@ class CommentaryPanel {
     }
 
     const sourceTranslationId = tab.getBibleTranslationId();
-    // TODO: Determine targetTranslationId based on language of commentary
-    let targetTranslationId = 'KJV';
 
     let referenceVerseBox = new VerseBox(verseBox[0]);
     let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    let mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceTranslationId, targetTranslationId);
+    let chapter = referenceVerseBox.getChapter();
+    let verseNumber = referenceVerseBox.getVerseNumber();
 
-    let kjvVerses = await ipcNsi.getBookText(targetTranslationId, bibleBookShortTitle, mappedAbsoluteVerseNumber, 1);
-    let verse = kjvVerses[0];
+    let sourceOsisRef = bibleBookShortTitle + '.' + chapter + '.' + verseNumber;
+    let mappedOsisRef = await ipcNsi.mapVerseReference(sourceOsisRef, sourceTranslationId, commentaryId);
 
-    if (verse == null) {
+    if (mappedOsisRef == null || mappedOsisRef == '') {
       return '';
     }
 
-    let reference = bibleBookShortTitle + ' ' + verse.chapter + ':' + verse.verseNr;
+    // Convert OSIS-style reference (Gen.1.1) to the format expected by getReferenceText (Gen 1:1)
+    let reference = mappedOsisRef.replace('.', ' ').replace('.', ':');
     return await this.fetchCommentaryEntry(commentaryId, reference);
   }
 
