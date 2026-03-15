@@ -29,6 +29,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Odd display of xrefs in commentary window. ([#1300][i1300])
 * Fullscreen mode of notes not properly working. ([#1307][i1307])
 * Module name collision problem. ([#1321][i1321])
+* Remove Chromium version in App info dialogue (just on iOS). ([#1324][i1324])
 * Display ordering problem of pre-book and pre-chapter content. ([node-sword-interface#88][nsi88])
 * Text rendering glitch with paragraph breaks. ([node-sword-interface#87][nsi87])
 
@@ -57,6 +58,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1317]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1317
 [i1321]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1321
 [i1323]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1323
+[i1324]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1324
 [nsi87]: https://github.com/ezra-bible-app/node-sword-interface/issues/87
 [nsi88]: https://github.com/ezra-bible-app/node-sword-interface/issues/88
 
