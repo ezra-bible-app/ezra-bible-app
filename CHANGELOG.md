@@ -32,6 +32,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Remove Chromium version in App info dialogue (just on iOS). ([#1324][i1324])
 * Display ordering problem of pre-book and pre-chapter content. ([node-sword-interface#88][nsi88])
 * Text rendering glitch with paragraph breaks. ([node-sword-interface#87][nsi87])
+* Commentary mis-aligned with highlighted verse (versification issue). ([#1348][i1348])
 
 ### Enablers
 
@@ -59,6 +60,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1321]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1321
 [i1323]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1323
 [i1324]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1324
+[i1348]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1348
 [nsi87]: https://github.com/ezra-bible-app/node-sword-interface/issues/87
 [nsi88]: https://github.com/ezra-bible-app/node-sword-interface/issues/88
 
