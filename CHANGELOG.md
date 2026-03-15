@@ -19,6 +19,8 @@ All notable changes to Ezra Bible App are documented in this file.
 * Optimize default settings on mobile, considering there are now tabs available. ([#1309][i1309])
 * Close side panel when opening new tab in portrait mode on mobile/tablet. ([#1310][i1310])
 * Scroll selected verse into view again after it disappeared due to screen keyboard or panel popup on mobile/tablet. ([#1311][i1311])
+* Make text in word study panel selectable/copyable. ([#1334][i1334])
+* Handle sword:// URLs in Commentary / Dictionary Panel. ([#1332][i1332])
 
 ### Fixes
 
@@ -60,6 +62,8 @@ All notable changes to Ezra Bible App are documented in this file.
 [i1321]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1321
 [i1323]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1323
 [i1324]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1324
+[i1332]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1332
+[i1334]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1334
 [i1348]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1348
 [nsi87]: https://github.com/ezra-bible-app/node-sword-interface/issues/87
 [nsi88]: https://github.com/ezra-bible-app/node-sword-interface/issues/88
