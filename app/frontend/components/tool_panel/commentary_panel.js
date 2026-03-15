@@ -24,6 +24,7 @@ const ReferenceBoxHelper = require('./reference_box_helper.js');
 const Mousetrap = require('mousetrap');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const swordUrlHelper = require('../../helpers/sword_url_helper.js');
+const i18nHelper = require('../../helpers/i18n_helper.js');
 
 /**
  * The CommentaryPanel component implements a tool panel that shows Bible commentaries for selected verses
@@ -602,11 +603,12 @@ class CommentaryPanel {
     }
 
     const sourceTranslationId = tab.getBibleTranslationId();
+    const moduleReferenceSeparator = await i18nHelper.getReferenceSeparator(sourceTranslationId);
 
     let referenceVerseBox = new VerseBox(verseBox[0]);
     let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    let chapter = referenceVerseBox.getChapter();
-    let verseNumber = referenceVerseBox.getVerseNumber();
+    let chapter = referenceVerseBox.getChapter(moduleReferenceSeparator);
+    let verseNumber = referenceVerseBox.getVerseNumber(moduleReferenceSeparator);
 
     let sourceOsisRef = bibleBookShortTitle + '.' + chapter + '.' + verseNumber;
     let mappedOsisRef = await ipcNsi.mapVerseReference(sourceOsisRef, sourceTranslationId, commentaryId);
