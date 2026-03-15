@@ -177,6 +177,11 @@ class IpcNsi {
     return returnValue;
   }
 
+  async mapVerseReference(sourceOsisRef, sourceModuleName, targetModuleName, allowRange=false) {
+    var returnValue = this._ipcRenderer.call('nsi_mapVerseReference', sourceOsisRef, sourceModuleName, targetModuleName, allowRange);
+    return returnValue;
+  }
+
   async getChapterText(moduleCode, bookCode, chapter) {
     var returnValue = this._ipcRenderer.call('nsi_getChapterText', moduleCode, bookCode, chapter);
     return returnValue;

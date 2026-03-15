@@ -383,6 +383,10 @@ class IpcNsiHandler {
       return this._nsi.getReferenceText(moduleCode, key);
     });
 
+    this._ipcMain.add('nsi_mapVerseReference', (sourceOsisRef, sourceModuleName, targetModuleName, allowRange=false) => {
+      return this._nsi.mapVerseReference(sourceOsisRef, sourceModuleName, targetModuleName, allowRange);
+    });
+
     this._ipcMain.add('nsi_getChapterText', (moduleCode, bookCode, chapter) => {
       return this._nsi.getChapterText(moduleCode, bookCode, chapter);
     });
