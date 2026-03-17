@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -62,9 +62,12 @@ class StepRemove extends HTMLElement {
     assistantController.setInstallInProgress();
 
     const selectedModules = assistantController.get('selectedModules');
+
     setTimeout(async () => {
-      for (const currentModule of selectedModules) {
-        await this._uninstallModule(currentModule);
+      let moduleCodes = Array.from(selectedModules.keys());
+
+      for (const moduleCode of moduleCodes) {
+        await this._uninstallModule(moduleCode);
       }
 
       assistantController.setInstallDone();
@@ -75,7 +78,7 @@ class StepRemove extends HTMLElement {
   async _uninstallModule(moduleCode) {
     var localModule = await ipcNsi.getLocalModule(moduleCode, true);
 
-    this._appendRemovalInfo(localModule.description);
+    this._appendRemovalInfo(`${localModule.description} [${moduleCode}]`);
 
     if (window.Sentry != null) {
       Sentry.addBreadcrumb({
@@ -95,7 +98,7 @@ class StepRemove extends HTMLElement {
 
       if (modules.length > 0) {
         if (currentBibleTranslationId == moduleCode) {
-          await eventController.publishAsync('on-translation1-changed', {from: currentBibleTranslationId, to: modules[0]});
+          await eventController.publishAsync('on-translation1-changed', {from: currentBibleTranslationId, to: modules[0].name});
         }
       } else {
         await eventController.publishAsync('on-all-translations-removed');

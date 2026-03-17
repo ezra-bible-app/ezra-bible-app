@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ div.CodeMirror {
   border-radius: 4px;
 }
 
-.Android .verse-notes:not(.verse-notes-fullscreen) div.CodeMirror {
+.Cordova .verse-notes:not(.verse-notes-fullscreen) div.CodeMirror {
   height: 200px !important;
 }
 
@@ -103,7 +103,7 @@ div.CodeMirror {
   min-height: 18em;
 }
 
-.Android .verse-list-with-notes:not(.verse-list-scroll-notes) .verse-notes-text.edited {
+.Cordova .verse-list-with-notes:not(.verse-list-scroll-notes) .verse-notes-text.edited {
   min-height: 12em;
 }
 
@@ -113,7 +113,7 @@ div.CodeMirror {
   overflow-x: hidden;
 }
 
-.Android .verse-list-scroll-notes .verse-notes-text {
+.Cordova .verse-list-scroll-notes .verse-notes-text {
   max-height: 200px;
 }
 
@@ -215,8 +215,9 @@ div.CodeMirror {
   position: fixed;
   top: 0;
   left: 0;
+  width: 100vw !important;
   margin: 0 !important;
-  box-sizing: unset !important;
+  box-sizing: border-box !important;
   height: 100%;
   overflow-x: hidden !important;
   z-index: 1000;

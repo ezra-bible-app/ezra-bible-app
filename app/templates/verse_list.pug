@@ -1,7 +1,7 @@
 //-
   This file is part of Ezra Bible App.
 
-  Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+  Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
   Ezra Bible App is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,10 +26,6 @@ if renderTagNotes
   - var tagIntroRaw = ''
   - var tagIntroText = ''
   - var tagNoteId = ''
-  - var tagId = ''
-  - var verseTagKeys = Object.keys(verseTags)
-  if verseTagKeys.length > 0 && verseTags[verseTagKeys[0]].length > 0
-    - tagId = verseTags[verseTagKeys[0]][0].tagId
   - var tagIntroUpdated = ''
 
   if tagNote == null || tagNote.introduction == null
@@ -61,6 +57,9 @@ if renderBookNotes
   if firstBibleBookId != null
     - var firstVerseReferenceIdClass = 'verse-nr-0 verse-reference-id-' + firstBibleBookId.toLowerCase();
     - bookNotesClassList += firstVerseReferenceIdClass;
+    - firstBibleBookId = firstBibleBookId.toLowerCase()
+  else
+    - firstBibleBookId = ''
 
   - var bookNotesRaw = ''
   - var bookNotesText = ''
@@ -76,7 +75,7 @@ if renderBookNotes
       if bookNotes.updatedAt != null
         - bookNotesUpdate = helper.getLocalizedDate(bookNotes.updatedAt);
 
-  div(class=bookNotesClassList, verse-reference-id=firstBibleBookId.toLowerCase(), notes-content=bookNotesRaw)
+  div(class=bookNotesClassList, verse-reference-id=firstBibleBookId, notes-content=bookNotesRaw)
     div(class='verse-notes-text external') !{bookNotesText}
     div(class='verse-notes-status-bar')
       div(class='verse-notes-buttons')
@@ -110,7 +109,9 @@ each bibleBook in bibleBooks
   if verses1.length > 0 && verses1[0].verseNr != 1
     - old_chapter = verses1[0].chapter
 
-  - var bibleBookId = bibleBook.shortTitle.toLowerCase()
+  - var bibleBookId = null
+  if bibleBook.shortTitle != null
+    - bibleBookId = bibleBook.shortTitle.toLowerCase()
   
   each verse, index in verses1
     unless verse.bibleBookShortTitle.toLowerCase() == bibleBookId
@@ -281,10 +282,6 @@ if renderTagNotes
   - var tagConclusionRaw = ''
   - var tagConclusionText = ''
   - var tagNoteId = ''
-  - var tagId = ''
-  - var verseTagKeys = Object.keys(verseTags)
-  if verseTagKeys.length > 0 && verseTags[verseTagKeys[0]].length > 0
-    - tagId = verseTags[verseTagKeys[0]][0].tagId
   - var tagConclusionUpdated = ''
 
   if tagNote == null || tagNote.conclusion == null

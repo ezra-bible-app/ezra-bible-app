@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,9 +32,14 @@ module.exports.sleep = async function (time) {
 
 module.exports.waitUntilIdle = async function () {
   return new Promise(resolve => {
-    window.requestIdleCallback(() => {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        resolve();
+      });
+    } else {
+      // Fallback for Safari
       resolve();
-    });
+    }
   });
 };
 
@@ -43,7 +48,7 @@ module.exports.getPlatform = function() {
 
   if (platformHelper.isElectron()) {
     platform = window.electronPlatform;
-  } else if (platformHelper.isAndroid()) {
+  } else if (platformHelper.isAndroid() || platformHelper.isIOS()) {
     platform = window.cordovaPlatform;
   }
 
@@ -137,6 +142,6 @@ module.exports.showDialog = async function(dialogTitle, message, width=500, heig
     };
   
     $dialogBox.dialog(dialogOptions);
-    window.uiHelper.fixDialogCloseIconOnAndroid('info-dialog');
+    window.uiHelper.fixDialogCloseIconOnCordova('info-dialog');
   });
 };

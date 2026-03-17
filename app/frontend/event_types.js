@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@
  * @typedef { "on-startup-completed" | "on-theme-changed" | "on-fullscreen-changed" | "on-button-clicked" | "on-body-clicked" | "on-db-refresh" | "on-enter-pressed" | "on-esc-pressed" } AppEvents
  */
 /**
- * @typedef { "on-tag-panel-switched" | "on-tag-statistics-panel-switched" | "on-word-study-panel-switched" | "on-compare-panel-switched" } PanelEvents
+ * @typedef { "on-tag-panel-switched" | "on-tag-statistics-panel-switched" | "on-word-study-panel-switched" | "on-compare-panel-switched" | "on-panel-switched" } PanelEvents
  */
 /**
  * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" | "on-latest-tag-changed" } TagEvents

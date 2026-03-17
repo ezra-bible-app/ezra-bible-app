@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ class Startup {
       var kjvModule = await ipcNsi.getLocalModule('KJV');
       if (kjvModule == null) {
         $('#loading-subtitle').text("Installing KJV");
-        await ipcNsi.installModule('KJV');
+        await ipcNsi.installModule('CrossWire', 'KJV');
       }
     }
 
@@ -86,12 +86,17 @@ class Startup {
       var asvModule = await ipcNsi.getLocalModule('ASV');
       if (asvModule == null) {
         $('#loading-subtitle').text("Installing ASV");
-        await ipcNsi.installModule('ASV');
+        await ipcNsi.installModule('CrossWire', 'ASV');
       }
     }
   }
 
   loadWebComponents() {
+    if (this._platformHelper.isIOS()) {
+      // Add Polyfill for custom elements on iOS Safari
+      require('@ungap/custom-elements');
+    }
+
     require('./components/tool_panel/panel_buttons.js');
     require('./components/tags/tag_list_menu.js');
     require('./components/tags/tag_group_list.js');
@@ -139,9 +144,9 @@ class Startup {
       boxes = loadFile('html/boxes.html');
 
     } else {
-      // Development & Cordova/Android
+      // Development & Cordova
 
-      console.log("Loading HTML files via Development / Cordova / Android approach");
+      console.log("Loading HTML files via Development / Cordova approach");
 
       // Note that for Cordova these readFileSync calls are all inlined, which means the content of those files
       // becomes part of the bundle when bundling up the sources with Browserify.
@@ -282,7 +287,7 @@ class Startup {
 
       uiHelper.configureButtonStyles('#privacy-options-box');
       
-      const width = 800;
+      const width = uiHelper.getMaxDialogWidth();
       const height = 600;
       const offsetLeft = ($(window).width() - width)/2;
 
@@ -458,8 +463,10 @@ class Startup {
     // Save some meta data about versions used
     cacheController.saveLastUsedVersion();
 
-    if (platformHelper.isCordova()) {
-      ipcSettings.set('lastUsedAndroidVersion', getPlatform().getAndroidVersion());
+    if (platformHelper.isAndroid()) {
+      ipcSettings.set('lastUsedAndroidVersion', getPlatform().getOSVersion());
+    } else if (platformHelper.isIOS()) {
+      ipcSettings.set('lastUsedIOSVersion', getPlatform().getOSVersion());
     }
 
     // Confirm privacy options at first startup
@@ -476,8 +483,6 @@ class Startup {
         app_controller.openModuleSettingsAssistant('BIBLE'); 
       }
     }
-
-    //await app_controller.translation_controller.installStrongsIfNeeded();
 
     let checkNewReleasesOption = app_controller.optionsMenu._checkNewReleasesOption;
 

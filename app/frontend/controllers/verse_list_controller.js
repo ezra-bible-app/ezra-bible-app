@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,10 +39,10 @@ module.exports.init = function() {
 
   eventController.subscribe('on-verse-list-init', async (tabIndex) => { this.updateVerseListClasses(tabIndex); });
 
-  eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
-    this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId, tabIndex);
-    this.bindEventsAfterBibleTextLoaded(tabIndex);
-    this.initScrollListener(tabIndex);
+  eventController.subscribe('on-bible-text-loaded', async (context) => {
+    this.applyTagGroupFilter(tag_assignment_panel.currentTagGroupId, context.tabIndex);
+    this.bindEventsAfterBibleTextLoaded(context.tabIndex);
+    this.initScrollListener(context.tabIndex);
   });
 
   // Subscribe to tab selection events to initialize swipe events for the active tab
@@ -181,25 +181,19 @@ module.exports.getFirstVisibleVerseAnchor = function() {
   if (verseListFrame != null && verseListFrame.length > 0) {
     let verseListFrameRect = verseListFrame[0].getBoundingClientRect();
     
-    // Special handling for mobile
-    if (this.platformHelper.isMobile()) {
+    // Special handling for Cordova / mobile devices
+    if (this.platformHelper.isCordova()) {
       // Get the first verse box that's within the viewport
       const verseBoxes = verseListFrame.find('.verse-box').toArray();
-      const viewportHeight = window.innerHeight;
+      let frameTop = verseListFrameRect.top;
       
       for (let i = 0; i < verseBoxes.length; i++) {
         const rect = verseBoxes[i].getBoundingClientRect();
+        
         // Check if verse box is at least partially visible in viewport
-        if (rect.top < viewportHeight && rect.bottom > 0) {
-          let anchor = null;
-
-          if (i < verseBoxes.length - 1) {
-            // Select the anchor of the next verse box
-            anchor = verseBoxes[i + 1].querySelector('a.nav');
-          } else {
-            // Select the anchor of the current verse box
-            anchor = verseBoxes[i].querySelector('a.nav');
-          }
+        // We add a small buffer (10px) to avoid selecting verses with just a tiny sliver visible at the bottom
+        if (rect.top < window.innerHeight && rect.bottom > (frameTop + 10)) {
+          let anchor = verseBoxes[i].querySelector('a.nav');
 
           if (anchor) {
             firstVisibleVerseAnchor = anchor.name;
@@ -671,5 +665,55 @@ module.exports.changeVerseListTagInfo = async function(tag_id, tag_title, verse_
         const verseBoxObj = new VerseBox(targetVerseBox);
         verseBoxObj.changeVerseListTagInfo(changedValue.tag_id, changedValue.tag_title, changedValue.action);
       });
+  }
+};
+
+/**
+ * Scrolls the first selected verse into view within the verse list frame.
+ * This is useful when the keyboard appears or panels are toggled, to ensure
+ * the user can still see their selected verse.
+ */
+module.exports.scrollSelectedVerseIntoView = function() {
+  // Check if app_controller and verse_selection are available
+  if (typeof app_controller === 'undefined' || !app_controller.verse_selection) {
+    return;
+  }
+
+  // Get the currently selected verses
+  const selectedVerseBoxes = app_controller.verse_selection.getSelectedVerseBoxes();
+  
+  // If there are selected verses, scroll the first one into view within the verse-list-frame
+  if (selectedVerseBoxes != null && selectedVerseBoxes.length > 0) {
+    const firstSelectedVerse = selectedVerseBoxes[0];
+    
+    try {
+      // Get the verse list frame (the scrollable container)
+      const verseListFrame = module.exports.getCurrentVerseListFrame()[0];
+      
+      if (!verseListFrame) {
+        return;
+      }
+
+      // Calculate the position of the verse relative to the container
+      const verseRect = firstSelectedVerse.getBoundingClientRect();
+      const containerRect = verseListFrame.getBoundingClientRect();
+      
+      // Calculate how much to scroll to center the verse in the container
+      const relativeTop = verseRect.top - containerRect.top;
+      const containerHeight = containerRect.height;
+      const verseHeight = verseRect.height;
+      
+      // Calculate the scroll position to center the verse
+      const targetScrollTop = verseListFrame.scrollTop + relativeTop - (containerHeight / 2) + (verseHeight / 2);
+      
+      // Smooth scroll to the target position
+      verseListFrame.scrollTo({
+        top: targetScrollTop,
+        behavior: 'smooth'
+      });
+    } catch (e) {
+      // Silently ignore if scrolling fails (e.g., if element is detached from DOM)
+      console.warn('Failed to scroll selected verse into view:', e);
+    }
   }
 };

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ class BookSelectionMenu {
     this.book_menu_is_opened = false;
     this.init_completed = false;
     this.recentPassagesKey = 'recentPassages';
+    this.chapterMenuOpenedFromBookMenu = false;
   }
 
   async init() {
@@ -84,7 +85,11 @@ class BookSelectionMenu {
     });
 
     eventController.subscribe('on-translation-added', async (moduleCode) => {
-      await this.updateAvailableBooks(undefined, moduleCode);
+      const bibleModules = await ipcNsi.getAllLocalModules('BIBLE');
+
+      if (bibleModules.length == 1) { // First Bible module added. In this case we need to update the book list
+        await this.updateAvailableBooks(undefined, moduleCode);
+      }
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -102,7 +107,6 @@ class BookSelectionMenu {
         const textType = metaTab.getTextType();
         if (textType == 'book') this.highlightCurrentlySelectedBookInMenu(tabIndex);
       }
-
     });
 
     eventController.subscribe('on-tab-added', async () => {
@@ -222,6 +226,9 @@ class BookSelectionMenu {
       this.currentBookTitle = bookTitle;
       this.currentReferenceBookTitle = referenceBookTitle;
 
+      // Remember whether the chapter menu was opened from the book menu
+      this.chapterMenuOpenedFromBookMenu = this.book_menu_is_opened;
+
       await this.loadChapterList(bookChapterCount, currentChapter);
     } else {
       const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(
@@ -247,11 +254,35 @@ class BookSelectionMenu {
   async loadChapterList(bookChapterCount, currentChapter=null) {
     var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
     menuChapterList.innerHTML = `
+      <div class="mobileButtonNavigation" style="margin-top: 1em; justify-content: center;">
+        <button id="chapterMenuBackButton" class="button" style="font-size: 0.9em">
+          <i class="fas fa-angles-left"></i>
+          <span i18n="general.back"></span>
+        </button>
+      </div>
+
       <h2>${this.currentBookTitle}</h2>
       <div id='chapter-list-chapters'></div>
     `;
 
+    $(menuChapterList).localize();
+
     var chapters = menuChapterList.querySelector('#chapter-list-chapters');
+
+    // Handle back button: close chapter list and optionally reopen book menu
+    var chapterMenuBackButton = document.getElementById('chapterMenuBackButton');
+    chapterMenuBackButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      var bookMenu = document.getElementById('book-selection-menu');
+      bookMenu.classList.remove('select-chapter');
+
+      if (!this.chapterMenuOpenedFromBookMenu) {
+        // Close book menu completely
+        this.hideBookMenu(true);
+      }
+    });
 
     for (let c = 1; c <= bookChapterCount; c++) {
       let newLink = document.createElement('a');
@@ -275,7 +306,8 @@ class BookSelectionMenu {
                                                 this.currentBookTitle,
                                                 this.currentReferenceBookTitle,
                                                 instantLoad,
-                                                selectedChapter);
+                                                selectedChapter,
+                                                true); // explicitChapterNavigation = true
 
         // Update recent passages with the correct chapter
         await this.updateRecentPassages(this.currentBookCode, selectedChapter);
@@ -283,8 +315,8 @@ class BookSelectionMenu {
     }
   }
 
-  hideBookMenu() {
-    if (this.book_menu_is_opened) {
+  hideBookMenu(force=false) {
+    if (this.book_menu_is_opened || force) {
       document.getElementById('app-container').classList.remove('fullscreen-menu');
 
       var bookMenu = document.querySelector('#app-container #book-selection-menu');
@@ -297,6 +329,8 @@ class BookSelectionMenu {
         var bookButton = currentVerseListMenu.querySelector('.book-select-button');
         bookButton.classList.remove('ui-state-active');
       }
+    
+      this.chapterMenuOpenedFromBookMenu = false;
     }
   }
 
@@ -331,6 +365,8 @@ class BookSelectionMenu {
     let bookTitleTranslation = await ipcDb.getBookTitleTranslation(bookCode);
 
     this.handleBookMenuClick();
+    this.chapterMenuOpenedFromBookMenu = false;
+    this.book_menu_is_opened = false;
     await this.selectBibleBook(bookCode, bookTitleTranslation, bookLongTitle, currentChapter);
   }
 
@@ -379,7 +415,11 @@ class BookSelectionMenu {
     const recentPassagesContainer = document.querySelector('.recently-opened-passages ul');
     const recentPassagesSection = document.querySelector('.recently-opened-passages');
 
-    if (recentPassages.length <= 1) {
+    if (!recentPassages) {
+      return;
+    }
+
+    if (recentPassages && recentPassages.length <= 1) {
       recentPassagesSection.style.display = 'none'; // Hide if no entries or only one entry
       return;
     }

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -91,6 +91,14 @@ class IpcGeneral {
 
   async setSendCrashReports(sendCrashReports) {
     return await this._ipcRenderer.call('general_setSendCrashReports', sendCrashReports);
+  }
+
+  async dropboxListZipFiles() {
+    return await this._ipcRenderer.callWithTimeout('general_dropboxListZipFiles', 60000);
+  }
+
+  async dropboxInstallZipModule(filename) {
+    return await this._ipcRenderer.call('general_dropboxInstallZipModule', filename);
   }
 }
 

@@ -95,7 +95,10 @@
       "module-with": "{{module_type, capitalize}} з {{feature_type, instrumental}}",
       "module-already-installed": "Цей {{module_type, singular}} вже встановленно!",
       "show-module-info":"Показати подробиці",
-      "show-detailed-module-info": "Натисніть на іконку інформації, щоб побачити подробиці про певний {{module_type, singular}}."
+      "show-detailed-module-info": "Натисніть на іконку інформації, щоб побачити подробиці про певний {{module_type, singular}}.",
+      "duplicate-module-title": "Модуль вже обрано",
+      "duplicate-module-message": "Модуль {{moduleId}} вже вибрано зі сховища {{repository}}. Будь ласка, спершу скасуйте його вибір, якщо бажаєте встановити з іншого сховища.",
+      "already-installed-message": "Модуль {{moduleId}} вже встановлено зі сховища {{repository}}. Будь ласка, спершу видаліть його, якщо хочете встановити з іншого сховища."
     },
     "step-install": {
       "installing-modules": "Встановлення вибраних {{module_type, genitive}}",
@@ -166,12 +169,14 @@
     "next": "Далі",
     "previous": "Попередньо",
     "finish": "Завершено",
+    "install": "Встановити",
     "back": "Повернутись",
     "save": "Зберегти",
     "cancel": "Скасувати",
     "rename": "Перейменувати",
     "loading": "Завантаження",
     "update": "Оновити",
+    "warning": "Попередження",
     "new-release-available-title": "Новий випуск доступний!",
     "new-release-available-body": "Доступний новий випуск Біблійного застосунку Єздри!",
     "latest-version": "Остання версія",
@@ -208,7 +213,7 @@
     "general-options": "Загальні налаштування",
     "check-new-releases": "Перевіряти наявність оновлень",
     "send-crash-reports": "Відсилати звіти щодо помилок",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Посилання попереду уривку при копіюванні",
     "welcome-to-ezra-bible-app": "Ласкаво просимо до Біблійного застосунку Єздри!",
     "type-face": {
       "configure-typeface": "Налаштування букворису вмісту",
@@ -217,12 +222,13 @@
       "custom": "Довільний",
       "content-font-family": "Букворис вмісту",
       "custom-content-font": "Довільний букворис вмісту",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "content-heading": "Текст Біблії",
+      "user-content-heading": "Міти та нотатки",
+      "same-as-content": "Однаково з текстом"
     },
     "title": "Назва",
-    "tabs": "Tabs"
+    "tabs": "Вкладки",
+    "module-not-installed": "Модуль '{{module_name}}' не встановлено."
   },
   "data-privacy": {
     "confirm-privacy-options": "Підтвердіть налаштування конфеденційности даних",
@@ -368,6 +374,7 @@
     "red-letters": "Слова Ісуса - червоним",
     "show-dictionary": "Словник",
     "show-wordstudy": "Тлумач слів",
+    "show-chapter-headings": "Заголовки розділів",
     "show-book-chapter-navigation": "Вказівник розділів",
     "show-header-navigation": "Вказівник заголовків",
     "show-tab-search": "Відображати форму пошуку по поточній вкладці",
@@ -415,7 +422,7 @@
       "moved" : "Ці слова містяться в іншому місці першоджерела",
       "tense-change": "Граматичний зворот цих слів змінено при перекладі"
     },
-    "empty-tab-title": "Empty tab"
+    "empty-tab-title": "Порожня"
   },
   "word-study-panel": {
     "greek-dict": "Тлумач Слів Грецької",
@@ -429,13 +436,18 @@
     "help-instruction-part4-desktop": "Утримуйте клавішу SHIFT для перегляду статей по наведенню вказівника миші у будь-якому вірші.",
     "find-all-occurrences": "Знайти всі випадки",
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
-    "related-strongs": "Пов'язані числа Стронга"
+    "related-strongs": "Пов'язані числа Стронга",
+    "copy-to-clipboard": "Сколити тлумач слів до кишені",
+    "copy-to-clipboard-success": "Тлумач слів сколено до кишені!",
+    "copy-dict-entry-to-clipboard": "Сколити словниковий запис до кишені",
+    "copy-dict-entry-to-clipboard-success": "Словниковий запис сколено до кишені!"
   },
   "dictionary-panel": {
     "default-header": "<b>Словник</b>",
     "help-no-dicts": "Відсутні встановленні словники.",
     "open-in-word-study": "Відкрити у тлумачі слів",
-    "filter-placeholder": "Цідило..."
+    "filter-placeholder": "Цідило...",
+    "warning-cross-reference-not-found": "Перехресне посилання не знайдено в поточному перекладі Біблії! Спробуйте з іншим перекладом Біблії."
   },
   "tag-statistics-panel": {
     "default-header": "Перелік міт",
@@ -454,13 +466,16 @@
     "default-header": "<b>Коментар Біблії</b>",
     "commentaries-for": "Коментар до",
     "show-commentaries": "Відображати коментарі",
+    "configure-commentaries": "Налаштувати коментарі",
+    "select-which-commentaries-to-display": "Оберіть, які коментарі відображати на панелі коментарів:",
     "copy-commentary-to-clipboard": "Сколити коментар до кишені",
     "copy-commentary-to-clipboard-success": "Коментар сколено до кишені!",
     "help-instruction": "Щоб відобразити зміст коментаря, виберіть вірш.<br><br> Ця область автоматично відобразить всі наявні коментарі до цього вірша.",
     "help-instruction-no-commentaries": "Наразі коментарі ще не встановленні. Необхідно встановити принаймні один коментар.",
     "help-instruction-no-kjv": "Переклад Біблії KJV ще не встановлено. Цей переклад необхідний, щоб відображати коментарі засновані на англомовному поділі на вірші та розділи. Для виправлення:<ul><li>Встановіть переклад Біблії KJV зі сховища CrossWire</li><li>Встановіть коментар (у цьому випадку KJV буде автоматично встановленно)</li></ul>",
     "no-commentaries-available-for-this-verse": "Коментарі до цього вірша відсутні.",
-    "copy-button": "Сколити коментар"
+    "copy-button": "Сколити коментар",
+    "footnotes": "Примітки"
   },
   "emoji": {
     "search": "Пошук образок...",
@@ -493,8 +508,8 @@
     "waiting-app-ready": "Очікування готовності застосунку"
   },
   "dropbox": {
-    "setup-db-sync": "Налаштувати позгоду з Dropbox",
-    "dropbox-sync-explanation-part1": "Позгода з Dropbox може узгодити вашу базу даних Біблійного&nbsp;застосунку&nbsp;Єздри між різними пристроями.",
+    "setup-dropbox": "Налаштування Dropbox",
+    "dropbox-sync-explanation-part1": "Dropbox можна використати для синхронізації бази даних Біблійного застосунку Єздри між кількома пристроями. Також можна налаштувати власне сховище модулів.",
     "dropbox-sync-explanation-part2": "Базу даних буде узгоджено у наступних випадках:",
     "dropbox-sync-explanation-part3a": "Відразу після першої прив'язки обліковки Dropbox.",
     "dropbox-sync-explanation-part3b": "При запуску або відновленні застосунка.",
@@ -508,8 +523,23 @@
     "dropbox-link-status-not-linked": "Не зв'язано",
     "dropbox-link-status-linked": "Зв'язано",
     "dropbox-link-status-linking-failed": "Помилка зв'язування!",
+    "database-sync": "Узгодження бази даних (запуск/вихід)",
     "only-sync-on-wifi": "Позгоджувати лише через WiFi",
     "sync-after-changes": "Позгоджувати базу даних відразу після змін",
+    "use-custom-module-repo": "Використовувати власне сховище модулів",
+    "custom-module-repo-folder": "Тека власного сховища модулів",
+    "validate-repo": "Перевірити",
+    "validating-repo": "Перевірка сховища...",
+    "repo-validation-success": "Структура сховища правильна",
+    "repo-validation-error-not-linked": "Обліковку Dropbox не прив'язано",
+    "repo-validation-error-empty-path": "Шлях до власного сховища модулів порожній",
+    "repo-validation-error-not-a-folder": "Шлях до сховища не є текою",
+    "repo-validation-error-not-found": "Теку сховища не знайдено",
+    "repo-validation-error-index-not-found": "Файл індексу 'mods.d.tar.gz' не знайдено",
+    "repo-validation-error-packages-not-a-folder": "'packages' не є текою",
+    "repo-validation-error-packages-not-found": "Теку 'packages' не знайдено",
+    "repo-validation-error-packages-empty": "Тека 'packages' порожня",
+    "repo-validation-error-unknown": "Помилка перевірки: {{error}}",
     "dropbox-sync-info": "Відомості щодо позгодження з Dropbox",
     "last-dropbox-sync-time": "Останнє позгодження",
     "last-dropbox-sync-result": "Результат останнього позгодження",
@@ -525,6 +555,22 @@
     "access-method-message-part4": "Прив'язку Біблійного застосунку Єздри до вашої обліковки Dropbox було скинуто.<br/>",
     "access-method-message-part5": "Наразі потрібно виконати наступні дії:",
     "access-method-message-part6": "Переналаштувати прив'язку обліковки Dropbox.",
-    "access-method-message-part7": "Оновити Біблійний застосунок Єздри на всіх ваших пристроях та переконатися, що на всіх пристроях метод позгодження з Dropbox є той самий."
+    "access-method-message-part7": "Оновити Біблійний застосунок Єздри на всіх ваших пристроях та переконатися, що на всіх пристроях метод позгодження з Dropbox є той самий.",
+    "install-from-zip": "Встановити модулі з Dropbox",
+    "install-from-zip-explanation": "Оберіть один або кілька ZIP-файлів модулів у Dropbox для встановлення:",
+    "loading-zip-files": "Завантаження ZIP-файлів з Dropbox...",
+    "error-loading-files": "Помилка завантаження файлів з Dropbox",
+    "no-zip-files-found": "У Dropbox не знайдено ZIP-файлів",
+    "validating-modules": "Перевірка модулів...",
+    "installing-modules": "Встановлення модулів...",
+    "validation-failed": "Неправильна структура модулю",
+    "module-already-installed": "Вже встановлено",
+    "ready-to-install": "Готово до встановлення",
+    "installation-complete": "Встановлення завершено",
+    "modules-installed": "{{count}} модул(ів) успішно встановлено",
+    "modules-skipped": "{{count}} модул(ів) пропущено (вже встановлено)",
+    "modules-failed": "{{count}} модул(ів) не вдалося встановити",
+    "install-summary": "Підсумок встановлення",
+    "dropbox-not-linked": "Обліковку Dropbox не прив'язано. Спершу налаштуйте Dropbox."
   }
 }

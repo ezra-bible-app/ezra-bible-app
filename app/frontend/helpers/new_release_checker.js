@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ class NewReleaseChecker {
       dialogClass: 'ezra-dialog new-release-dialog'
     });
 
-    uiHelper.fixDialogCloseIconOnAndroid('new-release-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('new-release-dialog');
 
     infoBox.dialog("open");
     infoBox.append('<p>' + i18n.t('general.new-release-available-body') + '</p>');

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -50,6 +50,10 @@ class PlatformHelper {
   }
 
   isMac() {
+    if (this.isCordova()) {
+      return false;
+    }
+
     if (typeof navigator !== 'undefined') {
       return navigator.platform.match('Mac') !== null;
     } else if (typeof process !== 'undefined') {
@@ -79,8 +83,25 @@ class PlatformHelper {
   isAndroid() {
     if (typeof navigator !== 'undefined') {
       return navigator.userAgent.match('Android') !== null;
-    } else if (this.isCordova()) {
+    } else if (this.isCordovaBackend()) {
+      // In backend context, use process.platform (nodejs-mobile sets this to 'android')
+      return process.platform === 'android';
+    } else if (this.isCordovaFrontend()) {
       return device.platform === 'Android';
+    }
+
+    return false;
+  }
+
+  isIOS() {
+    if (typeof navigator !== 'undefined') {
+      const isIPad = navigator.userAgent.match(/Macintosh/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+      return navigator.userAgent.match('iPhone') !== null || navigator.userAgent.match('iPad') !== null || isIPad;
+    } else if (this.isCordovaBackend()) {
+      // In backend context, use process.platform (nodejs-mobile sets this to 'ios')
+      return process.platform === 'ios';
+    } else if (this.isCordovaFrontend()) {
+      return device.platform === 'iOS';
     }
 
     return false;
@@ -116,6 +137,10 @@ class PlatformHelper {
 
   // https://github.com/electron/electron/issues/2288
   isElectron() {
+    if (this.isCordova()) {
+      return false;
+    }
+
     // Renderer process
     if (this.isElectronRenderer()) {
       return true;
@@ -158,11 +183,20 @@ class PlatformHelper {
 
     if (this.isMac()) {
       element.classList.add('OSX');
-    } else if (this.isAndroid()) {
-      element.classList.add('Android');
-      if (window.isChromiumOlder()) {
-        element.classList.add('webview-older'); // in Android it's possible to have lower versions of WebView
+    } else if (this.isCordova()) {
+      element.classList.add('Cordova');
+
+      if (this.isAndroid()) {
+        element.classList.add('Android');
+
+        if (window.isChromiumOlder()) {
+          element.classList.add('webview-older'); // in Android it's possible to have lower versions of WebView
+        }
+
+      } else if (this.isIOS()) {
+        element.classList.add('IOS');
       }
+
     } else if (this.isLinux()) {
       element.classList.add('Linux');
     } else if (this.isWin()) {
@@ -283,15 +317,38 @@ class PlatformHelper {
 
       let userDataDir = "";
 
-      if (androidVersion !== undefined && androidVersion >= 11) {
+      if (this.isIOS()) {
+        // iOS: Use cordova.app.datadir() which returns the app's Documents directory
+        userDataDir = cordova.app.datadir() + '/ezra';
+      } else if (androidVersion !== undefined && androidVersion >= 11) {
+        // Android 11+: Use scoped storage
         userDataDir = cordova.app.datadir() + '/ezra';
       } else {
+        // Android < 11: Use external storage
         const appId = 'net.ezrabibleapp.cordova';
-        // TODO adapt this for ios later
         userDataDir = `/sdcard/Android/data/${appId}`;
       }
 
       return userDataDir;
+    }
+  }
+
+  getTempDir() {
+    if (this.isElectron()) {
+      const { app } = require('electron');
+      return app.getPath('temp');
+    } else if (this.isCordova()) {
+      const fs = require('fs');
+      const path = require('path');
+      const userDataDir = this.getUserDataPath();
+      const tempDir = path.join(userDataDir, 'temp');
+      
+      // Ensure temp directory exists
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, { recursive: true });
+      }
+      
+      return tempDir;
     }
   }
 

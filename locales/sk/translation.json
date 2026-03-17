@@ -95,7 +95,10 @@
       "module-with": "{{module_type, capitalize}} s {{feature_type, instrumental}}",
       "module-already-installed": "Tento {{module_type, singular}} je už nainštalovaný",
       "show-module-info":"Zobraziť informácie",
-      "show-detailed-module-info": "Kliknutím na ikonu informácií zobrazíte ďalšie podrobnosti o {{module_type, singular}}."
+      "show-detailed-module-info": "Kliknutím na ikonu informácií zobrazíte ďalšie podrobnosti o {{module_type, singular}}.",
+      "duplicate-module-title": "Modul je už vybraný",
+      "duplicate-module-message": "Modul {{moduleId}} je už vybraný z repozitára {{repository}}. Ak chcete inštaláciu vykonať z iného repozitára, najskôr zrušte jeho výber.",
+      "already-installed-message": "Modul {{moduleId}} je už nainštalovaný z repozitára {{repository}}. Ak ho chcete nainštalovať z iného repozitára, najskôr ho odinštalujte."
     },
     "step-install": {
       "installing-modules": "Inštaluje sa vybraný {{module_type, accusative}}",
@@ -166,12 +169,14 @@
     "next": "Ďalej",
     "previous": "Späť",
     "finish": "Hotovo",
+    "install": "Inštalovať",
     "back": "Späť",
     "save": "Uložiť",
     "cancel": "Zrušiť",
     "rename": "Premenovať",
     "loading": "Nahrávam",
     "update": "Aktualizácia",
+    "warning": "Výstraha",
     "new-release-available-title": "Je k dispozícií nová verzia!",
     "new-release-available-body": "Je k dispozícií nová verzia projektu Ezra!",
     "latest-version": "Najnovšia verzia",
@@ -208,7 +213,7 @@
     "general-options": "Všeobecné možnosti",
     "check-new-releases": "Kontrola aktualizácií",
     "send-crash-reports": "Odoslať chybové hlásenia",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Skopírovať verše začínajúce od odkazu",
     "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
     "type-face": {
       "configure-typeface": "Nakonfigurujte typ písma obsahu",
@@ -217,12 +222,13 @@
       "custom": "Vlastné",
       "content-font-family": "Rodina písiem obsahu",
       "custom-content-font": "Vlastné písmo obsahu",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "content-heading": "Obsah Biblie",
+      "user-content-heading": "Značky a poznámky",
+      "same-as-content": "Rovnaké ako obsah"
     },
     "title": "Titulok",
-    "tabs": "Tabs"
+    "tabs": "Karty",
+    "module-not-installed": "Modul '{{module_name}}' nie je nainštalovaný."
   },
   "data-privacy": {
     "confirm-privacy-options": "Potvrďte ochranu osobných údajov",
@@ -332,7 +338,7 @@
   "bible-browser": {
     "chapter": "Kapitola",
     "chapter-header": "Kap.",
-    "recent-passages": "Recent passages",
+    "recent-passages": "Nedávne pasáže",
     "psalm": "Žalm",
     "selection": "Výber: ",
     "loading-bible-text": "Nahrávam text Biblie",
@@ -367,6 +373,7 @@
     "red-letters": "Zvýraznite Ježišove slová červenou farbou",
     "show-dictionary": "Zobraziť slovník",
     "show-wordstudy": "Zobraziť štúdium slov",
+    "show-chapter-headings": "Zobraziť nadpisy kapitol",
     "show-book-chapter-navigation": "Zobraziť knihu/navigácia v kapitolách",
     "show-header-navigation": "Zobraziť navigáciu v hlavičke",
     "show-tab-search": "Zobraziť aktuálne vyhľadávanie na karte",
@@ -414,7 +421,7 @@
       "moved" : "Tieto slová boli v zdrojovom texte na inom mieste",
       "tense-change": "Gramatický čas týchto slov bol zmenený, aby sa uľahčil preklad"
     },
-    "empty-tab-title": "Empty tab"
+    "empty-tab-title": "Prázdna karta"
   },
   "word-study-panel": {
     "greek-dict": "Štúdium gréckeho Slova",
@@ -428,13 +435,18 @@
     "help-instruction-part4-desktop": "Podržaním klávesu SHIFT aktivujete funkciu prejdenia myšou pre všetky verše.",
     "find-all-occurrences": "Nájsť všetky výskyty",
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
-    "related-strongs": "Súvisiace Strongy"
+    "related-strongs": "Súvisiace Strongy",
+    "copy-to-clipboard": "Kopírovať štúdiu slov do schránky",
+    "copy-to-clipboard-success": "Štúdia slov skopírovaná do schránky!",
+    "copy-dict-entry-to-clipboard": "Kopírovať položku slovníka do schránky",
+    "copy-dict-entry-to-clipboard-success": "Slovníkový záznam skopírovaný do schránky!"
   },
   "dictionary-panel": {
     "default-header": "<b>Slovník</b>",
     "help-no-dicts": "Nie sú k dispozícii žiadne slovníky.",
     "open-in-word-study": "Otvoriť v štúdiu Slova",
-    "filter-placeholder": "Filter..."
+    "filter-placeholder": "Filter...",
+    "warning-cross-reference-not-found": "V aktuálnom preklade Biblie sa nenašiel krížový odkaz! Skúste prejsť na iný preklad Biblie."
   },
   "tag-statistics-panel": {
     "default-header": "Štatistika značiek",
@@ -453,13 +465,16 @@
     "default-header": "<b>Biblický komentár</b>",
     "commentaries-for": "Komentáre pre",
     "show-commentaries": "Zobraziť komentáre",
+    "configure-commentaries": "Konfigurácia komentárov",
+    "select-which-commentaries-to-display": "Vyberte, ktoré komentáre sa majú zobraziť v paneli komentárov:",
     "copy-commentary-to-clipboard": "Kopírovať komentár do schránky",
     "copy-commentary-to-clipboard-success": "Komentár bol skopírovaný do schránky!",
     "help-instruction": "Ak chcete zobraziť obsah komentára, vyberte verš.<br><br> Táto oblasť potom automaticky zobrazí vybratý verš zo všetkých dostupných komentárov.",
     "help-instruction-no-commentaries": "Zatiaľ neboli nainštalované žiadne komentáre. Aby táto funkcia fungovala, musíte nainštalovať aspoň jeden komentár.",
     "help-instruction-no-kjv": "Preklad KJV ešte nebol nainštalovaný. KJV je potrebný na správne zobrazenie biblických komentárov založených na anglickej verzii. Môžete to vyriešiť:<ul><li>Inštaláciou KJV z úložiska CrossWire</li><li>Inštaláciou komentára (v tomto prípade sa KJV nainštaluje automaticky)</li></ul>",
     "no-commentaries-available-for-this-verse": "K tomuto veršu nie sú dostupné žiadne komentáre.",
-    "copy-button": "Kopírovať komentár"
+    "copy-button": "Kopírovať komentár",
+    "footnotes": "Poznámky pod čiarou"
   },
   "emoji": {
     "search": "Vyhľadajte emodži...",
@@ -492,8 +507,8 @@
     "waiting-app-ready": "Čaká sa na spustenie aplikácie"
   },
   "dropbox": {
-    "setup-db-sync": "Nastaviť Dropbox synchornizáciu",
-    "dropbox-sync-explanation-part1": "Synchronizácia Dropbox sa dá použiť na synchronizáciu databázy aplikácie Ezra Bible na viacerých zariadeniach.",
+    "setup-dropbox": "Nastavenie Dropboxu",
+    "dropbox-sync-explanation-part1": "Dropbox sa dá použiť na synchronizáciu databázy aplikácie Ezra&nbsp;Bible&nbsp; medzi viacerými zariadeniami. Môžete si tiež nastaviť vlastné úložisko modulov.",
     "dropbox-sync-explanation-part2": "Databáza bude synchronizovaná v nasledujúcich udalostiach:",
     "dropbox-sync-explanation-part3a": "Po prvom prepojení účtu Dropbox.",
     "dropbox-sync-explanation-part3b": "Pri spustení aplikácie alebo pri jej obnovení.",
@@ -507,8 +522,23 @@
     "dropbox-link-status-not-linked": "Neprepojené",
     "dropbox-link-status-linked": "Prepojené",
     "dropbox-link-status-linking-failed": "Prepojenie zlyhalo",
+    "database-sync": "Synchronizácia databázy (Spustenie/Vypnutie)",
     "only-sync-on-wifi": "Synchronizácia len cez WiFi",
     "sync-after-changes": "Synchronizovať databázu po zmenách",
+    "use-custom-module-repo": "Použite vlastný repozitár modulov",
+    "custom-module-repo-folder": "Priečinok úložiska vlastných modulov",
+    "validate-repo": "Overiť",
+    "validating-repo": "Overovanie úložiska...",
+    "repo-validation-success": "Štruktúra úložiska je platná",
+    "repo-validation-error-not-linked": "Účet Dropbox nie je prepojený",
+    "repo-validation-error-empty-path": "Cesta k úložisku vlastných modulov je prázdna",
+    "repo-validation-error-not-a-folder": "Cesta k úložisku nie je priečinok",
+    "repo-validation-error-not-found": "Priečinok úložiska sa nenašiel",
+    "repo-validation-error-index-not-found": "Indexový súbor mods.d.tar.gz sa nenašiel",
+    "repo-validation-error-packages-not-a-folder": "balíky nie sú priečinok",
+    "repo-validation-error-packages-not-found": "priečinok s balíčkami sa nenašiel",
+    "repo-validation-error-packages-empty": "priečinok s balíčkami je prázdny",
+    "repo-validation-error-unknown": "Overenie zlyhalo: {{error}}",
     "dropbox-sync-info": "Informácie o synchronizácii Dropboxu",
     "last-dropbox-sync-time": "Posledná synchronizácia",
     "last-dropbox-sync-result": "Výsledok poslednej synchronizácie",
@@ -524,6 +554,22 @@
     "access-method-message-part4": "Prepojenie aplikácie Ezra Bible s vaším účtom Dropbox bolo obnovené.<br/>",
     "access-method-message-part5": "Teraz musíte vykonať tieto akcie:",
     "access-method-message-part6": "Znova nakonfigurujte prepojenie účtu Dropbox.",
-    "access-method-message-part7": "Inovujte aplikáciu Ezra Bible na všetkých svojich zariadeniach, aby ste zaistili, že metóda synchronizácie Dropbox bude rovnaká."
+    "access-method-message-part7": "Inovujte aplikáciu Ezra Bible na všetkých svojich zariadeniach, aby ste zaistili, že metóda synchronizácie Dropbox bude rovnaká.",
+    "install-from-zip": "Inštalácia modulov z Dropboxu",
+    "install-from-zip-explanation": "Vyberte jeden alebo viac zip súborov modulov z Dropboxu, ktoré chcete nainštalovať:",
+    "loading-zip-files": "Načítanie zip súborov z Dropboxu...",
+    "error-loading-files": "Chyba pri načítavaní súborov z Dropboxu",
+    "no-zip-files-found": "V Dropboxe sa nenašli žiadne zip súbory",
+    "validating-modules": "Overovanie modulov...",
+    "installing-modules": "Inštalácia modulov...",
+    "validation-failed": "Neplatná štruktúra modulu",
+    "module-already-installed": "Už nainštalované",
+    "ready-to-install": "Pripravené na inštaláciu",
+    "installation-complete": "Inštalácia dokončená",
+    "modules-installed": "{{count}} modul(ov) úspešne nainštalovaný(ch)",
+    "modules-skipped": "{{count}} modul(ov) preskočený/é (už nainštalované)",
+    "modules-failed": "{{count}} modul(ov) zlyhala inštalácia",
+    "install-summary": "Súhrn inštalácie",
+    "dropbox-not-linked": "Účet Dropbox nie je prepojený. Najprv si nastavte Dropbox."
   }
 }

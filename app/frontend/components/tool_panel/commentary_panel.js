@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,6 +21,10 @@ const VerseBox = require("../../ui_models/verse_box.js");
 const { getPlatform } = require('../../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../../helpers/verse_box_helper.js');
 const ReferenceBoxHelper = require('./reference_box_helper.js');
+const Mousetrap = require('mousetrap');
+const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+const swordUrlHelper = require('../../helpers/sword_url_helper.js');
+const i18nHelper = require('../../helpers/i18n_helper.js');
 
 /**
  * The CommentaryPanel component implements a tool panel that shows Bible commentaries for selected verses
@@ -56,16 +60,128 @@ class CommentaryPanel {
       }
     });
 
-    eventController.subscribeMultiple(['on-commentary-added', 'on-commentary-removed'], () => {
+    eventController.subscribe('on-commentary-added', async (moduleCode) => {
+      let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
+      if (shownCommentaries != null && !shownCommentaries.includes(moduleCode)) {
+        shownCommentaries.push(moduleCode);
+        await ipcSettings.set('shownCommentaries', shownCommentaries);
+      }
+      refreshWithSelection();
+    });
+
+    eventController.subscribe('on-commentary-removed', async (moduleCode) => {
+      let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
+      if (shownCommentaries != null) {
+        shownCommentaries = shownCommentaries.filter(c => c !== moduleCode);
+        await ipcSettings.set('shownCommentaries', shownCommentaries);
+      }
       refreshWithSelection();
     });
 
     this._verseBoxHelper = new VerseBoxHelper();
     this._referenceBoxHelper = new ReferenceBoxHelper(this.getMainContent(), this.getReferenceBox());
+    this.initCommentarySettingsDialog();
   }
 
   setRefreshBlocked(refreshBlocked) {
     this.refreshBlocked = refreshBlocked;
+  }
+
+  initCommentarySettingsDialog() {
+    let width = 500;
+    let height = null;
+    let draggable = true;
+
+    let dialogOptions = uiHelper.getDialogOptions(width, height, draggable);
+    
+    dialogOptions.autoOpen = false;
+    dialogOptions.dialogClass = 'ezra-dialog commentary-settings-dialog';
+    dialogOptions.title = i18n.t('commentary-panel.configure-commentaries');
+
+    dialogOptions.buttons = {
+      OK: {
+        text: i18n.t('general.ok'),
+        click: async () => {
+          await this.saveCommentarySettings();
+          $('#commentary-settings-dialog').dialog('close');
+          
+          let selectedVerseBoxes = app_controller.verse_selection.getSelectedElements();
+          this.performRefresh(selectedVerseBoxes);
+        }
+      },
+      Cancel: {
+        text: i18n.t('general.cancel'),
+        click: () => {
+          $('#commentary-settings-dialog').dialog('close');
+        }
+      }
+    };
+
+    $('#commentary-settings-dialog').dialog(dialogOptions);
+
+    $('#commentary-panel-settings-button').on('click', async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      await this.showCommentarySettingsDialog();
+    });
+  }
+
+  async showCommentarySettingsDialog() {
+    let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
+    
+    allCommentaries.sort((a, b) => {
+      if (a.description < b.description) return -1;
+      if (a.description > b.description) return 1;
+      return 0;
+    });
+
+    let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
+
+    let commentarySettingsList = document.getElementById('commentary-settings-list');
+    commentarySettingsList.innerHTML = '';
+
+    for (let commentary of allCommentaries) {
+      if (commentary.category == swordModuleHelper.SWORD_MODULE_TYPE.IMAGES) {
+        continue;
+      }
+
+      // If shownCommentaries is null (not set yet), show all commentaries by default
+      const isVisible = shownCommentaries === null || shownCommentaries.includes(commentary.name);
+      
+      let checkboxId = `commentary-checkbox-${commentary.name}`;
+      let label = document.createElement('label');
+      label.setAttribute('for', checkboxId);
+      
+      let checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = checkboxId;
+      checkbox.checked = isVisible;
+      checkbox.setAttribute('data-commentary-name', commentary.name);
+      
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(commentary.description));
+      
+      commentarySettingsList.appendChild(label);
+    }
+
+    $('#commentary-settings-dialog').dialog('open');
+
+    uiHelper.fixDialogCloseIconOnCordova('commentary-settings-dialog');
+    Mousetrap.bind('esc', () => { $('#commentary-settings-dialog').dialog('close'); });
+  }
+
+  async saveCommentarySettings() {
+    let checkboxes = document.querySelectorAll('#commentary-settings-list input[type="checkbox"]');
+    let shownCommentaries = [];
+    
+    for (let checkbox of checkboxes) {
+      if (checkbox.checked) {
+        let commentaryName = checkbox.getAttribute('data-commentary-name');
+        shownCommentaries.push(commentaryName);
+      }
+    }
+    
+    await ipcSettings.set('shownCommentaries', shownCommentaries);
   }
 
   getMainContent() {
@@ -101,9 +217,6 @@ class CommentaryPanel {
   }
 
   showHelpBox() {
-    this.getBoxContent().innerHTML = "";
-    this.getReferenceBox().innerHTML = "";
-
     let helpBox = this.getHelpBox();
     helpBox.classList.remove('hidden');
   }
@@ -139,10 +252,7 @@ class CommentaryPanel {
       helpMessageNoKjvInstalled.style.display = 'none';
     }
 
-    if (!installPreconditionsFulfilled) {
-      this.showHelpBox();
-      return;
-    }
+    let commentaryPreconditionsFulfilled = installPreconditionsFulfilled;
 
     let panelHeader = document.getElementById('commentary-panel-header');
     let panelTitle = "";
@@ -158,42 +268,45 @@ class CommentaryPanel {
       panelTitle = i18n.t("commentary-panel.commentaries-for") + " " + 
         await app_controller.verse_selection.getSelectedVerseLabelText();
 
-      this.hideHelpBox();
+      if (commentaryPreconditionsFulfilled) {
+        this.hideHelpBox();
+      } else {
+        this.showHelpBox();
+      }
 
     } else {
       panelTitle = i18n.t("commentary-panel.default-header");
 
+      this.getBoxContent().innerHTML = '';
+      this.getReferenceBox().innerHTML = '';
       this.showHelpBox();
+      panelHeader.innerHTML = '<b>' + panelTitle + '</b>';
+      return;
     }
 
     panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
 
     if (platformHelper.isCordova()) {
 
-      this.getBoxContent().innerHTML = "";
+      this.getBoxContent().innerHTML = '';
       this.showLoadingIndicator();
-      this.performDelayedContentRefresh(selectedVerseBoxes);
+      this.performDelayedContentRefresh(selectedVerseBoxes, commentaryPreconditionsFulfilled);
 
     } else {
 
-      await this.performContentRefresh(selectedVerseBoxes);
+      await this.performContentRefresh(selectedVerseBoxes, commentaryPreconditionsFulfilled);
     }
   }
 
-  async performContentRefresh(selectedVerseBoxes=undefined) {
-    const commentaryContent = await this.getCommentaryContent(selectedVerseBoxes);
+  async performContentRefresh(selectedVerseBoxes=undefined, commentaryPreconditionsFulfilled=true) {
+    const commentaryContent = await this.getCommentaryContent(selectedVerseBoxes, commentaryPreconditionsFulfilled);
 
     if (platformHelper.isCordova()) {
       this.hideLoadingIndicator();
     }
 
-    this.getBoxContent().innerHTML = commentaryContent;
-    this.getMainContent().scrollTop = 0;
-
-    this._referenceBoxHelper.hideReferenceBox();
-    this.getReferenceBox().innerHTML = "";
-
-    this.applyParagraphs();
+    this.renderContentInPanel(commentaryContent);
+    this.attachContentEventListeners();
 
     let moduleInfoButtons = this.getBoxContent().querySelectorAll('.module-info-button');
     moduleInfoButtons.forEach((button) => {
@@ -206,20 +319,6 @@ class CommentaryPanel {
     commentaryCopyButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
         this.handleCopyCommentaryButtonClick(event);
-      });
-    });
-
-    let referenceElements = this.getBoxContent().querySelectorAll('reference');
-    referenceElements.forEach((reference) => {
-      reference.addEventListener('click', (event) => {
-        this._referenceBoxHelper.handleReferenceClick(event);
-      });
-    });
-
-    let scripRefElements = this.getBoxContent().querySelectorAll('.sword-scripref');
-    scripRefElements.forEach((scripRef) => {
-      scripRef.addEventListener('click', (event) => {
-        this._referenceBoxHelper.handleReferenceClick(event);
       });
     });
 
@@ -254,8 +353,6 @@ class CommentaryPanel {
         this.handleAccordionButtonClick(button);
       });
     });
-
-    uiHelper.configureButtonStyles(this.getBoxContent());
   }
 
   applyParagraphs() {
@@ -336,77 +433,167 @@ class CommentaryPanel {
     return processedHtml;
   }
 
-  performDelayedContentRefresh(selectedVerseBoxes=undefined) {
+  performDelayedContentRefresh(selectedVerseBoxes=undefined, commentaryPreconditionsFulfilled=true) {
     setTimeout(async () => {
-      await this.performContentRefresh(selectedVerseBoxes);
+      await this.performContentRefresh(selectedVerseBoxes, commentaryPreconditionsFulfilled);
     }, 50);
   }
 
-  async getCommentaryContent(selectedVerseBoxes=undefined) {
-    let commentaryContent = "";
+  async getCommentaryContent(selectedVerseBoxes=undefined, commentaryPreconditionsFulfilled=true) {
+    let commentaryContent = '';
 
     if (selectedVerseBoxes != null) {
       if (selectedVerseBoxes.length != 0) {
-        let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
 
-        // Sort commentaries by description
-        allCommentaries.sort((a,b) => {
-          if (a.description < b.description) return -1;
-          if (a.description > b.description) return 1;
-          return 0;
-        });
+        if (commentaryPreconditionsFulfilled) {
+          let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
 
-        const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
-        const copyCommentaryButtonTitle = i18n.t('commentary-panel.copy-commentary-to-clipboard');
+          // Sort commentaries by description
+          allCommentaries.sort((a,b) => {
+            if (a.description < b.description) return -1;
+            if (a.description > b.description) return 1;
+            return 0;
+          });
 
-        for (let i = 0; i < allCommentaries.length; i++) {
-          let currentCommentary = allCommentaries[i];
+          const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
+          const copyCommentaryButtonTitle = i18n.t('commentary-panel.copy-commentary-to-clipboard');
 
-          // We do not support Images
-          if (currentCommentary.category == 'Images') {
-            continue;
-          }
+          let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
 
-          let firstVerseBox = $(selectedVerseBoxes[0]);
-          let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
+          for (let i = 0; i < allCommentaries.length; i++) {
+            let currentCommentary = allCommentaries[i];
 
-          if (verseCommentary != null && verseCommentary.length != 0) {
-            commentaryContent += `
-            <div class='sword-module commentary module-code-${currentCommentary.name.toLowerCase()}' module-context='${currentCommentary.name}'>
-              <h3>
-                <i class="fa-solid fa-circle-chevron-down commentary-accordion-button"></i>
+            // We do not support Images
+            if (currentCommentary.category == swordModuleHelper.SWORD_MODULE_TYPE.IMAGES) {
+              continue;
+            }
 
-                <div class='commentary-name'>${currentCommentary.description}</div>
+            // Check if commentary is visible in settings
+            // If shownCommentaries is null (not set yet), show all commentaries by default
+            if (shownCommentaries !== null && !shownCommentaries.includes(currentCommentary.name)) {
+              continue;
+            }
 
-                <div class='module-info-button fg-button ui-corner-all ui-state-default'
-                    i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
-                  <i class='fas fa-info'></i>
+            let firstVerseBox = $(selectedVerseBoxes[0]);
+            let verseCommentary = await this.getCommentaryForVerse(currentCommentary.name, firstVerseBox);
+
+            if (verseCommentary != null && verseCommentary.length != 0) {
+              commentaryContent += `
+              <div class='sword-module commentary module-code-${currentCommentary.name.toLowerCase()}' module-context='${currentCommentary.name}'>
+                <h3>
+                  <i class="fa-solid fa-circle-chevron-down commentary-accordion-button"></i>
+
+                  <div class='commentary-name'>${currentCommentary.description}</div>
+
+                  <div class='module-info-button fg-button ui-corner-all ui-state-default'
+                      i18n='[title]menu.show-module-info' title='${moduleInfoButtonTitle}' module='${currentCommentary.name}'>
+                    <i class='fas fa-info'></i>
+                  </div>
+
+                  <div class='copy-commentary-button fg-button ui-corner-all ui-state-default'
+                    i18n='[title]commentary-panel.copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${currentCommentary.name}'>
+                    <i class='fas fa-copy copy-icon'></i>
+                  </div>
+                </h3>
+
+                <div class='commentary-content'>
+                ${verseCommentary}
                 </div>
-
-                <div class='copy-commentary-button fg-button ui-corner-all ui-state-default'
-                  i18n='[title]commentary-panel.copy-commentary-to-clipboard' title='${copyCommentaryButtonTitle}' module='${currentCommentary.name}'>
-                  <i class='fas fa-copy copy-icon'></i>
-                </div>
-              </h3>
-
-              <div class='commentary-content'>
-              ${verseCommentary}
               </div>
-            </div>
-            `;
+              `;
+            }
           }
         }
+
+        let firstVerseBox = $(selectedVerseBoxes[0]);
+        let footnotesHtml = await this.getFootnotesHtml(firstVerseBox);
+        commentaryContent += footnotesHtml;
 
         if (commentaryContent.length == 0) {
 
           commentaryContent = "<div style='margin-top: 0.5em;'>" + 
-                              i18n.t("commentary-panel.no-commentaries-available-for-this-verse") +
-                              "</div>";
+                              i18n.t('commentary-panel.no-commentaries-available-for-this-verse') +
+                              '</div>';
         }
       }
     }
 
     return commentaryContent;
+  }
+
+  async getFootnotesHtml(verseBox) {
+    const tab = app_controller.tab_controller.getTab();
+    if (tab == null) {
+      return '';
+    }
+
+    const sourceTranslationId = tab.getBibleTranslationId();
+    const translationModule = await ipcNsi.getLocalModule(sourceTranslationId);
+
+    if (translationModule == null || !translationModule.hasFootnotes) {
+      return '';
+    }
+
+    let referenceVerseBox = new VerseBox(verseBox[0]);
+    let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
+    let absoluteVerseNr = referenceVerseBox.getAbsoluteVerseNumber();
+
+    let verses = await ipcNsi.getBookText(sourceTranslationId, bibleBookShortTitle, absoluteVerseNr, 1);
+    let verse = verses[0];
+
+    if (verse == null || !verse.content) {
+      return '';
+    }
+
+    let tempContainer = document.createElement('div');
+    tempContainer.innerHTML = verse.content;
+
+    let swordNotes = tempContainer.querySelectorAll('.sword-note');
+    let footnotes = [];
+
+    for (let i = 0; i < swordNotes.length; i++) {
+      let note = swordNotes[i];
+
+      if (note.hasAttribute('type') && note.getAttribute('type') == 'crossReference') {
+        continue;
+      }
+
+      let marker = note.hasAttribute('n') ? note.getAttribute('n') : String(footnotes.length + 1);
+      let text = note.textContent.trim();
+
+      if (text.length > 0) {
+        footnotes.push({ marker: marker, text: text });
+      }
+    }
+
+    if (footnotes.length == 0) {
+      return '';
+    }
+
+    let footnotesLabel = i18n.t('commentary-panel.footnotes');
+    let footnotesListHtml = '';
+
+    for (let i = 0; i < footnotes.length; i++) {
+      footnotesListHtml += `
+        <div class='footnote-entry'>
+          <span class='footnote-number'>${footnotes[i].marker}</span>
+          <span class='footnote-text'>${footnotes[i].text}</span>
+        </div>`;
+    }
+
+    let footnotesHtml = `
+      <div class='sword-module commentary footnotes-section' module-context='footnotes'>
+        <h3>
+          <i class="fa-solid fa-circle-chevron-down commentary-accordion-button"></i>
+          <div class='commentary-name'>${footnotesLabel}</div>
+        </h3>
+        <div class='commentary-content'>
+          ${footnotesListHtml}
+        </div>
+      </div>
+    `;
+
+    return footnotesHtml;
   }
 
   async getCommentaryForVerse(commentaryId, verseBox) {
@@ -416,38 +603,136 @@ class CommentaryPanel {
     }
 
     const sourceTranslationId = tab.getBibleTranslationId();
-    // TODO: Determine targetTranslationId based on language of commentary
-    let targetTranslationId = 'KJV';
+    const moduleReferenceSeparator = await i18nHelper.getReferenceSeparator(sourceTranslationId);
 
     let referenceVerseBox = new VerseBox(verseBox[0]);
     let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    let mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceTranslationId, targetTranslationId);
+    let chapter = referenceVerseBox.getChapter(moduleReferenceSeparator);
+    let verseNumber = referenceVerseBox.getVerseNumber(moduleReferenceSeparator);
 
-    let kjvVerses = await ipcNsi.getBookText(targetTranslationId, bibleBookShortTitle, mappedAbsoluteVerseNumber, 1);
-    let verse = kjvVerses[0];
-    let commentary = "";
+    let sourceOsisRef = bibleBookShortTitle + '.' + chapter + '.' + verseNumber;
+    let mappedOsisRef = await ipcNsi.mapVerseReference(sourceOsisRef, sourceTranslationId, commentaryId);
 
-    if (verse != null) {
-      let reference = bibleBookShortTitle + ' ' + verse.chapter + ':' + verse.verseNr;
-      
-      const module = await ipcNsi.getLocalModule(commentaryId);
-      let moduleReadable = true;
+    if (mappedOsisRef == null || mappedOsisRef == '') {
+      return '';
+    }
 
-      if (module.locked) {
-        moduleReadable = await ipcNsi.isModuleReadable(commentaryId);
-      }
+    // Convert OSIS-style reference (Gen.1.1) to the format expected by getReferenceText (Gen 1:1)
+    let reference = mappedOsisRef.replace('.', ' ').replace('.', ':');
+    return await this.fetchCommentaryEntry(commentaryId, reference);
+  }
 
-      if (moduleReadable) {
-        let commentaryEntry = await ipcNsi.getReferenceText(commentaryId, reference);
-        commentary = commentaryEntry.content;
+  /**
+   * Fetch a commentary entry for a given module and reference.
+   * Handles module readability checks and HTML sanitization.
+   * @param {string} moduleName - The commentary module code
+   * @param {string} reference - The reference string (e.g., 'Gen 1:1')
+   * @returns {Promise<string>} The commentary content HTML, or empty string if unavailable
+   */
+  async fetchCommentaryEntry(moduleName, reference) {
+    const module = await ipcNsi.getLocalModule(moduleName);
+    if (module == null) {
+      return '';
+    }
+
+    if (module.locked) {
+      let moduleReadable = await ipcNsi.isModuleReadable(moduleName);
+      if (!moduleReadable) {
+        return '';
       }
     }
+
+    let commentaryEntry = await ipcNsi.getReferenceText(moduleName, reference);
+    let commentary = commentaryEntry.content || '';
 
     if (platformHelper.isElectron()) {
       commentary = this._verseBoxHelper.sanitizeHtmlCode(commentary);
     }
 
     return commentary;
+  }
+
+  /**
+   * Render HTML content in the commentary panel and reset the panel state.
+   * @param {string} htmlContent - The HTML content to display
+   */
+  renderContentInPanel(htmlContent) {
+    this.getBoxContent().innerHTML = htmlContent;
+    this.getMainContent().scrollTop = 0;
+
+    this._referenceBoxHelper.hideReferenceBox();
+    this.getReferenceBox().innerHTML = '';
+
+    this.applyParagraphs();
+  }
+
+  /**
+   * Attach event listeners for interactive elements in the commentary panel content.
+   * This handles sword:// links, scripture references, and button styles.
+   */
+  attachContentEventListeners() {
+    swordUrlHelper.initSwordUrlLinks(this.getBoxContent(), this._referenceBoxHelper);
+
+    let referenceElements = this.getBoxContent().querySelectorAll('reference');
+    referenceElements.forEach((reference) => {
+      reference.addEventListener('click', (event) => {
+        this._referenceBoxHelper.handleReferenceClick(event);
+      });
+    });
+
+    let scripRefElements = this.getBoxContent().querySelectorAll('.sword-scripref');
+    scripRefElements.forEach((scripRef) => {
+      scripRef.addEventListener('click', (event) => {
+        this._referenceBoxHelper.handleReferenceClick(event);
+      });
+    });
+
+    uiHelper.configureButtonStyles(this.getBoxContent());
+  }
+
+  /**
+   * Open a specific entry from a commentary module.
+   * This fetches the commentary content for the given reference key and
+   * renders it in the commentary panel.
+   * @param {string} moduleName - The commentary module code (e.g., 'MHC')
+   * @param {string} key - The OSIS-style reference key (e.g., 'Gen.1.1')
+   */
+  async openModuleEntry(moduleName, key) {
+    if (moduleName == null || key == null || key == '') {
+      return;
+    }
+
+    // Convert OSIS-style key (Gen.1.1) to the reference format expected by getReferenceText (Gen 1:1)
+    let reference = key.replace('.', ' ').replace('.', ':');
+
+    let commentary = await this.fetchCommentaryEntry(moduleName, reference);
+    if (commentary == null || commentary.length == 0) {
+      return;
+    }
+
+    let moduleInfo = await ipcNsi.getLocalModule(moduleName);
+    if (moduleInfo == null) {
+      return;
+    }
+
+    let panelHeader = document.getElementById('commentary-panel-header');
+    panelHeader.innerHTML = '<b>' + moduleInfo.description + ' – ' + reference + '</b>';
+
+    this.hideHelpBox();
+
+    let commentaryHtml = `
+      <div class='sword-module commentary module-code-${moduleName.toLowerCase()}' module-context='${moduleName}'>
+        <h3>
+          <div class='commentary-name'>${moduleInfo.description}</div>
+        </h3>
+        <div class='commentary-content'>
+          ${commentary}
+        </div>
+      </div>
+    `;
+
+    this.renderContentInPanel(commentaryHtml);
+    this.attachContentEventListeners();
   }
 }
 

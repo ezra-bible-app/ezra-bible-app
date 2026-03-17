@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -76,7 +76,7 @@ module.exports.sortByText = function (strA, strB) {
  * @returns {DocumentFragment} HTML fragment with appropriate <assistant-checkbox> elements for each item
  */
 module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", options={}) {
-  if (arr.length === 0) {
+  if (arr.length === 0 || arr.size === 0) {
     return '';
   }
 
@@ -85,19 +85,31 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
     info: false,
     extraIndent: false,
     rowGap: '0.5em',
+    // keyFn: function(item) { ... }
     ...options
   };
 
+  // Default key function: module code + repository (for modules)
+  const keyFn = typeof options.keyFn === 'function'
+    ? options.keyFn
+    : (item) => `${item.code}:${item.repository || ''}`;
+
   var checkboxes = [];
   if (arr instanceof Map) {
-    const sortedKeys = [...arr.keys()].sort(this.sortByText);
+    const sortedKeys = [...arr.keys()].sort((keyA, keyB) => {
+      // Sort by text property if available, otherwise fall back to key
+      let textA = arr.get(keyA).text || keyA;
+      let textB = arr.get(keyB).text || keyB;
+      return this.sortByText(textA, textB);
+    });
     for (const key of sortedKeys) {
       const item = arr.get(key);
       if (item.count === undefined || item.count && item.count !== 0) {
         if (options.info) {
           checkboxes.push('<div style="display: flex;">');
         }
-        checkboxes.push(generateCheckbox(item, selected.has(typeof item === 'string' ? item : item.code), options));
+        const checkboxKey = keyFn(item);
+        checkboxes.push(generateCheckbox(item, selected.has(checkboxKey), options));
         if (options.info) {
           checkboxes.push(generateInfoButton());
           checkboxes.push('</div>');
@@ -107,12 +119,13 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
   } else {
     for (const item of arr) {
       if (item.count === undefined || item.count && item.count !== 0) {
-        checkboxes.push(generateCheckbox(item, selected.has(typeof item === 'string' ? item : item.code), options));
+        const checkboxKey = keyFn(item);
+        checkboxes.push(generateCheckbox(item, selected.has(checkboxKey), options));
       }
     }
   }
 
-  const paddingLeft = options.extraIndent ? '1em' : '0';
+  const paddingLeft = options.extraIndent ? '0.5em' : '0';
   const rowHight = options.limitRows ? '1.8em' : 'auto';
 
   const template = html`
@@ -200,4 +213,15 @@ module.exports.localizeText = function (key, data) {
                     alwaysFormat: true,
                   }
                 });
+};
+
+/**
+ * Generate a unique module key combining module name and repository.
+ * This prevents collisions when different repositories have modules with the same description.
+ * @param {string} repository - The repository name (e.g., 'CrossWire', 'eBible')
+ * @param {string} moduleName - The module code (e.g., 'BSB', 'engbsb2020eb')
+ * @returns {string} A unique key in the format 'moduleName@repository'
+ */
+module.exports.getModuleKey = function(repository, moduleName) {
+  return moduleName + '@' + (repository || 'unknown').replace(/ /g, '_');
 };

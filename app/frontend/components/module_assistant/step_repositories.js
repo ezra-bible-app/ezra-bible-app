@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -130,9 +130,9 @@ class StepRepositories extends HTMLElement {
     
     container.innerHTML = '';
     container.appendChild(assistantHelper.listCheckboxSection(repositoryMap, 
-                                                              assistantController.get('selectedRepositories'), 
-                                                              "", 
-                                                              {rowGap: '1.5em', extraIndent: true}));
+                                  assistantController.get('selectedRepositories'), 
+                                  "", 
+                                  {rowGap: '1.5em', extraIndent: true, keyFn: (item) => item.code}));
     
     if (shouldAnimateIn) {
       container.animate({opacity: [0, 1]}, 200);
@@ -166,6 +166,12 @@ async function getRepoModuleDetails(repos) {
 
   for(const repo of repos) {
     const allRepoModules = await ipcNsi.getAllRepoModules(repo, moduleType);
+
+    // Ensure allRepoModules is iterable
+    if (!allRepoModules || !Array.isArray(allRepoModules)) {
+      console.warn(`getAllRepoModules returned non-iterable value for repository ${repo}:`, allRepoModules);
+      continue; // Skip this repository
+    }
 
     let repoLanguageCodes = new Set();
     let count = 0;

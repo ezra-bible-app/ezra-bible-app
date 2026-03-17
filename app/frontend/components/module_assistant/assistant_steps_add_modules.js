@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -99,9 +99,9 @@ class AssistantStepsAddModules extends HTMLElement {
 
   async startModuleAssistantSteps() {
     this.show();
-    
+
     var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-add');
-    
+
     assistantController.resetRepositoryUpdateSubscribers();
     assistantHelper.resetModuleAssistantContent(moduleAssistantStepsContainer, templateAddSteps.content.cloneNode(true));
     assistantHelper.localizeContainer(moduleAssistantStepsContainer, assistantController.get('moduleType'));

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -185,7 +185,7 @@ class UiHelper {
   getDialogOptions(width, height, draggable, position, resizable=false, fullscreen=false) {
     let modal = false;
 
-    if (platformHelper.isMobile() || fullscreen) {
+    if (platformHelper.isMobile() || platformHelper.isCordova() || fullscreen) {
       width = $(window).width();
       height = $(window).height() - 85;
 
@@ -242,7 +242,7 @@ class UiHelper {
     }
   }
 
-  fixDialogCloseIconOnAndroid(dialogClass) {
+  fixDialogCloseIconOnCordova(dialogClass) {
     if (!platformHelper.isCordova()) {
       return;
     }

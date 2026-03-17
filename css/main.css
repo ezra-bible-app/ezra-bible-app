@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -304,12 +304,12 @@ h2:nth-of-type(1) {
   margin: 1.5em;
 }
 
-.Android #check-new-releases-box {
+.Cordova #check-new-releases-box {
   display: none;
 }
 
-.Android #system-font-select-box,
-.Android #user-content-system-font-select-box {
+.Cordova #system-font-select-box,
+.Cordova #user-content-system-font-select-box {
   display: none;
 }
 
@@ -336,24 +336,24 @@ a.chapter-nav:visited {
   margin: 1em;
 }
 
-.Android a.chapter-nav:link,
-.Android a.chapter-nav:visited {
+.Cordova a.chapter-nav:link,
+.Cordova a.chapter-nav:visited {
   text-decoration: underline;
 }
 
-.Android .ui-dialog-titlebar-close.ui-state-hover {
+.Cordova .ui-dialog-titlebar-close.ui-state-hover {
   border: unset !important;
 }
 
-.Android .ui-dialog-titlebar-close.ui-state-active,
-.Android .ui-dialog-titlebar-close.ui-state-focus {
+.Cordova .ui-dialog-titlebar-close.ui-state-active,
+.Cordova .ui-dialog-titlebar-close.ui-state-focus {
   border: unset !important;
   background: unset !important;
   font-weight: unset !important;
   color: unset !important;
 }
 
-.Android.darkmode--activated .close-dialog-icon {
+.Cordova.darkmode--activated .close-dialog-icon {
   color: unset !important;
 }
 
@@ -396,12 +396,12 @@ a.chapter-nav:hover {
   flex: 0 0;
 }
 
-.Android .verse-reference {
+.Cordova .verse-reference {
   margin-left: unset !important;
   flex-direction: column; /* This ensures that the verse reference and the notes/tags indicators are shown above each other */
 }
 
-.Android .verse-reference-content {
+.Cordova .verse-reference-content {
   margin-bottom: 0.1em;
   order: -1; /* Make sure that the verse reference itself comes first (compared to notes/tags indicators) */
 }
@@ -536,7 +536,7 @@ a.chapter-nav:hover {
 
 #db-sync-box-content label,
 #db-sync-box-content span {
-  width: 18em;
+  width: 20em;
   padding-left: 0.5em;
   padding-right: 0.5em;
   border-radius: 4px;
@@ -544,6 +544,10 @@ a.chapter-nav:hover {
 
 #db-sync-box-content input {
   margin-left: 0.5em;
+}
+
+#db-sync-box-content .disabled-option {
+  opacity: 0.5;
 }
 
 #dropbox-link-status {
@@ -566,13 +570,8 @@ a.chapter-nav:hover {
   display: none !important;
 }
 
-.Android #only-sync-on-wifi-option {
+.Cordova #only-sync-on-wifi-option {
   display: flex !important;
-}
-
-/* The following option is not needed on Android, because it is not supported. */
-.Android #showFootnotesOption {
-  display: none !important;
 }
 
 #verse-list-popup-verse-list {
@@ -644,6 +643,14 @@ a.chapter-nav:hover {
 
 .verse-list-content.limit-width:not(.verse-list-with-second-translation) .verse-text {
   max-width: 60ch;
+}
+
+.verse-list-content.limit-width:not(.verse-list-with-second-translation) .book-intro {
+  max-width: calc(60ch + 8em);
+}
+
+.verse-list-content.limit-width:not(.verse-list-with-second-translation) .sword-section-title {
+  max-width: calc(60ch + 2em);
 }
 
 .verse-text-container.ui-selected .verse-text {
@@ -740,11 +747,11 @@ a.chapter-nav:hover {
   /*visibility: hidden;*/
 }
 
-.Android .notes-info {
+.Cordova .notes-info {
   font-size: 125%;
 }
 
-.Android .tag-info {
+.Cordova .tag-info {
   display: none; /* The tag info is not needed on mobile! */
 }
 
@@ -966,7 +973,7 @@ main.content {
 }
 
 /* We do not check for new releases on Android and therefore do not show this option. */
-.Android #checkNewReleasesOption {
+.Cordova #checkNewReleasesOption {
   display: none;
 }
 
@@ -978,7 +985,7 @@ main.content {
 }
 
 #book-selection-menu {
-  width: 40em;
+  width: 55em;
   margin-right: 2em;
 }
 
@@ -992,8 +999,8 @@ main.content {
 
 #book-selection-menu-chapter-list {
   display: none;
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   min-height: 20em;
   max-height: 38.3em;
   overflow-y: auto;
@@ -1001,18 +1008,6 @@ main.content {
 
 .select-chapter #book-selection-menu-chapter-list {
   display: block;
-}
-
-@media only screen and (min-width: 1000px) {
-  #book-selection-menu {
-    width: 75em;
-  }
-
-  #book-selection-menu-chapter-list {
-    min-height: 20.5em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-  }
 }
 
 #book-selection-menu-chapter-list h2 {
@@ -1034,7 +1029,7 @@ main.content {
   border-radius: 4px;
 }
 
-.Android #book-selection-menu-chapter-list #chapter-list-chapters {
+.Cordova #book-selection-menu-chapter-list #chapter-list-chapters {
   max-inline-size: 34em;
 }
 
@@ -1059,7 +1054,7 @@ main.content {
 
 #book-selection-menu-book-list {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
 }
 
@@ -1080,76 +1075,46 @@ main.content {
   text-align: center;
 }
 
+.ot-books {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(14, 1fr);
+  flex-basis: 53%;
+}
+
 .apocryphal-books {
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  border-top: 1px solid lightgray;
-  padding-top: 0.8em;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(14, 1fr);
+  border-left: 1px solid lightgray;
+  border-top: none;
+  padding-top: unset;
+  flex-basis: 20%;
 }
 
 .nt-books {
-  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  flex-basis: 52%; /* 3 columns of 7 column layout + divider */ 
+  padding-bottom: 2em; /* to align NT and OT rows */
 }
 
 .book-1John, .book-2John, .book-3John, .book-Jude, .book-Rev {
-  grid-column-start: 4;
+  grid-column-start: auto;
 }
 
 .ot-nt-divider {
-  margin-top: 0.2em;
-  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  border-top: none;
+  margin-top: 0;
+  padding-left: 0.5em;
 }
 
 .book-list-column li{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 1.8em;
+  line-height: 2em;
 }
 
-/* Formatting for large tablets and desktop */
-@media only screen and (min-width: 1000px) {
-  #book-selection-menu-book-list {
-    flex-direction: row;
-  }
-
-  .ot-books {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(14, 1fr);
-    flex-basis: 53%;
-  }
-
-  .apocryphal-books {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(14, 1fr);
-    border-left: 1px solid lightgray;
-    border-top: none;
-    padding-top: unset;
-    flex-basis: 20%;
-  }
-
-  .nt-books {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(10, 1fr);
-    flex-basis: 52%; /* 3 columns of 7 column layout + divider */ 
-    padding-bottom: 2em; /* to align NT and OT rows */
-  }
-
-  .book-1John, .book-2John, .book-3John, .book-Jude, .book-Rev {
-    grid-column-start: auto;
-  }
-
-  .ot-nt-divider {
-    border-left: 1px solid lightgray;
-    border-top: none;
-    margin-top: 0;
-    padding-left: 0.5em;
-  }
-
-  .book-list-column li {
-    line-height: 2em;
-  }
-}
 
 .verse-list-menu .focused-button {
   border: 1px dashed var(--accent-color);
@@ -1192,7 +1157,7 @@ main.content {
   display: flex;
 }
 
-.module-info-button, .copy-commentary-button {
+.module-info-button, .copy-commentary-button, .copy-dict-button {
   display: inline-block;
   width: 1em;
   padding: 0.2em;
@@ -1201,7 +1166,7 @@ main.content {
   font-size: 0.9em;
 }
 
-.copy-commentary-button {
+.copy-commentary-button, .copy-dict-button {
   padding-left: 0.5em !important;
   padding-right: 0.3em !important;
 }
@@ -1215,7 +1180,8 @@ main.content {
 .verse-list-menu .app-info-button,
 .verse-list-menu .export-docx-button,
 .module-info-button,
-.copy-commentary-button {
+.copy-commentary-button,
+.copy-dict-button {
   justify-content: center;
 }
 
@@ -1448,7 +1414,8 @@ li.book-unavailable a:focus,
 #show-commentary-settings-button,
 #show-typeface-settings-button,
 #setup-db-sync-button,
-#show-module-update-button {
+#show-module-update-button,
+#install-dropbox-zip-button {
   padding: 0.5em;
   display: block;
   width: 100%;
@@ -1473,7 +1440,7 @@ li.book-unavailable a:focus,
 }
 
 /* On Android we disable the possibility to export tagged verses to a document */
-.Android .export-docx-button {
+.Cordova .export-docx-button {
   display: none;
 }
 
@@ -1565,6 +1532,14 @@ li.book-unavailable a:focus,
   margin: 1em;
 }
 
+.book-intro img,
+.sword-section-title img,
+.dict-entry img,
+.commentary-content img {
+  max-width: 100%;
+  height: auto;
+}
+
 .verse-list-with-section-titles .chapter-header {
   display: block;
 }
@@ -1622,6 +1597,7 @@ li.book-unavailable a:focus,
 
 .bible-select-block.second-bible {
   display: none;
+  margin-left: 0.4em;
 }
 
 .bible-select-block select {
@@ -1744,11 +1720,11 @@ li.book-unavailable a:focus,
   margin-right: 0.5em;
 }
 
-.Android .tag-browser-tag-cb {
+.Cordova .tag-browser-tag-cb {
   margin-top: inherit;
 }
 
-.Android #tag-selection-recently-used-checkbox {
+.Cordova #tag-selection-recently-used-checkbox {
   float: left;
   margin-right: 0.5em;
 }
@@ -1760,7 +1736,7 @@ li.book-unavailable a:focus,
   contain-intrinsic-size: 1.2em;
 }
 
-.Android .tag-browser-tag {
+.Cordova .tag-browser-tag {
   margin-bottom: 1em;
 }
 
@@ -2009,13 +1985,13 @@ tr.compare-translation-row:nth-child(odd) {
   font-size: 1em;
 }
 
-.Android,
-.Android button,
-.Android select,
-.Android .verse-list-content,
-.Android .loading-indicator-text,
-.Android .loading-subtitle,
-.Android div.CodeMirror {
+.Cordova,
+.Cordova button,
+.Cordova select,
+.Cordova .verse-list-content,
+.Cordova .loading-indicator-text,
+.Cordova .loading-subtitle,
+.Cordova div.CodeMirror {
   font-family: Roboto, sans-serif;
 }
 
@@ -2240,6 +2216,7 @@ transchange {
 
 .sword-note-marker {
   color: var(--accent-color);
+  font-size: 80%;
 }
 
 .sword-xref-marker {
@@ -2255,6 +2232,10 @@ transchange {
 }
 
 .verse-list-without-strongs sup.strongs {
+  display: none;
+}
+
+.verse-list-without-chapter-nav .chapter-nav {
   display: none;
 }
 

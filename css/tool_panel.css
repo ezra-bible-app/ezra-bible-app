@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 
 /* LANDSCAPE */
 @media screen and (min-aspect-ratio: 13/10) {
-  .Android #tool-panel #tag-list-stats {
+  .Cordova #tool-panel #tag-list-stats {
     display: none;
   }
 }
@@ -36,7 +36,7 @@
     min-width: 27em;
   }
 
-  .Android #tool-panel #tag-list-stats {
+  .Cordova #tool-panel #tag-list-stats {
     display: inline-block;
   }
 }
@@ -92,7 +92,7 @@
     height: 100% !important;
   }
 
-  .Android #tool-panel {
+  .Cordova #tool-panel {
     width: 22em;
   }
 }
@@ -217,6 +217,18 @@
 
 #word-study-panel {
   user-select: none;
+}
+
+#word-study-panel-content {
+  user-select: text;
+}
+
+#word-study-panel-copy-button {
+  float: right;
+  margin-right: 0.5em;
+  margin-top: 0.3em;
+  padding: 0.3em 0.5em;
+  cursor: pointer;
 }
 
 .panel-wrapper {
@@ -365,7 +377,7 @@ tr.td-underline td {
   content-visibility: auto;
 }
 
-.Android .checkbox-tag {
+.Cordova .checkbox-tag {
   height: 2.5em;
   padding-top: 0.8em;
 }
@@ -401,7 +413,7 @@ input.tag-cb {
   max-width: 80%;
 }
 
-.Android .cb-input-label-stats {
+.Cordova .cb-input-label-stats {
   max-width: 70%;
 }
 
@@ -450,14 +462,14 @@ input.tag-cb {
   opacity: 0.8;
 }
 
-.Android .button-small {
+.Cordova .button-small {
   width: 24px;
   height: 24px;
   font-size: 1em;
 }
 
-.Android #tag-group-list-content .button-small,
-.Android #tags-content-global .button-small {
+.Cordova #tag-group-list-content .button-small,
+.Cordova #tags-content-global .button-small {
   margin-right: 1em;
 }
 
@@ -486,7 +498,7 @@ input.tag-cb {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
-.Android .ezra-dialog {
+.Cordova .ezra-dialog {
   border-top: unset !important;
   border-left: unset !important;
   border-right: unset !important;

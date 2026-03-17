@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -48,12 +48,15 @@ class TextController {
     return this.textUpdateInProgress;
   }
 
-  async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined) {
+  async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined, explicitChapterNavigation = false) {
     if (platformHelper.isCordova()) {
       uiHelper.showTextLoadingIndicator();
     }
 
-    app_controller.book_selection_menu.hideBookMenu();
+    // Store the navigation context for use in on-bible-text-loaded event
+    this._explicitChapterNavigation = explicitChapterNavigation;
+
+    app_controller.book_selection_menu.hideBookMenu(true);
     await waitUntilIdle();
 
     app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
@@ -374,7 +377,20 @@ class TextController {
 
           if (this.platformHelper.isElectron()) {
             const sanitizeHtml = require('sanitize-html');
-            bookIntroduction = sanitizeHtml(bookIntroduction);
+
+            bookIntroduction = sanitizeHtml(bookIntroduction, {
+              // Take the default tags and add 'img' and 'center'
+              allowedTags: [ ...sanitizeHtml.defaults.allowedTags, 'img', 'center' ],
+              
+              // Since we're adding images, we allow standard image attributes as well
+              allowedAttributes: {
+                ...sanitizeHtml.defaults.allowedAttributes,
+                'img': ['src', 'alt', 'width', 'height']
+              },
+
+              // Add 'file' to the list of permitted protocols
+              allowedSchemes: [...sanitizeHtml.defaults.allowedSchemes, 'file']
+            });
           }
         }
       } catch (e) {
@@ -567,6 +583,7 @@ class TextController {
                                  verses1,
                                  verses2,
                                  null,
+                                 null,
                                  versification,
                                  render_function,
                                  searchResultBookId <= 0,
@@ -593,16 +610,17 @@ class TextController {
     let renderTagNotes = false;
     let tagNote = null;
     let noteFileId = null;
+    let firstTagId = null;
 
     // If only one tag is selected, we can render the tag note (intro and conclusion) for the tag
     // and also the notes for the verses tagged with this tag.
     if (selectedTagList.length == 1) {
       renderTagNotes = true;
 
-      const tagId = parseInt(selectedTagList[0]);
-      tagNote = await ipcDb.getTagNote(tagId);
+      firstTagId = parseInt(selectedTagList[0]);
+      tagNote = await ipcDb.getTagNote(firstTagId);
 
-      const tagObject = await tag_assignment_panel.tag_store.getTag(tagId);
+      const tagObject = await tag_assignment_panel.tag_store.getTag(firstTagId);
       if (tagObject != null && tagObject.noteFileId != null) {
         noteFileId = tagObject.noteFileId;
       }
@@ -680,6 +698,7 @@ class TextController {
                                  verses1,
                                  verses2,
                                  tagNote,
+                                 firstTagId,
                                  versification,
                                  render_function,
                                  true,
@@ -746,6 +765,7 @@ class TextController {
                                  verses1,
                                  verses2,
                                  null,
+                                 null,
                                  versification,
                                  render_function,
                                  true,
@@ -777,6 +797,7 @@ class TextController {
                         verses1,
                         verses2,
                         tagNote,
+                        tagId,
                         versification,
                         render_function,
                         renderBibleBookHeaders=true,
@@ -804,6 +825,7 @@ class TextController {
       verses1: verses1,
       verses2: verses2,
       tagNote: tagNote,
+      tagId: tagId,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
       marked: marked,
@@ -985,6 +1007,7 @@ class TextController {
     if (isCache || listType == 'book' && !append) {
       app_controller.optionsMenu.showOrHideBookIntroductionBasedOnOption(tabIndex);
       app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
+      app_controller.optionsMenu.showOrHideChapterNavBasedOnOption(tabIndex);
     }
 
     if (isCache ||
@@ -1004,7 +1027,15 @@ class TextController {
       if (listType != 'search_results' ||
           listType == 'search_results' && !showSearchResultsInPopup) {
 
-        await eventController.publishAsync('on-bible-text-loaded', tabIndex);
+        const navigationContext = {
+          tabIndex: tabIndex,
+          explicitChapterNavigation: this._explicitChapterNavigation || false
+        };
+        
+        await eventController.publishAsync('on-bible-text-loaded', navigationContext);
+        
+        // Reset the flag after publishing
+        this._explicitChapterNavigation = false;
       }
 
       uiHelper.hideTextLoadingIndicator();

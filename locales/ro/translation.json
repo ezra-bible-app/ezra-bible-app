@@ -95,7 +95,10 @@
       "module-with": "{{module_type, capitalize}} cu {{feature_type, instrumental}}",
       "module-already-installed": "Acest {{module_type, singular}} este deja instalat",
       "show-module-info":"Arată info",
-      "show-detailed-module-info": "Click pe iconița de informații pentru a vedea mai multe detalii despre {{module_type, singular}}."
+      "show-detailed-module-info": "Click pe iconița de informații pentru a vedea mai multe detalii despre {{module_type, singular}}.",
+      "duplicate-module-title": "Modul deja selectat",
+      "duplicate-module-message": "Modulul {{moduleId}} este deja selectat din depozitul {{repository}}. Te rog deselectează-l mai întâi dacă vrei să îl instalezi dintr-un alt depozit.",
+      "already-installed-message": "Modulul {{moduleId}} este deja instalat din depozitul {{repository}}. Te rog dezinstalează-l mai întâi dacă vrei să îl instalezi dintr-un alt depozit."
     },
     "step-install": {
       "installing-modules": "Instalarea {{module_type, accusative}} selectat",
@@ -166,12 +169,14 @@
     "next": "Înainte",
     "previous": "Înapoi",
     "finish": "Finalizare",
+    "install": "Instalează",
     "back": "Înapoi",
     "save": "Salvare",
     "cancel": "Anulare",
     "rename": "Redenumește",
     "loading": "Se încarcă",
     "update": "Actualizează",
+    "warning": "Avertisment",
     "new-release-available-title": "Versiune nouă disponibilă!",
     "new-release-available-body": "O versiune nouă pentru Ezra Bible App este disponibilă!",
     "latest-version": "Versiune recentă",
@@ -208,21 +213,22 @@
     "general-options": "Opțiuni generale",
     "check-new-releases": "Verifică lansări noi",
     "send-crash-reports": "Trimite rapoarte de eroare",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Copiază versetele începând cu referința",
     "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!",
     "type-face": {
-      "configure-typeface": "Configure content typeface",
+      "configure-typeface": "Configurează fontul conținutului",
       "sans-serif": "Sans serif",
       "serif": "Serif",
       "custom": "Personalizat",
       "content-font-family": "Familia de font a conținutului",
-      "custom-content-font": "Font pesronalizat pentru conținut",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "custom-content-font": "Font personalizat pentru conținut",
+      "content-heading": "Conținut Biblic",
+      "user-content-heading": "Etichete & Notițe",
+      "same-as-content": "Cum este și conținutul"
     },
     "title": "Titlu",
-    "tabs": "Tabs"
+    "tabs": "Tabs",
+    "module-not-installed": "Modulul '{{module_name}}' nu este instalat."
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirmă opțiunile legate de confidențialitatea datelor",
@@ -367,6 +373,7 @@
     "red-letters": "Evidențiază cuvintele lui Isus cu roșu.",
     "show-dictionary": "Afișează dicționar",
     "show-wordstudy": "Afișează studiu cuvânt",
+    "show-chapter-headings": "Afișează titlurile capitolelor",
     "show-book-chapter-navigation": "Afișează navigare carte/capitol",
     "show-header-navigation": "Afișează navigare antet",
     "show-tab-search": "Afișează căutare filă curentă",
@@ -414,7 +421,7 @@
       "moved" : "Aceste cuvinte se aflau în altă locație în textul sursă",
       "tense-change": "Timpul gramatical al acestor cuvinte a fost schimbat pentru a ușura traducerea"
     },
-    "empty-tab-title": "Empty tab"
+    "empty-tab-title": "Filă goală"
   },
   "word-study-panel": {
     "greek-dict": "Studiu cuvânt în Greacă",
@@ -428,13 +435,18 @@
     "help-instruction-part4-desktop": "Ține apăsată tasta SHIFT pentru a activa funcția mouseover pentru toate versetele.",
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
-    "related-strongs": "(Strong's) Concordanțe asociate"
+    "related-strongs": "(Strong's) Concordanțe asociate",
+    "copy-to-clipboard": "Copiază studiul cuvântului în clipboard",
+    "copy-to-clipboard-success": "Studiul cuvântului a fost copiat în clipboard!",
+    "copy-dict-entry-to-clipboard": "Copiază intrarea din dicționar în clipboard",
+    "copy-dict-entry-to-clipboard-success": "Intrarea din dicționar a fost copiată în clipboard!"
   },
   "dictionary-panel": {
     "default-header": "<b>Dicționar</b>",
     "help-no-dicts": "Nu există niciun dicționar disponibil.",
     "open-in-word-study": "Deschide în Studiu Cuvânt",
-    "filter-placeholder": "Filtare..."
+    "filter-placeholder": "Filtare...",
+    "warning-cross-reference-not-found": "Referința încrucișată nu a fost găsită în traducerea biblică curentă! Încearcă să treci la o altă traducere biblică."
   },
   "tag-statistics-panel": {
     "default-header": "Statistici etichete",
@@ -453,13 +465,16 @@
     "default-header": "<b>Comentarii biblice</b>",
     "commentaries-for": "Comentarii pentru",
     "show-commentaries": "Arată comentarii",
+    "configure-commentaries": "Configurează comentariile",
+    "select-which-commentaries-to-display": "Selectează ce comentarii să fie afișate în panoul de comentarii:",
     "copy-commentary-to-clipboard": "Copiază comentariul în clipboard",
     "copy-commentary-to-clipboard-success": "Comentatiu copiat în clipboard!",
     "help-instruction": "Pentru a afișa conținutul comentariilor, selectează un verset.<br><br> Această zonă va lista automat versetul selectat din toate comentariile disponibile.",
     "help-instruction-no-commentaries": "Încă nu au fost instalate comentarii. Trebuie să instalezi cel puțin un comentariu pentru ca această funcționalitate să fie utilă.",
     "help-instruction-no-kjv": "Traducerea KJV nu a fost instalată, încă. Aceasta este necesară petnru a afișa corect comentarii Biblice pe baza versificării în limba engleză. Poți remedia asta prin:<ul><li>Instalarea traducerii KJV din depozitul CrossWire</li><li>Instalarea unui comentariu (versiunea KJV este instalată automat în acest caz)</li></ul>",
     "no-commentaries-available-for-this-verse": "Nu există comentarii disponibile pentru acest verset.",
-    "copy-button": "Copiază comentariul"
+    "copy-button": "Copiază comentariul",
+    "footnotes": "Note de subsol"
   },
   "emoji": {
     "search": "Căută emoji ...",
@@ -492,8 +507,8 @@
     "waiting-app-ready": "În așteptare ca aplicație să fie pregătită"
   },
   "dropbox": {
-    "setup-db-sync": "Configurează sincronizarea cu Dropbox",
-    "dropbox-sync-explanation-part1": "Sincronizarea cu Dropbox poate fi folosită pentru a îți sincroniza baza de date  Ezra&nbsp;Bible&nbsp;App cu mai multe dispozitive pe care le deții.",
+    "setup-dropbox": "Setup Dropbox",
+    "dropbox-sync-explanation-part1": "Dropbox poate fi folosit pentru a sincroniza baza de date Ezra&nbsp;Bible&nbsp;App pe mai multe dispozitive. De asemenea, poți configura un depozit personalizat de module.",
     "dropbox-sync-explanation-part2": "Baza de date va fi sincronizată cu la evenimentele următoare:",
     "dropbox-sync-explanation-part3a": "După conectarea contului Dropbox pentru prima dată.",
     "dropbox-sync-explanation-part3b": "La pornirea aplicației sau la reluare.",
@@ -507,8 +522,23 @@
     "dropbox-link-status-not-linked": "Neconectat",
     "dropbox-link-status-linked": "Conectat",
     "dropbox-link-status-linking-failed": "Conectare eșuată!",
+    "database-sync": "Sincronizare bază de date (Pornire/Oprire)",
     "only-sync-on-wifi": "Sincronizare doar prin WiFi",
     "sync-after-changes": "Sincronizează bază de date după modificări",
+    "use-custom-module-repo": "Folosește depozit personalizat de module",
+    "custom-module-repo-folder": "Dosarul depozitului personalizat de module",
+    "validate-repo": "Validează",
+    "validating-repo": "Se validează depozitul...",
+    "repo-validation-success": "Structura depozitului este validă",
+    "repo-validation-error-not-linked": "Contul Dropbox nu este conectat",
+    "repo-validation-error-empty-path": "Calea către depozitul personalizat de module este goală",
+    "repo-validation-error-not-a-folder": "Calea către depozit nu este un dosar",
+    "repo-validation-error-not-found": "Dosarul depozitului nu a fost găsit",
+    "repo-validation-error-index-not-found": "Fișierul index mods.d.tar.gz nu a fost găsit",
+    "repo-validation-error-packages-not-a-folder": "packages nu este un dosar",
+    "repo-validation-error-packages-not-found": "Dosarul packages nu a fost găsit",
+    "repo-validation-error-packages-empty": "Dosarul packages este gol",
+    "repo-validation-error-unknown": "Validarea a eșuat: {{error}}",
     "dropbox-sync-info": "Info sincronizre Dropbox",
     "last-dropbox-sync-time": "Ultima sincronizare",
     "last-dropbox-sync-result": "Rezultat ultima sincronizare",
@@ -524,6 +554,22 @@
     "access-method-message-part4": "Legătura Ezra Bible App la contul tău Dropbox a fost resetată.<br/>",
     "access-method-message-part5": "Acestea sunt acţiunile pe care trebuie să le faci acum:",
     "access-method-message-part6": "Re-configurează legătura la contul tău Dropbox.",
-    "access-method-message-part7": "Actualizează Ezra Bible App pe toate dispozitivele tale pentru a te asigura că metoda de sincronizare cu contul Dropbox este aceeaşi."
+    "access-method-message-part7": "Actualizează Ezra Bible App pe toate dispozitivele tale pentru a te asigura că metoda de sincronizare cu contul Dropbox este aceeaşi.",
+    "install-from-zip": "Instalează module din Dropbox",
+    "install-from-zip-explanation": "Selectează unul sau mai multe fișiere zip de module din Dropbox pentru a le instala:",
+    "loading-zip-files": "Se încarcă fișierele zip din Dropbox...",
+    "error-loading-files": "Eroare la încărcarea fișierelor din Dropbox",
+    "no-zip-files-found": "Nu s-au găsit fișiere zip în Dropbox",
+    "validating-modules": "Se validează modulele...",
+    "installing-modules": "Se instalează modulele...",
+    "validation-failed": "Structură de modul invalidă",
+    "module-already-installed": "Deja instalat",
+    "ready-to-install": "Gata de instalare",
+    "installation-complete": "Instalare finalizată",
+    "modules-installed": "{{count}} modul(e) instalat(e) cu succes",
+    "modules-skipped": "{{count}} modul(e) omis(e) (deja instalat(e))",
+    "modules-failed": "{{count}} modul(e) nu au putut fi instalat(e)",
+    "install-summary": "Rezumat instalare",
+    "dropbox-not-linked": "Contul Dropbox nu este conectat. Te rog configurează Dropbox mai întâi."
   }
 }

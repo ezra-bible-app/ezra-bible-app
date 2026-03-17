@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -146,7 +146,7 @@ module.exports.showModuleUpdateDialog = async function() {
     Mousetrap.bind('esc', () => { $dialogBox.dialog("close"); });
 
     $dialogBox.dialog(dialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('module-update-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('module-update-dialog');
 
     document.getElementById('update-modules-button').addEventListener('click', () => {
       let dialogContent = document.getElementById('module-update-dialog-content');
@@ -230,6 +230,7 @@ function refreshUpdatedModuleList() {
         updatedModules.forEach(async (module) => {
           let moduleRow = document.createElement('tr');
           moduleRow.setAttribute('module-code', module.name);
+          moduleRow.setAttribute('module-repository', module.repository);
 
           let nameCell = document.createElement('td');
           nameCell.style.paddingRight = '1em';
@@ -392,6 +393,7 @@ async function performModuleUpdate() {
     let tr = rows[i];
 
     let moduleCode = tr.getAttribute('module-code');
+    let repository = tr.getAttribute('module-repository');
     let statusCell = tr.querySelector('.status');
     let loadingIndicator = statusCell.firstChild;
     previousLoadingIndicator = loadingIndicator;
@@ -402,7 +404,7 @@ async function performModuleUpdate() {
     // Therefore, the explicit uninstall step is quite important!
     await ipcNsi.uninstallModule(moduleCode);
 
-    await ipcNsi.installModule(moduleCode);
+    await ipcNsi.installModule(repository, moduleCode);
 
     if (previousLoadingIndicator != null) {
       previousLoadingIndicator.style.display = 'none';

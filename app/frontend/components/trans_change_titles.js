@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,8 @@ const verseListController = require('../controllers/verse_list_controller.js');
 module.exports.init = function() {
   // This feature only works on desktop
   if (platformHelper.isElectron()) {
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
-      initTransChangeTitlesForTab(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', (context) => {
+      initTransChangeTitlesForTab(context.tabIndex);
     });
 
     eventController.subscribe('on-locale-changed', () => {

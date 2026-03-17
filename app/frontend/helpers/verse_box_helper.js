@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -221,9 +221,10 @@ class VerseBoxHelper {
     const sanitizeHtml = require('sanitize-html');
 
     htmlCode = sanitizeHtml(htmlCode, {
-      allowedTags: ['i', 'span', 'br', 'sup', 'b', 'div', 'reference'],
+      allowedTags: ['a', 'i', 'span', 'br', 'sup', 'b', 'div', 'reference'],
       /* Allow all attributes */
       allowedAttributes: false,
+      allowedSchemes: ['http', 'https', 'mailto', 'sword' ],
       allowedStyles: {
         '*': {
           // Match HEX and RGB

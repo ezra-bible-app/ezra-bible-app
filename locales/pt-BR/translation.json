@@ -28,7 +28,7 @@
     "whole-bible": "Bíblia Completa",
     "ot": "Velho Testamento",
     "nt": "Novo Testamento",
-    "word-boundaries": "Use word boundaries",
+    "word-boundaries": "Usar limites de palavra",
     "extended-verse-boundaries": "Limites do versículo estendido (dois versículos)"
   },
   "module-assistant": {
@@ -95,7 +95,10 @@
       "module-with": "{{module_type, capitalize}} com {{feature_type, instrumental}}",
       "module-already-installed": "Este {{module_type, singular}} já está instalado!",
       "show-module-info": "Mostrar informação",
-      "show-detailed-module-info": "Clique no ícone de informações para ver mais detalhes sobre o {{module_type, singular}}."
+      "show-detailed-module-info": "Clique no ícone de informações para ver mais detalhes sobre o {{module_type, singular}}.",
+      "duplicate-module-title": "Módulo já selecionado",
+      "duplicate-module-message": "O módulo {{moduleId}} já está selecionado do repositório {{repository}}. Por favor, desmarque-o primeiro se você quiser instalar a partir de um repositório diferente.",
+      "already-installed-message": "O módulo {{moduleId}} já está instalado do repositório {{repository}}. Por favor, desinstale-o primeiro se você quiser instalar a partir de um repositório diferente."
     },
     "step-install": {
       "installing-modules": "Instalando {{module_type, accusative}} selecionados",
@@ -138,7 +141,7 @@
     "config-file-path": "Caminho da Configuração",
     "module-name": "Nome",
     "module-version": "Versão",
-    "module-version-info": "Version info",
+    "module-version-info": "Informações da versão",
     "module-current-version": "Versão atual",
     "module-new-version": "Nova versão",
     "module-last-update": "Última atualização",
@@ -166,12 +169,14 @@
     "next": "Pŕoximo",
     "previous": "Anterior",
     "finish": "Finalizar",
+    "install": "Instalar",
     "back": "Voltar",
     "save": "Gravar",
     "cancel": "Cancelar",
     "rename": "Renomear",
     "loading": "Carregando",
     "update": "Atualizar",
+    "warning": "Aviso",
     "new-release-available-title": "Nova versão disponível!",
     "new-release-available-body": "Uma nova versão da Bíblia Esdras está disponível!",
     "latest-version": "Última versão",
@@ -222,7 +227,8 @@
       "same-as-content": "Igual ao conteúdo"
     },
     "title": "Título",
-    "tabs": "Tabs"
+    "tabs": "Abas",
+    "module-not-installed": "O módulo '{{module_name}}' não está instalado."
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirme as opções de privacidade de dados",
@@ -288,7 +294,7 @@
     "recently-used-tags": "Etiquetas utilizadas recentemente",
     "really-delete": "Você realmente quer excluir a seguinte etiqueta: ",
     "tag-info-would-be-deleted": "A informação da etiqueta será apagada <b>para todos os versículos associados!</b>",
-    "tag-specific-notes-would-be-deleted": "The <b>tag specific notes</b> would be deleted!",
+    "tag-specific-notes-would-be-deleted": "As <b>notas específicas da etiqueta</b> seriam apagadas!",
     "really-remove-tag-assignment": "Você realmente quer remover a etiqueta &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; para os versículos selecionados?",
     "remove-tag-assignment": "Remove etiqueta atribuída",
     "verses-tagged-with": "Versículos etiquetados com ",
@@ -324,12 +330,12 @@
     "add-tags-to-group": "Adicionar etiquetas ao grupo",
     "delete-tag-from-group-explanation": "A etiqueta <i>{{tag}}</i> será apagada do grupo <i>{{group}}</i>. Para apagar a etiqueta definitivamente, clique na caixa de seleção abaixo.",
     "really-delete-tag-group": "Você realmente quer apagar o grupo de etiquetas<br/><i>{{tagGroupTitle}}</i>?",
-    "use-tag-specific-notes": "Use tag specific notes"
+    "use-tag-specific-notes": "Usar notas específicas por etiqueta"
   },
   "bible-browser": {
     "chapter": "Capítulo",
     "chapter-header": "Cap.",
-    "recent-passages": "Recent passages",
+    "recent-passages": "Passagens recentes",
     "psalm": "Salmo",
     "selection": "Seleção: ",
     "loading-bible-text": "Carregando texto Bíblico",
@@ -364,6 +370,7 @@
     "red-letters": "Destacar palavras de Jesus em vermelho",
     "show-dictionary": "Mostrar dicionário",
     "show-wordstudy": "Mostrar estudo de palavras",
+    "show-chapter-headings": "Mostrar títulos dos capítulos",
     "show-book-chapter-navigation": "Mostrar navegação por livro/capítulo",
     "show-header-navigation": "Mostrar navegação de títulos",
     "show-tab-search": "Mostrar atual aba de busca",
@@ -411,7 +418,7 @@
       "moved": "Essas palavras estavam em outro local no texto fonte",
       "tense-change": "O tempo gramatical dessas palavras foi alterado para facilitar a tradução"
     },
-    "empty-tab-title": "Empty tab"
+    "empty-tab-title": "Aba vazia"
   },
   "word-study-panel": {
     "greek-dict": "Estudo de Palavras Gregas",
@@ -425,13 +432,18 @@
     "help-instruction-part4-desktop": "Segure a tecla SHIFT para ativar a função de passagem do mouse para todos os versos.",
     "find-all-occurrences": "Encontrar todas as ocorrências",
     "open-in-blueletter": "Abrir na Bíblia Blue Letter",
-    "related-strongs": "Strong's relacionados"
+    "related-strongs": "Strong's relacionados",
+    "copy-to-clipboard": "Copiar estudo de palavras para a área de transferência",
+    "copy-to-clipboard-success": "Estudo de palavras copiado para a área de transferência!",
+    "copy-dict-entry-to-clipboard": "Copiar entrada do dicionário para a área de transferência",
+    "copy-dict-entry-to-clipboard-success": "Entrada do dicionário copiada para a área de transferência!"
   },
   "dictionary-panel": {
     "default-header": "<b>Dicionário</b>",
     "help-no-dicts": "Não há dicionários disponíveis.",
     "open-in-word-study": "Abrir no estudo de palavras",
-    "filter-placeholder": "Filtrar..."
+    "filter-placeholder": "Filtrar...",
+    "warning-cross-reference-not-found": "Referência cruzada não encontrada na tradução bíblica atual! Tente mudar para outra tradução bíblica."
   },
   "tag-statistics-panel": {
     "default-header": "Estatísticas de etiquetas",
@@ -443,27 +455,30 @@
   "compare-panel": {
     "default-header": "<b>Comparar traduções</b>",
     "show-parallel-translations": "Comparar traduções",
-    "help-instruction": "Para comparar traduções, você deve selecionar um ou mais versículos.<br><br> Esta área listará automaticamente os versículos selecionados de todas as traduções disponíveis.<br><br> You need to have at least two translations installed for this functionality to work.",
+    "help-instruction": "Para comparar traduções, você deve selecionar um ou mais versículos.<br><br> Esta área listará automaticamente os versículos selecionados de todas as traduções disponíveis.<br><br> Você precisa ter pelo menos duas traduções instaladas para que esta funcionalidade funcione.",
     "compare": "Comparar"
   },
   "commentary-panel": {
     "default-header": "<b>Comentário bíblico</b>",
     "commentaries-for": "Comentários para",
     "show-commentaries": "Mostrar comentários",
+    "configure-commentaries": "Configurar comentários",
+    "select-which-commentaries-to-display": "Selecione quais comentários exibir no painel de comentários:",
     "copy-commentary-to-clipboard": "Copiar comentário para a área de transferência",
     "copy-commentary-to-clipboard-success": "Comentário copiado para a área de transferência!",
     "help-instruction": "Para mostrar o conteúdo do comentário, selecione um versículo.<br><br> Esta área listará automaticamente todos os comentários disponíveis do versículo selecionado.",
     "help-instruction-no-commentaries": "Nenhum comentário foi instalado ainda. Você precisa instalar pelo menos um comentário para que este recurso funcione.",
     "help-instruction-no-kjv": "A tradução KJV ainda não foi instalada. A KJV é necessária para mostrar corretamente os comentários bíblicos baseados na divisão de versículos em inglês. Você pode corrigir isso:<ul><li>Instalando o KJV do repositório CrossWire</li><li>Instalando um comentário (A tradução KJV é instalada automaticamente neste caso)</li></ul>",
     "no-commentaries-available-for-this-verse": "Não comentários disponíveis para este versículo.",
-    "copy-button": "Copy commentary"
+    "copy-button": "Copiar comentário",
+    "footnotes": "Notas de rodapé"
   },
   "emoji": {
     "search": "Buscar emojis...",
     "notFound": "Emojis não encontrados",
     "categories": {
       "recents": "Emojis recentes",
-      "smileys": "Smileys & Emotion",
+      "smileys": "Carinhas e Emoção",
       "people": "Pessoas & Corpo",
       "animals": "Animais & Natureza",
       "food": "Comidas & Bebidas",
@@ -489,8 +504,8 @@
     "waiting-app-ready": "Aguardando aplicativo ficar pronto"
   },
   "dropbox": {
-    "setup-db-sync": "Configurar sincronização via Dropbox",
-    "dropbox-sync-explanation-part1": "A sincronização via Dropbox pode ser usada para sincronizar o banco de dados do aplicativo Bíblia Esdras em vários dispositivos.",
+    "setup-dropbox": "Configurar Dropbox",
+    "dropbox-sync-explanation-part1": "O Dropbox pode ser usado para sincronizar o banco de dados do seu Ezra&nbsp;Bible&nbsp;App em vários dispositivos. Além disso, você pode configurar um repositório de módulos personalizado.",
     "dropbox-sync-explanation-part2": "O banco de dados será sincronizado nos seguintes eventos:",
     "dropbox-sync-explanation-part3a": "Após vincular a conta do Dropbox pela primeira vez.",
     "dropbox-sync-explanation-part3b": "Ao inicializar o aplicativo ou ao reinicializar.",
@@ -504,8 +519,23 @@
     "dropbox-link-status-not-linked": "Não conectado",
     "dropbox-link-status-linked": "Conectado",
     "dropbox-link-status-linking-failed": "Falha ao vincular!",
+    "database-sync": "Sincronização do banco de dados (Início/Encerramento)",
     "only-sync-on-wifi": "Sincronizar apenas via Wi-Fi",
     "sync-after-changes": "Sincronizar bando de dados após mudanças",
+    "use-custom-module-repo": "Usar repositório de módulos personalizado",
+    "custom-module-repo-folder": "Pasta do repositório de módulos personalizado",
+    "validate-repo": "Validar",
+    "validating-repo": "Validando repositório...",
+    "repo-validation-success": "A estrutura do repositório é válida",
+    "repo-validation-error-not-linked": "Conta do Dropbox não vinculada",
+    "repo-validation-error-empty-path": "O caminho do repositório de módulos personalizado está vazio",
+    "repo-validation-error-not-a-folder": "O caminho do repositório não é uma pasta",
+    "repo-validation-error-not-found": "Pasta do repositório não encontrada",
+    "repo-validation-error-index-not-found": "Arquivo de índice mods.d.tar.gz não encontrado",
+    "repo-validation-error-packages-not-a-folder": "packages não é uma pasta",
+    "repo-validation-error-packages-not-found": "Pasta packages não encontrada",
+    "repo-validation-error-packages-empty": "A pasta packages está vazia",
+    "repo-validation-error-unknown": "Validação falhou: {{error}}",
     "dropbox-sync-info": "Informação de sincronização do Dropbox",
     "last-dropbox-sync-time": "Última sincronização",
     "last-dropbox-sync-result": "Resultado da última sincronização",
@@ -521,6 +551,22 @@
     "access-method-message-part4": "O link do Ezra Bible App para sua conta do Dropbox foi redefinido.<br/>",
     "access-method-message-part5": "Estas são as ações que você precisa realizar agora:",
     "access-method-message-part6": "Reconfigure o link da conta do Dropbox.",
-    "access-method-message-part7": "Atualize o Ezra Bible App em todos os seus dispositivos para garantir que o método de sincronização do Dropbox seja o mesmo."
+    "access-method-message-part7": "Atualize o Ezra Bible App em todos os seus dispositivos para garantir que o método de sincronização do Dropbox seja o mesmo.",
+    "install-from-zip": "Instalar módulos do Dropbox",
+    "install-from-zip-explanation": "Selecione um ou mais arquivos zip de módulos do seu Dropbox para instalar:",
+    "loading-zip-files": "Carregando arquivos zip do Dropbox...",
+    "error-loading-files": "Erro ao carregar arquivos do Dropbox",
+    "no-zip-files-found": "Nenhum arquivo zip encontrado no Dropbox",
+    "validating-modules": "Validando módulos...",
+    "installing-modules": "Instalando módulos...",
+    "validation-failed": "Estrutura de módulo inválida",
+    "module-already-installed": "Já instalado",
+    "ready-to-install": "Pronto para instalar",
+    "installation-complete": "Instalação concluída",
+    "modules-installed": "{{count}} módulo(s) instalado(s) com sucesso",
+    "modules-skipped": "{{count}} módulo(s) ignorado(s) (já instalado(s))",
+    "modules-failed": "{{count}} módulo(s) falhou(aram) ao instalar",
+    "install-summary": "Resumo da instalação",
+    "dropbox-not-linked": "A conta do Dropbox não está vinculada. Por favor, configure o Dropbox primeiro."
   }
 }

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -156,9 +156,10 @@ class StepLanguages extends HTMLElement {
     const selectedLanguages = assistantController.get('selectedLanguages');
     
     this._appendList(this._allLanguages, 
-                     languageData.appSystemLanguages, 
-                     selectedLanguages, 
-                     i18n.t('module-assistant.step-languages.app-system-languages'));
+             languageData.appSystemLanguages, 
+             selectedLanguages, 
+             i18n.t('module-assistant.step-languages.app-system-languages'),
+             (item) => item.code);
 
     this._allLanguages.animate({opacity: [0, 1]}, 500);
 
@@ -170,7 +171,8 @@ class StepLanguages extends HTMLElement {
       this._appendList(containerSmallList, 
                        languages[category], 
                        selectedLanguages, 
-                       i18n.t(`module-assistant.step-languages.${category}`));
+                       i18n.t(`module-assistant.step-languages.${category}`),
+                       (item) => item.code);
     }
       
     this._allLanguages.appendChild(containerSmallList);
@@ -187,23 +189,22 @@ class StepLanguages extends HTMLElement {
       this._appendList(containerLongList, 
                        languages[category], 
                        selectedLanguages, 
-                       category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined);
+                       category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined,
+                       (item) => item.code);
     }
 
     await waitUntilIdle();
     this._allLanguages.appendChild(containerLongList);
 
-    await waitUntilIdle();
     this._updateLanguageCount(languageModuleCount, this._allLanguages);
     this._updateLanguageCount(languageModuleCount, containerLongList);
     
-    await waitUntilIdle();
     this._loading.hide();
   }
 
-  _appendList(container, languageMap, selectedLanguages, sectionHeader) {
+  _appendList(container, languageMap, selectedLanguages, sectionHeader, keyFn) {
     if (languageMap.size > 0) {
-      container.appendChild(assistantHelper.listCheckboxSection(languageMap, selectedLanguages, sectionHeader, {limitRows: true}));
+      container.appendChild(assistantHelper.listCheckboxSection(languageMap, selectedLanguages, sectionHeader, {limitRows: true, keyFn: keyFn}));
     }
   }
 
@@ -290,6 +291,12 @@ async function getAvailableLanguagesFromRepos() {
 
   for (const currentRepo of repositories) {
     var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, assistantController.get('moduleType'));
+
+    // Ensure repoLanguages is iterable
+    if (!repoLanguages || !Array.isArray(repoLanguages)) {
+      console.warn(`getRepoLanguages returned non-iterable value for repository ${currentRepo}:`, repoLanguages);
+      repoLanguages = [];
+    }
 
     for (const currentLanguageCode of repoLanguages) {
       const languageInfo = languageMapper.getLanguageDetails(currentLanguageCode, i18nController.getLocale());

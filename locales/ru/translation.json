@@ -97,7 +97,10 @@
       "module-with": "{{module_type, capitalize}} с {{feature_type, instrumental}}",
       "module-already-installed": "Этот {{module_type, singular}} уже установлен!",
       "show-module-info":"Показать подробности",
-      "show-detailed-module-info": "Нажмите на иконке информации для отображения подробностей о {{module_type, singular-instrumental}}."
+      "show-detailed-module-info": "Нажмите на иконке информации для отображения подробностей о {{module_type, singular-instrumental}}.",
+      "duplicate-module-title": "Модуль уже выбран",
+      "duplicate-module-message": "Модуль {{moduleId}} уже выбран из репозитория {{repository}}. Пожалуйста, сначала снимите выделение, если хотите установить его из другого репозитория.",
+      "already-installed-message": "Модуль {{moduleId}} уже установлен из репозитория {{repository}}. Пожалуйста, сначала удалите его, если хотите установить его из другого репозитория."
     },
     "step-install": {
       "installing-modules": "Установка выбранных {{module_type, genitive}}",
@@ -168,12 +171,14 @@
     "next": "Далее",
     "previous": "Назад",
     "finish": "Готово",
+    "install": "Установить",
     "back": "Вернуться",
     "save": "Сохранить",
     "cancel": "Отменить",
     "rename": "Переименовать",
     "loading": "Загрузка",
     "update": "Обновить",
+    "warning": "Предупреждение",
     "new-release-available-title": "Доступна новая версия!",
     "new-release-available-body": "Возможна загрузка новой версии Ezra Bible App!",
     "latest-version": "Последняя версия",
@@ -210,7 +215,7 @@
     "general-options": "Общие настройки",
     "check-new-releases": "Проверять наличие обновлений",
     "send-crash-reports": "Посылать отчеты об ошибках",
-    "copy-verse-reference-before-text": "Copy verses starting with reference",
+    "copy-verse-reference-before-text": "Ccылка перед отрывком при копировании",
     "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!",
     "type-face": {
       "configure-typeface": "Настройки шрифта контента",
@@ -219,12 +224,13 @@
       "custom": "Пользовательский",
       "content-font-family": "Семейство шрифта контента",
       "custom-content-font": "Пользовательский шрифт контента",
-      "content-heading": "Bible Content",
-      "user-content-heading": "Tags & Notes",
-      "same-as-content": "Same as content"
+      "content-heading": "Текст Библии",
+      "user-content-heading": "Метки и заметки",
+      "same-as-content": "Как в тексте"
     },
     "title": "Заголовок",
-    "tabs": "Tabs"
+    "tabs": "Вкладки",
+    "module-not-installed": "Модуль '{{module_name}}' не установлен."
   },
   "data-privacy": {
     "confirm-privacy-options": "Подтвердить настройки конфиденциальности данных",
@@ -370,9 +376,10 @@
     "red-letters": "Слова Иисуса - красным",
     "show-dictionary": "Словарь",
     "show-wordstudy": "Изучение слов",
+    "show-chapter-headings": "Заголовки глав",
     "show-book-chapter-navigation": "Навигация по главам",
     "show-header-navigation": "Навигация по заголовкам",
-    "show-tab-search": "Показать форму поиска по текущей вкладке",
+    "show-tab-search": "Поиск по текущей вкладке",
     "open-verse-lists-in-new-tab": "Списки стихов в новой вкладке",
     "open-in-new-tab": "Открыть в новой вкладке",
     "show-search-results-in-popup": "Показывать результаты поиска в модульном окне",
@@ -417,7 +424,7 @@
       "moved" : "Эти слова были в другом месте в тексте источника",
       "tense-change": "Граматический оборот этих слов был изменен для возможности перевода"
     },
-    "empty-tab-title": "Empty tab"
+    "empty-tab-title": "Пустая вкладка"
   },
   "word-study-panel": {
     "greek-dict": "Изучение греческих слов",
@@ -431,13 +438,18 @@
     "help-instruction-part4-desktop": "Удерживайте клавишу SHIFT для статей по наведению мышки для всех стихов.",
     "find-all-occurrences": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
-    "related-strongs": "Связанные номера Стронга"
+    "related-strongs": "Связанные номера Стронга",
+    "copy-to-clipboard": "Скопировать изучение слов в буфер обмена",
+    "copy-to-clipboard-success": "Изучение слов скопировано в буфер обмена!",
+    "copy-dict-entry-to-clipboard": "Скопировать статью словаря в буфер обмена",
+    "copy-dict-entry-to-clipboard-success": "Статья словаря скопирована в буфер обмена!"
   },
   "dictionary-panel": {
     "default-header": "<b>Словарь</b>",
     "help-no-dicts": "Отсутствуют установленные словари.",
     "open-in-word-study": "Открыть в изучении слов",
-    "filter-placeholder": "Фильтр..."
+    "filter-placeholder": "Фильтр...",
+    "warning-cross-reference-not-found": "Перекрестная ссылка не найдена в текущем переводе Библии! Попробуйте переключиться на другой перевод Библии."
   },
   "tag-statistics-panel": {
     "default-header": "Статистика меток",
@@ -456,13 +468,16 @@
     "default-header": "<b>Комментарий Библии</b>",
     "commentaries-for": "Комментарии для",
     "show-commentaries": "Показывать комментарии",
+    "configure-commentaries": "Настроить комментарии",
+    "select-which-commentaries-to-display": "Выберите, какие комментарии отображать в панели комментариев:",
     "copy-commentary-to-clipboard": "Скопировать комментарий в буфер обмена",
     "copy-commentary-to-clipboard-success": "Комментарий скопирован в буфер обмена!",
     "help-instruction": "Чтобы увидеть комментарии, выберите стих.<br><br> Эта область автоматически отобразит все имеющиеся комментарии к выбранному стиху.",
     "help-instruction-no-commentaries": "Комментарии не были установленны. Вам необходимо установить как минимум один комментарий.",
     "help-instruction-no-kjv": "Перевод Библии KJV не установлен. Этот перевод нужен для коректного отображения комментариев основанных на англоязычном разделе на стихи. Это будет исправленно:<ul><li>При установке перевода KJV из репозитория CrossWire</li><li>При установке комментария (в этом случае перевод KJV будет установлен автоматически)</li></ul>",
     "no-commentaries-available-for-this-verse": "Комментарии для этого стиха отсутствуют.",
-    "copy-button": "Скопировать комментарий"
+    "copy-button": "Скопировать комментарий",
+    "footnotes": "Сноски"
   },
   "emoji": {
     "search": "Поиск эмодзи...",
@@ -495,8 +510,8 @@
     "waiting-app-ready": "Ожидание готовности приложения"
   },
   "dropbox": {
-    "setup-db-sync": "Настройка Dropbox синхронизации",
-    "dropbox-sync-explanation-part1": "С помощью Dropbox синхронизации можно синхронизировать вашу базу данных Ezra&nbsp;Bible&nbsp;App на разных устройствах.",
+    "setup-dropbox": "Настройки Dropbox",
+    "dropbox-sync-explanation-part1": "Dropbox можно использовать для синхронизации базы данных Ezra&nbsp;Bible&nbsp;App на нескольких устройствах. Также вы можете настроить пользовательский репозиторий модулей.",
     "dropbox-sync-explanation-part2": "База данных будет синхронизиpованна в следующих случаях:",
     "dropbox-sync-explanation-part3a": "После привязки аккаунта Dropbox первый раз.",
     "dropbox-sync-explanation-part3b": "При запуске или востановлении приложения.",
@@ -510,8 +525,23 @@
     "dropbox-link-status-not-linked": "Не связанно",
     "dropbox-link-status-linked": "Связанно",
     "dropbox-link-status-linking-failed": "Привязка не удалась!",
+    "database-sync": "Синхронизация базы данных (при запуске/закрытии)",
     "only-sync-on-wifi": "Синхронизация только по WiFi",
     "sync-after-changes": "Синхронизировать базу данных после изменений",
+    "use-custom-module-repo": "Использовать пользовательский репозиторий модулей",
+    "custom-module-repo-folder": "Папка пользовательского репозитория модулей",
+    "validate-repo": "Проверить",
+    "validating-repo": "Проверка репозитория...",
+    "repo-validation-success": "Структура репозитория корректна",
+    "repo-validation-error-not-linked": "Аккаунт Dropbox не связан",
+    "repo-validation-error-empty-path": "Путь к пользовательскому репозиторию модулей пуст",
+    "repo-validation-error-not-a-folder": "Путь к репозиторию не является папкой",
+    "repo-validation-error-not-found": "Папка репозитория не найдена",
+    "repo-validation-error-index-not-found": "Файл индекса mods.d.tar.gz не найден",
+    "repo-validation-error-packages-not-a-folder": "packages не является папкой",
+    "repo-validation-error-packages-not-found": "Папка packages не найдена",
+    "repo-validation-error-packages-empty": "Папка packages пуста",
+    "repo-validation-error-unknown": "Проверка не удалась: {{error}}",
     "dropbox-sync-info": "Информация о синхронизации Dropbox",
     "last-dropbox-sync-time": "Синхронизиpованно",
     "last-dropbox-sync-result": "Результат последней синхронизации",
@@ -527,6 +557,22 @@
     "access-method-message-part4": "Привязка Ezra Bible App к вашему аккаунту Dropbox сброшена.<br/>",
     "access-method-message-part5": "Вам необходимо выполнить следующие действия:",
     "access-method-message-part6": "Перенастроить привязку аккаунта Dropbox.",
-    "access-method-message-part7": "Обновить Ezra Bible App на всех ваших устройствах чтобы убедиться, что метод синхронизации Dropbox одинаковий для всех устройсв."
+    "access-method-message-part7": "Обновить Ezra Bible App на всех ваших устройствах чтобы убедиться, что метод синхронизации Dropbox одинаковий для всех устройсв.",
+    "install-from-zip": "Установить модули из Dropbox",
+    "install-from-zip-explanation": "Выберите один или несколько zip-файлов модулей из Dropbox для установки:",
+    "loading-zip-files": "Загрузка zip-файлов из Dropbox...",
+    "error-loading-files": "Ошибка при загрузке файлов из Dropbox",
+    "no-zip-files-found": "В Dropbox не найдено zip-файлов",
+    "validating-modules": "Проверка модулей...",
+    "installing-modules": "Установка модулей...",
+    "validation-failed": "Неверная структура модуля",
+    "module-already-installed": "Уже установлен",
+    "ready-to-install": "Готово к установке",
+    "installation-complete": "Установка завершена",
+    "modules-installed": "{{count}} модулей успешно установлено",
+    "modules-skipped": "{{count}} модулей пропущено (уже установлены)",
+    "modules-failed": "{{count}} модулей не удалось установить",
+    "install-summary": "Итоги установки",
+    "dropbox-not-linked": "Аккаунт Dropbox не связан. Сначала настройте Dropbox."
   }
 }

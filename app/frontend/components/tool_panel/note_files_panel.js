@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -169,7 +169,7 @@ class NoteFilesPanel {
       });
 
       $dialogBox.dialog(dialogOptions);
-      uiHelper.fixDialogCloseIconOnAndroid('add-note-file-dialog');
+      uiHelper.fixDialogCloseIconOnCordova('add-note-file-dialog');
 
       document.getElementById('note-file-title-value').focus();
     });
@@ -223,6 +223,10 @@ class NoteFilesPanel {
     standardNoteFileRow.appendChild(standardCreatedAtCell);
     standardNoteFileRow.appendChild(standardActionsCell);
     table.appendChild(standardNoteFileRow);
+
+    if (!noteFiles) {
+      return;
+    }
 
     noteFiles.forEach(noteFile => {
       const row = document.createElement('tr');
@@ -314,7 +318,7 @@ class NoteFilesPanel {
       };
 
       $dialogBox.dialog(dialogOptions);
-      uiHelper.fixDialogCloseIconOnAndroid('delete-note-file-dialog');
+      uiHelper.fixDialogCloseIconOnCordova('delete-note-file-dialog');
     });
   }
 
@@ -393,7 +397,7 @@ class NoteFilesPanel {
       });
 
       $dialogBox.dialog(dialogOptions);
-      uiHelper.fixDialogCloseIconOnAndroid('edit-note-file-dialog');
+      uiHelper.fixDialogCloseIconOnCordova('edit-note-file-dialog');
 
       const inputField = document.getElementById('edit-note-file-title-value');
       inputField.focus();

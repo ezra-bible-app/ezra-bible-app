@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -85,8 +85,8 @@ class IpcNsi {
     return returnValue;
   }
 
-  async getRepoModule(moduleCode) {
-    var returnValue = this._ipcRenderer.call('nsi_getRepoModule', moduleCode);
+  async getRepoModule(repositoryName, moduleCode) {
+    var returnValue = this._ipcRenderer.call('nsi_getRepoModule', repositoryName, moduleCode);
     return returnValue;
   }
 
@@ -101,9 +101,9 @@ class IpcNsi {
       let module = allLocalModules[i];
 
       if (module.inUserDir) {
-        let remoteModule = await ipcNsi.getRepoModule(module.name);
+        let remoteModule = await ipcNsi.getRepoModule(module.repository, module.name);
 
-        if (remoteModule.version !== undefined && module.version != remoteModule.version) {
+        if (remoteModule != null && remoteModule.version !== undefined && module.version != remoteModule.version) {
           updatedModules.push(remoteModule);
         }
       }
@@ -127,17 +127,18 @@ class IpcNsi {
     return returnValue;
   }
 
-  async installModule(moduleCode, progressCallback=undefined) {
+  async installModule(repositoryName, moduleCode, progressCallback=undefined) {
     var returnValue = this._ipcRenderer.callWithProgressCallback('nsi_installModule',
                                                                  'nsi_updateInstallProgress',
                                                                  progressCallback,
-                                                                 120000,
+                                                                 300000,
+                                                                 repositoryName,
                                                                  moduleCode);
     return returnValue;
   }
 
-  installModuleSync(moduleCode) {
-    var returnValue = this._ipcRenderer.callSync('nsi_installModuleSync', moduleCode);
+  installModuleSync(repositoryName, moduleCode) {
+    var returnValue = this._ipcRenderer.callSync('nsi_installModuleSync', repositoryName, moduleCode);
     return returnValue;
   }
 
@@ -166,13 +167,18 @@ class IpcNsi {
     return returnValue;
   }
 
-  async getRawModuleEntry(moduleCode, key) {
-    var returnValue = this._ipcRenderer.call('nsi_getRawModuleEntry', moduleCode, key);
+  async getRawModuleEntry(moduleCode, key, processImages=false) {
+    var returnValue = this._ipcRenderer.call('nsi_getRawModuleEntry', moduleCode, key, processImages);
     return returnValue;
   }
 
   async getReferenceText(moduleCode, key) {
     var returnValue = this._ipcRenderer.call('nsi_getReferenceText', moduleCode, key);
+    return returnValue;
+  }
+
+  async mapVerseReference(sourceOsisRef, sourceModuleName, targetModuleName, allowRange=false) {
+    var returnValue = this._ipcRenderer.call('nsi_mapVerseReference', sourceOsisRef, sourceModuleName, targetModuleName, allowRange);
     return returnValue;
   }
 
@@ -343,6 +349,12 @@ class IpcNsi {
 
   async getSwordPath() {
     var returnValue = this._ipcRenderer.call('nsi_getSwordPath');
+    return returnValue;
+  }
+
+  async validateCustomModuleRepo(customModuleRepo) {
+    var timeoutMs = 60000;
+    var returnValue = this._ipcRenderer.callWithTimeout('nsi_validateCustomModuleRepo', timeoutMs, customModuleRepo);
     return returnValue;
   }
 }

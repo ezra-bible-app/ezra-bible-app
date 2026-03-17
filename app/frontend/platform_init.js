@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,16 +32,15 @@ const CHROMIUM_VERSION_MIN = 57; // Do not support Chromium/WebView below the ve
 const CHROMIUM_VERSION_UP_TO_DATE = 83; // Version that works without extra hacks
 
 window.initPlatform = function() {
-  if (isAndroidWebView()) {
+  if (isAndroidWebView()) { //  Android WebView
     const webViewVersion = getChromiumMajorVersion();
 
     window.isAndroid = true;
     window.isElectron = false;
+    window.isIOS = false;
     
     if (webViewVersion) {
       if (webViewVersion >= CHROMIUM_VERSION_MIN) {
-        loadScript('cordova.js');
-
         window.isDev = false;
 
         loadScript('dist/ezra_init.js');
@@ -58,10 +57,20 @@ window.initPlatform = function() {
 
       window.addEventListener('load', showIncompatibleWebviewMessage);
     }
+  } else if (isIOSWebView()) { // iOS WebView
+    
+    window.isIOS = true;
+    window.isAndroid = false;
+    window.isElectron = false;
+    window.isDev = false;
+
+    loadScript('dist/ezra_init.js');
+
   } else if (isElectronRenderer()) { // Electron!
 
     window.isElectron = true;
     window.isAndroid = false;
+    window.isIOS = false;
     window.isDev = false;
 
     if (typeof window !== 'undefined' &&
@@ -138,8 +147,14 @@ window.isStartupCompleted = function() {
 
 function getChromiumMajorVersion() {
   var chromiumVersion = window.getChromiumVersion();
-  var splittedVersion = chromiumVersion.split('.');
-  chromiumVersion = parseInt(splittedVersion[0]);
+
+  if (chromiumVersion != null) {
+    var splittedVersion = chromiumVersion.split('.');
+    chromiumVersion = parseInt(splittedVersion[0]);
+  } else {
+    chromiumVersion = null;
+  }
+
   return chromiumVersion;
 }
 
@@ -151,6 +166,22 @@ function isElectronRenderer() {
 
 function isAndroidWebView() {
   return navigator.userAgent.indexOf('; wv') != -1;
+}
+
+function isIOSWebView() {
+  let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+  // iOS detection from: http://stackoverflow.com/a/9039885/177710
+  let isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+
+  if (!isIOS) {
+    let isIPad = /Macintosh/.test(userAgent) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+    isIOS = isIPad;
+  }
+
+  let isWebView = isIOS && !userAgent.match(/Safari/);
+
+  return isWebView;
 }
 
 function getOutdatedWebViewMessage() {

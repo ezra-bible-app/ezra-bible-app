@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -77,7 +77,7 @@ class InfoPopup {
       dialogClass: 'ezra-dialog app-info-popup'
     });
 
-    uiHelper.fixDialogCloseIconOnAndroid('app-info-popup');
+    uiHelper.fixDialogCloseIconOnCordova('app-info-popup');
   }
 
   getFormattedTimestamp(timestamp) {
@@ -165,6 +165,14 @@ class InfoPopup {
       `;
     }
 
+    var chromiumVersionLine = '';
+
+    if (!this.platformHelper.isIOS()) {
+      chromiumVersionLine = `
+        <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
+      `;
+    }
+
     const appInfo = html`
     <div id='app-info-tabs'>
       <ul>
@@ -176,11 +184,11 @@ class InfoPopup {
       <div id='app-info-tabs-1' class='info-tabs scrollable' style='padding-top: 1.2em;'>
         <select id='info-popup-module-select' name='info-popup-module-select'></select>
 
-        <div id='app-info-module-description'>
+        <div id='app-info-module-description' style='padding-top: 1em;'>
         ${moduleDescription}
         </div>
 
-        <div id='app-info-module-info' style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid var(--border-color)">
+        <div id='app-info-module-info' style='margin-top: 1.5em; padding-top: 1em; border-top: 1px solid var(--border-color)'>
         ${moduleInfo}
         </div>
       </div>
@@ -212,7 +220,7 @@ class InfoPopup {
           <tr><td style='width: 15em;'>${i18n.t("general.application-version")}:</td><td>${version}</td></tr>
           <tr><td>${i18n.t("general.git-commit")}:</td><td>${gitCommit}</td></tr>
           <tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>
-          <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
+          ${chromiumVersionLine}
           <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
           <tr><td>${i18n.t("general.database-size")}:</td><td>${databaseSize}</td></tr>
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>

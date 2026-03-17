@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@ const eventController = require('../../controllers/event_controller.js');
 const referenceVerseController = require('../../controllers/reference_verse_controller.js');
 const verseListController = require('../../controllers/verse_list_controller.js');
 const dbSyncController = require('../../controllers/db_sync_controller.js');
+const dropboxZipInstallController = require('../../controllers/dropbox_zip_install_controller.js');
 const moduleUpdateController = require('../../controllers/module_update_controller.js');
 const typeFaceSettings = require('../type_face_settings.js');
-const { Mutex } = require('async-mutex');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -81,6 +81,11 @@ class OptionsMenu {
       await dbSyncController.showDbSyncConfigDialog();
     });
 
+    $('#install-dropbox-zip-button').bind('click', async () => {
+      this.hideDisplayMenu();
+      await dropboxZipInstallController.showDropboxZipInstallDialog();
+    });
+
     $('#displayOptionsBackButton').bind('click', () => {
       setTimeout(() => { this.hideDisplayMenu(); }, 100);
     });
@@ -89,15 +94,18 @@ class OptionsMenu {
     var showSearchResultsInPopupByDefault = false;
     var bookChapterNavDefault = true;
     var userDataIndicatorDefault = true;
+    var selectChapterBeforeLoadingDefault = false;
 
     if (this.platformHelper.isCordova() && !this.platformHelper.isMobile()) {
       openVerseListsInNewTabByDefault = true;
     }
 
     if (this.platformHelper.isMobile()) {
-      showSearchResultsInPopupByDefault = true;
+      openVerseListsInNewTabByDefault = true;
+      showSearchResultsInPopupByDefault = false;
       bookChapterNavDefault = false;
       userDataIndicatorDefault = false;
+      selectChapterBeforeLoadingDefault = true;
     }
 
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
@@ -107,6 +115,7 @@ class OptionsMenu {
     this._strongsOption = this.initConfigOption('showStrongsInlineOption', () => { this.showOrHideStrongsBasedOnOption(); });
     this._paragraphsOption = this.initConfigOption('showParagraphsOption', () => { this.showOrHideParagraphsBasedOnOption(); });
     this._redLetterOption = this.initConfigOption('redLetterOption', () => { this.renderRedLettersBasedOnOption(); });
+    this._chapterNavOption = this.initConfigOption('showChapterNavOption', () => { this.showOrHideChapterNavBasedOnOption(); }, true);
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, bookChapterNavDefault);
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
@@ -121,7 +130,7 @@ class OptionsMenu {
     this._keepScreenAwakeOption = this.initConfigOption('keepScreenAwakeOption', () => { this.keepScreenAwakeBasedOnOption(); });
     this._textSizeAdjustTagsNotesOption = this.initConfigOption('adjustTagsNotesTextSizeOption', () => { app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked); }, true);
     this._adjustSidePanelTextSizeOption = this.initConfigOption('adjustSidePanelTextSizeOption', () => { app_controller.textSizeSettings.updateSidePanel(this._adjustSidePanelTextSizeOption.isChecked); });
-    this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {});
+    this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {}, selectChapterBeforeLoadingDefault);
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
@@ -136,9 +145,10 @@ class OptionsMenu {
     await this.adjustOptionsMenuForPlatform();
     this.refreshViewBasedOnOptions();
 
-    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
-      this.showOrHideSectionTitlesBasedOnOption(tabIndex);
-      this.showOrHideStrongsBasedOnOption(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', async (context) => {
+      this.showOrHideSectionTitlesBasedOnOption(context.tabIndex);
+      this.showOrHideStrongsBasedOnOption(context.tabIndex);
+      this.showOrHideChapterNavBasedOnOption(context.tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -271,11 +281,27 @@ class OptionsMenu {
     }
   }
 
-  handleMenuClick(event) {
+  async updateDropboxZipButtonState() {
+    const button = document.getElementById('install-dropbox-zip-button');
+    if (button) {
+      const isLinked = await dbSyncController.isDropboxLinked();
+      button.disabled = !isLinked;
+      if (!isLinked) {
+        button.classList.add('ui-state-disabled');
+      } else {
+        button.classList.remove('ui-state-disabled');
+      }
+    }
+  }
+
+  async handleMenuClick(event) {
     if (this.menuIsOpened) {
       app_controller.handleBodyClick();
     } else {
       app_controller.hideAllMenus();
+
+      // Update the Install modules from Dropbox button state
+      await this.updateDropboxZipButtonState();
 
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
@@ -315,6 +341,16 @@ class OptionsMenu {
         bookIntro.hide();
       }
     }
+  }
+
+  showOrHideChapterNavBasedOnOption(tabIndex=undefined) {
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+
+    this.toggleCssClassBasedOnOption(
+      [currentVerseList[0]],
+      this._chapterNavOption,
+      'verse-list-without-chapter-nav'
+    );
   }
 
   async showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
@@ -588,6 +624,7 @@ class OptionsMenu {
     this.lastRefreshViewTime = now;
 
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
+    this.showOrHideChapterNavBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
     this.showOrHideTabSearchFormBasedOnOption(tabIndex);

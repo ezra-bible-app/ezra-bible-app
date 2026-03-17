@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -132,7 +132,7 @@ const template = html`
   font-size: 1em;
 }
 
-.Android #new-standard-tag-button {
+.Cordova #new-standard-tag-button {
   height: unset !important;
   font-size: 0.9em;
 }
@@ -358,7 +358,7 @@ class TagListMenu extends HTMLElement {
       });
 
       $dialogBox.dialog(dialogOptions);
-      uiHelper.fixDialogCloseIconOnAndroid('add-tag-group-dialog');
+      uiHelper.fixDialogCloseIconOnCordova('add-tag-group-dialog');
 
       tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
 

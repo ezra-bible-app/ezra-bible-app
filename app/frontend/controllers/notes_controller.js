@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -58,8 +58,8 @@ class NotesController {
     this.clickEventHappened = false;
     this._reset();
 
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
-      this.initForTab(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', (context) => {
+      this.initForTab(context.tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', () => {
@@ -418,7 +418,7 @@ class NotesController {
           }
         }
 
-        if (result.success == false) {
+        if (result != null && result.success == false) {
           let message = `The note could not be saved.<br>
                         An unexpected database error occurred:<br><br>
                         ${result.exception}<br><br>

@@ -97,7 +97,10 @@
       "module-with": "{{module_type, capitalize}} met {{feature_type, instrumental}}",
       "module-already-installed": "{{module_type, singular-demonstrative-pronoun}} is reeds geinstalleerd",
       "show-module-info":"Toon info",
-      "show-detailed-module-info": "Klik op het informatie-icoontje om meer details te bekijken over {{module_type, singular}}."
+      "show-detailed-module-info": "Klik op het informatie-icoontje om meer details te bekijken over {{module_type, singular}}.",
+      "duplicate-module-title": "Module reeds geselecteerd",
+      "duplicate-module-message": "De module {{moduleId}} is al geselecteerd in depot {{repository}}. Deselecteer deze eerst als u vanuit een ander depot wilt installeren.",
+      "already-installed-message": "De module {{moduleId}} is al geïnstalleerd vanuit depot {{repository}}. Verwijder deze eerst als u vanuit een ander depot wilt installeren."
     },
     "step-install": {
       "installing-modules": "Gekozen {{module_type, accusative}} installeren",
@@ -168,12 +171,14 @@
     "next": "Volgende",
     "previous": "Vorige",
     "finish": "Gereed",
+    "install": "Installeren",
     "back": "Terug",
     "save": "Opslaan",
     "cancel": "Annuleren",
     "rename": "Hernoemen",
     "loading": "Laden",
     "update": "Bijwerken",
+    "warning": "Waarschuwing",
     "new-release-available-title": "Nieuwe uitgave beschikbaar!",
     "new-release-available-body": "Een nieuwe uitgave van Ezra Bible App is beschikbaar!",
     "latest-version": "Nieuwste versie",
@@ -224,7 +229,8 @@
       "same-as-content": "Zelfde als inhoud"
     },
     "title": "Titel",
-    "tabs": "Tabs"
+    "tabs": "Tabbladen",
+    "module-not-installed": "De module '{{module_name}}' is niet geïnstalleerd."
   },
   "data-privacy": {
     "confirm-privacy-options": "Bevestig gegevensprivacy-opties",
@@ -368,6 +374,7 @@
     "red-letters": "Markeer de woorden van Jezus met rood",
     "show-dictionary": "Toon woordenboek",
     "show-wordstudy": "Toon woordstudie",
+    "show-chapter-headings": "Toon hoofdstuktitels",
     "show-book-chapter-navigation": "Toon boek/hoofdstuk-navigatie",
     "show-header-navigation": "Toon hoofdingnavigatie",
     "show-tab-search": "Toon zoekopdracht van huidig tabblad",
@@ -415,7 +422,7 @@
       "moved" : "Deze woorden stonden op een andere locatie in de brontekst",
       "tense-change": "De grammaticale tijd van deze woorden is veranderd om de vertaling te vergemakkelijken"
     },
-    "empty-tab-title": "Empty tab"
+    "empty-tab-title": "Leeg tabblad"
   },
   "word-study-panel": {
     "greek-dict": "Griekse woordstudie",
@@ -429,13 +436,18 @@
     "help-instruction-part4-desktop": "Houd de SHIFT-toets ingedrukt om de muis-over-functie voor alle verzen in te schakelen.",
     "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
-    "related-strongs": "Gerelateerde Strongs"
+    "related-strongs": "Gerelateerde Strongs",
+    "copy-to-clipboard": "Kopieer woordstudie naar klembord",
+    "copy-to-clipboard-success": "Woordstudie gekopieerd naar klembord!",
+    "copy-dict-entry-to-clipboard": "Kopieer lemma naar het klembord",
+    "copy-dict-entry-to-clipboard-success": "Lemma gekopieerd naar het klembord!"
   },
   "dictionary-panel": {
     "default-header": "<b>Woordenboek</b>",
     "help-no-dicts": "Er zijn geen woordenboeken beschikbaar.",
     "open-in-word-study": "Open in woordstudie",
-    "filter-placeholder": "Filteren..."
+    "filter-placeholder": "Filteren...",
+    "warning-cross-reference-not-found": "Kruisverwijzing niet gevonden in de huidige bijbelvertaling! Probeer een andere bijbelvertaling."
   },
   "tag-statistics-panel": {
     "default-header": "Tag-statistieken",
@@ -454,13 +466,16 @@
     "default-header": "<b>Bijbelcommentaar</b>",
     "commentaries-for": "Commentaren voor",
     "show-commentaries": "Toon commentaren",
+    "configure-commentaries": "Configureer commentaren",
+    "select-which-commentaries-to-display": "Selecteer welke commentaren in het commentaarvenster moeten worden weergegeven:",
     "copy-commentary-to-clipboard": "Kopieer commentaar naar het klembord",
     "copy-commentary-to-clipboard-success": "Commentaar naar klembord gekopieerd!",
     "help-instruction": "Selecteer een vers om de commentaarinhoud weer te geven.<br><br> Dit gebied zal dan automatisch het geselecteerde vers uit alle beschikbare commentaren weergeven.",
     "help-instruction-no-commentaries": "Er zijn nog geen commentaren geïnstalleerd. U moet ten minste één commentaar installeren om deze functionaliteit te laten werken.",
     "help-instruction-no-kjv": "De KJV-vertaling is nog niet geïnstalleerd. De KJV is nodig om bijbelcommentaren correct weer te geven op basis van de Engelse versificatie. U kunt dit oplossen door:<ul><li>de KJV te installeren vanuit het CrossWire-depot</li><li>een commentaar te installeren (de KJV wordt in dit geval automatisch geïnstalleerd)</li></ul>",
     "no-commentaries-available-for-this-verse": "Er zijn geen commentaren beschikbaar voor dit vers.",
-    "copy-button": "Kopieer commentaar"
+    "copy-button": "Kopieer commentaar",
+    "footnotes": "Voetnoten"
   },
   "emoji": {
     "search": "Zoek emojis...",
@@ -493,8 +508,8 @@
     "waiting-app-ready": "Wachten tot applicatie klaar is"
   },
   "dropbox": {
-    "setup-db-sync": "Dropbox-synchronisatie instellen",
-    "dropbox-sync-explanation-part1": "De Dropbox-synchronisatie kan worden gebruikt om uw Ezra&nbsp;Bijbel&nbsp;App-database op meerdere apparaten te synchroniseren.",
+    "setup-dropbox": "Dropbox instellen",
+    "dropbox-sync-explanation-part1": "Dropbox kan worden gebruikt om de database van uw Ezra&nbsp;Bible&nbsp;App te synchroniseren tussen meerdere apparaten. U kunt ook een aangepaste module-repository instellen.",
     "dropbox-sync-explanation-part2": "De database wordt gesynchroniseerd na de volgende gebeurtenissen:",
     "dropbox-sync-explanation-part3a": "Wanneer u voor het eerst een Dropbox-account koppelt.",
     "dropbox-sync-explanation-part3b": "Bij het opstarten of hervatten van de applicatie.",
@@ -508,8 +523,23 @@
     "dropbox-link-status-not-linked": "Niet gekoppeld",
     "dropbox-link-status-linked": "Gekoppeld",
     "dropbox-link-status-linking-failed": "Koppeling gefaald!",
+    "database-sync": "Databasesynchronisatie (opstarten/afsluiten)",
     "only-sync-on-wifi": "Alleen synchroniseren op WiFi",
     "sync-after-changes": "Synchroniseer databank na wijzigingen",
+    "use-custom-module-repo": "Gebruik een aangepast module-depot.",
+    "custom-module-repo-folder": "Map van het aangepast module-depot",
+    "validate-repo": "Valideren",
+    "validating-repo": "Depot valideren...",
+    "repo-validation-success": "Depotstructuur is geldig",
+    "repo-validation-error-not-linked": "Dropbox-account niet gekoppeld",
+    "repo-validation-error-empty-path": "Het pad naar het aangepast module-depot is leeg.",
+    "repo-validation-error-not-a-folder": "Depot-pad is geen map",
+    "repo-validation-error-not-found": "Depot-map niet gevonden",
+    "repo-validation-error-index-not-found": "Indexbestand mods.d.tar.gz niet gevonden",
+    "repo-validation-error-packages-not-a-folder": "pakketten is geen map.",
+    "repo-validation-error-packages-not-found": "pakketten-map niet gevonden",
+    "repo-validation-error-packages-empty": "pakketten-map is leeg",
+    "repo-validation-error-unknown": "Validatie mislukt: {{error}}",
     "dropbox-sync-info": "Info over Dropbox-synchronisatie",
     "last-dropbox-sync-time": "Laatste synchronisatie",
     "last-dropbox-sync-result": "Laatste synchronisatieresultaat",
@@ -525,6 +555,22 @@
     "access-method-message-part4": "De koppeling van Ezra Bible App naar uw Dropbox-account is opnieuw ingesteld.<br/>",
     "access-method-message-part5": "Dit zijn de acties die u nu moet uitvoeren:",
     "access-method-message-part6": "Configureer de Dropbox-accountkoppeling opnieuw.",
-    "access-method-message-part7": "Werk de Ezra Bijbel-app op al uw apparaten bij om ervoor te zorgen dat de Dropbox-synchronisatiemethode hetzelfde is."
+    "access-method-message-part7": "Werk de Ezra Bijbel-app op al uw apparaten bij om ervoor te zorgen dat de Dropbox-synchronisatiemethode hetzelfde is.",
+    "install-from-zip": "Installeer modules vanuit Dropbox",
+    "install-from-zip-explanation": "Selecteer een of meer zip-bestanden van modules uit uw Dropbox om te installeren:",
+    "loading-zip-files": "Zipbestanden laden vanuit Dropbox...",
+    "error-loading-files": "Fout bij het laden van bestanden vanuit Dropbox",
+    "no-zip-files-found": "Geen zip-bestanden gevonden in Dropbox",
+    "validating-modules": "Modules valideren...",
+    "installing-modules": "Modules installeren...",
+    "validation-failed": "Ongeldige modulestructuur",
+    "module-already-installed": "Reeds geïnstalleerd",
+    "ready-to-install": "Klaar voor installatie",
+    "installation-complete": "Installatie voltooid",
+    "modules-installed": "{{count}} module(s) succesvol geïnstalleerd",
+    "modules-skipped": "{{count}} module(s) overgeslagen (reeds geïnstalleerd)",
+    "modules-failed": "{{count}} module(s) konden niet worden geïnstalleerd",
+    "install-summary": "Installatieoverzicht",
+    "dropbox-not-linked": "Dropbox-account niet gekoppeld. Gelieve eerst Dropbox in te stellen."
   }
 }

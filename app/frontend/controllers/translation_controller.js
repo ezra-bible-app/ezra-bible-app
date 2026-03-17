@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,14 +36,14 @@ class TranslationController {
   constructor() {
     this.translationCount = null;
 
-    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+    eventController.subscribe('on-bible-text-loaded', async (context) => {
       if (app_controller.isStartupCompleted()) {
-        const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+        const currentVerseListMenu = app_controller.getCurrentVerseListMenu(context.tabIndex);
         const bibleSelect1 = currentVerseListMenu.find('#bible-select1');
         const bibleSelect2 = currentVerseListMenu.find('#bible-select2');
 
-        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, tabIndex, true);
-        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, tabIndex, true);
+        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, context.tabIndex, true);
+        await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, context.tabIndex, true);
       }
     });
 
@@ -325,7 +325,10 @@ class TranslationController {
       localModules.sort(swordModuleHelper.sortModules);
 
       for (var i = 0; i < localModules.length; i++) {
-        translations.push(localModules[i].name);
+        translations.push({
+          name: localModules[i].name,
+          repository: localModules[i].repository || ''
+        });
       }
     }
 

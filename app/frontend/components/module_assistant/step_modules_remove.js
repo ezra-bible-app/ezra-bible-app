@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ class StepModulesRemove extends HTMLElement {
   async listModules() {
     const installedModulesByLanguage = await getInstalledModulesByLanguage();
     const languages = Object.keys(installedModulesByLanguage).sort(assistantHelper.sortByText);
-    assistantController.init('selectedModules', []);
+    assistantController.init('selectedModules');
 
     this.querySelector('loading-indicator').hide();
 
@@ -76,7 +76,7 @@ class StepModulesRemove extends HTMLElement {
     const checked = event.detail.checked;
     
     if (checked) {
-      assistantController.add('selectedModules', moduleId);
+      assistantController.add('selectedModules', moduleId, null);
     } else {
       assistantController.remove('selectedModules', moduleId);
     }
@@ -112,7 +112,10 @@ async function getInstalledModulesByLanguage() {
 
     moduleList[languageName] = moduleList[languageName] || new Map();
 
-    moduleList[languageName].set(swordModule.description, moduleInfo);
+    // Use module name + repository as unique key to prevent collisions
+    // (description is not unique across repositories)
+    let moduleKey = assistantHelper.getModuleKey(swordModule.repository, swordModule.name);
+    moduleList[languageName].set(moduleKey, moduleInfo);
   }
 
   return moduleList;

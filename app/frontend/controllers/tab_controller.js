@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -107,10 +107,16 @@ class TabController {
       this.closeTabsWithDeletedTag(Number(deletedTagId));
     });
 
-    eventController.subscribe('on-bible-text-loaded', () => {
+    eventController.subscribe('on-bible-text-loaded', (context) => {
       let bibleTranslationId = this.getTab().getBibleTranslationId();
       this.setBibleTranslationId(bibleTranslationId);
-      this.restoreScrollPosition();
+      
+      // Skip scroll restoration when user explicitly selects a chapter
+      // to ensure we scroll to verse 1 instead
+      const explicitChapterNavigation = context && context.explicitChapterNavigation;
+      if (!explicitChapterNavigation) {
+        this.restoreScrollPosition();
+      }
 
       if (this.persistanceEnabled) {
         this.lastSelectedTabIndex = this.getSelectedTabIndex();
@@ -136,13 +142,25 @@ class TabController {
     });
 
     eventController.subscribe('on-db-refresh', async () => {
-      verseListController.resetVerseListView();
-      if (this.loadingCompleted) {
-        // If tabs are already loaded, just repopulate them with fresh data
-        await this.populateFromMetaTabs(true);
-      } else {
-        // Initial loading during startup
-        await this.loadTabConfiguration(true);
+      let tabsValid = true;
+
+      for (let i = 0; i < this.metaTabs.length; i++) {
+        if (!this.metaTabs[i].isValid()) {
+          tabsValid = false;
+          break;
+        }
+      }
+
+      if (tabsValid) {
+        verseListController.resetVerseListView();
+
+        if (this.loadingCompleted) {
+          // If tabs are already loaded, just repopulate them with fresh data
+          await this.populateFromMetaTabs(true);
+        } else {
+          // Initial loading during startup
+          await this.loadTabConfiguration(true);
+        }
       }
     });
 
@@ -1155,7 +1173,7 @@ class TabController {
   onTranslationRemoved(translationId, translationList) {
     if (translationId == this.defaultBibleTranslationId) {
       if (translationList.length > 0) {
-        this.defaultBibleTranslationId = translationList[0];
+        this.defaultBibleTranslationId = translationList[0].name;
       } else {
         this.defaultBibleTranslationId = null;
       }

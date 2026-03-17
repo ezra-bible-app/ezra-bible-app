@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2024 Tobias Klein <contact@ezra-project.net>
+   Copyright (C) 2019 - 2026 Tobias Klein <contact@ezra-project.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,11 +33,6 @@ class Main {
     this.isDebug = isDebug;
     this.androidVersion = null;
 
-    if (!isDebug) {
-      console.log('Initializing Sentry');
-      this.initSentry();
-    }
-
     console.log('Initializing app events');
     this.initAppEvents();
 
@@ -48,33 +43,6 @@ class Main {
     const dataDir = cordova.app.datadir();
 
     cordova.channel.send(`nodejs: cordova_main.js loaded / data dir: ${dataDir}`);
-  }
-
-  initSentry() {
-    const pjson = require('./package.json');
-    const version = pjson.version;
-
-    const sentryPjson = require('@sentry/node/package.json');
-    const sentryVersion = sentryPjson.version;
-
-    console.log(`Configuring Sentry nodejs ${sentryVersion} with app version: ${version}`);
-
-    try {
-      // Loading Sentry in a try/catch block, because we have observed failures related to this step.
-      // If it fails ... startup is broken. Why did it fail previously? After a sentry upgrade the
-      // path to the sources had changed and the require statement did not work anymore.
-
-      global.Sentry = require('@sentry/node');
-
-      Sentry.init({
-        dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
-        release: version,
-        beforeSend: (event) => global.sendCrashReports ? event : null
-      });
-    } catch (error) {
-      console.error('Sentry initialization failed with an error!');
-      console.log(error);
-    }
   }
 
   initPersistentIpc(androidVersion=undefined) {

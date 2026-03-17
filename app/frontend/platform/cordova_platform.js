@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,6 +21,8 @@
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
 const i18nController = require('../controllers/i18n_controller.js');
+const eventController = require('../controllers/event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * This class controls Cordova platform specific functionality and it also contains the entry point to startup on Cordova (init):
@@ -77,6 +79,16 @@ class CordovaPlatform {
       // eslint-disable-next-line no-unused-vars
       window.addEventListener('keyboardDidShow', (event) => {
         document.body.classList.add('keyboard-shown');
+        
+        // Only scroll selected verse into view in portrait mode
+        const isPortrait = screen.orientation.type.startsWith('portrait');
+        
+        if (isPortrait) {
+          // Delay scrolling to allow keyboard animation to complete
+          setTimeout(() => {
+            verseListController.scrollSelectedVerseIntoView();
+          }, 300);
+        }
       });
 
       // cordova-plugin-ionic-keyboard event binding
@@ -85,11 +97,14 @@ class CordovaPlatform {
         document.body.classList.remove('keyboard-shown');
       });
 
+      // Set up panel event handler after app initialization
+      this.setupPanelScrollHandler();
+
       this.startNodeJsEngine();
     }, false);
   }
 
-  getAndroidVersion() {
+  getOSVersion() {
     // This makes use of the cordova-plugin-device plugin
     let version = parseInt(device.version);
     return version;
@@ -245,14 +260,14 @@ class CordovaPlatform {
     dialogOptions.dialogClass = 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize';
 
     this.getPermissionBox().dialog(dialogOptions);
-    uiHelper.fixDialogCloseIconOnAndroid('welcome-dialog');
+    uiHelper.fixDialogCloseIconOnCordova('welcome-dialog');
   }
 
   isAndroidWithScopedStorage() {
-    const androidVersion = this.getAndroidVersion();
+    const osVersion = this.getOSVersion();
     const FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE = 11;
 
-    return androidVersion >= FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE;
+    return device.platform == "Android" && osVersion >= FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE;
   }
 
   async startNodeJsEngine() {
@@ -262,6 +277,7 @@ class CordovaPlatform {
     nodejs.channel.setListener(this.mainProcessListener);
 
     nodejs.startWithScript(`
+      console.log("Running NodeJS on platform " + process.platform);
 
       const Main = require('cordova_main.js');
 
@@ -275,22 +291,26 @@ class CordovaPlatform {
       window.ipcI18n = new IpcI18n();
       await i18nController.initI18N();
 
-      const androidVersion = this.getAndroidVersion();
+      const osVersion = this.getOSVersion();
 
-      if (androidVersion >= 11) {
-        // On Android 11 we start directly without asking for storage permissions, because we store everything internally
+      if (device.platform == "Android") {
+        if (osVersion >= 11) {
+          // On Android 11 we start directly without asking for storage permissions, because we store everything internally
+          this.initPersistenceAndStart();
+        } else {
+          // On Android < 11 we first need to check storage permissions, because we are using the external storage (/sdcard).
+          this.hasPermission().then((result) => {
+            if (result == true) {
+              this.initPersistenceAndStart();
+            } else {
+              this.showPermissionInfo();
+            }
+          }, () => {
+            console.log("Failed to check existing permissions ...");
+          });
+        }
+      } else if (device.platform == "iOS") {
         this.initPersistenceAndStart();
-      } else {
-        // On Android < 11 we first need to check storage permissions, because we are using the external storage (/sdcard).
-        this.hasPermission().then((result) => {
-          if (result == true) {
-            this.initPersistenceAndStart();
-          } else {
-            this.showPermissionInfo();
-          }
-        }, () => {
-          console.log("Failed to check existing permissions ...");
-        });
       }
     });
   }
@@ -298,7 +318,7 @@ class CordovaPlatform {
   async initPersistenceAndStart() {
     uiHelper.showGlobalLoadingIndicator();
 
-    const androidVersion = this.getAndroidVersion();
+    const androidVersion = this.getOSVersion();
     window.ipcGeneral = new IpcGeneral();
 
     uiHelper.updateLoadingSubtitle("cordova.init-sword", "Initializing SWORD");
@@ -320,20 +340,32 @@ class CordovaPlatform {
     if (this._isFullScreenMode) {
       this._isFullScreenMode = false;
 
-      AndroidFullScreen.showSystemUI(() => {
-        // console.log("Left fullscreen mode");
-      }, () => {
-        console.error("Could not leave immersive mode");
-      });
+      if (device.platform == "Android") {
+        AndroidFullScreen.showSystemUI(() => {
+          // console.log("Left fullscreen mode");
+        }, () => {
+          console.error("Could not leave immersive mode");
+        });
+      } else if (device.platform == "iOS") {
+        if (window.StatusBar) {
+          StatusBar.show();
+        }
+      }
 
     } else {
       this._isFullScreenMode = true;
 
-      AndroidFullScreen.immersiveMode(() => {
-        // console.log("Entered immersive / fullscreen mode");
-      }, () => {
-        console.error("Could not switch to immersive mode");
-      });
+      if (device.platform == "Android") {
+        AndroidFullScreen.immersiveMode(() => {
+          // console.log("Entered immersive / fullscreen mode");
+        }, () => {
+          console.error("Could not switch to immersive mode");
+        });
+      } else if (device.platform == "iOS") {
+        if (window.StatusBar) {
+          StatusBar.hide();
+        }
+      }
     }
   }
 
@@ -362,6 +394,24 @@ class CordovaPlatform {
 
   copyToClipboard(text, html) {
     this.copyTextToClipboard(text);
+  }
+
+  setupPanelScrollHandler() {
+    // Subscribe to the startup-completed event to ensure app is fully initialized
+    eventController.subscribe('on-startup-completed', () => {
+      // Subscribe to the generic panel switched event
+      // When any panel is opened (isOpen === true), scroll the selected verse into view
+      eventController.subscribe('on-panel-switched', (isOpen) => {
+        if (isOpen) {
+          // Only scroll selected verse into view in portrait mode
+          const isPortrait = screen.orientation.type.startsWith('portrait');
+          
+          if (isPortrait) {
+            verseListController.scrollSelectedVerseIntoView();
+          }
+        }
+      });
+    });
   }
 }
 

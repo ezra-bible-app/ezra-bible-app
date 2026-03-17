@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2025 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -37,13 +37,13 @@ class NavigationPane {
     this.verse_reference_helper = new VerseReferenceHelper();
     this.verseListFrameNoChapterNavCss = 'no-chapter-nav';
 
-    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
-      await this.updateNavigation(tabIndex);
+    eventController.subscribe('on-bible-text-loaded', async (context) => {
+      await this.updateNavigation(context.tabIndex);
 
-      var currentTab = app_controller.tab_controller.getTab(tabIndex);
+      var currentTab = app_controller.tab_controller.getTab(context.tabIndex);
 
       if (currentTab != null && currentTab.getTextType() != 'search_results') {
-        this.scrollToTop(tabIndex);
+        this.scrollToTop(context.tabIndex);
       }
     });
 
