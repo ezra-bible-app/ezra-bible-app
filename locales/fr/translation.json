@@ -72,7 +72,8 @@
       "update-now": "Mettre à jour maintenant",
       "updating-repository-data": "Mise à jour des données du dépôt ! Cela prendra quelques secondes…",
       "update-failed": "La mise à jour a échoué",
-      "update-repository-data-failed": "La mise à jour des données du dépôt a échoué ! Êtes-vous hors-ligne ?"
+      "update-repository-data-failed": "La mise à jour des données du dépôt a échoué ! Êtes-vous hors-ligne ?",
+      "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
     "step-languages": {  
       "select-language": "Veillez choisir au moins une des langues suivantes.",

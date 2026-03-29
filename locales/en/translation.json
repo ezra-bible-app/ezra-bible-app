@@ -66,7 +66,8 @@
       "update-now": "Update now",
       "updating-repository-data": "Updating repository data! This will take a few seconds ...",
       "update-failed": "Update failed",
-      "update-repository-data-failed": "Updating repository data failed! Are you offline?"
+      "update-repository-data-failed": "Updating repository data failed! Are you offline?",
+      "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
     "step-languages": {  
       "select-language": "Please choose at least one of the following languages.",

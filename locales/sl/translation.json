@@ -66,7 +66,8 @@
       "update-now": "Posodobi zdaj",
       "updating-repository-data": "Posodabljanje podatkov o spletnih shrambah! To bo trajalo nekaj sekund …",
       "update-failed": "Posodobitev ni uspela",
-      "update-repository-data-failed": "Posodabljanje podatkov o spletni shrambi ni uspelo! Ali ste brez povezave?"
+      "update-repository-data-failed": "Posodabljanje podatkov o spletni shrambi ni uspelo! Ali ste brez povezave?",
+      "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
     "step-languages": {
       "select-language": "Izberite vsaj enega od naslednjih jezikov.",

@@ -66,7 +66,8 @@
       "update-now": "Jetzt aktualisieren",
       "updating-repository-data": "Aktualisiere Modularchivdaten! Das dauert ein paar Sekunden ...",
       "update-failed": "Aktualisierung fehlgeschlagen",
-      "update-repository-data-failed": "Aktualisieren der Modularchivdaten fehlgeschlagen. Sind Sie offline?"
+      "update-repository-data-failed": "Aktualisieren der Modularchivdaten fehlgeschlagen. Sind Sie offline?",
+      "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
     "step-languages": {  
       "select-language": "Bitte wählen Sie mindestens eine der folgenden Sprachen.",

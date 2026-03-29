@@ -68,7 +68,8 @@
       "update-now": "Обновить",
       "updating-repository-data": "Обновление данных репозиториев! Это займет несколько секунд ...",
       "update-failed": "Обновление не удалось",
-      "update-repository-data-failed": "Не удалось обновить данные репозитория! Проверьте интернет подключение."
+      "update-repository-data-failed": "Не удалось обновить данные репозитория! Проверьте интернет подключение.",
+      "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
     "step-languages": {  
       "select-language": "Пожалуйста, выберите хотя бы один из следующих языков.",

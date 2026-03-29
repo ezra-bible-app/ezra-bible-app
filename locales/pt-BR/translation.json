@@ -66,7 +66,8 @@
       "update-now": "Atualizar agora",
       "updating-repository-data": "Atualizando dados do repositório! Isso levará alguns segundos ...",
       "update-failed": "Atualização falhou",
-      "update-repository-data-failed": "A atualização dos dados do repositório falhou! Você está offline?"
+      "update-repository-data-failed": "A atualização dos dados do repositório falhou! Você está offline?",
+      "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
     "step-languages": {
       "select-language": "Por favor, escolha pelo menos um dos seguintes idiomas.",

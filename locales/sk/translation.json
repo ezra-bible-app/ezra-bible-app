@@ -66,7 +66,8 @@
       "update-now": "Aktualizovať teraz",
       "updating-repository-data": "Aktualizujem archívy! Môže to zabrať niekoľko sekúnd ...",
       "update-failed": "Aktualizácia zlyhala",
-      "update-repository-data-failed": "Aktualizácia archívov sa nepodarila! Ste online?"
+      "update-repository-data-failed": "Aktualizácia archívov sa nepodarila! Ste online?",
+      "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
     "step-languages": {  
       "select-language": "Vyberte aspoň jeden z nasledujúcich jazykov.",

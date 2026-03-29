@@ -179,6 +179,7 @@ module.exports.updateRepositories = async function() {
   const MAX_FAILED_UPDATE_COUNT = 3;
   var failedUpdateCount = 0;
   var successfulUpdateCount = 0;
+  var failedRepositoryNames = [];
   const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(async (progress) => { 
     await eventController.publishAsync('on-repo-update-progress', progress);
   });
@@ -187,7 +188,8 @@ module.exports.updateRepositories = async function() {
     if (key != 'result') {
       if (repoUpdateStatus[key] == false) {
         failedUpdateCount += 1;
-        console.warn("Repo update failed for " + key);
+        failedRepositoryNames.push(key);
+        console.warn('Repo update failed for ' + key);
       } else {
         successfulUpdateCount += 1;
       }
@@ -195,7 +197,19 @@ module.exports.updateRepositories = async function() {
   }
 
   if (failedUpdateCount > 0) {
-    console.warn("Total failed updates: " + failedUpdateCount);
+    console.warn('Total failed updates: ' + failedUpdateCount);
+
+    const repositoryLabelKey = failedRepositoryNames.length === 1
+      ? 'module-assistant.repository_singular'
+      : 'module-assistant.repository_plural';
+    const failedRepositoriesMessage = i18n.t(repositoryLabelKey) + ': ' + failedRepositoryNames.join(', ');
+
+    iziToast.warning({
+      title: i18n.t('general.warning'),
+      message: i18n.t('module-assistant.update-data.update-repository-data-partially-failed') + '<br>' + failedRepositoriesMessage,
+      position: platformHelper.getIziPosition(),
+      timeout: 20000
+    });
   }
 
   var overallStatus = 0;

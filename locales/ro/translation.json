@@ -66,7 +66,8 @@
       "update-now": "Actualizează acum",
       "updating-repository-data": "Actualizare date din depozit! Va dura câteva secunde ...",
       "update-failed": "Actualizare eșuată",
-      "update-repository-data-failed": "Actualizarea datelor din depozit e eșuat! Ești deconectat de la internet?"
+      "update-repository-data-failed": "Actualizarea datelor din depozit e eșuat! Ești deconectat de la internet?",
+      "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
     "step-languages": {
       "select-language": "Te rog să alegi cel puțin una dintre următoarele limbi.",

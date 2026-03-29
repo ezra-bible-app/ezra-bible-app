@@ -68,7 +68,8 @@
       "update-now": "Nu bijwerken",
       "updating-repository-data": "Bezig met het bijwerken van depotgegevens! Dit zal enkele seconden duren ...",
       "update-failed": "Bijwerken mislukt",
-      "update-repository-data-failed": "Het bijwerken van depotgegevens is mislukt! Bent u offline?"
+      "update-repository-data-failed": "Het bijwerken van depotgegevens is mislukt! Bent u offline?",
+      "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
     "step-languages": {
       "select-language": "Gelieve op z'n minst één van de volgende talen te kiezen.",
