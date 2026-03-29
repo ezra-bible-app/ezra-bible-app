@@ -521,28 +521,30 @@ class CommentaryPanel {
     return commentaryContent;
   }
 
-  async getFootnotesHtml(verseBox) {
-    const tab = app_controller.tab_controller.getTab();
-    if (tab == null) {
-      return '';
-    }
-
-    const sourceTranslationId = tab.getBibleTranslationId();
-    const translationModule = await ipcNsi.getLocalModule(sourceTranslationId);
-
+  async getFootnotesForTranslation(translationId, referenceVerseBox, sourceTranslationId) {
+    const translationModule = await ipcNsi.getLocalModule(translationId);
     if (translationModule == null || !translationModule.hasFootnotes) {
-      return '';
+      return [];
     }
 
-    let referenceVerseBox = new VerseBox(verseBox[0]);
     let bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    let absoluteVerseNr = referenceVerseBox.getAbsoluteVerseNumber();
+    let absoluteVerseNr;
 
-    let verses = await ipcNsi.getBookText(sourceTranslationId, bibleBookShortTitle, absoluteVerseNr, 1);
+    if (translationId !== sourceTranslationId) {
+      absoluteVerseNr = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceTranslationId, translationId);
+    } else {
+      absoluteVerseNr = referenceVerseBox.getAbsoluteVerseNumber();
+    }
+
+    if (absoluteVerseNr == null) {
+      return [];
+    }
+
+    let verses = await ipcNsi.getBookText(translationId, bibleBookShortTitle, absoluteVerseNr, 1);
     let verse = verses[0];
 
     if (verse == null || !verse.content) {
-      return '';
+      return [];
     }
 
     let tempContainer = document.createElement('div');
@@ -566,19 +568,54 @@ class CommentaryPanel {
       }
     }
 
-    if (footnotes.length == 0) {
+    return footnotes;
+  }
+
+  async getFootnotesHtml(verseBox) {
+    const tab = app_controller.tab_controller.getTab();
+    if (tab == null) {
       return '';
     }
 
-    let footnotesLabel = i18n.t('commentary-panel.footnotes');
-    let footnotesListHtml = '';
+    const sourceTranslationId = tab.getBibleTranslationId();
+    const secondTranslationId = tab.getSecondBibleTranslationId();
 
-    for (let i = 0; i < footnotes.length; i++) {
-      footnotesListHtml += `
+    let referenceVerseBox = new VerseBox(verseBox[0]);
+
+    const primaryFootnotes = await this.getFootnotesForTranslation(sourceTranslationId, referenceVerseBox, sourceTranslationId);
+    const secondaryFootnotes = secondTranslationId != null
+      ? await this.getFootnotesForTranslation(secondTranslationId, referenceVerseBox, sourceTranslationId)
+      : [];
+
+    if (primaryFootnotes.length == 0 && secondaryFootnotes.length == 0) {
+      return '';
+    }
+
+    const footnotesLabel = i18n.t('commentary-panel.footnotes');
+    const hasSecondTranslation = secondTranslationId != null;
+
+    const buildFootnotesListHtml = (footnotes) => {
+      let html = '';
+      for (let i = 0; i < footnotes.length; i++) {
+        html += `
         <div class='footnote-entry'>
           <span class='footnote-number'>${footnotes[i].marker}</span>
           <span class='footnote-text'>${footnotes[i].text}</span>
         </div>`;
+      }
+      return html;
+    };
+
+    let contentHtml = '';
+    const showLabels = hasSecondTranslation && primaryFootnotes.length > 0 && secondaryFootnotes.length > 0;
+
+    if (showLabels) {
+      contentHtml += `<div class='footnotes-translation-label'>${sourceTranslationId}</div>`;
+      contentHtml += buildFootnotesListHtml(primaryFootnotes);
+      contentHtml += `<div class='footnotes-translation-label'>${secondTranslationId}</div>`;
+      contentHtml += buildFootnotesListHtml(secondaryFootnotes);
+    } else {
+      contentHtml = buildFootnotesListHtml(primaryFootnotes.length > 0 ? primaryFootnotes : secondaryFootnotes);
     }
 
     let footnotesHtml = `
@@ -588,7 +625,7 @@ class CommentaryPanel {
           <div class='commentary-name'>${footnotesLabel}</div>
         </h3>
         <div class='commentary-content'>
-          ${footnotesListHtml}
+          ${contentHtml}
         </div>
       </div>
     `;

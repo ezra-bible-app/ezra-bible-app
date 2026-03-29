@@ -159,6 +159,14 @@
   margin-bottom: 0.5em;
 }
 
+.footnotes-translation-label {
+  font-weight: bold;
+  margin-top: 0.8em;
+  margin-bottom: 0.3em;
+  font-size: 85%;
+  letter-spacing: 0.05em;
+}
+
 .footnote-number {
   font-weight: bold;
   font-size: 80%;
