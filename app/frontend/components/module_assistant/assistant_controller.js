@@ -176,7 +176,7 @@ module.exports.updateRepositories = async function() {
   preserveSelectedState();
   await eventController.publishAsync('on-repo-update-started');
 
-  const MAX_FAILED_UPDATE_COUNT = 2;
+  const MAX_FAILED_UPDATE_COUNT = 3;
   var failedUpdateCount = 0;
   var successfulUpdateCount = 0;
   const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(async (progress) => { 
