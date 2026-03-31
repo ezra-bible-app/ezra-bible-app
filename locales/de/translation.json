@@ -465,7 +465,7 @@
     "select-which-commentaries-to-display": "Wählen Sie aus, welche Bibelkommentare im Kommentarbereich angezeigt werden sollen:",
     "copy-commentary-to-clipboard": "Bibelkommentar in Zwischenablage kopieren",
     "copy-commentary-to-clipboard-success": "Bibelkommentar in Zwischenablage kopiert!",
-    "help-instruction": "Um Bibelkommentare zu zeigen wählen Sie einen Vers aus.<br><br> Dieser Bereich wird dann automatisch alle verfügbaren Bibelkommentare anzeigen.",
+    "help-instruction": "To show commentary content and foot notes, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries. Also, foot notes from the selected verse will be listed below the commentary content.",
     "help-instruction-no-commentaries": "Sie haben bisher keine Bibelkommentare installiert. Sie müssen mindestens einen Bibelkommentar installieren damit dieser Teil des Programms funktioniert.",
     "no-commentaries-available-for-this-verse": "Es sind keine Bibelkommentare für diesen Vers verfügbar.",
     "copy-button": "Bibelkommentar kopieren",

@@ -467,7 +467,7 @@
     "select-which-commentaries-to-display": "Seleccione los comentarios a mostrar en el panel de comentarios:",
     "copy-commentary-to-clipboard": "Copiar comentario al portapapeles",
     "copy-commentary-to-clipboard-success": "Comentario copiado al portapapeles!",
-    "help-instruction": "Para mostrar el contenido del comentario, seleccione un verso.<br><br> Esta área mostrará entonces una lista con todos los comentarios disponibles para el versículo seleccionado.",
+    "help-instruction": "To show commentary content and foot notes, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries. Also, foot notes from the selected verse will be listed below the commentary content.",
     "help-instruction-no-commentaries": "No hay  comentarios instalados, aún. Necesita instalar al menos un comentario para usar esta funcionalidad.",
     "no-commentaries-available-for-this-verse": "No hay comentarios disponibles para el versículo seleccionado.",
     "copy-button": "Copiar Comentario",

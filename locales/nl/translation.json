@@ -471,7 +471,7 @@
     "select-which-commentaries-to-display": "Selecteer welke commentaren in het commentaarvenster moeten worden weergegeven:",
     "copy-commentary-to-clipboard": "Kopieer commentaar naar het klembord",
     "copy-commentary-to-clipboard-success": "Commentaar naar klembord gekopieerd!",
-    "help-instruction": "Selecteer een vers om de commentaarinhoud weer te geven.<br><br> Dit gebied zal dan automatisch het geselecteerde vers uit alle beschikbare commentaren weergeven.",
+    "help-instruction": "To show commentary content and foot notes, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries. Also, foot notes from the selected verse will be listed below the commentary content.",
     "help-instruction-no-commentaries": "Er zijn nog geen commentaren geïnstalleerd. U moet ten minste één commentaar installeren om deze functionaliteit te laten werken.",
     "no-commentaries-available-for-this-verse": "Er zijn geen commentaren beschikbaar voor dit vers.",
     "copy-button": "Kopieer commentaar",

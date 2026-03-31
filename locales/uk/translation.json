@@ -471,7 +471,7 @@
     "select-which-commentaries-to-display": "Оберіть, які коментарі відображати на панелі коментарів:",
     "copy-commentary-to-clipboard": "Сколити коментар до кишені",
     "copy-commentary-to-clipboard-success": "Коментар сколено до кишені!",
-    "help-instruction": "Щоб відобразити зміст коментаря, виберіть вірш.<br><br> Ця область автоматично відобразить всі наявні коментарі до цього вірша.",
+    "help-instruction": "To show commentary content and foot notes, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries. Also, foot notes from the selected verse will be listed below the commentary content.",
     "help-instruction-no-commentaries": "Наразі коментарі ще не встановленні. Необхідно встановити принаймні один коментар.",
     "no-commentaries-available-for-this-verse": "Коментарі до цього вірша відсутні.",
     "copy-button": "Сколити коментар",

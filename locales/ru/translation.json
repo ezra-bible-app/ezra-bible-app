@@ -473,7 +473,7 @@
     "select-which-commentaries-to-display": "Выберите, какие комментарии отображать в панели комментариев:",
     "copy-commentary-to-clipboard": "Скопировать комментарий в буфер обмена",
     "copy-commentary-to-clipboard-success": "Комментарий скопирован в буфер обмена!",
-    "help-instruction": "Чтобы увидеть комментарии, выберите стих.<br><br> Эта область автоматически отобразит все имеющиеся комментарии к выбранному стиху.",
+    "help-instruction": "To show commentary content and foot notes, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries. Also, foot notes from the selected verse will be listed below the commentary content.",
     "help-instruction-no-commentaries": "Комментарии не были установленны. Вам необходимо установить как минимум один комментарий.",
     "no-commentaries-available-for-this-verse": "Комментарии для этого стиха отсутствуют.",
     "copy-button": "Скопировать комментарий",

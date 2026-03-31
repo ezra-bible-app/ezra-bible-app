@@ -470,7 +470,7 @@
     "select-which-commentaries-to-display": "Vyberte, ktoré komentáre sa majú zobraziť v paneli komentárov:",
     "copy-commentary-to-clipboard": "Kopírovať komentár do schránky",
     "copy-commentary-to-clipboard-success": "Komentár bol skopírovaný do schránky!",
-    "help-instruction": "Ak chcete zobraziť obsah komentára, vyberte verš.<br><br> Táto oblasť potom automaticky zobrazí vybratý verš zo všetkých dostupných komentárov.",
+    "help-instruction": "To show commentary content and foot notes, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries. Also, foot notes from the selected verse will be listed below the commentary content.",
     "help-instruction-no-commentaries": "Zatiaľ neboli nainštalované žiadne komentáre. Aby táto funkcia fungovala, musíte nainštalovať aspoň jeden komentár.",
     "no-commentaries-available-for-this-verse": "K tomuto veršu nie sú dostupné žiadne komentáre.",
     "copy-button": "Kopírovať komentár",

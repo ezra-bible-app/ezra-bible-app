@@ -479,7 +479,7 @@
     "select-which-commentaries-to-display": "Sélectionnez les commentaires à afficher dans le panneau des commentaires :",
     "copy-commentary-to-clipboard": "Copier le commentaire dans le presse-papiers",
     "copy-commentary-to-clipboard-success": "Commentaire copié dans le presse-papiers !",
-    "help-instruction": "Pour afficher le contenu des commentaires, sélectionnez un verset.<br><br> Cette zone listera alors automatiquement le verset sélectionné parmi tous les commentaires disponibles.",
+    "help-instruction": "To show commentary content and foot notes, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries. Also, foot notes from the selected verse will be listed below the commentary content.",
     "help-instruction-no-commentaries": "Aucun commentaire n'a encore été installé. Vous devez installer au moins un commentaire pour que cette fonctionnalité fonctionne.",
     "no-commentaries-available-for-this-verse": "Il n'y a pas de commentaires disponibles pour ce verset.",
     "copy-button": "Copier le commentaire",

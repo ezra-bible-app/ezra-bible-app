@@ -470,7 +470,7 @@
     "select-which-commentaries-to-display": "Selectează ce comentarii să fie afișate în panoul de comentarii:",
     "copy-commentary-to-clipboard": "Copiază comentariul în clipboard",
     "copy-commentary-to-clipboard-success": "Comentatiu copiat în clipboard!",
-    "help-instruction": "Pentru a afișa conținutul comentariilor, selectează un verset.<br><br> Această zonă va lista automat versetul selectat din toate comentariile disponibile.",
+    "help-instruction": "To show commentary content and foot notes, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries. Also, foot notes from the selected verse will be listed below the commentary content.",
     "help-instruction-no-commentaries": "Încă nu au fost instalate comentarii. Trebuie să instalezi cel puțin un comentariu pentru ca această funcționalitate să fie utilă.",
     "no-commentaries-available-for-this-verse": "Nu există comentarii disponibile pentru acest verset.",
     "copy-button": "Copiază comentariul",
