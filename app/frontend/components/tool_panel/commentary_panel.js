@@ -54,12 +54,6 @@ class CommentaryPanel {
       refreshWithSelection();
     });
 
-    eventController.subscribeMultiple(['on-translation-added', 'on-translation-removed'], (moduleCode) => {
-      if (moduleCode == 'KJV') {
-        refreshWithSelection();
-      }
-    });
-
     eventController.subscribe('on-commentary-added', async (moduleCode) => {
       let shownCommentaries = await ipcSettings.get('shownCommentaries', null);
       if (shownCommentaries != null && !shownCommentaries.includes(moduleCode)) {
@@ -232,7 +226,6 @@ class CommentaryPanel {
     }
 
     let helpMessageNoCommentariesInstalled = document.getElementById('commentary-panel-help-no-commentaries');
-    let helpMessageNoKjvInstalled = document.getElementById('commentary-panel-help-no-kjv');
     let installPreconditionsFulfilled = true;
 
     let allCommentaries = await ipcNsi.getAllLocalModules('COMMENTARY');
@@ -242,14 +235,6 @@ class CommentaryPanel {
 
     } else {
       helpMessageNoCommentariesInstalled.style.display = 'none';
-    }
-
-    const kjv = await ipcNsi.getLocalModule('KJV');
-    if (kjv == null) {
-      helpMessageNoKjvInstalled.style.display = '';
-      installPreconditionsFulfilled = false;
-    } else {
-      helpMessageNoKjvInstalled.style.display = 'none';
     }
 
     let commentaryPreconditionsFulfilled = installPreconditionsFulfilled;
