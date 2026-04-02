@@ -19,6 +19,10 @@ npm install --target-arch=$ARCH
 npm run compile-pug
 npm run commit-info
 npm install sqlite3@5.1.7 --target-arch=$ARCH --build-from-source --runtime=electron --target=32.2.3 --dist-url=https://electronjs.org/headers
+if [ "$ARCH" = "x64" ]; then
+  ./node_modules/.bin/electron-rebuild -f -w node-sword-interface -v 32.2.3 --arch=$ARCH
+fi
+
 npm run prune-node-modules
 npm run purge-build-artifacts
 npm install electron-installer-dmg --save-dev
