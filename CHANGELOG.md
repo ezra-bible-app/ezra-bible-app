@@ -1,6 +1,16 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.19.1 - 2026-04-03]
+
+### Fixes
+
+* Repository update hanging on some devices. ([#1354][i1354])
+* Installation issue with macOS x64 app. ([#1352][i1352])
+
+[i1352]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1352
+[i1354]: https://github.com/ezra-bible-app/ezra-bible-app/issues/1354
+
 ## [1.19.0 - 2026-03-28]
 
 ### Features
