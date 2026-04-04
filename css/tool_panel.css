@@ -64,7 +64,8 @@
     grid-template-rows: 1fr 0 0 auto;
   }
 
-  body.tool-panel-fullscreen #tool-panel {
+  body.tool-panel-fullscreen #tool-panel,
+  body.tool-panel-fullscreen.fullscreen #app-container #tool-panel {
     height: calc(100vh - 5em) !important;
   }
 
