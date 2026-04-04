@@ -18,6 +18,7 @@
 
 const eventController = require('../../controllers/event_controller.js');
 const verseListController = require('../../controllers/verse_list_controller.js');
+const { getPlatform } = require('../../helpers/ezra_helper.js');
 
 class TagStatistics {
   constructor() {
@@ -278,9 +279,18 @@ class TagStatistics {
     let tagLinks = bookTagStatisticsBoxContent.querySelectorAll('.tagLink');
 
     tagLinks.forEach((link) => {
-      link.addEventListener('click', (event) => {
+      link.addEventListener('click', async (event) => {
         event.preventDefault();
-        app_controller.verse_list_popup.openVerseListPopup(event, 'TAGGED_VERSES', true);
+
+        if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
+            !getPlatform().isFullScreen()) {
+
+          app_controller.verse_list_popup.currentReferenceType = 'TAGGED_VERSES';
+          await app_controller.verse_list_popup.initCurrentTag(event.target);
+          app_controller.verse_list_popup.openVerseListInNewTab();
+        } else {
+          app_controller.verse_list_popup.openVerseListPopup(event, 'TAGGED_VERSES', true);
+        }
       });
     });
   }
