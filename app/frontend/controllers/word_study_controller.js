@@ -117,7 +117,6 @@ class WordStudyController {
           this.highlightStrongsFromSelection(this._lastSelection);
         }
       } else {
-        this.clearInfoBox();  
         this.hideStrongsBox(true);
         this.removeHighlight();
       }
