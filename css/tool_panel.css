@@ -55,6 +55,26 @@
     height: 18em !important;
   }
 
+  body.tool-panel-fullscreen #app-container {
+    grid-template-areas:
+      "tool-panel"
+      "content"
+      "detail-panel"
+      "panel-buttons";
+    grid-template-rows: 1fr 0 0 auto;
+  }
+
+  body.tool-panel-fullscreen #tool-panel,
+  body.tool-panel-fullscreen.fullscreen #app-container #tool-panel {
+    height: calc(100vh - 5.5em) !important;
+  }
+
+  body.tool-panel-fullscreen main.content,
+  body.tool-panel-fullscreen detail-panel {
+    overflow: hidden;
+    min-height: 0;
+  }
+
   @media (min-height: 800px) {
     #tool-panel {
       height: 18em !important;
@@ -95,6 +115,25 @@
   .Cordova #tool-panel {
     width: 22em;
   }
+
+  body.tool-panel-fullscreen #app-container {
+    grid-template-columns: auto 1fr 0;
+  }
+
+  body.tool-panel-fullscreen #tool-panel {
+    width: 100% !important;
+  }
+
+  body.tool-panel-fullscreen main.content,
+  body.tool-panel-fullscreen detail-panel {
+    overflow: hidden;
+    min-width: 0;
+  }
+}
+
+/* Hide the fullscreen button when the tool panel is already in fullscreen mode */
+body.tool-panel-fullscreen .fullscreen-button {
+  display: none;
 }
 
 #tool-panel.hidden {
@@ -212,6 +251,7 @@
 }
 
 .accordion-panel .ui-accordion-header a {
+  float: left;
   padding-left: 1em;
 }
 
@@ -221,6 +261,14 @@
 
 #word-study-panel-content {
   user-select: text;
+}
+
+.panel-header-icon {
+  float: right;
+  margin-right: 0.5em;
+  margin-top: 0.3em;
+  padding: 0.3em 0.5em;
+  cursor: pointer;
 }
 
 #word-study-panel-copy-button {
