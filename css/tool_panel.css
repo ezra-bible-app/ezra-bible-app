@@ -65,7 +65,7 @@
   }
 
   body.tool-panel-fullscreen #tool-panel {
-    height: calc(100vh - 4.5em) !important;
+    height: calc(100vh - 5em) !important;
   }
 
   body.tool-panel-fullscreen main.content,
