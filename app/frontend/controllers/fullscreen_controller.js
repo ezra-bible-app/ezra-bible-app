@@ -56,9 +56,10 @@ function exitPanelFullscreen() {
 
   document.body.classList.remove('tool-panel-fullscreen');
 
-  document.querySelectorAll('.panel-fullscreen-button i').forEach((icon) => {
-    icon.classList.add('fa-expand');
-    icon.classList.remove('fa-compress');
+  document.querySelectorAll('.panel-fullscreen-button').forEach((button) => {
+    button.setAttribute('title', i18n.t('menu.fullscreen'));
+    button.querySelector('i').classList.add('fa-expand');
+    button.querySelector('i').classList.remove('fa-compress');
   });
 }
 
@@ -69,9 +70,10 @@ function initPanelFullscreen() {
 
     const isFullscreen = document.body.classList.toggle('tool-panel-fullscreen');
 
-    document.querySelectorAll('.panel-fullscreen-button i').forEach((icon) => {
-      icon.classList.toggle('fa-expand', !isFullscreen);
-      icon.classList.toggle('fa-compress', isFullscreen);
+    document.querySelectorAll('.panel-fullscreen-button').forEach((button) => {
+      button.setAttribute('title', isFullscreen ? i18n.t('menu.exit-fullscreen') : i18n.t('menu.fullscreen'));
+      button.querySelector('i').classList.toggle('fa-expand', !isFullscreen);
+      button.querySelector('i').classList.toggle('fa-compress', isFullscreen);
     });
   });
 
