@@ -49,6 +49,19 @@ module.exports.init = function() {
   initPanelFullscreen();
 };
 
+function exitPanelFullscreen() {
+  if (!document.body.classList.contains('tool-panel-fullscreen')) {
+    return;
+  }
+
+  document.body.classList.remove('tool-panel-fullscreen');
+
+  document.querySelectorAll('.panel-fullscreen-button i').forEach((icon) => {
+    icon.classList.add('fa-expand');
+    icon.classList.remove('fa-compress');
+  });
+}
+
 function initPanelFullscreen() {
   $(document).on('click', '.panel-fullscreen-button', (event) => {
     event.preventDefault();
@@ -60,6 +73,10 @@ function initPanelFullscreen() {
       icon.classList.toggle('fa-expand', !isFullscreen);
       icon.classList.toggle('fa-compress', isFullscreen);
     });
+  });
+
+  eventController.subscribe('on-tab-added', () => {
+    exitPanelFullscreen();
   });
 }
 
