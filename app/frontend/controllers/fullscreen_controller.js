@@ -81,8 +81,9 @@ function initPanelFullscreen() {
     exitPanelFullscreen();
   });
 
-  eventController.subscribe('on-panel-switched', (isOpen) => {
-    if (!isOpen) {
+  eventController.subscribe('on-panel-switched', () => {
+    var toolPanel = document.getElementById('tool-panel');
+    if (toolPanel && toolPanel.classList.contains('hidden')) {
       exitPanelFullscreen();
     }
   });
