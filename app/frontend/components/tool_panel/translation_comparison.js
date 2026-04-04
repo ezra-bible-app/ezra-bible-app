@@ -191,7 +191,7 @@ class TranslationComparison {
         selectedVerseBoxElements.length > 0) {
 
       panelTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
-        await app_controller.verse_selection.getSelectedVerseLabelText(undefined, true);
+        await app_controller.verse_selection.getSelectedVerseLabelText();
 
       helpBox.classList.add('hidden');
 
