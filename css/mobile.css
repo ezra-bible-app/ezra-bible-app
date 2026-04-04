@@ -115,13 +115,14 @@
   }
 }
 
-/* CENTER book selection menu on tablets in portrait mode */
-@media screen and (max-aspect-ratio: 13/10) and (min-width: 451px) and (max-width: 850px) {
-  #book-selection-menu {
-    left: 50% !important;
-    transform: translateX(-50%);
-    padding-inline: 1em;
-    padding-left: unset;
+/* CENTER content inside book selection menu on tablets in portrait mode */
+@media screen and (max-aspect-ratio: 13/10) and (min-width: 451px) and (max-width: 950px) {
+  #book-selection-menu-book-list {
+    justify-content: center;
+  }
+
+  .book-list-column li {
+    text-align: center;
   }
 }
 
