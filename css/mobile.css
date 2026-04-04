@@ -115,6 +115,16 @@
   }
 }
 
+/* CENTER book selection menu on tablets in portrait mode */
+@media screen and (max-aspect-ratio: 13/10) and (min-width: 451px) and (max-width: 850px) {
+  #book-selection-menu {
+    left: 50% !important;
+    transform: translateX(-50%);
+    padding-inline: 1em;
+    padding-left: unset;
+  }
+}
+
 /*
 Necessary styles for smaller screen devices,
 Librem 5/Pinephone etc.
