@@ -45,7 +45,23 @@ module.exports.init = function() {
       toggleFullScreen();
     });
   }
+
+  initPanelFullscreen();
 };
+
+function initPanelFullscreen() {
+  $(document).on('click', '.panel-fullscreen-button', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const isFullscreen = document.body.classList.toggle('tool-panel-fullscreen');
+
+    document.querySelectorAll('.panel-fullscreen-button i').forEach((icon) => {
+      icon.classList.toggle('fa-expand', !isFullscreen);
+      icon.classList.toggle('fa-compress', isFullscreen);
+    });
+  });
+}
 
 function toggleFullScreen() {
   var platform = getPlatform();

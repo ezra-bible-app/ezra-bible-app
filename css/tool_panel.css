@@ -55,6 +55,10 @@
     height: 18em !important;
   }
 
+  body.tool-panel-fullscreen #tool-panel {
+    height: calc(100vh - 5em) !important;
+  }
+
   @media (min-height: 800px) {
     #tool-panel {
       height: 18em !important;
@@ -94,6 +98,10 @@
 
   .Cordova #tool-panel {
     width: 22em;
+  }
+
+  body.tool-panel-fullscreen #tool-panel {
+    width: calc(100vw - 5em) !important;
   }
 }
 
@@ -221,6 +229,14 @@
 
 #word-study-panel-content {
   user-select: text;
+}
+
+.panel-header-icon {
+  float: right;
+  margin-right: 0.5em;
+  margin-top: 0.3em;
+  padding: 0.3em 0.5em;
+  cursor: pointer;
 }
 
 #word-study-panel-copy-button {
