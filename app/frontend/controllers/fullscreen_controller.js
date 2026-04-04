@@ -80,6 +80,12 @@ function initPanelFullscreen() {
   eventController.subscribe('on-tab-added', () => {
     exitPanelFullscreen();
   });
+
+  eventController.subscribe('on-panel-switched', (isOpen) => {
+    if (!isOpen) {
+      exitPanelFullscreen();
+    }
+  });
 }
 
 function toggleFullScreen() {
