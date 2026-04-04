@@ -55,13 +55,23 @@
     height: 18em !important;
   }
 
+  body.tool-panel-fullscreen #app-container {
+    grid-template-areas:
+      "tool-panel"
+      "content"
+      "detail-panel"
+      "panel-buttons";
+    grid-template-rows: calc(100vh - 5em) 0 0 auto;
+  }
+
   body.tool-panel-fullscreen #tool-panel {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100vw !important;
     height: calc(100vh - 5em) !important;
-    z-index: 100;
+  }
+
+  body.tool-panel-fullscreen main.content,
+  body.tool-panel-fullscreen detail-panel {
+    overflow: hidden;
+    min-height: 0;
   }
 
   @media (min-height: 800px) {
