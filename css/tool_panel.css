@@ -56,7 +56,12 @@
   }
 
   body.tool-panel-fullscreen #tool-panel {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
     height: calc(100vh - 5em) !important;
+    z-index: 100;
   }
 
   @media (min-height: 800px) {
@@ -101,7 +106,12 @@
   }
 
   body.tool-panel-fullscreen #tool-panel {
+    position: fixed !important;
+    top: 0;
+    left: 5em;
     width: calc(100vw - 5em) !important;
+    height: 100vh !important;
+    z-index: 100;
   }
 }
 
