@@ -220,6 +220,7 @@
 }
 
 .accordion-panel .ui-accordion-header a {
+  float: left;
   padding-left: 1em;
 }
 
