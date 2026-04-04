@@ -115,13 +115,18 @@
     width: 22em;
   }
 
+  body.tool-panel-fullscreen #app-container {
+    grid-template-columns: auto 1fr 0;
+  }
+
   body.tool-panel-fullscreen #tool-panel {
-    position: fixed !important;
-    top: 0;
-    left: 5em;
-    width: calc(100vw - 5em) !important;
-    height: 100vh !important;
-    z-index: 100;
+    width: 100% !important;
+  }
+
+  body.tool-panel-fullscreen main.content,
+  body.tool-panel-fullscreen detail-panel {
+    overflow: hidden;
+    min-width: 0;
   }
 }
 
