@@ -105,6 +105,11 @@
   }
 }
 
+/* Hide the fullscreen button when the tool panel is already in fullscreen mode */
+body.tool-panel-fullscreen .fullscreen-button {
+  display: none;
+}
+
 #tool-panel.hidden {
   display: none;
 }
