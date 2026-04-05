@@ -22,6 +22,29 @@ const { html, getPlatform } = require('../../helpers/ezra_helper.js');
 
 let jsStrongs = null;
 
+/**
+ * Parses Robinson's Morphological Analysis Codes for Greek NT text.
+ *
+ * These codes are used by the SWORD library's Robinson morphology module
+ * to tag each word in the Greek New Testament with grammatical information.
+ *
+ * Code format: POS[-morphology[-extra]]
+ *   - Single-letter POS: N (Noun), V (Verb), T (Article), A (Adjective),
+ *     P (Personal Pronoun), R (Relative Pronoun), C (Reciprocal Pronoun),
+ *     D (Demonstrative Pronoun), K (Correlative Pronoun), I (Interrogative Pronoun),
+ *     X (Indefinite Pronoun), Q (Correlative/Interrogative Pronoun),
+ *     F (Reflexive Pronoun), S (Possessive Pronoun)
+ *   - Multi-letter POS (indeclinable): CONJ, COND, ADV, PREP, PRT, INJ, HEB, ARAM
+ *   - Verbs: tense+voice+mood[+person+number] or participle with case+number+gender
+ *   - Second-form tenses prefixed with "2" (e.g. V-2AAI-3S = Second Aorist)
+ *   - Nouns/Articles/Adjectives: case+number+gender
+ *   - Pronouns: person+case+number[+gender] or case+number+gender depending on type
+ *
+ * References:
+ *   - Robinson morphology codes: https://github.com/byztxt/robinson-documentation
+ *   - Byzantine Majority Text (Robinson-tagged): https://github.com/byztxt/byzantine-majority-text
+ *   - SWORD project Robinson module: https://crosswire.org/sword
+ */
 class GreekMorphologyParser {
 
   constructor() {
