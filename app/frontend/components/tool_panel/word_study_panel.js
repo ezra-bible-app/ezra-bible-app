@@ -22,6 +22,169 @@ const { html, getPlatform } = require('../../helpers/ezra_helper.js');
 
 let jsStrongs = null;
 
+class GreekMorphologyParser {
+
+  constructor() {
+    this.partsOfSpeech = {
+      N: "Noun",
+      V: "Verb",
+      T: "Article",
+      A: "Adjective",
+      P: "Pronoun",
+      R: "Preposition",
+      D: "Adverb",
+      C: "Conjunction",
+      I: "Interjection",
+      X: "Particle",
+      CONJ: "Conjunction",
+      ADV: "Adverb",
+      PREP: "Preposition",
+      PRT: "Particle",
+      INJ: "Interjection",
+      HEB: "Hebrew",
+      ARAM: "Aramaic"
+    };
+
+    this.case = {
+      N: "Nominative",
+      G: "Genitive",
+      D: "Dative",
+      A: "Accusative",
+      V: "Vocative"
+    };
+
+    this.number = {
+      S: "Singular",
+      P: "Plural"
+    };
+
+    this.gender = {
+      M: "Masculine",
+      F: "Feminine",
+      N: "Neuter"
+    };
+
+    this.tense = {
+      P: "Present",
+      I: "Imperfect",
+      F: "Future",
+      A: "Aorist",
+      R: "Perfect",
+      L: "Pluperfect"
+    };
+
+    this.voice = {
+      A: "Active",
+      M: "Middle",
+      P: "Passive",
+      E: "Middle/Passive",
+      D: "Middle Deponent",
+      Q: "Impersonal Active",
+      X: "No Voice"
+    };
+
+    this.mood = {
+      I: "Indicative",
+      S: "Subjunctive",
+      O: "Optative",
+      M: "Imperative",
+      N: "Infinitive",
+      P: "Participle"
+    };
+
+    this.person = {
+      "1": "1st Person",
+      "2": "2nd Person",
+      "3": "3rd Person"
+    };
+  }
+
+  parse(code) {
+    const result = {
+      original: code,
+      partOfSpeech: null,
+      morphology: {},
+      readable: ""
+    };
+
+    if (!code) return result;
+
+    const parts = code.split("-");
+    const posCode = parts[0];
+    const morph = parts[1] || null;
+    const extraMorph = parts[2] || null;
+
+    result.partOfSpeech = this.partsOfSpeech[posCode] || posCode;
+
+    if (!morph) {
+      result.readable = result.partOfSpeech;
+      return result;
+    }
+
+    const chars = morph.split("");
+
+    if (posCode === 'V') {
+      // Verb morphology: tense-voice-mood then either person+number or case+number+gender (participles)
+      result.morphology.tense = this.tense[chars[0]];
+      result.morphology.voice = this.voice[chars[1]];
+      result.morphology.mood = this.mood[chars[2]];
+
+      if (chars[2] === 'P' && extraMorph) {
+        // Participle with extra segment: V-PAP-NSM
+        const decl = extraMorph.split("");
+        if (decl[0]) result.morphology.case = this.case[decl[0]];
+        if (decl[1]) result.morphology.number = this.number[decl[1]];
+        if (decl[2]) result.morphology.gender = this.gender[decl[2]];
+      } else if (chars[2] !== 'N' && chars.length >= 5) {
+        // Finite verb: tense+voice+mood+person+number (e.g. V-PAI-3S as V-PAI3S)
+        result.morphology.person = this.person[chars[3]];
+        result.morphology.number = this.number[chars[4]];
+      } else if (chars[2] !== 'N' && extraMorph) {
+        // Finite verb with extra segment: V-PAI-3S
+        const extra = extraMorph.split("");
+        if (extra[0]) result.morphology.person = this.person[extra[0]];
+        if (extra[1]) result.morphology.number = this.number[extra[1]];
+      }
+      // Infinitive (mood=N): only tense+voice+mood, no further fields
+    } else if (posCode === 'P' && chars.length >= 1 && this.person[chars[0]]) {
+      // Pronoun with person: person+case+number (e.g. P-1GS)
+      result.morphology.person = this.person[chars[0]];
+      if (chars[1]) result.morphology.case = this.case[chars[1]];
+      if (chars[2]) result.morphology.number = this.number[chars[2]];
+    } else if (chars.length >= 3) {
+      // Nouns / articles / adjectives / pronouns: case+number+gender
+      result.morphology.case = this.case[chars[0]];
+      result.morphology.number = this.number[chars[1]];
+      result.morphology.gender = this.gender[chars[2]];
+
+      // Comparative/superlative suffix for adjectives
+      if (posCode === 'A') {
+        var degreeChar = chars[3] || (extraMorph ? extraMorph[0] : null);
+        if (degreeChar === 'C') result.morphology.degree = 'Comparative';
+        if (degreeChar === 'S') result.morphology.degree = 'Superlative';
+      }
+    }
+
+    result.readable = this.toReadable(result);
+
+    return result;
+  }
+
+  toReadable(parsed) {
+    const parts = [];
+
+    if (parsed.partOfSpeech) {
+      parts.push(parsed.partOfSpeech);
+    }
+
+    Object.values(parsed.morphology).forEach(v => {
+      if (v) parts.push(v);
+    });
+
+    return parts.join(" · ");
+  }
+}
+
 /**
  * The WordStudyPanel component handles all event handling and updates of the
  * word study panel component.
@@ -43,6 +206,8 @@ class WordStudyPanel {
     this.currentFirstStrongsEntry = null;
     this.currentAdditionalStrongsEntries = [];
     this.currentLemma = null;
+    this.currentMorphMap = {};
+    this._greekMorphologyParser = new GreekMorphologyParser();
 
     this.wordStudyPanelCopyButton.on('click', (event) => {
       event.preventDefault();
@@ -115,7 +280,7 @@ class WordStudyPanel {
     this.wordStudyPanelHelp[0].style.display = 'block';
   }
 
-  async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
+  async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false, morphMap={}) {
     if (strongsEntry == null) {
       return;
     }
@@ -127,6 +292,7 @@ class WordStudyPanel {
 
     if (firstUpdate) {
       this.wordStudyPanelStack = [ strongsEntry.rawKey ];
+      this.currentMorphMap = morphMap;
     }
 
     this.currentStrongsEntry = strongsEntry;
@@ -138,7 +304,8 @@ class WordStudyPanel {
     this.wordStudyPanelHelp.hide();
     this.wordStudyPanelBreadcrumbs.html(this.getBreadcrumbs(additionalStrongsEntries));
 
-    let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
+    var morphCode = this.currentMorphMap[strongsEntry.rawKey] || null;
+    let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma, morphCode);
 
     this.wordStudyPanelContent.html(extendedStrongsInfo);
 
@@ -424,7 +591,7 @@ class WordStudyPanel {
     return referenceTableRow;
   }
 
-  async getExtendedStrongsInfo(strongsEntry, lemma) {
+  async getExtendedStrongsInfo(strongsEntry, lemma, morphCode=null) {
 
     let lang = "";
     let moduleCode = "";
@@ -447,9 +614,12 @@ class WordStudyPanel {
 
     let copyDictButton = this.getCopyDictButton();
 
+    let morphologyHtml = this.getMorphologyHtml(morphCode);
+
     let extendedStrongsInfo = `
       <div class='bold word-study-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
       <p class='dictionary-content word-study-links'>${findAllLink} | ${this.getBlueletterLink(strongsEntry)}</p>
+      ${morphologyHtml}
       ${extraDictContent}
       <div class='dictionary-section'>
         <div class='bold word-study-title' style='margin-bottom: 1em'>Strong's
@@ -461,6 +631,19 @@ class WordStudyPanel {
       ${relatedStrongsContent}`;
 
     return extendedStrongsInfo;
+  }
+
+  getMorphologyHtml(morphCode) {
+    if (!morphCode) {
+      return '';
+    }
+
+    var parsed = this._greekMorphologyParser.parse(morphCode);
+
+    return `
+      <hr/>
+      <div class='bold word-study-title' style='margin-bottom: 0.5em'>Morphology (${morphCode})</div>
+      <div class='dictionary-content'>${parsed.readable}</div>`;
   }
 
   async getRelatedStrongsContent(strongsReferences) {

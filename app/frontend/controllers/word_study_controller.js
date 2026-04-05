@@ -24,134 +24,6 @@ const VerseBox = require('../ui_models/verse_box.js');
 
 let jsStrongs = null;
 
-class GreekMorphologyParser {
-
-  constructor() {
-    this.partsOfSpeech = {
-      N: "Noun",
-      V: "Verb",
-      T: "Article",
-      A: "Adjective",
-      P: "Pronoun",
-      R: "Preposition",
-      D: "Adverb",
-      C: "Conjunction",
-      I: "Interjection",
-      X: "Particle"
-    };
-
-    this.case = {
-      N: "Nominative",
-      G: "Genitive",
-      D: "Dative",
-      A: "Accusative",
-      V: "Vocative"
-    };
-
-    this.number = {
-      S: "Singular",
-      P: "Plural"
-    };
-
-    this.gender = {
-      M: "Masculine",
-      F: "Feminine",
-      N: "Neuter"
-    };
-
-    this.tense = {
-      P: "Present",
-      I: "Imperfect",
-      F: "Future",
-      A: "Aorist",
-      R: "Perfect",
-      L: "Pluperfect"
-    };
-
-    this.voice = {
-      A: "Active",
-      M: "Middle",
-      P: "Passive"
-    };
-
-    this.mood = {
-      I: "Indicative",
-      S: "Subjunctive",
-      O: "Optative",
-      M: "Imperative",
-      N: "Infinitive",
-      P: "Participle"
-    };
-
-    this.person = {
-      "1": "1st Person",
-      "2": "2nd Person",
-      "3": "3rd Person"
-    };
-  }
-
-  parse(code) {
-    const result = {
-      original: code,
-      partOfSpeech: null,
-      morphology: {},
-      readable: ""
-    };
-
-    if (!code) return result;
-
-    const [posCode, morph] = code.split("-");
-    result.partOfSpeech = this.partsOfSpeech[posCode] || posCode;
-
-    if (!morph) {
-      result.readable = result.partOfSpeech;
-      return result;
-    }
-
-    const chars = morph.split("");
-
-    // Nouns / articles / adjectives
-    if (chars.length === 3) {
-      result.morphology.case = this.case[chars[0]];
-      result.morphology.number = this.number[chars[1]];
-      result.morphology.gender = this.gender[chars[2]];
-    }
-
-    // Verbs
-    if (chars.length >= 4) {
-      result.morphology.tense = this.tense[chars[0]];
-      result.morphology.voice = this.voice[chars[1]];
-      result.morphology.mood = this.mood[chars[2]];
-
-      if (chars[3] && this.person[chars[3]]) {
-        result.morphology.person = this.person[chars[3]];
-      }
-
-      if (chars[4] && this.number[chars[4]]) {
-        result.morphology.number = this.number[chars[4]];
-      }
-    }
-
-    result.readable = this.toReadable(result);
-
-    return result;
-  }
-
-  toReadable(parsed) {
-    const parts = [];
-
-    if (parsed.partOfSpeech) {
-      parts.push(parsed.partOfSpeech);
-    }
-
-    Object.values(parsed.morphology).forEach(v => {
-      if (v) parts.push(v);
-    });
-
-    return parts.join(" · ");
-  }
-}
-
 
 /**
  * The WordStudyController handles functionality for the lookup of dictionary information based on Strong's keys.
@@ -174,7 +46,6 @@ class WordStudyController {
     this.shiftKeyPressed = false;
     this.strongsAvailable = false;
     this._wordStudyPanel = new WordStudyPanel(this);
-    this._greekMorphologyParser = new GreekMorphologyParser();
     this._lastSelection = null;
     this._lastClickedReference = null;
 
@@ -466,7 +337,7 @@ class WordStudyController {
     return strongsKey in this.getJsStrongs();
   }
 
-  async showStrongsInfo(strongsIds, showStrongsBox=true) {
+  async showStrongsInfo(strongsIds, showStrongsBox=true, morphEntries=[]) {
     var normalizedStrongsIds = [];
 
     for (var i = 0; i < strongsIds.length; i++) {
@@ -517,7 +388,15 @@ class WordStudyController {
       }
 
       this.strongsBox.html(strongsShortInfo);
-      this._wordStudyPanel.update(firstStrongsEntry, additionalStrongsEntries, true);
+
+      var morphMap = {};
+      for (let i = 0; i < strongsIds.length; i++) {
+        if (morphEntries[i]) {
+          morphMap[strongsIds[i]] = morphEntries[i];
+        }
+      }
+
+      this._wordStudyPanel.update(firstStrongsEntry, additionalStrongsEntries, true, morphMap);
     } catch (e) {
       console.log(e);
     }
@@ -564,18 +443,14 @@ class WordStudyController {
     if (this.strongsAvailable) {
       var strongsIds = this.getStrongsIdsFromWordElement(wordElement);
 
+      var morphEntries = [];
       var hasGreekStrongs = strongsIds.some(id => id.startsWith('G'));
       if (hasGreekStrongs) {
         var morphAttr = wordElement.getAttribute('morph');
         if (morphAttr) {
-          var robinsonEntries = morphAttr.split(' ')
+          morphEntries = morphAttr.split(' ')
             .filter(entry => entry.startsWith('robinson:'))
             .map(entry => entry.slice('robinson:'.length));
-          
-          console.log(robinsonEntries);
-
-          var parsedMorphologies = robinsonEntries.map(code => this._greekMorphologyParser.parse(code));
-          console.log('Robinson morphology for "' + wordElement.textContent + '":', parsedMorphologies);
         }
       }
       
@@ -598,7 +473,7 @@ class WordStudyController {
           'fontSize': this._currentWordElement.css('fontSize')
         });
 
-        await this.showStrongsInfo(strongsIds);
+        await this.showStrongsInfo(strongsIds, true, morphEntries);
       }
     }
   }
