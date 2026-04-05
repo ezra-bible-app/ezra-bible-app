@@ -30,13 +30,18 @@ class GreekMorphologyParser {
       V: "Verb",
       T: "Article",
       A: "Adjective",
-      P: "Pronoun",
-      R: "Preposition",
-      D: "Adverb",
-      C: "Conjunction",
-      I: "Interjection",
-      X: "Particle",
+      P: "Personal Pronoun",
+      R: "Relative Pronoun",
+      C: "Reciprocal Pronoun",
+      D: "Demonstrative Pronoun",
+      K: "Correlative Pronoun",
+      I: "Interrogative Pronoun",
+      X: "Indefinite Pronoun",
+      Q: "Correlative/Interrogative Pronoun",
+      F: "Reflexive Pronoun",
+      S: "Possessive Pronoun",
       CONJ: "Conjunction",
+      COND: "Conditional",
       ADV: "Adverb",
       PREP: "Preposition",
       PRT: "Particle",
@@ -44,6 +49,11 @@ class GreekMorphologyParser {
       HEB: "Hebrew",
       ARAM: "Aramaic"
     };
+
+    // Parts of speech that use person+case+number format (like personal pronouns)
+    this._personPronounTypes = new Set(['P', 'F', 'S']);
+    // Parts of speech that use case+number+gender format (like nouns)
+    this._declensionPronounTypes = new Set(['R', 'C', 'D', 'K', 'I', 'X', 'Q']);
 
     this.case = {
       N: "Nominative",
@@ -79,6 +89,8 @@ class GreekMorphologyParser {
       P: "Passive",
       E: "Middle/Passive",
       D: "Middle Deponent",
+      O: "Passive Deponent",
+      N: "Middle/Passive Deponent",
       Q: "Impersonal Active",
       X: "No Voice"
     };
@@ -121,11 +133,22 @@ class GreekMorphologyParser {
       return result;
     }
 
-    const chars = morph.split("");
+    let chars = morph.split("");
 
     if (posCode === 'V') {
+      // Handle second-form tenses: 2A (Second Aorist), 2F, 2P, 2L
+      let secondForm = false;
+      if (chars[0] === '2') {
+        secondForm = true;
+        chars = chars.slice(1);
+      }
+
       // Verb morphology: tense-voice-mood then either person+number or case+number+gender (participles)
-      result.morphology.tense = this.tense[chars[0]];
+      let tenseName = this.tense[chars[0]];
+      if (secondForm && tenseName) {
+        tenseName = "Second " + tenseName;
+      }
+      result.morphology.tense = tenseName;
       result.morphology.voice = this.voice[chars[1]];
       result.morphology.mood = this.mood[chars[2]];
 
@@ -136,7 +159,7 @@ class GreekMorphologyParser {
         if (decl[1]) result.morphology.number = this.number[decl[1]];
         if (decl[2]) result.morphology.gender = this.gender[decl[2]];
       } else if (chars[2] !== 'N' && chars.length >= 5) {
-        // Finite verb: tense+voice+mood+person+number (e.g. V-PAI-3S as V-PAI3S)
+        // Finite verb: tense+voice+mood+person+number (e.g. V-PAI3S)
         result.morphology.person = this.person[chars[3]];
         result.morphology.number = this.number[chars[4]];
       } else if (chars[2] !== 'N' && extraMorph) {
@@ -146,13 +169,25 @@ class GreekMorphologyParser {
         if (extra[1]) result.morphology.number = this.number[extra[1]];
       }
       // Infinitive (mood=N): only tense+voice+mood, no further fields
-    } else if (posCode === 'P' && chars.length >= 1 && this.person[chars[0]]) {
-      // Pronoun with person: person+case+number (e.g. P-1GS)
+    } else if (this._personPronounTypes.has(posCode) && chars.length >= 1 && this.person[chars[0]]) {
+      // Personal/Reflexive/Possessive pronouns with person: person+case+number[+gender]
+      // e.g. P-1GS, F-3ASM, S-1NPM
       result.morphology.person = this.person[chars[0]];
       if (chars[1]) result.morphology.case = this.case[chars[1]];
       if (chars[2]) result.morphology.number = this.number[chars[2]];
+      if (chars[3]) result.morphology.gender = this.gender[chars[3]];
+    } else if (this._declensionPronounTypes.has(posCode) && chars.length >= 3) {
+      // Relative/Demonstrative/Reciprocal/Interrogative/Correlative/Indefinite pronouns: case+number+gender
+      // e.g. R-NSM, D-ASF, I-ASN
+      result.morphology.case = this.case[chars[0]];
+      result.morphology.number = this.number[chars[1]];
+      result.morphology.gender = this.gender[chars[2]];
+    } else if (posCode === 'PRT' && morph) {
+      // Particle suffixes: PRT-N (Negative), PRT-I (Interrogative)
+      if (morph === 'N') result.morphology.type = 'Negative';
+      else if (morph === 'I') result.morphology.type = 'Interrogative';
     } else if (chars.length >= 3) {
-      // Nouns / articles / adjectives / pronouns: case+number+gender
+      // Nouns / articles / adjectives: case+number+gender
       result.morphology.case = this.case[chars[0]];
       result.morphology.number = this.number[chars[1]];
       result.morphology.gender = this.gender[chars[2]];
