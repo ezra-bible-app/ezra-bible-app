@@ -522,7 +522,7 @@ class VerseListPopup {
   renderVerseListInPopup(htmlVerses, verseCount, rtl) {
     $('#verse-list-popup-loading-indicator').hide();
 
-    if (getPlatform().isFullScreen() || platformHelper.isMobile()) {
+    if (getPlatform().isFullScreen()) {
       this.disableNewTabButton();
     } else {
       this.enableNewTabButton();

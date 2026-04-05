@@ -868,10 +868,6 @@ Librem 5/Pinephone etc.
     flex-direction: column;
   }
 
-  #open-verselist-in-new-tab-button {
-    display: none !important;
-  }
-
   .fullscreen #app-container .verse-reference-content {
     text-decoration: unset !important;
     cursor: unset !important;
