@@ -497,7 +497,7 @@ class WordStudyPanel {
 
     return `
       <hr/>
-      <div class='bold word-study-title' style='margin-bottom: 0.5em'>Morphology (${code})</div>
+      <div class='bold word-study-title' style='margin-bottom: 0.5em'>${i18n.t('word-study-panel.morphology')} (${code})</div>
       <div class='dictionary-content'>${parsed.readable}</div>`;
   }
 
