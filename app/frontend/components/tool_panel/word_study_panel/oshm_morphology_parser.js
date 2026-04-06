@@ -339,7 +339,7 @@ class OpenScripturesHebrewMorphologyParser {
       return seg.join(" · ");
     });
 
-    var result = segmentStrings.join(" + ");
+    var result = segmentStrings.join("; ");
 
     if (parsed.language) {
       result = parsed.language + ": " + result;
