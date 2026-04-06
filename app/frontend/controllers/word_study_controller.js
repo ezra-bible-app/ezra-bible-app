@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const WordStudyPanel = require('../components/tool_panel/word_study_panel.js');
+const WordStudyPanel = require('../components/tool_panel/word_study_panel/word_study_panel.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('./verse_list_controller.js');
 const VerseBox = require('../ui_models/verse_box.js');
