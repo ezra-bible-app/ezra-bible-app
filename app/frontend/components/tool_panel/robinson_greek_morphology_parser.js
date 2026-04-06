@@ -39,7 +39,7 @@
  *   - Byzantine Majority Text (Robinson-tagged): https://github.com/byztxt/byzantine-majority-text
  *   - SWORD project Robinson module: https://crosswire.org/sword
  */
-class GreekMorphologyParser {
+class RobinsonGreekMorphologyParser {
 
   constructor() {
     this.partsOfSpeech = {
@@ -237,4 +237,4 @@ class GreekMorphologyParser {
   }
 }
 
-module.exports = GreekMorphologyParser;
+module.exports = RobinsonGreekMorphologyParser;

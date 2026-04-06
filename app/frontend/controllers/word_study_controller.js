@@ -444,14 +444,9 @@ class WordStudyController {
       var strongsIds = this.getStrongsIdsFromWordElement(wordElement);
 
       var morphEntries = [];
-      var hasGreekStrongs = strongsIds.some(id => id.startsWith('G'));
-      if (hasGreekStrongs) {
-        var morphAttr = wordElement.getAttribute('morph');
-        if (morphAttr) {
-          morphEntries = morphAttr.split(' ')
-            .filter(entry => entry.startsWith('robinson:'))
-            .map(entry => entry.slice('robinson:'.length));
-        }
+      var morphAttr = wordElement.getAttribute('morph');
+      if (morphAttr) {
+        morphEntries = morphAttr.split(' ');
       }
       
       if (this._currentWordElement != null && 
