@@ -437,7 +437,8 @@
     "copy-to-clipboard": "Copiar estudio de la palabra al portapapeles",
     "copy-to-clipboard-success": "Estudio de la palabra copiado al portapapeles!",
     "copy-dict-entry-to-clipboard": "Copiar entrada del diccionario al portapapeles",
-    "copy-dict-entry-to-clipboard-success": "Entrada del diccionario copiada al portapapeles!"
+    "copy-dict-entry-to-clipboard-success": "Entrada del diccionario copiada al portapapeles!",
+    "morphology": "Morphology"
   },
   "dictionary-panel": {
     "default-header": "<b>Diccionario</b>",

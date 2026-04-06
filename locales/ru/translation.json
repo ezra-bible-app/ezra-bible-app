@@ -443,7 +443,8 @@
     "copy-to-clipboard": "Скопировать изучение слов в буфер обмена",
     "copy-to-clipboard-success": "Изучение слов скопировано в буфер обмена!",
     "copy-dict-entry-to-clipboard": "Скопировать статью словаря в буфер обмена",
-    "copy-dict-entry-to-clipboard-success": "Статья словаря скопирована в буфер обмена!"
+    "copy-dict-entry-to-clipboard-success": "Статья словаря скопирована в буфер обмена!",
+    "morphology": "Morphology"
   },
   "dictionary-panel": {
     "default-header": "<b>Словарь</b>",

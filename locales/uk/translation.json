@@ -441,7 +441,8 @@
     "copy-to-clipboard": "Сколити тлумач слів до кишені",
     "copy-to-clipboard-success": "Тлумач слів сколено до кишені!",
     "copy-dict-entry-to-clipboard": "Сколити словниковий запис до кишені",
-    "copy-dict-entry-to-clipboard-success": "Словниковий запис сколено до кишені!"
+    "copy-dict-entry-to-clipboard-success": "Словниковий запис сколено до кишені!",
+    "morphology": "Morphology"
   },
   "dictionary-panel": {
     "default-header": "<b>Словник</b>",

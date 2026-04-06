@@ -441,7 +441,8 @@
     "copy-to-clipboard": "Kopieer woordstudie naar klembord",
     "copy-to-clipboard-success": "Woordstudie gekopieerd naar klembord!",
     "copy-dict-entry-to-clipboard": "Kopieer lemma naar het klembord",
-    "copy-dict-entry-to-clipboard-success": "Lemma gekopieerd naar het klembord!"
+    "copy-dict-entry-to-clipboard-success": "Lemma gekopieerd naar het klembord!",
+    "morphology": "Morphology"
   },
   "dictionary-panel": {
     "default-header": "<b>Woordenboek</b>",

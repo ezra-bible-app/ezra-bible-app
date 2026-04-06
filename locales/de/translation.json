@@ -435,7 +435,8 @@
     "copy-to-clipboard": "Wortstudium in Zwischenablage kopieren",
     "copy-to-clipboard-success": "Wortstudium in Zwischenablage kopiert!",
     "copy-dict-entry-to-clipboard": "Wörterbucheintrag in Zwischenablage kopieren",
-    "copy-dict-entry-to-clipboard-success": "Wörterbucheintrag in Zwischenablage kopiert!"
+    "copy-dict-entry-to-clipboard-success": "Wörterbucheintrag in Zwischenablage kopiert!",
+    "morphology": "Morphology"
   },
   "dictionary-panel": {
     "default-header": "<b>Wörterbuch</b>",

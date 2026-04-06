@@ -440,7 +440,8 @@
     "copy-to-clipboard": "Copiază studiul cuvântului în clipboard",
     "copy-to-clipboard-success": "Studiul cuvântului a fost copiat în clipboard!",
     "copy-dict-entry-to-clipboard": "Copiază intrarea din dicționar în clipboard",
-    "copy-dict-entry-to-clipboard-success": "Intrarea din dicționar a fost copiată în clipboard!"
+    "copy-dict-entry-to-clipboard-success": "Intrarea din dicționar a fost copiată în clipboard!",
+    "morphology": "Morphology"
   },
   "dictionary-panel": {
     "default-header": "<b>Dicționar</b>",
