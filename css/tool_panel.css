@@ -252,6 +252,9 @@ body.tool-panel-fullscreen .fullscreen-button {
 
 .accordion-panel:not(#tags-content) .ui-accordion-header a {
   float: left;
+}
+
+.accordion-panel .ui-accordion-header a {
   padding-left: 1em;
 }
 
