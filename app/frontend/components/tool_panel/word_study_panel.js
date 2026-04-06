@@ -20,6 +20,7 @@ const eventController = require('../../controllers/event_controller.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const { html, getPlatform } = require('../../helpers/ezra_helper.js');
 const RobinsonGreekMorphologyParser = require('./robinson_greek_morphology_parser.js');
+const PackardGreekMorphologyParser = require('./packard_greek_morphology_parser.js');
 
 let jsStrongs = null;
 
@@ -45,7 +46,8 @@ class WordStudyPanel {
     this.currentAdditionalStrongsEntries = [];
     this.currentLemma = null;
     this.currentMorphMap = {};
-    this._greekMorphologyParser = new RobinsonGreekMorphologyParser();
+    this._robinsonMorphologyParser = new RobinsonGreekMorphologyParser();
+    this._packardMorphologyParser = new PackardGreekMorphologyParser();
 
     this.wordStudyPanelCopyButton.on('click', (event) => {
       event.preventDefault();
@@ -476,16 +478,21 @@ class WordStudyPanel {
       return '';
     }
 
-    if (!morphCode.startsWith('robinson:')) {
+    var code, parsed;
+
+    if (morphCode.startsWith('robinson:')) {
+      code = morphCode.slice('robinson:'.length);
+      parsed = this._robinsonMorphologyParser.parse(code);
+    } else if (morphCode.startsWith('packard:')) {
+      code = morphCode.slice('packard:'.length);
+      parsed = this._packardMorphologyParser.parse(code);
+    } else {
       return '';
     }
 
-    var robinsonCode = morphCode.slice('robinson:'.length);
-    var parsed = this._greekMorphologyParser.parse(robinsonCode);
-
     return `
       <hr/>
-      <div class='bold word-study-title' style='margin-bottom: 0.5em'>Morphology (${robinsonCode})</div>
+      <div class='bold word-study-title' style='margin-bottom: 0.5em'>Morphology (${code})</div>
       <div class='dictionary-content'>${parsed.readable}</div>`;
   }
 
