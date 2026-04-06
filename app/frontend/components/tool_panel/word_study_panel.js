@@ -21,6 +21,7 @@ const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 const { html, getPlatform } = require('../../helpers/ezra_helper.js');
 const RobinsonGreekMorphologyParser = require('./robinson_greek_morphology_parser.js');
 const PackardGreekMorphologyParser = require('./packard_greek_morphology_parser.js');
+const OpenScripturesHebrewMorphologyParser = require('./oshm_morphology_parser.js');
 
 let jsStrongs = null;
 
@@ -48,6 +49,7 @@ class WordStudyPanel {
     this.currentMorphMap = {};
     this._robinsonMorphologyParser = new RobinsonGreekMorphologyParser();
     this._packardMorphologyParser = new PackardGreekMorphologyParser();
+    this._oshmMorphologyParser = new OpenScripturesHebrewMorphologyParser();
 
     this.wordStudyPanelCopyButton.on('click', (event) => {
       event.preventDefault();
@@ -486,6 +488,9 @@ class WordStudyPanel {
     } else if (morphCode.startsWith('packard:')) {
       code = morphCode.slice('packard:'.length);
       parsed = this._packardMorphologyParser.parse(code);
+    } else if (morphCode.startsWith('oshm:')) {
+      code = morphCode.slice('oshm:'.length);
+      parsed = this._oshmMorphologyParser.parse(code);
     } else {
       return '';
     }
