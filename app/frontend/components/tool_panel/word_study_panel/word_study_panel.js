@@ -16,9 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const eventController = require('../../controllers/event_controller.js');
-const swordModuleHelper = require('../../helpers/sword_module_helper.js');
-const { html, getPlatform } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../../controllers/event_controller.js');
+const swordModuleHelper = require('../../../helpers/sword_module_helper.js');
+const { html, getPlatform } = require('../../../helpers/ezra_helper.js');
 const RobinsonGreekMorphologyParser = require('./robinson_greek_morphology_parser.js');
 const PackardGreekMorphologyParser = require('./packard_greek_morphology_parser.js');
 const OpenScripturesHebrewMorphologyParser = require('./oshm_morphology_parser.js');
@@ -152,7 +152,7 @@ class WordStudyPanel {
     this.wordStudyPanelContent.html(extendedStrongsInfo);
 
     // Handle sword:// links by attaching click handlers that navigate to the referenced module
-    const swordUrlHelper = require('../../helpers/sword_url_helper.js');
+    const swordUrlHelper = require('../../../helpers/sword_url_helper.js');
     swordUrlHelper.initSwordUrlLinks(this.wordStudyPanelContent[0], null);
 
     uiHelper.configureButtonStyles(this.wordStudyPanelContent[0]);
