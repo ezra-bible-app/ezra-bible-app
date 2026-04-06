@@ -337,7 +337,7 @@ class WordStudyController {
     return strongsKey in this.getJsStrongs();
   }
 
-  async showStrongsInfo(strongsIds, showStrongsBox=true, morphEntries=[]) {
+  async showWordInfo(strongsIds, showStrongsBox=true, morphEntries=[]) {
     var normalizedStrongsIds = [];
 
     for (var i = 0; i < strongsIds.length; i++) {
@@ -468,7 +468,7 @@ class WordStudyController {
           'fontSize': this._currentWordElement.css('fontSize')
         });
 
-        await this.showStrongsInfo(strongsIds, true, morphEntries);
+        await this.showWordInfo(strongsIds, true, morphEntries);
       }
     }
   }
