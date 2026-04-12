@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const WordStudyPanel = require('../components/tool_panel/word_study_panel.js');
+const WordStudyPanel = require('../components/tool_panel/word_study_panel/word_study_panel.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('./verse_list_controller.js');
 const VerseBox = require('../ui_models/verse_box.js');
@@ -337,7 +337,7 @@ class WordStudyController {
     return strongsKey in this.getJsStrongs();
   }
 
-  async showStrongsInfo(strongsIds, showStrongsBox=true) {
+  async showWordInfo(strongsIds, showStrongsBox=true, morphEntries=[]) {
     var normalizedStrongsIds = [];
 
     for (var i = 0; i < strongsIds.length; i++) {
@@ -388,7 +388,15 @@ class WordStudyController {
       }
 
       this.strongsBox.html(strongsShortInfo);
-      this._wordStudyPanel.update(firstStrongsEntry, additionalStrongsEntries, true);
+
+      var morphMap = {};
+      for (let i = 0; i < strongsIds.length; i++) {
+        if (morphEntries[i]) {
+          morphMap[strongsIds[i]] = morphEntries[i];
+        }
+      }
+
+      this._wordStudyPanel.update(firstStrongsEntry, additionalStrongsEntries, true, morphMap);
     } catch (e) {
       console.log(e);
     }
@@ -434,6 +442,12 @@ class WordStudyController {
   async _handleWord(wordElement) {
     if (this.strongsAvailable) {
       var strongsIds = this.getStrongsIdsFromWordElement(wordElement);
+
+      var morphEntries = [];
+      var morphAttr = wordElement.getAttribute('morph');
+      if (morphAttr) {
+        morphEntries = morphAttr.split(' ');
+      }
       
       if (this._currentWordElement != null && 
           this._currentWordElement[0] == wordElement) {
@@ -454,7 +468,7 @@ class WordStudyController {
           'fontSize': this._currentWordElement.css('fontSize')
         });
 
-        await this.showStrongsInfo(strongsIds);
+        await this.showWordInfo(strongsIds, true, morphEntries);
       }
     }
   }

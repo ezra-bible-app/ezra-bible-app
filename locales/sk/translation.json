@@ -440,7 +440,8 @@
     "copy-to-clipboard": "Kopírovať štúdiu slov do schránky",
     "copy-to-clipboard-success": "Štúdia slov skopírovaná do schránky!",
     "copy-dict-entry-to-clipboard": "Kopírovať položku slovníka do schránky",
-    "copy-dict-entry-to-clipboard-success": "Slovníkový záznam skopírovaný do schránky!"
+    "copy-dict-entry-to-clipboard-success": "Slovníkový záznam skopírovaný do schránky!",
+    "morphology": "Morphology"
   },
   "dictionary-panel": {
     "default-header": "<b>Slovník</b>",

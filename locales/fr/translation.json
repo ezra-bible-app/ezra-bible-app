@@ -449,7 +449,8 @@
     "copy-to-clipboard": "Copier l'étude de mots dans le presse-papiers",
     "copy-to-clipboard-success": "Étude de mots copiée dans le presse-papiers !",
     "copy-dict-entry-to-clipboard": "Copier l'entrée du dictionnaire dans le presse-papiers",
-    "copy-dict-entry-to-clipboard-success": "Entrée du dictionnaire copiée dans le presse-papiers !"
+    "copy-dict-entry-to-clipboard-success": "Entrée du dictionnaire copiée dans le presse-papiers !",
+    "morphology": "Morphology"
   },
   "dictionary-panel": {
     "default-header": "<b>Dictionnaire</b>",

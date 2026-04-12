@@ -438,7 +438,8 @@
     "copy-to-clipboard": "Kopiraj študijsko besedo na odložišče",
     "copy-to-clipboard-success": "Študijska beseda kopirana na odložišče!",
     "copy-dict-entry-to-clipboard": "Kopiraj slovarski vnos na odložišče",
-    "copy-dict-entry-to-clipboard-success": "Slovarski vnos je bil kopiran na odložišče!"
+    "copy-dict-entry-to-clipboard-success": "Slovarski vnos je bil kopiran na odložišče!",
+    "morphology": "Morphology"
   },
   "dictionary-panel": {
     "default-header": "<b>Slovar</b>",

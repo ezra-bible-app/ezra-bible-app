@@ -16,9 +16,12 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const eventController = require('../../controllers/event_controller.js');
-const swordModuleHelper = require('../../helpers/sword_module_helper.js');
-const { html, getPlatform } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../../controllers/event_controller.js');
+const swordModuleHelper = require('../../../helpers/sword_module_helper.js');
+const { html, getPlatform } = require('../../../helpers/ezra_helper.js');
+const RobinsonGreekMorphologyParser = require('./robinson_greek_morphology_parser.js');
+const PackardGreekMorphologyParser = require('./packard_greek_morphology_parser.js');
+const OpenScripturesHebrewMorphologyParser = require('./oshm_morphology_parser.js');
 
 let jsStrongs = null;
 
@@ -43,6 +46,10 @@ class WordStudyPanel {
     this.currentFirstStrongsEntry = null;
     this.currentAdditionalStrongsEntries = [];
     this.currentLemma = null;
+    this.currentMorphMap = {};
+    this._robinsonMorphologyParser = new RobinsonGreekMorphologyParser();
+    this._packardMorphologyParser = new PackardGreekMorphologyParser();
+    this._oshmMorphologyParser = new OpenScripturesHebrewMorphologyParser();
 
     this.wordStudyPanelCopyButton.on('click', (event) => {
       event.preventDefault();
@@ -115,7 +122,7 @@ class WordStudyPanel {
     this.wordStudyPanelHelp[0].style.display = 'block';
   }
 
-  async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
+  async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false, morphMap={}) {
     if (strongsEntry == null) {
       return;
     }
@@ -127,6 +134,7 @@ class WordStudyPanel {
 
     if (firstUpdate) {
       this.wordStudyPanelStack = [ strongsEntry.rawKey ];
+      this.currentMorphMap = morphMap;
     }
 
     this.currentStrongsEntry = strongsEntry;
@@ -138,12 +146,13 @@ class WordStudyPanel {
     this.wordStudyPanelHelp.hide();
     this.wordStudyPanelBreadcrumbs.html(this.getBreadcrumbs(additionalStrongsEntries));
 
-    let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
+    var morphCode = this.currentMorphMap[strongsEntry.rawKey] || null;
+    let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma, morphCode);
 
     this.wordStudyPanelContent.html(extendedStrongsInfo);
 
     // Handle sword:// links by attaching click handlers that navigate to the referenced module
-    const swordUrlHelper = require('../../helpers/sword_url_helper.js');
+    const swordUrlHelper = require('../../../helpers/sword_url_helper.js');
     swordUrlHelper.initSwordUrlLinks(this.wordStudyPanelContent[0], null);
 
     uiHelper.configureButtonStyles(this.wordStudyPanelContent[0]);
@@ -424,7 +433,7 @@ class WordStudyPanel {
     return referenceTableRow;
   }
 
-  async getExtendedStrongsInfo(strongsEntry, lemma) {
+  async getExtendedStrongsInfo(strongsEntry, lemma, morphCode=null) {
 
     let lang = "";
     let moduleCode = "";
@@ -447,9 +456,12 @@ class WordStudyPanel {
 
     let copyDictButton = this.getCopyDictButton();
 
+    let morphologyHtml = this.getMorphologyHtml(morphCode);
+
     let extendedStrongsInfo = `
       <div class='bold word-study-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
       <p class='dictionary-content word-study-links'>${findAllLink} | ${this.getBlueletterLink(strongsEntry)}</p>
+      ${morphologyHtml}
       ${extraDictContent}
       <div class='dictionary-section'>
         <div class='bold word-study-title' style='margin-bottom: 1em'>Strong's
@@ -461,6 +473,32 @@ class WordStudyPanel {
       ${relatedStrongsContent}`;
 
     return extendedStrongsInfo;
+  }
+
+  getMorphologyHtml(morphCode) {
+    if (!morphCode) {
+      return '';
+    }
+
+    var code, parsed;
+
+    if (morphCode.startsWith('robinson:')) {
+      code = morphCode.slice('robinson:'.length);
+      parsed = this._robinsonMorphologyParser.parse(code);
+    } else if (morphCode.startsWith('packard:')) {
+      code = morphCode.slice('packard:'.length);
+      parsed = this._packardMorphologyParser.parse(code);
+    } else if (morphCode.startsWith('oshm:')) {
+      code = morphCode.slice('oshm:'.length);
+      parsed = this._oshmMorphologyParser.parse(code);
+    } else {
+      return '';
+    }
+
+    return `
+      <hr/>
+      <div class='bold word-study-title' style='margin-bottom: 0.5em'>${i18n.t('word-study-panel.morphology')} (${code})</div>
+      <div class='dictionary-content'>${parsed.readable}</div>`;
   }
 
   async getRelatedStrongsContent(strongsReferences) {
