@@ -655,3 +655,41 @@ table.tag-statistics a:hover {
 .tool-panel-reference-box sup {
   margin-right: 0.2em;
 }
+
+/* Strong's Occurrences */
+
+.strongs-occurrence-list {
+  max-height: 15em;
+  overflow-y: auto;
+}
+
+.strongs-occurrence-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.15em 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.strongs-occurrence-item:last-child {
+  border-bottom: none;
+}
+
+.strongs-occurrence-count {
+  font-weight: bold;
+  min-width: 2em;
+  text-align: right;
+}
+
+.strongs-occurrence-total {
+  font-weight: normal;
+  font-size: 0.9em;
+}
+
+#generate-strongs-index-button {
+  margin-top: 0.5em;
+  padding: 0.4em 0.8em;
+}
+
+#strongs-index-progress-bar {
+  margin-top: 0.5em;
+}

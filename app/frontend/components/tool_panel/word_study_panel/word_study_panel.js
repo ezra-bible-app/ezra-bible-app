@@ -171,6 +171,13 @@ class WordStudyPanel {
       });
     });
 
+    let generateIndexButton = this.wordStudyPanelContent[0].querySelector('#generate-strongs-index-button');
+    if (generateIndexButton != null) {
+      generateIndexButton.addEventListener('click', () => {
+        this.handleGenerateIndex(generateIndexButton);
+      });
+    }
+
     this.wordStudyPanelCopyButton.show();
   }
 
@@ -433,6 +440,114 @@ class WordStudyPanel {
     return referenceTableRow;
   }
 
+  async getStrongsTranslation() {
+    const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    const secondBibleTranslationId = app_controller.tab_controller.getTab().getSecondBibleTranslationId();
+
+    const firstTranslationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
+    const secondTranslationHasStrongs = await swordModuleHelper.moduleHasStrongs(secondBibleTranslationId);
+
+    if (firstTranslationHasStrongs) {
+      return currentBibleTranslationId;
+    } else if (secondTranslationHasStrongs) {
+      return secondBibleTranslationId;
+    }
+
+    return null;
+  }
+
+  async getOccurrencesHtml(strongsEntry) {
+    const translationId = await this.getStrongsTranslation();
+
+    if (translationId == null) {
+      return '';
+    }
+
+    const indexExists = await ipcGeneral.strongsIndexExists(translationId);
+
+    if (!indexExists) {
+      return `
+        <hr/>
+        <div id='strongs-occurrences-box'>
+          <div class='bold word-study-title' style='margin-bottom: 0.5em'>${i18n.t('word-study-panel.occurrences')}</div>
+          <div class='dictionary-content'>
+            <p>${i18n.t('word-study-panel.index-not-available', { translation: translationId })}</p>
+            <button id='generate-strongs-index-button'
+                    class='fg-button ui-corner-all ui-state-default'
+                    data-translation='${translationId}'>
+              ${i18n.t('word-study-panel.generate-index')}
+            </button>
+          </div>
+        </div>`;
+    }
+
+    const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, strongsEntry.key);
+
+    return this.renderOccurrencesList(occurrences);
+  }
+
+  renderOccurrencesList(occurrences) {
+    const books = Object.keys(occurrences);
+
+    if (books.length === 0) {
+      return '';
+    }
+
+    let totalCount = 0;
+    let listItems = '';
+
+    for (const book of books) {
+      const count = occurrences[book].length;
+      totalCount += count;
+
+      listItems += `<div class='strongs-occurrence-item'>
+        <span class='strongs-occurrence-book'>${book}</span>
+        <span class='strongs-occurrence-count'>${count}</span>
+      </div>`;
+    }
+
+    return `
+      <hr/>
+      <div id='strongs-occurrences-box'>
+        <div class='bold word-study-title' style='margin-bottom: 0.5em'>
+          ${i18n.t('word-study-panel.occurrences')}
+          <span class='strongs-occurrence-total'>(${totalCount})</span>
+        </div>
+        <div class='strongs-occurrence-list dictionary-content'>
+          ${listItems}
+        </div>
+      </div>`;
+  }
+
+  async handleGenerateIndex(button) {
+    const translationId = button.getAttribute('data-translation');
+    const occurrencesBox = document.getElementById('strongs-occurrences-box');
+
+    if (occurrencesBox == null) {
+      return;
+    }
+
+    occurrencesBox.innerHTML = `
+      <div class='bold word-study-title' style='margin-bottom: 0.5em'>${i18n.t('word-study-panel.occurrences')}</div>
+      <div class='dictionary-content'>
+        <div id='strongs-index-progress-bar' class='progress-bar'>
+          <div class='progress-label'>0%</div>
+        </div>
+      </div>`;
+
+    const $progressBar = $('#strongs-index-progress-bar');
+    uiHelper.initProgressBar($progressBar);
+
+    await ipcGeneral.generateStrongsIndex(translationId, (progress) => {
+      $progressBar.progressbar("value", progress.totalPercent);
+    });
+
+    if (this.currentStrongsEntry != null) {
+      const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, this.currentStrongsEntry.key);
+      occurrencesBox.outerHTML = this.renderOccurrencesList(occurrences);
+    }
+  }
+
   async getExtendedStrongsInfo(strongsEntry, lemma, morphCode=null) {
 
     let lang = "";
@@ -458,10 +573,13 @@ class WordStudyPanel {
 
     let morphologyHtml = this.getMorphologyHtml(morphCode);
 
+    let occurrencesHtml = await this.getOccurrencesHtml(strongsEntry);
+
     let extendedStrongsInfo = `
       <div class='bold word-study-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
       <p class='dictionary-content word-study-links'>${findAllLink} | ${this.getBlueletterLink(strongsEntry)}</p>
       ${morphologyHtml}
+      ${occurrencesHtml}
       ${extraDictContent}
       <div class='dictionary-section'>
         <div class='bold word-study-title' style='margin-bottom: 1em'>Strong's

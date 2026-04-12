@@ -100,6 +100,26 @@ class IpcGeneral {
   async dropboxInstallZipModule(filename) {
     return await this._ipcRenderer.call('general_dropboxInstallZipModule', filename);
   }
+
+  async strongsIndexExists(moduleCode) {
+    return await this._ipcRenderer.call('general_strongsIndexExists', moduleCode);
+  }
+
+  async generateStrongsIndex(moduleCode, progressCallback) {
+    return await this._ipcRenderer.callWithProgressCallback('general_generateStrongsIndex',
+                                                            'general_strongsIndexProgress',
+                                                            progressCallback,
+                                                            0,
+                                                            moduleCode);
+  }
+
+  async getStrongsOccurrences(moduleCode, strongsKey) {
+    return await this._ipcRenderer.call('general_getStrongsOccurrences', moduleCode, strongsKey);
+  }
+
+  async deleteStrongsIndex(moduleCode) {
+    return await this._ipcRenderer.call('general_deleteStrongsIndex', moduleCode);
+  }
 }
 
 module.exports = IpcGeneral;

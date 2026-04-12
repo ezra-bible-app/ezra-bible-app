@@ -90,6 +90,9 @@ class StepRemove extends HTMLElement {
 
     await ipcNsi.uninstallModule(moduleCode);
 
+    // Delete Strong's index file if present for this translation
+    await ipcGeneral.deleteStrongsIndex(moduleCode);
+
     const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     const modules = await app_controller.translation_controller.getInstalledModules('BIBLE');
     const moduleType = assistantController.get('moduleType');
