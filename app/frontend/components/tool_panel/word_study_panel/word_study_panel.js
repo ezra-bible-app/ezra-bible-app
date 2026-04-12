@@ -725,20 +725,87 @@ class WordStudyPanel {
       }
     }
 
-    // Open a new tab (same pattern as findAllOccurrences)
+    const xrefTitle = `${i18n.t('word-study-panel.occurrences')} (${strongsKey})`;
+    const openInNewTab = app_controller.optionsMenu._verseListNewTabOption.isChecked;
+
+    if (openInNewTab) {
+      await this._showOccurrencesInTab(xrefs, xrefTitle, strongsKey, translationId);
+    } else {
+      await this._showOccurrencesInPopup(xrefs, xrefTitle, strongsKey);
+    }
+  }
+
+  async _showOccurrencesInTab(xrefs, xrefTitle, strongsKey, translationId) {
     app_controller.tab_controller.saveTabScrollPosition();
     app_controller.tab_controller.addTab(undefined, false, translationId);
 
-    const xrefTitle = `${i18n.t('word-study-panel.occurrences')} (${strongsKey})`;
     await app_controller.openXrefVerses(null, xrefTitle, xrefs);
 
-    // Run the on-tab-selected actions at the end, because we added a tab
     const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     await eventController.publishAsync('on-tab-selected', tabIndex);
 
-    // Wait for the tab show callback to complete, then highlight the Strong's word
     await waitUntilIdle();
+    this._highlightStrongsInVerseList(strongsKey);
+  }
 
+  async _showOccurrencesInPopup(xrefs, xrefTitle, strongsKey) {
+    const popup = app_controller.verse_list_popup;
+
+    if (!popup.dialogInitDone) {
+      popup.dialogInitDone = true;
+      popup.initVerseListPopup();
+    }
+
+    popup.currentReferenceType = 'XREFS';
+    popup.currentXrefs = xrefs;
+    popup.currentPopupTitle = xrefTitle;
+    popup.currentReferenceVerseBox = null;
+
+    const dialogOptions = { title: xrefTitle };
+    if (!platformHelper.isMobile()) {
+      dialogOptions.width = uiHelper.getMaxDialogWidth();
+    }
+
+    $('#verse-list-popup').dialog(dialogOptions);
+
+    popup.toggleBookFilter('XREFS');
+    popup.getNewTabButton().removeClass('ui-state-active');
+    popup.getNewTabButton().hide();
+    $('#verse-list-popup-verse-list').hide();
+    $('#verse-list-popup-verse-list').empty();
+    $('#verse-list-popup-loading-indicator').find('.loader').show();
+    $('#verse-list-popup-loading-indicator').show();
+    $('#verse-list-popup').dialog("open");
+
+    const currentTabId = app_controller.tab_controller.getSelectedTabId();
+    const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+
+    await app_controller.text_controller.requestVersesForXrefs(
+      currentTabIndex,
+      currentTabId,
+      xrefs,
+      (htmlVerses, verseCount) => {
+        const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
+        const currentTranslationId = currentTab.getBibleTranslationId();
+        swordModuleHelper.moduleIsRTL(currentTranslationId).then((rtl) => {
+          popup.renderVerseListInPopup(htmlVerses, verseCount, rtl);
+
+          // Highlight Strong's words in popup
+          const popupVerseList = document.getElementById('verse-list-popup-verse-list');
+          const verses = popupVerseList.querySelectorAll('.verse-text');
+          const verseSearch = app_controller.module_search_controller.verseSearch;
+
+          for (let i = 0; i < verses.length; i++) {
+            verseSearch.doVerseSearch(verses[i], strongsKey, 'strongsNumber');
+          }
+        });
+      },
+      'html',
+      false
+    );
+  }
+
+  _highlightStrongsInVerseList(strongsKey) {
     const verseListController = require('../../../controllers/verse_list_controller.js');
     const currentVerseList = verseListController.getCurrentVerseList();
     const verses = currentVerseList[0].querySelectorAll('.verse-text');
