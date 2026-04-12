@@ -467,8 +467,8 @@ class WordStudyPanel {
 
     if (!indexExists) {
       return `
-        <hr/>
         <div id='strongs-occurrences-box'>
+          <hr/>
           <div class='bold word-study-title' style='margin-bottom: 0.5em'>${i18n.t('word-study-panel.occurrences')}</div>
           <div class='dictionary-content'>
             <p>${i18n.t('word-study-panel.index-not-available', { translation: translationId })}</p>
@@ -507,8 +507,8 @@ class WordStudyPanel {
     }
 
     return `
-      <hr/>
       <div id='strongs-occurrences-box'>
+        <hr/>
         <div class='bold word-study-title' style='margin-bottom: 0.5em'>
           ${i18n.t('word-study-panel.occurrences')}
           <span class='strongs-occurrence-total'>(${totalCount})</span>
@@ -528,6 +528,7 @@ class WordStudyPanel {
     }
 
     occurrencesBox.innerHTML = `
+      <hr/>
       <div class='bold word-study-title' style='margin-bottom: 0.5em'>${i18n.t('word-study-panel.occurrences')}</div>
       <div class='dictionary-content'>
         <div id='strongs-index-progress-bar' class='progress-bar'>
