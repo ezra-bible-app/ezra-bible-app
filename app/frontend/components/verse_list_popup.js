@@ -34,6 +34,7 @@ class VerseListPopup {
   constructor() {
     this.verseBoxHelper = new VerseBoxHelper();
     this.dialogInitDone = false;
+    this.currentStrongsKey = null;
 
     eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
       if (isFullScreen) {
@@ -191,7 +192,23 @@ class VerseListPopup {
     const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     await eventController.publishAsync('on-tab-selected', tabIndex);
 
-    // 5) Select the reference verse
+    // 5) Highlight Strong's words if applicable
+    if (this.currentStrongsKey != null) {
+      const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+      await waitUntilIdle();
+
+      const currentVerseList = verseListController.getCurrentVerseList();
+      const verses = currentVerseList[0].querySelectorAll('.verse-text');
+      const verseSearch = app_controller.module_search_controller.verseSearch;
+
+      for (let i = 0; i < verses.length; i++) {
+        verseSearch.doVerseSearch(verses[i], this.currentStrongsKey, 'strongsNumber');
+      }
+
+      this.currentStrongsKey = null;
+    }
+
+    // 6) Select the reference verse
     if (this.currentReferenceVerseBox != null && this.currentReferenceVerseBox.length > 0) {
       let currentReferenceVerse = verseListController.getCurrentVerseListFrame().find('.reference-verse');
       let verseText = currentReferenceVerse[0].querySelector('.verse-text-container');

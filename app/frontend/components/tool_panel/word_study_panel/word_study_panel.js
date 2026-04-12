@@ -760,6 +760,7 @@ class WordStudyPanel {
     popup.currentXrefs = xrefs;
     popup.currentPopupTitle = xrefTitle;
     popup.currentReferenceVerseBox = null;
+    popup.currentStrongsKey = strongsKey;
 
     const dialogOptions = { title: xrefTitle };
     if (!platformHelper.isMobile()) {
