@@ -508,7 +508,6 @@ class WordStudyPanel {
         <hr/>
         <div class='bold word-study-title' style='margin-bottom: 0.5em'>
           ${i18n.t('word-study-panel.occurrences')}
-          <span class='strongs-occurrence-total'>(${totalCount})</span>
         </div>
         <table class='strongs-occurrence-list dictionary-content'>
           ${listItems}
@@ -714,7 +713,7 @@ class WordStudyPanel {
       }
     }
 
-    const xrefTitle = `${strongsKey} - ${i18n.t('word-study-panel.occurrences')} (${xrefs.length})`;
+    const xrefTitle = `${strongsKey} \u2014 ${i18n.t('word-study-panel.occurrences')}`;
     const openInNewTab = app_controller.optionsMenu._verseListNewTabOption.isChecked;
 
     if (openInNewTab) {
