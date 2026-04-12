@@ -150,6 +150,7 @@ class WordStudyPanel {
     let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma, morphCode);
 
     this.wordStudyPanelContent.html(extendedStrongsInfo);
+    document.getElementById('word-study-panel-wrapper').scrollTop = 0;
 
     // Handle sword:// links by attaching click handlers that navigate to the referenced module
     const swordUrlHelper = require('../../../helpers/sword_url_helper.js');
