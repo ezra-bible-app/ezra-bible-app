@@ -230,12 +230,14 @@ class WordStudyPanel {
       showStatsLink.addEventListener('click', async (event) => {
         event.preventDefault();
 
-        if (platformHelper.isCordova()) {
-          await this._loadOccurrenceStats(showStatsLink);
-        } else {
-          const table = this.wordStudyPanelContent[0].querySelector('.strongs-occurrence-list');
-          if (table) table.style.display = '';
+        const table = this.wordStudyPanelContent[0].querySelector('.strongs-occurrence-list');
+        if (table) {
+          // Table already rendered (desktop, or Cordova after index generation) — just show it
+          table.style.display = '';
           showStatsLink.style.display = 'none';
+        } else if (platformHelper.isCordova()) {
+          // Cordova: table not yet loaded — fetch and render on demand
+          await this._loadOccurrenceStats(showStatsLink);
         }
       });
     }
