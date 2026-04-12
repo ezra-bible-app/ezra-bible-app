@@ -28,7 +28,7 @@ class StrongsIndexHelper {
 
   _getIndexPath(moduleCode) {
     const userDataDir = this._platformHelper.getUserDataPath();
-    return path.join(userDataDir, `strongs-index-${moduleCode}.json`);
+    return path.join(userDataDir, `strongs-index-${moduleCode.toLowerCase()}.json`);
   }
 
   /**
@@ -102,7 +102,7 @@ class StrongsIndexHelper {
       fs.mkdirSync(indexDir, { recursive: true });
     }
 
-    fs.writeFileSync(indexPath, JSON.stringify(index));
+    fs.writeFileSync(indexPath, JSON.stringify(index, null, 2));
 
     this._indexCache[moduleCode] = index;
 
