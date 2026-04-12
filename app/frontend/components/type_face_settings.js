@@ -334,21 +334,22 @@ function showDialog() {
   dialogOptions.autoOpen = true;
   dialogOptions.title = i18n.t('general.type-face.configure-typeface');
 
-  dialogOptions.buttons = {
-    Cancel: function() {
-      $(this).dialog('close');
-    },
-    Save: () => {
-      // Apply content font settings
-      let selectedFontFamily = fontFamilySelect.value;
-      handleFontFamilyChange(selectedFontFamily, true, true);
-      
-      // Apply user content font settings
-      let selectedUserContentFontFamily = userContentFontFamilySelect.value;
-      handleUserContentFontFamilyChange(selectedUserContentFontFamily, true, true);
-      
-      $box.dialog('close');
-    }
+  dialogOptions.buttons = {};
+
+  dialogOptions.buttons[i18n.t('general.cancel')] = function() {
+    $(this).dialog('close');
+  };
+
+  dialogOptions.buttons[i18n.t('general.save')] = () => {
+    // Apply content font settings
+    let selectedFontFamily = fontFamilySelect.value;
+    handleFontFamilyChange(selectedFontFamily, true, true);
+
+    // Apply user content font settings
+    let selectedUserContentFontFamily = userContentFontFamilySelect.value;
+    handleUserContentFontFamilyChange(selectedUserContentFontFamily, true, true);
+
+    $box.dialog('close');
   };
 
   Mousetrap.bind('esc', () => { $box.dialog('close'); });
