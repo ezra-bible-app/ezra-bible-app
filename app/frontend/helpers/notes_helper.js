@@ -30,29 +30,37 @@ module.exports.getTooltipText = function(noteText) {
 };
 
 function sanitizeNotes(input) {
-  // Create a DOM parser
   const parser = new DOMParser();
-
-  // Parse the input as an HTML document
   const doc = parser.parseFromString(input, 'text/html');
-  
-  // Remove all <script> elements
-  doc.querySelectorAll('script').forEach(script => script.remove());
-  
-  // Remove all <style> elements
-  doc.querySelectorAll('style').forEach(style => style.remove());
-  
-  // Return the sanitized HTML as a string
+
+  doc.querySelectorAll('script, style, iframe, object, embed, svg, math').forEach(element => element.remove());
+
+  doc.querySelectorAll('*').forEach(element => {
+    [...element.attributes].forEach(attribute => {
+      const name = attribute.name.toLowerCase();
+      const value = attribute.value.trim().toLowerCase();
+
+      if(name.startsWith('on') || name === 'style' || name === 'srcdoc') {
+        element.removeAttribute(attribute.name);
+        return;
+      }
+
+      if(['href', 'src', 'xlink:href', 'action', 'formaction'].includes(name)) {
+        if(value.startsWith('javascript:') || value.startsWith('vbscript:') || value.startsWith('data:')) {
+          element.removeAttribute(attribute.name);
+        }
+      }
+    });
+  });
+
   return doc.body.innerHTML;
 };
 
 module.exports.renderNotes = function(input) {
-  // Sanitize the input
   const sanitizedInput = sanitizeNotes(input);
 
-  // Render the notes using the marked parser
   const { marked } = require("marked");
   const renderedContent = marked.parse(sanitizedInput);
 
-  return renderedContent;
+  return sanitizeNotes(renderedContent);
 };
