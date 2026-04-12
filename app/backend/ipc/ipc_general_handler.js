@@ -18,7 +18,7 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
-const StrongsIndexHelper = require('../strongs_index_helper.js');
+const StrongsIndexHelper = require('./strongs_index_helper.js');
 
 global.connectionType = undefined;
 
