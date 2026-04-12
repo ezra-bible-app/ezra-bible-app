@@ -18,7 +18,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const PlatformHelper = require('../lib/platform_helper.js');
+const PlatformHelper = require('../../lib/platform_helper.js');
 
 class StrongsIndexHelper {
   constructor() {
