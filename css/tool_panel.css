@@ -659,8 +659,6 @@ table.tag-statistics a:hover {
 /* Strong's Occurrences */
 
 .strongs-occurrence-list {
-  max-height: 15em;
-  overflow-y: auto;
 }
 
 .strongs-occurrence-item {
