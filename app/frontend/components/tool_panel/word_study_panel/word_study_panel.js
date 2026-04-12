@@ -483,15 +483,17 @@ class WordStudyPanel {
 
     const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, strongsEntry.key);
 
-    return this.renderOccurrencesList(occurrences);
+    return await this.renderOccurrencesList(occurrences);
   }
 
-  renderOccurrencesList(occurrences) {
+  async renderOccurrencesList(occurrences) {
     const books = Object.keys(occurrences);
 
     if (books.length === 0) {
       return '';
     }
+
+    const i18nHelper = require('../../../helpers/i18n_helper.js');
 
     let totalCount = 0;
     let listItems = '';
@@ -500,8 +502,11 @@ class WordStudyPanel {
       const count = occurrences[book].length;
       totalCount += count;
 
+      const longTitle = await ipcDb.getBookLongTitle(book);
+      const localizedName = await i18nHelper.getSwordTranslation(longTitle);
+
       listItems += `<div class='strongs-occurrence-item'>
-        <span class='strongs-occurrence-book'>${book}</span>
+        <span class='strongs-occurrence-book'>${localizedName}</span>
         <span class='strongs-occurrence-count'>${count}</span>
       </div>`;
     }
@@ -545,7 +550,7 @@ class WordStudyPanel {
 
     if (this.currentStrongsEntry != null) {
       const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, this.currentStrongsEntry.key);
-      occurrencesBox.outerHTML = this.renderOccurrencesList(occurrences);
+      occurrencesBox.outerHTML = await this.renderOccurrencesList(occurrences);
     }
   }
 
