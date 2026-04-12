@@ -505,10 +505,10 @@ class WordStudyPanel {
       const longTitle = await ipcDb.getBookLongTitle(book);
       const localizedName = await i18nHelper.getSwordTranslation(longTitle);
 
-      listItems += `<div class='strongs-occurrence-item'>
-        <span class='strongs-occurrence-book'>${localizedName}</span>
-        <span class='strongs-occurrence-count'>${count}</span>
-      </div>`;
+      listItems += `<tr>
+        <td class='strongs-occurrence-book'>${localizedName}</td>
+        <td class='strongs-occurrence-count'>${count}</td>
+      </tr>`;
     }
 
     return `
@@ -518,9 +518,9 @@ class WordStudyPanel {
           ${i18n.t('word-study-panel.occurrences')}
           <span class='strongs-occurrence-total'>(${totalCount})</span>
         </div>
-        <div class='strongs-occurrence-list dictionary-content'>
+        <table class='strongs-occurrence-list dictionary-content'>
           ${listItems}
-        </div>
+        </table>
       </div>`;
   }
 

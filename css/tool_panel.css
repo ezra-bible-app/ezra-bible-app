@@ -659,22 +659,16 @@ table.tag-statistics a:hover {
 /* Strong's Occurrences */
 
 .strongs-occurrence-list {
+  border-collapse: collapse;
 }
 
-.strongs-occurrence-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.15em 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.strongs-occurrence-item:last-child {
-  border-bottom: none;
+.strongs-occurrence-book {
+  max-width: 10em;
+  padding-right: 0.4em;
 }
 
 .strongs-occurrence-count {
   font-weight: bold;
-  min-width: 2em;
   text-align: right;
 }
 
