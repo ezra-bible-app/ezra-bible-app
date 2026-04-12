@@ -18,7 +18,7 @@
 
 const eventController = require('../../../controllers/event_controller.js');
 const swordModuleHelper = require('../../../helpers/sword_module_helper.js');
-const { html, getPlatform } = require('../../../helpers/ezra_helper.js');
+const { html, getPlatform, waitUntilIdle } = require('../../../helpers/ezra_helper.js');
 const RobinsonGreekMorphologyParser = require('./robinson_greek_morphology_parser.js');
 const PackardGreekMorphologyParser = require('./packard_greek_morphology_parser.js');
 const OpenScripturesHebrewMorphologyParser = require('./oshm_morphology_parser.js');
@@ -732,7 +732,13 @@ class WordStudyPanel {
     const xrefTitle = `${i18n.t('word-study-panel.occurrences')} (${strongsKey})`;
     await app_controller.openXrefVerses(null, xrefTitle, xrefs);
 
-    // Highlight the Strong's word in the rendered verses
+    // Run the on-tab-selected actions at the end, because we added a tab
+    const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    await eventController.publishAsync('on-tab-selected', tabIndex);
+
+    // Wait for the tab show callback to complete, then highlight the Strong's word
+    await waitUntilIdle();
+
     const verseListController = require('../../../controllers/verse_list_controller.js');
     const currentVerseList = verseListController.getCurrentVerseList();
     const verses = currentVerseList[0].querySelectorAll('.verse-text');
@@ -741,10 +747,6 @@ class WordStudyPanel {
     for (let i = 0; i < verses.length; i++) {
       verseSearch.doVerseSearch(verses[i], strongsKey, 'strongsNumber');
     }
-
-    // Run the on-tab-selected actions at the end, because we added a tab
-    const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
-    await eventController.publishAsync('on-tab-selected', tabIndex);
   }
 
   async findAllOccurrences(strongsKey, bibleTranslationId) {
