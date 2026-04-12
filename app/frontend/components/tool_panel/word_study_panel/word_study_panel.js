@@ -787,6 +787,7 @@ class WordStudyPanel {
     $('#verse-list-popup-verse-list').empty();
     $('#verse-list-popup-loading-indicator').find('.loader').show();
     $('#verse-list-popup-loading-indicator').show();
+    document.getElementById('verse-list-popup-loading-indicator-message').innerText = i18n.t('bible-browser.loading-verses');
     $('#verse-list-popup').dialog("open");
 
     const currentTabId = app_controller.tab_controller.getSelectedTabId();
