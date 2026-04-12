@@ -714,7 +714,7 @@ class WordStudyPanel {
       }
     }
 
-    const xrefTitle = `${i18n.t('word-study-panel.occurrences')} (${strongsKey})`;
+    const xrefTitle = `${strongsKey} - ${i18n.t('word-study-panel.occurrences')} (${xrefs.length})`;
     const openInNewTab = app_controller.optionsMenu._verseListNewTabOption.isChecked;
 
     if (openInNewTab) {
