@@ -79,6 +79,7 @@ class IPC {
 
       if (this.platformHelper.isElectron()) {
         global.ipcNsiHandler.setMainWindow(electronMainWindow);
+        global.ipcGeneralHandler.setMainWindow(electronMainWindow);
 
         returnCode = await this.initDatabase(isDebug);
       }

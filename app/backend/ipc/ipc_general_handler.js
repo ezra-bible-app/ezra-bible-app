@@ -30,6 +30,10 @@ class IpcGeneralHandler {
     this.initIpcInterface();
   }
 
+  setMainWindow(mainWindow) {
+    this._ipcMain.setMainWindow(mainWindow);
+  }
+
   initIpcInterface() {
     if (this._platformHelper.isCordova()) {
       this._ipcMain.add('general_initPersistentIpc', async(androidVersion=undefined) => {
