@@ -379,27 +379,6 @@ class WordStudyPanel {
     return `${strongsEntry.transcription} &mdash; ${strongsEntry.phoneticTranscription} &mdash; ${lemma}`;
   }
 
-  async getFindAllLink(strongsEntry) {
-    const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    const secondBibleTranslationId = app_controller.tab_controller.getTab().getSecondBibleTranslationId();
-
-    const firstTranslationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
-    const secondTranslationHasStrongs = await swordModuleHelper.moduleHasStrongs(secondBibleTranslationId);
-
-    let searchTranslation = currentBibleTranslationId;
-
-    if (!firstTranslationHasStrongs && secondTranslationHasStrongs) {
-        searchTranslation = secondBibleTranslationId;
-    }
-
-    const functionCall = "javascript:app_controller.word_study_controller._wordStudyPanel.findAllOccurrences('" +
-      strongsEntry.rawKey + "','" + searchTranslation + "')";
-
-    const link = "<a href=\"" + functionCall + "\">" + i18n.t("word-study-panel.find-all-occurrences") + "</a>";
-
-    return link;
-  }
-
   getBlueletterLink(strongsEntry) {
     var bible = app_controller.tab_controller.getTab().getBibleTranslationId();
 
@@ -601,8 +580,6 @@ class WordStudyPanel {
     const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
     let moduleInfoButton = this.getModuleInfoButton(moduleInfoButtonTitle, moduleCode);
 
-    const findAllLink = await this.getFindAllLink(strongsEntry);
-
     let copyDictButton = this.getCopyDictButton();
 
     let morphologyHtml = this.getMorphologyHtml(morphCode);
@@ -611,7 +588,7 @@ class WordStudyPanel {
 
     let extendedStrongsInfo = `
       <div class='bold word-study-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
-      <p class='dictionary-content word-study-links'>${findAllLink} | ${this.getBlueletterLink(strongsEntry)}</p>
+      <p class='dictionary-content word-study-links'>${this.getBlueletterLink(strongsEntry)}</p>
       ${morphologyHtml}
       ${occurrencesHtml}
       ${extraDictContent}
@@ -828,43 +805,6 @@ class WordStudyPanel {
     for (let i = 0; i < verses.length; i++) {
       verseSearch.doVerseSearch(verses[i], strongsKey, 'strongsNumber');
     }
-  }
-
-  async findAllOccurrences(strongsKey, bibleTranslationId) {
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
-
-    if (!showSearchResultsInPopup) {
-      app_controller.tab_controller.saveTabScrollPosition();
-
-      // Add a new tab. Set the default bible translation to the given one to ensure that the translation in the
-      // newly opened tab matches the one in the current tab
-      app_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
-    }
-
-    // Set search options
-    var currentTab = app_controller.tab_controller.getTab();
-    currentTab.setSearchOptions('strongsNumber', false);
-
-    // Set the search key and populate the search menu
-    app_controller.tab_controller.setTabSearch(strongsKey);
-    app_controller.module_search_controller.populateSearchMenu();
-
-    if (!showSearchResultsInPopup) {
-      // Prepare for the next text to be loaded
-      await app_controller.text_controller.prepareForNewText(true, true);
-    }
-
-    // Prevent the on-tab-selected event from canceling our search
-    app_controller.module_search_controller.skipNextSearchCancellation = true;
-
-    // Perform the Strong's search
-    await app_controller.module_search_controller.startSearch(/* event */      null,
-                                                             /* tabIndex */   undefined,
-                                                             /* searchTerm */ strongsKey);
-
-    // Run the on-tab-selected actions at the end, because we added a tab
-    const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
-    await eventController.publishAsync('on-tab-selected', tabIndex);
   }
 
   async getAllExtraDictModules(lang='GREEK') {
