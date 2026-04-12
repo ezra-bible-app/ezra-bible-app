@@ -41,6 +41,28 @@ class StrongsIndexHelper {
     return prefix + num;
   }
 
+  _formatIndex(index) {
+    const lines = ['{'];
+    const keys = Object.keys(index);
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const books = index[key];
+      const bookEntries = [];
+
+      for (const [book, refs] of Object.entries(books)) {
+        bookEntries.push(`      "${book}": ${JSON.stringify(refs)}`);
+      }
+
+      lines.push(`  "${key}": {`);
+      lines.push(bookEntries.join(',\n'));
+      lines.push(i < keys.length - 1 ? '  },' : '  }');
+    }
+
+    lines.push('}');
+    return lines.join('\n');
+  }
+
   indexExists(moduleCode) {
     if (this._indexCache[moduleCode] != null) {
       return true;
@@ -102,7 +124,7 @@ class StrongsIndexHelper {
       fs.mkdirSync(indexDir, { recursive: true });
     }
 
-    fs.writeFileSync(indexPath, JSON.stringify(index, null, 2));
+    fs.writeFileSync(indexPath, this._formatIndex(index));
 
     this._indexCache[moduleCode] = index;
 
