@@ -172,6 +172,34 @@ class WordStudyPanel {
       });
     });
 
+    this.wordStudyPanelCopyButton.show();
+
+    if (platformHelper.isCordova()) {
+      // Load occurrences asynchronously to not block the panel rendering on mobile
+      this._loadOccurrencesAsync(strongsEntry);
+    } else {
+      this._attachOccurrencesEventHandlers();
+    }
+  }
+
+  async _loadOccurrencesAsync(strongsEntry) {
+    const occurrencesBox = document.getElementById('strongs-occurrences-box');
+    if (occurrencesBox == null) {
+      return;
+    }
+
+    const occurrencesHtml = await this.getOccurrencesHtml(strongsEntry);
+
+    // Check that the panel still shows the same entry
+    if (this.currentStrongsEntry !== strongsEntry) {
+      return;
+    }
+
+    occurrencesBox.outerHTML = occurrencesHtml;
+    this._attachOccurrencesEventHandlers();
+  }
+
+  _attachOccurrencesEventHandlers() {
     let generateIndexButton = this.wordStudyPanelContent[0].querySelector('#generate-strongs-index-button');
     if (generateIndexButton != null) {
       generateIndexButton.addEventListener('click', () => {
@@ -188,8 +216,6 @@ class WordStudyPanel {
         this.showAllOccurrences(strongsKey, translationId);
       });
     }
-
-    this.wordStudyPanelCopyButton.show();
   }
 
   handleCopyButtonClick() {
@@ -508,6 +534,7 @@ class WordStudyPanel {
         <hr/>
         <div class='bold word-study-title' style='margin-bottom: 0.5em'>
           ${i18n.t('word-study-panel.occurrences')}
+          <span class='strongs-occurrence-total'>(${totalCount})</span>
         </div>
         <table class='strongs-occurrence-list dictionary-content'>
           ${listItems}
@@ -547,16 +574,7 @@ class WordStudyPanel {
     if (this.currentStrongsEntry != null) {
       const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, this.currentStrongsEntry.key);
       occurrencesBox.outerHTML = await this.renderOccurrencesList(occurrences, this.currentStrongsEntry.key);
-
-      let showAllLink = this.wordStudyPanelContent[0].querySelector('#show-all-occurrences-link');
-      if (showAllLink != null) {
-        showAllLink.addEventListener('click', (event) => {
-          event.preventDefault();
-          const strongsKey = showAllLink.getAttribute('data-strongs-key');
-          const translationId = showAllLink.getAttribute('data-translation');
-          this.showAllOccurrences(strongsKey, translationId);
-        });
-      }
+      this._attachOccurrencesEventHandlers();
     }
   }
 
@@ -583,7 +601,12 @@ class WordStudyPanel {
 
     let morphologyHtml = this.getMorphologyHtml(morphCode);
 
-    let occurrencesHtml = await this.getOccurrencesHtml(strongsEntry);
+    let occurrencesHtml;
+    if (platformHelper.isCordova()) {
+      occurrencesHtml = `<div id='strongs-occurrences-box'><hr/><div class='bold word-study-title' style='margin-bottom: 0.5em'>${i18n.t('word-study-panel.occurrences')}</div><div class='dictionary-content'><loading-indicator style="display: inline-block; width: 4em; height: 1.2em; vertical-align: middle;"></loading-indicator></div></div>`;
+    } else {
+      occurrencesHtml = await this.getOccurrencesHtml(strongsEntry);
+    }
 
     let extendedStrongsInfo = `
       <div class='bold word-study-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
