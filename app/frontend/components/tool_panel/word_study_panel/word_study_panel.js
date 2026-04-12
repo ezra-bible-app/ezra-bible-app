@@ -725,8 +725,26 @@ class WordStudyPanel {
       }
     }
 
+    // Open a new tab (same pattern as findAllOccurrences)
+    app_controller.tab_controller.saveTabScrollPosition();
+    app_controller.tab_controller.addTab(undefined, false, translationId);
+
     const xrefTitle = `${i18n.t('word-study-panel.occurrences')} (${strongsKey})`;
     await app_controller.openXrefVerses(null, xrefTitle, xrefs);
+
+    // Highlight the Strong's word in the rendered verses
+    const verseListController = require('../../../controllers/verse_list_controller.js');
+    const currentVerseList = verseListController.getCurrentVerseList();
+    const verses = currentVerseList[0].querySelectorAll('.verse-text');
+    const verseSearch = app_controller.module_search_controller.verseSearch;
+
+    for (let i = 0; i < verses.length; i++) {
+      verseSearch.doVerseSearch(verses[i], strongsKey, 'strongsNumber');
+    }
+
+    // Run the on-tab-selected actions at the end, because we added a tab
+    const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    await eventController.publishAsync('on-tab-selected', tabIndex);
   }
 
   async findAllOccurrences(strongsKey, bibleTranslationId) {
