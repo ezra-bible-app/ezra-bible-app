@@ -107,7 +107,7 @@ class StrongsIndexHelper {
             index[normalizedKey][bookCode] = [];
           }
 
-          index[normalizedKey][bookCode].push([verse.chapter, verse.verseNr]);
+          index[normalizedKey][bookCode].push(`${verse.chapter}:${verse.verseNr}`);
         }
       }
 

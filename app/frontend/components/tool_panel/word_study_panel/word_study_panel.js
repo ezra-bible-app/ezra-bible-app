@@ -720,7 +720,8 @@ class WordStudyPanel {
     // Convert index data to OSIS references
     const xrefs = [];
     for (const book of books) {
-      for (const [chapter, verse] of occurrences[book]) {
+      for (const ref of occurrences[book]) {
+        const [chapter, verse] = ref.split(':');
         xrefs.push(`${book}.${chapter}.${verse}`);
       }
     }
