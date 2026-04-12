@@ -174,29 +174,47 @@ class WordStudyPanel {
 
     this.wordStudyPanelCopyButton.show();
 
-    if (platformHelper.isCordova()) {
-      // Load occurrences asynchronously to not block the panel rendering on mobile
-      this._loadOccurrencesAsync(strongsEntry);
-    } else {
-      this._attachOccurrencesEventHandlers();
-    }
+    this._attachOccurrencesEventHandlers();
   }
 
-  async _loadOccurrencesAsync(strongsEntry) {
-    const occurrencesBox = document.getElementById('strongs-occurrences-box');
-    if (occurrencesBox == null) {
+  async _loadOccurrenceStats(showStatsLink) {
+    const strongsKey = showStatsLink.getAttribute('data-strongs-key');
+    const translationId = showStatsLink.getAttribute('data-translation');
+
+    showStatsLink.style.display = 'none';
+
+    const placeholder = document.getElementById('strongs-occurrence-stats-placeholder');
+    if (placeholder) {
+      placeholder.innerHTML = `<loading-indicator style="display: inline-block; width: 4em; height: 1.2em; vertical-align: middle;"></loading-indicator>`;
+    }
+
+    const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, strongsKey);
+    const books = Object.keys(occurrences);
+
+    if (books.length === 0) {
+      if (placeholder) placeholder.innerHTML = '';
       return;
     }
 
-    const occurrencesHtml = await this.getOccurrencesHtml(strongsEntry);
+    const i18nHelper = require('../../../helpers/i18n_helper.js');
 
-    // Check that the panel still shows the same entry
-    if (this.currentStrongsEntry !== strongsEntry) {
-      return;
+    let listItems = '';
+
+    for (const book of books) {
+      const count = occurrences[book].length;
+
+      const longTitle = await ipcDb.getBookLongTitle(book);
+      const localizedName = await i18nHelper.getSwordTranslation(longTitle);
+
+      listItems += `<tr>
+        <td class='strongs-occurrence-book'>${localizedName}</td>
+        <td class='strongs-occurrence-count'>${count}</td>
+      </tr>`;
     }
 
-    occurrencesBox.outerHTML = occurrencesHtml;
-    this._attachOccurrencesEventHandlers();
+    if (placeholder) {
+      placeholder.innerHTML = `<table class='strongs-occurrence-list dictionary-content'>${listItems}</table>`;
+    }
   }
 
   _attachOccurrencesEventHandlers() {
@@ -209,11 +227,16 @@ class WordStudyPanel {
 
     let showStatsLink = this.wordStudyPanelContent[0].querySelector('#show-occurrence-stats-link');
     if (showStatsLink != null) {
-      showStatsLink.addEventListener('click', (event) => {
+      showStatsLink.addEventListener('click', async (event) => {
         event.preventDefault();
-        const table = this.wordStudyPanelContent[0].querySelector('.strongs-occurrence-list');
-        if (table) table.style.display = '';
-        showStatsLink.style.display = 'none';
+
+        if (platformHelper.isCordova()) {
+          await this._loadOccurrenceStats(showStatsLink);
+        } else {
+          const table = this.wordStudyPanelContent[0].querySelector('.strongs-occurrence-list');
+          if (table) table.style.display = '';
+          showStatsLink.style.display = 'none';
+        }
       });
     }
 
@@ -614,7 +637,50 @@ class WordStudyPanel {
 
     let occurrencesHtml;
     if (platformHelper.isCordova()) {
-      occurrencesHtml = `<div id='strongs-occurrences-box'><hr/><div class='bold word-study-title' style='margin-bottom: 0.5em'>${i18n.t('word-study-panel.occurrences')}</div><div class='dictionary-content'><loading-indicator style="display: inline-block; width: 4em; height: 1.2em; vertical-align: middle;"></loading-indicator></div></div>`;
+      const translationId = await this.getStrongsTranslation();
+      if (translationId == null) {
+        occurrencesHtml = '';
+      } else {
+        const indexExists = await ipcGeneral.strongsIndexExists(translationId);
+        if (!indexExists) {
+          occurrencesHtml = `
+            <div id='strongs-occurrences-box'>
+              <hr/>
+              <div class='bold word-study-title' style='margin-bottom: 0.5em'>${i18n.t('word-study-panel.occurrences')}</div>
+              <div class='dictionary-content'>
+                <p>${i18n.t('word-study-panel.index-not-available', { translation: translationId })}</p>
+                <button id='generate-strongs-index-button'
+                        class='fg-button ui-corner-all ui-state-default'
+                        data-translation='${translationId}'>
+                  ${i18n.t('word-study-panel.generate-index')}
+                </button>
+              </div>
+            </div>`;
+        } else {
+          const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, strongsEntry.key);
+          const totalCount = Object.values(occurrences).reduce((sum, refs) => sum + refs.length, 0);
+
+          occurrencesHtml = `
+            <div id='strongs-occurrences-box'>
+              <hr/>
+              <div class='bold word-study-title' style='margin-bottom: 0.5em'>
+                ${i18n.t('word-study-panel.occurrences')}
+                <span class='strongs-occurrence-total'>(${totalCount})</span>
+              </div>
+              <div><a id='show-occurrence-stats-link' class='dictionary-content' href='#'
+                 data-strongs-key='${strongsEntry.key}'
+                 data-translation='${translationId}'>
+                ${i18n.t('word-study-panel.show-occurrence-statistics')}
+              </a></div>
+              <div id='strongs-occurrence-stats-placeholder'></div>
+              <div><a id='show-all-occurrences-link' class='dictionary-content' href='#'
+                 data-strongs-key='${strongsEntry.key}'
+                 data-translation='${translationId}'>
+                ${i18n.t('word-study-panel.show-all-occurrences')}
+              </a></div>
+            </div>`;
+        }
+      }
     } else {
       occurrencesHtml = await this.getOccurrencesHtml(strongsEntry);
     }
