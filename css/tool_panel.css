@@ -682,6 +682,11 @@ table.tag-statistics a:hover {
   padding: 0.4em 0.8em;
 }
 
+#show-all-occurrences-link {
+  display: inline-block;
+  margin-top: 0.5em;
+}
+
 #strongs-index-progress-bar {
   margin-top: 0.5em;
 }

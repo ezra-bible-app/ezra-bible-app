@@ -445,7 +445,8 @@
     "morphology": "Morphology",
     "occurrences": "Occurrences",
     "index-not-available": "The Strong's occurrence index for {{translation}} has not been generated yet.",
-    "generate-index": "Generate index"
+    "generate-index": "Generate index",
+    "show-all-occurrences": "Show all occurrences"
   },
   "dictionary-panel": {
     "default-header": "<b>Dictionary</b>",

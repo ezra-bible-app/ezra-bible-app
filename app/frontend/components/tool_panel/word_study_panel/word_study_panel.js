@@ -178,6 +178,16 @@ class WordStudyPanel {
       });
     }
 
+    let showAllLink = this.wordStudyPanelContent[0].querySelector('#show-all-occurrences-link');
+    if (showAllLink != null) {
+      showAllLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        const strongsKey = showAllLink.getAttribute('data-strongs-key');
+        const translationId = showAllLink.getAttribute('data-translation');
+        this.showAllOccurrences(strongsKey, translationId);
+      });
+    }
+
     this.wordStudyPanelCopyButton.show();
   }
 
@@ -483,10 +493,10 @@ class WordStudyPanel {
 
     const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, strongsEntry.key);
 
-    return await this.renderOccurrencesList(occurrences);
+    return await this.renderOccurrencesList(occurrences, strongsEntry.key);
   }
 
-  async renderOccurrencesList(occurrences) {
+  async renderOccurrencesList(occurrences, strongsKey) {
     const books = Object.keys(occurrences);
 
     if (books.length === 0) {
@@ -511,6 +521,8 @@ class WordStudyPanel {
       </tr>`;
     }
 
+    const translationId = await this.getStrongsTranslation();
+
     return `
       <div id='strongs-occurrences-box'>
         <hr/>
@@ -521,6 +533,11 @@ class WordStudyPanel {
         <table class='strongs-occurrence-list dictionary-content'>
           ${listItems}
         </table>
+        <a id='show-all-occurrences-link' href='#'
+           data-strongs-key='${strongsKey}'
+           data-translation='${translationId}'>
+          ${i18n.t('word-study-panel.show-all-occurrences')}
+        </a>
       </div>`;
   }
 
@@ -550,7 +567,7 @@ class WordStudyPanel {
 
     if (this.currentStrongsEntry != null) {
       const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, this.currentStrongsEntry.key);
-      occurrencesBox.outerHTML = await this.renderOccurrencesList(occurrences);
+      occurrencesBox.outerHTML = await this.renderOccurrencesList(occurrences, this.currentStrongsEntry.key);
     }
   }
 
@@ -690,6 +707,26 @@ class WordStudyPanel {
         console.log(e);
       }
     }
+  }
+
+  async showAllOccurrences(strongsKey, translationId) {
+    const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, strongsKey);
+    const books = Object.keys(occurrences);
+
+    if (books.length === 0) {
+      return;
+    }
+
+    // Convert index data to OSIS references
+    const xrefs = [];
+    for (const book of books) {
+      for (const [chapter, verse] of occurrences[book]) {
+        xrefs.push(`${book}.${chapter}.${verse}`);
+      }
+    }
+
+    const xrefTitle = `${i18n.t('word-study-panel.occurrences')} (${strongsKey})`;
+    await app_controller.openXrefVerses(null, xrefTitle, xrefs);
   }
 
   async findAllOccurrences(strongsKey, bibleTranslationId) {
