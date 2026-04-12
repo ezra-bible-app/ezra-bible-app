@@ -568,6 +568,16 @@ class WordStudyPanel {
     if (this.currentStrongsEntry != null) {
       const occurrences = await ipcGeneral.getStrongsOccurrences(translationId, this.currentStrongsEntry.key);
       occurrencesBox.outerHTML = await this.renderOccurrencesList(occurrences, this.currentStrongsEntry.key);
+
+      let showAllLink = this.wordStudyPanelContent[0].querySelector('#show-all-occurrences-link');
+      if (showAllLink != null) {
+        showAllLink.addEventListener('click', (event) => {
+          event.preventDefault();
+          const strongsKey = showAllLink.getAttribute('data-strongs-key');
+          const translationId = showAllLink.getAttribute('data-translation');
+          this.showAllOccurrences(strongsKey, translationId);
+        });
+      }
     }
   }
 
