@@ -207,6 +207,18 @@ class WordStudyPanel {
       });
     }
 
+    let showStatsLink = this.wordStudyPanelContent[0].querySelector('#show-occurrence-stats-link');
+    if (showStatsLink != null) {
+      showStatsLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        const table = this.wordStudyPanelContent[0].querySelector('.strongs-occurrence-list');
+        const showAllLink = this.wordStudyPanelContent[0].querySelector('#show-all-occurrences-link');
+        if (table) table.style.display = '';
+        if (showAllLink) showAllLink.style.display = '';
+        showStatsLink.style.display = 'none';
+      });
+    }
+
     let showAllLink = this.wordStudyPanelContent[0].querySelector('#show-all-occurrences-link');
     if (showAllLink != null) {
       showAllLink.addEventListener('click', (event) => {
@@ -536,10 +548,11 @@ class WordStudyPanel {
           ${i18n.t('word-study-panel.occurrences')}
           <span class='strongs-occurrence-total'>(${totalCount})</span>
         </div>
-        <table class='strongs-occurrence-list dictionary-content'>
+        <a id='show-occurrence-stats-link' class='dictionary-content' href='#'>${i18n.t('word-study-panel.show-occurrence-statistics')}</a>
+        <table class='strongs-occurrence-list dictionary-content' style='display: none;'>
           ${listItems}
         </table>
-        <a id='show-all-occurrences-link' href='#'
+        <a id='show-all-occurrences-link' class='dictionary-content' href='#' style='display: none;'
            data-strongs-key='${strongsKey}'
            data-translation='${translationId}'>
           ${i18n.t('word-study-panel.show-all-occurrences')}
