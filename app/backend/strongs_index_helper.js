@@ -64,11 +64,18 @@ class StrongsIndexHelper {
         const content = verse.content;
 
         let match;
+        const seenInVerse = new Set();
         // Reset lastIndex since we reuse the regex
         strongsRegex.lastIndex = 0;
 
         while ((match = strongsRegex.exec(content)) !== null) {
           const normalizedKey = this._normalizeStrongsNumber(match[1]);
+
+          if (seenInVerse.has(normalizedKey)) {
+            continue;
+          }
+
+          seenInVerse.add(normalizedKey);
 
           if (index[normalizedKey] == null) {
             index[normalizedKey] = {};
