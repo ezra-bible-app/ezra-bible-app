@@ -435,14 +435,18 @@
     "help-instruction-part3": "Once you have selected a verse you can move your mouse over the individual words and phrases to see dictionary entries here.",
     "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
     "help-instruction-part4-desktop": "Hold the SHIFT key to enable the mouseover function for all verses.",
-    "find-all-occurrences": "Find all occurrences",
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's",
     "copy-to-clipboard": "Copy word study to clipboard",
     "copy-to-clipboard-success": "Word study copied to clipboard!",
     "copy-dict-entry-to-clipboard": "Copy dictionary entry to clipboard",
     "copy-dict-entry-to-clipboard-success": "Dictionary entry copied to clipboard!",
-    "morphology": "Morphology"
+    "morphology": "Morphology",
+    "occurrences": "Occurrences",
+    "index-not-available": "The Strong's occurrence index for {{translation}} has not been generated yet.",
+    "generate-index": "Generate index",
+    "show-occurrence-statistics": "Show occurrence statistics",
+    "show-all-occurrences": "Show all occurrences"
   },
   "dictionary-panel": {
     "default-header": "<b>Dictionary</b>",

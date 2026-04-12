@@ -655,3 +655,36 @@ table.tag-statistics a:hover {
 .tool-panel-reference-box sup {
   margin-right: 0.2em;
 }
+
+/* Strong's Occurrences */
+
+.strongs-occurrence-list {
+  border-collapse: collapse;
+}
+
+.strongs-occurrence-book {
+  max-width: 10em;
+  padding-right: 0.8em;
+}
+
+.strongs-occurrence-count {
+  text-align: right;
+}
+
+.strongs-occurrence-total {
+  font-size: 0.9em;
+}
+
+#generate-strongs-index-button {
+  margin-top: 0.5em;
+  padding: 0.4em 0.8em;
+}
+
+#show-all-occurrences-link {
+  display: inline-block;
+  margin-top: 0.5em;
+}
+
+#strongs-index-progress-bar {
+  margin-top: 0.5em;
+}
