@@ -117,8 +117,7 @@ class TagDialogManager {
       addTagsToGroupTagList.style.removeProperty('display');
       addTagsToGroupTagList._tagManager.resetAndRefresh();
 
-      const addButton = document.getElementById('add-tags-to-group-button');
-      uiHelper.disableButton(addButton);
+      this.updateAddTagsToGroupSelectionState();
 
       if (platformHelper.isCordova()) {
         // eslint-disable-next-line no-undef
@@ -211,19 +210,11 @@ class TagDialogManager {
     $('#add-tags-to-group-dialog').dialog(addTagsToGroupDialogOptions);
     uiHelper.fixDialogCloseIconOnCordova('add-tags-to-group-dialog');
     
-    // Initially disable the Add tags to group button
-    uiHelper.disableButton(document.getElementById('add-tags-to-group-button'));
+    this.updateAddTagsToGroupSelectionState();
     
     // Subscribe to changes in the tag list selection
-    document.getElementById('add-tags-to-group-tag-list').addEventListener('selectionChanged', function() {
-      const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
-      const addButton = document.getElementById('add-tags-to-group-button');
-      
-      if (addTagsToGroupTagList.addList && addTagsToGroupTagList.addList.length > 0) {
-        uiHelper.enableButton(addButton);
-      } else {
-        uiHelper.disableButton(addButton);
-      }
+    document.getElementById('add-tags-to-group-tag-list').addEventListener('selectionChanged', () => {
+      this.updateAddTagsToGroupSelectionState();
     });
 
     // Subscribe to the on-enter-pressed event to handle enter key press while the dialog is open
@@ -234,6 +225,25 @@ class TagDialogManager {
         $('#add-tags-to-group-dialog').dialog('close');
       }
     });
+  }
+
+  updateAddTagsToGroupSelectionState() {
+    const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+    const addButton = document.getElementById('add-tags-to-group-button');
+    const selectedCountLabel = document.getElementById('add-tags-to-group-selected-count-label');
+    const selectedTagCount = (addTagsToGroupTagList && addTagsToGroupTagList.addList) ? addTagsToGroupTagList.addList.length : 0;
+
+    if (addButton) {
+      if (selectedTagCount > 0) {
+        uiHelper.enableButton(addButton);
+      } else {
+        uiHelper.disableButton(addButton);
+      }
+    }
+
+    if (selectedCountLabel) {
+      selectedCountLabel.textContent = i18n.t('tags.tag-count-selected', { count: selectedTagCount });
+    }
   }
 
   /**
