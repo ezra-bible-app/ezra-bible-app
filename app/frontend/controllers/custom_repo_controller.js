@@ -47,16 +47,16 @@ module.exports.showCustomRepoDialog = async function() {
           </td>
         </tr>
         <tr>
-          <td style="padding-right: 1em;"><label for="custom-repo-name">${i18n.t('custom-repositories.name')}</label></td>
-          <td><input type="text" id="custom-repo-name" style="width: 20em;"/></td>
+          <td style="padding-right: 1em;"><label>${i18n.t('custom-repositories.name')}</label></td>
+          <td><text-field id="custom-repo-name" style="width: 20em;"></text-field></td>
         </tr>
         <tr>
-          <td style="padding-right: 1em;"><label for="custom-repo-host">${i18n.t('custom-repositories.host')}</label></td>
-          <td><input type="text" id="custom-repo-host" style="width: 20em;"/></td>
+          <td style="padding-right: 1em;"><label>${i18n.t('custom-repositories.host')}</label></td>
+          <td><text-field id="custom-repo-host" style="width: 20em;"></text-field></td>
         </tr>
         <tr>
-          <td style="padding-right: 1em;"><label for="custom-repo-path">${i18n.t('custom-repositories.path')}</label></td>
-          <td><input type="text" id="custom-repo-path" style="width: 20em;" placeholder="/pub/sword/raw"/></td>
+          <td style="padding-right: 1em;"><label>${i18n.t('custom-repositories.path')}</label></td>
+          <td><text-field id="custom-repo-path" style="width: 20em;" placeholder="/pub/sword/raw"></text-field></td>
         </tr>
       </table>
     </div>
@@ -132,9 +132,9 @@ module.exports.showCustomRepoDialog = async function() {
 
   async function addCustomRepo() {
     const protocol = $('input[name="custom-repo-protocol"]:checked').val();
-    const name = $('#custom-repo-name').val().trim();
-    const host = $('#custom-repo-host').val().trim();
-    const repoPath = $('#custom-repo-path').val().trim();
+    const name = document.getElementById('custom-repo-name').value.trim();
+    const host = document.getElementById('custom-repo-host').value.trim();
+    const repoPath = document.getElementById('custom-repo-path').value.trim();
 
     if (!name || !host || !repoPath) {
       // eslint-disable-next-line no-undef
@@ -174,9 +174,9 @@ module.exports.showCustomRepoDialog = async function() {
       timeout: 3000
     });
 
-    $('#custom-repo-name').val('');
-    $('#custom-repo-host').val('');
-    $('#custom-repo-path').val('');
+    document.getElementById('custom-repo-name').value = '';
+    document.getElementById('custom-repo-host').value = '';
+    document.getElementById('custom-repo-path').value = '';
     $('input[name="custom-repo-protocol"][value="FTP"]').prop('checked', true);
 
     await refreshRepoList();
