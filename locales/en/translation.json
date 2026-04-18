@@ -61,7 +61,7 @@
     "repository_plural": "Repositories",
     "installation": "Installation",
     "removal": "Removal",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Repository data was last updated on {{date}}.",
       "update-now": "Update now",
       "updating-repository-data": "Updating repository data! This will take a few seconds ...",
@@ -69,7 +69,7 @@
       "update-repository-data-failed": "Updating repository data failed! Are you offline?",
       "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Please choose at least one of the following languages.",
       "total-modules-language": "Next to each language is the number of {{module_type}} available in the SWORD repositories.",
       "loading-languages": "Loading languages ...",
@@ -88,7 +88,7 @@
       "repo-recommended": "This repository is a good place to start",
       "more-repo-information-needed": "If you need more information about these repositories, have a look at the <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Please choose {{module_type}} to install.",
       "module-display-preferences": "Filter preferences:",
       "all-modules": "All {{module_type, accusative}}",
@@ -108,7 +108,7 @@
       "downloading": "Downloading",
       "part-of-total": "of"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Select the {{module_type, accusative}} that you would like to remove.",
       "disable-remove-note": "This {{module_type, singular}} is not installed in the user's directory or is essential for Ezra Bible App's functionality.",
       "removing-modules": "Removing {{module_type, accusative}}",
@@ -119,7 +119,7 @@
       "unlock-key": "Unlock key",
       "enter-unlock-key": "{{moduleId, singular}} is license protected. Please enter the unlock key!",
       "unlock-failed": "Unlock failed! Please enter the correct unlock key."
-    }  
+    }
   },
   "general": {
     "ezra-bible-app": "Ezra Bible App",
@@ -236,7 +236,6 @@
   },
   "custom-repositories": {
     "dialog-title": "Custom Repositories",
-    "existing-repositories": "Existing custom repositories",
     "add-repository": "Add repository",
     "no-custom-repos": "No custom repositories configured yet.",
     "protocol": "Protocol",
@@ -249,6 +248,7 @@
     "error-invalid-config": "Could not connect to the repository. Please check your settings.",
     "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
     "success-added": "Repository '{{name}}' was added successfully.",
+    "adding-repository": "Adding repository ...",
     "success-removed": "Repository '{{name}}' was removed."
   },
   "data-privacy": {
@@ -269,8 +269,7 @@
   "shortcuts": {
     "tab-title": "Keyboard Shortcuts",
     "description": "You can use the following shortcuts:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Font",
       "current-tab-search-section-title": "Current Tab Search",
       "miscellaneous-section-title": "Miscellaneous",
@@ -289,7 +288,6 @@
       "decrease-current-font-size": "Decrease font size",
       "reset-font-size-to-default": "Reset font size to default"
     },
-
     "shortcut": {
       "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
@@ -432,13 +430,13 @@
     "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Edit note",
     "delete-note": "Delete note",
-    "transchange" : {
-      "added" : "These words were added in translation",
-      "amplified" : "These words are amplifications of information in the source text",
-      "changed" : "These words were changed in translation",
-      "deleted" : "Some words in the source text are not present in the translation",
-      "implied" : "These words were added or changed to translate information implied by the source text",
-      "moved" : "These words were in another location in the source text",
+    "transchange": {
+      "added": "These words were added in translation",
+      "amplified": "These words are amplifications of information in the source text",
+      "changed": "These words were changed in translation",
+      "deleted": "Some words in the source text are not present in the translation",
+      "implied": "These words were added or changed to translate information implied by the source text",
+      "moved": "These words were in another location in the source text",
       "tense-change": "The grammatical tense of these words was changed in order to facilitate translation"
     },
     "empty-tab-title": "Empty tab"

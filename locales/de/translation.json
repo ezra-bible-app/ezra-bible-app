@@ -230,7 +230,6 @@
   },
   "custom-repositories": {
     "dialog-title": "Custom Repositories",
-    "existing-repositories": "Existing custom repositories",
     "add-repository": "Add repository",
     "no-custom-repos": "No custom repositories configured yet.",
     "protocol": "Protocol",
@@ -243,6 +242,7 @@
     "error-invalid-config": "Could not connect to the repository. Please check your settings.",
     "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
     "success-added": "Repository '{{name}}' was added successfully.",
+    "adding-repository": "Adding repository ...",
     "success-removed": "Repository '{{name}}' was removed."
   },
   "data-privacy": {
