@@ -86,7 +86,6 @@ class CustomRepositoryHelper {
 
     // Reinitialize NSI so the new InstallMgr reads the updated InstallMgr.conf and
     // registers the new source in its in-memory map before updateSingleRepositoryConfig is called.
-    // Without this, getRemoteSource() returns null and SWORD crashes with SIGSEGV.
     this._reinitializeNsi();
 
     let isSuccessful = false;
