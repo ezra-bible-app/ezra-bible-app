@@ -113,6 +113,46 @@
     padding-top: 0.8em;
     padding-left: unset;
   }
+
+  /* Custom repo list: two-line layout per repo entry */
+  #custom-repo-list tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    grid-template-rows: auto auto;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0.2em 0;
+  }
+
+  #custom-repo-list td {
+    display: block;
+    box-sizing: border-box;
+  }
+
+  #custom-repo-list td.custom-repo-name {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  #custom-repo-list td.custom-repo-protocol {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  #custom-repo-list td.custom-repo-host {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #custom-repo-list td.custom-repo-path {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  #custom-repo-list td.custom-repo-remove {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
 }
 
 /* CENTER content inside book selection menu on tablets in portrait mode */

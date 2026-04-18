@@ -117,11 +117,11 @@ module.exports.showCustomRepoDialog = async function() {
     repos.forEach(repo => {
       const row = document.createElement('tr');
       row.innerHTML =
-        `<td style="padding: 0.3em 0.5em;">${repo.protocol}</td>` +
-        `<td style="padding: 0.3em 0.5em; font-weight: bold;">${repo.name}</td>` +
-        `<td style="padding: 0.3em 0.5em;">${repo.host}</td>` +
-        `<td style="padding: 0.3em 0.5em;">${repo.path}</td>` +
-        `<td style="padding: 0.3em 0.5em;">` +
+        `<td class="custom-repo-protocol" style="padding: 0.3em 0.5em;">${repo.protocol}</td>` +
+        `<td class="custom-repo-name" style="padding: 0.3em 0.5em; font-weight: bold;">${repo.name}</td>` +
+        `<td class="custom-repo-host" style="padding: 0.3em 0.5em;">${repo.host}</td>` +
+        `<td class="custom-repo-path" style="padding: 0.3em 0.5em;">${repo.path}</td>` +
+        `<td class="custom-repo-remove" style="padding: 0.3em 0.5em;">` +
         `<button class="remove-custom-repo-button fg-button ui-corner-all ui-state-default" data-name="${repo.name}">` +
         `${i18n.t('custom-repositories.remove')}` +
         `</button></td>`;
