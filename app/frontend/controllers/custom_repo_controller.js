@@ -184,15 +184,6 @@ module.exports.showCustomRepoDialog = async function() {
 
   async function removeCustomRepo(name) {
     await ipcNsi.removeCustomRepository(name);
-
-    // eslint-disable-next-line no-undef
-    iziToast.success({
-      title: i18n.t('custom-repositories.dialog-title'),
-      message: i18n.t('custom-repositories.success-removed', { name: name }),
-      position: platformHelper.getIziPosition(),
-      timeout: 3000
-    });
-
     await refreshRepoList();
   }
 };
