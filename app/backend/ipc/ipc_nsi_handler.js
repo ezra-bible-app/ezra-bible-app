@@ -547,7 +547,7 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getCustomRepositories', () => {
-      const defaultNames = this._getDefaultRepoNames();
+      const defaultRepoUrlPathKeys = this._getDefaultRepoUrlPathKeys();
       const installMgrConfContent = this._readInstallMgrConf();
       const lines = installMgrConfContent.split('\n');
       const repos = [];
@@ -562,12 +562,16 @@ class IpcNsiHandler {
 
         const fields = match[2].split('|');
         const name = fields[0];
-        if (!defaultNames.has(name)) {
+        const host = fields[1];
+        const repoPath = fields[2];
+        const repoUrlPathKey = this._buildRepoUrlPathKey(host, repoPath);
+
+        if (!defaultRepoUrlPathKeys.has(repoUrlPathKey)) {
           repos.push({
             protocol: match[1],
             name: name,
-            host: fields[1],
-            path: fields[2]
+            host: host,
+            path: repoPath
           });
         }
       }
@@ -635,11 +639,11 @@ class IpcNsiHandler {
     return path.join(this._nsi.getSwordPath(), 'InstallMgr', 'masterRepoList.conf');
   }
 
-  _getDefaultRepoNames() {
+  _getDefaultRepoUrlPathKeys() {
     const masterPath = this._getMasterRepoListPath();
-    const names = new Set();
+    const urlPathKeys = new Set();
     if (!fs.existsSync(masterPath)) {
-      return names;
+      return urlPathKeys;
     }
 
     const lines = fs.readFileSync(masterPath, 'utf8').split('\n');
@@ -658,16 +662,42 @@ class IpcNsiHandler {
       //   20220529224400=HTTPSPackagePreference=CrossWire|crosswire.org|/ftpmirror/pub/sword/raw
       //   20081216195754=FTPSource=CrossWire|ftp.crosswire.org|/pub/sword/raw
       //   20090224125400=FTPSource=CrossWire Beta|ftp.crosswire.org|/pub/sword/betaraw
-      const match = trimmedLine.match(/^\d+=(?:[A-Z]+Source|[A-Z]+PackagePreference)=(.+?)\|/);
+      const match = trimmedLine.match(/^\d+=(?:[A-Z]+Source|[A-Z]+PackagePreference)=([^|]+)\|([^|]*)\|([^|]*)/);
       if (match) {
-        const repoName = match[1];
-        if (repoName && repoName.trim()) {
-          names.add(repoName);
+        const host = match[2];
+        const repoPath = match[3];
+        const repoUrlPathKey = this._buildRepoUrlPathKey(host, repoPath);
+        if (repoUrlPathKey) {
+          urlPathKeys.add(repoUrlPathKey);
         }
       }
     }
 
-    return names;
+    return urlPathKeys;
+  }
+
+  _buildRepoUrlPathKey(host, repoPath) {
+    if (!host || !repoPath) {
+      return null;
+    }
+
+    const normalizedHost = String(host).trim().toLowerCase();
+    let normalizedPath = String(repoPath).trim();
+
+    if (!normalizedHost || !normalizedPath) {
+      return null;
+    }
+
+    if (!normalizedPath.startsWith('/')) {
+      normalizedPath = '/' + normalizedPath;
+    }
+
+    normalizedPath = normalizedPath.replace(/\/+$/, '');
+    if (!normalizedPath) {
+      normalizedPath = '/';
+    }
+
+    return `${normalizedHost}|${normalizedPath}`;
   }
 
   _readInstallMgrConf() {
