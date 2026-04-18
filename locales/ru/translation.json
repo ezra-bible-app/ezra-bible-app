@@ -242,7 +242,7 @@
     "name": "Name",
     "host": "Host",
     "path": "Directory path",
-    "add": "Add",
+    "add": "Add repository",
     "remove": "Remove",
     "error-duplicate-name": "A repository with this name already exists.",
     "error-duplicate-url-path": "A repository with this URL/path combination already exists.",
