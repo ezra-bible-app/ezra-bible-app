@@ -62,9 +62,9 @@ module.exports.showCustomRepoDialog = async function() {
     <div style="margin-top: 0.75em;">
       <button id="custom-repo-add-button" class="fg-button ui-corner-all ui-state-default">${i18n.t('custom-repositories.add')}</button>
     </div>
-    <div id="custom-repo-loading" style="display: none; margin-top: 0.75em;">
+    <div id="custom-repo-loading" style="display: none; margin-top: 0.75em; align-items: center;">
+      <span id="custom-repo-loading-message" style="margin-right: 0.5em;">${i18n.t('custom-repositories.adding-repository')}</span>
       <loading-indicator></loading-indicator>
-      <span id="custom-repo-loading-message" style="margin-left: 0.5em;">${i18n.t('custom-repositories.adding-repository')}</span>
     </div>
   </div>
   `;
@@ -155,7 +155,7 @@ module.exports.showCustomRepoDialog = async function() {
     const addButton = document.getElementById('custom-repo-add-button');
     addButton.style.display = 'none';
     const loadingEl = document.getElementById('custom-repo-loading');
-    loadingEl.style.display = 'block';
+    loadingEl.style.display = 'flex';
     const result = await ipcNsi.addCustomRepository(protocol, name, host, repoPath);
     loadingEl.style.display = 'none';
 
