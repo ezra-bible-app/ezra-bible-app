@@ -244,7 +244,7 @@
   },
   "custom-repositories": {
     "dialog-title": "Custom Repositories",
-    "add-repository": "Add repository",
+    "add-repository": "Add custom repository",
     "no-custom-repos": "No custom repositories configured yet.",
     "protocol": "Protocol",
     "name": "Name",
