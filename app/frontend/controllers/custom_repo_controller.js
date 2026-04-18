@@ -155,9 +155,21 @@ module.exports.showCustomRepoDialog = async function() {
     const addButton = document.getElementById('custom-repo-add-button');
     addButton.style.display = 'none';
     const loadingEl = document.getElementById('custom-repo-loading');
-    loadingEl.style.display = 'flex';
-    const result = await ipcNsi.addCustomRepository(protocol, name, host, repoPath);
-    loadingEl.style.display = 'none';
+    let loadingShown = false;
+    const loadingDelay = setTimeout(() => {
+      loadingEl.style.display = 'flex';
+      loadingShown = true;
+    }, 100);
+
+    let result = null;
+    try {
+      result = await ipcNsi.addCustomRepository(protocol, name, host, repoPath);
+    } finally {
+      clearTimeout(loadingDelay);
+      if (loadingShown) {
+        loadingEl.style.display = 'none';
+      }
+    }
 
     if (!result || !result.success) {
       addButton.style.display = '';
