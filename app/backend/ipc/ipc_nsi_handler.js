@@ -547,24 +547,22 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getCustomRepositories', () => {
-      const customRepoNames = global.ipc.ipcSettingsHandler.getConfig().get('customRepositories', []);
+      const defaultNames = this._getDefaultRepoNames();
       const content = this._readInstallMgrConf();
       const lines = content.split('\n');
       const repos = [];
 
-      for (const name of customRepoNames) {
-        const line = lines.find(l => {
-          const match = l.match(/^([A-Z]+)Source=(.+?)\|/);
-          return match && match[2] === name;
-        });
-
-        if (line) {
-          const parts = line.split('=');
-          const protocol = parts[0].replace('Source', '');
-          const fields = parts.slice(1).join('=').split('|');
+      for (const line of lines) {
+        const match = line.match(/^([A-Z]+)Source=(.+)$/);
+        if (!match) {
+          continue;
+        }
+        const fields = match[2].split('|');
+        const name = fields[0];
+        if (!defaultNames.has(name)) {
           repos.push({
-            protocol: protocol,
-            name: fields[0],
+            protocol: match[1],
+            name: name,
             host: fields[1],
             path: fields[2]
           });
@@ -575,12 +573,6 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_addCustomRepository', async (protocol, name, host, repoPath) => {
-      const customRepoNames = global.ipc.ipcSettingsHandler.getConfig().get('customRepositories', []);
-
-      if (customRepoNames.includes(name)) {
-        return { success: false, error: 'duplicate-name' };
-      }
-
       const existingRepoNames = this._nsi.getRepoNames();
       if (existingRepoNames.includes(name)) {
         return { success: false, error: 'duplicate-name' };
@@ -617,8 +609,6 @@ class IpcNsiHandler {
         return { success: false, error: 'invalid-config' };
       }
 
-      customRepoNames.push(name);
-      global.ipc.ipcSettingsHandler.getConfig().set('customRepositories', customRepoNames);
       return { success: true };
     });
 
@@ -626,10 +616,6 @@ class IpcNsiHandler {
       let content = this._readInstallMgrConf();
       content = this._removeEntryFromConf(content, name);
       this._writeInstallMgrConf(content);
-
-      let customRepoNames = global.ipc.ipcSettingsHandler.getConfig().get('customRepositories', []);
-      customRepoNames = customRepoNames.filter(n => n !== name);
-      global.ipc.ipcSettingsHandler.getConfig().set('customRepositories', customRepoNames);
 
       this.initNSI(this._customSwordDir);
       this._dropboxModuleHelper._nsi = this._nsi;
@@ -640,6 +626,26 @@ class IpcNsiHandler {
 
   _getInstallMgrConfPath() {
     return path.join(this._nsi.getSwordPath(), 'InstallMgr', 'InstallMgr.conf');
+  }
+
+  _getMasterRepoListPath() {
+    return path.join(this._nsi.getSwordPath(), 'InstallMgr', 'masterRepoList.conf');
+  }
+
+  _getDefaultRepoNames() {
+    const masterPath = this._getMasterRepoListPath();
+    const names = new Set();
+    if (!fs.existsSync(masterPath)) {
+      return names;
+    }
+    const lines = fs.readFileSync(masterPath, 'utf8').split('\n');
+    for (const line of lines) {
+      const match = line.match(/^\d+=(?:[A-Z]+Source|[A-Z]+PackagePreference)=(.+?)\|/);
+      if (match) {
+        names.add(match[1]);
+      }
+    }
+    return names;
   }
 
   _readInstallMgrConf() {
