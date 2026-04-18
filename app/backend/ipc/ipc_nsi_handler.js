@@ -644,9 +644,26 @@ class IpcNsiHandler {
 
     const lines = fs.readFileSync(masterPath, 'utf8').split('\n');
     for (const line of lines) {
-      const match = line.match(/^\d+=(?:[A-Z]+Source|[A-Z]+PackagePreference)=(.+?)\|/);
+      // Trim the line to handle any trailing whitespace
+      const trimmedLine = line.trim();
+      
+      // Skip empty lines, comment lines, and section headers
+      if (!trimmedLine || trimmedLine.startsWith('#') || trimmedLine.startsWith('[')) {
+        continue;
+      }
+      
+      // Match repository entries in the format:
+      // TIMESTAMP=PROTOCOL(Source|PackagePreference)=REPOSITORY_NAME|...
+      // Examples:
+      //   20220529224400=HTTPSPackagePreference=CrossWire|crosswire.org|/ftpmirror/pub/sword/raw
+      //   20081216195754=FTPSource=CrossWire|ftp.crosswire.org|/pub/sword/raw
+      //   20090224125400=FTPSource=CrossWire Beta|ftp.crosswire.org|/pub/sword/betaraw
+      const match = trimmedLine.match(/^\d+=(?:[A-Z]+Source|[A-Z]+PackagePreference)=(.+?)\|/);
       if (match) {
-        names.add(match[1]);
+        const repoName = match[1];
+        if (repoName && repoName.trim()) {
+          names.add(repoName);
+        }
       }
     }
 
