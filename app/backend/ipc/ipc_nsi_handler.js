@@ -548,8 +548,8 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getCustomRepositories', () => {
       const defaultNames = this._getDefaultRepoNames();
-      const content = this._readInstallMgrConf();
-      const lines = content.split('\n');
+      const installMgrConfContent = this._readInstallMgrConf();
+      const lines = installMgrConfContent.split('\n');
       const repos = [];
 
       for (const line of lines) {
