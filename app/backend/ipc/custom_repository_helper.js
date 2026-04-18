@@ -149,8 +149,6 @@ class CustomRepositoryHelper {
       }
     }
 
-    console.log(urlPathKeys);
-
     return urlPathKeys;
   }
 
