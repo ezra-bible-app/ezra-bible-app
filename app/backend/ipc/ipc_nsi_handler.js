@@ -545,6 +545,118 @@ class IpcNsiHandler {
     this._ipcMain.add('nsi_validateCustomModuleRepo', async (customModuleRepo) => {
       return await this._dropboxModuleHelper.validateCustomModuleRepo(customModuleRepo);
     });
+
+    this._ipcMain.add('nsi_getCustomRepositories', () => {
+      const customRepoNames = global.ipc.ipcSettingsHandler.getConfig().get('customRepositories', []);
+      const content = this._readInstallMgrConf();
+      const lines = content.split('\n');
+      const repos = [];
+
+      for (const name of customRepoNames) {
+        const line = lines.find(l => {
+          const match = l.match(/^([A-Z]+)Source=(.+?)\|/);
+          return match && match[2] === name;
+        });
+
+        if (line) {
+          const parts = line.split('=');
+          const protocol = parts[0].replace('Source', '');
+          const fields = parts.slice(1).join('=').split('|');
+          repos.push({
+            protocol: protocol,
+            name: fields[0],
+            host: fields[1],
+            path: fields[2]
+          });
+        }
+      }
+
+      return repos;
+    });
+
+    this._ipcMain.add('nsi_addCustomRepository', async (protocol, name, host, repoPath) => {
+      const customRepoNames = global.ipc.ipcSettingsHandler.getConfig().get('customRepositories', []);
+
+      if (customRepoNames.includes(name)) {
+        return { success: false, error: 'duplicate-name' };
+      }
+
+      const existingRepoNames = this._nsi.getRepoNames();
+      if (existingRepoNames.includes(name)) {
+        return { success: false, error: 'duplicate-name' };
+      }
+
+      const entry = this._buildRepoEntry(protocol, name, host, repoPath);
+      let content = this._readInstallMgrConf();
+      if (content && !content.endsWith('\n')) {
+        content += '\n';
+      }
+      content += entry + '\n';
+      this._writeInstallMgrConf(content);
+
+      let isSuccessful = false;
+      try {
+        isSuccessful = await this._nsi.updateSingleRepositoryConfig(name);
+      } catch (e) {
+        isSuccessful = false;
+      }
+
+      if (!isSuccessful) {
+        let rollbackContent = this._readInstallMgrConf();
+        rollbackContent = this._removeEntryFromConf(rollbackContent, name);
+        this._writeInstallMgrConf(rollbackContent);
+        return { success: false, error: 'invalid-config' };
+      }
+
+      customRepoNames.push(name);
+      global.ipc.ipcSettingsHandler.getConfig().set('customRepositories', customRepoNames);
+      return { success: true };
+    });
+
+    this._ipcMain.add('nsi_removeCustomRepository', (name) => {
+      let content = this._readInstallMgrConf();
+      content = this._removeEntryFromConf(content, name);
+      this._writeInstallMgrConf(content);
+
+      let customRepoNames = global.ipc.ipcSettingsHandler.getConfig().get('customRepositories', []);
+      customRepoNames = customRepoNames.filter(n => n !== name);
+      global.ipc.ipcSettingsHandler.getConfig().set('customRepositories', customRepoNames);
+      return { success: true };
+    });
+  }
+
+  _getInstallMgrConfPath() {
+    return path.join(this._nsi.getSwordPath(), 'InstallMgr.conf');
+  }
+
+  _readInstallMgrConf() {
+    const confPath = this._getInstallMgrConfPath();
+    if (!fs.existsSync(confPath)) {
+      return '';
+    }
+    return fs.readFileSync(confPath, 'utf8');
+  }
+
+  _writeInstallMgrConf(content) {
+    const confPath = this._getInstallMgrConfPath();
+    fs.writeFileSync(confPath, content, 'utf8');
+  }
+
+  _buildRepoEntry(protocol, name, host, repoPath) {
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const date = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+    const protocolPrefix = protocol.toUpperCase() + 'Source';
+    return `${protocolPrefix}=${name}|${host}|${repoPath}|||${date}`;
+  }
+
+  _removeEntryFromConf(content, repoName) {
+    const lines = content.split('\n');
+    const filtered = lines.filter(line => {
+      const match = line.match(/^([A-Z]+)Source=(.+?)\|/);
+      return !(match && match[2] === repoName);
+    });
+    return filtered.join('\n');
   }
 
   setMainWindow(mainWindow) {

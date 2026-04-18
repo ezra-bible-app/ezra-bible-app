@@ -97,7 +97,7 @@
       "regular-dicts": "Regelmatige woordenboeken",
       "module-with": "{{module_type, capitalize}} met {{feature_type, instrumental}}",
       "module-already-installed": "{{module_type, singular-demonstrative-pronoun}} is reeds geinstalleerd",
-      "show-module-info":"Toon info",
+      "show-module-info": "Toon info",
       "show-detailed-module-info": "Klik op het informatie-icoontje om meer details te bekijken over {{module_type, singular}}.",
       "duplicate-module-title": "Module reeds geselecteerd",
       "duplicate-module-message": "De module {{moduleId}} is al geselecteerd in depot {{repository}}. Deselecteer deze eerst als u vanuit een ander depot wilt installeren.",
@@ -212,6 +212,7 @@
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
     "configure-commentaries": "Commentaren configureren",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Context",
     "general-options": "Algemene opties",
     "check-new-releases": "Kijk of er nieuwe uitgaven zijn",
@@ -233,6 +234,23 @@
     "tabs": "Tabbladen",
     "module-not-installed": "De module '{{module_name}}' is niet geïnstalleerd."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "existing-repositories": "Existing custom repositories",
+    "add-repository": "Add repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "success-added": "Repository '{{name}}' was added successfully.",
+    "success-removed": "Repository '{{name}}' was removed."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Bevestig gegevensprivacy-opties",
     "data-privacy-options": "Gegevensprivacy-opties",
@@ -251,8 +269,7 @@
   "shortcuts": {
     "tab-title": "Sneltoetsen",
     "description": "U kunt de volgende sneltoetsen gebruiken:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Lettertype",
       "current-tab-search-section-title": "Zoeken in huidig tabblad",
       "miscellaneous-section-title": "Diversen",
@@ -271,9 +288,8 @@
       "decrease-current-font-size": "Huidige lettergrootte verkleinen",
       "reset-font-size-to-default": "Zet lettergrootte opnieuw naar standaard"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -414,13 +430,13 @@
     "copy-selected-text-to-clipboard-success": "Geselecteerde tekst gekopieerd naar klembord!",
     "edit-note": "Notitie aanpassen",
     "delete-note": "Notitie verwijderen",
-    "transchange" : {
-      "added" : "Deze woorden zijn toegevoegd in de vertaling",
-      "amplified" : "Deze woorden zijn versterkingen van informatie in de brontekst",
-      "changed" : "Deze woorden zijn gewijzigd in de vertaling",
-      "deleted" : "Sommige woorden in de brontekst zijn niet aanwezig in de vertaling",
-      "implied" : "Deze woorden zijn toegevoegd of gewijzigd om informatie te vertalen die door de brontekst wordt geïmpliceerd",
-      "moved" : "Deze woorden stonden op een andere locatie in de brontekst",
+    "transchange": {
+      "added": "Deze woorden zijn toegevoegd in de vertaling",
+      "amplified": "Deze woorden zijn versterkingen van informatie in de brontekst",
+      "changed": "Deze woorden zijn gewijzigd in de vertaling",
+      "deleted": "Sommige woorden in de brontekst zijn niet aanwezig in de vertaling",
+      "implied": "Deze woorden zijn toegevoegd of gewijzigd om informatie te vertalen die door de brontekst wordt geïmpliceerd",
+      "moved": "Deze woorden stonden op een andere locatie in de brontekst",
       "tense-change": "De grammaticale tijd van deze woorden is veranderd om de vertaling te vergemakkelijken"
     },
     "empty-tab-title": "Leeg tabblad"
@@ -493,7 +509,7 @@
       "flags": "Vlaggen"
     }
   },
-  "cordova" : {
+  "cordova": {
     "storage-justification": "Ezra Bible App heeft toegang nodig tot de apparaatopslag om SWORD-modules te bewaren en de databank op te slaan. <br> <br> Nadat u op de onderstaande knop heeft gedrukt, wordt u gevraagd om Ezra Bible App toegang te geven tot bestanden op uw apparaat.",
     "enable-storage-access": "Schakel toegang tot apparaatopslag in",
     "storage-permission-denied": "U heeft besloten de opslagtoegang te weigeren. <br> U kunt dit wijzigen door op de onderstaande knop te drukken!",

@@ -95,7 +95,7 @@
       "regular-dicts": "Dicționare obișnuite",
       "module-with": "{{module_type, capitalize}} cu {{feature_type, instrumental}}",
       "module-already-installed": "Acest {{module_type, singular}} este deja instalat",
-      "show-module-info":"Arată info",
+      "show-module-info": "Arată info",
       "show-detailed-module-info": "Click pe iconița de informații pentru a vedea mai multe detalii despre {{module_type, singular}}.",
       "duplicate-module-title": "Modul deja selectat",
       "duplicate-module-message": "Modulul {{moduleId}} este deja selectat din depozitul {{repository}}. Te rog deselectează-l mai întâi dacă vrei să îl instalezi dintr-un alt depozit.",
@@ -210,6 +210,7 @@
     "configure-translations": "Configurează traducerile",
     "configure-dicts": "Configurează dicționarele",
     "configure-commentaries": "Configurează comentariile",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Context",
     "general-options": "Opțiuni generale",
     "check-new-releases": "Verifică lansări noi",
@@ -231,6 +232,23 @@
     "tabs": "Tabs",
     "module-not-installed": "Modulul '{{module_name}}' nu este instalat."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "existing-repositories": "Existing custom repositories",
+    "add-repository": "Add repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "success-added": "Repository '{{name}}' was added successfully.",
+    "success-removed": "Repository '{{name}}' was removed."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Confirmă opțiunile legate de confidențialitatea datelor",
     "data-privacy-options": "Oțiuni legate de confidențialitatea",
@@ -249,8 +267,7 @@
   "shortcuts": {
     "tab-title": "Scurtături tastatură",
     "description": "Poți folosi următoarele combinații de taste (scurtături):",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Font",
       "current-tab-search-section-title": "Căutare în fereastra curentă",
       "miscellaneous-section-title": "Diverse",
@@ -269,9 +286,8 @@
       "decrease-current-font-size": "Micșorează dimensiunea curentă a fontului",
       "reset-font-size-to-default": "Resetează dimensiunea fontului la valoarea implicită"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -413,13 +429,13 @@
     "copy-selected-text-to-clipboard-success": "Textul selectat a fost copiat în clipboard!",
     "edit-note": "Editează nota",
     "delete-note": "Șterge nota",
-    "transchange" : {
-      "added" : "Aceste cuvinte au fost adăugate în traducere",
-      "amplified" : "Aceste cuvinte sunt amplificări ale informațiilor din textul sursă",
-      "changed" : "Aceste cuvinte au fost schimbate în traducere",
-      "deleted" : "Unele cuvinte din textul sursă nu sunt prezente în traducere",
-      "implied" : "Aceste cuvinte au fost adăugate sau schimbate pentru a traduce informațiile implicite din textul sursă",
-      "moved" : "Aceste cuvinte se aflau în altă locație în textul sursă",
+    "transchange": {
+      "added": "Aceste cuvinte au fost adăugate în traducere",
+      "amplified": "Aceste cuvinte sunt amplificări ale informațiilor din textul sursă",
+      "changed": "Aceste cuvinte au fost schimbate în traducere",
+      "deleted": "Unele cuvinte din textul sursă nu sunt prezente în traducere",
+      "implied": "Aceste cuvinte au fost adăugate sau schimbate pentru a traduce informațiile implicite din textul sursă",
+      "moved": "Aceste cuvinte se aflau în altă locație în textul sursă",
       "tense-change": "Timpul gramatical al acestor cuvinte a fost schimbat pentru a ușura traducerea"
     },
     "empty-tab-title": "Filă goală"

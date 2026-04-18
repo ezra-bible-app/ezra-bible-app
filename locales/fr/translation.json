@@ -67,7 +67,7 @@
     "repository_plural": "Dépôts",
     "installation": "Installation",
     "removal": "Suppression",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "La dernière mise à jour du dépôt de données a eu lieu le {{date}}.",
       "update-now": "Mettre à jour maintenant",
       "updating-repository-data": "Mise à jour des données du dépôt ! Cela prendra quelques secondes…",
@@ -75,7 +75,7 @@
       "update-repository-data-failed": "La mise à jour des données du dépôt a échoué ! Êtes-vous hors-ligne ?",
       "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Veillez choisir au moins une des langues suivantes.",
       "total-modules-language": "À côté de chaque langue figure le nombre de {{module_type}} disponibles dans les dépôts de SWORD.",
       "loading-languages": "Chargement des langues…",
@@ -220,6 +220,7 @@
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
     "configure-commentaries": "Configurer des commentaires",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Contexte",
     "general-options": "Options générales",
     "check-new-releases": "Vérifiez s'il y a de nouvelles versions",
@@ -241,14 +242,31 @@
     "tabs": "Onglets",
     "module-not-installed": "Le module '{{module_name}}' n'est pas installé."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "existing-repositories": "Existing custom repositories",
+    "add-repository": "Add repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "success-added": "Repository '{{name}}' was added successfully.",
+    "success-removed": "Repository '{{name}}' was removed."
+  },
   "data-privacy": {
-     "confirm-privacy-options": "Confirmer les options de confidentialité des données",
-     "data-privacy-options": "Options de confidentialité des données",
-     "please-confirm-options": "Veuillez confirmer les options de confidentialité des données suivantes. Ces options nécessitent un accès à Internet. Vous pourrez également apporter des modifications dans le menu Options ultérieurement.",
-     "check-new-releases-hint": "Ezra Bible App peut vérifier les nouvelles versions à chaque démarrage. Cela nécessite une brève interaction avec <a class='external' href='https://github.com/ezra-bible -app/ezra-bible-app'>GitHub</a>, où les nouvelles versions sont publiées.",
-     "send-crash-reports-hint-part1": "Ezra Bible App peut envoyer automatiquement des rapports d'erreurs à la plateforme de suivi des erreurs <a class='external' href='https://sentry.io'>Sentry.io</ a> chaque fois qu'une erreur est détectée.",
-     "send-crash-reports-hint-part2": "Cela aide l'équipe de développement à découvrir les problèmes beaucoup plus rapidement et contribue donc à l'amélioration d'Ezra Bible App.",
-     "send-crash-reports-hint-part3": "Notez que les rapports d'erreurs contiennent uniquement des informations techniques et ne nécessitent pas beaucoup de bande passante de données."
+    "confirm-privacy-options": "Confirmer les options de confidentialité des données",
+    "data-privacy-options": "Options de confidentialité des données",
+    "please-confirm-options": "Veuillez confirmer les options de confidentialité des données suivantes. Ces options nécessitent un accès à Internet. Vous pourrez également apporter des modifications dans le menu Options ultérieurement.",
+    "check-new-releases-hint": "Ezra Bible App peut vérifier les nouvelles versions à chaque démarrage. Cela nécessite une brève interaction avec <a class='external' href='https://github.com/ezra-bible -app/ezra-bible-app'>GitHub</a>, où les nouvelles versions sont publiées.",
+    "send-crash-reports-hint-part1": "Ezra Bible App peut envoyer automatiquement des rapports d'erreurs à la plateforme de suivi des erreurs <a class='external' href='https://sentry.io'>Sentry.io</ a> chaque fois qu'une erreur est détectée.",
+    "send-crash-reports-hint-part2": "Cela aide l'équipe de développement à découvrir les problèmes beaucoup plus rapidement et contribue donc à l'amélioration d'Ezra Bible App.",
+    "send-crash-reports-hint-part3": "Notez que les rapports d'erreurs contiennent uniquement des informations techniques et ne nécessitent pas beaucoup de bande passante de données."
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",
@@ -259,8 +277,7 @@
   "shortcuts": {
     "tab-title": "Raccourcis clavier",
     "description": "Vous pouvez utiliser les raccourcis suivants :",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Police",
       "current-tab-search-section-title": "Recherche dans l’onglet actuel",
       "miscellaneous-section-title": "Divers",
@@ -279,9 +296,8 @@
       "decrease-current-font-size": "Diminuer la taille de police actuelle",
       "reset-font-size-to-default": "Réinitialiser la taille de police par défaut"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Entrée",
       "jump-to-previous-occurance": "Maj + Entrée",
@@ -422,14 +438,14 @@
     "copy-selected-text-to-clipboard-success": "Texte sélectionné copié dans le presse-papiers !",
     "edit-note": "Modifier la note",
     "delete-note": "Supprimer la note",
-    "transchange" : {
-       "added" : "Ces mots ont été ajoutés en traduction",
-       "amplified" : "Ces mots sont des amplifications d'informations dans le texte source",
-       "changed" : "Ces mots ont été modifiés lors de la traduction",
-       "deleted" : "Certains mots du texte source ne sont pas présents dans la traduction",
-       "implied" : "Ces mots ont été ajoutés ou modifiés pour traduire des informations impliquées par le texte source",
-       "moved" : "Ces mots se trouvaient à un autre endroit dans le texte source",
-       "tense-change": "Le temps grammatical de ces mots a été modifié afin de faciliter la traduction"
+    "transchange": {
+      "added": "Ces mots ont été ajoutés en traduction",
+      "amplified": "Ces mots sont des amplifications d'informations dans le texte source",
+      "changed": "Ces mots ont été modifiés lors de la traduction",
+      "deleted": "Certains mots du texte source ne sont pas présents dans la traduction",
+      "implied": "Ces mots ont été ajoutés ou modifiés pour traduire des informations impliquées par le texte source",
+      "moved": "Ces mots se trouvaient à un autre endroit dans le texte source",
+      "tense-change": "Le temps grammatical de ces mots a été modifié afin de faciliter la traduction"
     },
     "empty-tab-title": "Onglet vide"
   },
@@ -501,7 +517,7 @@
       "flags": "Drapeaux"
     }
   },
-  "cordova" : {
+  "cordova": {
     "storage-justification": "Ezra Bible App a besoin d’accéder au stockage de l’appareil pour enregistrer les modules SWORD et stocker sa base de données. <br> <br> Après avoir appuyé sur le bouton ci-dessous, il vous sera demandé d’autoriser Ezra Bible App à accéder aux fichiers de votre appareil.",
     "enable-storage-access": "Activer l’accès au stockage de l’appareil",
     "storage-permission-denied": "Vous avez décidé de refuser l’accès au stockage. <br> Vous pouvez modifier cela en appuyant sur le bouton ci-dessous !",

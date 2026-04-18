@@ -61,7 +61,7 @@
     "repository_plural": "Сховища",
     "installation": "Встановлення",
     "removal": "Видалення",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Дані сховищ востаннє оновлені {{date}}.",
       "update-now": "Оновити",
       "updating-repository-data": "Оновлення даних сховищ! Це займе кілька секунд ...",
@@ -69,7 +69,7 @@
       "update-repository-data-failed": "Помилка оновлення даних сховищ! Перевірте інтернет з'єднання.",
       "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Будь ласка, оберіть принаймні одну мову.",
       "total-modules-language": "У дужках вказано кількість {{module_type, genitive}} в усіх сховищах SWORD для певної мови.",
       "loading-languages": "Завантаження наявних мов ...",
@@ -88,14 +88,14 @@
       "repo-recommended": "Рекомендоване сховище",
       "more-repo-information-needed": "Додаткові відомості про сховища можна знайти за посиланням <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (англійською)."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Будь ласка, оберіть {{module_type}} для встановлення.",
       "module-display-preferences": "Фільтрувати:",
       "all-modules": "Усі {{module_type, accusative}}",
       "regular-dicts": "Звичайні словники",
       "module-with": "{{module_type, capitalize}} з {{feature_type, instrumental}}",
       "module-already-installed": "Цей {{module_type, singular}} вже встановленно!",
-      "show-module-info":"Показати подробиці",
+      "show-module-info": "Показати подробиці",
       "show-detailed-module-info": "Натисніть на іконку інформації, щоб побачити подробиці про певний {{module_type, singular}}.",
       "duplicate-module-title": "Модуль вже обрано",
       "duplicate-module-message": "Модуль {{moduleId}} вже вибрано зі сховища {{repository}}. Будь ласка, спершу скасуйте його вибір, якщо бажаєте встановити з іншого сховища.",
@@ -108,7 +108,7 @@
       "downloading": "Завантаження",
       "part-of-total": "з"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Оберіть {{module_type, accusative}}, які хочете видалити.",
       "disable-remove-note": "Цей {{module_type, singular}} не встановленно у користувацькій теці або він необхідний для чину застосунку.",
       "removing-modules": "Видалення вибраних {{module_type, genitive}}",
@@ -210,6 +210,7 @@
     "configure-translations": "Переклади Біблії",
     "configure-dicts": "Словники",
     "configure-commentaries": "Коментарі",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Контекст",
     "general-options": "Загальні налаштування",
     "check-new-releases": "Перевіряти наявність оновлень",
@@ -231,6 +232,23 @@
     "tabs": "Вкладки",
     "module-not-installed": "Модуль '{{module_name}}' не встановлено."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "existing-repositories": "Existing custom repositories",
+    "add-repository": "Add repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "success-added": "Repository '{{name}}' was added successfully.",
+    "success-removed": "Repository '{{name}}' was removed."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Підтвердіть налаштування конфеденційности даних",
     "data-privacy-options": "Налаштування конфеденційности даних",
@@ -249,8 +267,7 @@
   "shortcuts": {
     "tab-title": "Клавіатурні скорочення",
     "description": "Ви можете використовувати наступні комбінації клавіш:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Текст Біблії",
       "current-tab-search-section-title": "Пошук у поточній вкладці",
       "miscellaneous-section-title": "Інше",
@@ -269,9 +286,8 @@
       "decrease-current-font-size": "Зменшити розмір тексту",
       "reset-font-size-to-default": "Усталений розмір тексту"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -414,13 +430,13 @@
     "copy-selected-text-to-clipboard-success": "Обраний текст скоплено до кишені!",
     "edit-note": "Редагувати нотатку",
     "delete-note": "Видалити нотатку",
-    "transchange" : {
-      "added" : "Ці слова було додано при перекладі",
-      "amplified" : "Ці слова підсилюють інформацію з першоджерела",
-      "changed" : "Ці слова було змінено при перекладі",
-      "deleted" : "Деякі слова першоджерела відсутні у перекладі",
-      "implied" : "Ці слова додано або змінено при перекладі інформації, що зрозуміла з першоджерела",
-      "moved" : "Ці слова містяться в іншому місці першоджерела",
+    "transchange": {
+      "added": "Ці слова було додано при перекладі",
+      "amplified": "Ці слова підсилюють інформацію з першоджерела",
+      "changed": "Ці слова було змінено при перекладі",
+      "deleted": "Деякі слова першоджерела відсутні у перекладі",
+      "implied": "Ці слова додано або змінено при перекладі інформації, що зрозуміла з першоджерела",
+      "moved": "Ці слова містяться в іншому місці першоджерела",
       "tense-change": "Граматичний зворот цих слів змінено при перекладі"
     },
     "empty-tab-title": "Порожня"

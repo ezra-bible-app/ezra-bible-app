@@ -210,6 +210,7 @@
     "configure-translations": "Configurar traducciones",
     "configure-dicts": "Configurar diccionarios",
     "configure-commentaries": "Configurar comentarios",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Contexto",
     "general-options": "Opciones Generales",
     "check-new-releases": "Buscar nuevas versiones",
@@ -230,6 +231,23 @@
     "title": "Título",
     "tabs": "Pestañas",
     "module-not-installed": "El módulo '{{module_name}}' no está instalado."
+  },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "existing-repositories": "Existing custom repositories",
+    "add-repository": "Add repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "success-added": "Repository '{{name}}' was added successfully.",
+    "success-removed": "Repository '{{name}}' was removed."
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirme preferencias sobre la privacidad de datos",

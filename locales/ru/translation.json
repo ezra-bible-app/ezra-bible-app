@@ -63,7 +63,7 @@
     "repository_plural": "Репозитории",
     "installation": "Установка",
     "removal": "Удаление",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Последнее обновление данных репозиториев {{date}}.",
       "update-now": "Обновить",
       "updating-repository-data": "Обновление данных репозиториев! Это займет несколько секунд ...",
@@ -71,7 +71,7 @@
       "update-repository-data-failed": "Не удалось обновить данные репозитория! Проверьте интернет подключение.",
       "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Пожалуйста, выберите хотя бы один из следующих языков.",
       "total-modules-language": "В скобках указанно количество {{module_type, genitive}} доступных из всех репозиториев SWORD.",
       "loading-languages": "Загрузка языков ...",
@@ -90,14 +90,14 @@
       "repo-recommended": "Рекомендованный репозиторий",
       "more-repo-information-needed": "Дополнительная информация о репозиториях: <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Пожалуйста, выберите {{module_type, accusative}}, которые вы хотите установить.",
       "module-display-preferences": "Настройки фильтра:",
       "all-modules": "Все {{module_type, accusative}}",
       "regular-dicts": "Стандартные словари",
       "module-with": "{{module_type, capitalize}} с {{feature_type, instrumental}}",
       "module-already-installed": "Этот {{module_type, singular}} уже установлен!",
-      "show-module-info":"Показать подробности",
+      "show-module-info": "Показать подробности",
       "show-detailed-module-info": "Нажмите на иконке информации для отображения подробностей о {{module_type, singular-instrumental}}.",
       "duplicate-module-title": "Модуль уже выбран",
       "duplicate-module-message": "Модуль {{moduleId}} уже выбран из репозитория {{repository}}. Пожалуйста, сначала снимите выделение, если хотите установить его из другого репозитория.",
@@ -110,7 +110,7 @@
       "downloading": "Загрузка",
       "part-of-total": "из"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Выберите {{module_type, accusative}}, которые вы хотите удалить.",
       "disable-remove-note": "Этот {{module_type, singular}} не установленный в пользовательском каталоге или необходим для работы приложения.",
       "removing-modules": "Удаление выбранных {{module_type, genitive}}",
@@ -212,6 +212,7 @@
     "configure-translations": "Управлять переводами",
     "configure-dicts": "Управлять словарями",
     "configure-commentaries": "Управлять комментариями",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Контекст",
     "general-options": "Общие настройки",
     "check-new-releases": "Проверять наличие обновлений",
@@ -233,6 +234,23 @@
     "tabs": "Вкладки",
     "module-not-installed": "Модуль '{{module_name}}' не установлен."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "existing-repositories": "Existing custom repositories",
+    "add-repository": "Add repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "success-added": "Repository '{{name}}' was added successfully.",
+    "success-removed": "Repository '{{name}}' was removed."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Подтвердить настройки конфиденциальности данных",
     "data-privacy-options": "Настройки конфиденциальности данных",
@@ -251,8 +269,7 @@
   "shortcuts": {
     "tab-title": "Комбинации клавиш",
     "description": "Доступны следующие комбинации клавиш:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Текст Библии",
       "current-tab-search-section-title": "Поиск по текущей вкладке",
       "miscellaneous-section-title": "Другое",
@@ -271,9 +288,8 @@
       "decrease-current-font-size": "Уменьшить размер текста",
       "reset-font-size-to-default": "Сбросить размер текста"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -416,13 +432,13 @@
     "copy-selected-text-to-clipboard-success": "Выбранный текст скопирован в буфер обмена!",
     "edit-note": "Редактировать заметку",
     "delete-note": "Удалить заметку",
-    "transchange" : {
-      "added" : "Эти слова добавлены в переводе",
-      "amplified" : "Эти слова подчеркивают информацию из текста источника",
-      "changed" : "Эти слова были изменены в переводе",
-      "deleted" : "Некоторые слова из текста источника не включены в перевод",
-      "implied" : "Эти слова были добавлены или изменены для перевода информации подразумевающейся в тексте источника",
-      "moved" : "Эти слова были в другом месте в тексте источника",
+    "transchange": {
+      "added": "Эти слова добавлены в переводе",
+      "amplified": "Эти слова подчеркивают информацию из текста источника",
+      "changed": "Эти слова были изменены в переводе",
+      "deleted": "Некоторые слова из текста источника не включены в перевод",
+      "implied": "Эти слова были добавлены или изменены для перевода информации подразумевающейся в тексте источника",
+      "moved": "Эти слова были в другом месте в тексте источника",
       "tense-change": "Граматический оборот этих слов был изменен для возможности перевода"
     },
     "empty-tab-title": "Пустая вкладка"

@@ -61,7 +61,7 @@
     "repository_plural": "Modularchive",
     "installation": "Installation",
     "removal": "Entfernen",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Modularchivdaten wurden zuletzt am {{date}} aktualisiert.",
       "update-now": "Jetzt aktualisieren",
       "updating-repository-data": "Aktualisiere Modularchivdaten! Das dauert ein paar Sekunden ...",
@@ -69,7 +69,7 @@
       "update-repository-data-failed": "Aktualisieren der Modularchivdaten fehlgeschlagen. Sind Sie offline?",
       "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Bitte wählen Sie mindestens eine der folgenden Sprachen.",
       "total-modules-language": "Neben der Sprache wird die in den SWORD Modularchiven verfügbare Anzahl von {{module_type}} angezeigt.",
       "loading-languages": "Lade Sprachen ...",
@@ -88,14 +88,14 @@
       "repo-recommended": "Dieses Modularchiv ist für den Anfang gut geeignet",
       "more-repo-information-needed": "Sie benötigen weitere Informationen zu diesen Modularchiven?<br/>Werfen Sie einen Blick auf das <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (Englisch)."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Bitte wählen Sie {{module_type}} zur Installation.",
       "module-display-preferences": "Filtereinstellungen:",
       "all-modules": "Alle {{module_type, accusative}}",
       "regular-dicts": "Reguläre Wörterbücher",
       "module-with": "{{module_type, capitalize}} mit {{feature_type}}",
       "module-already-installed": "{{module_type, singular}} ist bereits installiert",
-      "show-module-info":"Informationen zeigen",
+      "show-module-info": "Informationen zeigen",
       "show-detailed-module-info": "Klicken Sie auf das Informationssymbol um mehr Informationen zu {{module_type, singular-dative}} anzuzeigen.",
       "duplicate-module-title": "Modul bereits ausgewählt",
       "duplicate-module-message": "Das Modul {{moduleId}} ist bereits aus dem Modularchiv {{repository}} ausgewählt. Bitte deselektieren Sie es zuerst, wenn Sie es aus einem anderen Modularchiv installieren möchten.",
@@ -108,7 +108,7 @@
       "downloading": "Lade",
       "part-of-total": "von"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Wählen Sie {{module_type, accusative}} die Sie entfernen wollen.",
       "disable-remove-note": "{{module_type, singular}} ist nicht im Benutzerverzeichnis installiert oder unbedingt nötig für die Grundfunktionalität von Ezra Bible App.",
       "removing-modules": "Entferne {{module_type, accusative}}",
@@ -206,6 +206,7 @@
     "configure-translations": "Übersetzungen konfigurieren",
     "configure-dicts": "Wörterbücher konfigurieren",
     "configure-commentaries": "Bibelkommentare konfigurieren",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Kontext",
     "general-options": "Allgemeine Optionen",
     "check-new-releases": "Neue Releases abfragen",
@@ -227,6 +228,23 @@
     "tabs": "Tabs",
     "module-not-installed": "Das Modul '{{module_name}}' ist nicht installiert."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "existing-repositories": "Existing custom repositories",
+    "add-repository": "Add repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "success-added": "Repository '{{name}}' was added successfully.",
+    "success-removed": "Repository '{{name}}' was removed."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Datenschutzoptionen bestätigen",
     "data-privacy-options": "Datenschutzoptionen",
@@ -245,8 +263,7 @@
   "shortcuts": {
     "tab-title": "Tastenkürzel",
     "description": "Sie können die folgenden Tastenkürzel verwenden:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Schriftgröße",
       "current-tab-search-section-title": "Suche für aktuellen Tab",
       "miscellaneous-section-title": "Verschiedene",
@@ -265,9 +282,8 @@
       "decrease-current-font-size": "Schrift verkleinern",
       "reset-font-size-to-default": "Auf Standardschriftgröße zurücksetzen"
     },
-
     "shortcut": {
-      "in-tab-search":"Strg/Cmd + f",
+      "in-tab-search": "Strg/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -408,13 +424,13 @@
     "copy-selected-text-to-clipboard-success": "Ausgewählter Text in Zwischenablage kopiert!",
     "edit-note": "Notiz ändern",
     "delete-note": "Notiz löschen",
-    "transchange" : {
-      "added" : "Diese Worte wurden in der Übersetzung hinzugefügt",
-      "amplified" : "Diese Worte heben Informationen aus dem ursprünglichen Text hervor",
-      "changed" : "Diese Worte wurden in der Übersetzung geändert",
-      "deleted" : "Einige Worte aus dem ursprünglichen Text wurden nicht in die Übersetzung übernommen",
-      "implied" : "Diese Worte wurden hinzugefügt oder geändert, um implizierte Informationen aus dem ursprünglichen Text zu übersetzen",
-      "moved" : "Diese Worte waren im ursprünglichen Text an einer anderen Stelle",
+    "transchange": {
+      "added": "Diese Worte wurden in der Übersetzung hinzugefügt",
+      "amplified": "Diese Worte heben Informationen aus dem ursprünglichen Text hervor",
+      "changed": "Diese Worte wurden in der Übersetzung geändert",
+      "deleted": "Einige Worte aus dem ursprünglichen Text wurden nicht in die Übersetzung übernommen",
+      "implied": "Diese Worte wurden hinzugefügt oder geändert, um implizierte Informationen aus dem ursprünglichen Text zu übersetzen",
+      "moved": "Diese Worte waren im ursprünglichen Text an einer anderen Stelle",
       "tense-change": "Die grammatikalische Zeit dieser Worte wurde im Rahmen der Übersetzung geändert"
     },
     "empty-tab-title": "Leerer Tab"
