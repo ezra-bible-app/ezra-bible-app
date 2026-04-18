@@ -161,9 +161,12 @@ module.exports.showCustomRepoDialog = async function() {
 
     if (!result || !result.success) {
       addButton.style.display = '';
-      const errorKey = (result && result.error === 'duplicate-name')
-        ? 'custom-repositories.error-duplicate-name'
-        : 'custom-repositories.error-invalid-config';
+      let errorKey = 'custom-repositories.error-invalid-config';
+      if (result && result.error === 'duplicate-name') {
+        errorKey = 'custom-repositories.error-duplicate-name';
+      } else if (result && result.error === 'duplicate-default-url-path') {
+        errorKey = 'custom-repositories.error-duplicate-default-url-path';
+      }
 
       // eslint-disable-next-line no-undef
       iziToast.error({

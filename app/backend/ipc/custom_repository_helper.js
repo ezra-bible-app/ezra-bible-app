@@ -60,6 +60,11 @@ class CustomRepositoryHelper {
 
   async addCustomRepository(protocol, name, host, repoPath) {
     const nsi = this._getNsi();
+    const repoUrlPathKey = this._buildRepoUrlPathKey(host, repoPath);
+    if (repoUrlPathKey && this._getDefaultRepoUrlPathKeys().has(repoUrlPathKey)) {
+      return { success: false, error: 'duplicate-default-url-path' };
+    }
+
     const existingRepoNames = nsi.getRepoNames();
     if (existingRepoNames.includes(name)) {
       return { success: false, error: 'duplicate-name' };
