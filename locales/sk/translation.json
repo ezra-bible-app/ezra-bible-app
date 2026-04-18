@@ -245,8 +245,7 @@
     "error-duplicate-name": "A repository with this name already exists.",
     "error-invalid-config": "Could not connect to the repository. Please check your settings.",
     "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
-    "adding-repository": "Adding repository ...",
-    "success-removed": "Repository '{{name}}' was removed."
+    "adding-repository": "Adding repository ..."
   },
   "data-privacy": {
     "confirm-privacy-options": "Potvrďte ochranu osobných údajov",
