@@ -242,7 +242,8 @@
     "path": "Directory path",
     "add": "Add",
     "remove": "Remove",
-    "error-duplicate-name": "A repository with this name already exists.",    "error-duplicate-url-path": "A repository with this URL/path combination already exists.",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-duplicate-url-path": "A repository with this URL/path combination already exists.",
     "error-invalid-config": "Could not connect to the repository. Please check your settings.",
     "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
     "adding-repository": "Adding repository ..."
