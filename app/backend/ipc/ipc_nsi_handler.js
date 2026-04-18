@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcMain = require('./ipc_main.js');
+const CustomRepositoryHelper = require('./custom_repository_helper.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
 const DropboxModuleHelper = require('../db_sync/dropbox_module_helper.js');
@@ -47,6 +48,13 @@ class IpcNsiHandler {
 
     this.initNSI(this._customSwordDir);
     this._dropboxModuleHelper = new DropboxModuleHelper(this._platformHelper, this._nsi);
+    this._customRepositoryHelper = new CustomRepositoryHelper(
+      () => this._nsi,
+      () => {
+        this.initNSI(this._customSwordDir);
+        this._dropboxModuleHelper._nsi = this._nsi;
+      }
+    );
     this.initIpcInterface();
   }
 
@@ -547,187 +555,16 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getCustomRepositories', () => {
-      const defaultRepoUrlPathKeys = this._getDefaultRepoUrlPathKeys();
-      const installMgrConfContent = this._readInstallMgrConf();
-      const lines = installMgrConfContent.split('\n');
-      const repos = [];
-
-      for (const line of lines) {
-        // The current expected format is something like:
-        //   HTTPSource=MyRepo|myrepo.com|/path/to/repo|||20240610120000
-        const match = line.match(/^([A-Z]+)Source=(.+)$/);
-        if (!match) {
-          continue;
-        }
-
-        const fields = match[2].split('|');
-        const name = fields[0];
-        const host = fields[1];
-        const repoPath = fields[2];
-        const repoUrlPathKey = this._buildRepoUrlPathKey(host, repoPath);
-
-        if (!defaultRepoUrlPathKeys.has(repoUrlPathKey)) {
-          repos.push({
-            protocol: match[1],
-            name: name,
-            host: host,
-            path: repoPath
-          });
-        }
-      }
-
-      return repos;
+      return this._customRepositoryHelper.getCustomRepositories();
     });
 
     this._ipcMain.add('nsi_addCustomRepository', async (protocol, name, host, repoPath) => {
-      const existingRepoNames = this._nsi.getRepoNames();
-      if (existingRepoNames.includes(name)) {
-        return { success: false, error: 'duplicate-name' };
-      }
-
-      const entry = this._buildRepoEntry(protocol, name, host, repoPath);
-
-      // Remove any stale entry with the same name from previous failed attempts before writing.
-      let content = this._removeEntryFromConf(this._readInstallMgrConf(), name);
-      if (content && !content.endsWith('\n')) {
-        content += '\n';
-      }
-      content += entry + '\n';
-      this._writeInstallMgrConf(content);
-
-      // Reinitialize NSI so the new InstallMgr reads the updated InstallMgr.conf and
-      // registers the new source in its in-memory map before updateSingleRepositoryConfig is called.
-      // Without this, getRemoteSource() returns null and SWORD crashes with SIGSEGV.
-      this.initNSI(this._customSwordDir);
-      this._dropboxModuleHelper._nsi = this._nsi;
-
-      let isSuccessful = false;
-      try {
-        isSuccessful = await this._nsi.updateSingleRepositoryConfig(name);
-      } catch (e) {
-        isSuccessful = false;
-      }
-
-      if (!isSuccessful) {
-        let rollbackContent = this._removeEntryFromConf(this._readInstallMgrConf(), name);
-        this._writeInstallMgrConf(rollbackContent);
-        this.initNSI(this._customSwordDir);
-        this._dropboxModuleHelper._nsi = this._nsi;
-        return { success: false, error: 'invalid-config' };
-      }
-
-      return { success: true };
+      return await this._customRepositoryHelper.addCustomRepository(protocol, name, host, repoPath);
     });
 
     this._ipcMain.add('nsi_removeCustomRepository', (name) => {
-      let content = this._readInstallMgrConf();
-      content = this._removeEntryFromConf(content, name);
-      this._writeInstallMgrConf(content);
-
-      this.initNSI(this._customSwordDir);
-      this._dropboxModuleHelper._nsi = this._nsi;
-
-      return { success: true };
+      return this._customRepositoryHelper.removeCustomRepository(name);
     });
-  }
-
-  _getInstallMgrConfPath() {
-    return path.join(this._nsi.getSwordPath(), 'InstallMgr', 'InstallMgr.conf');
-  }
-
-  _getMasterRepoListPath() {
-    return path.join(this._nsi.getSwordPath(), 'InstallMgr', 'masterRepoList.conf');
-  }
-
-  _getDefaultRepoUrlPathKeys() {
-    const masterPath = this._getMasterRepoListPath();
-    const urlPathKeys = new Set();
-    if (!fs.existsSync(masterPath)) {
-      return urlPathKeys;
-    }
-
-    const lines = fs.readFileSync(masterPath, 'utf8').split('\n');
-    for (const line of lines) {
-      // Trim the line to handle any trailing whitespace
-      const trimmedLine = line.trim();
-      
-      // Skip empty lines, comment lines, and section headers
-      if (!trimmedLine || trimmedLine.startsWith('#') || trimmedLine.startsWith('[')) {
-        continue;
-      }
-      
-      // Match repository entries in the format:
-      // TIMESTAMP=PROTOCOL(Source|PackagePreference)=REPOSITORY_NAME|...
-      // Examples:
-      //   20220529224400=HTTPSPackagePreference=CrossWire|crosswire.org|/ftpmirror/pub/sword/raw
-      //   20081216195754=FTPSource=CrossWire|ftp.crosswire.org|/pub/sword/raw
-      //   20090224125400=FTPSource=CrossWire Beta|ftp.crosswire.org|/pub/sword/betaraw
-      const match = trimmedLine.match(/^\d+=(?:[A-Z]+Source|[A-Z]+PackagePreference)=([^|]+)\|([^|]*)\|([^|]*)/);
-      if (match) {
-        const host = match[2];
-        const repoPath = match[3];
-        const repoUrlPathKey = this._buildRepoUrlPathKey(host, repoPath);
-        if (repoUrlPathKey) {
-          urlPathKeys.add(repoUrlPathKey);
-        }
-      }
-    }
-
-    return urlPathKeys;
-  }
-
-  _buildRepoUrlPathKey(host, repoPath) {
-    if (!host || !repoPath) {
-      return null;
-    }
-
-    const normalizedHost = String(host).trim().toLowerCase();
-    let normalizedPath = String(repoPath).trim();
-
-    if (!normalizedHost || !normalizedPath) {
-      return null;
-    }
-
-    if (!normalizedPath.startsWith('/')) {
-      normalizedPath = '/' + normalizedPath;
-    }
-
-    normalizedPath = normalizedPath.replace(/\/+$/, '');
-    if (!normalizedPath) {
-      normalizedPath = '/';
-    }
-
-    return `${normalizedHost}|${normalizedPath}`;
-  }
-
-  _readInstallMgrConf() {
-    const confPath = this._getInstallMgrConfPath();
-    if (!fs.existsSync(confPath)) {
-      return '';
-    }
-    return fs.readFileSync(confPath, 'utf8');
-  }
-
-  _writeInstallMgrConf(content) {
-    const confPath = this._getInstallMgrConfPath();
-    fs.writeFileSync(confPath, content, 'utf8');
-  }
-
-  _buildRepoEntry(protocol, name, host, repoPath) {
-    const now = new Date();
-    const pad = (n) => String(n).padStart(2, '0');
-    const date = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
-    const protocolPrefix = protocol.toUpperCase() + 'Source';
-    return `${protocolPrefix}=${name}|${host}|${repoPath}|||${date}`;
-  }
-
-  _removeEntryFromConf(content, repoName) {
-    const lines = content.split('\n');
-    const filtered = lines.filter(line => {
-      const match = line.match(/^([A-Z]+)Source=(.+?)\|/);
-      return !(match && match[2] === repoName);
-    });
-    return filtered.join('\n');
   }
 
   setMainWindow(mainWindow) {
