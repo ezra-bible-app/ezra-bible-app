@@ -553,10 +553,13 @@ class IpcNsiHandler {
       const repos = [];
 
       for (const line of lines) {
+        // The current expected format is something like:
+        //   HTTPSource=MyRepo|myrepo.com|/path/to/repo|||20240610120000
         const match = line.match(/^([A-Z]+)Source=(.+)$/);
         if (!match) {
           continue;
         }
+
         const fields = match[2].split('|');
         const name = fields[0];
         if (!defaultNames.has(name)) {
@@ -638,6 +641,7 @@ class IpcNsiHandler {
     if (!fs.existsSync(masterPath)) {
       return names;
     }
+
     const lines = fs.readFileSync(masterPath, 'utf8').split('\n');
     for (const line of lines) {
       const match = line.match(/^\d+=(?:[A-Z]+Source|[A-Z]+PackagePreference)=(.+?)\|/);
@@ -645,6 +649,7 @@ class IpcNsiHandler {
         names.add(match[1]);
       }
     }
+
     return names;
   }
 
