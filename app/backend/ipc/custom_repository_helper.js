@@ -62,7 +62,11 @@ class CustomRepositoryHelper {
     const nsi = this._getNsi();
     const repoUrlPathKey = this._buildRepoUrlPathKey(host, repoPath);
     if (repoUrlPathKey && this._getDefaultRepoUrlPathKeys().has(repoUrlPathKey)) {
-      return { success: false, error: 'duplicate-default-url-path' };
+      return { success: false, error: 'duplicate-url-path' };
+    }
+
+    if (repoUrlPathKey && this._getCustomRepoUrlPathKeys().has(repoUrlPathKey)) {
+      return { success: false, error: 'duplicate-url-path' };
     }
 
     const existingRepoNames = nsi.getRepoNames();
@@ -151,6 +155,20 @@ class CustomRepositoryHelper {
         if (repoUrlPathKey) {
           urlPathKeys.add(repoUrlPathKey);
         }
+      }
+    }
+
+    return urlPathKeys;
+  }
+
+  _getCustomRepoUrlPathKeys() {
+    const customRepos = this.getCustomRepositories();
+    const urlPathKeys = new Set();
+
+    for (const repo of customRepos) {
+      const repoUrlPathKey = this._buildRepoUrlPathKey(repo.host, repo.path);
+      if (repoUrlPathKey) {
+        urlPathKeys.add(repoUrlPathKey);
       }
     }
 

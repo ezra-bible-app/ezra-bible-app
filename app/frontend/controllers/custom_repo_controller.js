@@ -164,8 +164,8 @@ module.exports.showCustomRepoDialog = async function() {
       let errorKey = 'custom-repositories.error-invalid-config';
       if (result && result.error === 'duplicate-name') {
         errorKey = 'custom-repositories.error-duplicate-name';
-      } else if (result && result.error === 'duplicate-default-url-path') {
-        errorKey = 'custom-repositories.error-duplicate-default-url-path';
+      } else if (result && result.error === 'duplicate-url-path') {
+        errorKey = 'custom-repositories.error-duplicate-url-path';
       }
 
       // eslint-disable-next-line no-undef
