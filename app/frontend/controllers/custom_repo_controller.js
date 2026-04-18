@@ -175,14 +175,6 @@ module.exports.showCustomRepoDialog = async function() {
       return;
     }
 
-    // eslint-disable-next-line no-undef
-    iziToast.success({
-      title: i18n.t('custom-repositories.dialog-title'),
-      message: i18n.t('custom-repositories.success-added', { name: name }),
-      position: platformHelper.getIziPosition(),
-      timeout: 3000
-    });
-
     document.getElementById('custom-repo-name').value = '';
     document.getElementById('custom-repo-host').value = '';
     document.getElementById('custom-repo-path').value = '';
