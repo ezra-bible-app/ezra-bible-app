@@ -51,7 +51,7 @@
     "module-type-commentary_instrumental": "коментарями",
     "module-type-commentary_singular": "коментар",
     "header": "Керування {{module_type, instrumental}}",
-    "intro-text": "Біблійний застосунок Єздри встановлює <b>{{module_type, accusative}}</b> використовуючи ваше інтернет з'єднання. {{module_type, capitalize}} розповсюджуються <a class='external' href='http://www.crosswire.org'>Біблійним товариством CrossWire</a> та будуть завантажені зі сховищ <a class='external' href='http://www.crosswire.org/sword'>проєкту SWORD</a>.",
+    "intro-text": "Біблійний застосунок Єздри встановлює <b>{{module_type, accusative}}</b> використовуючи ваше інтернет з'єднання. {{module_type, capitalize}} розповсюджуються <a class='external' href='http://www.crosswire.org'>Біблійним товариством CrossWire</a> for further explanations. та будуть завантажені зі сховищ <a class='external' href='http://www.crosswire.org/sword'>проєкту SWORD</a> for further explanations..",
     "internet-usage-note": "<b>ВАЖЛИВА ПРИМІТКА</b> <br/> Якщо ви перебуваєте в країні, де переслідують Християн, <br/> майте на увазі, що ваш інтернет-провайдер зможе визначити, що <b>ви запитуєте християнскі ресурси</b>!",
     "add-modules": "Додати {{module_type, accusative}}",
     "remove-modules": "Видалити {{module_type, accusative}}",
@@ -86,7 +86,7 @@
       "what-is-repository": "Під сховищем розуміється хмарне інтернет-сховище з певними {{module_type, instrumental}}",
       "loading-repositories": "Завантаження переліку сховищ ...",
       "repo-recommended": "Рекомендоване сховище",
-      "more-repo-information-needed": "Додаткові відомості про сховища можна знайти за посиланням <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (англійською)."
+      "more-repo-information-needed": "Додаткові відомості про сховища можна знайти за посиланням <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations. (англійською)."
     },
     "step-modules": {
       "select-module": "Будь ласка, оберіть {{module_type}} для встановлення.",
@@ -234,6 +234,7 @@
   },
   "custom-repositories": {
     "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
     "add-repository": "Add custom repository",
     "no-custom-repos": "No custom repositories configured yet.",
     "protocol": "Protocol",
@@ -252,8 +253,8 @@
     "confirm-privacy-options": "Підтвердіть налаштування конфеденційности даних",
     "data-privacy-options": "Налаштування конфеденційности даних",
     "please-confirm-options": "Будь ласка, підтвердіть настпупні опції стосовно конфеденційности даних. Ці опції потребують з'єднання з інтернетом якщо обрані. Ці налаштування можна змінити пізніше.",
-    "check-new-releases-hint": "Біблйний застосунок Єздри може перевіряти наявність оновлень при кожному запуску. Це вимагає короткострокового з'єднання з <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, де опубліковані оновлення застосунку.",
-    "send-crash-reports-hint-part1": "Біблйний застосунок Єздри може автоматично відсилати звіти щодо помилок на майданчик помилкових звітів <a class='external' href='https://sentry.io'>Sentry.io</a> відразу, щойно виникла помилка.",
+    "check-new-releases-hint": "Біблйний застосунок Єздри може перевіряти наявність оновлень при кожному запуску. Це вимагає короткострокового з'єднання з <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., де опубліковані оновлення застосунку.",
+    "send-crash-reports-hint-part1": "Біблйний застосунок Єздри може автоматично відсилати звіти щодо помилок на майданчик помилкових звітів <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. відразу, щойно виникла помилка.",
     "send-crash-reports-hint-part2": "Це допоможе команді розробників швидше зрозуміти наявність помилки, тобто вносить вклад у розвиток Біблійного застосунку Єздри.",
     "send-crash-reports-hint-part3": "Зауважте, що такі звіти щодо помилок містять суто технічну інформацію та не потребують швидкого з'єднання з інтернетом."
   },

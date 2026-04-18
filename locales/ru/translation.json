@@ -53,7 +53,7 @@
     "module-type-commentary_instrumental": "комментариями",
     "module-type-commentary_singular": "комментарий",
     "header": "Управление {{module_type, instrumental}}",
-    "intro-text": "Ezra Bible App устанавливает <b>{{module_type, accusative}}</b> используя ваше интернет-соединение. {{module_type, capitalize}} распространяются <a class='external' href='http://www.crosswire.org'>Библейским обществом CrossWire</a> и будут загруженны из репозиториев <a class='external' href='http://www.crosswire.org/sword'>проекта SWORD</a>.",
+    "intro-text": "Ezra Bible App устанавливает <b>{{module_type, accusative}}</b> используя ваше интернет-соединение. {{module_type, capitalize}} распространяются <a class='external' href='http://www.crosswire.org'>Библейским обществом CrossWire</a> for further explanations. и будут загруженны из репозиториев <a class='external' href='http://www.crosswire.org/sword'>проекта SWORD</a> for further explanations..",
     "internet-usage-note": "<b>ВНИМАНИЕ!</b><br/>Если вы находитесь в стране, где преследуют Христиан,<br/>имейте ввиду, что ваш интернет-провайдер способен определить, что <b>вы ищите христианские ресурсы</b>!",
     "add-modules": "Добавить {{module_type, accusative}}",
     "remove-modules": "Удалить {{module_type, accusative}}",
@@ -88,7 +88,7 @@
       "what-is-repository": "Репозиторий - это интернет-хранилище, которое содержит определенные {{module_type, accusative}}",
       "loading-repositories": "Загрузка репозиториев ...",
       "repo-recommended": "Рекомендованный репозиторий",
-      "more-repo-information-needed": "Дополнительная информация о репозиториях: <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "more-repo-information-needed": "Дополнительная информация о репозиториях: <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations.."
     },
     "step-modules": {
       "select-module": "Пожалуйста, выберите {{module_type, accusative}}, которые вы хотите установить.",
@@ -236,6 +236,7 @@
   },
   "custom-repositories": {
     "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
     "add-repository": "Add custom repository",
     "no-custom-repos": "No custom repositories configured yet.",
     "protocol": "Protocol",
@@ -254,8 +255,8 @@
     "confirm-privacy-options": "Подтвердить настройки конфиденциальности данных",
     "data-privacy-options": "Настройки конфиденциальности данных",
     "please-confirm-options": "Пожалуйста, подтвердите следующие опции касающиеся конфиденциальности данных. Доступ к интернету необходим если эти опции выбранны. Вы можете изменить эти настройки позже.",
-    "check-new-releases-hint": "Ezra Bible App может проверять наличие новых обновлений при каждом запуске. Для этого необходим кратковременное взаимодействие с вебсайтом <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, где будут опубликованны новые релизы.",
-    "send-crash-reports-hint-part1": "Ezra Bible App может отсылать отчеты о возникших ошибках автоматически на платформу сбора отчетов об ошибках <a class='external' href='https://sentry.io'>Sentry.io</a>.",
+    "check-new-releases-hint": "Ezra Bible App может проверять наличие новых обновлений при каждом запуске. Для этого необходим кратковременное взаимодействие с вебсайтом <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., где будут опубликованны новые релизы.",
+    "send-crash-reports-hint-part1": "Ezra Bible App может отсылать отчеты о возникших ошибках автоматически на платформу сбора отчетов об ошибках <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations..",
     "send-crash-reports-hint-part2": "Это поможет комманде разработчиков узнать о возникающих ошибках намного скорее, таким образом делая вклад в улучшение Ezra Bible App.",
     "send-crash-reports-hint-part3": "Приймите во внимание, что отчеты об ошибках содержат только техническую информацию и не требуют значительной пропускной способности данных."
   },

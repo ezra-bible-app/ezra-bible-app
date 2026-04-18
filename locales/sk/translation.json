@@ -51,7 +51,7 @@
     "module-type-commentary_instrumental": "Biblickým komentárom",
     "module-type-commentary_singular": "Biblický komentár",
     "header": "Nastaviť {{module_type, instrumental, title-case}}",
-    "intro-text": "Ezra Bible App inštaluje <b>{{module_type, accusative}}</b> pomocou internetového pripojenie. {{module_type, capitalize}} je distribuovaný <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> a bude stiahnutý z <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> úložiska.",
+    "intro-text": "Ezra Bible App inštaluje <b>{{module_type, accusative}}</b> pomocou internetového pripojenie. {{module_type, capitalize}} je distribuovaný <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. a bude stiahnutý z <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> for further explanations. úložiska.",
     "internet-usage-note": "<b>DÔLEŽITÁ POZNÁMKA</b><br/>Ak sa nachádzate v krajine, kde sú kresťania prenasledovaní,<br/>uvedomte si, že váš poskytovateľ internetu bude schopný zistiť,<br/>že <b>pristupujete ku kresťanským zdrojom</b>!",
     "add-modules": "Pridať {{module_type, accusative}}",
     "remove-modules": "Odstrániť {{module_type, accusative}}",
@@ -86,7 +86,7 @@
       "what-is-repository": "Úložisko je umiestnenie internetového úložiska, ktoré obsahuje sadu {{module_type}}.",
       "loading-repositories": "Nahrávam archívy ...",
       "repo-recommended": "Toto úložisko je dobrým miestom na začiatok",
-      "more-repo-information-needed": "Potrebujete viac informácií ohľadom archívov?<br/>Pozrite sa na <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "more-repo-information-needed": "Potrebujete viac informácií ohľadom archívov?<br/>Pozrite sa na <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations.."
     },
     "step-modules": {
       "select-module": "Vyberte {{module_type}}, ktorý chcete nainštalovať.",
@@ -234,6 +234,7 @@
   },
   "custom-repositories": {
     "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
     "add-repository": "Add custom repository",
     "no-custom-repos": "No custom repositories configured yet.",
     "protocol": "Protocol",
@@ -252,8 +253,8 @@
     "confirm-privacy-options": "Potvrďte ochranu osobných údajov",
     "data-privacy-options": "Možnosti ochrany osobných údajov",
     "please-confirm-options": "Potvrďte nasledujúce možnosti ochrany osobných údajov. Tieto možnosti vyžadujú prístup na internet. Zmeny môžete vykonať aj neskôr v ponuke Možnosti.",
-    "check-new-releases-hint": "Aplikácia Ezra Bible môže skontrolovať nové vydania pri každom spustení. Vyžaduje si to interakciu s <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub-om</a>, kde sú publikované nové vydania.",
-    "send-crash-reports-hint-part1": "Aplikácia Ezra Bible môže automaticky odosielať chybové hlásenia na platformu na sledovanie chýb <a class='external' href='https://sentry.io'>Sentry.io</a> vždy, keď sa zistí chyba.",
+    "check-new-releases-hint": "Aplikácia Ezra Bible môže skontrolovať nové vydania pri každom spustení. Vyžaduje si to interakciu s <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub-om</a> for further explanations., kde sú publikované nové vydania.",
+    "send-crash-reports-hint-part1": "Aplikácia Ezra Bible môže automaticky odosielať chybové hlásenia na platformu na sledovanie chýb <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. vždy, keď sa zistí chyba.",
     "send-crash-reports-hint-part2": "To pomáha vývojovému tímu oveľa rýchlejšie si uvedomiť problémy, a preto prispieva k vylepšeniu aplikácie Ezra Bible App.",
     "send-crash-reports-hint-part3": "Upozorňujeme, že chybové hlásenia obsahujú iba technické informácie a nevyžadujú veľa dát."
   },

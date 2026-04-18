@@ -51,7 +51,7 @@
     "module-type-commentary_instrumental": "Comentarii Biblice",
     "module-type-commentary_singular": "Comentariu Biblic",
     "header": "Configurează {{module_type, instrumental, title-case}}",
-    "intro-text": "Ezra Bible App instalează <b>{{module_type, accusative}}</b> folosind conexiunea ta de internet. {{module_type, capitalize}} sunt distribuite de către <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> și vor fi descărcate din depozitele <a class='external' href='http://www.crosswire.org/sword'>proiectului SWORD</a>.",
+    "intro-text": "Ezra Bible App instalează <b>{{module_type, accusative}}</b> folosind conexiunea ta de internet. {{module_type, capitalize}} sunt distribuite de către <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. și vor fi descărcate din depozitele <a class='external' href='http://www.crosswire.org/sword'>proiectului SWORD</a> for further explanations..",
     "internet-usage-note": "<b>NOTĂ IMPORTANTĂ</b><br/>Dacă te afli într-o țară unde creștinii sunt persecutați,<br/>să ai în vedere că furnizorul tău de internet va putea să detecteze<br/>că <b>accesezi resurse creștine</b>!",
     "add-modules": "Adaugă {{module_type, accusative}}",
     "remove-modules": "Dezinstalează {{module_type, accusative}}",
@@ -86,7 +86,7 @@
       "what-is-repository": "Un depozit este o locație de stocare pe internet ce conține un set de {{module_type}}.",
       "loading-repositories": "Se încarcă depozite ...",
       "repo-recommended": "Acest depozit este un loc bun cu care să începi",
-      "more-repo-information-needed": "Ai nevoie de mai multe informații despre aceste depozite? <br/> Vizitează <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'> CrossWire Wiki </a>."
+      "more-repo-information-needed": "Ai nevoie de mai multe informații despre aceste depozite? <br/> Vizitează <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'> CrossWire Wiki </a> for further explanations.."
     },
     "step-modules": {
       "select-module": "Te rog alege {{module_type}} care să fie instalat.",
@@ -234,6 +234,7 @@
   },
   "custom-repositories": {
     "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
     "add-repository": "Add custom repository",
     "no-custom-repos": "No custom repositories configured yet.",
     "protocol": "Protocol",
@@ -252,8 +253,8 @@
     "confirm-privacy-options": "Confirmă opțiunile legate de confidențialitatea datelor",
     "data-privacy-options": "Oțiuni legate de confidențialitatea",
     "please-confirm-options": "Te rog confirmă următoarele opțiuni legate de confidențialitatea datelor. Aceste opțini necesită acces la internet. De asemenea, poți face modificări mai târziu în meniul Opțiuni.",
-    "check-new-releases-hint": "Ezra Bible App poate verifica noi lansări la fiecare pornire. Asta implică o scurtă interacțiune cu <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, unde noi lansări sunt publicate.",
-    "send-crash-reports-hint-part1": "Ezra Bible App poate trimite automat rapoarte de eroare către platforma de urmărire a erorilor <a class='external' href='https://sentry.io'>Sentry.io</a> ori de câte ori este detectată o eroare.",
+    "check-new-releases-hint": "Ezra Bible App poate verifica noi lansări la fiecare pornire. Asta implică o scurtă interacțiune cu <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., unde noi lansări sunt publicate.",
+    "send-crash-reports-hint-part1": "Ezra Bible App poate trimite automat rapoarte de eroare către platforma de urmărire a erorilor <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. ori de câte ori este detectată o eroare.",
     "send-crash-reports-hint-part2": "Aceasta ajută echipa de dezvoltare să fie conștientă de probleme mult mai rapid și, prin urmare, contribuie la îmbunătățirea Ezra Bible App.",
     "send-crash-reports-hint-part3": "Reține că rapoartele de eroare conțin doar informații tehnice și nu necesită o lățime mare de bandă pentru date pentru internet."
   },

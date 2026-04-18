@@ -53,7 +53,7 @@
     "module-type-commentary_instrumental": "bijbelcommentaren",
     "module-type-commentary_singular": "bijbelcommentaar",
     "header": "Configureer {{module_type, instrumental, title-case}}",
-    "intro-text": "Ezra Bible App installeert <b>{{module_type, accusative}}</b> via uw internetverbinding. {{module_type, capitalize}} worden verdeeld door de <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> en zullen gedownload worden van de depots van <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a>.",
+    "intro-text": "Ezra Bible App installeert <b>{{module_type, accusative}}</b> via uw internetverbinding. {{module_type, capitalize}} worden verdeeld door de <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. en zullen gedownload worden van de depots van <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a> for further explanations..",
     "internet-usage-note": "<b>BELANGRIJKE OPMERKING</b><br/>Als u zich in een land bevindt waar Christenen vervolgd worden,<br/> wees u er van bewust dat uw internetprovider zal kunnen detecteren<br/>dat <b>u toegang hebt tot Christelijke bronnen</b>!",
     "add-modules": "Voeg {{module_type, accusative}} toe",
     "remove-modules": "Verwijder {{module_type, accusative}}",
@@ -88,7 +88,7 @@
       "what-is-repository": "Een depot is een internetopslagplaats die een set van {{module_type}} bevat.",
       "loading-repositories": "Depots laden ...",
       "repo-recommended": "Dit depot is een goede plek om te beginnen",
-      "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations.."
     },
     "step-modules": {
       "select-module": "Gelieve {{module_type}} kiezen om te installeren.",
@@ -236,6 +236,7 @@
   },
   "custom-repositories": {
     "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
     "add-repository": "Add custom repository",
     "no-custom-repos": "No custom repositories configured yet.",
     "protocol": "Protocol",
@@ -254,7 +255,7 @@
     "confirm-privacy-options": "Bevestig gegevensprivacy-opties",
     "data-privacy-options": "Gegevensprivacy-opties",
     "please-confirm-options": "Bevestig de volgende opties voor gegevensprivacy. Voor deze opties is internettoegang vereist. U kunt later ook wijzigingen aanbrengen in het menu Opties.",
-    "check-new-releases-hint": "Ezra Bible App kan bij elke start controleren op nieuwe uitgaven. Dit vereist een korte interactie met <a class='external' href='https://github.com/ezra-bible -app/ezra-bible-app'>GitHub</a>, waar nieuwe uitgaven gepubliceerd worden.",
+    "check-new-releases-hint": "Ezra Bible App kan bij elke start controleren op nieuwe uitgaven. Dit vereist een korte interactie met <a class='external' href='https://github.com/ezra-bible -app/ezra-bible-app'>GitHub</a> for further explanations., waar nieuwe uitgaven gepubliceerd worden.",
     "send-crash-reports-hint-part1": "Ezra Bible App kan automatisch foutrapporten verzenden naar het foutopsporingsplatform <a class='external' href='https://sentry.io'>Sentry.io</ a> wanneer er een fout wordt gedetecteerd.",
     "send-crash-reports-hint-part2": "Dit helpt het ontwikkelingsteam om zich veel sneller bewust te worden van problemen en draagt daarom bij aan de verbetering van Ezra Bible App.",
     "send-crash-reports-hint-part3": "Houd er rekening mee dat de foutrapporten enkel technische informatie bevatten en niet veel databandbreedte vereisen."

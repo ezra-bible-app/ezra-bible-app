@@ -51,7 +51,7 @@
     "module-type-commentary_instrumental": "Comentários bíblicos",
     "module-type-commentary_singular": "Comentário bíblico",
     "header": "Configurar {{module_type, instrumental, title-case}}",
-    "intro-text": "A Bíblia Esdras instala <b>{{module_type, accusative}}</b> utilizando sua conexão de internet. {{module_type, capitalize}} são distribuídas pela <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> e serão baixada(o)s dos repositórios do <a class='external' href='http://www.crosswire.org/sword'>projeto The SWORD</a>.",
+    "intro-text": "A Bíblia Esdras instala <b>{{module_type, accusative}}</b> utilizando sua conexão de internet. {{module_type, capitalize}} são distribuídas pela <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. e serão baixada(o)s dos repositórios do <a class='external' href='http://www.crosswire.org/sword'>projeto The SWORD</a> for further explanations..",
     "internet-usage-note": "<b>NOTA IMPORTANTE</b><br/>Se você estiver em um país onde cristãos são perseguidos, <br/>esteja ciente de que seu provedor de Internet será capaz de detectar<br/> que <b>você está acessando recursos cristãos</b>!",
     "add-modules": "Adicionar {{module_type, accusative}}",
     "remove-modules": "Remover {{module_type, accusative}}",
@@ -86,7 +86,7 @@
       "what-is-repository": "Um repositório é um local de armazenamento na Internet que contém um conjunto de {{module_type}}.",
       "loading-repositories": "Carregando repositórios ...",
       "repo-recommended": "Este repositório é um bom lugar para começar",
-      "more-repo-information-needed": "Se precisar de mais informação sobre esses repositórios, dê uma olhada no <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "more-repo-information-needed": "Se precisar de mais informação sobre esses repositórios, dê uma olhada no <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations.."
     },
     "step-modules": {
       "select-module": "Por favor, escolha {{module_type}} para instalar.",
@@ -234,6 +234,7 @@
   },
   "custom-repositories": {
     "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
     "add-repository": "Add custom repository",
     "no-custom-repos": "No custom repositories configured yet.",
     "protocol": "Protocol",
@@ -252,8 +253,8 @@
     "confirm-privacy-options": "Confirme as opções de privacidade de dados",
     "data-privacy-options": "Opções de privacidade de dados",
     "please-confirm-options": "Por favor, confirme as seguintes opções de privacidade de dados. Essas opções requerem acesso à Internet. Você também pode fazer alterações no menu Opções posteriormente.",
-    "check-new-releases-hint": "Ezra Bible App pode verificar novos lançamentos a cada início. \nIsso requer uma breve interação com o <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, onde novos lançamentos são publicados.",
-    "send-crash-reports-hint-part1": "Ezra Bible App pode enviar automaticamente relatórios de erros para a plataforma de rastreamento de erros <a class='external' href='https://sentry.io'>Sentry.io</a> sempre que um erro for detectado.",
+    "check-new-releases-hint": "Ezra Bible App pode verificar novos lançamentos a cada início. \nIsso requer uma breve interação com o <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., onde novos lançamentos são publicados.",
+    "send-crash-reports-hint-part1": "Ezra Bible App pode enviar automaticamente relatórios de erros para a plataforma de rastreamento de erros <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. sempre que um erro for detectado.",
     "send-crash-reports-hint-part2": "Isso ajuda a equipe de desenvolvimento a tomar conhecimento dos problemas com muito mais rapidez e, portanto, contribui para o aprimoramento do Ezra Bible App.",
     "send-crash-reports-hint-part3": "Observe que os relatórios de erros contêm apenas informações técnicas e não requerem muita largura de banda de dados."
   },

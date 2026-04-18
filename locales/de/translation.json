@@ -51,7 +51,7 @@
     "module-type-commentary_singular": "Bibelkommentar",
     "module-type-commentary_singular-dative": "einem Bibelkommentar",
     "header": "Konfiguriere {{module_type, title-case}}",
-    "intro-text": "Ezra Bible App installiert <b>{{module_type, accusative}}</b> und benutzt dabei Ihre Internetverbindung. {{module_type, capitalize}} werden von der <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> vertrieben und werden von <a class='external' href='http://www.crosswire.org/sword'>SWORD</a> Modularchiven heruntergeladen.",
+    "intro-text": "Ezra Bible App installiert <b>{{module_type, accusative}}</b> und benutzt dabei Ihre Internetverbindung. {{module_type, capitalize}} werden von der <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. vertrieben und werden von <a class='external' href='http://www.crosswire.org/sword'>SWORD</a> for further explanations. Modularchiven heruntergeladen.",
     "internet-usage-note": "<b>WICHTIGER HINWEIS</b><br/>Wenn Sie sich in einem Land befinden wo Christen verfolgt werden<br/>seien Sie sich bewusst, dass Ihr Internet Provider <br/><b>den Zugriff auf christliche Materialien erkennen kann</b>!",
     "add-modules": "{{module_type, accusative}} hinzufügen",
     "remove-modules": "{{module_type, accusative}} entfernen",
@@ -86,7 +86,7 @@
       "what-is-repository": "Ein Modularchiv ist ein Speicherplatz im Internet, der einen Satz von {{module_type, dative}} enthält.",
       "loading-repositories": "Lade Modularchive ...",
       "repo-recommended": "Dieses Modularchiv ist für den Anfang gut geeignet",
-      "more-repo-information-needed": "Sie benötigen weitere Informationen zu diesen Modularchiven?<br/>Werfen Sie einen Blick auf das <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (Englisch)."
+      "more-repo-information-needed": "Sie benötigen weitere Informationen zu diesen Modularchiven?<br/>Werfen Sie einen Blick auf das <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations. (Englisch)."
     },
     "step-modules": {
       "select-module": "Bitte wählen Sie {{module_type}} zur Installation.",
@@ -230,6 +230,7 @@
   },
   "custom-repositories": {
     "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
     "add-repository": "Add custom repository",
     "no-custom-repos": "No custom repositories configured yet.",
     "protocol": "Protocol",
@@ -248,8 +249,8 @@
     "confirm-privacy-options": "Datenschutzoptionen bestätigen",
     "data-privacy-options": "Datenschutzoptionen",
     "please-confirm-options": "Bitte bestätigen Sie die folgenden Datenschutzoptionen. Diese Optionen benötigen Internetzugriff. Sie können im Optionsmenü später Änderungen vornehmen.",
-    "check-new-releases-hint": "Ezra Bible App kann bei jedem Start die Verfügbarkeit neuer Releases abfragen. Das beinhaltet eine kurze Interaktion mit <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, wo neue Releases veröffentlicht werden.",
-    "send-crash-reports-hint-part1": "Ezra Bible App kann automatisch Fehlerberichte an die Fehlerberichtsplattform <a class='external' href='https://sentry.io'>Sentry.io</a> senden wenn ein Fehler detektiert wird.",
+    "check-new-releases-hint": "Ezra Bible App kann bei jedem Start die Verfügbarkeit neuer Releases abfragen. Das beinhaltet eine kurze Interaktion mit <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., wo neue Releases veröffentlicht werden.",
+    "send-crash-reports-hint-part1": "Ezra Bible App kann automatisch Fehlerberichte an die Fehlerberichtsplattform <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. senden wenn ein Fehler detektiert wird.",
     "send-crash-reports-hint-part2": "Das hilft dem Entwicklungsteam, schneller auf diese Fehler aufmerksam zu werden und trägt daher zur Verbesserung von Ezra Bible App bei.",
     "send-crash-reports-hint-part3": "Beachten Sie, dass die Fehlerberichte ausschließlich technische Informationen beinhalten und nicht viel Internetbandbreite zur Übertragung benötigen."
   },

@@ -30,6 +30,9 @@ const { html } = require('../helpers/ezra_helper.js');
 module.exports.showCustomRepoDialog = async function() {
   const dialogBoxTemplate = html`
   <div id="custom-repo-dialog" style="padding: 1em;">
+    <p style="margin: 0 0 0.75em 0; color: #555; line-height: 1.4;">
+      ${i18n.t('custom-repositories.description')}
+    </p>
     <div id="custom-repo-list-section">
       <div id="custom-repo-list" style="min-height: 2.5em;"></div>
     </div>
