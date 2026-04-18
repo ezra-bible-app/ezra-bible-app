@@ -31,7 +31,7 @@ module.exports.showCustomRepoDialog = async function() {
   const dialogBoxTemplate = html`
   <div id="custom-repo-dialog" style="padding: 1em;">
     <div id="custom-repo-list-section">
-      <div id="custom-repo-list"></div>
+      <div id="custom-repo-list" style="min-height: 2.5em;"></div>
     </div>
     <hr style="margin: 1em 0;"/>
     <div id="custom-repo-add-section">
@@ -103,7 +103,7 @@ module.exports.showCustomRepoDialog = async function() {
     const listContainer = document.getElementById('custom-repo-list');
 
     if (!repos || repos.length === 0) {
-      listContainer.innerHTML = `<p style="color: #666;">${i18n.t('custom-repositories.no-custom-repos')}</p>`;
+      listContainer.innerHTML = `<p style="margin: 0; padding: 0.3em 0; color: #666;">${i18n.t('custom-repositories.no-custom-repos')}</p>`;
       return;
     }
 
