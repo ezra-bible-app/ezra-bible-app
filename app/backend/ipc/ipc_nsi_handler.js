@@ -575,70 +575,50 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_addCustomRepository', async (protocol, name, host, repoPath) => {
-      console.log(`[CustomRepo] nsi_addCustomRepository called: protocol=${protocol} name=${name} host=${host} path=${repoPath}`);
-
       const customRepoNames = global.ipc.ipcSettingsHandler.getConfig().get('customRepositories', []);
-      console.log('[CustomRepo] existing customRepositories:', customRepoNames);
 
       if (customRepoNames.includes(name)) {
-        console.log('[CustomRepo] duplicate in settings, returning error');
         return { success: false, error: 'duplicate-name' };
       }
 
       const existingRepoNames = this._nsi.getRepoNames();
-      console.log('[CustomRepo] existing NSI repo names:', existingRepoNames);
       if (existingRepoNames.includes(name)) {
-        console.log('[CustomRepo] duplicate in NSI repo list, returning error');
         return { success: false, error: 'duplicate-name' };
       }
 
       const entry = this._buildRepoEntry(protocol, name, host, repoPath);
-      console.log('[CustomRepo] built entry:', entry);
-
-      const confPath = this._getInstallMgrConfPath();
-      console.log('[CustomRepo] InstallMgr.conf path:', confPath);
 
       // Remove any stale entry with the same name from previous failed attempts before writing.
       let content = this._removeEntryFromConf(this._readInstallMgrConf(), name);
-      console.log('[CustomRepo] conf content after stale-entry cleanup (last 200 chars):', content.slice(-200));
       if (content && !content.endsWith('\n')) {
         content += '\n';
       }
       content += entry + '\n';
       this._writeInstallMgrConf(content);
-      console.log('[CustomRepo] wrote updated InstallMgr.conf');
 
       // Reinitialize NSI so the new InstallMgr reads the updated InstallMgr.conf and
       // registers the new source in its in-memory map before updateSingleRepositoryConfig is called.
       // Without this, getRemoteSource() returns null and SWORD crashes with SIGSEGV.
-      console.log('[CustomRepo] reinitializing NSI to pick up updated InstallMgr.conf');
       this.initNSI(this._customSwordDir);
       this._dropboxModuleHelper._nsi = this._nsi;
-      console.log('[CustomRepo] NSI reinitialized, repo names now:', this._nsi.getRepoNames());
 
-      console.log('[CustomRepo] calling nsi.updateSingleRepositoryConfig for:', name);
       let isSuccessful = false;
       try {
         isSuccessful = await this._nsi.updateSingleRepositoryConfig(name);
-        console.log('[CustomRepo] updateSingleRepositoryConfig returned:', isSuccessful);
       } catch (e) {
-        console.error('[CustomRepo] updateSingleRepositoryConfig threw exception:', e);
         isSuccessful = false;
       }
 
       if (!isSuccessful) {
-        console.log('[CustomRepo] configuration invalid, rolling back');
         let rollbackContent = this._removeEntryFromConf(this._readInstallMgrConf(), name);
         this._writeInstallMgrConf(rollbackContent);
         this.initNSI(this._customSwordDir);
         this._dropboxModuleHelper._nsi = this._nsi;
-        console.log('[CustomRepo] rollback complete');
         return { success: false, error: 'invalid-config' };
       }
 
       customRepoNames.push(name);
       global.ipc.ipcSettingsHandler.getConfig().set('customRepositories', customRepoNames);
-      console.log('[CustomRepo] success, saved customRepositories:', customRepoNames);
       return { success: true };
     });
 

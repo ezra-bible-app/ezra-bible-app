@@ -153,14 +153,14 @@ module.exports.showCustomRepoDialog = async function() {
     }
 
     const addButton = document.getElementById('custom-repo-add-button');
-    addButton.disabled = true;
+    addButton.style.display = 'none';
     const loadingEl = document.getElementById('custom-repo-loading');
     loadingEl.style.display = 'block';
     const result = await ipcNsi.addCustomRepository(protocol, name, host, repoPath);
     loadingEl.style.display = 'none';
-    addButton.disabled = false;
 
     if (!result || !result.success) {
+      addButton.style.display = '';
       const errorKey = (result && result.error === 'duplicate-name')
         ? 'custom-repositories.error-duplicate-name'
         : 'custom-repositories.error-invalid-config';
@@ -187,6 +187,7 @@ module.exports.showCustomRepoDialog = async function() {
     document.getElementById('custom-repo-host').value = '';
     document.getElementById('custom-repo-path').value = '';
     $('input[name="custom-repo-protocol"][value="FTP"]').prop('checked', true);
+    addButton.style.display = '';
 
     await refreshRepoList();
   }
