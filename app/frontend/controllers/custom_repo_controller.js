@@ -37,7 +37,6 @@ module.exports.showCustomRepoDialog = async function() {
       <h3 style="margin: 0 0 0.5em 0;">${i18n.t('custom-repositories.list-headline')}</h3>
       <div id="custom-repo-list" style="min-height: 2.5em;"></div>
     </div>
-    <hr style="margin: 1em 0;"/>
     <div id="custom-repo-add-section">
       <h3>${i18n.t('custom-repositories.add-repository')}</h3>
       <table style="border-collapse: separate; border-spacing: 0 0.5em;">
