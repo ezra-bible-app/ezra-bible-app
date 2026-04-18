@@ -51,7 +51,7 @@
     "module-type-commentary_instrumental": "Comentarii Biblice",
     "module-type-commentary_singular": "Comentariu Biblic",
     "header": "Configurează {{module_type, instrumental, title-case}}",
-    "intro-text": "Ezra Bible App instalează <b>{{module_type, accusative}}</b> folosind conexiunea ta de internet. {{module_type, capitalize}} sunt distribuite de către <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> și vor fi descărcate din depozitele <a class='external' href='http://www.crosswire.org/sword'>proiectului SWORD</a>.",
+    "intro-text": "Ezra Bible App instalează <b>{{module_type, accusative}}</b> folosind conexiunea ta de internet. {{module_type, capitalize}} sunt distribuite de către <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. și vor fi descărcate din depozitele <a class='external' href='http://www.crosswire.org/sword'>proiectului SWORD</a> for further explanations..",
     "internet-usage-note": "<b>NOTĂ IMPORTANTĂ</b><br/>Dacă te afli într-o țară unde creștinii sunt persecutați,<br/>să ai în vedere că furnizorul tău de internet va putea să detecteze<br/>că <b>accesezi resurse creștine</b>!",
     "add-modules": "Adaugă {{module_type, accusative}}",
     "remove-modules": "Dezinstalează {{module_type, accusative}}",
@@ -86,7 +86,7 @@
       "what-is-repository": "Un depozit este o locație de stocare pe internet ce conține un set de {{module_type}}.",
       "loading-repositories": "Se încarcă depozite ...",
       "repo-recommended": "Acest depozit este un loc bun cu care să începi",
-      "more-repo-information-needed": "Ai nevoie de mai multe informații despre aceste depozite? <br/> Vizitează <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'> CrossWire Wiki </a>."
+      "more-repo-information-needed": "Ai nevoie de mai multe informații despre aceste depozite? <br/> Vizitează <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'> CrossWire Wiki </a> for further explanations.."
     },
     "step-modules": {
       "select-module": "Te rog alege {{module_type}} care să fie instalat.",
@@ -95,7 +95,7 @@
       "regular-dicts": "Dicționare obișnuite",
       "module-with": "{{module_type, capitalize}} cu {{feature_type, instrumental}}",
       "module-already-installed": "Acest {{module_type, singular}} este deja instalat",
-      "show-module-info":"Arată info",
+      "show-module-info": "Arată info",
       "show-detailed-module-info": "Click pe iconița de informații pentru a vedea mai multe detalii despre {{module_type, singular}}.",
       "duplicate-module-title": "Modul deja selectat",
       "duplicate-module-message": "Modulul {{moduleId}} este deja selectat din depozitul {{repository}}. Te rog deselectează-l mai întâi dacă vrei să îl instalezi dintr-un alt depozit.",
@@ -210,6 +210,7 @@
     "configure-translations": "Configurează traducerile",
     "configure-dicts": "Configurează dicționarele",
     "configure-commentaries": "Configurează comentariile",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Context",
     "general-options": "Opțiuni generale",
     "check-new-releases": "Verifică lansări noi",
@@ -231,12 +232,30 @@
     "tabs": "Tabs",
     "module-not-installed": "Modulul '{{module_name}}' nu este instalat."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
+    "list-headline": "List of custom repositories",
+    "add-repository": "Add custom repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add repository",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-duplicate-url-path": "A repository with this URL/path combination already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "adding-repository": "Adding repository ..."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Confirmă opțiunile legate de confidențialitatea datelor",
     "data-privacy-options": "Oțiuni legate de confidențialitatea",
     "please-confirm-options": "Te rog confirmă următoarele opțiuni legate de confidențialitatea datelor. Aceste opțini necesită acces la internet. De asemenea, poți face modificări mai târziu în meniul Opțiuni.",
-    "check-new-releases-hint": "Ezra Bible App poate verifica noi lansări la fiecare pornire. Asta implică o scurtă interacțiune cu <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, unde noi lansări sunt publicate.",
-    "send-crash-reports-hint-part1": "Ezra Bible App poate trimite automat rapoarte de eroare către platforma de urmărire a erorilor <a class='external' href='https://sentry.io'>Sentry.io</a> ori de câte ori este detectată o eroare.",
+    "check-new-releases-hint": "Ezra Bible App poate verifica noi lansări la fiecare pornire. Asta implică o scurtă interacțiune cu <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., unde noi lansări sunt publicate.",
+    "send-crash-reports-hint-part1": "Ezra Bible App poate trimite automat rapoarte de eroare către platforma de urmărire a erorilor <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. ori de câte ori este detectată o eroare.",
     "send-crash-reports-hint-part2": "Aceasta ajută echipa de dezvoltare să fie conștientă de probleme mult mai rapid și, prin urmare, contribuie la îmbunătățirea Ezra Bible App.",
     "send-crash-reports-hint-part3": "Reține că rapoartele de eroare conțin doar informații tehnice și nu necesită o lățime mare de bandă pentru date pentru internet."
   },
@@ -249,8 +268,8 @@
   "shortcuts": {
     "tab-title": "Scurtături tastatură",
     "description": "Poți folosi următoarele combinații de taste (scurtături):",
-
-    "summary" : {
+    "list-headline": "List of custom repositories",
+    "summary": {
       "font-section-title": "Font",
       "current-tab-search-section-title": "Căutare în fereastra curentă",
       "miscellaneous-section-title": "Diverse",
@@ -269,9 +288,8 @@
       "decrease-current-font-size": "Micșorează dimensiunea curentă a fontului",
       "reset-font-size-to-default": "Resetează dimensiunea fontului la valoarea implicită"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -413,13 +431,13 @@
     "copy-selected-text-to-clipboard-success": "Textul selectat a fost copiat în clipboard!",
     "edit-note": "Editează nota",
     "delete-note": "Șterge nota",
-    "transchange" : {
-      "added" : "Aceste cuvinte au fost adăugate în traducere",
-      "amplified" : "Aceste cuvinte sunt amplificări ale informațiilor din textul sursă",
-      "changed" : "Aceste cuvinte au fost schimbate în traducere",
-      "deleted" : "Unele cuvinte din textul sursă nu sunt prezente în traducere",
-      "implied" : "Aceste cuvinte au fost adăugate sau schimbate pentru a traduce informațiile implicite din textul sursă",
-      "moved" : "Aceste cuvinte se aflau în altă locație în textul sursă",
+    "transchange": {
+      "added": "Aceste cuvinte au fost adăugate în traducere",
+      "amplified": "Aceste cuvinte sunt amplificări ale informațiilor din textul sursă",
+      "changed": "Aceste cuvinte au fost schimbate în traducere",
+      "deleted": "Unele cuvinte din textul sursă nu sunt prezente în traducere",
+      "implied": "Aceste cuvinte au fost adăugate sau schimbate pentru a traduce informațiile implicite din textul sursă",
+      "moved": "Aceste cuvinte se aflau în altă locație în textul sursă",
       "tense-change": "Timpul gramatical al acestor cuvinte a fost schimbat pentru a ușura traducerea"
     },
     "empty-tab-title": "Filă goală"

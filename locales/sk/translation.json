@@ -51,7 +51,7 @@
     "module-type-commentary_instrumental": "Biblickým komentárom",
     "module-type-commentary_singular": "Biblický komentár",
     "header": "Nastaviť {{module_type, instrumental, title-case}}",
-    "intro-text": "Ezra Bible App inštaluje <b>{{module_type, accusative}}</b> pomocou internetového pripojenie. {{module_type, capitalize}} je distribuovaný <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> a bude stiahnutý z <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> úložiska.",
+    "intro-text": "Ezra Bible App inštaluje <b>{{module_type, accusative}}</b> pomocou internetového pripojenie. {{module_type, capitalize}} je distribuovaný <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. a bude stiahnutý z <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> for further explanations. úložiska.",
     "internet-usage-note": "<b>DÔLEŽITÁ POZNÁMKA</b><br/>Ak sa nachádzate v krajine, kde sú kresťania prenasledovaní,<br/>uvedomte si, že váš poskytovateľ internetu bude schopný zistiť,<br/>že <b>pristupujete ku kresťanským zdrojom</b>!",
     "add-modules": "Pridať {{module_type, accusative}}",
     "remove-modules": "Odstrániť {{module_type, accusative}}",
@@ -61,7 +61,7 @@
     "repository_plural": "Archívy",
     "installation": "Inštalácia",
     "removal": "Odstránenie",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Archívy boli naposledy aktualizované {{date}}.",
       "update-now": "Aktualizovať teraz",
       "updating-repository-data": "Aktualizujem archívy! Môže to zabrať niekoľko sekúnd ...",
@@ -69,7 +69,7 @@
       "update-repository-data-failed": "Aktualizácia archívov sa nepodarila! Ste online?",
       "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Vyberte aspoň jeden z nasledujúcich jazykov.",
       "total-modules-language": "Vedľa každého jazyka je počet {{module_type}} dostupných v archívoch SWORD.",
       "loading-languages": "Nahrávam jazyky ...",
@@ -86,16 +86,16 @@
       "what-is-repository": "Úložisko je umiestnenie internetového úložiska, ktoré obsahuje sadu {{module_type}}.",
       "loading-repositories": "Nahrávam archívy ...",
       "repo-recommended": "Toto úložisko je dobrým miestom na začiatok",
-      "more-repo-information-needed": "Potrebujete viac informácií ohľadom archívov?<br/>Pozrite sa na <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "more-repo-information-needed": "Potrebujete viac informácií ohľadom archívov?<br/>Pozrite sa na <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations.."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Vyberte {{module_type}}, ktorý chcete nainštalovať.",
       "module-display-preferences": "Predvoľby filtra:",
       "all-modules": "Všetky {{module_type, accusative}}",
       "regular-dicts": "Bežné slovníky",
       "module-with": "{{module_type, capitalize}} s {{feature_type, instrumental}}",
       "module-already-installed": "Tento {{module_type, singular}} je už nainštalovaný",
-      "show-module-info":"Zobraziť informácie",
+      "show-module-info": "Zobraziť informácie",
       "show-detailed-module-info": "Kliknutím na ikonu informácií zobrazíte ďalšie podrobnosti o {{module_type, singular}}.",
       "duplicate-module-title": "Modul je už vybraný",
       "duplicate-module-message": "Modul {{moduleId}} je už vybraný z repozitára {{repository}}. Ak chcete inštaláciu vykonať z iného repozitára, najskôr zrušte jeho výber.",
@@ -108,7 +108,7 @@
       "downloading": "Sťahujem",
       "part-of-total": "z"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Vyberte {{module_type, accusative}}, ktorý chcete odstrániť.",
       "disable-remove-note": "Tento {{module_type, singular}} nie je nainštalovaný v adresári používateľa alebo je zásadný pre funkčnosť aplikácie Ezra Bible App.",
       "removing-modules": "Odstraňujem {{module_type, accusative}}",
@@ -210,6 +210,7 @@
     "configure-translations": "Nastavenie prekladov",
     "configure-dicts": "Nastavenie slovníkov",
     "configure-commentaries": "Konfigurácia komentárov",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Kontext",
     "general-options": "Všeobecné možnosti",
     "check-new-releases": "Kontrola aktualizácií",
@@ -231,12 +232,30 @@
     "tabs": "Karty",
     "module-not-installed": "Modul '{{module_name}}' nie je nainštalovaný."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
+    "list-headline": "List of custom repositories",
+    "add-repository": "Add custom repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add repository",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-duplicate-url-path": "A repository with this URL/path combination already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "adding-repository": "Adding repository ..."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Potvrďte ochranu osobných údajov",
     "data-privacy-options": "Možnosti ochrany osobných údajov",
     "please-confirm-options": "Potvrďte nasledujúce možnosti ochrany osobných údajov. Tieto možnosti vyžadujú prístup na internet. Zmeny môžete vykonať aj neskôr v ponuke Možnosti.",
-    "check-new-releases-hint": "Aplikácia Ezra Bible môže skontrolovať nové vydania pri každom spustení. Vyžaduje si to interakciu s <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub-om</a>, kde sú publikované nové vydania.",
-    "send-crash-reports-hint-part1": "Aplikácia Ezra Bible môže automaticky odosielať chybové hlásenia na platformu na sledovanie chýb <a class='external' href='https://sentry.io'>Sentry.io</a> vždy, keď sa zistí chyba.",
+    "check-new-releases-hint": "Aplikácia Ezra Bible môže skontrolovať nové vydania pri každom spustení. Vyžaduje si to interakciu s <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub-om</a> for further explanations., kde sú publikované nové vydania.",
+    "send-crash-reports-hint-part1": "Aplikácia Ezra Bible môže automaticky odosielať chybové hlásenia na platformu na sledovanie chýb <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. vždy, keď sa zistí chyba.",
     "send-crash-reports-hint-part2": "To pomáha vývojovému tímu oveľa rýchlejšie si uvedomiť problémy, a preto prispieva k vylepšeniu aplikácie Ezra Bible App.",
     "send-crash-reports-hint-part3": "Upozorňujeme, že chybové hlásenia obsahujú iba technické informácie a nevyžadujú veľa dát."
   },
@@ -249,8 +268,8 @@
   "shortcuts": {
     "tab-title": "Klávesové skratky",
     "description": "Môžete použiť nasledujúce klávesové skratky:",
-
-    "summary" : {
+    "list-headline": "List of custom repositories",
+    "summary": {
       "font-section-title": "Písmo",
       "current-tab-search-section-title": "Vyhľadávanie na aktuálnej karte",
       "miscellaneous-section-title": "Rôzne",
@@ -269,9 +288,8 @@
       "decrease-current-font-size": "Zmenšiť aktuálnu veľkosť písma",
       "reset-font-size-to-default": "Obnoviť predvolenú veľkosť písma"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -413,13 +431,13 @@
     "copy-selected-text-to-clipboard-success": "Vybratý text bol skopírovaný do schránky!",
     "edit-note": "Upraviť poznámku",
     "delete-note": "Vymazať poznámku",
-    "transchange" : {
-      "added" : "Tieto slová boli pridané v preklade",
-      "amplified" : "Tieto slová sú amplifikáciou informácií v zdrojovom texte",
-      "changed" : "Tieto slová boli v preklade zmenené",
-      "deleted" : "Niektoré slová v zdrojovom texte sa v preklade nenachádzajú",
-      "implied" : "Tieto slová boli pridané alebo zmenené na preklad informácií vyplývajúcich zo zdrojového textu",
-      "moved" : "Tieto slová boli v zdrojovom texte na inom mieste",
+    "transchange": {
+      "added": "Tieto slová boli pridané v preklade",
+      "amplified": "Tieto slová sú amplifikáciou informácií v zdrojovom texte",
+      "changed": "Tieto slová boli v preklade zmenené",
+      "deleted": "Niektoré slová v zdrojovom texte sa v preklade nenachádzajú",
+      "implied": "Tieto slová boli pridané alebo zmenené na preklad informácií vyplývajúcich zo zdrojového textu",
+      "moved": "Tieto slová boli v zdrojovom texte na inom mieste",
       "tense-change": "Gramatický čas týchto slov bol zmenený, aby sa uľahčil preklad"
     },
     "empty-tab-title": "Prázdna karta"
@@ -492,7 +510,7 @@
       "flags": "Zástavy"
     }
   },
-  "cordova" : {
+  "cordova": {
     "storage-justification": "Ezra Bible App potrebuje prístup do úložnej oblasti zariadenia, aby mohol ukladať moduly SWORD a ukladať svoju databázu.<br><br>Po stlačení tlačidla nižšie budete požiadaní, aby ste aplikácii Ezra Bible App povolili prístup k súborom vo vašom zariadení.",
     "enable-storage-access": "Povoliť prístup k internému úložisku",
     "storage-permission-denied": "Rozhodli ste sa odmietnuť prístup k úložisku. <br> Môžete to zmeniť stlačením tlačidla nižšie!",

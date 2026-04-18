@@ -357,6 +357,21 @@ class IpcNsi {
     var returnValue = this._ipcRenderer.callWithTimeout('nsi_validateCustomModuleRepo', timeoutMs, customModuleRepo);
     return returnValue;
   }
+
+  async getCustomRepositories() {
+    var returnValue = this._ipcRenderer.call('nsi_getCustomRepositories');
+    return returnValue;
+  }
+
+  async addCustomRepository(protocol, name, host, repoPath) {
+    var returnValue = this._ipcRenderer.call('nsi_addCustomRepository', protocol, name, host, repoPath);
+    return returnValue;
+  }
+
+  async removeCustomRepository(name) {
+    var returnValue = this._ipcRenderer.call('nsi_removeCustomRepository', name);
+    return returnValue;
+  }
 }
 
 module.exports = IpcNsi;

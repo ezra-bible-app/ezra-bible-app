@@ -51,7 +51,7 @@
     "module-type-commentary_instrumental": "Comentarios bíblicos",
     "module-type-commentary_singular": "Comentario bíblico",
     "header": "Configurar {{module_type, instrumental, title-case}}",
-    "intro-text": "Ezra Bible App instalará <b>{{module_type, accusative}}</b> usando su conexión a Internet. {{module_type, capitalize}} son distribuidas por <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> y serán descargadas desde los repositorios de <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a>.",
+    "intro-text": "Ezra Bible App instalará <b>{{module_type, accusative}}</b> usando su conexión a Internet. {{module_type, capitalize}} son distribuidas por <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. y serán descargadas desde los repositorios de <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> for further explanations..",
     "internet-usage-note": "<b>NOTA IMPORTANTE</b><br/>Si usted se encuentra en un país dónde los cristianos son perseguidos,<br/>debe estar consciente de que su proveedor de Internet sabrá <br/>que<b> usted accede a recursos cristianos.</b>!",
     "add-modules": "Añadir {{module_type, accusative}}",
     "remove-modules": "Quitar {{module_type, accusative}}",
@@ -86,7 +86,7 @@
       "what-is-repository": "Un repositorio es un lugar en internet que contiene un grupo de {{module_type}}.",
       "loading-repositories": "Cargando repositorios ...",
       "repo-recommended": "Este repositorio es un buen lugar para comenzar.",
-      "more-repo-information-needed": "¿Usted necesita más información sobre estos repositorios?<br/>Consulte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (disponible en inglés)."
+      "more-repo-information-needed": "¿Usted necesita más información sobre estos repositorios?<br/>Consulte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations. (disponible en inglés)."
     },
     "step-modules": {
       "select-module": "Por favor seleccione {{module_type}} que desea instalar.",
@@ -210,6 +210,7 @@
     "configure-translations": "Configurar traducciones",
     "configure-dicts": "Configurar diccionarios",
     "configure-commentaries": "Configurar comentarios",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Contexto",
     "general-options": "Opciones Generales",
     "check-new-releases": "Buscar nuevas versiones",
@@ -231,12 +232,30 @@
     "tabs": "Pestañas",
     "module-not-installed": "El módulo '{{module_name}}' no está instalado."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
+    "list-headline": "List of custom repositories",
+    "add-repository": "Add custom repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add repository",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-duplicate-url-path": "A repository with this URL/path combination already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "adding-repository": "Adding repository ..."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Confirme preferencias sobre la privacidad de datos",
     "data-privacy-options": "Preferencias de privacidad",
     "please-confirm-options": "Por favor confirme las preferencias siguientes sobre la privacidad de sus datos. Estas preferencias requieren acceso a Internet. Además podrá cambiar sus preferencias después en el menú Opciones.",
-    "check-new-releases-hint": "Ezra Bible App puede revisar en busca de actualizaciones al iniciar. Esto requiere una corta interacción con <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, donde las nuevas versiones son publicadas.",
-    "send-crash-reports-hint-part1": "Ezra Bible App puede enviar reportes automáticamente a la plataforma <a class='external' href='https://sentry.io'>Sentry.io</a> cuando un error es detectado.",
+    "check-new-releases-hint": "Ezra Bible App puede revisar en busca de actualizaciones al iniciar. Esto requiere una corta interacción con <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., donde las nuevas versiones son publicadas.",
+    "send-crash-reports-hint-part1": "Ezra Bible App puede enviar reportes automáticamente a la plataforma <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. cuando un error es detectado.",
     "send-crash-reports-hint-part2": "Esto le permite al equipo de desarrollo estar al tanto de los errores más rápidamente y por tanto a mejorar Ezra Bible App.",
     "send-crash-reports-hint-part3": "Nótese que el reporte solo contiene información técnica y no consumirá mucho ancho de banda."
   },
@@ -249,6 +268,7 @@
   "shortcuts": {
     "tab-title": "Atajos de Teclado",
     "description": "Puede usar los siguientes atajos:",
+    "list-headline": "List of custom repositories",
     "summary": {
       "font-section-title": "Tipos de letra",
       "current-tab-search-section-title": "Buscar en la Pestaña Actual",

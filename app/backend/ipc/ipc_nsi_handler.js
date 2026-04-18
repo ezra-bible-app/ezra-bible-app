@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcMain = require('./ipc_main.js');
+const CustomRepositoryHelper = require('./custom_repository_helper.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
 const DropboxModuleHelper = require('../db_sync/dropbox_module_helper.js');
@@ -47,6 +48,13 @@ class IpcNsiHandler {
 
     this.initNSI(this._customSwordDir);
     this._dropboxModuleHelper = new DropboxModuleHelper(this._platformHelper, this._nsi);
+    this._customRepositoryHelper = new CustomRepositoryHelper(
+      () => this._nsi,
+      () => {
+        this.initNSI(this._customSwordDir);
+        this._dropboxModuleHelper._nsi = this._nsi;
+      }
+    );
     this.initIpcInterface();
   }
 
@@ -544,6 +552,18 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_validateCustomModuleRepo', async (customModuleRepo) => {
       return await this._dropboxModuleHelper.validateCustomModuleRepo(customModuleRepo);
+    });
+
+    this._ipcMain.add('nsi_getCustomRepositories', () => {
+      return this._customRepositoryHelper.getCustomRepositories();
+    });
+
+    this._ipcMain.add('nsi_addCustomRepository', async (protocol, name, host, repoPath) => {
+      return await this._customRepositoryHelper.addCustomRepository(protocol, name, host, repoPath);
+    });
+
+    this._ipcMain.add('nsi_removeCustomRepository', (name) => {
+      return this._customRepositoryHelper.removeCustomRepository(name);
     });
   }
 

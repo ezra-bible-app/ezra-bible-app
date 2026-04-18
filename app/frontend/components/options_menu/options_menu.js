@@ -25,6 +25,7 @@ const verseListController = require('../../controllers/verse_list_controller.js'
 const dbSyncController = require('../../controllers/db_sync_controller.js');
 const dropboxZipInstallController = require('../../controllers/dropbox_zip_install_controller.js');
 const moduleUpdateController = require('../../controllers/module_update_controller.js');
+const customRepoController = require('../../controllers/custom_repo_controller.js');
 const typeFaceSettings = require('../type_face_settings.js');
 
 /**
@@ -64,6 +65,11 @@ class OptionsMenu {
 
     $('#show-commentary-settings-button').bind('click', function() {
       app_controller.openModuleSettingsAssistant('COMMENTARY'); 
+    });
+
+    $('#show-custom-repos-button').bind('click', async () => {
+      this.hideDisplayMenu();
+      await customRepoController.showCustomRepoDialog();
     });
 
     $('#show-typeface-settings-button').bind('click', () => {

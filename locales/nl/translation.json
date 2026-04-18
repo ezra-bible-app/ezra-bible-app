@@ -53,7 +53,7 @@
     "module-type-commentary_instrumental": "bijbelcommentaren",
     "module-type-commentary_singular": "bijbelcommentaar",
     "header": "Configureer {{module_type, instrumental, title-case}}",
-    "intro-text": "Ezra Bible App installeert <b>{{module_type, accusative}}</b> via uw internetverbinding. {{module_type, capitalize}} worden verdeeld door de <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> en zullen gedownload worden van de depots van <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a>.",
+    "intro-text": "Ezra Bible App installeert <b>{{module_type, accusative}}</b> via uw internetverbinding. {{module_type, capitalize}} worden verdeeld door de <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. en zullen gedownload worden van de depots van <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a> for further explanations..",
     "internet-usage-note": "<b>BELANGRIJKE OPMERKING</b><br/>Als u zich in een land bevindt waar Christenen vervolgd worden,<br/> wees u er van bewust dat uw internetprovider zal kunnen detecteren<br/>dat <b>u toegang hebt tot Christelijke bronnen</b>!",
     "add-modules": "Voeg {{module_type, accusative}} toe",
     "remove-modules": "Verwijder {{module_type, accusative}}",
@@ -88,7 +88,7 @@
       "what-is-repository": "Een depot is een internetopslagplaats die een set van {{module_type}} bevat.",
       "loading-repositories": "Depots laden ...",
       "repo-recommended": "Dit depot is een goede plek om te beginnen",
-      "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations.."
     },
     "step-modules": {
       "select-module": "Gelieve {{module_type}} kiezen om te installeren.",
@@ -97,7 +97,7 @@
       "regular-dicts": "Regelmatige woordenboeken",
       "module-with": "{{module_type, capitalize}} met {{feature_type, instrumental}}",
       "module-already-installed": "{{module_type, singular-demonstrative-pronoun}} is reeds geinstalleerd",
-      "show-module-info":"Toon info",
+      "show-module-info": "Toon info",
       "show-detailed-module-info": "Klik op het informatie-icoontje om meer details te bekijken over {{module_type, singular}}.",
       "duplicate-module-title": "Module reeds geselecteerd",
       "duplicate-module-message": "De module {{moduleId}} is al geselecteerd in depot {{repository}}. Deselecteer deze eerst als u vanuit een ander depot wilt installeren.",
@@ -212,6 +212,7 @@
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
     "configure-commentaries": "Commentaren configureren",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Context",
     "general-options": "Algemene opties",
     "check-new-releases": "Kijk of er nieuwe uitgaven zijn",
@@ -233,11 +234,29 @@
     "tabs": "Tabbladen",
     "module-not-installed": "De module '{{module_name}}' is niet geïnstalleerd."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
+    "list-headline": "List of custom repositories",
+    "add-repository": "Add custom repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add repository",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-duplicate-url-path": "A repository with this URL/path combination already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "adding-repository": "Adding repository ..."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Bevestig gegevensprivacy-opties",
     "data-privacy-options": "Gegevensprivacy-opties",
     "please-confirm-options": "Bevestig de volgende opties voor gegevensprivacy. Voor deze opties is internettoegang vereist. U kunt later ook wijzigingen aanbrengen in het menu Opties.",
-    "check-new-releases-hint": "Ezra Bible App kan bij elke start controleren op nieuwe uitgaven. Dit vereist een korte interactie met <a class='external' href='https://github.com/ezra-bible -app/ezra-bible-app'>GitHub</a>, waar nieuwe uitgaven gepubliceerd worden.",
+    "check-new-releases-hint": "Ezra Bible App kan bij elke start controleren op nieuwe uitgaven. Dit vereist een korte interactie met <a class='external' href='https://github.com/ezra-bible -app/ezra-bible-app'>GitHub</a> for further explanations., waar nieuwe uitgaven gepubliceerd worden.",
     "send-crash-reports-hint-part1": "Ezra Bible App kan automatisch foutrapporten verzenden naar het foutopsporingsplatform <a class='external' href='https://sentry.io'>Sentry.io</ a> wanneer er een fout wordt gedetecteerd.",
     "send-crash-reports-hint-part2": "Dit helpt het ontwikkelingsteam om zich veel sneller bewust te worden van problemen en draagt daarom bij aan de verbetering van Ezra Bible App.",
     "send-crash-reports-hint-part3": "Houd er rekening mee dat de foutrapporten enkel technische informatie bevatten en niet veel databandbreedte vereisen."
@@ -251,8 +270,8 @@
   "shortcuts": {
     "tab-title": "Sneltoetsen",
     "description": "U kunt de volgende sneltoetsen gebruiken:",
-
-    "summary" : {
+    "list-headline": "List of custom repositories",
+    "summary": {
       "font-section-title": "Lettertype",
       "current-tab-search-section-title": "Zoeken in huidig tabblad",
       "miscellaneous-section-title": "Diversen",
@@ -271,9 +290,8 @@
       "decrease-current-font-size": "Huidige lettergrootte verkleinen",
       "reset-font-size-to-default": "Zet lettergrootte opnieuw naar standaard"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -414,13 +432,13 @@
     "copy-selected-text-to-clipboard-success": "Geselecteerde tekst gekopieerd naar klembord!",
     "edit-note": "Notitie aanpassen",
     "delete-note": "Notitie verwijderen",
-    "transchange" : {
-      "added" : "Deze woorden zijn toegevoegd in de vertaling",
-      "amplified" : "Deze woorden zijn versterkingen van informatie in de brontekst",
-      "changed" : "Deze woorden zijn gewijzigd in de vertaling",
-      "deleted" : "Sommige woorden in de brontekst zijn niet aanwezig in de vertaling",
-      "implied" : "Deze woorden zijn toegevoegd of gewijzigd om informatie te vertalen die door de brontekst wordt geïmpliceerd",
-      "moved" : "Deze woorden stonden op een andere locatie in de brontekst",
+    "transchange": {
+      "added": "Deze woorden zijn toegevoegd in de vertaling",
+      "amplified": "Deze woorden zijn versterkingen van informatie in de brontekst",
+      "changed": "Deze woorden zijn gewijzigd in de vertaling",
+      "deleted": "Sommige woorden in de brontekst zijn niet aanwezig in de vertaling",
+      "implied": "Deze woorden zijn toegevoegd of gewijzigd om informatie te vertalen die door de brontekst wordt geïmpliceerd",
+      "moved": "Deze woorden stonden op een andere locatie in de brontekst",
       "tense-change": "De grammaticale tijd van deze woorden is veranderd om de vertaling te vergemakkelijken"
     },
     "empty-tab-title": "Leeg tabblad"
@@ -493,7 +511,7 @@
       "flags": "Vlaggen"
     }
   },
-  "cordova" : {
+  "cordova": {
     "storage-justification": "Ezra Bible App heeft toegang nodig tot de apparaatopslag om SWORD-modules te bewaren en de databank op te slaan. <br> <br> Nadat u op de onderstaande knop heeft gedrukt, wordt u gevraagd om Ezra Bible App toegang te geven tot bestanden op uw apparaat.",
     "enable-storage-access": "Schakel toegang tot apparaatopslag in",
     "storage-permission-denied": "U heeft besloten de opslagtoegang te weigeren. <br> U kunt dit wijzigen door op de onderstaande knop te drukken!",

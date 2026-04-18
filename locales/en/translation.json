@@ -51,7 +51,7 @@
     "module-type-commentary_instrumental": "Bible commentaries",
     "module-type-commentary_singular": "Bible commentary",
     "header": "Configure {{module_type, instrumental, title-case}}",
-    "intro-text": "Ezra Bible App installs <b>{{module_type, accusative}}</b> using your internet connection. {{module_type, capitalize}} are distributed by the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> and will be downloaded from <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> repositories.",
+    "intro-text": "Ezra Bible App installs <b>{{module_type, accusative}}</b> using your internet connection. {{module_type, capitalize}} are distributed by the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. and will be downloaded from <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> for further explanations. repositories.",
     "internet-usage-note": "<b>IMPORTANT NOTE</b><br/>If you are located in a country where Christians are persecuted,<br/>be aware that your internet provider will be able to detect<br/>that <b>you are accessing Christian resources</b>!",
     "add-modules": "Add {{module_type, accusative}}",
     "remove-modules": "Remove {{module_type, accusative}}",
@@ -61,7 +61,7 @@
     "repository_plural": "Repositories",
     "installation": "Installation",
     "removal": "Removal",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Repository data was last updated on {{date}}.",
       "update-now": "Update now",
       "updating-repository-data": "Updating repository data! This will take a few seconds ...",
@@ -69,7 +69,7 @@
       "update-repository-data-failed": "Updating repository data failed! Are you offline?",
       "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Please choose at least one of the following languages.",
       "total-modules-language": "Next to each language is the number of {{module_type}} available in the SWORD repositories.",
       "loading-languages": "Loading languages ...",
@@ -86,9 +86,9 @@
       "what-is-repository": "A repository is an internet storage location that contains a set of {{module_type}}.",
       "loading-repositories": "Loading repositories ...",
       "repo-recommended": "This repository is a good place to start",
-      "more-repo-information-needed": "If you need more information about these repositories, have a look at the <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "more-repo-information-needed": "If you need more information about these repositories, have a look at the <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations.."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Please choose {{module_type}} to install.",
       "module-display-preferences": "Filter preferences:",
       "all-modules": "All {{module_type, accusative}}",
@@ -108,7 +108,7 @@
       "downloading": "Downloading",
       "part-of-total": "of"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Select the {{module_type, accusative}} that you would like to remove.",
       "disable-remove-note": "This {{module_type, singular}} is not installed in the user's directory or is essential for Ezra Bible App's functionality.",
       "removing-modules": "Removing {{module_type, accusative}}",
@@ -119,7 +119,7 @@
       "unlock-key": "Unlock key",
       "enter-unlock-key": "{{moduleId, singular}} is license protected. Please enter the unlock key!",
       "unlock-failed": "Unlock failed! Please enter the correct unlock key."
-    }  
+    }
   },
   "general": {
     "ezra-bible-app": "Ezra Bible App",
@@ -212,6 +212,7 @@
     "configure-translations": "Configure translations",
     "configure-dicts": "Configure dictionaries",
     "configure-commentaries": "Configure commentaries",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Context",
     "general-options": "General options",
     "check-new-releases": "Check for new releases",
@@ -233,12 +234,30 @@
     "tabs": "Tabs",
     "module-not-installed": "The module '{{module_name}}' is not installed."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
+    "list-headline": "List of custom repositories",
+    "add-repository": "Add custom repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add repository",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-duplicate-url-path": "A repository with this URL/path combination already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "adding-repository": "Adding repository ..."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Confirm data privacy options",
     "data-privacy-options": "Data privacy options",
     "please-confirm-options": "Please confirm the following data privacy options. These options require internet access. You can also make changes in the Options menu later.",
-    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, where new releases are published.",
-    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> whenever an error is detected.",
+    "check-new-releases-hint": "Ezra Bible App can check for new releases at every start. This requires a short interaction with <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., where new releases are published.",
+    "send-crash-reports-hint-part1": "Ezra Bible App can automatically send error reports to the error tracking platform <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. whenever an error is detected.",
     "send-crash-reports-hint-part2": "This helps the development team to become aware of issues much faster and therefore contributes to the enhancement of Ezra Bible App.",
     "send-crash-reports-hint-part3": "Note that the error reports only contain technical information and do not require much data bandwidth."
   },
@@ -251,8 +270,8 @@
   "shortcuts": {
     "tab-title": "Keyboard Shortcuts",
     "description": "You can use the following shortcuts:",
-
-    "summary" : {
+    "list-headline": "List of custom repositories",
+    "summary": {
       "font-section-title": "Font",
       "current-tab-search-section-title": "Current Tab Search",
       "miscellaneous-section-title": "Miscellaneous",
@@ -271,7 +290,6 @@
       "decrease-current-font-size": "Decrease font size",
       "reset-font-size-to-default": "Reset font size to default"
     },
-
     "shortcut": {
       "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
@@ -414,13 +432,13 @@
     "copy-selected-text-to-clipboard-success": "Selected text copied to clipboard!",
     "edit-note": "Edit note",
     "delete-note": "Delete note",
-    "transchange" : {
-      "added" : "These words were added in translation",
-      "amplified" : "These words are amplifications of information in the source text",
-      "changed" : "These words were changed in translation",
-      "deleted" : "Some words in the source text are not present in the translation",
-      "implied" : "These words were added or changed to translate information implied by the source text",
-      "moved" : "These words were in another location in the source text",
+    "transchange": {
+      "added": "These words were added in translation",
+      "amplified": "These words are amplifications of information in the source text",
+      "changed": "These words were changed in translation",
+      "deleted": "Some words in the source text are not present in the translation",
+      "implied": "These words were added or changed to translate information implied by the source text",
+      "moved": "These words were in another location in the source text",
       "tense-change": "The grammatical tense of these words was changed in order to facilitate translation"
     },
     "empty-tab-title": "Empty tab"

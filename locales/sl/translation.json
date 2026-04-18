@@ -51,7 +51,7 @@
     "module-type-commentary_instrumental": "svetopisemskimi komentarji",
     "module-type-commentary_singular": "svetopisemski komentar",
     "header": "Konfiguriraj {{module_type, accusative}}",
-    "intro-text": "Ezra Bible aplikacija namesti <b>{{module_type, accusative}}</b> z uporabo vaše internetne povezave. {{module_type, accusative, capitalize}} omogoča <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> in bodo preneseni iz <a class='external' href='http://www.crosswire.org/sword'>spletnih shramb projekta SWORD</a>.",
+    "intro-text": "Ezra Bible aplikacija namesti <b>{{module_type, accusative}}</b> z uporabo vaše internetne povezave. {{module_type, accusative, capitalize}} omogoča <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. in bodo preneseni iz <a class='external' href='http://www.crosswire.org/sword'>spletnih shramb projekta SWORD</a> for further explanations..",
     "internet-usage-note": "<b>POMEMBNA OPOMBA</b><br/>Če se nahajate v državi, kjer so kristjani preganjani,<br/>se zavedajte, da bo vaš internetni ponudnik lahko zaznal,<br/>da ste <b> dostopali do krščanskih virov</b>!",
     "add-modules": "Dodaj {{module_type, accusative}}",
     "remove-modules": "Odstrani {{module_type, accusative}}",
@@ -86,7 +86,7 @@
       "what-is-repository": "Spletna shramba je spletno mesto, kjer so shranjeni {{module_type, genitive}}.",
       "loading-repositories": "Nalaganje spletnih shramb …",
       "repo-recommended": "Ta spletna shramba je dobro mesto za začetek",
-      "more-repo-information-needed": "Če potrebujete več informacij o teh spletnih shrambah, si oglejte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "more-repo-information-needed": "Če potrebujete več informacij o teh spletnih shrambah, si oglejte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations.."
     },
     "step-modules": {
       "select-module": "Prosimo, izberite {{module_type}} za namestitev:",
@@ -210,6 +210,7 @@
     "configure-translations": "Konfiguriraj prevode",
     "configure-dicts": "Konfiguriraj slovarje",
     "configure-commentaries": "Konfiguriraj komentarje",
+    "configure-custom-repositories": "Configure custom repositories",
     "context": "Kontekst",
     "general-options": "Glavne nastavitve",
     "check-new-releases": "Preverite za novo izdajo",
@@ -231,12 +232,30 @@
     "tabs": "Zavihki",
     "module-not-installed": "Modul '{{module_name}}' ni nameščen."
   },
+  "custom-repositories": {
+    "dialog-title": "Custom Repositories",
+    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
+    "list-headline": "List of custom repositories",
+    "add-repository": "Add custom repository",
+    "no-custom-repos": "No custom repositories configured yet.",
+    "protocol": "Protocol",
+    "name": "Name",
+    "host": "Host",
+    "path": "Directory path",
+    "add": "Add repository",
+    "remove": "Remove",
+    "error-duplicate-name": "A repository with this name already exists.",
+    "error-duplicate-url-path": "A repository with this URL/path combination already exists.",
+    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
+    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
+    "adding-repository": "Adding repository ..."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Potrdite možnosti zasebnosti podatkov",
     "data-privacy-options": "Možnosti zasebnosti podatkov",
     "please-confirm-options": "Prosimo, potrdite naslednje možnosti zasebnosti podatkov. Te možnosti zahtevajo dostop do interneta. Pozneje lahko to spremenite v meniju Možnosti.",
-    "check-new-releases-hint": "Ezra Bible aplikacija lahko ob vsakem zagonu preveri, ali so na voljo nove izdaje. To zahteva kratek dostop do <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, kjer so objavljene nove izdaje.",
-    "send-crash-reports-hint-part1": "Ezra Bible aplikacija lahko samodejno pošilja poročila o napakah platformi za sledenje napakam <a class='external' href='https://sentry.io'>Sentry.io</a> kadar koli je zaznana napaka.",
+    "check-new-releases-hint": "Ezra Bible aplikacija lahko ob vsakem zagonu preveri, ali so na voljo nove izdaje. To zahteva kratek dostop do <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., kjer so objavljene nove izdaje.",
+    "send-crash-reports-hint-part1": "Ezra Bible aplikacija lahko samodejno pošilja poročila o napakah platformi za sledenje napakam <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. kadar koli je zaznana napaka.",
     "send-crash-reports-hint-part2": "To pomaga razvojni ekipi, da se veliko hitreje zaveda težav in tako prispeva k izboljšavi Ezra Bible aplikacije.",
     "send-crash-reports-hint-part3": "Upoštevajte, da poročila o napakah vsebujejo le tehnične informacije in ne zahtevajo velike pasovne širine podatkov."
   },
@@ -249,6 +268,7 @@
   "shortcuts": {
     "tab-title": "Bližnjice na tipkovnici",
     "description": "Uporabite lahko naslednje bližnjice:",
+    "list-headline": "List of custom repositories",
     "summary": {
       "font-section-title": "Pisava",
       "current-tab-search-section-title": "Iskanje na trenutnem zavihku",
