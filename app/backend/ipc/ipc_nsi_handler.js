@@ -650,6 +650,10 @@ class IpcNsiHandler {
       let customRepoNames = global.ipc.ipcSettingsHandler.getConfig().get('customRepositories', []);
       customRepoNames = customRepoNames.filter(n => n !== name);
       global.ipc.ipcSettingsHandler.getConfig().set('customRepositories', customRepoNames);
+
+      this.initNSI(this._customSwordDir);
+      this._dropboxModuleHelper._nsi = this._nsi;
+
       return { success: true };
     });
   }
