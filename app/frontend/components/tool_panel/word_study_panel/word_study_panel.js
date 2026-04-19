@@ -453,8 +453,8 @@ class WordStudyPanel {
         </div>
         <div class='strongs-definition dictionary-content'>${strongsEntry.definition}</div>
       </div>
-      ${relatedStrongsContent}
-      ${occurrencesHtml}`;
+      ${occurrencesHtml}
+      ${relatedStrongsContent}`;
 
     return extendedStrongsInfo;
   }
