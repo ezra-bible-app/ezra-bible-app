@@ -22,6 +22,8 @@ const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 
+const VINES_MODULE_CODE = 'Vines';
+
 const template = html`
 <style>
   .removal-info-container {
@@ -92,6 +94,11 @@ class StepRemove extends HTMLElement {
 
     // Delete Strong's index file if present for this translation
     await ipcGeneral.deleteStrongsIndex(moduleCode);
+
+    // Delete Vines Strong's index if the Vines module was removed
+    if (moduleCode === VINES_MODULE_CODE) {
+      await ipcGeneral.deleteVinesIndex();
+    }
 
     const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     const modules = await app_controller.translation_controller.getInstalledModules('BIBLE');
