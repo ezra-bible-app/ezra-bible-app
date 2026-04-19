@@ -326,14 +326,14 @@ body.tool-panel-fullscreen .fullscreen-button {
   margin-bottom: 0.5em;
 }
 
-#word-study-panel-wrapper a:link,
+#word-study-panel-wrapper a,
 #new-standard-tag-dialog a:link,
 #new-standard-tag-dialog a:visited {
   text-decoration: none;
   color: var(--accent-color);
 }
 
-.darkmode--activated #word-study-panel-wrapper a:link,
+.darkmode--activated #word-study-panel-wrapper a,
 .darkmode--activated #new-standard-tag-dialog a:link,
 .darkmode--activated #new-standard-tag-dialog a:visited {
   color: var(--accent-color-darkmode);
