@@ -445,7 +445,6 @@ class WordStudyPanel {
       <div class='bold word-study-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
       <p class='dictionary-content word-study-links'>${this.getBlueletterLink(strongsEntry)}</p>
       ${morphologyHtml}
-      ${occurrencesHtml}
       ${extraDictContent}
       <div class='dictionary-section'>
         <div class='bold word-study-title' style='margin-bottom: 1em'>Strong's
@@ -454,7 +453,8 @@ class WordStudyPanel {
         </div>
         <div class='strongs-definition dictionary-content'>${strongsEntry.definition}</div>
       </div>
-      ${relatedStrongsContent}`;
+      ${relatedStrongsContent}
+      ${occurrencesHtml}`;
 
     return extendedStrongsInfo;
   }
