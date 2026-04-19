@@ -250,6 +250,11 @@ class IpcGeneralHandler {
       return 0;
     });
 
+    this._ipcMain.add('general_deleteVinesIndex', () => {
+      this._vinesHelper.deleteIndex();
+      return 0;
+    });
+
     this._ipcMain.add('general_vinesIndexExists', () => {
       return this._vinesHelper.indexExists();
     });

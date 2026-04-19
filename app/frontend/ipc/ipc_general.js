@@ -121,6 +121,10 @@ class IpcGeneral {
     return await this._ipcRenderer.call('general_deleteStrongsIndex', moduleCode);
   }
 
+  async deleteVinesIndex() {
+    return await this._ipcRenderer.call('general_deleteVinesIndex');
+  }
+
   async vinesIndexExists() {
     return await this._ipcRenderer.call('general_vinesIndexExists');
   }

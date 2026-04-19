@@ -140,6 +140,19 @@ class VinesHelper {
   }
 
   /**
+   * Deletes the Vines Strong's index from cache and disk.
+   */
+  deleteIndex() {
+    this._indexCache = null;
+
+    const indexPath = this._getIndexPath();
+
+    if (fs.existsSync(indexPath)) {
+      fs.unlinkSync(indexPath);
+    }
+  }
+
+  /**
    * Gets the Vines dictionary keys that reference a given Greek Strong's number.
    * 
    * @param {string} strongsKey - The Strong's number (e.g. "G3722")
