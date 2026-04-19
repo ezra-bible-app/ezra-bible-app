@@ -19,6 +19,7 @@
 const PlatformHelper = require('../../lib/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
 const StrongsIndexHelper = require('./strongs_index_helper.js');
+const VinesHelper = require('./vines_helper.js');
 
 global.connectionType = undefined;
 
@@ -27,6 +28,7 @@ class IpcGeneralHandler {
     this._ipcMain = new IpcMain();
     this._platformHelper = new PlatformHelper();
     this._strongsIndexHelper = new StrongsIndexHelper();
+    this._vinesHelper = new VinesHelper();
     this.initIpcInterface();
   }
 
@@ -246,6 +248,20 @@ class IpcGeneralHandler {
     this._ipcMain.add('general_deleteStrongsIndex', (moduleCode) => {
       this._strongsIndexHelper.deleteIndex(moduleCode);
       return 0;
+    });
+
+    this._ipcMain.add('general_vinesIndexExists', () => {
+      return this._vinesHelper.indexExists();
+    });
+
+    this._ipcMain.addWithProgressCallback('general_buildVinesIndex', async (progressCB) => {
+      var nsi = global.ipcNsiHandler.getNSI();
+      await this._vinesHelper.buildIndex(nsi, progressCB);
+      return 0;
+    }, 'general_vinesIndexProgress');
+
+    this._ipcMain.add('general_getVinesKeysForStrongs', (strongsKey) => {
+      return this._vinesHelper.getVinesKeysForStrongs(strongsKey);
     });
   }
 }

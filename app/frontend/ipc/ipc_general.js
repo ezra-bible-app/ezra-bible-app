@@ -120,6 +120,21 @@ class IpcGeneral {
   async deleteStrongsIndex(moduleCode) {
     return await this._ipcRenderer.call('general_deleteStrongsIndex', moduleCode);
   }
+
+  async vinesIndexExists() {
+    return await this._ipcRenderer.call('general_vinesIndexExists');
+  }
+
+  async buildVinesIndex(progressCallback) {
+    return await this._ipcRenderer.callWithProgressCallback('general_buildVinesIndex',
+                                                            'general_vinesIndexProgress',
+                                                            progressCallback,
+                                                            0);
+  }
+
+  async getVinesKeysForStrongs(strongsKey) {
+    return await this._ipcRenderer.call('general_getVinesKeysForStrongs', strongsKey);
+  }
 }
 
 module.exports = IpcGeneral;
