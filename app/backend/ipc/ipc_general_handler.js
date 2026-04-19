@@ -19,7 +19,7 @@
 const PlatformHelper = require('../../lib/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
 const StrongsIndexHelper = require('./strongs_index_helper.js');
-const VinesHelper = require('./vines_helper.js');
+const VinesIndexHelper = require('./vines_index_helper.js');
 
 global.connectionType = undefined;
 
@@ -28,7 +28,7 @@ class IpcGeneralHandler {
     this._ipcMain = new IpcMain();
     this._platformHelper = new PlatformHelper();
     this._strongsIndexHelper = new StrongsIndexHelper();
-    this._vinesHelper = new VinesHelper();
+    this._vinesHelper = new VinesIndexHelper();
     this.initIpcInterface();
   }
 
