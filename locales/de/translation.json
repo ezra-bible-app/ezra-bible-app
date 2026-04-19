@@ -453,7 +453,9 @@
     "copy-to-clipboard-success": "Wortstudium in Zwischenablage kopiert!",
     "copy-dict-entry-to-clipboard": "Wörterbucheintrag in Zwischenablage kopieren",
     "copy-dict-entry-to-clipboard-success": "Wörterbucheintrag in Zwischenablage kopiert!",
-    "morphology": "Morphology"
+    "morphology": "Morphology",
+    "vines-index-not-available": "The Vine's dictionary index has not been generated yet. Once generated, matching entries from the Vine's Expository Dictionary will be listed here.",
+    "vines-not-installed": "The Vine's Expository Dictionary module is not installed. You can install it from the Xiphos repository via the module assistant."
   },
   "dictionary-panel": {
     "default-header": "<b>Wörterbuch</b>",

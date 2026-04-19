@@ -467,7 +467,9 @@
     "copy-to-clipboard-success": "Étude de mots copiée dans le presse-papiers !",
     "copy-dict-entry-to-clipboard": "Copier l'entrée du dictionnaire dans le presse-papiers",
     "copy-dict-entry-to-clipboard-success": "Entrée du dictionnaire copiée dans le presse-papiers !",
-    "morphology": "Morphology"
+    "morphology": "Morphology",
+    "vines-index-not-available": "The Vine's dictionary index has not been generated yet. Once generated, matching entries from the Vine's Expository Dictionary will be listed here.",
+    "vines-not-installed": "The Vine's Expository Dictionary module is not installed. You can install it from the Xiphos repository via the module assistant."
   },
   "dictionary-panel": {
     "default-header": "<b>Dictionnaire</b>",

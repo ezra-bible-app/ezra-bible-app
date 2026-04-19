@@ -176,6 +176,7 @@ class WordStudyPanel {
     this.wordStudyPanelCopyButton.show();
 
     this._occurrencesHelper.attachOccurrencesEventHandlers();
+    this.attachVinesEventHandlers();
   }
 
   handleCopyButtonClick() {
@@ -430,6 +431,7 @@ class WordStudyPanel {
     }
 
     let extraDictContent = await this.getExtraDictionaryContent(lang, strongsEntry);
+    let vinesContent = await this.getVinesContent(strongsEntry);
     let relatedStrongsContent = await this.getRelatedStrongsContent(strongsEntry.references);
     
     const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
@@ -446,6 +448,7 @@ class WordStudyPanel {
       <p class='dictionary-content word-study-links'>${this.getBlueletterLink(strongsEntry)}</p>
       ${morphologyHtml}
       ${extraDictContent}
+      ${vinesContent}
       <div class='dictionary-section'>
         <div class='bold word-study-title' style='margin-bottom: 1em'>Strong's
         ${moduleInfoButton}
@@ -555,7 +558,7 @@ class WordStudyPanel {
   async getAllExtraDictModules(lang='GREEK') {
     var dictModules = await ipcNsi.getAllLocalModules('DICT');
     var filteredDictModules = [];
-    var excludeList = [ 'StrongsGreek', 'StrongsHebrew' ];
+    var excludeList = [ 'StrongsGreek', 'StrongsHebrew', 'Vines' ];
 
     dictModules.forEach((module) => {
       var hasStrongsKeys = false;
@@ -625,6 +628,129 @@ class WordStudyPanel {
         <i class='fas fa-copy copy-icon'></i>
       </div>
     `;
+  }
+
+  async getVinesContent(strongsEntry) {
+    // Vines only applies to Greek Strong's numbers
+    if (!strongsEntry.key || strongsEntry.key[0] !== 'G') {
+      return '';
+    }
+
+    // Check if the Vines module is installed
+    var dictModules = await ipcNsi.getAllLocalModules('DICT');
+    var vinesInstalled = dictModules.some((m) => m.name === 'Vines');
+
+    if (!vinesInstalled) {
+      return this._getVinesNotInstalledHtml();
+    }
+
+    var indexExists = await ipcGeneral.vinesIndexExists();
+    if (!indexExists) {
+      return this._getVinesIndexNotAvailableHtml();
+    }
+
+    return await this._getVinesLinksHtml(strongsEntry.key);
+  }
+
+  _getVinesNotInstalledHtml() {
+    return `
+      <div id='vines-box'>
+        <div class='dictionary-section'>
+          <div class='bold word-study-title' style='margin-bottom: 0.5em'>Vine's Expository Dictionary</div>
+          <div class='dictionary-content'>
+            <p>${i18n.t('word-study-panel.vines-not-installed')}</p>
+          </div>
+        </div>
+        <hr></hr>
+      </div>
+    `;
+  }
+
+  _getVinesIndexNotAvailableHtml() {
+    return `
+      <div id='vines-box'>
+        <div class='dictionary-section'>
+          <div class='bold word-study-title' style='margin-bottom: 0.5em'>Vine's Expository Dictionary</div>
+          <div class='dictionary-content'>
+            <p>${i18n.t('word-study-panel.vines-index-not-available')}</p>
+            <button id='generate-vines-index-button'
+                    class='fg-button ui-corner-all ui-state-default'>
+              ${i18n.t('word-study-panel.generate-index')}
+            </button>
+          </div>
+        </div>
+        <hr></hr>
+      </div>
+    `;
+  }
+
+  async _getVinesLinksHtml(strongsKey) {
+    var vinesKeys = await ipcGeneral.getVinesKeysForStrongs(strongsKey);
+
+    if (!vinesKeys || vinesKeys.length === 0) {
+      return '';
+    }
+
+    let links = vinesKeys.map((key) => {
+      return `<a href="sword://Vines/${key}" style="cursor: pointer;">${key}</a>`;
+    }).join('<br>');
+
+    return `
+      <div id='vines-box'>
+        <div class='dictionary-section'>
+          <div class='bold word-study-title' style='margin-bottom: 0.5em'>Vine's Expository Dictionary</div>
+          <div class='dictionary-content'>${links}</div>
+        </div>
+        <hr></hr>
+      </div>
+    `;
+  }
+
+  attachVinesEventHandlers() {
+    const panelContent = this.wordStudyPanelContent[0];
+
+    let generateButton = panelContent.querySelector('#generate-vines-index-button');
+    if (generateButton != null) {
+      generateButton.addEventListener('click', () => {
+        this.handleGenerateVinesIndex(generateButton);
+      });
+    }
+  }
+
+  async handleGenerateVinesIndex(button) {
+    const vinesBox = document.getElementById('vines-box');
+
+    if (vinesBox == null) {
+      return;
+    }
+
+    vinesBox.innerHTML = `
+      <div class='dictionary-section'>
+        <div class='bold word-study-title' style='margin-bottom: 0.5em'>Vine's Expository Dictionary</div>
+        <div class='dictionary-content'>
+          <div id='vines-index-progress-bar' class='progress-bar'>
+            <div class='progress-label'>0%</div>
+          </div>
+        </div>
+      </div>
+      <hr></hr>
+    `;
+
+    const $progressBar = $('#vines-index-progress-bar');
+    uiHelper.initProgressBar($progressBar);
+
+    await ipcGeneral.buildVinesIndex((progress) => {
+      $progressBar.progressbar("value", progress.totalPercent);
+    });
+
+    const currentStrongsEntry = this.currentStrongsEntry;
+    if (currentStrongsEntry != null) {
+      vinesBox.outerHTML = await this._getVinesLinksHtml(currentStrongsEntry.key);
+
+      // Re-initialize sword:// links for the new content
+      const swordUrlHelper = require('../../../helpers/sword_url_helper.js');
+      swordUrlHelper.initSwordUrlLinks(this.wordStudyPanelContent[0], null);
+    }
   }
 
   async getDictionaryEntry(moduleCode, strongsEntry) {
