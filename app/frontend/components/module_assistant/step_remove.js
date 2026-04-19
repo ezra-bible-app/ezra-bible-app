@@ -22,6 +22,8 @@ const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 
+const VINES_MODULE_CODE = 'Vines';
+
 const template = html`
 <style>
   .removal-info-container {
@@ -94,7 +96,7 @@ class StepRemove extends HTMLElement {
     await ipcGeneral.deleteStrongsIndex(moduleCode);
 
     // Delete Vines Strong's index if the Vines module was removed
-    if (moduleCode === 'Vines') {
+    if (moduleCode === VINES_MODULE_CODE) {
       await ipcGeneral.deleteVinesIndex();
     }
 
