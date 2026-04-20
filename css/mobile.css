@@ -1009,7 +1009,12 @@ Librem 5/Pinephone etc.
     top: 0 !important;
     left: 0 !important;
     height: 100% !important;
-    width: 97% !important;
+    width: 100% !important;
+    overflow-y: scroll;
+  }
+
+  .book-list-column li {
+    line-height: 1.6em !important;
   }
 
   #bookMenuBackButton {
