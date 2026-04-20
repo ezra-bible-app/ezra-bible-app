@@ -85,6 +85,16 @@
     grid-row: 7;
   }
 
+  .apocryphal-books {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    border-left: none;
+    border-bottom: none;
+    border-top: 1px solid lightgray;
+    margin-top: 0.2em;
+    padding-top: 0.8em;
+  }
+
   .book-list-column li {
     padding: 0;
     margin: 0;
