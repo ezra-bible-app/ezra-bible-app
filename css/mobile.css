@@ -1005,6 +1005,17 @@ Librem 5/Pinephone etc.
     height: 98vh !important;
   }
 
+  #book-selection-menu {
+    top: 0 !important;
+    left: 0 !important;
+    height: 100% !important;
+    width: 97% !important;
+  }
+
+  #bookMenuBackButton {
+    height: 6em;
+  }
+
   #tag-selection-menu {
     height: 96% !important;
     width: 97% !important;
