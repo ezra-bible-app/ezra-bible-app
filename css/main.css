@@ -637,6 +637,14 @@ a.chapter-nav:hover {
   flex-basis: 100%;
 }
 
+.verse-text .primary-variant {
+  display: inline-block;
+}
+
+.verse-text .secondary-variant {
+  display: none;
+}
+
 .verse-list-with-second-translation .second-bible-text {
   display: block;
 }
