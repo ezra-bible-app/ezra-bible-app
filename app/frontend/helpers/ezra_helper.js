@@ -32,13 +32,30 @@ module.exports.sleep = async function (time) {
 
 module.exports.waitUntilIdle = async function () {
   return new Promise(resolve => {
+    let idleCallbackId = null;
+    let timeoutId = null;
+    let done = false;
+
+    const finish = () => {
+      if (done) return;
+      done = true;
+      clearTimeout(timeoutId);
+      resolve();
+    };
+
+    timeoutId = setTimeout(() => {
+      if (idleCallbackId !== null && 'cancelIdleCallback' in window) {
+        window.cancelIdleCallback(idleCallbackId);
+      }
+      finish();
+    }, 100);
+
     if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(() => {
-        resolve();
-      });
+      idleCallbackId = window.requestIdleCallback(finish);
+      return;
     } else {
       // Fallback for Safari
-      resolve();
+      setTimeout(finish, 0);
     }
   });
 };
