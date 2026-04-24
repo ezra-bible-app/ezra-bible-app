@@ -21,6 +21,7 @@ const CustomRepositoryHelper = require('./custom_repository_helper.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
 const DropboxModuleHelper = require('../db_sync/dropbox_module_helper.js');
+const GoogleTranslateService = require('./google_translate_service.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -45,6 +46,14 @@ class IpcNsiHandler {
     this._nsi = null;
     this._customSwordDir = customSwordDir;
     this._dropboxModulesCache = null;
+    this._translationWarningShown = false;
+    this._googleTranslateService = new GoogleTranslateService((error) => {
+      if (this._platformHelper.isDebug()) {
+        console.warn(`Automatic translation failed: ${error}`);
+      }
+
+      this.sendTranslationWarningOnce();
+    });
 
     this.initNSI(this._customSwordDir);
     this._dropboxModuleHelper = new DropboxModuleHelper(this._platformHelper, this._nsi);
@@ -167,6 +176,83 @@ class IpcNsiHandler {
    */
   getSwordLocaleCode(localeCode) {
     return localeCode.replace('-', '_');
+  }
+
+  getSettingsConfig() {
+    if (global.ipc && global.ipc.ipcSettingsHandler != null) {
+      return global.ipc.ipcSettingsHandler.getConfig();
+    }
+
+    if (global.ipcSettingsHandler != null) {
+      return global.ipcSettingsHandler.getConfig();
+    }
+
+    return null;
+  }
+
+  getSettingValue(settingsKey, defaultValue) {
+    const config = this.getSettingsConfig();
+
+    if (config == null) {
+      return defaultValue;
+    }
+
+    return config.get(settingsKey, defaultValue);
+  }
+
+  sendTranslationWarningOnce() {
+    if (this._translationWarningShown) {
+      return;
+    }
+
+    this._translationWarningShown = true;
+    this._ipcMain.message('nsi_translation_warning', { warning: true });
+  }
+
+  async maybeTranslateHtml(htmlString, sourceLanguageCode, targetLanguageCode) {
+    const autoTranslationEnabled = this.getSettingValue('enableAutoTranslation', false);
+
+    if (!autoTranslationEnabled) {
+      return htmlString;
+    }
+
+    return await this._googleTranslateService.translateHtml(htmlString, sourceLanguageCode, targetLanguageCode);
+  }
+
+  getModuleLanguage(moduleCode) {
+    if (moduleCode == null || moduleCode === '') {
+      return null;
+    }
+
+    const module = this._nsi.getLocalModule(moduleCode);
+
+    if (module == null || module.language == null || module.language === '') {
+      return null;
+    }
+
+    return module.language;
+  }
+
+  async maybeTranslateStrongsEntry(strongsKey, strongsEntry, targetLanguageCode) {
+    if (strongsEntry == null || strongsEntry.definition == null || strongsEntry.definition === '') {
+      return strongsEntry;
+    }
+
+    let sourceModuleCode = null;
+
+    if (strongsKey != null && strongsKey.startsWith('G')) {
+      sourceModuleCode = 'StrongsGreek';
+    } else if (strongsKey != null && strongsKey.startsWith('H')) {
+      sourceModuleCode = 'StrongsHebrew';
+    }
+
+    const sourceLanguageCode = this.getModuleLanguage(sourceModuleCode);
+    const translatedDefinition = await this.maybeTranslateHtml(strongsEntry.definition, sourceLanguageCode, targetLanguageCode);
+
+    return {
+      ...strongsEntry,
+      definition: translatedDefinition
+    };
   }
 
   initIpcInterface() {
@@ -383,12 +469,26 @@ class IpcNsiHandler {
       return this._nsi.isModuleReadable(moduleCode);
     });
 
-    this._ipcMain.add('nsi_getRawModuleEntry', (moduleCode, key, processImages=false) => {
-      return this._nsi.getRawModuleEntry(moduleCode, key, processImages);
+    this._ipcMain.add('nsi_getRawModuleEntry', async (moduleCode, key, processImages=false) => {
+      const rawEntry = this._nsi.getRawModuleEntry(moduleCode, key, processImages);
+      const sourceLanguageCode = this.getModuleLanguage(moduleCode);
+      const targetLanguageCode = this.getSettingValue('appLocale', 'en');
+
+      return await this.maybeTranslateHtml(rawEntry, sourceLanguageCode, targetLanguageCode);
     });
 
-    this._ipcMain.add('nsi_getReferenceText', (moduleCode, key) => {
-      return this._nsi.getReferenceText(moduleCode, key);
+    this._ipcMain.add('nsi_getReferenceText', async (moduleCode, key) => {
+      const referenceText = this._nsi.getReferenceText(moduleCode, key);
+      if (referenceText == null) {
+        return referenceText;
+      }
+      const sourceLanguageCode = this.getModuleLanguage(moduleCode);
+      const targetLanguageCode = this.getSettingValue('appLocale', 'en');
+      const translatedContent = await this.maybeTranslateHtml(referenceText.content, sourceLanguageCode, targetLanguageCode);
+      return {
+        ...referenceText,
+        content: translatedContent
+      };
     });
 
     this._ipcMain.add('nsi_mapVerseReference', (sourceOsisRef, sourceModuleName, targetModuleName, allowRange=false) => {
@@ -516,8 +616,11 @@ class IpcNsiHandler {
       return this._nsi.strongsAvailable();
     });
 
-    this._ipcMain.add('nsi_getStrongsEntry', (strongsKey) => {
-      return this._nsi.getStrongsEntry(strongsKey);
+    this._ipcMain.add('nsi_getStrongsEntry', async (strongsKey) => {
+      const strongsEntry = this._nsi.getStrongsEntry(strongsKey);
+      const targetLanguageCode = this.getSettingValue('appLocale', 'en');
+
+      return await this.maybeTranslateStrongsEntry(strongsKey, strongsEntry, targetLanguageCode);
     });
 
     this._ipcMain.add('nsi_getLocalModule', (moduleCode) => {

@@ -372,6 +372,14 @@ class IpcNsi {
     var returnValue = this._ipcRenderer.call('nsi_removeCustomRepository', name);
     return returnValue;
   }
+
+  addTranslationWarningListener(listener) {
+    if (this._isCordova) {
+      this._ipcRenderer.addCordovaListenerWithCallback('nsi_translation_warning', listener);
+    } else {
+      this._ipcRenderer.addElectronListenerWithCallback('nsi_translation_warning', listener);
+    }
+  }
 }
 
 module.exports = IpcNsi;

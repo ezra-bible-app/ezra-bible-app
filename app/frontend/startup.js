@@ -417,6 +417,15 @@ class Startup {
     console.log("Initializing controllers ...");
     await this.initControllers();
 
+    ipcNsi.addTranslationWarningListener(() => {
+      iziToast.warning({
+        title: i18n.t('general.warning'),
+        message: i18n.t('general.auto-translation-warning'),
+        position: platformHelper.getIziPosition(),
+        timeout: 6000
+      });
+    });
+
     console.log("Initializing user interface ...");
     this.initUi();
     await app_controller.optionsMenu.init();

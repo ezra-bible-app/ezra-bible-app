@@ -140,6 +140,7 @@ class OptionsMenu {
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
+    this._enableAutoTranslationOption = this.initConfigOption('enableAutoTranslationOption', async() => {});
     this._copyVerseReferenceBeforeTextOption = this.initConfigOption('copyVerseReferenceBeforeTextOption', () => {});
     this._limitTextWidthOption = this.initConfigOption('limitTextWidthOption', () => { this.toggleTextWidthBasedOnOption(); }, true);
     this._notesColumnOption = this.initConfigOption('useNotesColumnOption', () => { this.changeNotesLayoutBasedOnOption(); }, true);
