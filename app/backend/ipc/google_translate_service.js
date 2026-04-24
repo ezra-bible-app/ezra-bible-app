@@ -97,6 +97,53 @@ class GoogleTranslateService {
     return this._translateClient;
   }
 
+  getSettingsConfig() {
+    if (global.ipc && global.ipc.ipcSettingsHandler != null) {
+      return global.ipc.ipcSettingsHandler.getConfig();
+    }
+
+    if (global.ipcSettingsHandler != null) {
+      return global.ipcSettingsHandler.getConfig();
+    }
+
+    return null;
+  }
+
+  getSettingValue(settingsKey, defaultValue) {
+    const config = this.getSettingsConfig();
+
+    if (config == null) {
+      return defaultValue;
+    }
+
+    return config.get(settingsKey, defaultValue);
+  }
+
+  async maybeTranslateStrongsEntry(strongsEntry, sourceLanguageCode, targetLanguageCode) {
+    if (strongsEntry == null || strongsEntry.definition == null || strongsEntry.definition === '') {
+      return strongsEntry;
+    }
+
+    const translatedDefinition = await this.maybeTranslateHtml(strongsEntry.definition, sourceLanguageCode, targetLanguageCode);
+
+    return {
+      ...strongsEntry,
+      definition: translatedDefinition
+    };
+  }
+
+  async maybeTranslateHtml(htmlString, sourceLanguageCode, targetLanguageCode) {
+    const autoTranslationEnabled = this.getSettingValue('enableAutoTranslation', false);
+
+    if (!autoTranslationEnabled) {
+      return htmlString;
+    }
+
+    const charCount = htmlString != null ? htmlString.length : 0;
+    console.log(`[AutoTranslation] Requesting translation: '${sourceLanguageCode}' -> '${targetLanguageCode}' (${charCount} chars)`);
+    return await this.translateHtml(htmlString, sourceLanguageCode, targetLanguageCode);
+  }
+
   shouldSkipTranslation(htmlString, sourceLanguageCode, targetLanguageCode) {
     if (htmlString == null || htmlString === '') {
       return true;

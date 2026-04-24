@@ -178,28 +178,6 @@ class IpcNsiHandler {
     return localeCode.replace('-', '_');
   }
 
-  getSettingsConfig() {
-    if (global.ipc && global.ipc.ipcSettingsHandler != null) {
-      return global.ipc.ipcSettingsHandler.getConfig();
-    }
-
-    if (global.ipcSettingsHandler != null) {
-      return global.ipcSettingsHandler.getConfig();
-    }
-
-    return null;
-  }
-
-  getSettingValue(settingsKey, defaultValue) {
-    const config = this.getSettingsConfig();
-
-    if (config == null) {
-      return defaultValue;
-    }
-
-    return config.get(settingsKey, defaultValue);
-  }
-
   sendTranslationWarningOnce() {
     if (this._translationWarningShown) {
       return;
@@ -207,19 +185,6 @@ class IpcNsiHandler {
 
     this._translationWarningShown = true;
     this._ipcMain.message('nsi_translation_warning', { warning: true });
-  }
-
-  async maybeTranslateHtml(htmlString, sourceLanguageCode, targetLanguageCode) {
-    const autoTranslationEnabled = this.getSettingValue('enableAutoTranslation', false);
-
-    if (!autoTranslationEnabled) {
-      return htmlString;
-    }
-
-    const charCount = htmlString != null ? htmlString.length : 0;
-    console.log(`[AutoTranslation] Requesting translation: '${sourceLanguageCode}' -> '${targetLanguageCode}' (${charCount} chars)`);
-    const result = await this._googleTranslateService.translateHtml(htmlString, sourceLanguageCode, targetLanguageCode);
-    return result;
   }
 
   getModuleLanguage(moduleCode) {
@@ -234,28 +199,6 @@ class IpcNsiHandler {
     }
 
     return module.language;
-  }
-
-  async maybeTranslateStrongsEntry(strongsKey, strongsEntry, targetLanguageCode) {
-    if (strongsEntry == null || strongsEntry.definition == null || strongsEntry.definition === '') {
-      return strongsEntry;
-    }
-
-    let sourceModuleCode = null;
-
-    if (strongsKey != null && strongsKey.startsWith('G')) {
-      sourceModuleCode = 'StrongsGreek';
-    } else if (strongsKey != null && strongsKey.startsWith('H')) {
-      sourceModuleCode = 'StrongsHebrew';
-    }
-
-    const sourceLanguageCode = this.getModuleLanguage(sourceModuleCode);
-    const translatedDefinition = await this.maybeTranslateHtml(strongsEntry.definition, sourceLanguageCode, targetLanguageCode);
-
-    return {
-      ...strongsEntry,
-      definition: translatedDefinition
-    };
   }
 
   initIpcInterface() {
@@ -475,9 +418,9 @@ class IpcNsiHandler {
     this._ipcMain.add('nsi_getRawModuleEntry', async (moduleCode, key, processImages=false) => {
       const rawEntry = this._nsi.getRawModuleEntry(moduleCode, key, processImages);
       const sourceLanguageCode = this.getModuleLanguage(moduleCode);
-      const targetLanguageCode = this.getSettingValue('appLocale', 'en');
+      const targetLanguageCode = this._googleTranslateService.getSettingValue('appLocale', 'en');
 
-      return await this.maybeTranslateHtml(rawEntry, sourceLanguageCode, targetLanguageCode);
+      return await this._googleTranslateService.maybeTranslateHtml(rawEntry, sourceLanguageCode, targetLanguageCode);
     });
 
     this._ipcMain.add('nsi_getReferenceText', async (moduleCode, key) => {
@@ -486,8 +429,8 @@ class IpcNsiHandler {
         return referenceText;
       }
       const sourceLanguageCode = this.getModuleLanguage(moduleCode);
-      const targetLanguageCode = this.getSettingValue('appLocale', 'en');
-      const translatedContent = await this.maybeTranslateHtml(referenceText.content, sourceLanguageCode, targetLanguageCode);
+      const targetLanguageCode = this._googleTranslateService.getSettingValue('appLocale', 'en');
+      const translatedContent = await this._googleTranslateService.maybeTranslateHtml(referenceText.content, sourceLanguageCode, targetLanguageCode);
       return {
         ...referenceText,
         content: translatedContent
@@ -621,9 +564,17 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getStrongsEntry', async (strongsKey) => {
       const strongsEntry = this._nsi.getStrongsEntry(strongsKey);
-      const targetLanguageCode = this.getSettingValue('appLocale', 'en');
+      const targetLanguageCode = this._googleTranslateService.getSettingValue('appLocale', 'en');
 
-      return await this.maybeTranslateStrongsEntry(strongsKey, strongsEntry, targetLanguageCode);
+      let sourceModuleCode = null;
+      if (strongsKey != null && strongsKey.startsWith('G')) {
+        sourceModuleCode = 'StrongsGreek';
+      } else if (strongsKey != null && strongsKey.startsWith('H')) {
+        sourceModuleCode = 'StrongsHebrew';
+      }
+      const sourceLanguageCode = this.getModuleLanguage(sourceModuleCode);
+
+      return await this._googleTranslateService.maybeTranslateStrongsEntry(strongsEntry, sourceLanguageCode, targetLanguageCode);
     });
 
     this._ipcMain.add('nsi_getLocalModule', (moduleCode) => {
