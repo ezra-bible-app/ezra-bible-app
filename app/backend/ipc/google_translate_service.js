@@ -111,16 +111,21 @@ class GoogleTranslateService {
 
   protectCustomTags(htmlString) {
     const originals = [];
-    const protected_ = htmlString.replace(/<scripref\b[^>]*>([\s\S]*?)<\/scripref>/gi, (match, innerText) => {
+
+    const replacer = (match, innerText) => {
       const idx = originals.length;
       originals.push(match);
       return `<span translate="no" data-eba-idx="${idx}">${innerText}</span>`;
-    });
+    };
+
+    let protected_ = htmlString.replace(/<scripref\b[^>]*>([\s\S]*?)<\/scripref>/gi, replacer);
+    protected_ = protected_.replace(/<div\b[^>]*class="[^"]*sword-scripref[^"]*"[^>]*>([\s\S]*?)<\/div>/gi, replacer);
+
     return { protected: protected_, originals };
   }
 
   restoreCustomTags(htmlString, originals) {
-    return htmlString.replace(/<span translate="no" data-eba-idx="(\d+)"><\/span>/gi, (match, idx) => {
+    return htmlString.replace(/<span\b[^>]*data-eba-idx="(\d+)"[^>]*>[\s\S]*?<\/span>/gi, (match, idx) => {
       const original = originals[parseInt(idx, 10)];
       return original !== undefined ? original : match;
     });
