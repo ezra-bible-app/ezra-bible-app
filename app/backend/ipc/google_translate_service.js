@@ -127,6 +127,7 @@ class GoogleTranslateService {
     const normalizedTarget = this.normalizeLanguageCode(targetLanguageCode);
 
     if (this.shouldSkipTranslation(htmlString, normalizedSource, normalizedTarget)) {
+      console.log(`[AutoTranslation] Skipping translation (source='${normalizedSource}', target='${normalizedTarget}', empty=${!htmlString})`);
       return htmlString;
     }
 
@@ -134,11 +135,14 @@ class GoogleTranslateService {
     const cached = this.getCachedTranslation(cacheKey);
 
     if (cached != null) {
+      console.log(`[AutoTranslation] Cache hit for '${normalizedSource}' -> '${normalizedTarget}'`);
       return cached;
     }
 
     try {
+      console.log(`[AutoTranslation] Calling Google Translate API: '${normalizedSource}' -> '${normalizedTarget}'`);
       const translated = await this.executeTranslateRequest(htmlString, normalizedSource, normalizedTarget);
+      console.log(`[AutoTranslation] API call succeeded`);
       this.setCachedTranslation(cacheKey, translated);
       return translated;
     } catch (error) {
@@ -146,13 +150,16 @@ class GoogleTranslateService {
       const targetBase = this.getBaseLanguageCode(normalizedTarget);
 
       if ((sourceBase !== normalizedSource || targetBase !== normalizedTarget) && sourceBase != null && targetBase != null) {
+        console.log(`[AutoTranslation] API error, retrying with base language codes: '${sourceBase}' -> '${targetBase}'. Error: ${error.message}`);
         try {
           const translated = await this.executeTranslateRequest(htmlString, sourceBase, targetBase);
+          console.log(`[AutoTranslation] Fallback API call succeeded`);
           const baseCacheKey = this.getCacheKey(sourceBase, targetBase, htmlString);
           this.setCachedTranslation(baseCacheKey, translated);
           this.setCachedTranslation(cacheKey, translated);
           return translated;
         } catch (fallbackError) {
+          console.error(`[AutoTranslation] Fallback API call also failed: ${fallbackError.message}`);
           if (this._onFailure !== undefined) {
             this._onFailure(fallbackError);
           }
@@ -160,6 +167,7 @@ class GoogleTranslateService {
         }
       }
 
+      console.error(`[AutoTranslation] API call failed: ${error.message}`);
       if (this._onFailure !== undefined) {
         this._onFailure(error);
       }

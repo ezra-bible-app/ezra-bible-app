@@ -216,7 +216,10 @@ class IpcNsiHandler {
       return htmlString;
     }
 
-    return await this._googleTranslateService.translateHtml(htmlString, sourceLanguageCode, targetLanguageCode);
+    const charCount = htmlString != null ? htmlString.length : 0;
+    console.log(`[AutoTranslation] Requesting translation: '${sourceLanguageCode}' -> '${targetLanguageCode}' (${charCount} chars)`);
+    const result = await this._googleTranslateService.translateHtml(htmlString, sourceLanguageCode, targetLanguageCode);
+    return result;
   }
 
   getModuleLanguage(moduleCode) {
