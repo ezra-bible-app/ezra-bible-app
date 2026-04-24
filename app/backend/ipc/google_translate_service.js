@@ -109,6 +109,23 @@ class GoogleTranslateService {
     return sourceLanguageCode === targetLanguageCode;
   }
 
+  protectCustomTags(htmlString) {
+    const originals = [];
+    const protected_ = htmlString.replace(/<scripref\b[^>]*>([\s\S]*?)<\/scripref>/gi, (match, innerText) => {
+      const idx = originals.length;
+      originals.push(match);
+      return `<span translate="no" data-eba-idx="${idx}">${innerText}</span>`;
+    });
+    return { protected: protected_, originals };
+  }
+
+  restoreCustomTags(htmlString, originals) {
+    return htmlString.replace(/<span translate="no" data-eba-idx="(\d+)"><\/span>/gi, (match, idx) => {
+      const original = originals[parseInt(idx, 10)];
+      return original !== undefined ? original : match;
+    });
+  }
+
   async executeTranslateRequest(htmlString, sourceLanguageCode, targetLanguageCode) {
     const translateClient = this.getClient();
 
@@ -118,8 +135,9 @@ class GoogleTranslateService {
       format: 'html'
     };
 
-    const [translatedString] = await translateClient.translate(htmlString, options);
-    return translatedString;
+    const { protected: protectedHtml, originals } = this.protectCustomTags(htmlString);
+    const [translatedString] = await translateClient.translate(protectedHtml, options);
+    return this.restoreCustomTags(translatedString, originals);
   }
 
   async translateHtml(htmlString, sourceLanguageCode, targetLanguageCode) {
