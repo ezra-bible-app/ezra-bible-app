@@ -119,7 +119,8 @@ class GoogleTranslateService {
     };
 
     let protected_ = htmlString.replace(/<scripref\b[^>]*>([\s\S]*?)<\/scripref>/gi, replacer);
-    protected_ = protected_.replace(/<div\b[^>]*class="[^"]*sword-scripref[^"]*"[^>]*>([\s\S]*?)<\/div>/gi, replacer);
+    protected_ = protected_.replace(/<div\b[^>]*class="[^"]*sword-markup[^"]*"[^>]*>([\s\S]*?)<\/div>/gi, replacer);
+    protected_ = protected_.replace(/<reference\b[^>]*>([\s\S]*?)<\/reference>/gi, replacer);
 
     return { protected: protected_, originals };
   }
