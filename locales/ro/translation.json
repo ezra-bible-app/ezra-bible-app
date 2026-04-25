@@ -595,6 +595,14 @@
     "modules-skipped": "{{count}} modul(e) omis(e) (deja instalat(e))",
     "modules-failed": "{{count}} modul(e) nu au putut fi instalat(e)",
     "install-summary": "Rezumat instalare",
-    "dropbox-not-linked": "Contul Dropbox nu este conectat. Te rog configurează Dropbox mai întâi."
+    "dropbox-not-linked": "Contul Dropbox nu este conectat. Te rog configurează Dropbox mai întâi.",
+    "module-header": "Module",
+    "status-header": "Status",
+    "processing": "Processing...",
+    "row-installed": "✓ Installed",
+    "row-failed": "✗ Failed: {{error}}",
+    "unknown-error": "Unknown error",
+    "installation-failed": "Installation failed",
+    "no-dropbox-token": "No Dropbox token found in configuration"
   }
 }

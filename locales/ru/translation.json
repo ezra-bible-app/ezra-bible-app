@@ -598,6 +598,14 @@
     "modules-skipped": "{{count}} модулей пропущено (уже установлены)",
     "modules-failed": "{{count}} модулей не удалось установить",
     "install-summary": "Итоги установки",
-    "dropbox-not-linked": "Аккаунт Dropbox не связан. Сначала настройте Dropbox."
+    "dropbox-not-linked": "Аккаунт Dropbox не связан. Сначала настройте Dropbox.",
+    "module-header": "Module",
+    "status-header": "Status",
+    "processing": "Processing...",
+    "row-installed": "✓ Installed",
+    "row-failed": "✗ Failed: {{error}}",
+    "unknown-error": "Unknown error",
+    "installation-failed": "Installation failed",
+    "no-dropbox-token": "No Dropbox token found in configuration"
   }
 }

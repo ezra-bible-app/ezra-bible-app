@@ -596,6 +596,14 @@
     "modules-skipped": "{{count}} модул(ів) пропущено (вже встановлено)",
     "modules-failed": "{{count}} модул(ів) не вдалося встановити",
     "install-summary": "Підсумок встановлення",
-    "dropbox-not-linked": "Обліковку Dropbox не прив'язано. Спершу налаштуйте Dropbox."
+    "dropbox-not-linked": "Обліковку Dropbox не прив'язано. Спершу налаштуйте Dropbox.",
+    "module-header": "Module",
+    "status-header": "Status",
+    "processing": "Processing...",
+    "row-installed": "✓ Installed",
+    "row-failed": "✗ Failed: {{error}}",
+    "unknown-error": "Unknown error",
+    "installation-failed": "Installation failed",
+    "no-dropbox-token": "No Dropbox token found in configuration"
   }
 }

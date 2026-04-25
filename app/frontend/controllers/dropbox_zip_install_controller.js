@@ -231,8 +231,8 @@ module.exports.showDropboxZipInstallDialog = async function() {
         <table style="width: 100%; border-collapse: collapse;">
           <thead>
             <tr style="border-bottom: 2px solid #ccc;">
-              <th style="text-align: left; padding: 0.5em; max-width: 200px;">Module</th>
-              <th style="text-align: left; padding: 0.5em; width: 120px;">Status</th>
+              <th style="text-align: left; padding: 0.5em; max-width: 200px;">${i18n.t('dropbox.module-header')}</th>
+              <th style="text-align: left; padding: 0.5em; width: 120px;">${i18n.t('dropbox.status-header')}</th>
             </tr>
           </thead>
           <tbody id="installation-status-table">
@@ -262,7 +262,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
           <td style="padding: 0.5em;">
             <span style="display: flex; align-items: center;">
               <loading-indicator style="width: 16px; height: 16px;"></loading-indicator>
-              <span style="margin-left: 0.5em;">Processing...</span>
+              <span style="margin-left: 0.5em;">${i18n.t('dropbox.processing')}</span>
             </span>
           </td>
         `;
@@ -278,7 +278,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
         const statusCell = row.querySelector('td:last-child');
         if (result.success) {
           successCount++;
-          statusCell.innerHTML = '<span style="color: green;">✓ Installed</span>';
+          statusCell.innerHTML = `<span style="color: green;">${i18n.t('dropbox.row-installed')}</span>`;
           
           // Raise appropriate event based on module type
           if (swordModuleHelper.isBibleModule(result.moduleType)) {
@@ -293,11 +293,15 @@ module.exports.showDropboxZipInstallDialog = async function() {
           statusCell.innerHTML = `<span style="color: #888;">⊘ ${i18n.t('dropbox.module-already-installed')}</span>`;
         } else {
           failedCount++;
-          const errorMsg = result.error || 'Unknown error';
-          const errorDetails = result.errorDetails || '';
+          const errorMsg = result.errorCode === 'not-linked'
+            ? i18n.t('dropbox.repo-validation-error-not-linked')
+            : (result.error || i18n.t('dropbox.unknown-error'));
+          const errorDetails = result.errorCode === 'not-linked'
+            ? i18n.t('dropbox.no-dropbox-token')
+            : (result.errorDetails || '');
           const fullError = errorDetails ? `${errorMsg}: ${errorDetails}` : errorMsg;
           console.error(`[DropboxZipInstall] Failed to install ${displayPath}: ${fullError}`);
-          statusCell.innerHTML = `<span style="color: red;" title="${fullError}">✗ Failed: ${errorMsg}</span>`;
+          statusCell.innerHTML = `<span style="color: red;" title="${fullError}">${i18n.t('dropbox.row-failed', {error: errorMsg})}</span>`;
         }
       }
 
@@ -309,9 +313,9 @@ module.exports.showDropboxZipInstallDialog = async function() {
         <td style="padding: 1em 0.5em;">${i18n.t('dropbox.install-summary')}</td>
         <td style="padding: 1em 0.5em;">
           <div style="font-size: 0.9em;">
-            ${successCount > 0 ? `<div style="color: green;">${successCount} installed</div>` : ''}
-            ${skippedCount > 0 ? `<div style="color: #888;">${skippedCount} skipped</div>` : ''}
-            ${failedCount > 0 ? `<div style="color: red;">${failedCount} failed</div>` : ''}
+            ${successCount > 0 ? `<div style="color: green;">${i18n.t('dropbox.modules-installed', {count: successCount})}</div>` : ''}
+            ${skippedCount > 0 ? `<div style="color: #888;">${i18n.t('dropbox.modules-skipped', {count: skippedCount})}</div>` : ''}
+            ${failedCount > 0 ? `<div style="color: red;">${i18n.t('dropbox.modules-failed', {count: failedCount})}</div>` : ''}
           </div>
         </td>
       `;
@@ -330,7 +334,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
       // eslint-disable-next-line no-undef
       iziToast.error({
         title: i18n.t('dropbox.install-from-zip'),
-        message: error.message || 'Installation failed',
+        message: error.message || i18n.t('dropbox.installation-failed'),
         position: platformHelper.getIziPosition(),
         timeout: 7000
       });
