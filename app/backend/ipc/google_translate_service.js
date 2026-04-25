@@ -197,7 +197,9 @@ class GoogleTranslateService {
 
     if (!response.ok) {
       const errorText = await response.text().catch(() => '');
-      throw new Error(`Translation API error ${response.status}: ${errorText}`);
+      const error = new Error(`Translation API error ${response.status}: ${errorText}`);
+      error.statusCode = response.status;
+      throw error;
     }
 
     const data = await response.json();

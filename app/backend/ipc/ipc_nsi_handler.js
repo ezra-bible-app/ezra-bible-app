@@ -52,7 +52,8 @@ class IpcNsiHandler {
         console.warn(`Automatic translation failed: ${error}`);
       }
 
-      this.sendTranslationWarningOnce();
+      const errorType = error.statusCode === 401 ? 'unauthorized' : null;
+      this.sendTranslationWarningOnce(errorType);
     });
 
     this.initNSI(this._customSwordDir);
@@ -178,13 +179,13 @@ class IpcNsiHandler {
     return localeCode.replace('-', '_');
   }
 
-  sendTranslationWarningOnce() {
+  sendTranslationWarningOnce(errorType = null) {
     if (this._translationWarningShown) {
       return;
     }
 
     this._translationWarningShown = true;
-    this._ipcMain.message('nsi_translation_warning', { warning: true });
+    this._ipcMain.message('nsi_translation_warning', { warning: true, errorType: errorType });
   }
 
   getModuleLanguage(moduleCode) {

@@ -417,10 +417,13 @@ class Startup {
     console.log("Initializing controllers ...");
     await this.initControllers();
 
-    ipcNsi.addTranslationWarningListener(() => {
+    ipcNsi.addTranslationWarningListener((message) => {
+      const msgKey = (message && message.errorType === 'unauthorized')
+        ? 'general.auto-translation-unauthorized'
+        : 'general.auto-translation-warning';
       iziToast.warning({
         title: i18n.t('general.warning'),
-        message: i18n.t('general.auto-translation-warning'),
+        message: i18n.t(msgKey),
         position: platformHelper.getIziPosition(),
         timeout: 6000
       });
