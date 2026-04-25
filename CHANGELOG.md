@@ -1,7 +1,7 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
-## [1.20.0 - 2026-04-25]
+## [1.20.0 - 2026-05-23]
 
 ### Features
 
