@@ -108,7 +108,7 @@ class TabController {
     });
 
     eventController.subscribe('on-bible-text-loaded', (context) => {
-      let bibleTranslationId = this.getTab(context ? context.tabIndex : undefined).getBibleTranslationId();
+      let bibleTranslationId = this.getTab().getBibleTranslationId();
       this.setBibleTranslationId(bibleTranslationId);
       
       // Skip scroll restoration when user explicitly selects a chapter
