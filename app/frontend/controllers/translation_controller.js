@@ -159,9 +159,9 @@ class TranslationController {
 
     if (currentTab != null) {
       if (isSecondBible) {
-        currentModuleId = app_controller.tab_controller.defaultSecondBibleTranslationId
+        currentModuleId = currentTab.getSecondBibleTranslationId() || app_controller.tab_controller.defaultSecondBibleTranslationId;
       } else {
-        currentModuleId = app_controller.tab_controller.defaultBibleTranslationId;
+        currentModuleId = currentTab.getBibleTranslationId() || app_controller.tab_controller.defaultBibleTranslationId;
       }
     }
 
