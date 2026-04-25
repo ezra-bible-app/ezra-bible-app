@@ -201,6 +201,24 @@ class CommentaryPanel {
     loadingIndicator.style.display = 'none';
   }
 
+  showHeaderLoadingIndicator() {
+    if (this._headerLoadingIndicatorTimeout != null) { return; }
+    this._headerLoadingIndicatorTimeout = setTimeout(() => {
+      this._headerLoadingIndicatorTimeout = null;
+      const indicator = document.getElementById('commentary-panel-header-loading-indicator');
+      if (indicator) { indicator.show(); }
+    }, 50);
+  }
+
+  hideHeaderLoadingIndicator() {
+    if (this._headerLoadingIndicatorTimeout != null) {
+      clearTimeout(this._headerLoadingIndicatorTimeout);
+      this._headerLoadingIndicatorTimeout = null;
+    }
+    const indicator = document.getElementById('commentary-panel-header-loading-indicator');
+    if (indicator) { indicator.hide(); }
+  }
+
   isPanelActive() {
     let panelButtons = document.getElementById('panel-buttons');
     return panelButtons.activePanel == 'commentary-panel';
@@ -270,6 +288,7 @@ class CommentaryPanel {
     }
 
     panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
+    this.showHeaderLoadingIndicator();
 
     if (platformHelper.isCordova()) {
 
@@ -289,6 +308,7 @@ class CommentaryPanel {
     if (platformHelper.isCordova()) {
       this.hideLoadingIndicator();
     }
+    this.hideHeaderLoadingIndicator();
 
     this.renderContentInPanel(commentaryContent);
     this.attachContentEventListeners();

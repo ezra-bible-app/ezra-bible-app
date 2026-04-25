@@ -358,6 +358,8 @@ class WordStudyController {
       var firstStrongsEntry = null;
       var additionalStrongsEntries = [];
 
+      this._wordStudyPanel.showLoadingIndicator();
+
       for (let i = 0; i < normalizedStrongsIds.length; i++) {
         var strongsEntry = await this.getStrongsEntryWithRawKey(strongsIds[i], normalizedStrongsIds[i]);
 
@@ -399,6 +401,7 @@ class WordStudyController {
       this._wordStudyPanel.update(firstStrongsEntry, additionalStrongsEntries, true, morphMap);
     } catch (e) {
       console.log(e);
+      this._wordStudyPanel.hideLoadingIndicator();
     }
 
     if (this._currentWordElement != null) {

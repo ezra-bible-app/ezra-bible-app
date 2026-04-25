@@ -125,13 +125,33 @@ class WordStudyPanel {
     this.wordStudyPanelHelp[0].style.display = 'block';
   }
 
+  showLoadingIndicator() {
+    if (this._loadingIndicatorTimeout != null) { return; }
+    this._loadingIndicatorTimeout = setTimeout(() => {
+      this._loadingIndicatorTimeout = null;
+      const indicator = document.getElementById('word-study-panel-loading-indicator');
+      if (indicator) { indicator.show(); }
+    }, 50);
+  }
+
+  hideLoadingIndicator() {
+    if (this._loadingIndicatorTimeout != null) {
+      clearTimeout(this._loadingIndicatorTimeout);
+      this._loadingIndicatorTimeout = null;
+    }
+    const indicator = document.getElementById('word-study-panel-loading-indicator');
+    if (indicator) { indicator.hide(); }
+  }
+
   async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false, morphMap={}) {
     if (strongsEntry == null) {
+      this.hideLoadingIndicator();
       return;
     }
 
     var jsStrongsEntry = this.getJsStrongs()[strongsEntry.key];
     if (jsStrongsEntry == null) {
+      this.hideLoadingIndicator();
       return;
     }
 
@@ -175,6 +195,7 @@ class WordStudyPanel {
       });
     });
 
+    this.hideLoadingIndicator();
     this.wordStudyPanelCopyButton.show();
 
     this._occurrencesHelper.attachOccurrencesEventHandlers();
