@@ -462,6 +462,11 @@
     "copy-dict-entry-to-clipboard": "Скопировать статью словаря в буфер обмена",
     "copy-dict-entry-to-clipboard-success": "Статья словаря скопирована в буфер обмена!",
     "morphology": "Morphology",
+    "occurrences": "Occurrences",
+    "index-not-available": "The Strong's occurrence index for {{translation}} has not been generated yet.",
+    "generate-index": "Generate index",
+    "show-occurrence-statistics": "Show occurrence statistics",
+    "show-all-occurrences": "Show all occurrences",
     "vines-index-not-available": "The Vine's dictionary index has not been generated yet. Once generated, matching entries from the Vine's Expository Dictionary will be listed here.",
     "vines-not-installed": "The Vine's Expository Dictionary module is not installed. You can install it from the Xiphos repository via the module assistant."
   },
