@@ -234,7 +234,7 @@
   },
   "custom-repositories": {
     "dialog-title": "Repozitoriji po meri",
-    "description": "V lastnih repozitorijih lahko dodate dodatne vire modulov SWORD, ki niso vključeni v privzeti namestitvi. Natančna nastavitev repozitorijev po meri tukaj ni opisana. Za podrobnejše pojasnilo obiščite <a class=='external' href=‚https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository‘>Wiki razvijalcev CrossWire</a>.",
+    "description": "V lastnih repozitorijih lahko dodate dodatne vire modulov SWORD, ki niso vključeni v privzeti namestitvi. Natančna nastavitev repozitorijev po meri tukaj ni opisana. Za podrobnejše pojasnilo obiščite <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository‘>Wiki razvijalcev CrossWire</a>.",
     "list-headline": "Seznam repozitorijev po meri",
     "add-repository": "Dodaj repozitorij po meri",
     "no-custom-repos": "Ni še nastavljenih repozitorijev po meri.",
