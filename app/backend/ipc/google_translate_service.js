@@ -23,7 +23,6 @@ class GoogleTranslateService {
     this._onFailure = onFailure;
     this._cacheSize = cacheSize;
     this._cache = new Map();
-    this._translateClient = null;
   }
 
   normalizeLanguageCode(languageCode) {
@@ -88,13 +87,8 @@ class GoogleTranslateService {
     }
   }
 
-  getClient() {
-    if (this._translateClient == null) {
-      const { Translate } = require('@google-cloud/translate').v2;
-      this._translateClient = new Translate();
-    }
-
-    return this._translateClient;
+  static get TRANSLATE_API_URL() {
+    return 'https://gcloud-translate-service.vercel.app/api/translate';
   }
 
   getSettingsConfig() {
@@ -180,17 +174,34 @@ class GoogleTranslateService {
   }
 
   async executeTranslateRequest(htmlString, sourceLanguageCode, targetLanguageCode) {
-    const translateClient = this.getClient();
+    const apiSecret = process.env.TRANSLATE_API_SECRET;
+    const { protected: protectedHtml, originals } = this.protectCustomTags(htmlString);
 
-    const options = {
-      from: sourceLanguageCode,
-      to: targetLanguageCode,
-      format: 'html'
+    const requestBody = {
+      text: protectedHtml,
+      target: targetLanguageCode
     };
 
-    const { protected: protectedHtml, originals } = this.protectCustomTags(htmlString);
-    const [translatedString] = await translateClient.translate(protectedHtml, options);
-    return this.restoreCustomTags(translatedString, originals);
+    if (sourceLanguageCode != null && sourceLanguageCode !== '') {
+      requestBody.source = sourceLanguageCode;
+    }
+
+    const response = await fetch(GoogleTranslateService.TRANSLATE_API_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiSecret}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text().catch(() => '');
+      throw new Error(`Translation API error ${response.status}: ${errorText}`);
+    }
+
+    const data = await response.json();
+    return this.restoreCustomTags(data.translatedText, originals);
   }
 
   async translateHtml(htmlString, sourceLanguageCode, targetLanguageCode) {
