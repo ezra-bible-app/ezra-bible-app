@@ -637,11 +637,11 @@ a.chapter-nav:hover {
   flex-basis: 100%;
 }
 
-.verse-text .primary-variant {
+.verse-text .primary-variant, .commentary-content .primary-variant {
   display: inline-block;
 }
 
-.verse-text .secondary-variant {
+.verse-text .secondary-variant, .commentary-content .secondary-variant {
   display: none;
 }
 
