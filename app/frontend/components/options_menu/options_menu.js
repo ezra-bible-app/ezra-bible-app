@@ -175,7 +175,7 @@ class OptionsMenu {
   }
 
   initAutoTranslationSettingsDialog() {
-    let dialogOptions = uiHelper.getDialogOptions(450, null, true);
+    let dialogOptions = uiHelper.getDialogOptions(600, 220, true);
     dialogOptions.autoOpen = false;
     dialogOptions.dialogClass = 'ezra-dialog auto-translation-settings-dialog';
     dialogOptions.title = i18n.t('general.configure-auto-translation');
