@@ -18,7 +18,7 @@
 
 const crypto = require('crypto');
 
-class GoogleTranslateService {
+class TranslationService {
   constructor(onFailure = undefined, cacheSize = 300) {
     this._onFailure = onFailure;
     this._cacheSize = cacheSize;
@@ -186,7 +186,7 @@ class GoogleTranslateService {
       requestBody.source = sourceLanguageCode;
     }
 
-    const response = await fetch(GoogleTranslateService.TRANSLATE_API_URL, {
+    const response = await fetch(TranslationService.TRANSLATE_API_URL, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiSecret}`,
@@ -261,4 +261,4 @@ class GoogleTranslateService {
   }
 }
 
-module.exports = GoogleTranslateService;
+module.exports = TranslationService;

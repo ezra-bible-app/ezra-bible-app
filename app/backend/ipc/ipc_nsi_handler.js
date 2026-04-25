@@ -21,7 +21,7 @@ const CustomRepositoryHelper = require('./custom_repository_helper.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
 const DropboxModuleHelper = require('../db_sync/dropbox_module_helper.js');
-const GoogleTranslateService = require('./google_translate_service.js');
+const TranslationService = require('./translation_service.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -47,7 +47,7 @@ class IpcNsiHandler {
     this._customSwordDir = customSwordDir;
     this._dropboxModulesCache = null;
     this._translationWarningShown = false;
-    this._googleTranslateService = new GoogleTranslateService((error) => {
+    this._googleTranslateService = new TranslationService((error) => {
       if (this._platformHelper.isDebug()) {
         console.warn(`Automatic translation failed: ${error}`);
       }
