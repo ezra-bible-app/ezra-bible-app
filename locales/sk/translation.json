@@ -595,6 +595,14 @@
     "modules-skipped": "{{count}} modul(ov) preskočený/é (už nainštalované)",
     "modules-failed": "{{count}} modul(ov) zlyhala inštalácia",
     "install-summary": "Súhrn inštalácie",
-    "dropbox-not-linked": "Účet Dropbox nie je prepojený. Najprv si nastavte Dropbox."
+    "dropbox-not-linked": "Účet Dropbox nie je prepojený. Najprv si nastavte Dropbox.",
+    "module-header": "Module",
+    "status-header": "Status",
+    "processing": "Processing...",
+    "row-installed": "✓ Installed",
+    "row-failed": "✗ Failed: {{error}}",
+    "unknown-error": "Unknown error",
+    "installation-failed": "Installation failed",
+    "no-dropbox-token": "No Dropbox token found in configuration"
   }
 }

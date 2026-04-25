@@ -594,6 +594,14 @@
     "modules-skipped": "{{count}} módulo(s) saltados (previamente instalados)",
     "modules-failed": "{{count}} módulo(s) no instalado por fallos",
     "install-summary": "Resumen de instalación",
-    "dropbox-not-linked": "La cuenta de Dropbox no está vinculada. Por favor, configure Dropbox primero."
+    "dropbox-not-linked": "La cuenta de Dropbox no está vinculada. Por favor, configure Dropbox primero.",
+    "module-header": "Module",
+    "status-header": "Status",
+    "processing": "Processing...",
+    "row-installed": "✓ Installed",
+    "row-failed": "✗ Failed: {{error}}",
+    "unknown-error": "Unknown error",
+    "installation-failed": "Installation failed",
+    "no-dropbox-token": "No Dropbox token found in configuration"
   }
 }

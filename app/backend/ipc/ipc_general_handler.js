@@ -176,7 +176,8 @@ class IpcGeneralHandler {
       if (!dropboxToken) {
         return {
           success: false,
-          error: 'Dropbox not linked'
+          error: 'Dropbox not linked',
+          errorCode: 'not-linked'
         };
       }
       
@@ -210,6 +211,7 @@ class IpcGeneralHandler {
         return {
           success: false,
           error: 'Dropbox not linked',
+          errorCode: 'not-linked',
           errorDetails: 'No Dropbox token found in configuration'
         };
       }
