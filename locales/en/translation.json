@@ -221,7 +221,7 @@
     "configure-auto-translation": "Configure auto translation for dictionary/commentary content",
     "auto-translation-token-label": "API access token:",
     "auto-translation-warning": "Automatic translation is currently unavailable. Showing original module text.",
-    "auto-translation-unauthorized": "Automatic translation failed: invalid or missing API key. Please check your TRANSLATE_API_SECRET configuration.",
+    "auto-translation-unauthorized": "Automatic translation failed: invalid or missing API access token. Please check the token in the auto translation settings.",
     "copy-verse-reference-before-text": "Copy verses starting with reference",
     "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!",
     "type-face": {
