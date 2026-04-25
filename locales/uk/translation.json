@@ -603,7 +603,6 @@
     "row-installed": "✓ Installed",
     "row-failed": "✗ Failed: {{error}}",
     "unknown-error": "Unknown error",
-    "installation-failed": "Installation failed",
-    "no-dropbox-token": "No Dropbox token found in configuration"
+    "installation-failed": "Installation failed"
   }
 }

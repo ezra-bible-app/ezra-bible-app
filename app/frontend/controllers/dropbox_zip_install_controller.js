@@ -297,7 +297,7 @@ module.exports.showDropboxZipInstallDialog = async function() {
             ? i18n.t('dropbox.repo-validation-error-not-linked')
             : (result.error || i18n.t('dropbox.unknown-error'));
           const errorDetails = result.errorCode === 'not-linked'
-            ? i18n.t('dropbox.no-dropbox-token')
+            ? i18n.t('dropbox.dropbox-not-linked')
             : (result.errorDetails || '');
           const fullError = errorDetails ? `${errorMsg}: ${errorDetails}` : errorMsg;
           console.error(`[DropboxZipInstall] Failed to install ${displayPath}: ${fullError}`);
