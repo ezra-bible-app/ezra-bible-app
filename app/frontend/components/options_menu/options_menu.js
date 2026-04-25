@@ -87,6 +87,11 @@ class OptionsMenu {
       await dbSyncController.showDbSyncConfigDialog();
     });
 
+    $('#configure-auto-translation-button').bind('click', async () => {
+      this.hideDisplayMenu();
+      await this.showAutoTranslationSettingsDialog();
+    });
+
     $('#install-dropbox-zip-button').bind('click', async () => {
       this.hideDisplayMenu();
       await dropboxZipInstallController.showDropboxZipInstallDialog();
@@ -140,7 +145,7 @@ class OptionsMenu {
     this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
     this._checkNewReleasesOption = this.initConfigOption('checkNewReleasesOption', async() => {});
     this._sendCrashReportsOption = this.initConfigOption('sendCrashReportsOption', async() => { this.toggleCrashReportsBasedOnOption(); });
-    this._enableAutoTranslationOption = this.initConfigOption('enableAutoTranslationOption', async() => {});
+    this.initAutoTranslationSettingsDialog();
     this._copyVerseReferenceBeforeTextOption = this.initConfigOption('copyVerseReferenceBeforeTextOption', () => {});
     this._limitTextWidthOption = this.initConfigOption('limitTextWidthOption', () => { this.toggleTextWidthBasedOnOption(); }, true);
     this._notesColumnOption = this.initConfigOption('useNotesColumnOption', () => { this.changeNotesLayoutBasedOnOption(); }, true);
@@ -167,6 +172,45 @@ class OptionsMenu {
 
       this.initCurrentOptionsMenu(tabIndex);
     });
+  }
+
+  initAutoTranslationSettingsDialog() {
+    let dialogOptions = uiHelper.getDialogOptions(450, null, true);
+    dialogOptions.autoOpen = false;
+    dialogOptions.dialogClass = 'ezra-dialog auto-translation-settings-dialog';
+    dialogOptions.title = i18n.t('general.configure-auto-translation');
+    dialogOptions.buttons = {
+      OK: {
+        text: i18n.t('general.ok'),
+        click: async () => {
+          await this.saveAutoTranslationSettings();
+          $('#auto-translation-settings-dialog').dialog('close');
+        }
+      },
+      Cancel: {
+        text: i18n.t('general.cancel'),
+        click: () => {
+          $('#auto-translation-settings-dialog').dialog('close');
+        }
+      }
+    };
+    $('#auto-translation-settings-dialog').dialog(dialogOptions);
+  }
+
+  async showAutoTranslationSettingsDialog() {
+    let enabled = await ipcSettings.get('enableAutoTranslation', false);
+    let savedToken = await ipcSettings.get('translateApiToken', '');
+    document.getElementById('enable-auto-translation-checkbox').checked = enabled;
+    document.getElementById('auto-translation-token-input').value = savedToken;
+    $('#auto-translation-settings-dialog').dialog('open');
+    uiHelper.fixDialogCloseIconOnCordova('auto-translation-settings-dialog');
+  }
+
+  async saveAutoTranslationSettings() {
+    let enabled = document.getElementById('enable-auto-translation-checkbox').checked;
+    let token = document.getElementById('auto-translation-token-input').value.trim();
+    await ipcSettings.set('enableAutoTranslation', enabled);
+    await ipcSettings.set('translateApiToken', token);
   }
 
   async initNightModeOption() {

@@ -174,7 +174,7 @@ class TranslationService {
   }
 
   async executeTranslateRequest(htmlString, sourceLanguageCode, targetLanguageCode) {
-    const apiSecret = process.env.TRANSLATE_API_SECRET;
+    const apiSecret = this.getSettingValue('translateApiToken', process.env.TRANSLATE_API_SECRET || '');
     const { protected: protectedHtml, originals } = this.protectCustomTags(htmlString);
 
     const requestBody = {

@@ -218,6 +218,8 @@
     "check-new-releases": "Check for new releases",
     "send-crash-reports": "Send error reports",
     "enable-auto-translation": "Auto-translate dictionary and commentary content",
+    "configure-auto-translation": "Configure auto translation for dictionary/commentary content",
+    "auto-translation-token-label": "API access token:",
     "auto-translation-warning": "Automatic translation is currently unavailable. Showing original module text.",
     "auto-translation-unauthorized": "Automatic translation failed: invalid or missing API key. Please check your TRANSLATE_API_SECRET configuration.",
     "copy-verse-reference-before-text": "Copy verses starting with reference",
