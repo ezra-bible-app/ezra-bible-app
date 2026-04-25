@@ -6,19 +6,19 @@ All notable changes to Ezra Bible App are documented in this file.
 ### Features
 
 * Render morphological info in Word Study panel. ([#1361][i1361])
+* Integrate Vine's Expository Dictionary in Word Study Panel. ([#1372][i1372])
+* Allow editing/configuration of additional SWORD repositories. ([#1302][i1302])
+* Show number of occurrences per Strong's number in Word Study panel. ([#586][i586])
 
 ### Enhancements
 
 * Show list of failed repo updates (if any) in module install assistant. ([#515][i515])
 * Show footnotes of both translations in commentary panel if parallel translations are used. ([#1351][i1351])
-* Allow editing/configuration of additional SWORD repositories. ([#1302][i1302])
 * Add fullscreen function for Tag statistics, Word study, Bible commentary, Dictionary and Compare translation panels. ([#1358][i1358])
 * Enable opening of verse list in new tab from popup on mobile. ([#1360][i1360])
 * Horizontally center Bible book selection menu on tablets in portrait mode. ([#1357][i1357])
-* Show number of occurrences per Strong's number in Word Study panel. ([#586][i586])
 * Show number of selected tags in dialog for adding existing tags to tag group. ([#690][i690])
 * Use stacking/breadcrumbs navigation for sword:// links to Strong's references in Word Study panel. ([#1371][i1371])
-* Integrate Vine's Expository Dictionary in Word Study Panel. ([#1372][i1372])
 
 ### Fixes
 
