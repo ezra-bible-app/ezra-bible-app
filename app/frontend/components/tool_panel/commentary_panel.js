@@ -191,32 +191,22 @@ class CommentaryPanel {
   }
 
   showLoadingIndicator() {
-    let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
-    loadingIndicator.querySelector('.loader').style.display = 'block';
-    loadingIndicator.style.display = 'block';
+    if (this._loadingIndicatorTimeout != null) { return; }
+    this._loadingIndicatorTimeout = setTimeout(() => {
+      this._loadingIndicatorTimeout = null;
+      let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
+      loadingIndicator.querySelector('.loader').style.display = 'block';
+      loadingIndicator.style.display = 'block';
+    }, 300);
   }
-  
+
   hideLoadingIndicator() {
+    if (this._loadingIndicatorTimeout != null) {
+      clearTimeout(this._loadingIndicatorTimeout);
+      this._loadingIndicatorTimeout = null;
+    }
     let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
     loadingIndicator.style.display = 'none';
-  }
-
-  showHeaderLoadingIndicator() {
-    if (this._headerLoadingIndicatorTimeout != null) { return; }
-    this._headerLoadingIndicatorTimeout = setTimeout(() => {
-      this._headerLoadingIndicatorTimeout = null;
-      const indicator = document.getElementById('commentary-panel-header-loading-indicator');
-      if (indicator) { indicator.show(); }
-    }, 50);
-  }
-
-  hideHeaderLoadingIndicator() {
-    if (this._headerLoadingIndicatorTimeout != null) {
-      clearTimeout(this._headerLoadingIndicatorTimeout);
-      this._headerLoadingIndicatorTimeout = null;
-    }
-    const indicator = document.getElementById('commentary-panel-header-loading-indicator');
-    if (indicator) { indicator.hide(); }
   }
 
   isPanelActive() {
@@ -288,9 +278,9 @@ class CommentaryPanel {
     }
 
     panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
-    this.showHeaderLoadingIndicator();
 
-    if (platformHelper.isCordova()) {
+    const autoTranslationEnabled = await ipcSettings.get('enableAutoTranslation', false);
+    if (platformHelper.isCordova() || autoTranslationEnabled) {
 
       this.getBoxContent().innerHTML = '';
       this.showLoadingIndicator();
@@ -305,10 +295,7 @@ class CommentaryPanel {
   async performContentRefresh(selectedVerseBoxes=undefined, commentaryPreconditionsFulfilled=true) {
     const commentaryContent = await this.getCommentaryContent(selectedVerseBoxes, commentaryPreconditionsFulfilled);
 
-    if (platformHelper.isCordova()) {
-      this.hideLoadingIndicator();
-    }
-    this.hideHeaderLoadingIndicator();
+    this.hideLoadingIndicator();
 
     this.renderContentInPanel(commentaryContent);
     this.attachContentEventListeners();

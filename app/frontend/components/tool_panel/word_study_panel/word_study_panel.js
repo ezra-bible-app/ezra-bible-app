@@ -90,7 +90,7 @@ class WordStudyPanel {
       dictionaryInstallStatusClass = "dict-not-installed";
     }
 
-    this.wordStudyPanelWrapper.find('div').empty();
+    this.wordStudyPanelWrapper.find('div').not('#word-study-panel-loading-indicator, #word-study-panel-loading-indicator *').empty();
     this.wordStudyPanelHeader[0].innerHTML = i18n.t("word-study-panel.default-header",
                                                        { interpolation: {escapeValue: false} });
 
@@ -126,21 +126,18 @@ class WordStudyPanel {
   }
 
   showLoadingIndicator() {
-    if (this._loadingIndicatorTimeout != null) { return; }
-    this._loadingIndicatorTimeout = setTimeout(() => {
-      this._loadingIndicatorTimeout = null;
-      const indicator = document.getElementById('word-study-panel-loading-indicator');
-      if (indicator) { indicator.show(); }
-    }, 50);
+    this.wordStudyPanelContent[0].innerHTML = '';
+    this.wordStudyPanelBreadcrumbs[0].innerHTML = '';
+    this.wordStudyPanelBreadcrumbs.hide();
+
+    let loadingIndicator = document.getElementById('word-study-panel-loading-indicator');
+    loadingIndicator.querySelector('.loader').style.display = 'block';
+    loadingIndicator.style.display = 'block';
   }
 
   hideLoadingIndicator() {
-    if (this._loadingIndicatorTimeout != null) {
-      clearTimeout(this._loadingIndicatorTimeout);
-      this._loadingIndicatorTimeout = null;
-    }
-    const indicator = document.getElementById('word-study-panel-loading-indicator');
-    if (indicator) { indicator.hide(); }
+    let loadingIndicator = document.getElementById('word-study-panel-loading-indicator');
+    loadingIndicator.style.display = 'none';
   }
 
   async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false, morphMap={}) {
@@ -167,11 +164,11 @@ class WordStudyPanel {
     var dictInfoHeader = this.getHeader(strongsEntry);
     this.wordStudyPanelHeader.html(dictInfoHeader);
     this.wordStudyPanelHelp.hide();
-    this.wordStudyPanelBreadcrumbs.html(this.getBreadcrumbs(additionalStrongsEntries));
 
     var morphCode = this.currentMorphMap[strongsEntry.rawKey] || null;
     let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma, morphCode);
 
+    this.wordStudyPanelBreadcrumbs.html(this.getBreadcrumbs(additionalStrongsEntries)).show();
     this.wordStudyPanelContent.html(extendedStrongsInfo);
     document.getElementById('word-study-panel-wrapper').scrollTop = 0;
 

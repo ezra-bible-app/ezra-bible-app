@@ -358,7 +358,10 @@ class WordStudyController {
       var firstStrongsEntry = null;
       var additionalStrongsEntries = [];
 
-      this._wordStudyPanel.showLoadingIndicator();
+      const autoTranslationEnabled = await ipcSettings.get('enableAutoTranslation', false);
+      if (autoTranslationEnabled) {
+        this._wordStudyPanel.showLoadingIndicator();
+      }
 
       for (let i = 0; i < normalizedStrongsIds.length; i++) {
         var strongsEntry = await this.getStrongsEntryWithRawKey(strongsIds[i], normalizedStrongsIds[i]);
