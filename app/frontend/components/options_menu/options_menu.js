@@ -172,6 +172,16 @@ class OptionsMenu {
 
       this.initCurrentOptionsMenu(tabIndex);
     });
+
+    eventController.subscribe('on-locale-changed', () => {
+      this.initAutoTranslationSettingsDialog();
+    });
+
+    eventController.subscribe('on-esc-pressed', () => {
+      if ($('#auto-translation-settings-dialog').dialog('isOpen')) {
+        $('#auto-translation-settings-dialog').dialog('close');
+      }
+    });
   }
 
   initAutoTranslationSettingsDialog() {
