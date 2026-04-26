@@ -194,6 +194,7 @@ class CommentaryPanel {
     if (this._loadingIndicatorTimeout != null) { return; }
     this._loadingIndicatorTimeout = setTimeout(() => {
       this._loadingIndicatorTimeout = null;
+      this.getBoxContent().innerHTML = '';
       let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
       loadingIndicator.querySelector('.loader').style.display = 'block';
       loadingIndicator.style.display = 'block';
@@ -282,7 +283,6 @@ class CommentaryPanel {
     const autoTranslationEnabled = await ipcSettings.get('enableAutoTranslation', false);
     if (platformHelper.isCordova() || autoTranslationEnabled) {
 
-      this.getBoxContent().innerHTML = '';
       this.showLoadingIndicator();
       this.performDelayedContentRefresh(selectedVerseBoxes, commentaryPreconditionsFulfilled);
 

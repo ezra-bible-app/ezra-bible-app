@@ -53,6 +53,7 @@ class WordStudyPanel {
     this._oshmMorphologyParser = new OpenScripturesHebrewMorphologyParser();
     this._occurrencesHelper = new StrongsOccurrencesHelper(this);
     this._vinesHelper = new VinesHelper(this);
+    this._loadingIndicatorTimeout = null;
 
     this.wordStudyPanelCopyButton.on('click', (event) => {
       event.preventDefault();
@@ -126,16 +127,23 @@ class WordStudyPanel {
   }
 
   showLoadingIndicator() {
-    this.wordStudyPanelContent[0].innerHTML = '';
-    this.wordStudyPanelBreadcrumbs[0].innerHTML = '';
-    this.wordStudyPanelBreadcrumbs.hide();
-
-    let loadingIndicator = document.getElementById('word-study-panel-loading-indicator');
-    loadingIndicator.querySelector('.loader').style.display = 'block';
-    loadingIndicator.style.display = 'block';
+    if (this._loadingIndicatorTimeout != null) { return; }
+    this._loadingIndicatorTimeout = setTimeout(() => {
+      this._loadingIndicatorTimeout = null;
+      this.wordStudyPanelContent[0].innerHTML = '';
+      this.wordStudyPanelBreadcrumbs[0].innerHTML = '';
+      this.wordStudyPanelBreadcrumbs.hide();
+      let loadingIndicator = document.getElementById('word-study-panel-loading-indicator');
+      loadingIndicator.querySelector('.loader').style.display = 'block';
+      loadingIndicator.style.display = 'block';
+    }, 300);
   }
 
   hideLoadingIndicator() {
+    if (this._loadingIndicatorTimeout != null) {
+      clearTimeout(this._loadingIndicatorTimeout);
+      this._loadingIndicatorTimeout = null;
+    }
     let loadingIndicator = document.getElementById('word-study-panel-loading-indicator');
     loadingIndicator.style.display = 'none';
   }
