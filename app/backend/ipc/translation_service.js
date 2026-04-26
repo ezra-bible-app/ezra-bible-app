@@ -17,12 +17,24 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
+const PlatformHelper = require('../../lib/platform_helper.js');
 
 class TranslationService {
-  constructor(onFailure = undefined, cacheSize = 300) {
+  // Ring-buffer size: ~2 KB average entry × 5000 = ~10 MB on disk
+  static MAX_ENTRIES = 5000;
+
+  constructor(onFailure = undefined) {
     this._onFailure = onFailure;
-    this._cacheSize = cacheSize;
     this._cache = new Map();
+
+    this._platformHelper = new PlatformHelper();
+    this._cachePath = path.join(this._platformHelper.getUserDataPath(), 'translation-cache.json');
+    this._slots = new Array(TranslationService.MAX_ENTRIES).fill(null);
+    this._head = 0;
+
+    this._loadCache();
   }
 
   normalizeLanguageCode(languageCode) {
@@ -61,30 +73,59 @@ class TranslationService {
     return this.normalizeLanguageCode(languageCode).split('-')[0];
   }
 
+  _loadCache() {
+    if (!fs.existsSync(this._cachePath)) {
+      return;
+    }
+
+    try {
+      const data = JSON.parse(fs.readFileSync(this._cachePath, 'utf-8'));
+      this._head = data.head || 0;
+      this._slots = data.slots || new Array(TranslationService.MAX_ENTRIES).fill(null);
+
+      for (const slot of this._slots) {
+        if (slot != null) {
+          this._cache.set(slot.k, slot.v);
+        }
+      }
+
+      console.log(`[AutoTranslation] Loaded ${this._cache.size} entries from persistent cache`);
+    } catch (e) {
+      console.warn('[AutoTranslation] Failed to load persistent cache, starting fresh:', e.message);
+      this._slots = new Array(TranslationService.MAX_ENTRIES).fill(null);
+      this._head = 0;
+    }
+  }
+
+  _persistCache() {
+    try {
+      fs.writeFileSync(this._cachePath, JSON.stringify({ version: 1, head: this._head, slots: this._slots }, null, 2), 'utf-8');
+    } catch (e) {
+      console.warn('[AutoTranslation] Failed to persist cache:', e.message);
+    }
+  }
+
   getCacheKey(sourceLang, targetLang, htmlString) {
     const hash = crypto.createHash('sha1').update(htmlString).digest('hex');
     return `${sourceLang}|${targetLang}|${hash}`;
   }
 
   getCachedTranslation(cacheKey) {
-    if (!this._cache.has(cacheKey)) {
-      return null;
-    }
-
-    const cachedValue = this._cache.get(cacheKey);
-    this._cache.delete(cacheKey);
-    this._cache.set(cacheKey, cachedValue);
-
-    return cachedValue;
+    return this._cache.get(cacheKey) ?? null;
   }
 
   setCachedTranslation(cacheKey, translation) {
-    this._cache.set(cacheKey, translation);
-
-    if (this._cache.size > this._cacheSize) {
-      const firstKey = this._cache.keys().next().value;
-      this._cache.delete(firstKey);
+    // Evict the oldest slot from the lookup map before overwriting it
+    const evicted = this._slots[this._head];
+    if (evicted != null) {
+      this._cache.delete(evicted.k);
     }
+
+    this._slots[this._head] = { k: cacheKey, v: translation };
+    this._cache.set(cacheKey, translation);
+    this._head = (this._head + 1) % TranslationService.MAX_ENTRIES;
+
+    this._persistCache();
   }
 
   static get TRANSLATE_API_URL() {
