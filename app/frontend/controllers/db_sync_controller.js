@@ -108,6 +108,31 @@ module.exports.init = function() {
 
     }, CONNECTION_MONITORING_CYCLE_MS);
   }
+
+  eventController.subscribe('on-locale-changed', () => {
+    if (!dbSyncInitDone) {
+      return;
+    }
+
+    var newButtons = {};
+    newButtons[i18n.t("general.save")] = {
+      id: 'save-db-sync-config-button',
+      text: i18n.t("general.save"),
+      click: async () => {
+        handleDropboxConfigurationSave();
+      }
+    };
+    newButtons[i18n.t("general.cancel")] = {
+      id: 'cancel-db-sync-config-button',
+      text: i18n.t("general.cancel"),
+      click: () => {
+        $('#db-sync-box').dialog("close");
+      }
+    };
+
+    $('#db-sync-box').dialog('option', 'title', i18n.t("dropbox.setup-dropbox"));
+    $('#db-sync-box').dialog('option', 'buttons', newButtons);
+  });
 };
 
 module.exports.showDbSyncConfigDialog = async function() {
