@@ -52,6 +52,7 @@ class CommentaryPanel {
 
     eventController.subscribe('on-locale-changed', () => {
       refreshWithSelection();
+      this.initCommentarySettingsDialog();
     });
 
     eventController.subscribe('on-commentary-added', async (moduleCode) => {
