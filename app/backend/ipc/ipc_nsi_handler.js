@@ -52,7 +52,14 @@ class IpcNsiHandler {
         console.warn(`Automatic translation failed: ${error}`);
       }
 
-      const errorType = error.statusCode === 401 ? 'unauthorized' : null;
+      let errorType = null;
+      if (error.statusCode === 401) {
+        errorType = 'unauthorized';
+      } else if (error.statusCode === 429) {
+        errorType = 'quota-exceeded';
+      } else if (error.statusCode === 500) {
+        errorType = 'service-unavailable';
+      }
       this.sendTranslationWarningOnce(errorType);
     });
 
