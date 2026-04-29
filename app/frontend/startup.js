@@ -417,6 +417,22 @@ class Startup {
     console.log("Initializing controllers ...");
     await this.initControllers();
 
+    ipcNsi.addTranslationWarningListener((message) => {
+      const errorTypeToMsgKey = {
+        'unauthorized': 'general.auto-translation-unauthorized',
+        'quota-exceeded': 'general.auto-translation-quota-exceeded',
+        'service-unavailable': 'general.auto-translation-service-unavailable'
+      };
+      const errorType = message && message.errorType;
+      const msgKey = errorTypeToMsgKey[errorType] || 'general.auto-translation-warning';
+      iziToast.warning({
+        title: i18n.t('general.warning'),
+        message: i18n.t(msgKey),
+        position: platformHelper.getIziPosition(),
+        timeout: 6000
+      });
+    });
+
     console.log("Initializing user interface ...");
     this.initUi();
     await app_controller.optionsMenu.init();

@@ -21,6 +21,7 @@ const CustomRepositoryHelper = require('./custom_repository_helper.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
 const DropboxModuleHelper = require('../db_sync/dropbox_module_helper.js');
+const TranslationService = require('./translation_service.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -45,6 +46,22 @@ class IpcNsiHandler {
     this._nsi = null;
     this._customSwordDir = customSwordDir;
     this._dropboxModulesCache = null;
+    this._translationWarningShown = false;
+    this._googleTranslateService = new TranslationService((error) => {
+      if (this._platformHelper.isDebug()) {
+        console.warn(`Automatic translation failed: ${error}`);
+      }
+
+      let errorType = null;
+      if (error.statusCode === 401) {
+        errorType = 'unauthorized';
+      } else if (error.statusCode === 429) {
+        errorType = 'quota-exceeded';
+      } else if (error.statusCode === 500) {
+        errorType = 'service-unavailable';
+      }
+      this.sendTranslationWarningOnce(errorType);
+    });
 
     this.initNSI(this._customSwordDir);
     this._dropboxModuleHelper = new DropboxModuleHelper(this._platformHelper, this._nsi);
@@ -167,6 +184,43 @@ class IpcNsiHandler {
    */
   getSwordLocaleCode(localeCode) {
     return localeCode.replace('-', '_');
+  }
+
+  sendTranslationWarningOnce(errorType = null) {
+    if (this._translationWarningShown) {
+      return;
+    }
+
+    this._translationWarningShown = true;
+    this._ipcMain.message('nsi_translation_warning', { warning: true, errorType: errorType });
+  }
+
+  getModuleLanguage(moduleCode) {
+    if (moduleCode == null || moduleCode === '') {
+      return null;
+    }
+
+    const module = this._nsi.getLocalModule(moduleCode);
+
+    if (module == null || module.language == null || module.language === '') {
+      return null;
+    }
+
+    return module.language;
+  }
+
+  getModuleType(moduleCode) {
+    if (moduleCode == null || moduleCode === '') {
+      return null;
+    }
+
+    const module = this._nsi.getLocalModule(moduleCode);
+
+    if (module == null || module.type == null || module.type === '') {
+      return null;
+    }
+
+    return module.type;
   }
 
   initIpcInterface() {
@@ -383,12 +437,28 @@ class IpcNsiHandler {
       return this._nsi.isModuleReadable(moduleCode);
     });
 
-    this._ipcMain.add('nsi_getRawModuleEntry', (moduleCode, key, processImages=false) => {
-      return this._nsi.getRawModuleEntry(moduleCode, key, processImages);
+    this._ipcMain.add('nsi_getRawModuleEntry', async (moduleCode, key, processImages=false) => {
+      const rawEntry = this._nsi.getRawModuleEntry(moduleCode, key, processImages);
+      const sourceLanguageCode = this.getModuleLanguage(moduleCode);
+      const targetLanguageCode = this._googleTranslateService.getSettingValue('appLocale', 'en');
+      const meta = { module: moduleCode, type: this.getModuleType(moduleCode) || '', key: String(key).split('.')[0] };
+
+      return await this._googleTranslateService.maybeTranslateHtml(rawEntry, sourceLanguageCode, targetLanguageCode, meta);
     });
 
-    this._ipcMain.add('nsi_getReferenceText', (moduleCode, key) => {
-      return this._nsi.getReferenceText(moduleCode, key);
+    this._ipcMain.add('nsi_getReferenceText', async (moduleCode, key) => {
+      const referenceText = this._nsi.getReferenceText(moduleCode, key);
+      if (referenceText == null) {
+        return referenceText;
+      }
+      const sourceLanguageCode = this.getModuleLanguage(moduleCode);
+      const targetLanguageCode = this._googleTranslateService.getSettingValue('appLocale', 'en');
+      const meta = { module: moduleCode, type: this.getModuleType(moduleCode) || '', key: String(key).split('.')[0] };
+      const translatedContent = await this._googleTranslateService.maybeTranslateHtml(referenceText.content, sourceLanguageCode, targetLanguageCode, meta);
+      return {
+        ...referenceText,
+        content: translatedContent
+      };
     });
 
     this._ipcMain.add('nsi_mapVerseReference', (sourceOsisRef, sourceModuleName, targetModuleName, allowRange=false) => {
@@ -516,8 +586,20 @@ class IpcNsiHandler {
       return this._nsi.strongsAvailable();
     });
 
-    this._ipcMain.add('nsi_getStrongsEntry', (strongsKey) => {
-      return this._nsi.getStrongsEntry(strongsKey);
+    this._ipcMain.add('nsi_getStrongsEntry', async (strongsKey) => {
+      const strongsEntry = this._nsi.getStrongsEntry(strongsKey);
+      const targetLanguageCode = this._googleTranslateService.getSettingValue('appLocale', 'en');
+
+      let sourceModuleCode = null;
+      if (strongsKey != null && strongsKey.startsWith('G')) {
+        sourceModuleCode = 'StrongsGreek';
+      } else if (strongsKey != null && strongsKey.startsWith('H')) {
+        sourceModuleCode = 'StrongsHebrew';
+      }
+      const sourceLanguageCode = this.getModuleLanguage(sourceModuleCode);
+      const meta = { module: sourceModuleCode || '', type: this.getModuleType(sourceModuleCode) || '', key: strongsKey != null ? strongsKey.split('.')[0] : '' };
+
+      return await this._googleTranslateService.maybeTranslateStrongsEntry(strongsEntry, sourceLanguageCode, targetLanguageCode, meta);
     });
 
     this._ipcMain.add('nsi_getLocalModule', (moduleCode) => {

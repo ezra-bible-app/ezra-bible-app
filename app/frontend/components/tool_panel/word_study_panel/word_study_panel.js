@@ -53,6 +53,7 @@ class WordStudyPanel {
     this._oshmMorphologyParser = new OpenScripturesHebrewMorphologyParser();
     this._occurrencesHelper = new StrongsOccurrencesHelper(this);
     this._vinesHelper = new VinesHelper(this);
+    this._loadingIndicatorTimeout = null;
 
     this.wordStudyPanelCopyButton.on('click', (event) => {
       event.preventDefault();
@@ -90,7 +91,7 @@ class WordStudyPanel {
       dictionaryInstallStatusClass = "dict-not-installed";
     }
 
-    this.wordStudyPanelWrapper.find('div').empty();
+    this.wordStudyPanelWrapper.find('div').not('#word-study-panel-loading-indicator, #word-study-panel-loading-indicator *').empty();
     this.wordStudyPanelHeader[0].innerHTML = i18n.t("word-study-panel.default-header",
                                                        { interpolation: {escapeValue: false} });
 
@@ -125,13 +126,37 @@ class WordStudyPanel {
     this.wordStudyPanelHelp[0].style.display = 'block';
   }
 
+  showLoadingIndicator() {
+    if (this._loadingIndicatorTimeout != null) { return; }
+    this._loadingIndicatorTimeout = setTimeout(() => {
+      this._loadingIndicatorTimeout = null;
+      this.wordStudyPanelContent[0].innerHTML = '';
+      this.wordStudyPanelBreadcrumbs[0].innerHTML = '';
+      this.wordStudyPanelBreadcrumbs.hide();
+      let loadingIndicator = document.getElementById('word-study-panel-loading-indicator');
+      loadingIndicator.querySelector('.loader').style.display = 'block';
+      loadingIndicator.style.display = 'block';
+    }, 300);
+  }
+
+  hideLoadingIndicator() {
+    if (this._loadingIndicatorTimeout != null) {
+      clearTimeout(this._loadingIndicatorTimeout);
+      this._loadingIndicatorTimeout = null;
+    }
+    let loadingIndicator = document.getElementById('word-study-panel-loading-indicator');
+    loadingIndicator.style.display = 'none';
+  }
+
   async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false, morphMap={}) {
     if (strongsEntry == null) {
+      this.hideLoadingIndicator();
       return;
     }
 
     var jsStrongsEntry = this.getJsStrongs()[strongsEntry.key];
     if (jsStrongsEntry == null) {
+      this.hideLoadingIndicator();
       return;
     }
 
@@ -147,11 +172,11 @@ class WordStudyPanel {
     var dictInfoHeader = this.getHeader(strongsEntry);
     this.wordStudyPanelHeader.html(dictInfoHeader);
     this.wordStudyPanelHelp.hide();
-    this.wordStudyPanelBreadcrumbs.html(this.getBreadcrumbs(additionalStrongsEntries));
 
     var morphCode = this.currentMorphMap[strongsEntry.rawKey] || null;
     let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma, morphCode);
 
+    this.wordStudyPanelBreadcrumbs.html(this.getBreadcrumbs(additionalStrongsEntries)).show();
     this.wordStudyPanelContent.html(extendedStrongsInfo);
     document.getElementById('word-study-panel-wrapper').scrollTop = 0;
 
@@ -175,6 +200,7 @@ class WordStudyPanel {
       });
     });
 
+    this.hideLoadingIndicator();
     this.wordStudyPanelCopyButton.show();
 
     this._occurrencesHelper.attachOccurrencesEventHandlers();
