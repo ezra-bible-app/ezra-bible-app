@@ -209,6 +209,20 @@ class IpcNsiHandler {
     return module.language;
   }
 
+  getModuleType(moduleCode) {
+    if (moduleCode == null || moduleCode === '') {
+      return null;
+    }
+
+    const module = this._nsi.getLocalModule(moduleCode);
+
+    if (module == null || module.type == null || module.type === '') {
+      return null;
+    }
+
+    return module.type;
+  }
+
   initIpcInterface() {
     this._ipcMain.add('nsi_repositoryConfigExisting', () => {
       return this._nsi.repositoryConfigExisting();
@@ -427,8 +441,9 @@ class IpcNsiHandler {
       const rawEntry = this._nsi.getRawModuleEntry(moduleCode, key, processImages);
       const sourceLanguageCode = this.getModuleLanguage(moduleCode);
       const targetLanguageCode = this._googleTranslateService.getSettingValue('appLocale', 'en');
+      const meta = { module: moduleCode, type: this.getModuleType(moduleCode) || '', key: String(key).slice(0, 256) };
 
-      return await this._googleTranslateService.maybeTranslateHtml(rawEntry, sourceLanguageCode, targetLanguageCode);
+      return await this._googleTranslateService.maybeTranslateHtml(rawEntry, sourceLanguageCode, targetLanguageCode, meta);
     });
 
     this._ipcMain.add('nsi_getReferenceText', async (moduleCode, key) => {
@@ -438,7 +453,8 @@ class IpcNsiHandler {
       }
       const sourceLanguageCode = this.getModuleLanguage(moduleCode);
       const targetLanguageCode = this._googleTranslateService.getSettingValue('appLocale', 'en');
-      const translatedContent = await this._googleTranslateService.maybeTranslateHtml(referenceText.content, sourceLanguageCode, targetLanguageCode);
+      const meta = { module: moduleCode, type: this.getModuleType(moduleCode) || '', key: String(key).slice(0, 256) };
+      const translatedContent = await this._googleTranslateService.maybeTranslateHtml(referenceText.content, sourceLanguageCode, targetLanguageCode, meta);
       return {
         ...referenceText,
         content: translatedContent
@@ -581,8 +597,9 @@ class IpcNsiHandler {
         sourceModuleCode = 'StrongsHebrew';
       }
       const sourceLanguageCode = this.getModuleLanguage(sourceModuleCode);
+      const meta = { module: sourceModuleCode || '', type: this.getModuleType(sourceModuleCode) || '', key: strongsKey || '' };
 
-      return await this._googleTranslateService.maybeTranslateStrongsEntry(strongsEntry, sourceLanguageCode, targetLanguageCode);
+      return await this._googleTranslateService.maybeTranslateStrongsEntry(strongsEntry, sourceLanguageCode, targetLanguageCode, meta);
     });
 
     this._ipcMain.add('nsi_getLocalModule', (moduleCode) => {

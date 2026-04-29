@@ -154,12 +154,12 @@ class TranslationService {
     return config.get(settingsKey, defaultValue);
   }
 
-  async maybeTranslateStrongsEntry(strongsEntry, sourceLanguageCode, targetLanguageCode) {
+  async maybeTranslateStrongsEntry(strongsEntry, sourceLanguageCode, targetLanguageCode, meta=null) {
     if (strongsEntry == null || strongsEntry.definition == null || strongsEntry.definition === '') {
       return strongsEntry;
     }
 
-    const translatedDefinition = await this.maybeTranslateHtml(strongsEntry.definition, sourceLanguageCode, targetLanguageCode);
+    const translatedDefinition = await this.maybeTranslateHtml(strongsEntry.definition, sourceLanguageCode, targetLanguageCode, meta);
 
     return {
       ...strongsEntry,
@@ -167,7 +167,7 @@ class TranslationService {
     };
   }
 
-  async maybeTranslateHtml(htmlString, sourceLanguageCode, targetLanguageCode) {
+  async maybeTranslateHtml(htmlString, sourceLanguageCode, targetLanguageCode, meta=null) {
     const autoTranslationEnabled = this.getSettingValue('enableAutoTranslation', false);
 
     if (!autoTranslationEnabled) {
@@ -176,7 +176,7 @@ class TranslationService {
 
     const charCount = htmlString != null ? htmlString.length : 0;
     console.log(`[AutoTranslation] Requesting translation: '${sourceLanguageCode}' -> '${targetLanguageCode}' (${charCount} chars)`);
-    return await this.translateHtml(htmlString, sourceLanguageCode, targetLanguageCode);
+    return await this.translateHtml(htmlString, sourceLanguageCode, targetLanguageCode, meta);
   }
 
   shouldSkipTranslation(htmlString, sourceLanguageCode, targetLanguageCode) {
@@ -214,7 +214,7 @@ class TranslationService {
     });
   }
 
-  async executeTranslateRequest(htmlString, sourceLanguageCode, targetLanguageCode) {
+  async executeTranslateRequest(htmlString, sourceLanguageCode, targetLanguageCode, meta=null) {
     const apiSecret = this.getSettingValue('translateApiToken', process.env.TRANSLATE_API_SECRET || '');
     const { protected: protectedHtml, originals } = this.protectCustomTags(htmlString);
 
@@ -225,6 +225,10 @@ class TranslationService {
 
     if (sourceLanguageCode != null && sourceLanguageCode !== '') {
       requestBody.source = sourceLanguageCode;
+    }
+
+    if (meta != null) {
+      requestBody.meta = meta;
     }
 
     const response = await fetch(TranslationService.TRANSLATE_API_URL, {
@@ -247,7 +251,7 @@ class TranslationService {
     return this.restoreCustomTags(data.translatedText, originals);
   }
 
-  async translateHtml(htmlString, sourceLanguageCode, targetLanguageCode) {
+  async translateHtml(htmlString, sourceLanguageCode, targetLanguageCode, meta=null) {
     const normalizedSource = this.normalizeLanguageCode(sourceLanguageCode);
     const normalizedTarget = this.normalizeLanguageCode(targetLanguageCode);
 
@@ -266,7 +270,7 @@ class TranslationService {
 
     try {
       console.log(`[AutoTranslation] Calling Google Translate API: '${normalizedSource}' -> '${normalizedTarget}'`);
-      const translated = await this.executeTranslateRequest(htmlString, normalizedSource, normalizedTarget);
+      const translated = await this.executeTranslateRequest(htmlString, normalizedSource, normalizedTarget, meta);
       console.log(`[AutoTranslation] API call succeeded`);
       this.setCachedTranslation(cacheKey, translated);
       return translated;
@@ -277,7 +281,7 @@ class TranslationService {
       if ((sourceBase !== normalizedSource || targetBase !== normalizedTarget) && sourceBase != null && targetBase != null) {
         console.log(`[AutoTranslation] API error, retrying with base language codes: '${sourceBase}' -> '${targetBase}'. Error: ${error.message}`);
         try {
-          const translated = await this.executeTranslateRequest(htmlString, sourceBase, targetBase);
+          const translated = await this.executeTranslateRequest(htmlString, sourceBase, targetBase, meta);
           console.log(`[AutoTranslation] Fallback API call succeeded`);
           const baseCacheKey = this.getCacheKey(sourceBase, targetBase, htmlString);
           this.setCachedTranslation(baseCacheKey, translated);
