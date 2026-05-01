@@ -38,6 +38,11 @@ class BookSelectionMenu {
     return document.getElementById('book-selection-menu-book-list');
   }
 
+  /**
+   * Removes transient availability and selection state before reusing cached menu markup.
+   *
+   * @param {HTMLElement} menuBookList - The root element containing the book menu lists.
+   */
   sanitizeBookSelectionMenuState(menuBookList) {
     if (menuBookList == null) {
       return;
@@ -62,6 +67,12 @@ class BookSelectionMenu {
     }
   }
 
+  /**
+   * Refreshes the menu for the current tab and reapplies the current-book highlight when applicable.
+   *
+   * @param {number|undefined} tabIndex - The tab to sync against, or the active tab if omitted.
+   * @param {string|undefined} moduleCode - An optional module code to use instead of the tab translation.
+   */
   async syncCurrentBookMenuState(tabIndex=undefined, moduleCode=undefined) {
     await this.updateAvailableBooks(tabIndex, moduleCode);
 
