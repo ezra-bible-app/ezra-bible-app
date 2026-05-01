@@ -441,7 +441,7 @@ class IpcNsiHandler {
       const rawEntry = this._nsi.getRawModuleEntry(moduleCode, key, processImages);
       const sourceLanguageCode = this.getModuleLanguage(moduleCode);
       const targetLanguageCode = this._googleTranslateService.getSettingValue('appLocale', 'en');
-      const meta = { module: moduleCode, type: this.getModuleType(moduleCode) || '', key: String(key).split('.')[0] };
+      const meta = { module: moduleCode, type: this.getModuleType(moduleCode) || '', key: String(key).split(/[\s.]/)[0] };
 
       return await this._googleTranslateService.maybeTranslateHtml(rawEntry, sourceLanguageCode, targetLanguageCode, meta);
     });
@@ -453,7 +453,7 @@ class IpcNsiHandler {
       }
       const sourceLanguageCode = this.getModuleLanguage(moduleCode);
       const targetLanguageCode = this._googleTranslateService.getSettingValue('appLocale', 'en');
-      const meta = { module: moduleCode, type: this.getModuleType(moduleCode) || '', key: String(key).split('.')[0] };
+      const meta = { module: moduleCode, type: this.getModuleType(moduleCode) || '', key: String(key).split(/[\s.]/)[0] };
       const translatedContent = await this._googleTranslateService.maybeTranslateHtml(referenceText.content, sourceLanguageCode, targetLanguageCode, meta);
       return {
         ...referenceText,
