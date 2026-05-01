@@ -425,13 +425,7 @@ class Startup {
     // Wait for the UI to render
     await waitUntilIdle();
 
-    console.log("Loading settings ...");
-    uiHelper.updateLoadingSubtitle("cordova.loading-settings");
-    if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
-      await app_controller.loadSettings();
-    }
-
-    uiHelper.updateLoadingSubtitle("cordova.waiting-app-ready");
+    //uiHelper.updateLoadingSubtitle("cordova.waiting-app-ready");
 
     // Wait for the UI to render, before we hide the loading indicator
     await waitUntilIdle();
@@ -442,6 +436,12 @@ class Startup {
     document.getElementById('main-content').style.display = 'block';
 
     await waitUntilIdle();
+
+    console.log("Loading settings ...");
+    //uiHelper.updateLoadingSubtitle("cordova.loading-settings");
+    if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
+      await app_controller.loadSettings();
+    }
 
     // Restore the scroll position of the first tab.
     app_controller.tab_controller.restoreScrollPosition(0);
