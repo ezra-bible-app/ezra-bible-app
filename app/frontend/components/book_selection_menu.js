@@ -34,16 +34,63 @@ class BookSelectionMenu {
     this.chapterMenuOpenedFromBookMenu = false;
   }
 
+  getBookSelectionMenuList() {
+    return document.getElementById('book-selection-menu-book-list');
+  }
+
+  sanitizeBookSelectionMenuState(menuBookList) {
+    if (menuBookList == null) {
+      return;
+    }
+
+    const transientClasses = [
+      'book-available',
+      'book-unavailable',
+      'book-selected'
+    ];
+
+    const bookLinks = menuBookList.querySelectorAll('li');
+
+    for (let i = 0; i < bookLinks.length; i++) {
+      bookLinks[i].classList.remove(...transientClasses);
+    }
+
+    const apocryphalBookList = menuBookList.querySelector('.apocryphal-books');
+
+    if (apocryphalBookList != null) {
+      apocryphalBookList.style.display = '';
+    }
+  }
+
+  async syncCurrentBookMenuState(tabIndex=undefined, moduleCode=undefined) {
+    await this.updateAvailableBooks(tabIndex, moduleCode);
+
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (currentTab == null) {
+      return;
+    }
+
+    const textType = currentTab.getTextType();
+
+    if (textType == 'book') {
+      this.highlightCurrentlySelectedBookInMenu(tabIndex);
+    } else {
+      this.clearSelectedBookInMenu();
+    }
+  }
+
   async init() {
     if (this.init_completed) return;
 
-    const menuBookList = document.querySelector('#app-container #book-selection-menu-book-list');
+    const menuBookList = this.getBookSelectionMenuList();
     menuBookList.addEventListener('click', app_controller.handleBodyClick);
 
     var cachedHtml = await cacheController.getCachedItem('bookSelectionMenuCache');
 
     if (cachedHtml) {
       menuBookList.innerHTML = cachedHtml;
+      this.sanitizeBookSelectionMenuState(menuBookList);
     } else {
       console.log("Localizing book selection menu ...");
       await this.localizeBookSelectionMenu();
@@ -81,14 +128,14 @@ class BookSelectionMenu {
 
   subscribeForEvents() {
     eventController.subscribe('on-translation1-changed', async () => {
-      await this.updateAvailableBooks();
+      await this.syncCurrentBookMenuState();
     });
 
     eventController.subscribe('on-translation-added', async (moduleCode) => {
       const bibleModules = await ipcNsi.getAllLocalModules('BIBLE');
 
       if (bibleModules.length == 1) { // First Bible module added. In this case we need to update the book list
-        await this.updateAvailableBooks(undefined, moduleCode);
+        await this.syncCurrentBookMenuState(undefined, moduleCode);
       }
     });
 
@@ -100,13 +147,7 @@ class BookSelectionMenu {
         this.clearSelectedBookInMenu();
       }
 
-      await this.updateAvailableBooks(tabIndex);
-
-      // Highlight currently selected book (only in book mode)
-      if (metaTab != null) {
-        const textType = metaTab.getTextType();
-        if (textType == 'book') this.highlightCurrentlySelectedBookInMenu(tabIndex);
-      }
+      await this.syncCurrentBookMenuState(tabIndex);
     });
 
     eventController.subscribe('on-tab-added', async () => {
@@ -115,13 +156,15 @@ class BookSelectionMenu {
 
     eventController.subscribe('on-locale-changed', async () => {
       await this.localizeBookSelectionMenu();
+      await this.syncCurrentBookMenuState();
       await this.renderRecentPassages();
     });
   }
 
   // This function is rather slow and it delays app startup! (~175ms)
   async localizeBookSelectionMenu() {
-    var aElements = document.querySelectorAll("#book-selection-menu-book-list a");
+    const menuBookList = this.getBookSelectionMenuList();
+    var aElements = menuBookList.querySelectorAll('a');
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
@@ -133,8 +176,10 @@ class BookSelectionMenu {
       }
     }
 
-    var html = document.getElementById("book-selection-menu-book-list").innerHTML;
-    cacheController.setCachedItem('bookSelectionMenuCache', html);
+    this.sanitizeBookSelectionMenuState(menuBookList);
+
+    var html = menuBookList.innerHTML;
+    await cacheController.setCachedItem('bookSelectionMenuCache', html);
   }
 
   async updateAvailableBooks(tabIndex=undefined, moduleCode=undefined) {
@@ -334,15 +379,20 @@ class BookSelectionMenu {
     }
   }
 
-  handleBookMenuClick(event) {
+  async handleBookMenuClick(event) {
     if ($('.book-select-button').hasClass('ui-state-disabled')) {
       return;
+    }
+
+    if (event != null) {
+      event.stopPropagation();
     }
 
     if (this.book_menu_is_opened) {
       app_controller.handleBodyClick();
     } else {
       app_controller.hideAllMenus();
+      await this.syncCurrentBookMenuState();
       
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');
@@ -353,10 +403,6 @@ class BookSelectionMenu {
       uiHelper.showButtonMenu(book_button, menu);
 
       this.book_menu_is_opened = true;
-
-      if (event != null) {
-        event.stopPropagation();
-      }
     }
   }
 
@@ -364,7 +410,7 @@ class BookSelectionMenu {
     let bookLongTitle = await ipcDb.getBookLongTitle(bookCode);
     let bookTitleTranslation = await ipcDb.getBookTitleTranslation(bookCode);
 
-    this.handleBookMenuClick();
+    await this.handleBookMenuClick();
     this.chapterMenuOpenedFromBookMenu = false;
     this.book_menu_is_opened = false;
     await this.selectBibleBook(bookCode, bookTitleTranslation, bookLongTitle, currentChapter);
