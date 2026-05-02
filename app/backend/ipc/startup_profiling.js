@@ -48,6 +48,7 @@ class StartupProfiling {
       databaseInitialization: null
     };
     this._categories = {
+      ipcGeneral: this.createCategoryStats(),
       ipcDb: this.createCategoryStats(),
       ipcNsi: this.createCategoryStats()
     };
@@ -82,6 +83,10 @@ class StartupProfiling {
   }
 
   getCategoryName(functionName) {
+    if (functionName.startsWith('general_')) {
+      return 'ipcGeneral';
+    }
+
     if (functionName.startsWith('db_')) {
       return 'ipcDb';
     }
@@ -294,6 +299,8 @@ class StartupProfiling {
     lines.push('database_initialization_ms=' + this.formatDurationNs(
       this._initializationDurations.databaseInitialization == null ? 0n : this._initializationDurations.databaseInitialization
     ));
+    lines.push('');
+    lines.push(this.createCategorySection('ipcGeneral', this._categories.ipcGeneral));
     lines.push('');
     lines.push(this.createCategorySection('ipcDb', this._categories.ipcDb));
     lines.push('');
