@@ -40,12 +40,31 @@ jobs:
         
         - name: Install electron v17.1.0 for compatibility with Spectron
           run: npm install electron@17.1.0
-        
+
         - name: Install spectron
           run: npm install spectron@19.0.0
 
         - name: Compile templates
           run: npm run compile-pug 
+
+        - name: Run startup profiling scenario
+          uses: nick-fields/retry@v2
+          with:
+            timeout_minutes: 3
+            max_attempts: 3
+            command: npm run headless-test-startup-profile
+
+        - name: Print startup IPC profile
+          if: always()
+          run: cat /home/runner/.config/ezra-bible-app-test/startup-ipc-profile.txt || echo "Startup profile file not found."
+
+        - name: Archive startup IPC profile
+          uses: actions/upload-artifact@v4.4.0
+          if: always()
+          with:
+            name: startup-ipc-profile.txt
+            path: /home/runner/.config/ezra-bible-app-test/startup-ipc-profile.txt
+            if-no-files-found: warn
 
         - name: Run test
           uses: nick-fields/retry@v2
