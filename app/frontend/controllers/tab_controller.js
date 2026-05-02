@@ -388,17 +388,10 @@ class TabController {
     if (await cacheController.hasCachedItem('tabConfiguration')) {
       uiHelper.showTextLoadingIndicator();
       verseListController.showVerseListLoadingIndicator();
+
       loadedTabCount = await this.loadMetaTabsFromSettings();
 
       if (loadedTabCount > 0) {
-        // Eagerly initialize the translation menu for the tab that will be selected,
-        // so it appears at the same time as other UI elements (avoids "pop-in" on mobile).
-        const savedIndex = await cacheController.hasCachedItem('selectedTabIndex')
-          ? await cacheController.getCachedItem('selectedTabIndex', 0)
-          : 0;
-        const targetIndex = Math.min(savedIndex, loadedTabCount - 1);
-        await app_controller.translation_controller.initTranslationsMenu(-1, targetIndex);
-
         await this.populateFromMetaTabs(force);
       } else {
         verseListController.hideVerseListLoadingIndicator();

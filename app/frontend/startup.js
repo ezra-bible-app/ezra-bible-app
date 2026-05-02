@@ -27,6 +27,7 @@ const i18nController = require('./controllers/i18n_controller.js');
 const dbSyncController = require('./controllers/db_sync_controller.js');
 const eventController = require('./controllers/event_controller.js');
 const cacheController = require('./controllers/cache_controller.js');
+const verseListController = require('./controllers/verse_list_controller.js');
 const { showDialog } = require('./helpers/ezra_helper.js');
 
 // UI Helper
@@ -435,11 +436,29 @@ class Startup {
     // Show main content
     document.getElementById('main-content').style.display = 'block';
 
+    //uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
+
+    if (await cacheController.hasCachedItem('tabConfiguration')) {
+      uiHelper.showTextLoadingIndicator();
+      verseListController.showVerseListLoadingIndicator();
+    }
+
     await waitUntilIdle();
+
+    if (this._platformHelper.isCordova()) {
+      const androidVersion = getPlatform().getOSVersion();
+
+      // navigator.connection is provided by cordova-plugin-network-information
+      // and it is used to determine the network type (wifi, cellular, none)
+      const connectionType = navigator.connection ? navigator.connection.type : 'unknown';
+
+      initDbResult = await ipcGeneral.initDatabase(androidVersion, connectionType);
+    }
 
     console.log("Loading settings ...");
     //uiHelper.updateLoadingSubtitle("cordova.loading-settings");
     if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
+
       await app_controller.loadSettings();
     }
 
