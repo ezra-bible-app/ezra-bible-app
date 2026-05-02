@@ -142,6 +142,21 @@ class TabController {
       }
     });
 
+    eventController.subscribe('on-verses-selected', (selectionDetails) => {
+      if (!this.persistanceEnabled) {
+        return;
+      }
+
+      const tabIndex = selectionDetails ? selectionDetails.tabIndex : undefined;
+      const selectedTabIndex = this.getSelectedTabIndex();
+
+      // Persist only the active tab's selection state. The cached tab HTML stores
+      // ui-selected classes, so saving after selection changes is enough to restore it.
+      if (tabIndex === undefined || tabIndex === selectedTabIndex) {
+        this.saveTabConfiguration();
+      }
+    });
+
     eventController.subscribe('on-db-refresh', async () => {
       let tabsValid = true;
 
