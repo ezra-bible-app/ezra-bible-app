@@ -215,8 +215,9 @@ class AppController {
 
       await this.tab_controller.loadTabConfiguration();
 
-      if (await ipcSettings.has('lastUsedTagGroupId')) {
-        tag_assignment_panel.currentTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
+      const lastUsedTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
+      if (lastUsedTagGroupId !== null) {
+        tag_assignment_panel.currentTagGroupId = lastUsedTagGroupId;
         const tagGroupList = document.getElementById('tag-panel-tag-group-list');
         const tagGroup = await tagGroupList._tagGroupManager.getItemById(tag_assignment_panel.currentTagGroupId);
         await eventController.publishAsync('on-tag-group-selected', tagGroup);

@@ -125,9 +125,9 @@ module.exports.initI18N = async function() {
 };
 
 module.exports.initLocale = async function() {
-  if (await ipcSettings.has(SETTINGS_KEY)) {
-    let locale = await ipcSettings.get(SETTINGS_KEY, locales.fallback);
+  let locale = await ipcSettings.get(SETTINGS_KEY, null);
 
+  if (locale !== null) {
     if (typeof(locale) == 'string') {
       console.log(`Using locale ${locale}`);
       await i18n.changeLanguage(locale);

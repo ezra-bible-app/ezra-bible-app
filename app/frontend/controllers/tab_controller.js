@@ -372,15 +372,15 @@ class TabController {
   }
 
   async loadTabConfiguration(force=false) {
-    const bibleTranslationSettingAvailable = await ipcSettings.has('bibleTranslation');
-    const secondBibleTranslationSettingAvailable = await ipcSettings.has('secondBibleTranslation');
+    const bibleTranslationId = await ipcSettings.get('bibleTranslation', null);
+    const secondBibleTranslationId = await ipcSettings.get('secondBibleTranslation', null);
 
-    if (bibleTranslationSettingAvailable) {
-      this.defaultBibleTranslationId = await ipcSettings.get('bibleTranslation');
+    if (bibleTranslationId !== null) {
+      this.defaultBibleTranslationId = bibleTranslationId;
     }
 
-    if (secondBibleTranslationSettingAvailable) {
-      this.defaultSecondBibleTranslationId = await ipcSettings.get('secondBibleTranslation');
+    if (secondBibleTranslationId !== null) {
+      this.defaultSecondBibleTranslationId = secondBibleTranslationId;
     }
 
     var loadedTabCount = 0;

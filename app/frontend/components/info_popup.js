@@ -117,34 +117,25 @@ class InfoPopup {
     const configFilePath = await ipcSettings.getConfigFilePath();
     const swordPath = await ipcNsi.getSwordPath();
 
-    let lastDropboxSyncTime = '--';
-    if (await ipcSettings.has('lastDropboxSyncTime')) {
-      let rawTime = await ipcSettings.get('lastDropboxSyncTime');
+    const [rawSyncTime, rawDropboxDownloadTime, rawDropboxUploadTime] = await Promise.all([
+      ipcSettings.get('lastDropboxSyncTime', null),
+      ipcSettings.get('lastDropboxDownloadTime', null),
+      ipcSettings.get('lastDropboxUploadTime', null)
+    ]);
 
-      if (rawTime != null && rawTime != "") {
-        lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
-        lastDropboxSyncTime = this.getFormattedTimestamp(lastDropboxSyncTime);
-      }
+    let lastDropboxSyncTime = '--';
+    if (rawSyncTime !== null && rawSyncTime !== "") {
+      lastDropboxSyncTime = this.getFormattedTimestamp(new Date(rawSyncTime));
     }
 
     let lastDropboxDownloadTime = '--';
-    if (await ipcSettings.has('lastDropboxDownloadTime')) {
-      let rawDropboxDownloadTime = await ipcSettings.get('lastDropboxDownloadTime', '--');
-
-      if (rawDropboxDownloadTime != '--' && rawDropboxDownloadTime != '' && rawDropboxDownloadTime != null) {
-        lastDropboxDownloadTime = new Date(rawDropboxDownloadTime);
-        lastDropboxDownloadTime = this.getFormattedTimestamp(lastDropboxDownloadTime);
-      }
+    if (rawDropboxDownloadTime !== null && rawDropboxDownloadTime !== '' && rawDropboxDownloadTime !== '--') {
+      lastDropboxDownloadTime = this.getFormattedTimestamp(new Date(rawDropboxDownloadTime));
     }
 
     let lastDropboxUploadTime = '--';
-    if (await ipcSettings.has('lastDropboxUploadTime')) {
-      let rawDropboxUploadTime = await ipcSettings.get('lastDropboxUploadTime', '--');
-
-      if (rawDropboxUploadTime != '--' && rawDropboxUploadTime != '' && rawDropboxUploadTime != null) {
-        lastDropboxUploadTime = new Date(rawDropboxUploadTime);
-        lastDropboxUploadTime = this.getFormattedTimestamp(lastDropboxUploadTime);
-      }
+    if (rawDropboxUploadTime !== null && rawDropboxUploadTime !== '' && rawDropboxUploadTime !== '--') {
+      lastDropboxUploadTime = this.getFormattedTimestamp(new Date(rawDropboxUploadTime));
     }
 
     let lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '--');
