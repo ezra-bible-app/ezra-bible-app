@@ -37,6 +37,10 @@ class StartupProfiling {
     this._active = false;
     this._startupStartTime = null;
     this._startupEndTime = null;
+    this._initializationDurations = {
+      swordInitialization: null,
+      databaseInitialization: null
+    };
     this._categories = {
       ipcDb: this.createCategoryStats(),
       ipcNsi: this.createCategoryStats()
@@ -124,6 +128,18 @@ class StartupProfiling {
     }
   }
 
+  recordInitializationDuration(initializationName, durationNs) {
+    if (!this.isActive()) {
+      return;
+    }
+
+    if (this._initializationDurations[initializationName] === undefined) {
+      return;
+    }
+
+    this._initializationDurations[initializationName] = durationNs;
+  }
+
   async finalize() {
     if (!this._enabled) {
       return null;
@@ -208,11 +224,17 @@ class StartupProfiling {
       : '0';
 
     lines.push('Ezra Bible App startup IPC profiling');
-    lines.push('profile_version=1');
+    lines.push('profile_version=2');
     lines.push('mode=test');
     lines.push('startup_started_at=' + (this._startupStartTime == null ? '' : this._startupStartTime.toISOString()));
     lines.push('startup_finished_at=' + (this._startupEndTime == null ? '' : this._startupEndTime.toISOString()));
     lines.push('startup_duration_ms=' + startupDurationMs);
+    lines.push('sword_initialization_ms=' + this.formatDurationNs(
+      this._initializationDurations.swordInitialization == null ? 0n : this._initializationDurations.swordInitialization
+    ));
+    lines.push('database_initialization_ms=' + this.formatDurationNs(
+      this._initializationDurations.databaseInitialization == null ? 0n : this._initializationDurations.databaseInitialization
+    ));
     lines.push('');
     lines.push(this.createCategorySection('ipcDb', this._categories.ipcDb));
     lines.push('');
