@@ -54,6 +54,14 @@ jobs:
             max_attempts: 3
             command: npm run headless-test
 
+        - name: Archive startup IPC profile
+          uses: actions/upload-artifact@v4.4.0
+          if: always()
+          with:
+            name: startup-ipc-profile.txt
+            path: /home/runner/.config/ezra-bible-app-test/startup-ipc-profile.txt
+            if-no-files-found: warn
+
         - name: Archive screenshot (in case of an error)
           uses: actions/upload-artifact@v4.4.0
           if: failure()

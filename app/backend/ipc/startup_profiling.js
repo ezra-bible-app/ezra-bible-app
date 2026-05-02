@@ -1,0 +1,220 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+const fs = require('fs');
+const path = require('path');
+const PlatformHelper = require('../../lib/platform_helper.js');
+
+class StartupProfiling {
+  constructor() {
+    this._platformHelper = new PlatformHelper();
+    this._enabled = this._platformHelper.isElectron() && this._platformHelper.isTest();
+    this.reset();
+  }
+
+  reset() {
+    this._active = false;
+    this._startupStartTime = null;
+    this._startupEndTime = null;
+    this._categories = {
+      ipcDb: this.createCategoryStats(),
+      ipcNsi: this.createCategoryStats()
+    };
+  }
+
+  createCategoryStats() {
+    return {
+      callCount: 0,
+      totalDurationNs: 0n,
+      minDurationNs: null,
+      maxDurationNs: null,
+      calls: {}
+    };
+  }
+
+  start() {
+    if (!this._enabled) {
+      return;
+    }
+
+    this.reset();
+    this._active = true;
+    this._startupStartTime = new Date();
+    this.removeExistingReport();
+  }
+
+  isActive() {
+    return this._enabled && this._active;
+  }
+
+  getCategoryName(functionName) {
+    if (functionName.indexOf('db_') === 0) {
+      return 'ipcDb';
+    }
+
+    if (functionName.indexOf('nsi_') === 0) {
+      return 'ipcNsi';
+    }
+
+    return null;
+  }
+
+  recordHandlerCall(functionName, durationNs) {
+    if (!this.isActive()) {
+      return;
+    }
+
+    const categoryName = this.getCategoryName(functionName);
+    if (categoryName == null) {
+      return;
+    }
+
+    const categoryStats = this._categories[categoryName];
+    categoryStats.callCount += 1;
+    categoryStats.totalDurationNs += durationNs;
+
+    if (categoryStats.minDurationNs == null || durationNs < categoryStats.minDurationNs) {
+      categoryStats.minDurationNs = durationNs;
+    }
+
+    if (categoryStats.maxDurationNs == null || durationNs > categoryStats.maxDurationNs) {
+      categoryStats.maxDurationNs = durationNs;
+    }
+
+    if (categoryStats.calls[functionName] == null) {
+      categoryStats.calls[functionName] = {
+        callCount: 0,
+        totalDurationNs: 0n,
+        minDurationNs: null,
+        maxDurationNs: null
+      };
+    }
+
+    const callStats = categoryStats.calls[functionName];
+    callStats.callCount += 1;
+    callStats.totalDurationNs += durationNs;
+
+    if (callStats.minDurationNs == null || durationNs < callStats.minDurationNs) {
+      callStats.minDurationNs = durationNs;
+    }
+
+    if (callStats.maxDurationNs == null || durationNs > callStats.maxDurationNs) {
+      callStats.maxDurationNs = durationNs;
+    }
+  }
+
+  async finalize() {
+    if (!this._enabled) {
+      return null;
+    }
+
+    this._startupEndTime = new Date();
+    this._active = false;
+
+    return this.writeReport();
+  }
+
+  getReportFilePath() {
+    const userDataDir = this._platformHelper.getUserDataPath();
+    return path.join(userDataDir, 'startup-ipc-profile.txt');
+  }
+
+  removeExistingReport() {
+    const reportFilePath = this.getReportFilePath();
+
+    if (fs.existsSync(reportFilePath)) {
+      fs.unlinkSync(reportFilePath);
+    }
+  }
+
+  writeReport() {
+    const reportFilePath = this.getReportFilePath();
+    fs.mkdirSync(path.dirname(reportFilePath), { recursive: true });
+    fs.writeFileSync(reportFilePath, this.createReport(), 'utf8');
+    return reportFilePath;
+  }
+
+  formatDurationNs(durationNs) {
+    return (Number(durationNs) / 1000000).toFixed(3);
+  }
+
+  formatAverageDuration(totalDurationNs, callCount) {
+    if (callCount === 0) {
+      return '0.000';
+    }
+
+    return this.formatDurationNs(totalDurationNs / BigInt(callCount));
+  }
+
+  createCategorySection(categoryName, categoryStats) {
+    const lines = [];
+
+    lines.push('[' + categoryName + ']');
+    lines.push('call_count=' + categoryStats.callCount);
+    lines.push('total_duration_ms=' + this.formatDurationNs(categoryStats.totalDurationNs));
+    lines.push('avg_duration_ms=' + this.formatAverageDuration(categoryStats.totalDurationNs, categoryStats.callCount));
+    lines.push('min_duration_ms=' + this.formatDurationNs(categoryStats.minDurationNs == null ? 0n : categoryStats.minDurationNs));
+    lines.push('max_duration_ms=' + this.formatDurationNs(categoryStats.maxDurationNs == null ? 0n : categoryStats.maxDurationNs));
+    lines.push('');
+    lines.push('calls:');
+
+    const functionNames = Object.keys(categoryStats.calls).sort();
+    if (functionNames.length === 0) {
+      lines.push('  (none)');
+      return lines.join('\n');
+    }
+
+    for (let i = 0; i < functionNames.length; i++) {
+      const functionName = functionNames[i];
+      const callStats = categoryStats.calls[functionName];
+      lines.push(
+        '  ' + functionName +
+        ' | count=' + callStats.callCount +
+        ' total_ms=' + this.formatDurationNs(callStats.totalDurationNs) +
+        ' avg_ms=' + this.formatAverageDuration(callStats.totalDurationNs, callStats.callCount) +
+        ' min_ms=' + this.formatDurationNs(callStats.minDurationNs == null ? 0n : callStats.minDurationNs) +
+        ' max_ms=' + this.formatDurationNs(callStats.maxDurationNs == null ? 0n : callStats.maxDurationNs)
+      );
+    }
+
+    return lines.join('\n');
+  }
+
+  createReport() {
+    const lines = [];
+    const startupDurationMs = this._startupStartTime != null && this._startupEndTime != null
+      ? String(this._startupEndTime.getTime() - this._startupStartTime.getTime())
+      : '0';
+
+    lines.push('Ezra Bible App startup IPC profiling');
+    lines.push('profile_version=1');
+    lines.push('mode=test');
+    lines.push('startup_started_at=' + (this._startupStartTime == null ? '' : this._startupStartTime.toISOString()));
+    lines.push('startup_finished_at=' + (this._startupEndTime == null ? '' : this._startupEndTime.toISOString()));
+    lines.push('startup_duration_ms=' + startupDurationMs);
+    lines.push('');
+    lines.push(this.createCategorySection('ipcDb', this._categories.ipcDb));
+    lines.push('');
+    lines.push(this.createCategorySection('ipcNsi', this._categories.ipcNsi));
+    lines.push('');
+
+    return lines.join('\n');
+  }
+}
+
+module.exports = StartupProfiling;

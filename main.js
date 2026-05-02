@@ -20,6 +20,7 @@ const path = require('path');
 const url = require('url');
 const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
 const IPC = require('./app/backend/ipc/ipc.js');
+const StartupProfiling = require('./app/backend/ipc/startup_profiling.js');
 const PlatformHelper = require('./app/lib/platform_helper.js');
 
 function initGlobals() {
@@ -27,6 +28,7 @@ function initGlobals() {
   global.ipc = new IPC();
   global.ipcHandlersRegistered = false;
   global.platformHelper = new PlatformHelper();
+  global.startupProfiling = new StartupProfiling();
 
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
@@ -41,6 +43,8 @@ function initGlobals() {
 
   // Flag used in connection with before-quit handler to ensure the before-quit code is only executed once
   global.exitComplete = false;
+
+  global.startupProfiling.start();
 }
 
 function initDropboxProtocolClient() {
@@ -158,6 +162,10 @@ function initIpcHandlers() {
 
     // eslint-disable-next-line no-unused-vars
     ipcMain.handle('startupCompleted', async (event, arg) => {
+      const startupProfilePath = await global.startupProfiling.finalize();
+      if (startupProfilePath != null) {
+        console.log('Startup IPC profile written to ' + startupProfilePath);
+      }
       console.timeEnd('Startup');
     });
 
