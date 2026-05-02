@@ -526,8 +526,7 @@
     "init-i18n": "Iniciando i18n",
     "init-sword": "Iniciando SWORD",
     "init-database": "Iniciando base de datos",
-    "init-user-interface": "Iniciando interfaz de usuario",
-    "loading-settings": "Cargando ajustes"
+    "init-user-interface": "Iniciando interfaz de usuario"
   },
   "dropbox": {
     "setup-dropbox": "Configurar Dropbox",

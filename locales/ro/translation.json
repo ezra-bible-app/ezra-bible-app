@@ -527,8 +527,7 @@
     "init-i18n": "Inițializare i18n",
     "init-sword": "Inițializare SWORD",
     "init-database": "Inițializare baza de date",
-    "init-user-interface": "Inițializare interfața utilizator",
-    "loading-settings": "Se încarcă setările"
+    "init-user-interface": "Inițializare interfața utilizator"
   },
   "dropbox": {
     "setup-dropbox": "Setup Dropbox",

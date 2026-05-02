@@ -528,8 +528,7 @@
     "init-i18n": "I18n initialiseren",
     "init-sword": "SWORD initialiseren",
     "init-database": "Databank initialiseren",
-    "init-user-interface": "Gebruikersinterface initialiseren",
-    "loading-settings": "Instellingen laden"
+    "init-user-interface": "Gebruikersinterface initialiseren"
   },
   "dropbox": {
     "setup-dropbox": "Dropbox instellen",

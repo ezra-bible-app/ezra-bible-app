@@ -530,8 +530,7 @@
     "init-i18n": "Инициализация локализации",
     "init-sword": "Инициализация SWORD",
     "init-database": "Инициализация базы данных",
-    "init-user-interface": "Инициализация интерфейса",
-    "loading-settings": "Загрузка настроек"
+    "init-user-interface": "Инициализация интерфейса"
   },
   "dropbox": {
     "setup-dropbox": "Настройки Dropbox",

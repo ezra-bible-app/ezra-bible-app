@@ -446,7 +446,6 @@ class Startup {
     await waitUntilIdle();
 
     console.log("Loading settings ...");
-    //uiHelper.updateLoadingSubtitle("cordova.loading-settings");
     if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
 
       await app_controller.loadSettings();

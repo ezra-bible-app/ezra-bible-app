@@ -527,8 +527,7 @@
     "init-i18n": "Inicializacija i18n",
     "init-sword": "Inicializacija SWORDa",
     "init-database": "Inicializacija zbirke podatkov",
-    "init-user-interface": "Inicializacija uporabniškega vmesnika",
-    "loading-settings": "Nalaganje nastavitev"
+    "init-user-interface": "Inicializacija uporabniškega vmesnika"
   },
   "dropbox": {
     "setup-dropbox": "Nastavitev Dropboxa",
