@@ -27,6 +27,7 @@ const i18nController = require('./controllers/i18n_controller.js');
 const dbSyncController = require('./controllers/db_sync_controller.js');
 const eventController = require('./controllers/event_controller.js');
 const cacheController = require('./controllers/cache_controller.js');
+const verseListController = require('./controllers/verse_list_controller.js');
 const { showDialog } = require('./helpers/ezra_helper.js');
 
 // UI Helper
@@ -455,24 +456,33 @@ class Startup {
     await app_controller.optionsMenu.init();
     theme_controller.initNightMode();
 
-    // Wait for the UI to render
-    await waitUntilIdle();
+    await app_controller.translation_controller.initTranslationsMenu(-1, 0);
 
-    console.log("Loading settings ...");
-    uiHelper.updateLoadingSubtitle("cordova.loading-settings");
-    if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
-      await app_controller.loadSettings();
-    }
-
-    uiHelper.updateLoadingSubtitle("cordova.waiting-app-ready");
-
-    // Wait for the UI to render, before we hide the loading indicator
-    await waitUntilIdle();
     loadingIndicator.hide();
     $('#loading-subtitle').hide();
 
+    //uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
+
+    if (await cacheController.hasCachedItem('tabConfiguration')) {
+      if (platformHelper.isMobile()) {
+        $('[id="bible-select-title-line"]').css('visibility', 'hidden');
+      }
+
+      verseListController.hideHelpText();
+      verseListController.showVerseListLoadingIndicator();
+      uiHelper.showTextLoadingIndicator();
+    }
+
     // Show main content
     document.getElementById('main-content').style.display = 'block';
+
+    await waitUntilIdle();
+
+    console.log("Loading settings ...");
+    if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
+
+      await app_controller.loadSettings();
+    }
 
     // Restore the scroll position of the first tab.
     app_controller.tab_controller.restoreScrollPosition(0);
