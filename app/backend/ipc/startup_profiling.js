@@ -23,7 +23,9 @@ const PlatformHelper = require('../../lib/platform_helper.js');
 class StartupProfiling {
   constructor() {
     this._platformHelper = new PlatformHelper();
-    this._enabled = this._platformHelper.isElectron() && this._platformHelper.isTest();
+    this._enabled = this._platformHelper.isElectron() &&
+      this._platformHelper.isTest() &&
+      process.env.EZRA_STARTUP_PROFILING === 'true';
     this.reset();
   }
 
