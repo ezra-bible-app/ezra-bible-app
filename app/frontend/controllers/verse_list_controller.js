@@ -155,6 +155,10 @@ module.exports.hideVerseListLoadingIndicator = function(tabIndex=undefined) {
   loadingIndicator.hide();
 };
 
+module.exports.hideHelpText = function(tabIndex=undefined) {
+  this.getCurrentVerseList(tabIndex).find('.help-text').hide();
+};
+
 module.exports.getBibleBookStatsFromVerseList = function(tabIndex) {
   var bibleBookStats = {};    
   var currentVerseList = this.getCurrentVerseList(tabIndex)[0];

@@ -435,15 +435,16 @@ class Startup {
     loadingIndicator.hide();
     $('#loading-subtitle').hide();
 
-    // Show main content
-    document.getElementById('main-content').style.display = 'block';
-
     //uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
 
     if (await cacheController.hasCachedItem('tabConfiguration')) {
-      uiHelper.showTextLoadingIndicator();
+      verseListController.hideHelpText();
       verseListController.showVerseListLoadingIndicator();
+      uiHelper.showTextLoadingIndicator();
     }
+
+    // Show main content
+    document.getElementById('main-content').style.display = 'block';
 
     await waitUntilIdle();
 
