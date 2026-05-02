@@ -45,6 +45,7 @@ class TabController {
     /** @type Tab[] */
     this.metaTabs = [];
     this.loadingCompleted = false;
+    this.startupLoadingInProgress = false;
     this.lastSelectedTabIndex = null;
     this.verseBoxHelper = new VerseBoxHelper();
     this.tabOperationsEnabled = true;
@@ -315,9 +316,13 @@ class TabController {
       console.log("Cache is invalid. New app version?");
     }
 
+    this.startupLoadingInProgress = true;
+
     for (let i = 0; i < tabCount; i++) {
       await this.populateTab(i, cacheOutdated, cacheInvalid, force);
     }
+
+    this.startupLoadingInProgress = false;
   }
 
   async populateTab(index, cacheOutdated, cacheInvalid, force) {
@@ -393,6 +398,9 @@ class TabController {
 
       if (loadedTabCount > 0) {
         await this.populateFromMetaTabs(force);
+        $('.verse-list').show();
+        verseListController.hideVerseListLoadingIndicator();
+        uiHelper.hideTextLoadingIndicator();
       } else {
         verseListController.hideVerseListLoadingIndicator();
         uiHelper.hideTextLoadingIndicator();
