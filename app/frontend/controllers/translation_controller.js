@@ -121,7 +121,7 @@ class TranslationController {
       $('.module-search-button').addClass('ui-state-disabled');
 
       let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
-      // FIXME: This needs to be adjusted based on the new menu
+
       currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
     } else {
       if (platformHelper.isMobile()) {
