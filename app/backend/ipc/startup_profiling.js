@@ -48,6 +48,8 @@ class StartupProfiling {
       databaseInitialization: null
     };
     this._categories = {
+      ipcI18n: this.createCategoryStats(),
+      ipcSettings: this.createCategoryStats(),
       ipcGeneral: this.createCategoryStats(),
       ipcDb: this.createCategoryStats(),
       ipcNsi: this.createCategoryStats()
@@ -83,6 +85,14 @@ class StartupProfiling {
   }
 
   getCategoryName(functionName) {
+    if (functionName.startsWith('i18n_')) {
+      return 'ipcI18n';
+    }
+
+    if (functionName.startsWith('settings_')) {
+      return 'ipcSettings';
+    }
+
     if (functionName.startsWith('general_')) {
       return 'ipcGeneral';
     }
@@ -279,7 +289,7 @@ class StartupProfiling {
       : '0';
 
     lines.push('Ezra Bible App startup IPC profiling');
-    lines.push('profile_version=3');
+    lines.push('profile_version=4');
     lines.push('mode=test');
     lines.push('startup_started_at=' + (this._startupStartTime == null ? '' : this._startupStartTime.toISOString()));
     lines.push('startup_finished_at=' + (this._startupEndTime == null ? '' : this._startupEndTime.toISOString()));
@@ -299,6 +309,10 @@ class StartupProfiling {
     lines.push('database_initialization_ms=' + this.formatDurationNs(
       this._initializationDurations.databaseInitialization == null ? 0n : this._initializationDurations.databaseInitialization
     ));
+    lines.push('');
+    lines.push(this.createCategorySection('ipcI18n', this._categories.ipcI18n));
+    lines.push('');
+    lines.push(this.createCategorySection('ipcSettings', this._categories.ipcSettings));
     lines.push('');
     lines.push(this.createCategorySection('ipcGeneral', this._categories.ipcGeneral));
     lines.push('');
