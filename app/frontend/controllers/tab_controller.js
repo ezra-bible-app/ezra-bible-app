@@ -393,15 +393,18 @@ class TabController {
     if (await cacheController.hasCachedItem('tabConfiguration')) {
       uiHelper.showTextLoadingIndicator();
       verseListController.showVerseListLoadingIndicator();
+      $('[id="bible-select-title-line"]').css('visibility', 'hidden');
 
       loadedTabCount = await this.loadMetaTabsFromSettings();
 
       if (loadedTabCount > 0) {
         await this.populateFromMetaTabs(force);
+        $('[id="bible-select-title-line"]').css('visibility', '');
         $('.verse-list').show();
         verseListController.hideVerseListLoadingIndicator();
         uiHelper.hideTextLoadingIndicator();
       } else {
+        $('[id="bible-select-title-line"]').css('visibility', '');
         verseListController.hideVerseListLoadingIndicator();
         uiHelper.hideTextLoadingIndicator();
       }
