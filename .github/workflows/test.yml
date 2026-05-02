@@ -38,11 +38,8 @@ jobs:
         - name: Install node dependencies and build native modules
           run: npm install
         
-        - name: Install electron v17.1.0 for compatibility with Spectron
-          run: npm install electron@17.1.0
-        
         - name: Install spectron
-          run: npm install spectron@19.0.0
+          run: npm install --no-save spectron@19.0.0
 
         - name: Compile templates
           run: npm run compile-pug 
