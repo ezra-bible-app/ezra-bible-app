@@ -54,6 +54,10 @@ jobs:
             max_attempts: 3
             command: npm run headless-test-startup-profile
 
+        - name: Print startup IPC profile
+          if: always()
+          run: cat /home/runner/.config/ezra-bible-app-test/startup-ipc-profile.txt || echo "Startup profile file not found."
+
         - name: Archive startup IPC profile
           uses: actions/upload-artifact@v4.4.0
           if: always()
