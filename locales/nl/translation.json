@@ -529,8 +529,7 @@
     "init-sword": "SWORD initialiseren",
     "init-database": "Databank initialiseren",
     "init-user-interface": "Gebruikersinterface initialiseren",
-    "loading-settings": "Instellingen laden",
-    "waiting-app-ready": "Wachten tot applicatie klaar is"
+    "loading-settings": "Instellingen laden"
   },
   "dropbox": {
     "setup-dropbox": "Dropbox instellen",

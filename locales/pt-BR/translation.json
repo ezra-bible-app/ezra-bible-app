@@ -527,8 +527,7 @@
     "init-sword": "Inicializando The SWORD",
     "init-database": "Inicializando banco de dados",
     "init-user-interface": "Inicializando interface do usuário",
-    "loading-settings": "Carregando configurações",
-    "waiting-app-ready": "Aguardando aplicativo ficar pronto"
+    "loading-settings": "Carregando configurações"
   },
   "dropbox": {
     "setup-dropbox": "Configurar Dropbox",

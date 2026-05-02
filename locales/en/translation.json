@@ -538,8 +538,7 @@
     "init-sword": "Initializing SWORD",
     "init-database": "Initializing database",
     "init-user-interface": "Initializing user interface",
-    "loading-settings": "Loading settings",
-    "waiting-app-ready": "Waiting for app to get ready"
+    "loading-settings": "Loading settings"
   },
   "dropbox": {
     "setup-dropbox": "Setup Dropbox",

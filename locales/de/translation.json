@@ -524,7 +524,6 @@
     "init-database": "Initialisiere Datenbank",
     "init-user-interface": "Initialisiere Benutzeroberfläche",
     "loading-settings": "Lade Einstellungen",
-    "waiting-app-ready": "Schließe Ladevorgang ab"
   },
   "dropbox": {
     "setup-dropbox": "Dropbox einrichten",

@@ -528,8 +528,7 @@
     "init-sword": "Inicializujem SWORD",
     "init-database": "Inicializujem databázu",
     "init-user-interface": "Inicializujem užívateľské prostredie",
-    "loading-settings": "Nahrávam nastavenia",
-    "waiting-app-ready": "Čaká sa na spustenie aplikácie"
+    "loading-settings": "Nahrávam nastavenia"
   },
   "dropbox": {
     "setup-dropbox": "Nastavenie Dropboxu",

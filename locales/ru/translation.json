@@ -531,8 +531,7 @@
     "init-sword": "Инициализация SWORD",
     "init-database": "Инициализация базы данных",
     "init-user-interface": "Инициализация интерфейса",
-    "loading-settings": "Загрузка настроек",
-    "waiting-app-ready": "Ожидание готовности приложения"
+    "loading-settings": "Загрузка настроек"
   },
   "dropbox": {
     "setup-dropbox": "Настройки Dropbox",
