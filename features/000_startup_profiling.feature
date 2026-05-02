@@ -20,8 +20,7 @@ Feature: Startup profiling
   In order to measure app startup performance consistently
   I start the app without installing test bible modules
 
-  @startup-profile @no-kjv-needed
+  @startup-profile @no-test-modules
   Scenario: Startup completes without installing modules
     Then the startup loading indicator is hidden
     And the KJV is not available as a local module
-
