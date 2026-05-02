@@ -26,7 +26,8 @@ Then('the startup loading indicator is hidden', async function () {
     return window.getComputedStyle(document.getElementById('startup-loading-indicator')).display;
   });
 
-  assert.equal(displayValue.value, 'none', 'The startup loading indicator should be hidden after startup.');
+  const resolvedDisplayValue = displayValue && displayValue.value !== undefined ? displayValue.value : displayValue;
+  assert.equal(resolvedDisplayValue, 'none', 'The startup loading indicator should be hidden after startup.');
 });
 
 Then('the KJV is not available as a local module', async function () {
