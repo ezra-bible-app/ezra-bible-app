@@ -91,6 +91,33 @@ class Startup {
     }
   }
 
+  async waitForRenderedFrame() {
+    return new Promise(resolve => {
+      if (typeof window.requestAnimationFrame !== 'function') {
+        setTimeout(resolve, 0);
+        return;
+      }
+
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          resolve();
+        });
+      });
+    });
+  }
+
+  async recordStartupMilestone(milestoneName) {
+    if (!this._platformHelper.isElectron()) {
+      return;
+    }
+
+    const { ipcRenderer } = require('electron');
+    await ipcRenderer.invoke('recordStartupMilestone', {
+      name: milestoneName,
+      timestampMs: Date.now()
+    });
+  }
+
   loadWebComponents() {
     if (this._platformHelper.isIOS()) {
       // Add Polyfill for custom elements on iOS Safari
@@ -329,6 +356,8 @@ class Startup {
 
     // Wait for the UI to render
     await waitUntilIdle();
+    await this.waitForRenderedFrame();
+    await this.recordStartupMilestone('t1FirstUiFrameRendered');
 
     var isDev = await this._platformHelper.isDebug();
 
@@ -442,6 +471,8 @@ class Startup {
     document.getElementById('main-content').style.display = 'block';
 
     await waitUntilIdle();
+    await this.waitForRenderedFrame();
+    await this.recordStartupMilestone('t2FirstMeaningfulContentVisible');
 
     // Restore the scroll position of the first tab.
     app_controller.tab_controller.restoreScrollPosition(0);
@@ -452,11 +483,6 @@ class Startup {
     setTimeout(() => {
       dbSyncController.showSyncResultMessage();
     }, 3000);
-
-    if (this._platformHelper.isElectron()) {
-      const { ipcRenderer } = require('electron');
-      ipcRenderer.invoke("startupCompleted");
-    }
 
     console.timeEnd("application-startup");
 
@@ -515,6 +541,14 @@ class Startup {
     this.showDatabaseErrorsIfAny(initDbResult);
 
     await eventController.publishAsync('on-startup-completed');
+
+    if (this._platformHelper.isElectron()) {
+      const { ipcRenderer } = require('electron');
+      await ipcRenderer.invoke('startupCompleted', {
+        timestampMs: Date.now()
+      });
+    }
+
     app_controller.startupCompleted = true;
   }
 

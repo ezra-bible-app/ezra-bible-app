@@ -37,6 +37,12 @@ class StartupProfiling {
     this._active = false;
     this._startupStartTime = null;
     this._startupEndTime = null;
+    this._startupMilestones = {
+      t0AppProcessStart: null,
+      t1FirstUiFrameRendered: null,
+      t2FirstMeaningfulContentVisible: null,
+      t3StartupComplete: null
+    };
     this._initializationDurations = {
       swordInitialization: null,
       databaseInitialization: null
@@ -57,14 +63,17 @@ class StartupProfiling {
     };
   }
 
-  start() {
+  start(startupStartTime = new Date()) {
     if (!this._enabled) {
       return;
     }
 
     this.reset();
     this._active = true;
-    this._startupStartTime = new Date();
+    this._startupStartTime = startupStartTime instanceof Date
+      ? startupStartTime
+      : new Date(startupStartTime);
+    this._startupMilestones.t0AppProcessStart = this._startupStartTime;
     this.removeExistingReport();
   }
 
@@ -140,12 +149,38 @@ class StartupProfiling {
     this._initializationDurations[initializationName] = durationNs;
   }
 
-  async finalize() {
+  recordStartupMilestone(milestoneName, timestampMs = Date.now()) {
+    if (!this.isActive()) {
+      return;
+    }
+
+    if (this._startupMilestones[milestoneName] === undefined) {
+      return;
+    }
+
+    const milestoneTime = timestampMs instanceof Date ? timestampMs : new Date(timestampMs);
+
+    if (Number.isNaN(milestoneTime.getTime())) {
+      return;
+    }
+
+    this._startupMilestones[milestoneName] = milestoneTime;
+  }
+
+  async finalize(startupCompletedTime = undefined) {
     if (!this._enabled) {
       return null;
     }
 
-    this._startupEndTime = new Date();
+    if (startupCompletedTime !== undefined) {
+      this.recordStartupMilestone('t3StartupComplete', startupCompletedTime);
+    } else if (this._startupMilestones.t3StartupComplete == null) {
+      this.recordStartupMilestone('t3StartupComplete');
+    }
+
+    this._startupEndTime = this._startupMilestones.t3StartupComplete == null
+      ? new Date()
+      : this._startupMilestones.t3StartupComplete;
     this._active = false;
 
     return this.writeReport();
@@ -181,6 +216,21 @@ class StartupProfiling {
     }
 
     return (Number(totalDurationNs) / callCount / 1000000).toFixed(3);
+  }
+
+  formatTimestamp(timestamp) {
+    return timestamp == null ? '' : timestamp.toISOString();
+  }
+
+  formatMilestoneDeltaMs(startMilestoneName, endMilestoneName) {
+    const startTime = this._startupMilestones[startMilestoneName];
+    const endTime = this._startupMilestones[endMilestoneName];
+
+    if (startTime == null || endTime == null) {
+      return '';
+    }
+
+    return String(endTime.getTime() - startTime.getTime());
   }
 
   createCategorySection(categoryName, categoryStats) {
@@ -224,11 +274,20 @@ class StartupProfiling {
       : '0';
 
     lines.push('Ezra Bible App startup IPC profiling');
-    lines.push('profile_version=2');
+    lines.push('profile_version=3');
     lines.push('mode=test');
     lines.push('startup_started_at=' + (this._startupStartTime == null ? '' : this._startupStartTime.toISOString()));
     lines.push('startup_finished_at=' + (this._startupEndTime == null ? '' : this._startupEndTime.toISOString()));
     lines.push('startup_duration_ms=' + startupDurationMs);
+    lines.push('t0_app_process_start_at=' + this.formatTimestamp(this._startupMilestones.t0AppProcessStart));
+    lines.push('t1_first_ui_frame_rendered_at=' + this.formatTimestamp(this._startupMilestones.t1FirstUiFrameRendered));
+    lines.push('t2_first_meaningful_content_visible_at=' + this.formatTimestamp(this._startupMilestones.t2FirstMeaningfulContentVisible));
+    lines.push('t3_startup_complete_at=' + this.formatTimestamp(this._startupMilestones.t3StartupComplete));
+    lines.push('t1_minus_t0_ms=' + this.formatMilestoneDeltaMs('t0AppProcessStart', 't1FirstUiFrameRendered'));
+    lines.push('t2_minus_t0_ms=' + this.formatMilestoneDeltaMs('t0AppProcessStart', 't2FirstMeaningfulContentVisible'));
+    lines.push('t3_minus_t0_ms=' + this.formatMilestoneDeltaMs('t0AppProcessStart', 't3StartupComplete'));
+    lines.push('t2_minus_t1_ms=' + this.formatMilestoneDeltaMs('t1FirstUiFrameRendered', 't2FirstMeaningfulContentVisible'));
+    lines.push('t3_minus_t2_ms=' + this.formatMilestoneDeltaMs('t2FirstMeaningfulContentVisible', 't3StartupComplete'));
     lines.push('sword_initialization_ms=' + this.formatDurationNs(
       this._initializationDurations.swordInitialization == null ? 0n : this._initializationDurations.swordInitialization
     ));

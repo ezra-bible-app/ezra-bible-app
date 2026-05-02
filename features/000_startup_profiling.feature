@@ -24,3 +24,4 @@ Feature: Startup profiling
   Scenario: Startup completes without installing modules
     Then the startup loading indicator is hidden
     And the KJV is not available as a local module
+    And the startup profile contains ordered milestone timestamps
