@@ -159,6 +159,10 @@ module.exports.hideHelpText = function(tabIndex=undefined) {
   this.getCurrentVerseList(tabIndex).find('.help-text').hide();
 };
 
+module.exports.showHelpText = function(tabIndex=undefined) {
+  this.getCurrentVerseList(tabIndex).find('.help-text').show();
+};
+
 module.exports.getBibleBookStatsFromVerseList = function(tabIndex) {
   var bibleBookStats = {};    
   var currentVerseList = this.getCurrentVerseList(tabIndex)[0];

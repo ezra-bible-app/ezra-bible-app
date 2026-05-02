@@ -393,7 +393,10 @@ class TabController {
     if (await cacheController.hasCachedItem('tabConfiguration')) {
       uiHelper.showTextLoadingIndicator();
       verseListController.showVerseListLoadingIndicator();
-      $('[id="bible-select-title-line"]').css('visibility', 'hidden');
+
+      if (platformHelper.isMobile()) {
+        $('[id="bible-select-title-line"]').css('visibility', 'hidden');
+      }
 
       loadedTabCount = await this.loadMetaTabsFromSettings();
 
@@ -404,6 +407,7 @@ class TabController {
       } else {
         $('[id="bible-select-title-line"]').css('visibility', '');
         verseListController.hideVerseListLoadingIndicator();
+        verseListController.showHelpText();
         uiHelper.hideTextLoadingIndicator();
       }
     }

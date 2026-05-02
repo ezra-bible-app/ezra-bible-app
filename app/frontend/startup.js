@@ -425,19 +425,16 @@ class Startup {
 
     await app_controller.translation_controller.initTranslationsMenu(-1, 0);
 
-    // Wait for the UI to render
-    await waitUntilIdle();
-
-    //uiHelper.updateLoadingSubtitle("cordova.waiting-app-ready");
-
-    // Wait for the UI to render, before we hide the loading indicator
-    await waitUntilIdle();
     loadingIndicator.hide();
     $('#loading-subtitle').hide();
 
     //uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
 
     if (await cacheController.hasCachedItem('tabConfiguration')) {
+      if (platformHelper.isMobile()) {
+        $('[id="bible-select-title-line"]').css('visibility', 'hidden');
+      }
+
       verseListController.hideHelpText();
       verseListController.showVerseListLoadingIndicator();
       uiHelper.showTextLoadingIndicator();
@@ -447,16 +444,6 @@ class Startup {
     document.getElementById('main-content').style.display = 'block';
 
     await waitUntilIdle();
-
-    if (this._platformHelper.isCordova()) {
-      const androidVersion = getPlatform().getOSVersion();
-
-      // navigator.connection is provided by cordova-plugin-network-information
-      // and it is used to determine the network type (wifi, cellular, none)
-      const connectionType = navigator.connection ? navigator.connection.type : 'unknown';
-
-      initDbResult = await ipcGeneral.initDatabase(androidVersion, connectionType);
-    }
 
     console.log("Loading settings ...");
     //uiHelper.updateLoadingSubtitle("cordova.loading-settings");
