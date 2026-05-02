@@ -81,7 +81,7 @@ class TranslationComparison {
   async getCompareTranslationContent() {
     var tab = app_controller.tab_controller.getTab();
     if (tab == null) {
-      return;
+      return "";
     }
 
     var sourceTranslationId = tab.getBibleTranslationId();
