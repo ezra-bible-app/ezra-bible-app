@@ -26,6 +26,10 @@ const os = require('os');
 /** @type {Application | null} */
 var app = null;
 
+function startupProfilingEnabled() {
+  return ['1', 'true', 'yes'].includes(String(process.env.EZRA_STARTUP_PROFILING || '').toLowerCase());
+}
+
 function initializeSpectron(additionalArgs = []) {
   let xvfbMaybePath = path.join(__dirname, "../../node_modules", ".bin", "xvfb-maybe");
   let electronPath = path.join(__dirname, "../../node_modules", ".bin", "electron");
@@ -45,7 +49,7 @@ function initializeSpectron(additionalArgs = []) {
       ELECTRON_ENABLE_STACK_DUMPING: true,
       NODE_ENV: "development",
       EZRA_TESTING: true,
-      EZRA_STARTUP_PROFILING: process.env.EZRA_STARTUP_PROFILING === 'true' ? 'true' : 'false'
+      EZRA_STARTUP_PROFILING: startupProfilingEnabled() ? 'true' : 'false'
     },
     startTimeout: 20000,
     chromeDriverLogPath: './chromedriverlog.txt',

@@ -20,12 +20,16 @@ const fs = require('fs');
 const path = require('path');
 const PlatformHelper = require('../../lib/platform_helper.js');
 
+function startupProfilingEnabled() {
+  return ['1', 'true', 'yes'].includes(String(process.env.EZRA_STARTUP_PROFILING || '').toLowerCase());
+}
+
 class StartupProfiling {
   constructor() {
     this._platformHelper = new PlatformHelper();
     this._enabled = this._platformHelper.isElectron() &&
       this._platformHelper.isTest() &&
-      process.env.EZRA_STARTUP_PROFILING === 'true';
+      startupProfilingEnabled();
     this.reset();
   }
 
