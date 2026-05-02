@@ -75,13 +75,27 @@ class IPC {
         global.sendCrashReports = this.ipcSettingsHandler.getConfig().get('sendCrashReports', true);
       }
 
+      const nsiInitializationStartNs = process.hrtime.bigint();
       global.ipcNsiHandler = new IpcNsiHandler(customSwordDir);
+      if (global.startupProfiling != null) {
+        global.startupProfiling.recordInitializationDuration(
+          'swordInitialization',
+          process.hrtime.bigint() - nsiInitializationStartNs
+        );
+      }
 
       if (this.platformHelper.isElectron()) {
         global.ipcNsiHandler.setMainWindow(electronMainWindow);
         global.ipcGeneralHandler.setMainWindow(electronMainWindow);
 
+        const databaseInitializationStartNs = process.hrtime.bigint();
         returnCode = await this.initDatabase(isDebug);
+        if (global.startupProfiling != null) {
+          global.startupProfiling.recordInitializationDuration(
+            'databaseInitialization',
+            process.hrtime.bigint() - databaseInitializationStartNs
+          );
+        }
       }
     }
 

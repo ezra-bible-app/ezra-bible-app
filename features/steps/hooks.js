@@ -60,7 +60,7 @@ Before({ timeout: 80000}, async function (scenario) {
     args.push('--install-asv');
   }
 
-  if (hasTag(scenario, "@no-kjv-needed")) {
+  if (hasTag(scenario, "@no-kjv-needed") || hasTag(scenario, "@no-test-modules")) {
     installKjv = false;
   }
 
