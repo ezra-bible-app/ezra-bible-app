@@ -390,6 +390,10 @@ class Startup {
     console.log("Initializing IPC clients ...");
     await this.initIpcClients();
 
+    console.log("Preloading settings ...");
+    await ipcSettings.preloadAll();
+    await ipcSettings.preloadAll('html-cache');
+
     console.log("Initializing i18n ...");
 
     // Initialize the localize function as empty first on unsupported platforms.
@@ -507,7 +511,7 @@ class Startup {
     }
 
     // Confirm privacy options at first startup
-    const firstStartDone = await ipcSettings.has('firstStartDone');
+    const firstStartDone = await ipcSettings.get('firstStartDone', false);
     if (!this._platformHelper.isTest() && this._platformHelper.isSupportedPlatform() && !firstStartDone) {
       await this.confirmPrivacyOptions();
       await ipcSettings.set('firstStartDone', true);

@@ -72,11 +72,9 @@ class ThemeController {
 
     } else { // On other systems we initialize night mode based on the application settings
 
-      var useNightModeSettingAvailable = await ipcSettings.has('useNightMode');
+      var useNightMode = await ipcSettings.get('useNightMode', null);
 
-      if (useNightModeSettingAvailable) {
-        var useNightMode = await ipcSettings.get('useNightMode');
-    
+      if (useNightMode !== null) {
         if (useNightMode) {
           console.log("Initializing night mode based on app settings ...");
           this.useNightModeBasedOnOption(true);
@@ -144,10 +142,10 @@ class ThemeController {
       const nativeTheme = require('@electron/remote').nativeTheme;
       useNightMode = nativeTheme.shouldUseDarkColors;
     } else {
-      var useNightModeSettingAvailable = await ipcSettings.has('useNightMode');
+      var storedNightMode = await ipcSettings.get('useNightMode', null);
 
-      if (useNightModeSettingAvailable) {
-        useNightMode = await ipcSettings.get('useNightMode');
+      if (storedNightMode !== null) {
+        useNightMode = storedNightMode;
       }
     }
 
