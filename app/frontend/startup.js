@@ -470,15 +470,16 @@ class Startup {
     // Show main content
     document.getElementById('main-content').style.display = 'block';
 
-    await waitUntilIdle();
-    await this.waitForRenderedFrame();
-    await this.recordStartupMilestone('t2FirstMeaningfulContentVisible');
-
     // Restore the scroll position of the first tab.
     app_controller.tab_controller.restoreScrollPosition(0);
     // FIXME: Also highlight the last navigation element in the navigation pane and scroll to it
 
     dbSyncController.init();
+
+    // Wait for the first fully settled and correctly-scrolled frame before recording T2.
+    await waitUntilIdle();
+    await this.waitForRenderedFrame();
+    await this.recordStartupMilestone('t2FirstMeaningfulContentVisible');
 
     setTimeout(() => {
       dbSyncController.showSyncResultMessage();
