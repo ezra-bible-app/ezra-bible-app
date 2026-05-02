@@ -165,8 +165,8 @@ class IpcMain {
           returnValue = await callbackFunction((progress) => {
             this.message(progressChannel, progress);
           }, ...args);
-        } catch (e) {
-          returnValue = e;
+        } catch (error) {
+          returnValue = error;
         } finally {
           this.recordTiming(functionName, startTime);
         }

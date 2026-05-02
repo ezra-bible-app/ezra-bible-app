@@ -158,7 +158,7 @@ class StartupProfiling {
       return '0.000';
     }
 
-    return this.formatDurationNs(totalDurationNs / BigInt(callCount));
+    return (Number(totalDurationNs) / callCount / 1000000).toFixed(3);
   }
 
   createCategorySection(categoryName, categoryStats) {
