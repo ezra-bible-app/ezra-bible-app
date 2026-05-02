@@ -191,8 +191,8 @@ class IpcMain {
 
         try {
           returnValue = await callbackFunction(...args);
-        } catch (e) {
-          returnValue = e;
+        } catch (error) {
+          returnValue = error;
         } finally {
           this.recordTiming(functionName, startTime);
         }
