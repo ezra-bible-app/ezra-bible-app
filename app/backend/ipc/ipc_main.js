@@ -50,7 +50,7 @@ class IpcMain {
     return true;
   }
 
-  incrementCallCounter(functionName, args=undefined) {
+  incrementCallCounter(functionName, args) {
     global.callCounters[functionName] += 1;
 
     if (this._showDebugOutput) {

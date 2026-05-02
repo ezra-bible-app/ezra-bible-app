@@ -63,11 +63,11 @@ class StartupProfiling {
   }
 
   getCategoryName(functionName) {
-    if (functionName.indexOf('db_') === 0) {
+    if (functionName.startsWith('db_')) {
       return 'ipcDb';
     }
 
-    if (functionName.indexOf('nsi_') === 0) {
+    if (functionName.startsWith('nsi_')) {
       return 'ipcNsi';
     }
 
