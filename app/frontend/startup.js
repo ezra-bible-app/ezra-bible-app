@@ -456,8 +456,6 @@ class Startup {
     await app_controller.optionsMenu.init();
     theme_controller.initNightMode();
 
-    await app_controller.translation_controller.initTranslationsMenu(-1, 0);
-
     loadingIndicator.hide();
     $('#loading-subtitle').hide();
 
