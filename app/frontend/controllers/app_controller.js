@@ -121,7 +121,7 @@ class AppController {
 
     this.initGlobalShortCuts();
 
-    var bibleTranslations = await ipcNsi.getAllLocalModules();
+    var bibleTranslations = await ipcNsi.getAllLocalModules('BIBLE');
     var defaultBibleTranslationId = null;
 
     if (bibleTranslations != null && bibleTranslations.length > 0) {
@@ -239,7 +239,7 @@ class AppController {
     let copyButton = currentVerseListMenu.querySelector('.copy-button');
     let tabButton = currentVerseListMenu.querySelector('.tab-button');
 
-    let bibleTranslations = await ipcNsi.getAllLocalModules();
+    let bibleTranslations = await ipcNsi.getAllLocalModules('BIBLE');
     if (bibleTranslations != null && bibleTranslations.length > 0) {
       bookSelectButton.classList.remove('ui-state-disabled');
       moduleSearchButton.classList.remove('ui-state-disabled');
