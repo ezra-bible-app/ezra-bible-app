@@ -121,9 +121,7 @@ class AppController {
 
     this.initGlobalShortCuts();
 
-    await this.book_selection_menu.init();
-
-    var bibleTranslations = await ipcNsi.getAllLocalModules();
+    var bibleTranslations = await ipcNsi.getAllLocalModules('BIBLE');
     var defaultBibleTranslationId = null;
 
     if (bibleTranslations != null && bibleTranslations.length > 0) {
@@ -215,8 +213,9 @@ class AppController {
 
       await this.tab_controller.loadTabConfiguration();
 
-      if (await ipcSettings.has('lastUsedTagGroupId')) {
-        tag_assignment_panel.currentTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
+      const lastUsedTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
+      if (lastUsedTagGroupId !== null) {
+        tag_assignment_panel.currentTagGroupId = lastUsedTagGroupId;
         const tagGroupList = document.getElementById('tag-panel-tag-group-list');
         const tagGroup = await tagGroupList._tagGroupManager.getItemById(tag_assignment_panel.currentTagGroupId);
         await eventController.publishAsync('on-tag-group-selected', tagGroup);
@@ -240,7 +239,7 @@ class AppController {
     let copyButton = currentVerseListMenu.querySelector('.copy-button');
     let tabButton = currentVerseListMenu.querySelector('.tab-button');
 
-    let bibleTranslations = await ipcNsi.getAllLocalModules();
+    let bibleTranslations = await ipcNsi.getAllLocalModules('BIBLE');
     if (bibleTranslations != null && bibleTranslations.length > 0) {
       bookSelectButton.classList.remove('ui-state-disabled');
       moduleSearchButton.classList.remove('ui-state-disabled');

@@ -177,8 +177,8 @@ class ConfigOption extends HTMLElement {
 
   set checkedByDefault(value) {
     if (value == true) {
-      ipcSettings.has(this._settingsKey).then((isAvailable) => {
-        if (!isAvailable) {
+      ipcSettings.get(this._settingsKey, null).then((storedValue) => {
+        if (storedValue === null) {
           this._checkedByDefault = true;
           this.setOptionChecked();
         }

@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../controllers/event_controller.js');
-const i18nHelper = require('../helpers/i18n_helper.js');
 const cacheController = require('../controllers/cache_controller.js');
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
@@ -32,18 +31,80 @@ class BookSelectionMenu {
     this.init_completed = false;
     this.recentPassagesKey = 'recentPassages';
     this.chapterMenuOpenedFromBookMenu = false;
+
+    eventController.subscribe('on-startup-completed', async () => {
+      await this.init();
+    });
+  }
+
+  getBookSelectionMenuList() {
+    return document.getElementById('book-selection-menu-book-list');
+  }
+
+  /**
+   * Removes transient availability and selection state before reusing cached menu markup.
+   *
+   * @param {HTMLElement} menuBookList - The root element containing the book menu lists.
+   */
+  sanitizeBookSelectionMenuState(menuBookList) {
+    if (menuBookList == null) {
+      return;
+    }
+
+    const transientClasses = [
+      'book-available',
+      'book-unavailable',
+      'book-selected'
+    ];
+
+    const bookLinks = menuBookList.querySelectorAll('li');
+
+    for (let i = 0; i < bookLinks.length; i++) {
+      bookLinks[i].classList.remove(...transientClasses);
+    }
+
+    const apocryphalBookList = menuBookList.querySelector('.apocryphal-books');
+
+    if (apocryphalBookList != null) {
+      apocryphalBookList.style.display = '';
+    }
+  }
+
+  /**
+   * Refreshes the menu for the current tab and reapplies the current-book highlight when applicable.
+   *
+   * @param {number|undefined} tabIndex - The tab to sync against, or the active tab if omitted.
+   * @param {string|undefined} moduleCode - An optional module code to use instead of the tab translation.
+   */
+  async syncCurrentBookMenuState(tabIndex=undefined, moduleCode=undefined) {
+    await this.updateAvailableBooks(tabIndex, moduleCode);
+
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (currentTab == null) {
+      return;
+    }
+
+    const textType = currentTab.getTextType();
+
+    if (textType == 'book') {
+      this.highlightCurrentlySelectedBookInMenu(tabIndex);
+    } else {
+      this.clearSelectedBookInMenu();
+    }
   }
 
   async init() {
     if (this.init_completed) return;
 
-    const menuBookList = document.querySelector('#app-container #book-selection-menu-book-list');
+    const menuBookList = this.getBookSelectionMenuList();
     menuBookList.addEventListener('click', app_controller.handleBodyClick);
 
     var cachedHtml = await cacheController.getCachedItem('bookSelectionMenuCache');
 
     if (cachedHtml) {
       menuBookList.innerHTML = cachedHtml;
+      this.sanitizeBookSelectionMenuState(menuBookList);
     } else {
       console.log("Localizing book selection menu ...");
       await this.localizeBookSelectionMenu();
@@ -81,14 +142,14 @@ class BookSelectionMenu {
 
   subscribeForEvents() {
     eventController.subscribe('on-translation1-changed', async () => {
-      await this.updateAvailableBooks();
+      await this.syncCurrentBookMenuState();
     });
 
     eventController.subscribe('on-translation-added', async (moduleCode) => {
       const bibleModules = await ipcNsi.getAllLocalModules('BIBLE');
 
       if (bibleModules.length == 1) { // First Bible module added. In this case we need to update the book list
-        await this.updateAvailableBooks(undefined, moduleCode);
+        await this.syncCurrentBookMenuState(undefined, moduleCode);
       }
     });
 
@@ -100,13 +161,7 @@ class BookSelectionMenu {
         this.clearSelectedBookInMenu();
       }
 
-      await this.updateAvailableBooks(tabIndex);
-
-      // Highlight currently selected book (only in book mode)
-      if (metaTab != null) {
-        const textType = metaTab.getTextType();
-        if (textType == 'book') this.highlightCurrentlySelectedBookInMenu(tabIndex);
-      }
+      await this.syncCurrentBookMenuState(tabIndex);
     });
 
     eventController.subscribe('on-tab-added', async () => {
@@ -115,26 +170,46 @@ class BookSelectionMenu {
 
     eventController.subscribe('on-locale-changed', async () => {
       await this.localizeBookSelectionMenu();
+      await this.syncCurrentBookMenuState();
       await this.renderRecentPassages();
     });
   }
 
-  // This function is rather slow and it delays app startup! (~175ms)
   async localizeBookSelectionMenu() {
-    var aElements = document.querySelectorAll("#book-selection-menu-book-list a");
+    const menuBookList = this.getBookSelectionMenuList();
+    var aElements = menuBookList.querySelectorAll('a');
 
+    // Collect all books and fetch all localized names in a single batch IPC call
+    var booksToTranslate = [];
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
-      var currentBookName = currentBook.getAttribute('book-name');
+      var bookCode = currentBook.getAttribute('href');
+      var longTitle = currentBook.getAttribute('book-name');
 
-      if (currentBookName != null) {
-        var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBookName);
-        currentBook.textContent = currentBookTranslation;
+      if (bookCode != null && longTitle != null) {
+        booksToTranslate.push({ shortTitle: bookCode, longTitle: longTitle });
       }
     }
 
-    var html = document.getElementById("book-selection-menu-book-list").innerHTML;
-    cacheController.setCachedItem('bookSelectionMenuCache', html);
+    var bookTranslations = {};
+    if (booksToTranslate.length > 0) {
+      bookTranslations = await ipcGeneral.getBookNames(booksToTranslate);
+    }
+
+    // Update the DOM in one pass using the pre-fetched translations
+    for (var i = 0; i < aElements.length; i++) {
+      var currentBook = aElements[i];
+      var bookCode = currentBook.getAttribute('href');
+
+      if (bookCode != null && bookTranslations[bookCode] != null) {
+        currentBook.textContent = bookTranslations[bookCode];
+      }
+    }
+
+    this.sanitizeBookSelectionMenuState(menuBookList);
+
+    var html = menuBookList.innerHTML;
+    await cacheController.setCachedItem('bookSelectionMenuCache', html);
   }
 
   async updateAvailableBooks(tabIndex=undefined, moduleCode=undefined) {
@@ -334,15 +409,20 @@ class BookSelectionMenu {
     }
   }
 
-  handleBookMenuClick(event) {
+  async handleBookMenuClick(event) {
     if ($('.book-select-button').hasClass('ui-state-disabled')) {
       return;
+    }
+
+    if (event != null) {
+      event.stopPropagation();
     }
 
     if (this.book_menu_is_opened) {
       app_controller.handleBodyClick();
     } else {
       app_controller.hideAllMenus();
+      await this.syncCurrentBookMenuState();
       
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');
@@ -353,10 +433,6 @@ class BookSelectionMenu {
       uiHelper.showButtonMenu(book_button, menu);
 
       this.book_menu_is_opened = true;
-
-      if (event != null) {
-        event.stopPropagation();
-      }
     }
   }
 
@@ -364,7 +440,7 @@ class BookSelectionMenu {
     let bookLongTitle = await ipcDb.getBookLongTitle(bookCode);
     let bookTitleTranslation = await ipcDb.getBookTitleTranslation(bookCode);
 
-    this.handleBookMenuClick();
+    await this.handleBookMenuClick();
     this.chapterMenuOpenedFromBookMenu = false;
     this.book_menu_is_opened = false;
     await this.selectBibleBook(bookCode, bookTitleTranslation, bookLongTitle, currentChapter);
