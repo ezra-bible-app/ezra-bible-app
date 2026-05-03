@@ -218,9 +218,12 @@ class AppController {
       const lastUsedTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
       if (lastUsedTagGroupId !== null) {
         tag_assignment_panel.currentTagGroupId = lastUsedTagGroupId;
-        const tagGroupList = document.getElementById('tag-panel-tag-group-list');
-        const tagGroup = await tagGroupList._tagGroupManager.getItemById(tag_assignment_panel.currentTagGroupId);
-        await eventController.publishAsync('on-tag-group-selected', tagGroup);
+
+        if (window.dbInitialized) {
+          const tagGroupList = document.getElementById('tag-panel-tag-group-list');
+          const tagGroup = await tagGroupList._tagGroupManager.getItemById(tag_assignment_panel.currentTagGroupId);
+          await eventController.publishAsync('on-tag-group-selected', tagGroup);
+        }
       }
 
       await this.book_selection_menu.updateAvailableBooks();

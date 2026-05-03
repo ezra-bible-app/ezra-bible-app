@@ -168,13 +168,22 @@ class TabController {
       }
 
       if (tabsValid) {
-        verseListController.resetVerseListView();
-
         if (this.loadingCompleted) {
-          // If tabs are already loaded, just repopulate them with fresh data
-          await this.populateFromMetaTabs(true);
+          // If tabs are already loaded, only repopulate them with fresh data
+          // when the underlying database has actually changed since we
+          // populated them. Otherwise the cached HTML is still valid and a
+          // re-render would only cause a visible flash without changing the
+          // displayed content (e.g. on Cordova after deferred DB init).
+          const cacheOutdated = await cacheController.isCacheOutdated();
+          const cacheInvalid = await cacheController.isCacheInvalid();
+
+          if (cacheOutdated || cacheInvalid) {
+            verseListController.resetVerseListView();
+            await this.populateFromMetaTabs(true);
+          }
         } else {
           // Initial loading during startup
+          verseListController.resetVerseListView();
           await this.loadTabConfiguration(true);
         }
       }

@@ -519,24 +519,7 @@ class Startup {
       newReleaseChecker.check();
     }
 
-    const isDropboxAccessUpgradeNeeded = await ipcDb.isDropboxAccessUpgradeNeeded();
-
-    if (isDropboxAccessUpgradeNeeded) {
-      // The Dropbox access level has changed from full access to app folder access in version 1.15.
-      // Here we inform the user about this change.
-
-      const message = i18n.t('dropbox.access-method-message-part1') +
-                      i18n.t('dropbox.access-method-message-part2') +
-                      i18n.t('dropbox.access-method-message-part3') +
-                      i18n.t('dropbox.access-method-message-part4') +
-                      i18n.t('dropbox.access-method-message-part5') +
-                      `<ul>
-                        <li>${i18n.t('dropbox.access-method-message-part6')}</li>
-                        <li>${i18n.t('dropbox.access-method-message-part7')}</li>
-                      </ul>`;
-
-      await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
-    }
+    await this.showDropboxAccessUpgradeDialogIfNeeded();
 
     this.showDatabaseErrorsIfAny(initDbResult);
 
@@ -608,6 +591,28 @@ class Startup {
     if (loadingSubtitleElement) {
       loadingSubtitleElement.textContent = i18nController.getStringForStartup("cordova.starting-app", "Starting app");
     }
+  }
+
+  async showDropboxAccessUpgradeDialogIfNeeded() {
+    const isDropboxAccessUpgradeNeeded = await ipcDb.isDropboxAccessUpgradeNeeded();
+
+    if (!isDropboxAccessUpgradeNeeded) {
+      return;
+    }
+
+    // The Dropbox access level has changed from full access to app folder access in version 1.15.
+    // Here we inform the user about this change.
+    const message = i18n.t('dropbox.access-method-message-part1') +
+                    i18n.t('dropbox.access-method-message-part2') +
+                    i18n.t('dropbox.access-method-message-part3') +
+                    i18n.t('dropbox.access-method-message-part4') +
+                    i18n.t('dropbox.access-method-message-part5') +
+                    `<ul>
+                      <li>${i18n.t('dropbox.access-method-message-part6')}</li>
+                      <li>${i18n.t('dropbox.access-method-message-part7')}</li>
+                    </ul>`;
+
+    await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
   }
 }
 

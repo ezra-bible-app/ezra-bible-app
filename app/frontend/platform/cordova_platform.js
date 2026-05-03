@@ -20,6 +20,7 @@
 
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
+const IpcDb = require('../ipc/ipc_db.js');
 const IpcSettings = require('../ipc/ipc_settings.js');
 const i18nController = require('../controllers/i18n_controller.js');
 const eventController = require('../controllers/event_controller.js');
@@ -336,7 +337,11 @@ class CordovaPlatform {
     //      to serve ipcNsi.getAllLocalModules() calls without touching SWORD
     const hasCachedTabs = await cacheController.hasCachedItem('tabConfiguration');
     const hasModuleSnapshot = localStorage.getItem('ezra.localModuleSnapshot') !== null;
+    const hasDbStartupCache = localStorage.getItem('ezra.dbStartupCache') !== null;
     const canDeferSword = hasCachedTabs && hasModuleSnapshot;
+    const canDeferDb = hasCachedTabs && hasDbStartupCache;
+
+    window.dbInitialized = false;
 
     if (canDeferSword) {
       console.log("Cache available — deferring SWORD initialization until after UI has loaded.");
@@ -354,13 +359,35 @@ class CordovaPlatform {
       window.swordInitialized = true;
     }
 
-    uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
-
     // navigator.connection is provided by cordova-plugin-network-information
     // and it is used to determine the network type (wifi, cellular, none)
     const connectionType = navigator.connection ? navigator.connection.type : 'unknown';
 
-    let initDbResult = await ipcGeneral.initDatabase(androidVersion, connectionType);
+    let initDbResult = 0;
+
+    if (canDeferDb) {
+      console.log("Cache available — deferring database initialization until after UI has loaded.");
+
+      eventController.subscribe('on-startup-completed', async () => {
+        console.log("on-startup-completed: now initializing database.");
+        const deferredInitDbResult = await ipcGeneral.initDatabase(androidVersion, connectionType);
+        window.dbInitialized = true;
+        await ipcDb.initDbStartupCacheRefresh();
+
+        if (deferredInitDbResult < 0) {
+          startup.showDatabaseErrorsIfAny(deferredInitDbResult);
+        }
+
+        await app_controller.book_selection_menu.updateAvailableBooks();
+        await eventController.publishAsync('on-db-refresh');
+      });
+    } else {
+      uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
+      initDbResult = await ipcGeneral.initDatabase(androidVersion, connectionType);
+      window.dbInitialized = true;
+      const startupIpcDb = new IpcDb();
+      await startupIpcDb.initDbStartupCacheRefresh();
+    }
 
     await startup.initApplication(initDbResult);
   }

@@ -22,6 +22,7 @@ const PlatformHelper = require('../../lib/platform_helper.js');
 const i18nController = require('../controllers/i18n_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { Mutex } = require('async-mutex');
+const DbStartupCacheHelper = require('../helpers/db_startup_cache_helper.js');
 
 class IpcDb {
   constructor() {
@@ -32,6 +33,12 @@ class IpcDb {
     this._cachedBookTitleTranslations = {};
     this._cachedTagList = [];
     this._getAllTagsLock = new Mutex();
+    this._dbStartupCacheHelper = new DbStartupCacheHelper(this._ipcRenderer, this._isCordova);
+  }
+
+  async initDbStartupCacheRefresh() {
+    this._dbStartupCacheHelper.initRefresh();
+    return await this._dbStartupCacheHelper.refresh();
   }
 
   async closeDatabase() {
@@ -49,6 +56,9 @@ class IpcDb {
   }
 
   async isDropboxAccessUpgradeNeeded() {
+    if (this._isCordova && !window.dbInitialized) {
+      return false;
+    }
     return await this._ipcRenderer.call('db_isDropboxAccessUpgradeNeeded');
   }
 
@@ -103,10 +113,23 @@ class IpcDb {
   }
 
   async getTagCount(bibleBookId=0) {
+    if (this._isCordova && !window.dbInitialized) {
+      if (bibleBookId === 0) {
+        const cachedCount = this._dbStartupCacheHelper.getCachedTagCount();
+        return cachedCount !== undefined ? cachedCount : 0;
+      }
+      return 0;
+    }
     return await this._ipcRenderer.call('db_getTagCount', bibleBookId);
   }
 
   async getAllTags(bibleBookId=0, lastUsed=false, onlyStats=false) {
+    // Fast path: serve from persistent cache when DB has not yet been initialized (Cordova deferred startup).
+    if (this._isCordova && !window.dbInitialized && bibleBookId === 0 && !lastUsed && !onlyStats) {
+      const cachedList = this._dbStartupCacheHelper.getCachedTagList();
+      return cachedList !== undefined ? cachedList : [];
+    }
+
     // We use a semaphore/lock here to ensure that the caching functionality is working properly during startup.
     // Before introducing this lock we observed some parallel getAllTags calls during startup, specifically on Android.
     // Those parallel calls are valid, but we want to ensure that the retrieval of the tag list
@@ -131,6 +154,11 @@ class IpcDb {
 
       var tagList = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
 
+      // Keep persistent cache up to date so the next hot start has fresh data.
+      if (this._isCordova && tagList != null) {
+        this._dbStartupCacheHelper.cacheTagList(tagList);
+      }
+
       if (!useCache) {
         releaseLock();
         return tagList;
@@ -146,6 +174,9 @@ class IpcDb {
   }
 
   async getBookVerseTags(bibleBookId, versification) {
+    if (this._isCordova && !window.dbInitialized) {
+      return [];
+    }
     return await this._ipcRenderer.call('db_getBookVerseTags', bibleBookId, versification);
   }
 
@@ -166,6 +197,9 @@ class IpcDb {
   }
 
   async getAllTagGroups(bibleBookId=0) {
+    if (this._isCordova && !window.dbInitialized) {
+      return [];
+    }
     return await this._ipcRenderer.call('db_getAllTagGroups', bibleBookId);
   }
 
@@ -194,7 +228,15 @@ class IpcDb {
   }
 
   async getAllNoteFiles() {
-    return await this._ipcRenderer.call('db_getAllNoteFiles');
+    if (this._isCordova && !window.dbInitialized) {
+      const cached = this._dbStartupCacheHelper.getCachedNoteFiles();
+      return cached !== undefined ? cached : [];
+    }
+    const result = await this._ipcRenderer.call('db_getAllNoteFiles');
+    if (this._isCordova && result != null) {
+      this._dbStartupCacheHelper.cacheNoteFiles(result);
+    }
+    return result;
   }
 
   async createNoteFile(noteFileTitle) {
@@ -210,7 +252,15 @@ class IpcDb {
   }
 
   async getBibleBook(shortTitle) {
-    return await this._ipcRenderer.call('db_getBibleBook', shortTitle);
+    if (this._isCordova && !window.dbInitialized) {
+      const cached = this._dbStartupCacheHelper.getCachedBibleBook(shortTitle);
+      return cached !== undefined ? cached : null;
+    }
+    const result = await this._ipcRenderer.call('db_getBibleBook', shortTitle);
+    if (this._isCordova && result != null) {
+      this._dbStartupCacheHelper.cacheBibleBook(shortTitle, result);
+    }
+    return result;
   }
 
   async getBibleBooksFromSearchResults(searchResults) {
@@ -289,10 +339,16 @@ class IpcDb {
   }
 
   async isBookWithOffset(bookCode) {
+    if (this._isCordova && !window.dbInitialized) {
+      return false;
+    }
     return await this._ipcRenderer.call('db_isBookWithOffset', bookCode);
   }
 
   async getLastMetaRecordUpdate() {
+    if (this._isCordova && !window.dbInitialized) {
+      return null;
+    }
     return await this._ipcRenderer.call('db_getLastMetaRecordUpdate');
   }
 
