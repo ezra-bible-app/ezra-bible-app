@@ -34,8 +34,8 @@ class VinesHelper {
     }
 
     // Check if the Vines module is installed
-    var dictModules = await ipcNsi.getAllLocalModules('DICT');
-    var vinesInstalled = dictModules.some((m) => m.name === 'Vines');
+    var dictModuleIds = await ipcNsi.getAllLocalModuleIds('DICT');
+    var vinesInstalled = dictModuleIds.includes('Vines');
 
     if (!vinesInstalled) {
       return this._getVinesNotInstalledHtml();
