@@ -187,11 +187,11 @@ class Startup {
   }
 
   async initIpcClients() {
-    if (window.ipcGeneral === undefined) {
+    if (window.ipcGeneral == null) {
       window.ipcGeneral = new IpcGeneral();
     }
 
-    if (window.ipcI18n === undefined) {
+    if (window.ipcI18n == null) {
       window.ipcI18n = new IpcI18n();
     }
 
@@ -199,7 +199,7 @@ class Startup {
     window.ipcNsi.initLocalModuleSnapshotRefresh();
     window.ipcDb = new IpcDb();
 
-    if (window.ipcSettings === undefined) {
+    if (window.ipcSettings == null) {
       window.ipcSettings = new IpcSettings();
     }
   }
