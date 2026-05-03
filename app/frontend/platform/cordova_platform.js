@@ -352,6 +352,9 @@ class CordovaPlatform {
         await ipcGeneral.initSword();
         window.swordInitialized = true;
         await app_controller.book_selection_menu.updateAvailableBooks();
+        // Refresh the local module snapshot so any module type that was missing
+        // from the cached snapshot (e.g. COMMENTARY) gets populated now that SWORD is ready.
+        await window.ipcNsi.refreshLocalModuleSnapshot();
       });
     } else {
       uiHelper.updateLoadingSubtitle("cordova.init-sword", "Initializing SWORD");

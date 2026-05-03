@@ -133,6 +133,11 @@ class IpcNsi {
       return cachedModules;
     }
 
+    if (this._isCordova && !window.swordInitialized) {
+      // Don't cache the empty result so subsequent calls can retry once SWORD is ready.
+      return [];
+    }
+
     const returnValue = await this._ipcRenderer.call('nsi_getAllLocalModules', moduleType);
     const modules = Array.isArray(returnValue) ? returnValue : [];
     this._localModuleSnapshotHelper.cacheLocalModules(moduleType, modules);
@@ -149,6 +154,11 @@ class IpcNsi {
 
     if (cachedModuleIds !== undefined) {
       return cachedModuleIds;
+    }
+
+    if (this._isCordova && !window.swordInitialized) {
+      // Don't cache the empty result so subsequent calls can retry once SWORD is ready.
+      return [];
     }
 
     const returnValue = await this._ipcRenderer.call('nsi_getAllLocalModuleIds', moduleType);
@@ -261,12 +271,18 @@ class IpcNsi {
 
   async getChapterVerseCount(moduleCode, bookCode, chapter) {
     return await this._chapterVerseCountCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getChapterVerseCount', moduleCode, bookCode, chapter);
     }, moduleCode, bookCode, chapter);
   }
 
   async getBookVerseCount(moduleCode, bookCode) {
     return await this._bookVerseCountCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getBookVerseCount', moduleCode, bookCode);
     }, moduleCode, bookCode);
   }

@@ -284,6 +284,10 @@ class IpcDb {
     }
 
     if (!(shortName in this._cachedBookTitleTranslations[currentLocale])) {
+      if (this._isCordova && !window.dbInitialized) {
+        // Don't cache; let subsequent calls retry once the DB is ready.
+        return shortName;
+      }
       translation = await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18nController.getLocale());
       this._cachedBookTitleTranslations[currentLocale][shortName] = translation;
     } else {
