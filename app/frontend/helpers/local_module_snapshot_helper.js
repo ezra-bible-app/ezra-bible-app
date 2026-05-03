@@ -96,6 +96,24 @@ class LocalModuleSnapshotHelper {
     return undefined;
   }
 
+  getCachedLocalModuleByCode(moduleCode) {
+    if (!this._enabled) {
+      return undefined;
+    }
+
+    for (const moduleType of Object.keys(this._localModuleSnapshot.modulesByType)) {
+      const modules = this._localModuleSnapshot.modulesByType[moduleType];
+      if (Array.isArray(modules)) {
+        const found = modules.find(module => module.name === moduleCode);
+        if (found !== undefined) {
+          return found;
+        }
+      }
+    }
+
+    return undefined;
+  }
+
   getCachedLocalModuleIds(moduleType) {
     if (!this._enabled) {
       return undefined;

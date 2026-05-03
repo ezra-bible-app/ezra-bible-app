@@ -20,8 +20,10 @@
 
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
+const IpcSettings = require('../ipc/ipc_settings.js');
 const i18nController = require('../controllers/i18n_controller.js');
 const eventController = require('../controllers/event_controller.js');
+const cacheController = require('../controllers/cache_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
@@ -321,8 +323,36 @@ class CordovaPlatform {
     const androidVersion = this.getOSVersion();
     window.ipcGeneral = new IpcGeneral();
 
-    uiHelper.updateLoadingSubtitle("cordova.init-sword", "Initializing SWORD");
+    uiHelper.updateLoadingSubtitle("cordova.init-persistent-ipc", "Initializing...");
     await ipcGeneral.initPersistentIpc(androidVersion);
+
+    // Now that persistent IPC (settings backend) is ready, we can create ipcSettings
+    // early so that cacheController can be used before startup.initApplication().
+    window.ipcSettings = new IpcSettings();
+
+    // Check whether both caches are warm enough to defer SWORD initialization:
+    //   1. tabConfiguration: settings cache keyed in the backend settings store
+    //   2. ezra.localModuleSnapshot: localStorage cache used by LocalModuleSnapshotHelper
+    //      to serve ipcNsi.getAllLocalModules() calls without touching SWORD
+    const hasCachedTabs = await cacheController.hasCachedItem('tabConfiguration');
+    const hasModuleSnapshot = localStorage.getItem('ezra.localModuleSnapshot') !== null;
+    const canDeferSword = hasCachedTabs && hasModuleSnapshot;
+
+    if (canDeferSword) {
+      console.log("Cache available — deferring SWORD initialization until after UI has loaded.");
+
+      // Schedule SWORD init to run after on-startup-completed
+      eventController.subscribe('on-startup-completed', async () => {
+        console.log("on-startup-completed: now initializing SWORD.");
+        await ipcGeneral.initSword();
+        window.swordInitialized = true;
+        await app_controller.book_selection_menu.updateAvailableBooks();
+      });
+    } else {
+      uiHelper.updateLoadingSubtitle("cordova.init-sword", "Initializing SWORD");
+      await ipcGeneral.initSword();
+      window.swordInitialized = true;
+    }
 
     uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
 

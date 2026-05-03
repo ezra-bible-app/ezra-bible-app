@@ -218,6 +218,9 @@ class IpcNsi {
   }
 
   async getChapterText(moduleCode, bookCode, chapter) {
+    if (this._isCordova && !window.swordInitialized) {
+      return null;
+    }
     var returnValue = this._ipcRenderer.call('nsi_getChapterText', moduleCode, bookCode, chapter);
     return returnValue;
   }
@@ -240,12 +243,18 @@ class IpcNsi {
 
   async getBookList(moduleCode) {
     return await this._bookListCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getBookList', moduleCode);
     }, moduleCode);
   }
 
   async getBookChapterCount(moduleCode, bookCode) {
     return await this._bookChapterCountCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getBookChapterCount', moduleCode, bookCode);
     }, moduleCode, bookCode);
   }
@@ -264,6 +273,9 @@ class IpcNsi {
 
   async getAllChapterVerseCounts(moduleCode, bookCode) {
     return await this._allChapterVerseCountCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getAllChapterVerseCounts', moduleCode, bookCode);
     }, moduleCode, bookCode);
   }
@@ -312,6 +324,9 @@ class IpcNsi {
 
   async getModuleBookStatus(bookCode) {
     return await this._moduleBookStatusCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getModuleBookStatus', bookCode);
     }, bookCode);
   }
@@ -370,6 +385,11 @@ class IpcNsi {
   }
 
   async getLocalModule(moduleCode) {
+    const cachedModule = this._localModuleSnapshotHelper.getCachedLocalModuleByCode(moduleCode);
+    if (cachedModule !== undefined) {
+      return cachedModule;
+    }
+
     var module = this._ipcRenderer.call('nsi_getLocalModule', moduleCode);
     return module;
   }

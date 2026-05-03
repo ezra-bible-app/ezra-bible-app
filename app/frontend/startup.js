@@ -198,7 +198,10 @@ class Startup {
     window.ipcNsi = new IpcNsi();
     window.ipcNsi.initLocalModuleSnapshotRefresh();
     window.ipcDb = new IpcDb();
-    window.ipcSettings = new IpcSettings();
+
+    if (window.ipcSettings === undefined) {
+      window.ipcSettings = new IpcSettings();
+    }
   }
 
   async initControllers() {

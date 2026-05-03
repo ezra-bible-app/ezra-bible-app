@@ -370,11 +370,12 @@ class TabController {
       );
 
     } else {
-      const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
-        currentMetaTab.getBibleTranslationId(),
-        currentMetaTab.getSecondBibleTranslationId(),
-        currentMetaTab.getBook()
-      );
+      const isInstantLoadingBook = currentMetaTab.cachedText != null ? true :
+        await app_controller.translation_controller.isInstantLoadingBook(
+          currentMetaTab.getBibleTranslationId(),
+          currentMetaTab.getSecondBibleTranslationId(),
+          currentMetaTab.getBook()
+        );
 
       await app_controller.text_controller.requestTextUpdate(
         currentMetaTab.elementId,

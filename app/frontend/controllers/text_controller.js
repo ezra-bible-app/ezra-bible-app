@@ -862,7 +862,7 @@ class TextController {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     var isInstantLoadingBook = true;
-    if (currentTab.getTextType() == 'book') {
+    if (!isCache && currentTab.getTextType() == 'book') {
       isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTab.getBibleTranslationId(), currentTab.getSecondBibleTranslationId(), currentTab.getBook());
     }
 

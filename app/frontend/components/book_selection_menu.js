@@ -226,6 +226,9 @@ class BookSelectionMenu {
 
       if (currentBibleTranslationId != null) {
         const books = await ipcNsi.getBookList(currentBibleTranslationId);
+        if (books == null) {
+          return;
+        }
         let bookLinks = document.getElementById('book-selection-menu-book-list').querySelectorAll('li');
 
         for (let i = 0; i < bookLinks.length; i++) {
@@ -286,7 +289,7 @@ class BookSelectionMenu {
     }
 
     var books = await ipcNsi.getBookList(this.currentBibleTranslationId);
-    if (!books.includes(bookCode)) {
+    if (books == null || !books.includes(bookCode)) {
       return;
     }
 
