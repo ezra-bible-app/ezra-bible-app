@@ -173,7 +173,7 @@ class TranslationComparison {
       return;
     }
 
-    var allTranslations = await ipcNsi.getAllLocalModules();
+    var allTranslations = await ipcNsi.getAllLocalModuleIds();
     if (allTranslations.length < 2) {
       return;
     }

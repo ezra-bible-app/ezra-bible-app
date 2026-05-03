@@ -146,7 +146,7 @@ class BookSelectionMenu {
     });
 
     eventController.subscribe('on-translation-added', async (moduleCode) => {
-      const bibleModules = await ipcNsi.getAllLocalModules('BIBLE');
+      const bibleModules = await ipcNsi.getAllLocalModuleIds('BIBLE');
 
       if (bibleModules.length == 1) { // First Bible module added. In this case we need to update the book list
         await this.syncCurrentBookMenuState(undefined, moduleCode);

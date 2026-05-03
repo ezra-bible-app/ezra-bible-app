@@ -361,6 +361,10 @@ class IpcNsiHandler {
       return this._nsi.getAllLocalModules(moduleType);
     });
 
+    this._ipcMain.add('nsi_getAllLocalModuleIds', (moduleType='BIBLE') => {
+      return this._nsi.getAllLocalModules(moduleType).map(m => m.name);
+    });
+
     this._ipcMain.add('nsi_getAllLanguageModuleCount', async (selectedRepos, languageCodeArray, moduleType='BIBLE') => {
       var allLanguageModuleCount = {};
       
