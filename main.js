@@ -168,7 +168,6 @@ function initIpcHandlers() {
       if (startupProfilePath != null) {
         console.log('Startup IPC profile written to ' + startupProfilePath);
       }
-      console.timeEnd('Startup');
     });
 
     // eslint-disable-next-line no-unused-vars
