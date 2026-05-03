@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../controllers/event_controller.js');
-const i18nHelper = require('../helpers/i18n_helper.js');
 const cacheController = require('../controllers/cache_controller.js');
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
@@ -32,6 +31,10 @@ class BookSelectionMenu {
     this.init_completed = false;
     this.recentPassagesKey = 'recentPassages';
     this.chapterMenuOpenedFromBookMenu = false;
+
+    eventController.subscribe('on-startup-completed', async () => {
+      await this.init();
+    });
   }
 
   getBookSelectionMenuList() {
@@ -143,7 +146,7 @@ class BookSelectionMenu {
     });
 
     eventController.subscribe('on-translation-added', async (moduleCode) => {
-      const bibleModules = await ipcNsi.getAllLocalModules('BIBLE');
+      const bibleModules = await ipcNsi.getAllLocalModuleIds('BIBLE');
 
       if (bibleModules.length == 1) { // First Bible module added. In this case we need to update the book list
         await this.syncCurrentBookMenuState(undefined, moduleCode);
@@ -172,18 +175,34 @@ class BookSelectionMenu {
     });
   }
 
-  // This function is rather slow and it delays app startup! (~175ms)
   async localizeBookSelectionMenu() {
     const menuBookList = this.getBookSelectionMenuList();
     var aElements = menuBookList.querySelectorAll('a');
 
+    // Collect all books and fetch all localized names in a single batch IPC call
+    var booksToTranslate = [];
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
-      var currentBookName = currentBook.getAttribute('book-name');
+      var bookCode = currentBook.getAttribute('href');
+      var longTitle = currentBook.getAttribute('book-name');
 
-      if (currentBookName != null) {
-        var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBookName);
-        currentBook.textContent = currentBookTranslation;
+      if (bookCode != null && longTitle != null) {
+        booksToTranslate.push({ shortTitle: bookCode, longTitle: longTitle });
+      }
+    }
+
+    var bookTranslations = {};
+    if (booksToTranslate.length > 0) {
+      bookTranslations = await ipcGeneral.getBookNames(booksToTranslate);
+    }
+
+    // Update the DOM in one pass using the pre-fetched translations
+    for (var i = 0; i < aElements.length; i++) {
+      var currentBook = aElements[i];
+      var bookCode = currentBook.getAttribute('href');
+
+      if (bookCode != null && bookTranslations[bookCode] != null) {
+        currentBook.textContent = bookTranslations[bookCode];
       }
     }
 

@@ -19,7 +19,7 @@
 const Mousetrap = require('mousetrap');
 const Tab = require('../ui_models/tab.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
-const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const { waitUntilIdle, waitForRenderedFrame } = require('../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const cacheController = require('./cache_controller.js');
@@ -45,6 +45,7 @@ class TabController {
     /** @type Tab[] */
     this.metaTabs = [];
     this.loadingCompleted = false;
+    this.startupLoadingInProgress = false;
     this.lastSelectedTabIndex = null;
     this.verseBoxHelper = new VerseBoxHelper();
     this.tabOperationsEnabled = true;
@@ -138,6 +139,21 @@ class TabController {
             this.saveTabConfiguration();
           }
         }
+      }
+    });
+
+    eventController.subscribe('on-verses-selected', (selectionDetails) => {
+      if (!this.persistanceEnabled) {
+        return;
+      }
+
+      const tabIndex = selectionDetails ? selectionDetails.tabIndex : undefined;
+      const selectedTabIndex = this.getSelectedTabIndex();
+
+      // Persist only the active tab's selection state. The cached tab HTML stores
+      // ui-selected classes, so saving after selection changes is enough to restore it.
+      if (tabIndex === undefined || tabIndex === selectedTabIndex) {
+        this.saveTabConfiguration();
       }
     });
 
@@ -315,9 +331,13 @@ class TabController {
       console.log("Cache is invalid. New app version?");
     }
 
+    this.startupLoadingInProgress = true;
+
     for (let i = 0; i < tabCount; i++) {
       await this.populateTab(i, cacheOutdated, cacheInvalid, force);
     }
+
+    this.startupLoadingInProgress = false;
   }
 
   async populateTab(index, cacheOutdated, cacheInvalid, force) {
@@ -372,15 +392,15 @@ class TabController {
   }
 
   async loadTabConfiguration(force=false) {
-    const bibleTranslationSettingAvailable = await ipcSettings.has('bibleTranslation');
-    const secondBibleTranslationSettingAvailable = await ipcSettings.has('secondBibleTranslation');
+    const bibleTranslationId = await ipcSettings.get('bibleTranslation', null);
+    const secondBibleTranslationId = await ipcSettings.get('secondBibleTranslation', null);
 
-    if (bibleTranslationSettingAvailable) {
-      this.defaultBibleTranslationId = await ipcSettings.get('bibleTranslation');
+    if (bibleTranslationId !== null) {
+      this.defaultBibleTranslationId = bibleTranslationId;
     }
 
-    if (secondBibleTranslationSettingAvailable) {
-      this.defaultSecondBibleTranslationId = await ipcSettings.get('secondBibleTranslation');
+    if (secondBibleTranslationId !== null) {
+      this.defaultSecondBibleTranslationId = secondBibleTranslationId;
     }
 
     var loadedTabCount = 0;
@@ -388,12 +408,19 @@ class TabController {
     if (await cacheController.hasCachedItem('tabConfiguration')) {
       uiHelper.showTextLoadingIndicator();
       verseListController.showVerseListLoadingIndicator();
+
+      if (platformHelper.isMobile()) {
+        $('[id="bible-select-title-line"]').css('visibility', 'hidden');
+      }
+
       loadedTabCount = await this.loadMetaTabsFromSettings();
 
       if (loadedTabCount > 0) {
         await this.populateFromMetaTabs(force);
       } else {
+        $('[id="bible-select-title-line"]').css('visibility', '');
         verseListController.hideVerseListLoadingIndicator();
+        verseListController.showHelpText();
         uiHelper.hideTextLoadingIndicator();
       }
     }
@@ -418,7 +445,18 @@ class TabController {
       await eventController.publishAsync('on-tab-selected', 0);
     }
 
+    if (loadedTabCount > 0) {
+      $('[id="bible-select-title-line"]').css('visibility', '');
+      $('.verse-list').show();
+    }
+
     await waitUntilIdle();
+
+    if (loadedTabCount > 0) {
+      await waitForRenderedFrame();
+      verseListController.hideVerseListLoadingIndicator();
+      uiHelper.hideTextLoadingIndicator();
+    }
 
     this.loadingCompleted = true;
     this.persistanceEnabled = true;
@@ -561,6 +599,7 @@ class TabController {
               await app_controller.verse_statistics_chart.repaintChart(index);
 
               verseListController.hideVerseListLoadingIndicator(index);
+              uiHelper.hideTextLoadingIndicator(index);
               this.restoreScrollPosition(index);
             }
           }

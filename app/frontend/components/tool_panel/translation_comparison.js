@@ -81,7 +81,7 @@ class TranslationComparison {
   async getCompareTranslationContent() {
     var tab = app_controller.tab_controller.getTab();
     if (tab == null) {
-      return;
+      return "";
     }
 
     var sourceTranslationId = tab.getBibleTranslationId();
@@ -173,7 +173,7 @@ class TranslationComparison {
       return;
     }
 
-    var allTranslations = await ipcNsi.getAllLocalModules();
+    var allTranslations = await ipcNsi.getAllLocalModuleIds();
     if (allTranslations.length < 2) {
       return;
     }

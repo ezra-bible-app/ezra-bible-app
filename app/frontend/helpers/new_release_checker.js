@@ -105,8 +105,8 @@ class NewReleaseChecker {
   async isInfoWanted() {
     var latestVersion = this.latestRelease.tag;
 
-    if (await ipcSettings.has('noNewReleaseInfo')) {
-      var noNewReleaseInfo = await ipcSettings.get('noNewReleaseInfo');
+    const noNewReleaseInfo = await ipcSettings.get('noNewReleaseInfo', null);
+    if (noNewReleaseInfo !== null) {
       return noNewReleaseInfo != latestVersion;
     } else {
       return true;

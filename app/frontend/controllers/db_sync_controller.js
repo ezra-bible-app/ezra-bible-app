@@ -155,8 +155,9 @@ module.exports.showSyncResultMessage = async function() {
   }
 
   let lastDropboxSyncTime = '--';
-  if (await ipcSettings.has(DROPBOX_LAST_SYNC_TIME_KEY)) {
-    lastDropboxSyncTime = new Date(await ipcSettings.get(DROPBOX_LAST_SYNC_TIME_KEY));
+  const rawDropboxSyncTime = await ipcSettings.get(DROPBOX_LAST_SYNC_TIME_KEY, null);
+  if (rawDropboxSyncTime !== null) {
+    lastDropboxSyncTime = new Date(rawDropboxSyncTime);
     lastDropboxSyncTime = lastDropboxSyncTime.toLocaleDateString() + ' / ' + lastDropboxSyncTime.toLocaleTimeString();
   }
 

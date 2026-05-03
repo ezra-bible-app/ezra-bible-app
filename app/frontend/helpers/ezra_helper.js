@@ -60,6 +60,19 @@ module.exports.waitUntilIdle = async function () {
   });
 };
 
+module.exports.waitForRenderedFrame = async function () {
+  return new Promise(resolve => {
+    if (typeof window.requestAnimationFrame !== 'function') {
+      setTimeout(resolve, 0);
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      resolve();
+    });
+  });
+};
+
 module.exports.getPlatform = function() {
   var platform = null;
 
