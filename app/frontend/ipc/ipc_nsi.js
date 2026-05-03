@@ -19,6 +19,7 @@
 const IpcRenderer = require('./ipc_renderer.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const HierarchicalObjectCache = require('./hierarchical_object_cache.js');
+const LocalModuleSnapshotHelper = require('../helpers/local_module_snapshot_helper.js');
 
 class IpcNsi {
   constructor() {
@@ -32,6 +33,19 @@ class IpcNsi {
     this._bookListCache = new HierarchicalObjectCache();
     this._bookHeaderCache = new HierarchicalObjectCache();
     this._moduleBookStatusCache = new HierarchicalObjectCache();
+    this._localModuleSnapshotHelper = new LocalModuleSnapshotHelper(this._ipcRenderer);
+  }
+
+  initLocalModuleSnapshotRefresh() {
+    this._localModuleSnapshotHelper.initRefresh();
+  }
+
+  invalidateLocalModuleSnapshot() {
+    this._localModuleSnapshotHelper.invalidate();
+  }
+
+  async refreshLocalModuleSnapshot() {
+    return await this._localModuleSnapshotHelper.refresh();
   }
 
   async repositoryConfigExisting() {
@@ -113,8 +127,16 @@ class IpcNsi {
   }
 
   async getAllLocalModules(moduleType='BIBLE') {
-    var returnValue = this._ipcRenderer.call('nsi_getAllLocalModules', moduleType);
-    return returnValue;
+    const cachedModules = this._localModuleSnapshotHelper.getCachedLocalModules(moduleType);
+
+    if (cachedModules !== undefined) {
+      return cachedModules;
+    }
+
+    const returnValue = await this._ipcRenderer.call('nsi_getAllLocalModules', moduleType);
+    const modules = Array.isArray(returnValue) ? returnValue : [];
+    this._localModuleSnapshotHelper.cacheLocalModules(moduleType, modules);
+    return modules;
   }
 
   getAllLocalModulesSync(moduleType='BIBLE') {
@@ -123,8 +145,16 @@ class IpcNsi {
   }
 
   async getAllLocalModuleIds(moduleType='BIBLE') {
-    var returnValue = this._ipcRenderer.call('nsi_getAllLocalModuleIds', moduleType);
-    return returnValue;
+    const cachedModuleIds = this._localModuleSnapshotHelper.getCachedLocalModuleIds(moduleType);
+
+    if (cachedModuleIds !== undefined) {
+      return cachedModuleIds;
+    }
+
+    const returnValue = await this._ipcRenderer.call('nsi_getAllLocalModuleIds', moduleType);
+    const moduleIds = Array.isArray(returnValue) ? returnValue : [];
+    this._localModuleSnapshotHelper.cacheLocalModuleIds(moduleType, moduleIds);
+    return moduleIds;
   }
 
   async getAllLanguageModuleCount(selectedRepos, languageCodeArray, moduleType='BIBLE') {
@@ -269,7 +299,14 @@ class IpcNsi {
   }
 
   async moduleHasApocryphalBooks(moduleCode) {
-    var returnValue = this._ipcRenderer.call('nsi_moduleHasApocryphalBooks', moduleCode);
+    const cachedHasApocrypha = this._localModuleSnapshotHelper.getCachedModuleApocrypha(moduleCode);
+
+    if (cachedHasApocrypha !== undefined) {
+      return cachedHasApocrypha;
+    }
+
+    const returnValue = await this._ipcRenderer.call('nsi_moduleHasApocryphalBooks', moduleCode);
+    this._localModuleSnapshotHelper.cacheModuleApocrypha(moduleCode, returnValue);
     return returnValue;
   }
 
@@ -318,7 +355,12 @@ class IpcNsi {
   }
 
   async strongsAvailable() {
-    var returnValue = this._ipcRenderer.call('nsi_strongsAvailable');
+    if (this._localModuleSnapshotHelper.hasCachedStrongsAvailable()) {
+      return this._localModuleSnapshotHelper.getCachedStrongsAvailable();
+    }
+
+    const returnValue = await this._ipcRenderer.call('nsi_strongsAvailable');
+    this._localModuleSnapshotHelper.cacheStrongsAvailable(returnValue);
     return returnValue;
   }
 
