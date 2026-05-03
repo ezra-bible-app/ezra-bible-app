@@ -121,8 +121,6 @@ class AppController {
 
     this.initGlobalShortCuts();
 
-    await this.book_selection_menu.init();
-
     var bibleTranslations = await ipcNsi.getAllLocalModules();
     var defaultBibleTranslationId = null;
 

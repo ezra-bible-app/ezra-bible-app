@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../controllers/event_controller.js');
-const i18nHelper = require('../helpers/i18n_helper.js');
 const cacheController = require('../controllers/cache_controller.js');
 const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
@@ -32,6 +31,10 @@ class BookSelectionMenu {
     this.init_completed = false;
     this.recentPassagesKey = 'recentPassages';
     this.chapterMenuOpenedFromBookMenu = false;
+
+    eventController.subscribe('on-startup-completed', async () => {
+      await this.init();
+    });
   }
 
   getBookSelectionMenuList() {
