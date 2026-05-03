@@ -32,15 +32,20 @@ const LOCAL_MODULE_SNAPSHOT_EVENTS = [
 ];
 
 class LocalModuleSnapshotHelper {
-  constructor(ipcRenderer) {
+  constructor(ipcRenderer, enabled=false) {
     this._ipcRenderer = ipcRenderer;
-    this._localModuleSnapshot = this._readLocalModuleSnapshot();
+    this._enabled = enabled;
+    this._localModuleSnapshot = this._createDefaultLocalModuleSnapshot();
     this._localModuleSnapshotRefreshPromise = null;
     this._localModuleSnapshotRefreshInitialized = false;
+
+    if (this._enabled) {
+      this._localModuleSnapshot = this._readLocalModuleSnapshot();
+    }
   }
 
   initRefresh() {
-    if (this._localModuleSnapshotRefreshInitialized) {
+    if (!this._enabled || this._localModuleSnapshotRefreshInitialized) {
       return;
     }
 
@@ -53,11 +58,19 @@ class LocalModuleSnapshotHelper {
   }
 
   invalidate() {
+    if (!this._enabled) {
+      return;
+    }
+
     this._localModuleSnapshot = this._createDefaultLocalModuleSnapshot();
     this._removeLocalModuleSnapshot();
   }
 
   async refresh() {
+    if (!this._enabled) {
+      return this._localModuleSnapshot;
+    }
+
     if (this._localModuleSnapshotRefreshPromise != null) {
       return await this._localModuleSnapshotRefreshPromise;
     }
@@ -72,6 +85,10 @@ class LocalModuleSnapshotHelper {
   }
 
   getCachedLocalModules(moduleType) {
+    if (!this._enabled) {
+      return undefined;
+    }
+
     if (Object.prototype.hasOwnProperty.call(this._localModuleSnapshot.modulesByType, moduleType)) {
       return this._localModuleSnapshot.modulesByType[moduleType];
     }
@@ -80,6 +97,10 @@ class LocalModuleSnapshotHelper {
   }
 
   getCachedLocalModuleIds(moduleType) {
+    if (!this._enabled) {
+      return undefined;
+    }
+
     const cachedModules = this.getCachedLocalModules(moduleType);
 
     if (cachedModules !== undefined) {
@@ -94,6 +115,10 @@ class LocalModuleSnapshotHelper {
   }
 
   cacheLocalModules(moduleType, modules) {
+    if (!this._enabled) {
+      return;
+    }
+
     const snapshot = {
       ...this._localModuleSnapshot,
       modulesByType: {
@@ -110,6 +135,10 @@ class LocalModuleSnapshotHelper {
   }
 
   cacheLocalModuleIds(moduleType, moduleIds) {
+    if (!this._enabled) {
+      return;
+    }
+
     const snapshot = {
       ...this._localModuleSnapshot,
       moduleIdsByType: {
@@ -122,6 +151,10 @@ class LocalModuleSnapshotHelper {
   }
 
   getCachedModuleApocrypha(moduleCode) {
+    if (!this._enabled) {
+      return undefined;
+    }
+
     if (Object.prototype.hasOwnProperty.call(this._localModuleSnapshot.apocryphaByModule, moduleCode)) {
       return this._localModuleSnapshot.apocryphaByModule[moduleCode];
     }
@@ -130,6 +163,10 @@ class LocalModuleSnapshotHelper {
   }
 
   cacheModuleApocrypha(moduleCode, hasApocrypha) {
+    if (!this._enabled) {
+      return;
+    }
+
     const snapshot = {
       ...this._localModuleSnapshot,
       apocryphaByModule: {
@@ -142,6 +179,10 @@ class LocalModuleSnapshotHelper {
   }
 
   hasCachedStrongsAvailable() {
+    if (!this._enabled) {
+      return false;
+    }
+
     return this._localModuleSnapshot.strongsAvailableKnown;
   }
 
@@ -150,6 +191,10 @@ class LocalModuleSnapshotHelper {
   }
 
   cacheStrongsAvailable(strongsAvailable) {
+    if (!this._enabled) {
+      return;
+    }
+
     const snapshot = {
       ...this._localModuleSnapshot,
       strongsAvailable,

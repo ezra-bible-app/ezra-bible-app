@@ -33,7 +33,7 @@ class IpcNsi {
     this._bookListCache = new HierarchicalObjectCache();
     this._bookHeaderCache = new HierarchicalObjectCache();
     this._moduleBookStatusCache = new HierarchicalObjectCache();
-    this._localModuleSnapshotHelper = new LocalModuleSnapshotHelper(this._ipcRenderer);
+    this._localModuleSnapshotHelper = new LocalModuleSnapshotHelper(this._ipcRenderer, this._isCordova);
   }
 
   initLocalModuleSnapshotRefresh() {
