@@ -34,7 +34,7 @@ const { showDialog } = require('./helpers/ezra_helper.js');
 const UiHelper = require('./helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
 
-const { html, waitUntilIdle, getPlatform } = require('./helpers/ezra_helper.js');
+const { html, waitForRenderedFrame, getPlatform } = require('./helpers/ezra_helper.js');
 
 /**
  * The Startup class has the purpose to start up the application.
@@ -90,21 +90,6 @@ class Startup {
         await ipcNsi.installModule('CrossWire', 'ASV');
       }
     }
-  }
-
-  async waitForRenderedFrame() {
-    return new Promise(resolve => {
-      if (typeof window.requestAnimationFrame !== 'function') {
-        setTimeout(resolve, 0);
-        return;
-      }
-
-      window.requestAnimationFrame(() => {
-        window.requestAnimationFrame(() => {
-          resolve();
-        });
-      });
-    });
   }
 
   async recordStartupMilestone(milestoneName) {
@@ -356,8 +341,7 @@ class Startup {
     console.time("application-startup");
 
     // Wait for the UI to render
-    await waitUntilIdle();
-    await this.waitForRenderedFrame();
+    await waitForRenderedFrame();
     await this.recordStartupMilestone('t1FirstUiFrameRendered');
 
     var isDev = await this._platformHelper.isDebug();
@@ -474,7 +458,7 @@ class Startup {
     // Show main content
     document.getElementById('main-content').style.display = 'block';
 
-    await waitUntilIdle();
+    await waitForRenderedFrame();
 
     console.log("Loading settings ...");
     if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
@@ -489,8 +473,7 @@ class Startup {
     dbSyncController.init();
 
     // Wait for the first fully settled and correctly-scrolled frame before recording T2.
-    await waitUntilIdle();
-    await this.waitForRenderedFrame();
+    await waitForRenderedFrame();
     await this.recordStartupMilestone('t2FirstMeaningfulContentVisible');
 
     setTimeout(() => {

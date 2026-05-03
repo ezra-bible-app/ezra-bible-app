@@ -19,7 +19,7 @@
 const Mousetrap = require('mousetrap');
 const Tab = require('../ui_models/tab.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
-const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const { waitUntilIdle, waitForRenderedFrame } = require('../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const cacheController = require('./cache_controller.js');
@@ -417,8 +417,6 @@ class TabController {
 
       if (loadedTabCount > 0) {
         await this.populateFromMetaTabs(force);
-        verseListController.hideVerseListLoadingIndicator();
-        uiHelper.hideTextLoadingIndicator();
       } else {
         $('[id="bible-select-title-line"]').css('visibility', '');
         verseListController.hideVerseListLoadingIndicator();
@@ -453,6 +451,12 @@ class TabController {
     }
 
     await waitUntilIdle();
+
+    if (loadedTabCount > 0) {
+      await waitForRenderedFrame();
+      verseListController.hideVerseListLoadingIndicator();
+      uiHelper.hideTextLoadingIndicator();
+    }
 
     this.loadingCompleted = true;
     this.persistanceEnabled = true;
