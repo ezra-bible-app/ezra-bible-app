@@ -122,6 +122,11 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getAllLocalModuleIds(moduleType='BIBLE') {
+    var returnValue = this._ipcRenderer.call('nsi_getAllLocalModuleIds', moduleType);
+    return returnValue;
+  }
+
   async getAllLanguageModuleCount(selectedRepos, languageCodeArray, moduleType='BIBLE') {
     var returnValue = this._ipcRenderer.call('nsi_getAllLanguageModuleCount', selectedRepos, languageCodeArray, moduleType);
     return returnValue;
