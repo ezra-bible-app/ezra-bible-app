@@ -121,9 +121,7 @@ class AppController {
 
     this.initGlobalShortCuts();
 
-    console.time('Local module snapshot refresh on startup');
     var bibleTranslations = await ipcNsi.getAllLocalModuleIds('BIBLE');
-    console.timeEnd('Local module snapshot refresh on startup');
     var defaultBibleTranslationId = null;
 
     if (bibleTranslations != null && bibleTranslations.length > 0) {
