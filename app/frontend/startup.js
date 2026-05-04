@@ -402,6 +402,10 @@ class Startup {
       await i18nController.initLocale();
     }
 
+    // Now that i18next is fully initialized, re-render the most recently set loading
+    // subtitle. This replaces any English fallback text that was shown before i18n was ready.
+    uiHelper.refreshLoadingSubtitle();
+
     console.log("Loading HTML fragments");
     this.loadHTML();
 

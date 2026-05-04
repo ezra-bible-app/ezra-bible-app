@@ -324,7 +324,7 @@ class CordovaPlatform {
     const androidVersion = this.getOSVersion();
     window.ipcGeneral = new IpcGeneral();
 
-    uiHelper.updateLoadingSubtitle("cordova.init-persistent-ipc", "Initializing...");
+    console.log("Initializing persistent IPC ...");
     await ipcGeneral.initPersistentIpc(androidVersion);
 
     // Now that persistent IPC (settings backend) is ready, we can create ipcSettings
