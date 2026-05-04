@@ -478,17 +478,32 @@ class Startup {
     app_controller.tab_controller.restoreScrollPosition(0);
     // FIXME: Also highlight the last navigation element in the navigation pane and scroll to it
 
-    dbSyncController.init();
-
     // Wait for the first fully settled and correctly-scrolled frame before recording T2.
     await waitForRenderedFrame();
     await this.recordStartupMilestone('t2FirstMeaningfulContentVisible');
 
+    console.timeEnd("application-startup");
+
+    // Keep the text loading indicator visible while on-startup-completed subscribers run,
+    // so that delayed initialization work (e.g. BookSelectionMenu.init) is reflected in the UI.
+    uiHelper.showTextLoadingIndicator();
+
+    try {
+
+      await eventController.publishAsync('on-startup-completed');
+      app_controller.startupCompleted = true;
+
+    } finally {
+      uiHelper.hideTextLoadingIndicator();
+      // Re-enable all menu buttons now that startup is fully completed.
+      document.body.classList.remove('startup-in-progress');
+    }
+
+    dbSyncController.init();
+
     setTimeout(() => {
       dbSyncController.showSyncResultMessage();
     }, 3000);
-
-    console.timeEnd("application-startup");
 
     // Save some meta data about versions used
     cacheController.saveLastUsedVersion();
@@ -527,26 +542,12 @@ class Startup {
 
     this.showDatabaseErrorsIfAny(initDbResult);
 
-    // Keep the text loading indicator visible while on-startup-completed subscribers run,
-    // so that delayed initialization work (e.g. BookSelectionMenu.init) is reflected in the UI.
-    uiHelper.showTextLoadingIndicator();
-
-    try {
-      await eventController.publishAsync('on-startup-completed');
-    } finally {
-      uiHelper.hideTextLoadingIndicator();
-      // Re-enable all menu buttons now that startup is fully completed.
-      document.body.classList.remove('startup-in-progress');
-    }
-
     if (this._platformHelper.isElectron()) {
       const { ipcRenderer } = require('electron');
       await ipcRenderer.invoke('startupCompleted', {
         timestampMs: Date.now()
       });
     }
-
-    app_controller.startupCompleted = true;
   }
 
   showDatabaseErrorsIfAny(initDbResult) {
