@@ -531,6 +531,8 @@ class Startup {
       await eventController.publishAsync('on-startup-completed');
     } finally {
       uiHelper.hideTextLoadingIndicator();
+      // Re-enable all menu buttons now that startup is fully completed.
+      document.body.classList.remove('startup-in-progress');
     }
 
     if (this._platformHelper.isElectron()) {

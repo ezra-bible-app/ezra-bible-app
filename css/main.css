@@ -240,6 +240,16 @@ h2:nth-of-type(1) {
   flex-wrap: wrap;
 }
 
+/* Disable all verse-list-menu buttons until startup is completed.
+   The 'startup-in-progress' class is set on <body> initially and removed
+   after the on-startup-completed event has been fully processed. */
+body.startup-in-progress .verse-list-menu .fg-button,
+body.startup-in-progress #verse-list-tabs .fg-button {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: default;
+}
+
 .fullscreen #app-container .verse-list-menu {
   display: none !important;
 }
