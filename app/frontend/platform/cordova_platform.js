@@ -362,6 +362,15 @@ class CordovaPlatform {
       window.swordInitialized = true;
     }
 
+    // Refresh the i18n translation cache for the active locale once the node backend
+    // is fully responsive. Fire-and-forget: failures are non-fatal (logged in IpcI18n).
+    eventController.subscribe('on-startup-completed', async () => {
+      const currentLocale = i18nController.getLocale();
+      if (currentLocale && window.ipcI18n) {
+        window.ipcI18n.refreshTranslation(currentLocale);
+      }
+    });
+
     // navigator.connection is provided by cordova-plugin-network-information
     // and it is used to determine the network type (wifi, cellular, none)
     const connectionType = navigator.connection ? navigator.connection.type : 'unknown';
