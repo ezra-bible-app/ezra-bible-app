@@ -484,17 +484,11 @@ class Startup {
 
     console.timeEnd("application-startup");
 
-    // Keep the text loading indicator visible while on-startup-completed subscribers run,
-    // so that delayed initialization work (e.g. BookSelectionMenu.init) is reflected in the UI.
-    uiHelper.showTextLoadingIndicator();
-
     try {
-
       await eventController.publishAsync('on-startup-completed');
       app_controller.startupCompleted = true;
 
     } finally {
-      uiHelper.hideTextLoadingIndicator();
       // Re-enable all menu buttons now that startup is fully completed.
       document.body.classList.remove('startup-in-progress');
     }
