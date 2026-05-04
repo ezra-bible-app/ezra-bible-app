@@ -135,7 +135,18 @@ class AppController {
     moduleUpdateController.init();
     transChangeTitles.init();
     clipboardController.init();
-    
+
+    // Initialize the book selection menu here (rather than via the
+    // on-startup-completed event) so that the menu is rendered from cache and
+    // the verse-list menu is unlocked without having to wait for SWORD/DB
+    // initialization, which on Cordova may run deferred via on-startup-completed
+    // subscribers.
+    try {
+      await this.book_selection_menu.init();
+    } catch (e) {
+      console.warn('BookSelectionMenu.init() failed during app_controller.init():', e);
+    }
+
     if (platformHelper.isMobile()) {
       this.mobile_tab_controller.init();
     }

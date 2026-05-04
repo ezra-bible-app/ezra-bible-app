@@ -32,9 +32,10 @@ class BookSelectionMenu {
     this.recentPassagesKey = 'recentPassages';
     this.chapterMenuOpenedFromBookMenu = false;
 
-    eventController.subscribe('on-startup-completed', async () => {
-      await this.init();
-    });
+    // NOTE: init() is invoked explicitly from startup.initApplication (before the
+    // on-startup-completed event is published) so that the book menu is usable
+    // from cache without having to wait for SWORD/DB initialization, which on
+    // Cordova may run deferred via on-startup-completed subscribers.
   }
 
   getBookSelectionMenuList() {
