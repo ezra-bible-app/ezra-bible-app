@@ -523,7 +523,15 @@ class Startup {
 
     this.showDatabaseErrorsIfAny(initDbResult);
 
-    await eventController.publishAsync('on-startup-completed');
+    // Keep the text loading indicator visible while on-startup-completed subscribers run,
+    // so that delayed initialization work (e.g. BookSelectionMenu.init) is reflected in the UI.
+    uiHelper.showTextLoadingIndicator();
+
+    try {
+      await eventController.publishAsync('on-startup-completed');
+    } finally {
+      uiHelper.hideTextLoadingIndicator();
+    }
 
     if (this._platformHelper.isElectron()) {
       const { ipcRenderer } = require('electron');

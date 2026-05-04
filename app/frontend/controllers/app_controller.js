@@ -246,7 +246,13 @@ class AppController {
 
     let bibleTranslations = await ipcNsi.getAllLocalModuleIds('BIBLE');
     if (bibleTranslations != null && bibleTranslations.length > 0) {
-      bookSelectButton.classList.remove('ui-state-disabled');
+      // Only enable the book selection button once the BookSelectionMenu has finished
+      // its asynchronous initialization. Otherwise a click could open an empty/uninitialized menu.
+      if (this.book_selection_menu != null && this.book_selection_menu.init_completed) {
+        bookSelectButton.classList.remove('ui-state-disabled');
+      } else {
+        bookSelectButton.classList.add('ui-state-disabled');
+      }
       moduleSearchButton.classList.remove('ui-state-disabled');
     } else {
       bookSelectButton.classList.add('ui-state-disabled');

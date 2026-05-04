@@ -118,6 +118,21 @@ class BookSelectionMenu {
     this.subscribeForEvents();
     await this.renderRecentPassages(); // Render recent passages on initialization
     this.init_completed = true;
+
+    // Now that initialization is complete, enable the book selection button
+    // (it was kept disabled during startup to prevent clicks before the menu is ready).
+    await this.enableBookSelectButtonIfTranslationsAvailable();
+  }
+
+  async enableBookSelectButtonIfTranslationsAvailable() {
+    try {
+      const bibleTranslations = await ipcNsi.getAllLocalModuleIds('BIBLE');
+      if (bibleTranslations != null && bibleTranslations.length > 0) {
+        $('.book-select-button').removeClass('ui-state-disabled');
+      }
+    } catch (e) {
+      console.warn("Could not enable book selection button after init:", e);
+    }
   }
 
   initLinks() {
