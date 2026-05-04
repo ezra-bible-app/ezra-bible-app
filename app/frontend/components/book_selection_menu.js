@@ -122,6 +122,14 @@ class BookSelectionMenu {
     // Now that initialization is complete, enable the book selection button
     // (it was kept disabled during startup to prevent clicks before the menu is ready).
     await this.enableBookSelectButtonIfTranslationsAvailable();
+
+    // Unblock the rest of the verse-list menu and hide the text loading indicator.
+    // We intentionally wait for the BookSelectionMenu to be initialized (rather
+    // than only for SWORD) so that the menu is fully functional before the user
+    // can interact with it. We do NOT wait for the database initialization to
+    // complete here.
+    document.body.classList.remove('startup-in-progress');
+    uiHelper.hideTextLoadingIndicator();
   }
 
   async enableBookSelectButtonIfTranslationsAvailable() {
