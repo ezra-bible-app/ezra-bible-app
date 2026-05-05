@@ -73,7 +73,7 @@
       "updating-repository-data": "Mise à jour des données du dépôt ! Cela prendra quelques secondes…",
       "update-failed": "La mise à jour a échoué",
       "update-repository-data-failed": "La mise à jour des données du dépôt a échoué ! Êtes-vous hors-ligne ?",
-      "update-repository-data-partially-failed": "Some repositories could not be updated."
+      "update-repository-data-partially-failed": "Certains dépôts n'ont pas pu être mis à jour."
     },
     "step-languages": {
       "select-language": "Veillez choisir au moins une des langues suivantes.",
@@ -184,7 +184,7 @@
     "back": "Retour",
     "save": "Enregistrer",
     "cancel": "Annuler",
-    "retry": "Retry",
+    "retry": "Réessayer",
     "rename": "Renommer",
     "loading": "Chargement en cours",
     "update": "Mettre à jour",
@@ -221,7 +221,7 @@
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
     "configure-commentaries": "Configurer des commentaires",
-    "configure-custom-repositories": "Configure custom repositories",
+    "configure-custom-repositories": "Configurer des dépôts personnalisés",
     "context": "Contexte",
     "general-options": "Options générales",
     "check-new-releases": "Vérifiez s'il y a de nouvelles versions",
@@ -244,22 +244,22 @@
     "module-not-installed": "Le module '{{module_name}}' n'est pas installé."
   },
   "custom-repositories": {
-    "dialog-title": "Custom Repositories",
-    "description": "Custom repositories let you add additional SWORD module sources that are not included by default. The exact setup of custom repositories is not explained here. See the <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire developers Wiki</a> for further explanations.",
-    "list-headline": "List of custom repositories",
-    "add-repository": "Add custom repository",
-    "no-custom-repos": "No custom repositories configured yet.",
-    "protocol": "Protocol",
-    "name": "Name",
-    "host": "Host",
-    "path": "Directory path",
-    "add": "Add repository",
-    "remove": "Remove",
-    "error-duplicate-name": "A repository with this name already exists.",
-    "error-duplicate-url-path": "A repository with this URL/path combination already exists.",
-    "error-invalid-config": "Could not connect to the repository. Please check your settings.",
-    "error-empty-fields": "Please fill in all required fields (Name, Host, Path).",
-    "adding-repository": "Adding repository ..."
+    "dialog-title": "Dépôts personnalisés",
+    "description": "Les dépôts personnalisés permettent d'ajouter des sources de modules SWORD supplémentaires qui ne sont pas incluses par défaut. La configuration exacte des dépôts personnalisés n'est pas expliquée ici. Consultez le <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>Wiki des développeurs CrossWire</a> pour plus d'informations.",
+    "list-headline": "Liste des dépôts personnalisés",
+    "add-repository": "Ajouter un dépôt personnalisé",
+    "no-custom-repos": "Aucun dépôt personnalisé n'est configuré pour le moment.",
+    "protocol": "Protocole",
+    "name": "Nom",
+    "host": "Hôte",
+    "path": "Chemin du dossier",
+    "add": "Ajouter un dépôt",
+    "remove": "Supprimer",
+    "error-duplicate-name": "Un dépôt portant ce nom existe déjà.",
+    "error-duplicate-url-path": "Un dépôt avec cette combinaison d'URL et de chemin existe déjà.",
+    "error-invalid-config": "Impossible de se connecter au dépôt. Veuillez vérifier vos paramètres.",
+    "error-empty-fields": "Veuillez remplir tous les champs obligatoires (Nom, hôte, chemin).",
+    "adding-repository": "Ajout du dépôt ..."
   },
   "data-privacy": {
     "confirm-privacy-options": "Confirmer les options de confidentialité des données",
@@ -469,12 +469,12 @@
     "copy-dict-entry-to-clipboard-success": "Entrée du dictionnaire copiée dans le presse-papiers !",
     "morphology": "Morphology",
     "occurrences": "Occurrences",
-    "index-not-available": "The Strong's occurrence index for {{translation}} has not been generated yet.",
-    "generate-index": "Generate index",
-    "show-occurrence-statistics": "Show occurrence statistics",
-    "show-all-occurrences": "Show all occurrences",
-    "vines-index-not-available": "The Vine's dictionary index has not been generated yet. Once generated, matching entries from the Vine's Expository Dictionary will be listed here.",
-    "vines-not-installed": "The Vine's Expository Dictionary module is not installed. You can install it from the Xiphos repository via the module assistant."
+    "index-not-available": "L'index d'occurrences Strong pour {{translation}} n'a pas encore été généré.",
+    "generate-index": "Générer l'index",
+    "show-occurrence-statistics": "Afficher les statistiques d'occurrences",
+    "show-all-occurrences": "Afficher toutes les occurrences",
+    "vines-index-not-available": "L'index du dictionnaire Vine n'a pas encore été généré. Une fois généré, les entrées correspondantes du Vine's Expository Dictionary seront listées ici.",
+    "vines-not-installed": "Le module Vine's Expository Dictionary n'est pas installé. Vous pouvez l'installer depuis le dépôt Xiphos via l'assistant de modules."
   },
   "dictionary-panel": {
     "default-header": "<b>Dictionnaire</b>",
@@ -504,7 +504,7 @@
     "select-which-commentaries-to-display": "Sélectionnez les commentaires à afficher dans le panneau des commentaires :",
     "copy-commentary-to-clipboard": "Copier le commentaire dans le presse-papiers",
     "copy-commentary-to-clipboard-success": "Commentaire copié dans le presse-papiers !",
-    "help-instruction": "To show commentary content and foot notes, select a verse.<br><br> This area will then automatically list the selected verse from all available commentaries. Also, foot notes from the selected verse will be listed below the commentary content.",
+    "help-instruction": "Pour afficher le commentaire et les notes de bas de page, sélectionnez un verset.<br><br> Cette zone affichera automatiquement le commentaire du verset sélectionné parmi tous les commentaires disponibles. Les notes de bas de page relatives à ce verset apparaîtront également sous le commentaire.",
     "help-instruction-no-commentaries": "Aucun commentaire n'a encore été installé. Vous devez installer au moins un commentaire pour que cette fonctionnalité fonctionne.",
     "no-commentaries-available-for-this-verse": "Il n'y a pas de commentaires disponibles pour ce verset.",
     "copy-button": "Copier le commentaire",
@@ -604,11 +604,11 @@
     "install-summary": "Résumé de l'installation",
     "dropbox-not-linked": "Votre compte Dropbox n'est pas lié. Veuillez d'abord configurer Dropbox.",
     "module-header": "Module",
-    "status-header": "Status",
-    "processing": "Processing...",
-    "row-installed": "✓ Installed",
-    "row-failed": "✗ Failed: {{error}}",
-    "unknown-error": "Unknown error",
-    "installation-failed": "Installation failed"
+    "status-header": "Statut",
+    "processing": "Traitement en cours ...",
+    "row-installed": "✓ Installé",
+    "row-failed": "✗ Échec : {{error}}",
+    "unknown-error": "Erreur inconnue",
+    "installation-failed": "Échec de l'installation"
   }
 }
