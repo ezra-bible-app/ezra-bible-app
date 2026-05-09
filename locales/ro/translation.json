@@ -240,7 +240,7 @@
     "add-repository": "Adaugă depozit personalizat",
     "no-custom-repos": "Nu este configurat încă niciun depozit personalizat.",
     "protocol": "Protocol",
-    "name": "Name",
+    "name": "Nume",
     "host": "Gazdă",
     "path": "Calea directorului",
     "add": "Adaugă depozit",
