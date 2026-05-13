@@ -137,7 +137,8 @@ class NoteFilesPanel {
       let createNoteFile = async () => {
         let noteFileTitle = document.getElementById('note-file-title-value').value;
         const noteFiles = await ipcDb.getAllNoteFiles();
-        const titleExists = noteFiles.some(noteFile => noteFile.title === noteFileTitle);
+        const titleExists = Array.isArray(noteFiles) &&
+          noteFiles.some(noteFile => noteFile.title === noteFileTitle);
 
         if (titleExists) {
           document.getElementById('note-file-title-error').style.display = 'block';
@@ -224,7 +225,9 @@ class NoteFilesPanel {
     standardNoteFileRow.appendChild(standardActionsCell);
     table.appendChild(standardNoteFileRow);
 
-    if (!noteFiles) {
+    if (!Array.isArray(noteFiles)) {
+      console.warn('getAllNoteFiles returned non-array:', noteFiles);
+      noteFilesContainer.appendChild(table);
       return;
     }
 
@@ -365,7 +368,8 @@ class NoteFilesPanel {
       let updateNoteFile = async () => {
         let newTitle = document.getElementById('edit-note-file-title-value').value;
         const noteFiles = await ipcDb.getAllNoteFiles();
-        const titleExists = noteFiles.some(noteFile => noteFile.title === newTitle && noteFile.id !== noteFileId);
+        const titleExists = Array.isArray(noteFiles) &&
+          noteFiles.some(noteFile => noteFile.title === newTitle && noteFile.id !== noteFileId);
 
         if (titleExists) {
           document.getElementById('edit-note-file-title-error').style.display = 'block';
