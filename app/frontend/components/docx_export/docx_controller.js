@@ -135,7 +135,9 @@ function getBibleBookVerseBlocks(bibleBook, verses) {
     }
   }
 
-  allBlocks.push(currentBlock);
+  if (currentBlock.length > 0) {
+    allBlocks.push(currentBlock);
+  }
 
   return allBlocks;
 }
@@ -158,28 +160,47 @@ function getBookBlockByChapter(verses) {
     currentBlock.push(currentVerse);
   }
 
-  allBlocks.push(currentBlock);
+  if (currentBlock.length > 0) {
+    allBlocks.push(currentBlock);
+  }
 
   return allBlocks;
 }
 
 async function renderVerseBlocks(verseBlocks, mode, bibleBook=undefined, notes={}) {
+  // Filter out any empty blocks defensively so downstream code can rely on
+  // every block having at least one verse.
+  const nonEmptyBlocks = (verseBlocks || []).filter(block => Array.isArray(block) && block.length > 0);
+
+  if (nonEmptyBlocks.length === 0) {
+    return [];
+  }
+
   const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
   const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
-  const chapterText = i18nHelper.getChapterText(undefined, bibleBook || verseBlocks[0][0].bibleBookShortTitle);
+
+  // chapterText is only required for the 'book-notes' mode; compute lazily so
+  // that other modes do not depend on the shape of the first block.
+  let chapterText = null;
+  const getChapterText = () => {
+    if (chapterText === null) {
+      const bookCode = bibleBook || nonEmptyBlocks[0][0].bibleBookShortTitle;
+      chapterText = i18nHelper.getChapterText(undefined, bookCode);
+    }
+    return chapterText;
+  };
 
   var paragraphs = [];
 
-  for (let j = 0; j < verseBlocks.length; j++) {
-    const currentBlock = verseBlocks[j];
-
+  for (let j = 0; j < nonEmptyBlocks.length; j++) {
+    const currentBlock = nonEmptyBlocks[j];
 
     if (mode === 'tagged-verses') { // render as tagged verse list
       paragraphs.push(...(await renderTaggedVersesLayout(currentBlock, bibleBook, separator)));
     } else if (mode === 'book-notes') { // render as book based notes
       const isFirstChapter = j === 0;
-      const isMultipleChapters = verseBlocks.length > 1;
-      paragraphs.push(...renderBookNotesLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, chapterText));
+      const isMultipleChapters = nonEmptyBlocks.length > 1;
+      paragraphs.push(...renderBookNotesLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, getChapterText()));
     } else if (mode === 'tagged-verses-with-notes') {
       paragraphs.push(...(await renderTaggedVersesWithNotesLayout(currentBlock, notes)));
     }
