@@ -45,7 +45,9 @@ class HierarchicalObjectCache {
 
     if (this._valueMissing(...args)) {
       value = await fetchFunction();
-      cache[key] = value;
+      if (value !== null && value !== undefined) {
+        cache[key] = value;
+      }
     } else {
       value = cache[key];
     }

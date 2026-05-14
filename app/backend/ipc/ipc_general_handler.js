@@ -46,6 +46,10 @@ class IpcGeneralHandler {
         global.connectionType = connectionType;
         return global.main.initDatabase(androidVersion, connectionType);
       });
+
+      this._ipcMain.add('general_initSword', async() => {
+        return global.main.initSword();
+      });
     }
 
     this._ipcMain.add('general_setConnectionType', async (connectionType) => {

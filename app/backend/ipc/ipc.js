@@ -73,15 +73,21 @@ class IPC {
         }
 
         global.sendCrashReports = this.ipcSettingsHandler.getConfig().get('sendCrashReports', true);
+
+        // On Cordova, SWORD (NSI) initialization is deferred to initSword(), which is called either
+        // immediately or after on-startup-completed depending on cache availability.
+        this._customSwordDir = customSwordDir;
       }
 
-      const nsiInitializationStartNs = process.hrtime.bigint();
-      global.ipcNsiHandler = new IpcNsiHandler(customSwordDir);
-      if (global.startupProfiling != null) {
-        global.startupProfiling.recordInitializationDuration(
-          'swordInitialization',
-          process.hrtime.bigint() - nsiInitializationStartNs
-        );
+      if (!this.platformHelper.isCordova()) {
+        const nsiInitializationStartNs = process.hrtime.bigint();
+        global.ipcNsiHandler = new IpcNsiHandler(customSwordDir);
+        if (global.startupProfiling != null) {
+          global.startupProfiling.recordInitializationDuration(
+            'swordInitialization',
+            process.hrtime.bigint() - nsiInitializationStartNs
+          );
+        }
       }
 
       if (this.platformHelper.isElectron()) {
@@ -100,6 +106,19 @@ class IPC {
     }
 
     return returnCode;
+  }
+
+  initSword() {
+    if (global.ipcNsiHandler == null) {
+      const nsiInitializationStartNs = process.hrtime.bigint();
+      global.ipcNsiHandler = new IpcNsiHandler(this._customSwordDir);
+      if (global.startupProfiling != null) {
+        global.startupProfiling.recordInitializationDuration(
+          'swordInitialization',
+          process.hrtime.bigint() - nsiInitializationStartNs
+        );
+      }
+    }
   }
 
   async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {

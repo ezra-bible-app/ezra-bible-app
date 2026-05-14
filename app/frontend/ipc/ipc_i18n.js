@@ -19,6 +19,8 @@
 const IpcRenderer = require('./ipc_renderer.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 
+const TRANSLATION_CACHE_PREFIX = 'ezra.i18nTranslationCache.';
+
 class IpcI18n {
   constructor() {
     this._ipcRenderer = new IpcRenderer();
@@ -27,6 +29,17 @@ class IpcI18n {
   }
 
   async getTranslation(language) {
+    // On Cordova, return the cached translation immediately if available so that
+    // i18n initialization can proceed without waiting on the (possibly not-yet-ready)
+    // node backend. The cache is refreshed in the background via refreshTranslation()
+    // once the backend is responsive (see cordova_platform.js).
+    if (this._isCordova) {
+      const cached = this._readCachedTranslation(language);
+      if (cached !== undefined) {
+        return cached;
+      }
+    }
+
     // Reading the translation file from the disk may take a while on slower/older devices ...
     // That's why we change the default timeout to 20s (instead of just 2s)
     var timeoutMs = 20000;
@@ -34,10 +47,53 @@ class IpcI18n {
     if (this._isCordova) console.time('getTranslation');
 
     var translationObject = await this._ipcRenderer.callWithTimeout('i18n_get_translation', timeoutMs, language);
-    
+
     if (this._isCordova) console.timeEnd('getTranslation');
 
+    if (this._isCordova && translationObject) {
+      this._writeCachedTranslation(language, translationObject);
+    }
+
     return translationObject;
+  }
+
+  /**
+   * Force a fresh fetch of the translation for the given language and update the
+   * localStorage cache. Intended to be called after the node backend is fully
+   * initialized (e.g. on Cordova in the on-startup-completed handler) so that the
+   * next app launch picks up the latest translation.
+   */
+  async refreshTranslation(language) {
+    var timeoutMs = 20000;
+    try {
+      const translationObject = await this._ipcRenderer.callWithTimeout('i18n_get_translation', timeoutMs, language);
+      if (translationObject) {
+        this._writeCachedTranslation(language, translationObject);
+      }
+      return translationObject;
+    } catch (e) {
+      console.warn('refreshTranslation failed for', language, e);
+      return null;
+    }
+  }
+
+  _readCachedTranslation(language) {
+    try {
+      const raw = localStorage.getItem(TRANSLATION_CACHE_PREFIX + language);
+      if (raw === null) return undefined;
+      return JSON.parse(raw);
+    } catch (e) {
+      console.warn('Failed to read cached translation for', language, e);
+      return undefined;
+    }
+  }
+
+  _writeCachedTranslation(language, translationObject) {
+    try {
+      localStorage.setItem(TRANSLATION_CACHE_PREFIX + language, JSON.stringify(translationObject));
+    } catch (e) {
+      console.warn('Failed to cache translation for', language, e);
+    }
   }
 }
 

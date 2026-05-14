@@ -303,10 +303,10 @@ module.exports.getVersification = async function(moduleId) {
     console.log("sword_module_helper.getVersification: Could not retrieve chapter text for Revelation 12 of " + moduleId);
   }
 
-  if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
+  if ((psalm3Verses != null && psalm3Verses.length == 8) || (revelation12Verses != null && revelation12Verses.length == 17)) { // ENGLISH versification
     versification = "ENGLISH";
 
-  } else if (psalm3Verses.length == 9 || revelation12Verses.length == 18) { // HEBREW versification
+  } else if ((psalm3Verses != null && psalm3Verses.length == 9) || (revelation12Verses != null && revelation12Verses.length == 18)) { // HEBREW versification
     versification = "HEBREW";
 
   } else { // Unknown versification
