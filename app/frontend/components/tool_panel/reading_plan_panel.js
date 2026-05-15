@@ -79,6 +79,12 @@ class ReadingPlanPanel {
         if (bookCode && !uniqueBooks[bookCode]) {
           uniqueBooks[bookCode] = true;
         }
+        // Also cache the end book in case the passage spans a book boundary (highly unlikely but safe)
+        var endParts = passages[j].endVerseReference.split('.');
+        var endBook = endParts[0];
+        if (endBook && !uniqueBooks[endBook]) {
+          uniqueBooks[endBook] = true;
+        }
       }
     }
 
@@ -96,12 +102,18 @@ class ReadingPlanPanel {
     }
   }
 
-  _getPassageDisplayTitle(ref) {
-    var parts = ref.split('.');
-    var bookCode = parts[0];
-    var chapter = parts[1] || '';
+  _getPassageDisplayTitle(startRef, endRef) {
+    var startParts = startRef.split('.');
+    var bookCode = startParts[0];
+    var startChapter = startParts[1] || '';
     var bookTitle = this._bookTitleCache[bookCode] || bookCode;
-    return bookTitle + ' ' + chapter;
+
+    if (endRef && endRef !== startRef) {
+      var endChapter = endRef.split('.')[1] || '';
+      return bookTitle + ' ' + startChapter + '-' + endChapter;
+    }
+
+    return bookTitle + ' ' + startChapter;
   }
 
   // ── Rendering ─────────────────────────────────────────────────────────────
@@ -187,7 +199,7 @@ class ReadingPlanPanel {
         var link = document.createElement('a');
         link.className = 'reading-plan-passage-link';
         link.href = '#';
-        link.textContent = this._getPassageDisplayTitle(passage.startVerseReference);
+        link.textContent = this._getPassageDisplayTitle(passage.startVerseReference, passage.endVerseReference);
         link.setAttribute('data-ref', passage.startVerseReference);
         link.addEventListener('click', this._onPassageLinkClick.bind(this));
         label.appendChild(link);
@@ -367,14 +379,16 @@ class ReadingPlanPanel {
     dialogOptions.autoOpen = false;
     dialogOptions.title = i18n.t('reading-plan.delete-plan');
     dialogOptions.buttons = {};
-    dialogOptions.buttons[i18n.t('general.cancel')] = function() {
-      $('#reading-plan-delete-dialog').dialog('close');
-    };
+
     dialogOptions.buttons[i18n.t('reading-plan.delete-plan')] = {
       text: i18n.t('reading-plan.delete-plan'),
       click: async () => {
         await this._onDeleteConfirmed();
       }
+    };
+
+    dialogOptions.buttons[i18n.t('general.cancel')] = function() {
+      $('#reading-plan-delete-dialog').dialog('close');
     };
 
     $('#reading-plan-delete-dialog').localize();

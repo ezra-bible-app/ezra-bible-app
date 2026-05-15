@@ -68,16 +68,55 @@ const PRESETS = {
 };
 
 /**
+ * Groups a flat list of chapter refs (e.g. ['Gen.1','Gen.2','Matt.1']) into
+ * passage objects, merging consecutive chapters of the same book into one passage.
+ *
+ * @param {string[]} chapterRefs
+ * @returns {Array<{ sequenceNumber: number, startVerseReference: string, endVerseReference: string, label: null }>}
+ */
+function groupIntoPassages(chapterRefs) {
+  var passages = [];
+  var seqNum = 1;
+
+  for (var i = 0; i < chapterRefs.length; ) {
+    var startRef = chapterRefs[i];
+    var startParts = startRef.split('.');
+    var book = startParts[0];
+    var chapterNum = parseInt(startParts[1], 10);
+    var endRef = startRef;
+    var expectedNext = chapterNum + 1;
+
+    while (
+      i + 1 < chapterRefs.length &&
+      chapterRefs[i + 1] === book + '.' + expectedNext
+    ) {
+      i++;
+      endRef = chapterRefs[i];
+      expectedNext++;
+    }
+
+    passages.push({
+      sequenceNumber: seqNum++,
+      startVerseReference: startRef,
+      endVerseReference: endRef,
+      label: null
+    });
+    i++;
+  }
+
+  return passages;
+}
+
+/**
  * Generates an array of day objects for a reading plan preset.
  * Each day object has the shape:
- * { dayNumber: number, passages: [{ ref: 'Book.chapter' }, ...] }
+ * { dayNumber: number, passages: [{ sequenceNumber, startVerseReference, endVerseReference, label }, ...] }
  *
  * Chapters are distributed as evenly as possible across the target number of days.
- * If the total number of chapters is less than or equal to the day count, each day
- * gets at most one chapter.
+ * Consecutive chapters within the same book are merged into a single passage.
  *
  * @param {string} presetId - Key from the PRESETS map (e.g. 'whole-bible-365')
- * @returns {Array<{ dayNumber: number, passages: Array<{ ref: string }> }>}
+ * @returns {Array<{ dayNumber: number, passages: Array<{ sequenceNumber: number, startVerseReference: string, endVerseReference: string, label: null }> }>}
  */
 function generatePlanDays(presetId) {
   var preset = PRESETS[presetId];
@@ -108,12 +147,7 @@ function generatePlanDays(presetId) {
     for (var ci = 0; ci < totalChapters; ci++) {
       days.push({
         dayNumber: ci + 1,
-        passages: [{
-          sequenceNumber: 1,
-          startVerseReference: allChapters[ci],
-          endVerseReference: allChapters[ci],
-          label: null
-        }]
+        passages: groupIntoPassages([allChapters[ci]])
       });
     }
     return days;
@@ -127,21 +161,16 @@ function generatePlanDays(presetId) {
 
   for (var d = 0; d < targetDays; d++) {
     var count = basePerDay + (d < remainder ? 1 : 0);
-    var passages = [];
+    var chapterSlice = [];
     for (var j = 0; j < count; j++) {
       if (chapterIndex < totalChapters) {
-        passages.push({
-          sequenceNumber: j + 1,
-          startVerseReference: allChapters[chapterIndex],
-          endVerseReference: allChapters[chapterIndex],
-          label: null
-        });
+        chapterSlice.push(allChapters[chapterIndex]);
         chapterIndex++;
       }
     }
     days.push({
       dayNumber: d + 1,
-      passages: passages
+      passages: groupIntoPassages(chapterSlice)
     });
   }
 
@@ -150,5 +179,6 @@ function generatePlanDays(presetId) {
 
 module.exports = {
   PRESETS,
-  generatePlanDays
+  generatePlanDays,
+  groupIntoPassages
 };
