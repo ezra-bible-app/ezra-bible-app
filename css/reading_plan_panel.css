@@ -154,28 +154,153 @@
 }
 
 /* Generate dialog */
-#reading-plan-generate-dialog table {
-  width: 100%;
-  border-collapse: collapse;
+#reading-plan-generate-dialog {
+  min-width: 580px;
 }
 
-#reading-plan-generate-dialog td {
-  padding: 0.4em 0.2em;
+/* Wizard step containers */
+.rp-step {
+  display: block;
+}
+
+.rp-step-label {
+  font-size: 0.85em;
+  color: #888;
+  margin: 0 0 0.7em 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Plan type card grid */
+.rp-plan-type-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6em;
+  margin-bottom: 0.8em;
+}
+
+.rp-plan-type-card {
+  border: 2px solid rgba(128, 128, 128, 0.3);
+  border-radius: 6px;
+  padding: 0.6em 0.7em;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.rp-plan-type-card:hover {
+  border-color: var(--accent-color, #2980b9);
+  background: rgba(41, 128, 185, 0.06);
+}
+
+.rp-plan-type-card.selected {
+  border-color: var(--accent-color, #2980b9);
+  background: rgba(41, 128, 185, 0.12);
+}
+
+.rp-card-title {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.2em;
+  font-size: 0.9em;
+}
+
+.rp-card-best-for {
+  font-size: 0.75em;
+  color: #999;
+  display: block;
+  margin-bottom: 0.25em;
+  font-style: italic;
+}
+
+.rp-card-desc {
+  font-size: 0.8em;
+  margin: 0 0 0.35em;
+  line-height: 1.35;
+}
+
+.rp-card-pro {
+  font-size: 0.75em;
+  display: block;
+  color: #27ae60;
+}
+
+.rp-card-pro::before {
+  content: '\2713  ';
+}
+
+.rp-card-con {
+  font-size: 0.75em;
+  display: block;
+  color: #c0392b;
+}
+
+.rp-card-con::before {
+  content: '\2717  ';
+}
+
+/* Pace options */
+.rp-pace-options {
+  margin-bottom: 0.8em;
+}
+
+.rp-pace-option {
+  display: block;
+  margin-bottom: 0.35em;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+.rp-pace-option input[type="radio"] {
+  margin-right: 0.4em;
+  cursor: pointer;
+}
+
+.rp-pace-fixed {
+  display: block;
+  font-size: 0.9em;
+  margin-bottom: 0.35em;
+  font-style: italic;
+  color: #666;
+}
+
+.rp-selected-type-label {
+  font-weight: bold;
+  font-size: 1em;
+  margin: 0 0 0.7em 0;
+}
+
+/* Start date row inside step 2 */
+.rp-start-date-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.4em;
+}
+
+.rp-start-date-table td {
+  padding: 0.3em 0.2em;
   vertical-align: middle;
 }
 
-#reading-plan-generate-dialog td:first-child {
+.rp-start-date-table td:first-child {
   width: 40%;
   font-weight: bold;
-}
-
-#reading-plan-preset-select {
-  width: 100%;
-  padding: 0.2em;
 }
 
 #reading-plan-start-date-input {
   padding: 0.2em;
   width: 100%;
   box-sizing: border-box;
+}
+
+/* Step navigation button rows */
+.rp-step-nav {
+  margin-top: 0.8em;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5em;
+}
+
+.rp-step-nav-row {
+  justify-content: space-between;
 }

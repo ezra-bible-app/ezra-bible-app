@@ -253,22 +253,79 @@
 </div>
 
 <div id="reading-plan-generate-dialog" style="display: none;">
-  <table>
-    <tr>
-      <td i18n="reading-plan.select-preset"></td>
-      <td>
-        <select id="reading-plan-preset-select">
-          <option value="whole-bible-365" i18n="reading-plan.preset-whole-bible-365"></option>
-          <option value="nt-90" i18n="reading-plan.preset-nt-90"></option>
-          <option value="psalms-proverbs-30" i18n="reading-plan.preset-psalms-proverbs-30"></option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td i18n="reading-plan.start-date"></td>
-      <td><input id="reading-plan-start-date-input" type="date" /></td>
-    </tr>
-  </table>
+
+  <!-- Step 1: Plan type selection -->
+  <div id="rp-step-type" class="rp-step">
+    <p class="rp-step-label" i18n="reading-plan.step-choose-type"></p>
+    <div class="rp-plan-type-grid">
+
+      <div class="rp-plan-type-card" data-type="chronological">
+        <span class="rp-card-title" i18n="reading-plan.type-chronological"></span>
+        <span class="rp-card-best-for">
+          <span i18n="reading-plan.best-for"></span>:
+          <span i18n="reading-plan.type-chronological-best-for"></span>
+        </span>
+        <p class="rp-card-desc" i18n="reading-plan.type-chronological-desc"></p>
+        <span class="rp-card-pro" i18n="reading-plan.type-chronological-pros"></span>
+        <span class="rp-card-con" i18n="reading-plan.type-chronological-cons"></span>
+      </div>
+
+      <div class="rp-plan-type-card" data-type="canonical">
+        <span class="rp-card-title" i18n="reading-plan.type-canonical"></span>
+        <span class="rp-card-best-for">
+          <span i18n="reading-plan.best-for"></span>:
+          <span i18n="reading-plan.type-canonical-best-for"></span>
+        </span>
+        <p class="rp-card-desc" i18n="reading-plan.type-canonical-desc"></p>
+        <span class="rp-card-pro" i18n="reading-plan.type-canonical-pros"></span>
+        <span class="rp-card-con" i18n="reading-plan.type-canonical-cons"></span>
+      </div>
+
+      <div class="rp-plan-type-card" data-type="ot-nt-daily">
+        <span class="rp-card-title" i18n="reading-plan.type-ot-nt-daily"></span>
+        <span class="rp-card-best-for">
+          <span i18n="reading-plan.best-for"></span>:
+          <span i18n="reading-plan.type-ot-nt-daily-best-for"></span>
+        </span>
+        <p class="rp-card-desc" i18n="reading-plan.type-ot-nt-daily-desc"></p>
+        <span class="rp-card-pro" i18n="reading-plan.type-ot-nt-daily-pros"></span>
+        <span class="rp-card-con" i18n="reading-plan.type-ot-nt-daily-cons"></span>
+      </div>
+
+      <div class="rp-plan-type-card" data-type="psalms-proverbs">
+        <span class="rp-card-title" i18n="reading-plan.type-psalms-proverbs"></span>
+        <span class="rp-card-best-for">
+          <span i18n="reading-plan.best-for"></span>:
+          <span i18n="reading-plan.type-psalms-proverbs-best-for"></span>
+        </span>
+        <p class="rp-card-desc" i18n="reading-plan.type-psalms-proverbs-desc"></p>
+        <span class="rp-card-pro" i18n="reading-plan.type-psalms-proverbs-pros"></span>
+        <span class="rp-card-con" i18n="reading-plan.type-psalms-proverbs-cons"></span>
+      </div>
+
+    </div>
+    <div class="rp-step-nav">
+      <button id="rp-btn-next" class="fg-button ui-state-default ui-corner-all" disabled></button>
+    </div>
+  </div>
+
+  <!-- Step 2: Time frame + start date -->
+  <div id="rp-step-timeframe" class="rp-step" style="display: none;">
+    <p id="rp-selected-type-label" class="rp-selected-type-label"></p>
+    <p class="rp-step-label" i18n="reading-plan.step-timeframe"></p>
+    <div id="rp-pace-options" class="rp-pace-options"></div>
+    <table class="rp-start-date-table">
+      <tr>
+        <td i18n="reading-plan.start-date"></td>
+        <td><input id="reading-plan-start-date-input" type="date" /></td>
+      </tr>
+    </table>
+    <div class="rp-step-nav rp-step-nav-row">
+      <button id="rp-btn-back" class="fg-button ui-state-default ui-corner-all"></button>
+      <button id="rp-btn-start" class="fg-button ui-state-default ui-corner-all" disabled></button>
+    </div>
+  </div>
+
 </div>
 
 <div id="reading-plan-delete-dialog" style="display: none;">

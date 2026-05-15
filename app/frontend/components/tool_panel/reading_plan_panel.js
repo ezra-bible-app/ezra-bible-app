@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../../controllers/event_controller.js');
-const { PRESETS, generatePlanDays } = require('../../helpers/reading_plan_helper.js');
+const { PRESETS, PLAN_TYPES, generatePlanDays } = require('../../helpers/reading_plan_helper.js');
 
 /**
  * The ReadingPlanPanel component implements a tool panel for managing and following a Bible reading plan.
@@ -31,6 +31,8 @@ class ReadingPlanPanel {
     this._generateDialogInitialized = false;
     this._deleteDialogInitialized = false;
     this._bookTitleCache = {};
+    this._selectedPlanType = null;
+    this._selectedPresetId = null;
 
     eventController.subscribe('on-reading-plan-panel-switched', async (isOpen) => {
       if (isOpen && !this._initDone) {
@@ -176,6 +178,14 @@ class ReadingPlanPanel {
       this._showDeleteDialog();
     });
     header.appendChild(deleteBtn);
+
+    var generateNewBtn = document.createElement('button');
+    generateNewBtn.className = 'fg-button ui-state-default ui-corner-all';
+    generateNewBtn.textContent = i18n.t('reading-plan.generate-new-plan');
+    generateNewBtn.addEventListener('click', () => {
+      this._showGenerateDialog();
+    });
+    header.appendChild(generateNewBtn);
     content.appendChild(header);
 
     // ── Progress line ──
@@ -375,27 +385,31 @@ class ReadingPlanPanel {
       this._initGenerateDialog();
     }
 
-    // Set default date to today
+    // Reset wizard state
+    this._selectedPlanType = null;
+    this._selectedPresetId = null;
+    document.querySelectorAll('.rp-plan-type-card').forEach(function(c) {
+      c.classList.remove('selected');
+    });
+    document.getElementById('rp-btn-next').disabled = true;
+
+    // Default start date to today
     var today = new Date().toISOString().split('T')[0];
     document.getElementById('reading-plan-start-date-input').value = today;
 
-    // Localize dialog content
+    this._goToGenerateStep(1);
+
     $('#reading-plan-generate-dialog').localize();
+    // Re-set button labels after localize (localize may reset text nodes)
+    document.getElementById('rp-btn-next').textContent = i18n.t('general.next');
     $('#reading-plan-generate-dialog').dialog('open');
   }
 
   _initGenerateDialog() {
-    var dialogOptions = uiHelper.getDialogOptions(400, null, true, null);
+    var dialogOptions = uiHelper.getDialogOptions(620, null, true, null);
     dialogOptions.autoOpen = false;
     dialogOptions.title = i18n.t('reading-plan.generate-plan-dialog-title');
     dialogOptions.buttons = {};
-
-    dialogOptions.buttons[i18n.t('reading-plan.start-plan')] = {
-      text: i18n.t('reading-plan.start-plan'),
-      click: async () => {
-        await this._onGenerateConfirmed();
-      }
-    };
 
     dialogOptions.buttons[i18n.t('general.cancel')] = function() {
       $('#reading-plan-generate-dialog').dialog('close');
@@ -403,11 +417,117 @@ class ReadingPlanPanel {
 
     $('#reading-plan-generate-dialog').dialog(dialogOptions);
     uiHelper.fixDialogCloseIconOnCordova('reading-plan-generate-dialog');
+
+    // Plan type card selection
+    var self = this;
+    document.querySelectorAll('.rp-plan-type-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        self._onPlanTypeCardClicked(card.getAttribute('data-type'));
+      });
+    });
+
+    // Step navigation buttons
+    document.getElementById('rp-btn-next').addEventListener('click', function() {
+      self._goToGenerateStep(2);
+    });
+    document.getElementById('rp-btn-back').addEventListener('click', function() {
+      self._goToGenerateStep(1);
+    });
+    document.getElementById('rp-btn-start').addEventListener('click', function() {
+      self._onGenerateConfirmed();
+    });
+
     this._generateDialogInitialized = true;
   }
 
+  _goToGenerateStep(step) {
+    var stepType = document.getElementById('rp-step-type');
+    var stepTimeframe = document.getElementById('rp-step-timeframe');
+
+    if (step === 1) {
+      stepType.style.display = 'block';
+      stepTimeframe.style.display = 'none';
+    } else {
+      stepType.style.display = 'none';
+      stepTimeframe.style.display = 'block';
+      this._renderPaceOptions();
+    }
+  }
+
+  _renderPaceOptions() {
+    var container = document.getElementById('rp-pace-options');
+    container.innerHTML = '';
+
+    var planType = PLAN_TYPES[this._selectedPlanType];
+    if (!planType) {
+      return;
+    }
+
+    var typeLabel = document.getElementById('rp-selected-type-label');
+    if (typeLabel) {
+      typeLabel.textContent = i18n.t(planType.titleKey);
+    }
+
+    var self = this;
+    var paces = planType.paces;
+
+    // If there is only one pace, auto-select it and show it as a fixed label (no radio)
+    if (paces.length === 1) {
+      var fixedLabel = document.createElement('span');
+      fixedLabel.className = 'rp-pace-fixed';
+      fixedLabel.textContent = i18n.t(paces[0].i18nKey);
+      container.appendChild(fixedLabel);
+      this._onPaceSelected(paces[0].presetId);
+    } else {
+      for (var i = 0; i < paces.length; i++) {
+        var pace = paces[i];
+        var label = document.createElement('label');
+        label.className = 'rp-pace-option';
+
+        var radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'rp-pace';
+        radio.value = pace.presetId;
+        radio.addEventListener('change', (function(presetId) {
+          return function() {
+            self._onPaceSelected(presetId);
+          };
+        }(pace.presetId)));
+
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(i18n.t(pace.i18nKey)));
+        container.appendChild(label);
+      }
+
+      // Disable Start until a pace is explicitly chosen
+      document.getElementById('rp-btn-start').disabled = true;
+    }
+
+    document.getElementById('rp-btn-back').textContent  = i18n.t('general.previous');
+    document.getElementById('rp-btn-start').textContent = i18n.t('reading-plan.start-plan');
+    uiHelper.configureButtonStyles(document.getElementById('reading-plan-generate-dialog'));
+  }
+
+  _onPlanTypeCardClicked(typeId) {
+    this._selectedPlanType = typeId;
+    this._selectedPresetId = null;
+    document.querySelectorAll('.rp-plan-type-card').forEach(function(c) {
+      c.classList.remove('selected');
+    });
+    var card = document.querySelector('.rp-plan-type-card[data-type="' + typeId + '"]');
+    if (card) {
+      card.classList.add('selected');
+    }
+    document.getElementById('rp-btn-next').disabled = false;
+  }
+
+  _onPaceSelected(presetId) {
+    this._selectedPresetId = presetId;
+    document.getElementById('rp-btn-start').disabled = false;
+  }
+
   async _onGenerateConfirmed() {
-    var presetId = document.getElementById('reading-plan-preset-select').value;
+    var presetId = this._selectedPresetId;
     var startDateValue = document.getElementById('reading-plan-start-date-input').value;
 
     if (!presetId || !PRESETS[presetId]) {
@@ -416,20 +536,38 @@ class ReadingPlanPanel {
 
     var startDate = startDateValue ? startDateValue : new Date().toISOString().split('T')[0];
 
+    // Close dialog and show loading indicator immediately
+    $('#reading-plan-generate-dialog').dialog('close');
+    this._renderLoading();
+
     var planDays = generatePlanDays(presetId);
     if (planDays.length === 0) {
+      this._renderNoPlan();
       return;
     }
 
     await ipcDb.createReadingPlan(planDays);
     await ipcDb.updateReadingPlanSettings(true, startDate);
 
-    $('#reading-plan-generate-dialog').dialog('close');
-
     // Re-render with the new plan
     this._initDone = false;
     await this.refresh();
     this._initDone = true;
+  }
+
+  _renderLoading() {
+    var content = this.getContentContainer();
+    if (!content) {
+      return;
+    }
+
+    content.innerHTML = '';
+
+    var loader = document.createElement('loading-indicator');
+    loader.style.display = 'block';
+    loader.style.margin = '1.5em auto';
+    loader.style.width = 'fit-content';
+    content.appendChild(loader);
   }
 
   // ── Delete plan dialog ─────────────────────────────────────────────────────

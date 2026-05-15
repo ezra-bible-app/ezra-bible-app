@@ -38,32 +38,146 @@ const BOOK_CHAPTERS = {
 };
 
 /**
- * Built-in reading plan presets.
- * Each preset defines a list of book OSIS codes to include.
- * The generatePlanDays function will distribute chapters across the target day count.
+ * Books in a simplified historical/chronological order.
+ * OT books are arranged roughly by the era they describe;
+ * NT books follow in the order they were written/occurred.
+ */
+const CHRONOLOGICAL_ORDER = [
+  // Primeval / Patriarchs
+  'Job', 'Gen', 'Exod', 'Lev', 'Num', 'Deut',
+  // Conquest & Judges
+  'Josh', 'Judg', 'Ruth',
+  // United & Divided Kingdom (Psalms interwoven with David's life)
+  '1Sam', '2Sam', 'Ps', '1Kgs', '2Kgs', '1Chr', '2Chr',
+  // Wisdom literature
+  'Prov', 'Eccl', 'Song',
+  // Major Prophets (period of the kings)
+  'Isa', 'Jer', 'Lam', 'Ezek', 'Dan',
+  // Minor Prophets
+  'Hos', 'Joel', 'Amos', 'Obad', 'Jonah', 'Mic', 'Nah', 'Hab', 'Zeph', 'Hag', 'Zech',
+  // Post-exile
+  'Esth', 'Ezra', 'Neh', 'Mal',
+  // Gospels & Acts
+  'Matt', 'Mark', 'Luke', 'John', 'Acts',
+  // Pauline letters
+  'Rom', '1Cor', '2Cor', 'Gal', 'Eph', 'Phil', 'Col',
+  '1Thess', '2Thess', '1Tim', '2Tim', 'Titus', 'Phlm',
+  // General letters
+  'Heb', 'Jas', '1Pet', '2Pet', '1John', '2John', '3John', 'Jude',
+  // Apocalypse
+  'Rev'
+];
+
+var NT_BOOKS = [
+  'Matt', 'Mark', 'Luke', 'John',
+  'Acts', 'Rom', '1Cor', '2Cor', 'Gal',
+  'Eph', 'Phil', 'Col', '1Thess', '2Thess',
+  '1Tim', '2Tim', 'Titus', 'Phlm', 'Heb',
+  'Jas', '1Pet', '2Pet', '1John', '2John',
+  '3John', 'Jude', 'Rev'
+];
+
+var OT_BOOKS = Object.keys(BOOK_CHAPTERS).filter(function(b) {
+  return NT_BOOKS.indexOf(b) === -1;
+});
+
+/**
+ * Built-in reading plan presets, keyed by preset ID.
+ * Each preset defines a list of book OSIS codes and a target day count.
+ * Presets with type 'ot-nt-daily' use a separate generation algorithm.
  */
 const PRESETS = {
-  'whole-bible-365': {
-    i18nKey: 'reading-plan.preset-whole-bible-365',
+  'chronological-365': {
+    i18nKey: 'reading-plan.pace-1-year',
+    days: 365,
+    books: CHRONOLOGICAL_ORDER
+  },
+  'chronological-180': {
+    i18nKey: 'reading-plan.pace-6-months',
+    days: 180,
+    books: CHRONOLOGICAL_ORDER
+  },
+  'chronological-90': {
+    i18nKey: 'reading-plan.pace-90-days',
+    days: 90,
+    books: CHRONOLOGICAL_ORDER
+  },
+  'canonical-365': {
+    i18nKey: 'reading-plan.pace-1-year',
     days: 365,
     books: Object.keys(BOOK_CHAPTERS)
   },
-  'nt-90': {
-    i18nKey: 'reading-plan.preset-nt-90',
+  'canonical-nt-90': {
+    i18nKey: 'reading-plan.pace-90-days-nt',
     days: 90,
-    books: [
-      'Matt', 'Mark', 'Luke', 'John',
-      'Acts', 'Rom', '1Cor', '2Cor', 'Gal',
-      'Eph', 'Phil', 'Col', '1Thess', '2Thess',
-      '1Tim', '2Tim', 'Titus', 'Phlm', 'Heb',
-      'Jas', '1Pet', '2Pet', '1John', '2John',
-      '3John', 'Jude', 'Rev'
-    ]
+    books: NT_BOOKS
+  },
+  'ot-nt-daily-365': {
+    i18nKey: 'reading-plan.pace-ot-nt-proportional',
+    days: 365,
+    type: 'ot-nt-daily',
+    ntRepeats: 1
+  },
+  'ot-nt-daily-365-nt-double': {
+    i18nKey: 'reading-plan.pace-ot-nt-double',
+    days: 365,
+    type: 'ot-nt-daily',
+    ntRepeats: 2
   },
   'psalms-proverbs-30': {
-    i18nKey: 'reading-plan.preset-psalms-proverbs-30',
+    i18nKey: 'reading-plan.pace-30-days',
     days: 30,
     books: ['Ps', 'Prov']
+  }
+};
+
+/**
+ * Describes each plan type, its UI text keys, and which pace presets belong to it.
+ */
+const PLAN_TYPES = {
+  'chronological': {
+    titleKey:   'reading-plan.type-chronological',
+    descKey:    'reading-plan.type-chronological-desc',
+    bestForKey: 'reading-plan.type-chronological-best-for',
+    prosKey:    'reading-plan.type-chronological-pros',
+    consKey:    'reading-plan.type-chronological-cons',
+    paces: [
+      { presetId: 'chronological-365', i18nKey: 'reading-plan.pace-1-year' },
+      { presetId: 'chronological-180', i18nKey: 'reading-plan.pace-6-months' },
+      { presetId: 'chronological-90',  i18nKey: 'reading-plan.pace-90-days' }
+    ]
+  },
+  'canonical': {
+    titleKey:   'reading-plan.type-canonical',
+    descKey:    'reading-plan.type-canonical-desc',
+    bestForKey: 'reading-plan.type-canonical-best-for',
+    prosKey:    'reading-plan.type-canonical-pros',
+    consKey:    'reading-plan.type-canonical-cons',
+    paces: [
+      { presetId: 'canonical-365',   i18nKey: 'reading-plan.pace-1-year' },
+      { presetId: 'canonical-nt-90', i18nKey: 'reading-plan.pace-90-days-nt' }
+    ]
+  },
+  'ot-nt-daily': {
+    titleKey:   'reading-plan.type-ot-nt-daily',
+    descKey:    'reading-plan.type-ot-nt-daily-desc',
+    bestForKey: 'reading-plan.type-ot-nt-daily-best-for',
+    prosKey:    'reading-plan.type-ot-nt-daily-pros',
+    consKey:    'reading-plan.type-ot-nt-daily-cons',
+    paces: [
+      { presetId: 'ot-nt-daily-365',           i18nKey: 'reading-plan.pace-ot-nt-proportional' },
+      { presetId: 'ot-nt-daily-365-nt-double', i18nKey: 'reading-plan.pace-ot-nt-double' }
+    ]
+  },
+  'psalms-proverbs': {
+    titleKey:   'reading-plan.type-psalms-proverbs',
+    descKey:    'reading-plan.type-psalms-proverbs-desc',
+    bestForKey: 'reading-plan.type-psalms-proverbs-best-for',
+    prosKey:    'reading-plan.type-psalms-proverbs-pros',
+    consKey:    'reading-plan.type-psalms-proverbs-cons',
+    paces: [
+      { presetId: 'psalms-proverbs-30', i18nKey: 'reading-plan.pace-30-days' }
+    ]
   }
 };
 
@@ -108,6 +222,83 @@ function groupIntoPassages(chapterRefs) {
 }
 
 /**
+ * Generates day objects where each day includes chapters from both the OT and NT,
+ * distributed proportionally so both streams finish on the last day.
+ *
+ * @param {number} totalDays
+ * @param {number} ntRepeats - How many times to cycle through the NT (1 = once, 2 = twice)
+ * @returns {Array}
+ */
+function _generateOtNtDailyDays(totalDays, ntRepeats) {
+  // Build flat chapter lists for each stream
+  var otChapters = [];
+  for (var oi = 0; oi < OT_BOOKS.length; oi++) {
+    var otBook = OT_BOOKS[oi];
+    var otCount = BOOK_CHAPTERS[otBook] || 0;
+    for (var oc = 1; oc <= otCount; oc++) {
+      otChapters.push(otBook + '.' + oc);
+    }
+  }
+
+  var singleNtChapters = [];
+  for (var ni = 0; ni < NT_BOOKS.length; ni++) {
+    var ntBook = NT_BOOKS[ni];
+    var ntCount = BOOK_CHAPTERS[ntBook] || 0;
+    for (var nc = 1; nc <= ntCount; nc++) {
+      singleNtChapters.push(ntBook + '.' + nc);
+    }
+  }
+
+  // Repeat the NT stream as requested
+  var ntChapters = [];
+  for (var r = 0; r < ntRepeats; r++) {
+    ntChapters = ntChapters.concat(singleNtChapters);
+  }
+
+  var totalOt = otChapters.length;
+  var totalNt = ntChapters.length;
+  var days = [];
+
+  // Use an accumulator so each stream is spread proportionally across the days
+  var otAcc = 0;
+  var ntAcc = 0;
+  var otIdx = 0;
+  var ntIdx = 0;
+
+  for (var d = 0; d < totalDays; d++) {
+    otAcc += totalOt / totalDays;
+    ntAcc += totalNt / totalDays;
+
+    var otTarget = Math.round(otAcc);
+    var ntTarget = Math.round(ntAcc);
+
+    var dayOtRefs = [];
+    while (otIdx < otTarget && otIdx < totalOt) {
+      dayOtRefs.push(otChapters[otIdx]);
+      otIdx++;
+    }
+
+    var dayNtRefs = [];
+    while (ntIdx < ntTarget && ntIdx < totalNt) {
+      dayNtRefs.push(ntChapters[ntIdx]);
+      ntIdx++;
+    }
+
+    // Merge consecutive chapters within each stream, then combine and renumber
+    var otPassages = groupIntoPassages(dayOtRefs);
+    var ntPassages = groupIntoPassages(dayNtRefs);
+    var combined = otPassages.concat(ntPassages);
+    for (var p = 0; p < combined.length; p++) {
+      combined[p].sequenceNumber = p + 1;
+    }
+
+    days.push({ dayNumber: d + 1, passages: combined });
+  }
+
+  return days;
+}
+
+/**
  * Generates an array of day objects for a reading plan preset.
  * Each day object has the shape:
  * { dayNumber: number, passages: [{ sequenceNumber, startVerseReference, endVerseReference, label }, ...] }
@@ -115,7 +306,7 @@ function groupIntoPassages(chapterRefs) {
  * Chapters are distributed as evenly as possible across the target number of days.
  * Consecutive chapters within the same book are merged into a single passage.
  *
- * @param {string} presetId - Key from the PRESETS map (e.g. 'whole-bible-365')
+ * @param {string} presetId - Key from the PRESETS map (e.g. 'canonical-365')
  * @returns {Array<{ dayNumber: number, passages: Array<{ sequenceNumber: number, startVerseReference: string, endVerseReference: string, label: null }> }>}
  */
 function generatePlanDays(presetId) {
@@ -124,7 +315,12 @@ function generatePlanDays(presetId) {
     return [];
   }
 
-  // Build a flat list of all chapter references in canonical order
+  // OT + NT daily plan uses a dedicated two-stream algorithm
+  if (preset.type === 'ot-nt-daily') {
+    return _generateOtNtDailyDays(preset.days, preset.ntRepeats || 1);
+  }
+
+  // Build a flat list of all chapter references in the preset's book order
   var allChapters = [];
   for (var i = 0; i < preset.books.length; i++) {
     var book = preset.books[i];
@@ -179,6 +375,7 @@ function generatePlanDays(presetId) {
 
 module.exports = {
   PRESETS,
+  PLAN_TYPES,
   generatePlanDays,
   groupIntoPassages
 };
