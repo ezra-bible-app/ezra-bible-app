@@ -33,6 +33,7 @@ class ReadingPlanPanel {
     this._bookTitleCache = {};
     this._selectedPlanType = null;
     this._selectedPresetId = null;
+    this._startDate = null;
 
     eventController.subscribe('on-reading-plan-panel-switched', async (isOpen) => {
       if (isOpen && !this._initDone) {
@@ -156,6 +157,7 @@ class ReadingPlanPanel {
     }
 
     content.innerHTML = '';
+    this._startDate = startDate || null;
 
     var currentDayNumber = this._computeCurrentDayNumber(startDate, days.length);
 
@@ -353,6 +355,14 @@ class ReadingPlanPanel {
       checkbox.title = i18n.t('reading-plan.mark-completed');
     }
 
+    // Record start date automatically on the first day checked
+    if (isChecked && !this._startDate) {
+      this._startDate = new Date().toISOString().split('T')[0];
+      await ipcDb.updateReadingPlanSettings(true, this._startDate);
+      await this.refresh();
+      return;
+    }
+
     this._updateProgressBar();
   }
 
@@ -392,10 +402,6 @@ class ReadingPlanPanel {
       c.classList.remove('selected');
     });
     document.getElementById('rp-btn-next').disabled = true;
-
-    // Default start date to today
-    var today = new Date().toISOString().split('T')[0];
-    document.getElementById('reading-plan-start-date-input').value = today;
 
     this._goToGenerateStep(1);
 
@@ -528,13 +534,10 @@ class ReadingPlanPanel {
 
   async _onGenerateConfirmed() {
     var presetId = this._selectedPresetId;
-    var startDateValue = document.getElementById('reading-plan-start-date-input').value;
 
     if (!presetId || !PRESETS[presetId]) {
       return;
     }
-
-    var startDate = startDateValue ? startDateValue : new Date().toISOString().split('T')[0];
 
     // Close dialog and show loading indicator immediately
     $('#reading-plan-generate-dialog').dialog('close');
@@ -547,7 +550,7 @@ class ReadingPlanPanel {
     }
 
     await ipcDb.createReadingPlan(planDays);
-    await ipcDb.updateReadingPlanSettings(true, startDate);
+    await ipcDb.updateReadingPlanSettings(true, null);
 
     // Re-render with the new plan
     this._initDone = false;

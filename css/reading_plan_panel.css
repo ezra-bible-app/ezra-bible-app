@@ -270,29 +270,6 @@
   margin: 0 0 0.7em 0;
 }
 
-/* Start date row inside step 2 */
-.rp-start-date-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 0.4em;
-}
-
-.rp-start-date-table td {
-  padding: 0.3em 0.2em;
-  vertical-align: middle;
-}
-
-.rp-start-date-table td:first-child {
-  width: 40%;
-  font-weight: bold;
-}
-
-#reading-plan-start-date-input {
-  padding: 0.2em;
-  width: 100%;
-  box-sizing: border-box;
-}
-
 /* Step navigation button rows */
 .rp-step-nav {
   margin-top: 0.8em;
