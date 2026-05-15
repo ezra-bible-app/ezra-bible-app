@@ -654,6 +654,7 @@
     "step-timeframe": "Step 2: Choose a time frame",
     "generate-new-plan": "Generate new plan",
     "pace-ot-nt-proportional": "1 year (OT once, NT once — proportional)",
-    "pace-ot-nt-double": "1 year (OT once, NT twice — daily NT reading)"
+    "pace-ot-nt-double": "1 year (OT once, NT twice — daily NT reading)",
+    "plan-not-started": "Not started"
   }
 }

@@ -165,13 +165,15 @@ class ReadingPlanPanel {
     var header = document.createElement('div');
     header.className = 'reading-plan-header';
 
+    var startInfo = document.createElement('span');
+    startInfo.className = 'reading-plan-start-info';
     if (startDate) {
-      var startInfo = document.createElement('span');
-      startInfo.className = 'reading-plan-start-info';
       var formattedDate = new Date(startDate).toLocaleDateString();
       startInfo.textContent = i18n.t('reading-plan.plan-started', { date: formattedDate });
-      header.appendChild(startInfo);
+    } else {
+      startInfo.textContent = i18n.t('reading-plan.plan-not-started');
     }
+    header.appendChild(startInfo);
 
     var deleteBtn = document.createElement('button');
     deleteBtn.className = 'reading-plan-delete-btn fg-button ui-state-default ui-corner-all';
