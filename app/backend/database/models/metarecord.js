@@ -67,5 +67,42 @@ module.exports = (sequelize, DataTypes) => {
     return metaRecord;
   };
 
+  MetaRecord.getReadingPlanSettings = async function() {
+    var record = await MetaRecord.findOne({ where: { id: 1 } });
+
+    if (record == null) {
+      return { readingPlanActive: null, readingPlanStartDate: null };
+    }
+
+    return {
+      readingPlanActive: record.readingPlanActive,
+      readingPlanStartDate: record.readingPlanStartDate
+    };
+  };
+
+  MetaRecord.updateReadingPlanSettings = async function(readingPlanActive, readingPlanStartDate) {
+    try {
+      const [ metaRecord, created ] = await MetaRecord.findOrCreate({
+        where: { id: 1 },
+        defaults: {
+          lastModifiedAt: new Date(Date.now()).getTime(),
+          readingPlanActive: readingPlanActive,
+          readingPlanStartDate: readingPlanStartDate
+        }
+      });
+
+      if (!created) {
+        metaRecord.readingPlanActive = readingPlanActive;
+        metaRecord.readingPlanStartDate = readingPlanStartDate;
+        await metaRecord.save();
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error('An error occurred while trying to update reading plan settings: ' + error);
+      return global.getDatabaseException(error);
+    }
+  };
+
   return MetaRecord;
 };

@@ -888,6 +888,53 @@ class IpcDbHandler {
 
       await csvWriter.writeRecords(verseReferences);
     });
+
+    this._ipcMain.add('db_createReadingPlan', async (days) => {
+      let result = await global.models.ReadingPlanDay.createReadingPlan(days);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
+    });
+
+    this._ipcMain.add('db_getAllReadingPlanDays', async () => {
+      let sequelizeDays = await global.models.ReadingPlanDay.getAllReadingPlanDays();
+      let days = sequelizeDays.map((day) => {
+        let dayData = Object.assign({}, day.dataValues);
+        dayData.ReadingPlanPassages = day.ReadingPlanPassages.map((p) => Object.assign({}, p.dataValues));
+        return dayData;
+      });
+
+      return days;
+    });
+
+    this._ipcMain.add('db_setReadingPlanDayCompleted', async (id, completedAt) => {
+      let result = await global.models.ReadingPlanDay.setCompleted(id, completedAt);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
+    });
+
+    this._ipcMain.add('db_deleteReadingPlan', async () => {
+      let result = await global.models.ReadingPlanDay.deleteReadingPlan();
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
+    });
+
+    this._ipcMain.add('db_getReadingPlanSettings', async () => {
+      return await global.models.MetaRecord.getReadingPlanSettings();
+    });
+
+    this._ipcMain.add('db_updateReadingPlanSettings', async (readingPlanActive, readingPlanStartDate) => {
+      let result = await global.models.MetaRecord.updateReadingPlanSettings(readingPlanActive, readingPlanStartDate);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
+    });
   }
 
   makeSequelizeResultsSerializable(sequelizeResults) {

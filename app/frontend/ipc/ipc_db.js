@@ -307,6 +307,30 @@ class IpcDb {
   async persistTagNoteConclusion(tagId, conclusion) {
     return await this._ipcRenderer.call('db_persistTagNoteConclusion', tagId, conclusion);
   }
+
+  async createReadingPlan(days) {
+    return await this._ipcRenderer.call('db_createReadingPlan', days);
+  }
+
+  async getAllReadingPlanDays() {
+    return await this._ipcRenderer.call('db_getAllReadingPlanDays');
+  }
+
+  async setReadingPlanDayCompleted(id, completedAt) {
+    return await this._ipcRenderer.call('db_setReadingPlanDayCompleted', id, completedAt);
+  }
+
+  async deleteReadingPlan() {
+    return await this._ipcRenderer.call('db_deleteReadingPlan');
+  }
+
+  async getReadingPlanSettings() {
+    return await this._ipcRenderer.call('db_getReadingPlanSettings');
+  }
+
+  async updateReadingPlanSettings(readingPlanActive, readingPlanStartDate) {
+    return await this._ipcRenderer.call('db_updateReadingPlanSettings', readingPlanActive, readingPlanStartDate);
+  }
 }
 
 module.exports = IpcDb;
