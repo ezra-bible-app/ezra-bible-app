@@ -261,6 +261,9 @@ class ReadingPlanPanel {
         link.setAttribute('data-ref', passage.startVerseReference);
         link.addEventListener('click', this._onPassageLinkClick.bind(this));
         label.appendChild(link);
+        if (j < passages.length - 1) {
+          label.appendChild(document.createTextNode('; '));
+        }
       }
 
       if (isCurrent) {
