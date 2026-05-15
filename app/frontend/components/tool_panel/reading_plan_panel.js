@@ -157,6 +157,29 @@ class ReadingPlanPanel {
 
     var currentDayNumber = this._computeCurrentDayNumber(startDate, days.length);
 
+    // ── Header: start date + delete button ──
+    var header = document.createElement('div');
+    header.className = 'reading-plan-header';
+
+    if (startDate) {
+      var startInfo = document.createElement('span');
+      startInfo.className = 'reading-plan-start-info';
+      var formattedDate = new Date(startDate).toLocaleDateString();
+      startInfo.textContent = i18n.t('reading-plan.plan-started', { date: formattedDate });
+      header.appendChild(startInfo);
+    }
+
+    var deleteBtn = document.createElement('button');
+    deleteBtn.className = 'reading-plan-delete-btn fg-button ui-state-default ui-corner-all';
+    deleteBtn.textContent = i18n.t('reading-plan.delete-plan');
+    deleteBtn.addEventListener('click', () => {
+      this._showDeleteDialog();
+    });
+    header.appendChild(deleteBtn);
+    content.appendChild(header);
+
+    // ── Day list ──
+
     var list = document.createElement('ul');
     list.className = 'reading-plan-day-list';
 
@@ -218,18 +241,6 @@ class ReadingPlanPanel {
 
     content.appendChild(list);
 
-    var actions = document.createElement('div');
-    actions.className = 'reading-plan-actions';
-
-    var deleteBtn = document.createElement('button');
-    deleteBtn.className = 'reading-plan-delete-btn fg-button ui-state-default ui-corner-all';
-    deleteBtn.textContent = i18n.t('reading-plan.delete-plan');
-    deleteBtn.addEventListener('click', () => {
-      this._showDeleteDialog();
-    });
-    actions.appendChild(deleteBtn);
-    content.appendChild(actions);
-
     uiHelper.configureButtonStyles(content);
   }
 
@@ -273,7 +284,17 @@ class ReadingPlanPanel {
     var chapter = parts[1] ? parseInt(parts[1], 10) : undefined;
     var bookTitle = this._bookTitleCache[bookCode] || bookCode;
 
-    app_controller.text_controller.loadBook(bookCode, bookTitle, bookTitle, true, chapter);
+    var currentTab = app_controller.tab_controller.getTab();
+    var bibleTranslationId = currentTab ? currentTab.getBibleTranslationId() : null;
+    var secondBibleTranslationId = currentTab ? currentTab.getSecondBibleTranslationId() : null;
+
+    app_controller.translation_controller.isInstantLoadingBook(
+      bibleTranslationId,
+      secondBibleTranslationId,
+      bookCode
+    ).then((instantLoad) => {
+      app_controller.text_controller.loadBook(bookCode, bookTitle, bookTitle, instantLoad, chapter);
+    });
   }
 
   async _onDayCheckboxChange(event) {

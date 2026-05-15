@@ -105,14 +105,24 @@
   vertical-align: middle;
 }
 
-.reading-plan-actions {
-  margin-top: 0.8em;
-  padding-top: 0.5em;
-  border-top: 1px solid rgba(128, 128, 128, 0.3);
+.reading-plan-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+  margin-bottom: 0.6em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.reading-plan-start-info {
+  font-size: 0.85em;
+  color: #888;
+  flex: 1;
 }
 
 .reading-plan-delete-btn {
-  margin-top: 0.3em;
+  flex-shrink: 0;
 }
 
 /* Generate dialog */

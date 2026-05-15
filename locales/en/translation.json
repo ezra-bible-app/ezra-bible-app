@@ -630,6 +630,7 @@
     "current-day": "Current day",
     "preset-whole-bible-365": "Whole Bible in 365 days",
     "preset-nt-90": "New Testament in 90 days",
-    "preset-psalms-proverbs-30": "Psalms & Proverbs in 30 days"
+    "preset-psalms-proverbs-30": "Psalms & Proverbs in 30 days",
+    "plan-started": "Started on {{date}}"
   }
 }
