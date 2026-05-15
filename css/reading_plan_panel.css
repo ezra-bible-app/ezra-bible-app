@@ -84,7 +84,6 @@
 
 .reading-plan-passage-link {
   display: inline-block;
-  margin-right: 0.3em;
   cursor: pointer;
   color: var(--accent-color, #2980b9);
   text-decoration: underline;

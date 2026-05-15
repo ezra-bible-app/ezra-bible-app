@@ -447,6 +447,13 @@ class ReadingPlanPanel {
     });
 
     this._generateDialogInitialized = true;
+
+    // Subscribe to the on-esc-pressed event to close the dialog when escape key is pressed
+    eventController.subscribe('on-esc-pressed', () => {
+      if ($('#reading-plan-generate-dialog').dialog('isOpen')) {
+        $('#reading-plan-generate-dialog').dialog('close');
+      }
+    });
   }
 
   _goToGenerateStep(step) {
