@@ -342,6 +342,30 @@ class ReadingPlanPanel {
       entry.setAttribute('data-completed', '0');
       checkbox.title = i18n.t('reading-plan.mark-completed');
     }
+
+    this._updateProgressBar();
+  }
+
+  _updateProgressBar() {
+    var content = this.getContentContainer();
+    if (!content) {
+      return;
+    }
+
+    var allEntries = content.querySelectorAll('.reading-plan-day-entry');
+    var totalCount = allEntries.length;
+    var completedCount = content.querySelectorAll('.reading-plan-day-entry[data-completed="1"]').length;
+    var percent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+    var progressText = content.querySelector('.reading-plan-progress-text');
+    if (progressText) {
+      progressText.textContent = i18n.t('reading-plan.progress', { completed: completedCount, total: totalCount, percent: percent });
+    }
+
+    var progressFill = content.querySelector('.reading-plan-progress-bar-fill');
+    if (progressFill) {
+      progressFill.style.width = percent + '%';
+    }
   }
 
   // ── Generate plan dialog ───────────────────────────────────────────────────
