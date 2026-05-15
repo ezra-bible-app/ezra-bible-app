@@ -25,7 +25,9 @@
  */
 module.exports = (sequelize, DataTypes) => {
   const MetaRecord = sequelize.define('MetaRecord', {
-    lastModifiedAt: DataTypes.DATE
+    lastModifiedAt: DataTypes.DATE,
+    readingPlanActive: DataTypes.BOOLEAN,
+    readingPlanStartDate: DataTypes.DATE
   }, {
     timestamps: false
   });
