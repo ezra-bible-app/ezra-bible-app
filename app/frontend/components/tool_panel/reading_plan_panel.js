@@ -309,9 +309,14 @@ class ReadingPlanPanel {
     dialogOptions.autoOpen = false;
     dialogOptions.title = i18n.t('reading-plan.generate-plan-dialog-title');
     dialogOptions.buttons = {};
-    dialogOptions.buttons[i18n.t('reading-plan.start-plan')] = async () => {
-      await this._onGenerateConfirmed();
+
+    dialogOptions.buttons[i18n.t('reading-plan.start-plan')] = {
+      text: i18n.t('reading-plan.start-plan'),
+      click: async () => {
+        await this._onGenerateConfirmed();
+      }
     };
+
     dialogOptions.buttons[i18n.t('general.cancel')] = function() {
       $('#reading-plan-generate-dialog').dialog('close');
     };
@@ -362,11 +367,14 @@ class ReadingPlanPanel {
     dialogOptions.autoOpen = false;
     dialogOptions.title = i18n.t('reading-plan.delete-plan');
     dialogOptions.buttons = {};
-    dialogOptions.buttons[i18n.t('reading-plan.delete-plan')] = async () => {
-      await this._onDeleteConfirmed();
-    };
     dialogOptions.buttons[i18n.t('general.cancel')] = function() {
       $('#reading-plan-delete-dialog').dialog('close');
+    };
+    dialogOptions.buttons[i18n.t('reading-plan.delete-plan')] = {
+      text: i18n.t('reading-plan.delete-plan'),
+      click: async () => {
+        await this._onDeleteConfirmed();
+      }
     };
 
     $('#reading-plan-delete-dialog').localize();
