@@ -178,6 +178,29 @@ class ReadingPlanPanel {
     header.appendChild(deleteBtn);
     content.appendChild(header);
 
+    // ── Progress line ──
+    var completedCount = days.filter(function(d) { return !!d.completedAt; }).length;
+    var totalCount = days.length;
+    var percent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+    var progressWrapper = document.createElement('div');
+    progressWrapper.className = 'reading-plan-progress';
+
+    var progressText = document.createElement('span');
+    progressText.className = 'reading-plan-progress-text';
+    progressText.textContent = i18n.t('reading-plan.progress', { completed: completedCount, total: totalCount, percent: percent });
+    progressWrapper.appendChild(progressText);
+
+    var progressBar = document.createElement('div');
+    progressBar.className = 'reading-plan-progress-bar-track';
+    var progressFill = document.createElement('div');
+    progressFill.className = 'reading-plan-progress-bar-fill';
+    progressFill.style.width = percent + '%';
+    progressBar.appendChild(progressFill);
+    progressWrapper.appendChild(progressBar);
+
+    content.appendChild(progressWrapper);
+
     // ── Day list ──
 
     var list = document.createElement('ul');
