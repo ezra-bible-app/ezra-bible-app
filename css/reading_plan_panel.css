@@ -1,0 +1,143 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2026 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+#reading-plan-panel-wrapper {
+  padding: 0.5em;
+  box-sizing: border-box;
+}
+
+#reading-plan-panel-content {
+  width: 100%;
+}
+
+.reading-plan-no-plan {
+  padding: 0.5em 0;
+  color: #666;
+}
+
+.reading-plan-no-plan p {
+  margin: 0 0 0.8em 0;
+}
+
+.reading-plan-generate-btn {
+  margin-top: 0.3em;
+}
+
+.reading-plan-day-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.reading-plan-day-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+  padding: 0.3em 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.reading-plan-day-entry:last-child {
+  border-bottom: none;
+}
+
+.reading-plan-day-entry.completed .reading-plan-day-label {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.reading-plan-day-entry.current-day .reading-plan-day-label {
+  font-weight: bold;
+}
+
+.reading-plan-day-checkbox {
+  margin-top: 0.15em;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.reading-plan-day-label {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.reading-plan-day-number {
+  font-weight: bold;
+  margin-right: 0.3em;
+}
+
+.reading-plan-passage-link {
+  display: inline-block;
+  margin-right: 0.3em;
+  cursor: pointer;
+  color: var(--accent-color, #2980b9);
+  text-decoration: underline;
+}
+
+.reading-plan-passage-link:hover {
+  opacity: 0.8;
+}
+
+.reading-plan-current-indicator {
+  display: inline-block;
+  font-size: 0.75em;
+  padding: 0.1em 0.4em;
+  border-radius: 0.3em;
+  background: var(--accent-color, #2980b9);
+  color: white;
+  margin-left: 0.3em;
+  vertical-align: middle;
+}
+
+.reading-plan-actions {
+  margin-top: 0.8em;
+  padding-top: 0.5em;
+  border-top: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.reading-plan-delete-btn {
+  margin-top: 0.3em;
+}
+
+/* Generate dialog */
+#reading-plan-generate-dialog table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#reading-plan-generate-dialog td {
+  padding: 0.4em 0.2em;
+  vertical-align: middle;
+}
+
+#reading-plan-generate-dialog td:first-child {
+  width: 40%;
+  font-weight: bold;
+}
+
+#reading-plan-preset-select {
+  width: 100%;
+  padding: 0.2em;
+}
+
+#reading-plan-start-date-input {
+  padding: 0.2em;
+  width: 100%;
+  box-sizing: border-box;
+}

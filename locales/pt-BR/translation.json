@@ -600,5 +600,25 @@
     "row-failed": "✗ Falhou: {{error}}",
     "unknown-error": "Erro desconhecido",
     "installation-failed": "Instalação falhou"
+  },
+  "reading-plan": {
+    "show-panel": "Show reading plan",
+    "default-header": "Reading Plan",
+    "no-plan-hint": "No reading plan active. Generate a plan to get started.",
+    "generate-plan": "Generate reading plan",
+    "generate-plan-dialog-title": "Generate Reading Plan",
+    "select-preset": "Select a preset",
+    "start-date": "Start date",
+    "start-plan": "Start plan",
+    "delete-plan": "Delete plan",
+    "delete-plan-confirmation": "Are you sure you want to delete the current reading plan? All progress will be lost.",
+    "day": "Day {{day}}",
+    "mark-completed": "Mark as completed",
+    "mark-not-completed": "Mark as not completed",
+    "completed": "Completed",
+    "current-day": "Current day",
+    "preset-whole-bible-365": "Whole Bible in 365 days",
+    "preset-nt-90": "New Testament in 90 days",
+    "preset-psalms-proverbs-30": "Psalms & Proverbs in 30 days"
   }
 }

@@ -466,7 +466,8 @@
     "show-occurrence-statistics": "Voorkomensstatistieken weergeven",
     "show-all-occurrences": "Alle voorkomens weergeven",
     "vines-index-not-available": "De Vine's-woordenboekindex is nog niet gegenereerd. Zodra deze is gegenereerd, worden overeenkomende vermeldingen uit de Vine's Expository Dictionary hier weergegeven.",
-    "vines-not-installed": "De Vine's Expository Dictionary-module is niet geïnstalleerd. U kunt deze installeren vanuit de Xiphos-repository via de module-assistent."  },
+    "vines-not-installed": "De Vine's Expository Dictionary-module is niet geïnstalleerd. U kunt deze installeren vanuit de Xiphos-repository via de module-assistent."
+  },
   "dictionary-panel": {
     "default-header": "<b>Woordenboek</b>",
     "help-no-dicts": "Er zijn geen woordenboeken beschikbaar.",
@@ -601,5 +602,25 @@
     "row-failed": "✗ Mislukt: {{error}}",
     "unknown-error": "Onbekende fout",
     "installation-failed": "Installatie mislukt"
+  },
+  "reading-plan": {
+    "show-panel": "Show reading plan",
+    "default-header": "Reading Plan",
+    "no-plan-hint": "No reading plan active. Generate a plan to get started.",
+    "generate-plan": "Generate reading plan",
+    "generate-plan-dialog-title": "Generate Reading Plan",
+    "select-preset": "Select a preset",
+    "start-date": "Start date",
+    "start-plan": "Start plan",
+    "delete-plan": "Delete plan",
+    "delete-plan-confirmation": "Are you sure you want to delete the current reading plan? All progress will be lost.",
+    "day": "Day {{day}}",
+    "mark-completed": "Mark as completed",
+    "mark-not-completed": "Mark as not completed",
+    "completed": "Completed",
+    "current-day": "Current day",
+    "preset-whole-bible-365": "Whole Bible in 365 days",
+    "preset-nt-90": "New Testament in 90 days",
+    "preset-psalms-proverbs-30": "Psalms & Proverbs in 30 days"
   }
 }
