@@ -124,10 +124,10 @@ const PRESETS = {
     type: 'ot-nt-daily',
     ntRepeats: 2
   },
-  'psalms-proverbs-30': {
-    i18nKey: 'reading-plan.pace-30-days',
-    days: 30,
-    books: ['Ps', 'Prov']
+  'psalms-proverbs-150': {
+    i18nKey: 'reading-plan.pace-psalms-proverbs',
+    days: 31,
+    type: 'psalms-proverbs-cyclical'
   }
 };
 
@@ -176,7 +176,7 @@ const PLAN_TYPES = {
     prosKey:    'reading-plan.type-psalms-proverbs-pros',
     consKey:    'reading-plan.type-psalms-proverbs-cons',
     paces: [
-      { presetId: 'psalms-proverbs-30', i18nKey: 'reading-plan.pace-30-days' }
+      { presetId: 'psalms-proverbs-150', i18nKey: 'reading-plan.pace-psalms-proverbs' }
     ]
   }
 };
@@ -299,6 +299,71 @@ function _generateOtNtDailyDays(totalDays, ntRepeats) {
 }
 
 /**
+ * Generates day objects for the Psalms & Proverbs plan.
+ * Covers all 150 Psalms across 31 days, pairing each day with the matching
+ * Proverbs chapter (Prov.1 on day 1 … Prov.31 on day 31).
+ * Psalm 119 always occupies its own day.
+ * The 118 psalms before it are distributed evenly across 24 days;
+ * the 31 psalms after it are distributed evenly across 6 days.
+ *
+ * @returns {Array}
+ */
+function _generatePsalmsProverbsDays() {
+  var targetDays = BOOK_CHAPTERS['Prov']; // 31
+  // Ps.119 gets its own isolated day; split the remaining 30 days proportionally
+  // between the 118 psalms before it and the 31 psalms after it.
+  var preCount  = 118; // Ps.1 – Ps.118
+  var postCount = 31;  // Ps.120 – Ps.150
+  var otherDays = targetDays - 1; // 30
+  var preDays   = Math.round(preCount / (preCount + postCount) * otherDays); // 24
+  var postDays  = otherDays - preDays; // 6
+
+  // Build ordered psalm groups (one array per day)
+  var psalmGroups = [];
+  var psIdx = 1;
+  var base, rem, gi, gk, group;
+
+  // Pre-119 groups: Ps.1 – Ps.118 across preDays days
+  base = Math.floor(preCount / preDays);
+  rem  = preCount % preDays;
+  for (gi = 0; gi < preDays; gi++) {
+    group = [];
+    for (gk = 0; gk < base + (gi < rem ? 1 : 0); gk++) {
+      group.push('Ps.' + psIdx++);
+    }
+    psalmGroups.push(group);
+  }
+
+  // Ps.119 alone
+  psalmGroups.push(['Ps.119']);
+  psIdx = 120;
+
+  // Post-119 groups: Ps.120 – Ps.150 across postDays days
+  base = Math.floor(postCount / postDays);
+  rem  = postCount % postDays;
+  for (gi = 0; gi < postDays; gi++) {
+    group = [];
+    for (gk = 0; gk < base + (gi < rem ? 1 : 0); gk++) {
+      group.push('Ps.' + psIdx++);
+    }
+    psalmGroups.push(group);
+  }
+
+  // Pair each psalm group with the corresponding Proverbs chapter
+  var days = [];
+  for (var i = 0; i < psalmGroups.length; i++) {
+    var psPassages = groupIntoPassages(psalmGroups[i]);
+    var provRef    = 'Prov.' + (i + 1);
+    var provPassage = { sequenceNumber: psPassages.length + 1, startVerseReference: provRef, endVerseReference: provRef, label: null };
+    days.push({
+      dayNumber: i + 1,
+      passages: psPassages.concat([provPassage])
+    });
+  }
+  return days;
+}
+
+/**
  * Generates an array of day objects for a reading plan preset.
  * Each day object has the shape:
  * { dayNumber: number, passages: [{ sequenceNumber, startVerseReference, endVerseReference, label }, ...] }
@@ -318,6 +383,11 @@ function generatePlanDays(presetId) {
   // OT + NT daily plan uses a dedicated two-stream algorithm
   if (preset.type === 'ot-nt-daily') {
     return _generateOtNtDailyDays(preset.days, preset.ntRepeats || 1);
+  }
+
+  // Psalms + Proverbs cyclical: 1 psalm + 1 Proverbs chapter per day, Proverbs cycling
+  if (preset.type === 'psalms-proverbs-cyclical') {
+    return _generatePsalmsProverbsDays();
   }
 
   // Build a flat list of all chapter references in the preset's book order
