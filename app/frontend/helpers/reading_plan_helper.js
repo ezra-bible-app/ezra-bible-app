@@ -275,6 +275,12 @@ function _buildStreamDayGroups(bookList, totalDays) {
   for (var bi = 0; bi < bookDays.length; bi++) {
     var bd = bookDays[bi];
     if (bd.dayCount === 0) {
+      // Flush any already-pending book as its own slot before queuing this one,
+      // keeping pendingRefs to at most one book so the merged slot never exceeds 2 books.
+      if (pendingRefs.length > 0) {
+        groups.push(pendingRefs);
+        pendingRefs = [];
+      }
       for (var c = 1; c <= bd.chapters; c++) {
         pendingRefs.push(bd.book + '.' + c);
       }
