@@ -222,79 +222,126 @@ function groupIntoPassages(chapterRefs) {
 }
 
 /**
+ * Distributes chapters from bookList across totalDays day-slots, aligning
+ * day boundaries with book boundaries wherever possible.
+ * Books whose proportional share rounds to zero (typically 1-chapter books, or
+ * very short books in fast plans) are merged into the next slot; if trailing,
+ * into the last slot.
+ *
+ * @param {string[]} bookList
+ * @param {number}   totalDays
+ * @returns {string[][]}  Array of totalDays arrays of chapter refs
+ */
+function _buildStreamDayGroups(bookList, totalDays) {
+  var totalChapters = 0;
+  for (var bi = 0; bi < bookList.length; bi++) {
+    totalChapters += BOOK_CHAPTERS[bookList[bi]] || 0;
+  }
+  if (totalChapters === 0) {
+    var empty = [];
+    for (var e = 0; e < totalDays; e++) empty.push([]);
+    return empty;
+  }
+
+  // Proportional day count per book via accumulator rounding
+  var dayAccum = 0;
+  var daysAssigned = 0;
+  var bookDays = [];
+  for (var bi = 0; bi < bookList.length; bi++) {
+    var book = bookList[bi];
+    var chaps = BOOK_CHAPTERS[book] || 0;
+    if (chaps === 0) continue;
+    dayAccum += chaps / totalChapters * totalDays;
+    var dayCount = Math.round(dayAccum) - daysAssigned;
+    if (dayCount < 0) dayCount = 0;
+    bookDays.push({ book: book, chapters: chaps, dayCount: dayCount });
+    daysAssigned += dayCount;
+  }
+
+  // Correct rounding drift on the largest book
+  var diff = totalDays - daysAssigned;
+  if (diff !== 0) {
+    var bestIdx = 0;
+    for (var i = 1; i < bookDays.length; i++) {
+      if (bookDays[i].chapters > bookDays[bestIdx].chapters) bestIdx = i;
+    }
+    bookDays[bestIdx].dayCount = Math.max(1, bookDays[bestIdx].dayCount + diff);
+  }
+
+  // Build groups; 0-day books queue into pendingRefs, prepended to next book's first slot
+  var groups = [];
+  var pendingRefs = [];
+
+  for (var bi = 0; bi < bookDays.length; bi++) {
+    var bd = bookDays[bi];
+    if (bd.dayCount === 0) {
+      for (var c = 1; c <= bd.chapters; c++) {
+        pendingRefs.push(bd.book + '.' + c);
+      }
+      continue;
+    }
+    var base = Math.floor(bd.chapters / bd.dayCount);
+    var rem  = bd.chapters % bd.dayCount;
+    var chIdx = 1;
+    for (var di = 0; di < bd.dayCount; di++) {
+      var group;
+      if (di === 0) {
+        group = pendingRefs;
+        pendingRefs = [];
+      } else {
+        group = [];
+      }
+      var count = base + (di < rem ? 1 : 0);
+      for (var k = 0; k < count; k++) {
+        group.push(bd.book + '.' + chIdx++);
+      }
+      groups.push(group);
+    }
+  }
+
+  // Trailing 0-day books go on the last slot
+  if (pendingRefs.length > 0) {
+    if (groups.length > 0) {
+      var last = groups[groups.length - 1];
+      for (var r = 0; r < pendingRefs.length; r++) {
+        last.push(pendingRefs[r]);
+      }
+    } else {
+      groups.push(pendingRefs);
+    }
+  }
+
+  return groups;
+}
+
+/**
  * Generates day objects where each day includes chapters from both the OT and NT,
- * distributed proportionally so both streams finish on the last day.
+ * distributed with book-boundary alignment so each day reads from at most one
+ * OT book and at most one NT book.
  *
  * @param {number} totalDays
  * @param {number} ntRepeats - How many times to cycle through the NT (1 = once, 2 = twice)
  * @returns {Array}
  */
 function _generateOtNtDailyDays(totalDays, ntRepeats) {
-  // Build flat chapter lists for each stream
-  var otChapters = [];
-  for (var oi = 0; oi < OT_BOOKS.length; oi++) {
-    var otBook = OT_BOOKS[oi];
-    var otCount = BOOK_CHAPTERS[otBook] || 0;
-    for (var oc = 1; oc <= otCount; oc++) {
-      otChapters.push(otBook + '.' + oc);
-    }
-  }
-
-  var singleNtChapters = [];
-  for (var ni = 0; ni < NT_BOOKS.length; ni++) {
-    var ntBook = NT_BOOKS[ni];
-    var ntCount = BOOK_CHAPTERS[ntBook] || 0;
-    for (var nc = 1; nc <= ntCount; nc++) {
-      singleNtChapters.push(ntBook + '.' + nc);
-    }
-  }
-
-  // Repeat the NT stream as requested
-  var ntChapters = [];
+  var ntBookListFull = [];
   for (var r = 0; r < ntRepeats; r++) {
-    ntChapters = ntChapters.concat(singleNtChapters);
+    ntBookListFull = ntBookListFull.concat(NT_BOOKS);
   }
 
-  var totalOt = otChapters.length;
-  var totalNt = ntChapters.length;
+  var otGroups = _buildStreamDayGroups(OT_BOOKS, totalDays);
+  var ntGroups = _buildStreamDayGroups(ntBookListFull, totalDays);
+
   var days = [];
-
-  // Use an accumulator so each stream is spread proportionally across the days
-  var otAcc = 0;
-  var ntAcc = 0;
-  var otIdx = 0;
-  var ntIdx = 0;
-
   for (var d = 0; d < totalDays; d++) {
-    otAcc += totalOt / totalDays;
-    ntAcc += totalNt / totalDays;
-
-    var otTarget = Math.round(otAcc);
-    var ntTarget = Math.round(ntAcc);
-
-    var dayOtRefs = [];
-    while (otIdx < otTarget && otIdx < totalOt) {
-      dayOtRefs.push(otChapters[otIdx]);
-      otIdx++;
-    }
-
-    var dayNtRefs = [];
-    while (ntIdx < ntTarget && ntIdx < totalNt) {
-      dayNtRefs.push(ntChapters[ntIdx]);
-      ntIdx++;
-    }
-
-    // Merge consecutive chapters within each stream, then combine and renumber
-    var otPassages = groupIntoPassages(dayOtRefs);
-    var ntPassages = groupIntoPassages(dayNtRefs);
+    var otPassages = groupIntoPassages(otGroups[d]);
+    var ntPassages = groupIntoPassages(ntGroups[d]);
     var combined = otPassages.concat(ntPassages);
     for (var p = 0; p < combined.length; p++) {
       combined[p].sequenceNumber = p + 1;
     }
-
     days.push({ dayNumber: d + 1, passages: combined });
   }
-
   return days;
 }
 
@@ -368,8 +415,35 @@ function _generatePsalmsProverbsDays() {
  * Each day object has the shape:
  * { dayNumber: number, passages: [{ sequenceNumber, startVerseReference, endVerseReference, label }, ...] }
  *
- * Chapters are distributed as evenly as possible across the target number of days.
- * Consecutive chapters within the same book are merged into a single passage.
+ * Day boundaries are aligned to book boundaries wherever possible so that each
+ * day reads from at most one book. Books whose proportional day share rounds to
+ * zero (typically 1-chapter books, or very short books in fast plans) are merged
+ * with the next group — this is the only case where a day may contain multiple books.
+ *
+ * @param {string[]} bookList   - OSIS codes in reading order
+ * @param {number}   targetDays
+ * @returns {Array<{ dayNumber: number, passages: Array }>}
+ */
+function _generateBookAlignedDays(bookList, targetDays) {
+  var groups = _buildStreamDayGroups(bookList, targetDays);
+  var days = [];
+  for (var gi = 0; gi < groups.length; gi++) {
+    days.push({
+      dayNumber: gi + 1,
+      passages: groupIntoPassages(groups[gi])
+    });
+  }
+  return days;
+}
+
+/**
+ * Generates an array of day objects for a reading plan preset.
+ * Each day object has the shape:
+ * { dayNumber: number, passages: [{ sequenceNumber, startVerseReference, endVerseReference, label }, ...] }
+ *
+ * Day boundaries are aligned to book boundaries wherever possible (see
+ * _generateBookAlignedDays). Consecutive chapters within the same book are
+ * merged into a single passage.
  *
  * @param {string} presetId - Key from the PRESETS map (e.g. 'canonical-365')
  * @returns {Array<{ dayNumber: number, passages: Array<{ sequenceNumber: number, startVerseReference: string, endVerseReference: string, label: null }> }>}
@@ -419,28 +493,8 @@ function generatePlanDays(presetId) {
     return days;
   }
 
-  // Distribute chapters across days using a "remainder" approach so that
-  // chapters are spread as evenly as possible.
-  var basePerDay = Math.floor(totalChapters / targetDays);
-  var remainder = totalChapters % targetDays;
-  var chapterIndex = 0;
-
-  for (var d = 0; d < targetDays; d++) {
-    var count = basePerDay + (d < remainder ? 1 : 0);
-    var chapterSlice = [];
-    for (var j = 0; j < count; j++) {
-      if (chapterIndex < totalChapters) {
-        chapterSlice.push(allChapters[chapterIndex]);
-        chapterIndex++;
-      }
-    }
-    days.push({
-      dayNumber: d + 1,
-      passages: groupIntoPassages(chapterSlice)
-    });
-  }
-
-  return days;
+  // Distribute chapters with book-boundary alignment
+  return _generateBookAlignedDays(preset.books, targetDays);
 }
 
 module.exports = {

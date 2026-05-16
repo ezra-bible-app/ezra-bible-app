@@ -718,6 +718,12 @@ class ReadingPlanPanel {
     $('#reading-plan-delete-dialog').dialog(dialogOptions);
     uiHelper.fixDialogCloseIconOnCordova('reading-plan-delete-dialog');
     this._deleteDialogInitialized = true;
+
+    eventController.subscribe('on-esc-pressed', () => {
+      if ($('#reading-plan-delete-dialog').dialog('isOpen')) {
+        $('#reading-plan-delete-dialog').dialog('close');
+      }
+    });
   }
 
   async _onDeleteConfirmed() {
@@ -766,6 +772,12 @@ class ReadingPlanPanel {
     $('#reading-plan-reset-dialog').dialog(dialogOptions);
     uiHelper.fixDialogCloseIconOnCordova('reading-plan-reset-dialog');
     this._resetDialogInitialized = true;
+
+    eventController.subscribe('on-esc-pressed', () => {
+      if ($('#reading-plan-reset-dialog').dialog('isOpen')) {
+        $('#reading-plan-reset-dialog').dialog('close');
+      }
+    });
   }
 
   async _onResetConfirmed() {
