@@ -280,3 +280,39 @@
 .rp-step-nav-row {
   justify-content: space-between;
 }
+
+/* Mobile portrait adjustments for the generate dialog */
+@media screen and (max-width: 600px) {
+  #reading-plan-generate-dialog {
+    min-width: 0;
+  }
+
+  .rp-plan-type-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5em;
+    margin-bottom: 0.6em;
+  }
+
+  .rp-plan-type-card {
+    padding: 0.5em 0.6em;
+  }
+
+  .rp-card-title {
+    font-size: 0.95em;
+  }
+
+  .rp-card-best-for,
+  .rp-card-desc,
+  .rp-card-pro,
+  .rp-card-con {
+    font-size: 0.8em;
+  }
+
+  .rp-step-label {
+    margin: 0 0 0.5em 0;
+  }
+
+  .rp-step-nav {
+    margin-top: 0.6em;
+  }
+}
