@@ -35,6 +35,7 @@ class ReadingPlanPanel {
     this._selectedPlanType = null;
     this._selectedPresetId = null;
     this._startDate = null;
+    this._showAllDays = false;
 
     eventController.subscribe('on-reading-plan-panel-switched', async (isOpen) => {
       if (isOpen && !this._initDone) {
@@ -224,6 +225,17 @@ class ReadingPlanPanel {
 
     content.appendChild(progressWrapper);
 
+    // ── Toggle completed-days visibility ──
+    if (completedCount > 3) {
+      var toggleBtn = document.createElement('button');
+      toggleBtn.className = 'reading-plan-toggle-btn fg-button ui-state-default ui-corner-all';
+      toggleBtn.textContent = this._showAllDays ? i18n.t('reading-plan.hide-completed') : i18n.t('reading-plan.show-all');
+      toggleBtn.addEventListener('click', () => {
+        this._onToggleCompactView();
+      });
+      content.appendChild(toggleBtn);
+    }
+
     // ── Day list ──
 
     var list = document.createElement('ul');
@@ -290,6 +302,7 @@ class ReadingPlanPanel {
 
     content.appendChild(list);
 
+    this._applyCompactView();
     uiHelper.configureButtonStyles(content);
   }
 
@@ -400,6 +413,78 @@ class ReadingPlanPanel {
     if (progressFill) {
       progressFill.style.width = percent + '%';
     }
+
+    this._applyCompactView();
+  }
+
+  // ── Compact view ──────────────────────────────────────────────────────────
+
+  _applyCompactView() {
+    var content = this.getContentContainer();
+    if (!content) {
+      return;
+    }
+
+    var toggleBtn = content.querySelector('.reading-plan-toggle-btn');
+    var allEntries = content.querySelectorAll('.reading-plan-day-entry');
+
+    var completedEntries = [];
+    for (var i = 0; i < allEntries.length; i++) {
+      if (allEntries[i].getAttribute('data-completed') === '1') {
+        completedEntries.push(allEntries[i]);
+      }
+    }
+
+    if (completedEntries.length <= 3) {
+      if (toggleBtn) {
+        toggleBtn.style.display = 'none';
+      }
+      return;
+    }
+
+    if (!toggleBtn) {
+      toggleBtn = document.createElement('button');
+      toggleBtn.className = 'reading-plan-toggle-btn fg-button ui-state-default ui-corner-all';
+      toggleBtn.addEventListener('click', () => {
+        this._onToggleCompactView();
+      });
+      var list = content.querySelector('.reading-plan-day-list');
+      content.insertBefore(toggleBtn, list);
+      uiHelper.configureButtonStyles(content);
+    } else {
+      toggleBtn.style.display = '';
+    }
+
+    if (this._showAllDays) {
+      for (var i = 0; i < allEntries.length; i++) {
+        allEntries[i].style.display = '';
+      }
+      if (toggleBtn) {
+        toggleBtn.textContent = i18n.t('reading-plan.hide-completed');
+      }
+      return;
+    }
+
+    // Compact: show only the last 3 completed entries, hide the rest
+    var startIdx = Math.max(0, completedEntries.length - 3);
+    for (var i = 0; i < allEntries.length; i++) {
+      var entry = allEntries[i];
+      if (entry.getAttribute('data-completed') === '1') {
+        var idx = completedEntries.indexOf(entry);
+        entry.style.display = idx >= startIdx ? '' : 'none';
+      } else {
+        entry.style.display = '';
+      }
+    }
+
+    if (toggleBtn) {
+      toggleBtn.textContent = i18n.t('reading-plan.show-all');
+    }
+  }
+
+  _onToggleCompactView() {
+    this._showAllDays = !this._showAllDays;
+    this._applyCompactView();
   }
 
   // ── Generate plan dialog ───────────────────────────────────────────────────
@@ -644,6 +729,7 @@ class ReadingPlanPanel {
     // Reset and re-render
     this._initDone = false;
     this._generateDialogInitialized = false;
+    this._showAllDays = false;
     this._bookTitleCache = {};
     await this.refresh();
     this._initDone = true;
