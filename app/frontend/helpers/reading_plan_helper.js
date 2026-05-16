@@ -268,6 +268,31 @@ function _buildStreamDayGroups(bookList, totalDays) {
     bookDays[bestIdx].dayCount = Math.max(1, bookDays[bestIdx].dayCount + diff);
   }
 
+  // Pre-process consecutive runs of zero-day books so no day slot ends up with 3+ books.
+  // For each run of N consecutive zero-day books, give alternating entries dayCount=1
+  // (ceil(N/2) promotions) and steal those days from the nearest following multi-day book.
+  var pi = 0;
+  while (pi < bookDays.length) {
+    if (bookDays[pi].dayCount === 0) {
+      var chainStart = pi;
+      while (pi < bookDays.length && bookDays[pi].dayCount === 0) { pi++; }
+      var chainLen = pi - chainStart;
+      var extraDays = Math.ceil(chainLen / 2);
+      for (var ci = chainStart; ci < chainStart + chainLen; ci += 2) {
+        bookDays[ci].dayCount = 1;
+      }
+      for (var si = pi; si < bookDays.length && extraDays > 0; si++) {
+        var canSteal = bookDays[si].dayCount - 1;
+        if (canSteal <= 0) { continue; }
+        var steal = Math.min(canSteal, extraDays);
+        bookDays[si].dayCount -= steal;
+        extraDays -= steal;
+      }
+    } else {
+      pi++;
+    }
+  }
+
   // Build groups; 0-day books queue into pendingRefs, prepended to next book's first slot
   var groups = [];
   var pendingRefs = [];
@@ -275,12 +300,6 @@ function _buildStreamDayGroups(bookList, totalDays) {
   for (var bi = 0; bi < bookDays.length; bi++) {
     var bd = bookDays[bi];
     if (bd.dayCount === 0) {
-      // Flush any already-pending book as its own slot before queuing this one,
-      // keeping pendingRefs to at most one book so the merged slot never exceeds 2 books.
-      if (pendingRefs.length > 0) {
-        groups.push(pendingRefs);
-        pendingRefs = [];
-      }
       for (var c = 1; c <= bd.chapters; c++) {
         pendingRefs.push(bd.book + '.' + c);
       }
