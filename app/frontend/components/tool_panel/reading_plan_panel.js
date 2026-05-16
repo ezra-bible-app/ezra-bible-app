@@ -42,6 +42,13 @@ class ReadingPlanPanel {
         await this.init();
       }
     });
+
+    eventController.subscribe('on-locale-changed', async () => {
+      if (this._initDone) {
+        this._bookTitleCache = {};
+        await this.refresh();
+      }
+    });
   }
 
   getPanel() {
