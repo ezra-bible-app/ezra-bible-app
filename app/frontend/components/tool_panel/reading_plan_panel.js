@@ -30,6 +30,7 @@ class ReadingPlanPanel {
     this._initDone = false;
     this._generateDialogInitialized = false;
     this._deleteDialogInitialized = false;
+    this._resetDialogInitialized = false;
     this._bookTitleCache = {};
     this._selectedPlanType = null;
     this._selectedPresetId = null;
@@ -139,7 +140,7 @@ class ReadingPlanPanel {
 
     var generateBtn = document.createElement('button');
     generateBtn.className = 'reading-plan-generate-btn fg-button ui-state-default ui-corner-all';
-    generateBtn.textContent = i18n.t('reading-plan.generate-plan');
+    generateBtn.textContent = i18n.t('reading-plan.create-reading-plan');
     generateBtn.addEventListener('click', () => {
       this._showGenerateDialog();
     });
@@ -182,6 +183,14 @@ class ReadingPlanPanel {
       this._showDeleteDialog();
     });
     header.appendChild(deleteBtn);
+
+    var resetBtn = document.createElement('button');
+    resetBtn.className = 'reading-plan-reset-btn fg-button ui-state-default ui-corner-all';
+    resetBtn.textContent = i18n.t('reading-plan.reset-progress');
+    resetBtn.addEventListener('click', () => {
+      this._showResetDialog();
+    });
+    header.appendChild(resetBtn);
 
     var generateNewBtn = document.createElement('button');
     generateNewBtn.className = 'fg-button ui-state-default ui-corner-all';
@@ -419,12 +428,23 @@ class ReadingPlanPanel {
   _initGenerateDialog() {
     var dialogOptions = uiHelper.getDialogOptions(620, null, true, null);
     dialogOptions.autoOpen = false;
-    dialogOptions.title = i18n.t('reading-plan.generate-plan-dialog-title');
-    dialogOptions.buttons = {};
-
-    dialogOptions.buttons[i18n.t('general.cancel')] = function() {
-      $('#reading-plan-generate-dialog').dialog('close');
-    };
+    dialogOptions.title = i18n.t('reading-plan.create-reading-plan-dialog-title');
+    dialogOptions.buttons = [
+      {
+        text: i18n.t('reading-plan.create-reading-plan'),
+        class: 'rp-dialog-start-btn',
+        disabled: true,
+        click: async () => {
+          await this._onGenerateConfirmed();
+        }
+      },
+      {
+        text: i18n.t('general.cancel'),
+        click: function() {
+          $('#reading-plan-generate-dialog').dialog('close');
+        }
+      }
+    ];
 
     $('#reading-plan-generate-dialog').dialog(dialogOptions);
     uiHelper.fixDialogCloseIconOnCordova('reading-plan-generate-dialog');
@@ -444,9 +464,6 @@ class ReadingPlanPanel {
     document.getElementById('rp-btn-back').addEventListener('click', function() {
       self._goToGenerateStep(1);
     });
-    document.getElementById('rp-btn-start').addEventListener('click', function() {
-      self._onGenerateConfirmed();
-    });
 
     this._generateDialogInitialized = true;
 
@@ -465,6 +482,7 @@ class ReadingPlanPanel {
     if (step === 1) {
       stepType.style.display = 'block';
       stepTimeframe.style.display = 'none';
+      $('.rp-dialog-start-btn').button('disable');
     } else {
       stepType.style.display = 'none';
       stepTimeframe.style.display = 'block';
@@ -518,11 +536,10 @@ class ReadingPlanPanel {
       }
 
       // Disable Start until a pace is explicitly chosen
-      document.getElementById('rp-btn-start').disabled = true;
+      $('.rp-dialog-start-btn').button('disable');
     }
 
-    document.getElementById('rp-btn-back').textContent  = i18n.t('general.previous');
-    document.getElementById('rp-btn-start').textContent = i18n.t('reading-plan.start-plan');
+    document.getElementById('rp-btn-back').textContent = i18n.t('general.previous');
     uiHelper.configureButtonStyles(document.getElementById('reading-plan-generate-dialog'));
   }
 
@@ -541,7 +558,7 @@ class ReadingPlanPanel {
 
   _onPaceSelected(presetId) {
     this._selectedPresetId = presetId;
-    document.getElementById('rp-btn-start').disabled = false;
+    $('.rp-dialog-start-btn').button('enable');
   }
 
   async _onGenerateConfirmed() {
@@ -630,6 +647,53 @@ class ReadingPlanPanel {
     this._bookTitleCache = {};
     await this.refresh();
     this._initDone = true;
+  }
+
+  // ── Reset progress dialog ──────────────────────────────────────────────────
+
+  _showResetDialog() {
+    if (!this._resetDialogInitialized) {
+      this._initResetDialog();
+    }
+
+    $('#reading-plan-reset-dialog').dialog('open');
+  }
+
+  _initResetDialog() {
+    var dialogOptions = uiHelper.getDialogOptions(350, null, true, null);
+    dialogOptions.autoOpen = false;
+    dialogOptions.title = i18n.t('reading-plan.reset-progress');
+    dialogOptions.buttons = {};
+
+    dialogOptions.buttons[i18n.t('reading-plan.reset-progress')] = {
+      text: i18n.t('reading-plan.reset-progress'),
+      click: async () => {
+        await this._onResetConfirmed();
+      }
+    };
+
+    dialogOptions.buttons[i18n.t('general.cancel')] = function() {
+      $('#reading-plan-reset-dialog').dialog('close');
+    };
+
+    $('#reading-plan-reset-dialog').localize();
+    $('#reading-plan-reset-dialog').dialog(dialogOptions);
+    uiHelper.fixDialogCloseIconOnCordova('reading-plan-reset-dialog');
+    this._resetDialogInitialized = true;
+  }
+
+  async _onResetConfirmed() {
+    var days = await ipcDb.getAllReadingPlanDays();
+    for (var i = 0; i < days.length; i++) {
+      if (days[i].completedAt) {
+        await ipcDb.setReadingPlanDayCompleted(days[i].id, null);
+      }
+    }
+    await ipcDb.updateReadingPlanSettings(true, null);
+    this._startDate = null;
+
+    $('#reading-plan-reset-dialog').dialog('close');
+    await this.refresh();
   }
 }
 
