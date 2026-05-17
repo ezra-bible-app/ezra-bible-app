@@ -168,6 +168,11 @@ const PRESETS = {
     days: 365,
     books: Object.keys(BOOK_CHAPTERS)
   },
+  'canonical-180': {
+    i18nKey: 'reading-plan.pace-6-months',
+    days: 180,
+    books: Object.keys(BOOK_CHAPTERS)
+  },
   'canonical-nt-90': {
     i18nKey: 'reading-plan.pace-90-days-nt',
     days: 90,
@@ -216,6 +221,7 @@ const PLAN_TYPES = {
     consKey:    'reading-plan.type-canonical-cons',
     paces: [
       { presetId: 'canonical-365',   i18nKey: 'reading-plan.pace-1-year' },
+      { presetId: 'canonical-180',   i18nKey: 'reading-plan.pace-6-months' },
       { presetId: 'canonical-nt-90', i18nKey: 'reading-plan.pace-90-days-nt' }
     ]
   },
