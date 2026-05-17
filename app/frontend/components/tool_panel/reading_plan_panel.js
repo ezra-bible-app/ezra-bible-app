@@ -49,6 +49,12 @@ class ReadingPlanPanel {
         await this.refresh();
       }
     });
+
+    eventController.subscribe('on-db-refresh', async () => {
+      if (this._initDone) {
+        await this.refresh();
+      }
+    });
   }
 
   getPanel() {
