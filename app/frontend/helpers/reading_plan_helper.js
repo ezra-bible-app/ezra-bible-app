@@ -43,27 +43,88 @@ const BOOK_CHAPTERS = {
  * NT books follow in the order they were written/occurred.
  */
 const CHRONOLOGICAL_ORDER = [
-  // Primeval / Patriarchs
-  'Job', 'Gen', 'Exod', 'Lev', 'Num', 'Deut',
+  // Primeval / Patriarchal
+  'Gen', 'Job',
+
+  // Exodus & Wilderness
+  'Exod', 'Lev', 'Num', 'Deut',
+
   // Conquest & Judges
   'Josh', 'Judg', 'Ruth',
-  // United & Divided Kingdom (Psalms interwoven with David's life)
-  '1Sam', '2Sam', 'Ps', '1Kgs', '2Kgs', '1Chr', '2Chr',
-  // Wisdom literature
+
+  // United Kingdom
+  '1Sam', '2Sam',
+  '1Chr',
+  'Ps',
+  '1Kgs',
   'Prov', 'Eccl', 'Song',
-  // Major Prophets (period of the kings)
-  'Isa', 'Jer', 'Lam', 'Ezek', 'Dan',
-  // Minor Prophets
-  'Hos', 'Joel', 'Amos', 'Obad', 'Jonah', 'Mic', 'Nah', 'Hab', 'Zeph', 'Hag', 'Zech',
-  // Post-exile
-  'Esth', 'Ezra', 'Neh', 'Mal',
-  // Gospels & Acts
-  'Matt', 'Mark', 'Luke', 'John', 'Acts',
-  // Pauline letters
-  'Rom', '1Cor', '2Cor', 'Gal', 'Eph', 'Phil', 'Col',
-  '1Thess', '2Thess', '1Tim', '2Tim', 'Titus', 'Phlm',
-  // General letters
-  'Heb', 'Jas', '1Pet', '2Pet', '1John', '2John', '3John', 'Jude',
+
+  // Divided Kingdom
+  '2Chr',
+  'Joel', // debated
+  'Jonah',
+  'Amos',
+  'Hos',
+  'Isa',
+  'Mic',
+  'Nah',
+  'Zeph',
+  'Hab',
+
+  // Fall of Judah / Exile
+  '2Kgs',
+  'Jer',
+  'Lam',
+  'Obad',
+  'Ezek',
+  'Dan',
+
+  // Return from Exile
+  'Hag',
+  'Zech',
+  'Esth',
+  'Ezra',
+  'Neh',
+  'Mal',
+
+  // Gospels & Early Church
+  'Matt',
+  'Mark',
+  'Luke',
+  'John',
+  'Acts',
+
+  // Early Epistles
+  'Jas',
+  'Gal',
+  '1Thess',
+  '2Thess',
+
+  // Paul’s Major Letters
+  '1Cor',
+  '2Cor',
+  'Rom',
+
+  // Prison Epistles
+  'Col',
+  'Phlm',
+  'Eph',
+  'Phil',
+
+  // Pastoral Epistles
+  'Titus',
+  '1Tim',
+  '2Tim',
+
+  // General Epistles
+  'Heb',
+  '1Pet',
+  '2Pet',
+  'Jude',
+  '1John',
+  '2John',
+  '3John',
+
   // Apocalypse
   'Rev'
 ];
