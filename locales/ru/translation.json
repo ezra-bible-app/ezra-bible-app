@@ -237,7 +237,7 @@
   },
   "custom-repositories": {
     "dialog-title": "Пользовательские репозитории",
-    "description": "Пользовательские репозитории позволяют добавлять дополнительные источники модулей SWORD, которые не включены по умолчанию. Точная настройка пользовательских репозиториев здесь не описана. Дополнительные сведения см. в <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>вики для разработчиков CrossWire</a>.",
+    "description": "Пользовательские репозитории позволяют добавлять дополнительные источники модулей SWORD, которые не включены по умолчанию. Дополнительные сведения о настройке пользовательских репозиториев см. в <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>вики для разработчиков CrossWire</a>.",
     "list-headline": "Список пользовательских репозиториев",
     "add-repository": "Добавить пользовательский репозиторий",
     "no-custom-repos": "Пользовательские репозитории пока не настроены.",
@@ -463,11 +463,11 @@
     "copy-dict-entry-to-clipboard-success": "Статья словаря скопирована в буфер обмена!",
     "morphology": "Морфология",
     "occurrences": "Вхождения",
-    "index-not-available": "Индекс вхождений Strong's для {{translation}} еще не создан.",
+    "index-not-available": "Индекс вхождений Стронга для {{translation}} еще не создан.",
     "generate-index": "Создать индекс",
     "show-occurrence-statistics": "Показать статистику вхождений",
     "show-all-occurrences": "Показать все вхождения",
-    "vines-index-not-available": "Индекс словаря Vine's еще не создан. После его создания здесь будут перечислены соответствующие статьи из Vine's Expository Dictionary.",
+    "vines-index-not-available": "Индекс словаря Вайна еще не создан. После его создания здесь будут перечислены соответствующие статьи из Vine's Expository Dictionary.",
     "vines-not-installed": "Модуль Vine's Expository Dictionary не установлен. Вы можете установить его из репозитория Xiphos через помощник модулей."
   },
   "dictionary-panel": {
