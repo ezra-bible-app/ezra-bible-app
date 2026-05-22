@@ -32,6 +32,7 @@ class DictionaryPanel {
     this._initDone = false;
     this._currentKey = null;
     this._filterTimeout = null;
+    this._loadingIndicatorTimeout = null;
 
     eventController.subscribe('on-dictionary-panel-switched', (isOpen) => {
       if (isOpen && !this._initDone) {
@@ -93,6 +94,24 @@ class DictionaryPanel {
 
   getReferenceBox() {
     return document.getElementById('dictionary-panel-reference-box');
+  }
+
+  showLoadingIndicator() {
+    if (this._loadingIndicatorTimeout != null) { return; }
+    this._loadingIndicatorTimeout = setTimeout(() => {
+      this._loadingIndicatorTimeout = null;
+      const indicator = document.getElementById('dictionary-panel-loading-indicator');
+      if (indicator) { indicator.show(); }
+    }, 50);
+  }
+
+  hideLoadingIndicator() {
+    if (this._loadingIndicatorTimeout != null) {
+      clearTimeout(this._loadingIndicatorTimeout);
+      this._loadingIndicatorTimeout = null;
+    }
+    const indicator = document.getElementById('dictionary-panel-loading-indicator');
+    if (indicator) { indicator.hide(); }
   }
 
   async init() {
@@ -317,7 +336,10 @@ class DictionaryPanel {
 
     let dictHeader = `<div id='dict-entry-header'>${keyValue}</div>`;
     let closeIcon = `<div class='close-icon icon'><i class='fa-solid fa-rectangle-xmark'></i></div><br id='dict-entry-header-separator' />`;
+
+    this.showLoadingIndicator();
     let dictContent = await ipcNsi.getRawModuleEntry(currentDictionary, keyValue, true);
+    this.hideLoadingIndicator();
 
     if (dictContent == null) {
       return;
