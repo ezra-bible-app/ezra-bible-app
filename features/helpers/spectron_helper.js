@@ -51,6 +51,12 @@ function initializeSpectron(additionalArgs = []) {
       EZRA_TESTING: true,
       EZRA_STARTUP_PROFILING: startupProfilingEnabled() ? 'true' : 'false'
     },
+    // Adding arguments specifically passed down to ChromeDriver to prevent headless environments from crashing
+    chromeDriverArgs: [
+      '--no-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu'
+    ],
     startTimeout: 20000,
     chromeDriverLogPath: './chromedriverlog.txt',
     webdriverOptions: ({
@@ -70,7 +76,9 @@ module.exports.initApp = function(additionalArgs = [], force = false) {
 };
 
 module.exports.getApp = () => app;
-module.exports.getWebClient = () => app.client; // https://webdriver.io/docs/api
+
+// Guarding against cases where app or app.client is null so hook files do not throw TypeErrors on failure
+module.exports.getWebClient = () => app ? app.client : null; // https://webdriver.io/docs/api
 
 module.exports.sleep = function(time = 200) {
   return new Promise(resolve => {
