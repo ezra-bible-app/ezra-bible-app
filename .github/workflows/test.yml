@@ -9,14 +9,15 @@ jobs:
         timeout-minutes: 12
         env:
           JOBS: MAX
-          # Forces Spectron's fallback layers to bind directly to a dedicated local port 
-          CHROMEDRIVER_PORT: 9515 
+          # 👇 FIX 1: Forces the old compiler in Node 14 to accept the new node-addon-api C++17 code
+          CXXFLAGS: "-std=c++17" 
 
         steps:
         - uses: actions/checkout@v4
         - uses: actions/setup-node@v4
           with:
-            node-version: '22'
+            # 👇 FIX 2: Revert to Node 14 so Electron 17 / Spectron stop crashing on launch
+            node-version: '14.21.3' 
 
         - name: Install apt dependencies
           run: sudo apt update && sudo apt install -y libcurl4-gnutls-dev xvfb subversion
@@ -29,12 +30,6 @@ jobs:
 
         - name: Install spectron
           run: npm install spectron@19.0.0
-
-        # Ensures the inner chromedriver matching Electron 17/Chrome 98 takes precedence over the host runner
-        - name: Setup Spectron Environment Overrides
-          run: |
-            export CHROMEDRIVER_PATH=$(pwd)/node_modules/spectron/node_modules/electron-chromedriver/bin/chromedriver
-            echo "CHROMEDRIVER_PATH=$CHROMEDRIVER_PATH" >> $GITHUB_ENV
 
         - name: Compile templates
           run: npm run compile-pug 
