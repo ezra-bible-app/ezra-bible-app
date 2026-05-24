@@ -45,7 +45,10 @@ jobs:
           run: npm install spectron@19.0.0
 
         - name: Compile templates
-          run: npm run compile-pug 
+          run: npm run compile-pug
+
+        - name: Update ChromeDriver to match runner Chrome
+          run: npx chromedriver-update
 
         - name: Run startup profiling scenario
           uses: nick-fields/retry@v2
