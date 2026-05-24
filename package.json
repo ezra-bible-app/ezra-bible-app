@@ -140,6 +140,10 @@
     "sqlite3": {
       "node-gyp": "^12.1.0"
     }
+    "spectron": {
+      "electron-chromedriver": "latest",
+      "chromedriver": "latest"
+    }
   },
   "build": {
     "appId": "net.ezrabibleapp.electron",
