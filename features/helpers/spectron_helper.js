@@ -51,17 +51,29 @@ function initializeSpectron(additionalArgs = []) {
       EZRA_TESTING: true,
       EZRA_STARTUP_PROFILING: startupProfilingEnabled() ? 'true' : 'false'
     },
-    // Adding arguments specifically passed down to ChromeDriver to prevent headless environments from crashing
+    // We explicitly instruct ChromeDriver on how to boot Chrome inside Docker/CI
     chromeDriverArgs: [
       '--no-sandbox',
       '--disable-dev-shm-usage',
-      '--disable-gpu'
+      '--disable-gpu',
+      '--remote-debugging-port=9222' // Forces Webdriver to find the active port mapping reliably
     ],
-    startTimeout: 20000,
+    startTimeout: 30000, // Elevated timeout to allow modern Chrome environments to spin up inside CI framebuffers
     chromeDriverLogPath: './chromedriverlog.txt',
-    webdriverOptions: ({
-      deprecationWarnings : false
-    })
+    webdriverOptions: {
+      deprecationWarnings: false,
+      capabilities: {
+        browserName: 'chrome',
+        'goog:chromeOptions': {
+          // Fallback arguments for newer webdriver environments
+          args: [
+            '--no-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu'
+          ]
+        }
+      }
+    }
   });
 }
 
@@ -77,8 +89,10 @@ module.exports.initApp = function(additionalArgs = [], force = false) {
 
 module.exports.getApp = () => app;
 
-// Guarding against cases where app or app.client is null so hook files do not throw TypeErrors on failure
-module.exports.getWebClient = () => app ? app.client : null; // https://webdriver.io/docs/api
+// Guard against a completely failed initialization preventing downstream script hook exceptions
+module.exports.getWebClient = () => {
+  return (app && app.client) ? app.client : { saveScreenshot: () => console.log("Skipping screenshot: web client not active.") };
+};
 
 module.exports.sleep = function(time = 200) {
   return new Promise(resolve => {
