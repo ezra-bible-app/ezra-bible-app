@@ -3,34 +3,21 @@ name: Ezra Bible App test suite
 on: push
 
 jobs:
-    #unit-test:
-    #    name: Run jest tests
-    #    runs-on: ubuntu-24.04
-    #    timeout-minutes: 10
-    #    steps:
-    #    - uses: actions/checkout@v2
-    #    - uses: actions/setup-node@v2
-    #      with:
-    #        node-version: '14'
-    #
-    #    - name: Install package.json dependencies (except node-sword-interface)
-    #      run: npm uninstall node-sword-interface
-    #    
-    #    - name: Run test
-    #      run: npm run test
-
     e2e-test:
         name: Run Cucumber tests
         runs-on: ubuntu-22.04
         timeout-minutes: 12
         env:
           JOBS: MAX
+          # 👇 FIX 1: Forces the old compiler in Node 14 to accept the new node-addon-api C++17 code
+          CXXFLAGS: "-std=c++17" 
 
         steps:
         - uses: actions/checkout@v4
         - uses: actions/setup-node@v4
           with:
-            node-version: '14'
+            # 👇 FIX 2: Revert to Node 14 so Electron 17 / Spectron stop crashing on launch
+            node-version: '14.21.3' 
 
         - name: Install apt dependencies
           run: sudo apt update && sudo apt install -y libcurl4-gnutls-dev xvfb subversion
@@ -40,12 +27,31 @@ jobs:
         
         - name: Install electron v17.1.0 for compatibility with Spectron
           run: npm install electron@17.1.0
-        
+
         - name: Install spectron
           run: npm install spectron@19.0.0
 
         - name: Compile templates
           run: npm run compile-pug 
+
+        - name: Run startup profiling scenario
+          uses: nick-fields/retry@v2
+          with:
+            timeout_minutes: 3
+            max_attempts: 3
+            command: npm run headless-test-startup-profile
+
+        - name: Print startup IPC profile
+          if: always()
+          run: cat /home/runner/.config/ezra-bible-app-test/startup-ipc-profile.txt || echo "Startup profile file not found."
+
+        - name: Archive startup IPC profile
+          uses: actions/upload-artifact@v4.4.0
+          if: always()
+          with:
+            name: startup-ipc-profile.txt
+            path: /home/runner/.config/ezra-bible-app-test/startup-ipc-profile.txt
+            if-no-files-found: warn
 
         - name: Run test
           uses: nick-fields/retry@v2

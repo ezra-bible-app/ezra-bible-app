@@ -100,6 +100,45 @@ class IpcGeneral {
   async dropboxInstallZipModule(filename) {
     return await this._ipcRenderer.call('general_dropboxInstallZipModule', filename);
   }
+
+  async strongsIndexExists(moduleCode) {
+    return await this._ipcRenderer.call('general_strongsIndexExists', moduleCode);
+  }
+
+  async generateStrongsIndex(moduleCode, progressCallback) {
+    return await this._ipcRenderer.callWithProgressCallback('general_generateStrongsIndex',
+                                                            'general_strongsIndexProgress',
+                                                            progressCallback,
+                                                            0,
+                                                            moduleCode);
+  }
+
+  async getStrongsOccurrences(moduleCode, strongsKey) {
+    return await this._ipcRenderer.call('general_getStrongsOccurrences', moduleCode, strongsKey);
+  }
+
+  async deleteStrongsIndex(moduleCode) {
+    return await this._ipcRenderer.call('general_deleteStrongsIndex', moduleCode);
+  }
+
+  async deleteVinesIndex() {
+    return await this._ipcRenderer.call('general_deleteVinesIndex');
+  }
+
+  async vinesIndexExists() {
+    return await this._ipcRenderer.call('general_vinesIndexExists');
+  }
+
+  async buildVinesIndex(progressCallback) {
+    return await this._ipcRenderer.callWithProgressCallback('general_buildVinesIndex',
+                                                            'general_vinesIndexProgress',
+                                                            progressCallback,
+                                                            0);
+  }
+
+  async getVinesKeysForStrongs(strongsKey) {
+    return await this._ipcRenderer.call('general_getVinesKeysForStrongs', strongsKey);
+  }
 }
 
 module.exports = IpcGeneral;

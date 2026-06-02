@@ -51,7 +51,7 @@
     "module-type-commentary_instrumental": "Comentarios bíblicos",
     "module-type-commentary_singular": "Comentario bíblico",
     "header": "Configurar {{module_type, instrumental, title-case}}",
-    "intro-text": "Ezra Bible App instalará <b>{{module_type, accusative}}</b> usando su conexión a Internet. {{module_type, capitalize}} son distribuidas por <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> y serán descargadas desde los repositorios de <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a>.",
+    "intro-text": "Ezra Bible App instalará <b>{{module_type, accusative}}</b> usando su conexión a Internet. {{module_type, capitalize}} son distribuidas por <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> para más explicaciones y serán descargadas desde los repositorios de <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> para más explicaciones.",
     "internet-usage-note": "<b>NOTA IMPORTANTE</b><br/>Si usted se encuentra en un país dónde los cristianos son perseguidos,<br/>debe estar consciente de que su proveedor de Internet sabrá <br/>que<b> usted accede a recursos cristianos.</b>!",
     "add-modules": "Añadir {{module_type, accusative}}",
     "remove-modules": "Quitar {{module_type, accusative}}",
@@ -66,7 +66,8 @@
       "update-now": "Actualizar ahora",
       "updating-repository-data": "Actualizando datos de repositorio! Esto tomará unos segundos...",
       "update-failed": "Actualización fallida",
-      "update-repository-data-failed": "Falló la actualización del repositorio! Usted está conectado?"
+      "update-repository-data-failed": "Falló la actualización del repositorio! Usted está conectado?",
+      "update-repository-data-partially-failed": "Algunos repositorios no pudieron ser actualizados."
     },
     "step-languages": {
       "select-language": "Por favor, seleccione al menos uno de los siguientes idiomas.",
@@ -85,7 +86,7 @@
       "what-is-repository": "Un repositorio es un lugar en internet que contiene un grupo de {{module_type}}.",
       "loading-repositories": "Cargando repositorios ...",
       "repo-recommended": "Este repositorio es un buen lugar para comenzar.",
-      "more-repo-information-needed": "¿Usted necesita más información sobre estos repositorios?<br/>Consulte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (disponible en inglés)."
+      "more-repo-information-needed": "¿Usted necesita más información sobre estos repositorios?<br/>Consulte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> para más explicaciones (disponible en inglés)."
     },
     "step-modules": {
       "select-module": "Por favor seleccione {{module_type}} que desea instalar.",
@@ -173,6 +174,7 @@
     "back": "Atrás",
     "save": "Guardar",
     "cancel": "Cancelar",
+    "retry": "Reintentar",
     "rename": "Renombrar",
     "loading": "Cargando",
     "update": "Actualizar",
@@ -209,6 +211,7 @@
     "configure-translations": "Configurar traducciones",
     "configure-dicts": "Configurar diccionarios",
     "configure-commentaries": "Configurar comentarios",
+    "configure-custom-repositories": "Configurar repositorios personalizados",
     "context": "Contexto",
     "general-options": "Opciones Generales",
     "check-new-releases": "Buscar nuevas versiones",
@@ -230,12 +233,30 @@
     "tabs": "Pestañas",
     "module-not-installed": "El módulo '{{module_name}}' no está instalado."
   },
+  "custom-repositories": {
+    "dialog-title": "Repositorios Personalizados",
+    "description": "Los repositorios personalizados le permiten añadir fuentes adicionales de módulos SWORD que no están incluidas por defecto. La configuración exacta de repositorios personalizados no se explica aquí. Consulte la <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>Wiki de desarrolladores de CrossWire</a> para más explicaciones.",
+    "list-headline": "Lista de repositorios personalizados",
+    "add-repository": "Añadir repositorio personalizado",
+    "no-custom-repos": "Aún no se han configurado repositorios personalizados.",
+    "protocol": "Protocolo",
+    "name": "Nombre",
+    "host": "Servidor",
+    "path": "Ruta del directorio",
+    "add": "Añadir repositorio",
+    "remove": "Eliminar",
+    "error-duplicate-name": "Ya existe un repositorio con este nombre.",
+    "error-duplicate-url-path": "Ya existe un repositorio con esta combinación de URL/ruta.",
+    "error-invalid-config": "No se pudo conectar al repositorio. Por favor, verifique su configuración.",
+    "error-empty-fields": "Por favor, complete todos los campos requeridos (Nombre, Servidor, Ruta).",
+    "adding-repository": "Añadiendo repositorio..."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Confirme preferencias sobre la privacidad de datos",
     "data-privacy-options": "Preferencias de privacidad",
     "please-confirm-options": "Por favor confirme las preferencias siguientes sobre la privacidad de sus datos. Estas preferencias requieren acceso a Internet. Además podrá cambiar sus preferencias después en el menú Opciones.",
-    "check-new-releases-hint": "Ezra Bible App puede revisar en busca de actualizaciones al iniciar. Esto requiere una corta interacción con <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, donde las nuevas versiones son publicadas.",
-    "send-crash-reports-hint-part1": "Ezra Bible App puede enviar reportes automáticamente a la plataforma <a class='external' href='https://sentry.io'>Sentry.io</a> cuando un error es detectado.",
+    "check-new-releases-hint": "Ezra Bible App puede revisar en busca de actualizaciones al iniciar. Esto requiere una corta interacción con <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> para más explicaciones, donde las nuevas versiones son publicadas.",
+    "send-crash-reports-hint-part1": "Ezra Bible App puede enviar reportes automáticamente a la plataforma <a class='external' href='https://sentry.io'>Sentry.io</a> para más explicaciones cuando un error es detectado.",
     "send-crash-reports-hint-part2": "Esto le permite al equipo de desarrollo estar al tanto de los errores más rápidamente y por tanto a mejorar Ezra Bible App.",
     "send-crash-reports-hint-part3": "Nótese que el reporte solo contiene información técnica y no consumirá mucho ancho de banda."
   },
@@ -430,13 +451,20 @@
     "help-instruction-part3": "Una vez seleccionado el versículo usted puede mover su cursor sobre palabras o frases para ver entradas en el diccionario aquí.",
     "help-instruction-part3-cordova": "Toque y mantenga pulsado sobre palabras o frases hasta que vea las entradas del diccionario aquí.",
     "help-instruction-part4-desktop": "Mantenga presionada la tecla Shift para permitir ejecutar la función sobre los versículos en que se posicione el cursor.",
-    "find-all-occurrences": "Encontrar todas las coincidencias",
     "open-in-blueletter": "Abrir en Blue Letter Bible",
     "related-strongs": "Números Strongs relacionados",
     "copy-to-clipboard": "Copiar estudio de la palabra al portapapeles",
     "copy-to-clipboard-success": "Estudio de la palabra copiado al portapapeles!",
     "copy-dict-entry-to-clipboard": "Copiar entrada del diccionario al portapapeles",
-    "copy-dict-entry-to-clipboard-success": "Entrada del diccionario copiada al portapapeles!"
+    "copy-dict-entry-to-clipboard-success": "Entrada del diccionario copiada al portapapeles!",
+    "morphology": "Morfología",
+    "occurrences": "Apariciones",
+    "index-not-available": "El índice de apariciones de Strong para {{translation}} aún no ha sido generado.",
+    "generate-index": "Generar índice",
+    "show-occurrence-statistics": "Mostrar estadísticas de apariciones",
+    "show-all-occurrences": "Mostrar todas las apariciones",
+    "vines-index-not-available": "El índice del diccionario Vine aún no ha sido generado. Una vez generado, las entradas coincidentes del Diccionario Expositivo de Vine se enumerarán aquí.",
+    "vines-not-installed": "El módulo del Diccionario Expositivo de Vine no está instalado. Puede instalarlo desde el repositorio Xiphos a través del asistente de módulos."
   },
   "dictionary-panel": {
     "default-header": "<b>Diccionario</b>",
@@ -466,9 +494,8 @@
     "select-which-commentaries-to-display": "Seleccione los comentarios a mostrar en el panel de comentarios:",
     "copy-commentary-to-clipboard": "Copiar comentario al portapapeles",
     "copy-commentary-to-clipboard-success": "Comentario copiado al portapapeles!",
-    "help-instruction": "Para mostrar el contenido del comentario, seleccione un verso.<br><br> Esta área mostrará entonces una lista con todos los comentarios disponibles para el versículo seleccionado.",
+    "help-instruction": "Para mostrar el contenido del comentario y las notas al pie, seleccione un versículo.<br><br> Esta área enumerará automáticamente el versículo seleccionado de todos los comentarios disponibles. Además, las notas al pie del versículo seleccionado se enumerarán debajo del contenido del comentario.",
     "help-instruction-no-commentaries": "No hay  comentarios instalados, aún. Necesita instalar al menos un comentario para usar esta funcionalidad.",
-    "help-instruction-no-kjv": "La versión KJV de la Biblia no ha sido instalada, aún. La biblia KJV es necesaria para mostrar correctamente los comentarios en inglés. Usted puede solucionar esto así:<ul><li> Instalando la biblia KJV desde el repositorio CrossWire</li><li>Instalando un comentario (la Biblia KJV será automáticamente instalada en este caso)</li></ul>",
     "no-commentaries-available-for-this-verse": "No hay comentarios disponibles para el versículo seleccionado.",
     "copy-button": "Copiar Comentario",
     "footnotes": "Notas al pie de página"
@@ -499,9 +526,7 @@
     "init-i18n": "Iniciando i18n",
     "init-sword": "Iniciando SWORD",
     "init-database": "Iniciando base de datos",
-    "init-user-interface": "Iniciando interfaz de usuario",
-    "loading-settings": "Cargando ajustes",
-    "waiting-app-ready": "Espere a que la aplicación esté lista"
+    "init-user-interface": "Iniciando interfaz de usuario"
   },
   "dropbox": {
     "setup-dropbox": "Configurar Dropbox",
@@ -567,6 +592,13 @@
     "modules-skipped": "{{count}} módulo(s) saltados (previamente instalados)",
     "modules-failed": "{{count}} módulo(s) no instalado por fallos",
     "install-summary": "Resumen de instalación",
-    "dropbox-not-linked": "La cuenta de Dropbox no está vinculada. Por favor, configure Dropbox primero."
+    "dropbox-not-linked": "La cuenta de Dropbox no está vinculada. Por favor, configure Dropbox primero.",
+    "module-header": "Módulo",
+    "status-header": "Estado",
+    "processing": "Procesando...",
+    "row-installed": "✓ Instalado",
+    "row-failed": "✗ Falló: {{error}}",
+    "unknown-error": "Error desconocido",
+    "installation-failed": "La instalación falló"
   }
 }

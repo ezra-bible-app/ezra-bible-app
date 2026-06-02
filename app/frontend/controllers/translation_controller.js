@@ -121,7 +121,7 @@ class TranslationController {
       $('.module-search-button').addClass('ui-state-disabled');
 
       let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
-      // FIXME: This needs to be adjusted based on the new menu
+
       currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
     } else {
       if (platformHelper.isMobile()) {
@@ -159,9 +159,9 @@ class TranslationController {
 
     if (currentTab != null) {
       if (isSecondBible) {
-        currentModuleId = app_controller.tab_controller.defaultSecondBibleTranslationId
+        currentModuleId = currentTab.getSecondBibleTranslationId() || app_controller.tab_controller.defaultSecondBibleTranslationId;
       } else {
-        currentModuleId = app_controller.tab_controller.defaultBibleTranslationId;
+        currentModuleId = currentTab.getBibleTranslationId() || app_controller.tab_controller.defaultBibleTranslationId;
       }
     }
 

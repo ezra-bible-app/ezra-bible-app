@@ -53,7 +53,7 @@
     "module-type-commentary_instrumental": "bijbelcommentaren",
     "module-type-commentary_singular": "bijbelcommentaar",
     "header": "Configureer {{module_type, instrumental, title-case}}",
-    "intro-text": "Ezra Bible App installeert <b>{{module_type, accusative}}</b> via uw internetverbinding. {{module_type, capitalize}} worden verdeeld door de <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> en zullen gedownload worden van de depots van <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a>.",
+    "intro-text": "Ezra Bible App installeert <b>{{module_type, accusative}}</b> via uw internetverbinding. {{module_type, capitalize}} worden verdeeld door de <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. en zullen gedownload worden van de depots van <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a> for further explanations..",
     "internet-usage-note": "<b>BELANGRIJKE OPMERKING</b><br/>Als u zich in een land bevindt waar Christenen vervolgd worden,<br/> wees u er van bewust dat uw internetprovider zal kunnen detecteren<br/>dat <b>u toegang hebt tot Christelijke bronnen</b>!",
     "add-modules": "Voeg {{module_type, accusative}} toe",
     "remove-modules": "Verwijder {{module_type, accusative}}",
@@ -68,7 +68,8 @@
       "update-now": "Nu bijwerken",
       "updating-repository-data": "Bezig met het bijwerken van depotgegevens! Dit zal enkele seconden duren ...",
       "update-failed": "Bijwerken mislukt",
-      "update-repository-data-failed": "Het bijwerken van depotgegevens is mislukt! Bent u offline?"
+      "update-repository-data-failed": "Het bijwerken van depotgegevens is mislukt! Bent u offline?",
+      "update-repository-data-partially-failed": "Some repositories could not be updated."
     },
     "step-languages": {
       "select-language": "Gelieve op z'n minst één van de volgende talen te kiezen.",
@@ -87,7 +88,7 @@
       "what-is-repository": "Een depot is een internetopslagplaats die een set van {{module_type}} bevat.",
       "loading-repositories": "Depots laden ...",
       "repo-recommended": "Dit depot is een goede plek om te beginnen",
-      "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations.."
     },
     "step-modules": {
       "select-module": "Gelieve {{module_type}} kiezen om te installeren.",
@@ -96,7 +97,7 @@
       "regular-dicts": "Regelmatige woordenboeken",
       "module-with": "{{module_type, capitalize}} met {{feature_type, instrumental}}",
       "module-already-installed": "{{module_type, singular-demonstrative-pronoun}} is reeds geinstalleerd",
-      "show-module-info":"Toon info",
+      "show-module-info": "Toon info",
       "show-detailed-module-info": "Klik op het informatie-icoontje om meer details te bekijken over {{module_type, singular}}.",
       "duplicate-module-title": "Module reeds geselecteerd",
       "duplicate-module-message": "De module {{moduleId}} is al geselecteerd in depot {{repository}}. Deselecteer deze eerst als u vanuit een ander depot wilt installeren.",
@@ -175,6 +176,7 @@
     "back": "Terug",
     "save": "Opslaan",
     "cancel": "Annuleren",
+    "retry": "Opnieuw proberen",
     "rename": "Hernoemen",
     "loading": "Laden",
     "update": "Bijwerken",
@@ -211,6 +213,7 @@
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
     "configure-commentaries": "Commentaren configureren",
+    "configure-custom-repositories": "Aangepaste depots configureren",
     "context": "Context",
     "general-options": "Algemene opties",
     "check-new-releases": "Kijk of er nieuwe uitgaven zijn",
@@ -232,11 +235,29 @@
     "tabs": "Tabbladen",
     "module-not-installed": "De module '{{module_name}}' is niet geïnstalleerd."
   },
+  "custom-repositories": {
+    "dialog-title": "Aangepaste depots",
+    "description": "Met aangepaste repositories kunt u extra SWORD-modulebronnen toevoegen die niet standaard zijn opgenomen. De exacte configuratie van aangepaste repositories wordt hier niet uitgelegd. Zie de <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire-ontwikkelaarswiki</a> voor meer informatie.",
+    "list-headline": "Lijst met aangepaste depots",
+    "add-repository": "Voeg een aangepast depot toe",
+    "no-custom-repos": "Er zijn nog geen aangepaste depots geconfigureerd.",
+    "protocol": "Protocol",
+    "name": "Naam",
+    "host": "Host",
+    "path": "Mappad",
+    "add": "Depot toevoegen",
+    "remove": "Verwijderen",
+    "error-duplicate-name": "Er bestaat al een depot met deze naam.",
+    "error-duplicate-url-path": "Er bestaat al een depot met deze URL/padcombinatie.",
+    "error-invalid-config": "Er kon geen verbinding met het depot worden gemaakt. Controleer uw instellingen.",
+    "error-empty-fields": "Vul alle verplichte velden in (Naam, host, pad).",
+    "adding-repository": "Toevoeging van depot ..."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Bevestig gegevensprivacy-opties",
     "data-privacy-options": "Gegevensprivacy-opties",
     "please-confirm-options": "Bevestig de volgende opties voor gegevensprivacy. Voor deze opties is internettoegang vereist. U kunt later ook wijzigingen aanbrengen in het menu Opties.",
-    "check-new-releases-hint": "Ezra Bible App kan bij elke start controleren op nieuwe uitgaven. Dit vereist een korte interactie met <a class='external' href='https://github.com/ezra-bible -app/ezra-bible-app'>GitHub</a>, waar nieuwe uitgaven gepubliceerd worden.",
+    "check-new-releases-hint": "Ezra Bible App kan bij elke start controleren op nieuwe uitgaven. Dit vereist een korte interactie met <a class='external' href='https://github.com/ezra-bible -app/ezra-bible-app'>GitHub</a> for further explanations., waar nieuwe uitgaven gepubliceerd worden.",
     "send-crash-reports-hint-part1": "Ezra Bible App kan automatisch foutrapporten verzenden naar het foutopsporingsplatform <a class='external' href='https://sentry.io'>Sentry.io</ a> wanneer er een fout wordt gedetecteerd.",
     "send-crash-reports-hint-part2": "Dit helpt het ontwikkelingsteam om zich veel sneller bewust te worden van problemen en draagt daarom bij aan de verbetering van Ezra Bible App.",
     "send-crash-reports-hint-part3": "Houd er rekening mee dat de foutrapporten enkel technische informatie bevatten en niet veel databandbreedte vereisen."
@@ -250,8 +271,7 @@
   "shortcuts": {
     "tab-title": "Sneltoetsen",
     "description": "U kunt de volgende sneltoetsen gebruiken:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Lettertype",
       "current-tab-search-section-title": "Zoeken in huidig tabblad",
       "miscellaneous-section-title": "Diversen",
@@ -270,9 +290,8 @@
       "decrease-current-font-size": "Huidige lettergrootte verkleinen",
       "reset-font-size-to-default": "Zet lettergrootte opnieuw naar standaard"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -413,13 +432,13 @@
     "copy-selected-text-to-clipboard-success": "Geselecteerde tekst gekopieerd naar klembord!",
     "edit-note": "Notitie aanpassen",
     "delete-note": "Notitie verwijderen",
-    "transchange" : {
-      "added" : "Deze woorden zijn toegevoegd in de vertaling",
-      "amplified" : "Deze woorden zijn versterkingen van informatie in de brontekst",
-      "changed" : "Deze woorden zijn gewijzigd in de vertaling",
-      "deleted" : "Sommige woorden in de brontekst zijn niet aanwezig in de vertaling",
-      "implied" : "Deze woorden zijn toegevoegd of gewijzigd om informatie te vertalen die door de brontekst wordt geïmpliceerd",
-      "moved" : "Deze woorden stonden op een andere locatie in de brontekst",
+    "transchange": {
+      "added": "Deze woorden zijn toegevoegd in de vertaling",
+      "amplified": "Deze woorden zijn versterkingen van informatie in de brontekst",
+      "changed": "Deze woorden zijn gewijzigd in de vertaling",
+      "deleted": "Sommige woorden in de brontekst zijn niet aanwezig in de vertaling",
+      "implied": "Deze woorden zijn toegevoegd of gewijzigd om informatie te vertalen die door de brontekst wordt geïmpliceerd",
+      "moved": "Deze woorden stonden op een andere locatie in de brontekst",
       "tense-change": "De grammaticale tijd van deze woorden is veranderd om de vertaling te vergemakkelijken"
     },
     "empty-tab-title": "Leeg tabblad"
@@ -434,14 +453,20 @@
     "help-instruction-part3": "Zodra u een vers heeft geselecteerd, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om hier de woordenboekvermeldingen te zien.",
     "help-instruction-part3-cordova": "Houd afzonderlijke woorden of zinnen ingedrukt totdat u hier woordenboeklemma's ziet.",
     "help-instruction-part4-desktop": "Houd de SHIFT-toets ingedrukt om de muis-over-functie voor alle verzen in te schakelen.",
-    "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs",
     "copy-to-clipboard": "Kopieer woordstudie naar klembord",
     "copy-to-clipboard-success": "Woordstudie gekopieerd naar klembord!",
     "copy-dict-entry-to-clipboard": "Kopieer lemma naar het klembord",
-    "copy-dict-entry-to-clipboard-success": "Lemma gekopieerd naar het klembord!"
-  },
+    "copy-dict-entry-to-clipboard-success": "Lemma gekopieerd naar het klembord!",
+    "morphology": "Morphology",
+    "occurrences": "Voorkomens",
+    "index-not-available": "De Strong's-voorkomensindex voor {{translation}} is nog niet gegenereerd.",
+    "generate-index": "Index genereren",
+    "show-occurrence-statistics": "Voorkomensstatistieken weergeven",
+    "show-all-occurrences": "Alle voorkomens weergeven",
+    "vines-index-not-available": "De Vine's-woordenboekindex is nog niet gegenereerd. Zodra deze is gegenereerd, worden overeenkomende vermeldingen uit de Vine's Expository Dictionary hier weergegeven.",
+    "vines-not-installed": "De Vine's Expository Dictionary-module is niet geïnstalleerd. U kunt deze installeren vanuit de Xiphos-repository via de module-assistent."  },
   "dictionary-panel": {
     "default-header": "<b>Woordenboek</b>",
     "help-no-dicts": "Er zijn geen woordenboeken beschikbaar.",
@@ -470,9 +495,8 @@
     "select-which-commentaries-to-display": "Selecteer welke commentaren in het commentaarvenster moeten worden weergegeven:",
     "copy-commentary-to-clipboard": "Kopieer commentaar naar het klembord",
     "copy-commentary-to-clipboard-success": "Commentaar naar klembord gekopieerd!",
-    "help-instruction": "Selecteer een vers om de commentaarinhoud weer te geven.<br><br> Dit gebied zal dan automatisch het geselecteerde vers uit alle beschikbare commentaren weergeven.",
+    "help-instruction": "Om de commentaarinhoud en voetnoten weer te geven, selecteer een vers.<br><br> In dit gedeelte wordt vervolgens automatisch het geselecteerde vers weergegeven uit alle beschikbare commentaren. Ook worden de voetnoten van het geselecteerde vers onder de commentaarinhoud weergegeven.",
     "help-instruction-no-commentaries": "Er zijn nog geen commentaren geïnstalleerd. U moet ten minste één commentaar installeren om deze functionaliteit te laten werken.",
-    "help-instruction-no-kjv": "De KJV-vertaling is nog niet geïnstalleerd. De KJV is nodig om bijbelcommentaren correct weer te geven op basis van de Engelse versificatie. U kunt dit oplossen door:<ul><li>de KJV te installeren vanuit het CrossWire-depot</li><li>een commentaar te installeren (de KJV wordt in dit geval automatisch geïnstalleerd)</li></ul>",
     "no-commentaries-available-for-this-verse": "Er zijn geen commentaren beschikbaar voor dit vers.",
     "copy-button": "Kopieer commentaar",
     "footnotes": "Voetnoten"
@@ -493,7 +517,7 @@
       "flags": "Vlaggen"
     }
   },
-  "cordova" : {
+  "cordova": {
     "storage-justification": "Ezra Bible App heeft toegang nodig tot de apparaatopslag om SWORD-modules te bewaren en de databank op te slaan. <br> <br> Nadat u op de onderstaande knop heeft gedrukt, wordt u gevraagd om Ezra Bible App toegang te geven tot bestanden op uw apparaat.",
     "enable-storage-access": "Schakel toegang tot apparaatopslag in",
     "storage-permission-denied": "U heeft besloten de opslagtoegang te weigeren. <br> U kunt dit wijzigen door op de onderstaande knop te drukken!",
@@ -503,9 +527,7 @@
     "init-i18n": "I18n initialiseren",
     "init-sword": "SWORD initialiseren",
     "init-database": "Databank initialiseren",
-    "init-user-interface": "Gebruikersinterface initialiseren",
-    "loading-settings": "Instellingen laden",
-    "waiting-app-ready": "Wachten tot applicatie klaar is"
+    "init-user-interface": "Gebruikersinterface initialiseren"
   },
   "dropbox": {
     "setup-dropbox": "Dropbox instellen",
@@ -571,6 +593,13 @@
     "modules-skipped": "{{count}} module(s) overgeslagen (reeds geïnstalleerd)",
     "modules-failed": "{{count}} module(s) konden niet worden geïnstalleerd",
     "install-summary": "Installatieoverzicht",
-    "dropbox-not-linked": "Dropbox-account niet gekoppeld. Gelieve eerst Dropbox in te stellen."
+    "dropbox-not-linked": "Dropbox-account niet gekoppeld. Gelieve eerst Dropbox in te stellen.",
+    "module-header": "Module",
+    "status-header": "Status",
+    "processing": "Verwerken...",
+    "row-installed": "✓ Geïnstalleerd",
+    "row-failed": "✗ Mislukt: {{error}}",
+    "unknown-error": "Onbekende fout",
+    "installation-failed": "Installatie mislukt"
   }
 }

@@ -18,6 +18,8 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
+const StrongsIndexHelper = require('./strongs_index_helper.js');
+const VinesIndexHelper = require('./vines_index_helper.js');
 
 global.connectionType = undefined;
 
@@ -25,7 +27,13 @@ class IpcGeneralHandler {
   constructor() {
     this._ipcMain = new IpcMain();
     this._platformHelper = new PlatformHelper();
+    this._strongsIndexHelper = new StrongsIndexHelper();
+    this._vinesHelper = new VinesIndexHelper();
     this.initIpcInterface();
+  }
+
+  setMainWindow(mainWindow) {
+    this._ipcMain.setMainWindow(mainWindow);
   }
 
   initIpcInterface() {
@@ -168,7 +176,8 @@ class IpcGeneralHandler {
       if (!dropboxToken) {
         return {
           success: false,
-          error: 'Dropbox not linked'
+          error: 'Dropbox not linked',
+          errorCode: 'not-linked'
         };
       }
       
@@ -202,6 +211,7 @@ class IpcGeneralHandler {
         return {
           success: false,
           error: 'Dropbox not linked',
+          errorCode: 'not-linked',
           errorDetails: 'No Dropbox token found in configuration'
         };
       }
@@ -221,6 +231,44 @@ class IpcGeneralHandler {
           errorDetails: error.stack || 'No stack trace available'
         };
       }
+    });
+
+    this._ipcMain.add('general_strongsIndexExists', (moduleCode) => {
+      return this._strongsIndexHelper.indexExists(moduleCode);
+    });
+
+    this._ipcMain.addWithProgressCallback('general_generateStrongsIndex', async (progressCB, moduleCode) => {
+      var nsi = global.ipcNsiHandler.getNSI();
+      await this._strongsIndexHelper.generateIndex(moduleCode, nsi, progressCB);
+      return 0;
+    }, 'general_strongsIndexProgress');
+
+    this._ipcMain.add('general_getStrongsOccurrences', (moduleCode, strongsKey) => {
+      return this._strongsIndexHelper.getOccurrences(moduleCode, strongsKey);
+    });
+
+    this._ipcMain.add('general_deleteStrongsIndex', (moduleCode) => {
+      this._strongsIndexHelper.deleteIndex(moduleCode);
+      return 0;
+    });
+
+    this._ipcMain.add('general_deleteVinesIndex', () => {
+      this._vinesHelper.deleteIndex();
+      return 0;
+    });
+
+    this._ipcMain.add('general_vinesIndexExists', () => {
+      return this._vinesHelper.indexExists();
+    });
+
+    this._ipcMain.addWithProgressCallback('general_buildVinesIndex', async (progressCB) => {
+      var nsi = global.ipcNsiHandler.getNSI();
+      await this._vinesHelper.buildIndex(nsi, progressCB);
+      return 0;
+    }, 'general_vinesIndexProgress');
+
+    this._ipcMain.add('general_getVinesKeysForStrongs', (strongsKey) => {
+      return this._vinesHelper.getVinesKeysForStrongs(strongsKey);
     });
   }
 }

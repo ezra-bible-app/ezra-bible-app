@@ -27,6 +27,12 @@
 const i18nController = require('../controllers/i18n_controller.js');
 const languageMapper = require('../../lib/language_mapper.js');
 
+// Per-locale in-memory cache for SWORD string translations.
+// Keyed by locale code; each entry maps originalString -> translatedString.
+// The cache is naturally bounded: there are only a small number of supported
+// locales and a fixed set of SWORD strings (roughly the ~82 Bible book names).
+const _swordTranslationCache = {};
+
 module.exports.getReferenceSeparator = async function(moduleCode=undefined) {
   if (moduleCode == undefined) {
     
@@ -46,7 +52,19 @@ module.exports.getReferenceSeparator = async function(moduleCode=undefined) {
 };
 
 module.exports.getSwordTranslation = async function(originalString) {
-  return await ipcNsi.getSwordTranslation(originalString, i18nController.getLocale());
+  const locale = i18nController.getLocale();
+
+  if (_swordTranslationCache[locale] === undefined) {
+    _swordTranslationCache[locale] = {};
+  }
+
+  if (_swordTranslationCache[locale][originalString] !== undefined) {
+    return _swordTranslationCache[locale][originalString];
+  }
+
+  const translation = await ipcNsi.getSwordTranslation(originalString, locale);
+  _swordTranslationCache[locale][originalString] = translation;
+  return translation;
 };
 
 module.exports.getBookAbbreviation = async function(bookCode) {

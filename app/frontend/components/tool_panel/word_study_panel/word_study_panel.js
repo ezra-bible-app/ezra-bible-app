@@ -16,9 +16,13 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const eventController = require('../../controllers/event_controller.js');
-const swordModuleHelper = require('../../helpers/sword_module_helper.js');
-const { html, getPlatform } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../../controllers/event_controller.js');
+const { html, getPlatform } = require('../../../helpers/ezra_helper.js');
+const RobinsonGreekMorphologyParser = require('./robinson_greek_morphology_parser.js');
+const PackardGreekMorphologyParser = require('./packard_greek_morphology_parser.js');
+const OpenScripturesHebrewMorphologyParser = require('./oshm_morphology_parser.js');
+const StrongsOccurrencesHelper = require('./strongs_occurrences_helper.js');
+const VinesHelper = require('./vines_helper.js');
 
 let jsStrongs = null;
 
@@ -43,6 +47,12 @@ class WordStudyPanel {
     this.currentFirstStrongsEntry = null;
     this.currentAdditionalStrongsEntries = [];
     this.currentLemma = null;
+    this.currentMorphMap = {};
+    this._robinsonMorphologyParser = new RobinsonGreekMorphologyParser();
+    this._packardMorphologyParser = new PackardGreekMorphologyParser();
+    this._oshmMorphologyParser = new OpenScripturesHebrewMorphologyParser();
+    this._occurrencesHelper = new StrongsOccurrencesHelper(this);
+    this._vinesHelper = new VinesHelper(this);
 
     this.wordStudyPanelCopyButton.on('click', (event) => {
       event.preventDefault();
@@ -115,7 +125,7 @@ class WordStudyPanel {
     this.wordStudyPanelHelp[0].style.display = 'block';
   }
 
-  async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
+  async update(strongsEntry, additionalStrongsEntries=[], firstUpdate=false, morphMap={}) {
     if (strongsEntry == null) {
       return;
     }
@@ -127,6 +137,7 @@ class WordStudyPanel {
 
     if (firstUpdate) {
       this.wordStudyPanelStack = [ strongsEntry.rawKey ];
+      this.currentMorphMap = morphMap;
     }
 
     this.currentStrongsEntry = strongsEntry;
@@ -138,12 +149,14 @@ class WordStudyPanel {
     this.wordStudyPanelHelp.hide();
     this.wordStudyPanelBreadcrumbs.html(this.getBreadcrumbs(additionalStrongsEntries));
 
-    let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
+    var morphCode = this.currentMorphMap[strongsEntry.rawKey] || null;
+    let extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma, morphCode);
 
     this.wordStudyPanelContent.html(extendedStrongsInfo);
+    document.getElementById('word-study-panel-wrapper').scrollTop = 0;
 
     // Handle sword:// links by attaching click handlers that navigate to the referenced module
-    const swordUrlHelper = require('../../helpers/sword_url_helper.js');
+    const swordUrlHelper = require('../../../helpers/sword_url_helper.js');
     swordUrlHelper.initSwordUrlLinks(this.wordStudyPanelContent[0], null);
 
     uiHelper.configureButtonStyles(this.wordStudyPanelContent[0]);
@@ -163,6 +176,9 @@ class WordStudyPanel {
     });
 
     this.wordStudyPanelCopyButton.show();
+
+    this._occurrencesHelper.attachOccurrencesEventHandlers();
+    this._vinesHelper.attachVinesEventHandlers();
   }
 
   handleCopyButtonClick() {
@@ -352,27 +368,6 @@ class WordStudyPanel {
     return `${strongsEntry.transcription} &mdash; ${strongsEntry.phoneticTranscription} &mdash; ${lemma}`;
   }
 
-  async getFindAllLink(strongsEntry) {
-    const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    const secondBibleTranslationId = app_controller.tab_controller.getTab().getSecondBibleTranslationId();
-
-    const firstTranslationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
-    const secondTranslationHasStrongs = await swordModuleHelper.moduleHasStrongs(secondBibleTranslationId);
-
-    let searchTranslation = currentBibleTranslationId;
-
-    if (!firstTranslationHasStrongs && secondTranslationHasStrongs) {
-        searchTranslation = secondBibleTranslationId;
-    }
-
-    const functionCall = "javascript:app_controller.word_study_controller._wordStudyPanel.findAllOccurrences('" +
-      strongsEntry.rawKey + "','" + searchTranslation + "')";
-
-    const link = "<a href=\"" + functionCall + "\">" + i18n.t("word-study-panel.find-all-occurrences") + "</a>";
-
-    return link;
-  }
-
   getBlueletterLink(strongsEntry) {
     var bible = app_controller.tab_controller.getTab().getBibleTranslationId();
 
@@ -424,7 +419,7 @@ class WordStudyPanel {
     return referenceTableRow;
   }
 
-  async getExtendedStrongsInfo(strongsEntry, lemma) {
+  async getExtendedStrongsInfo(strongsEntry, lemma, morphCode=null) {
 
     let lang = "";
     let moduleCode = "";
@@ -438,19 +433,24 @@ class WordStudyPanel {
     }
 
     let extraDictContent = await this.getExtraDictionaryContent(lang, strongsEntry);
+    let vinesContent = await this._vinesHelper.getVinesContent(strongsEntry);
     let relatedStrongsContent = await this.getRelatedStrongsContent(strongsEntry.references);
     
     const moduleInfoButtonTitle = i18n.t('menu.show-module-info');
     let moduleInfoButton = this.getModuleInfoButton(moduleInfoButtonTitle, moduleCode);
 
-    const findAllLink = await this.getFindAllLink(strongsEntry);
-
     let copyDictButton = this.getCopyDictButton();
+
+    let morphologyHtml = this.getMorphologyHtml(morphCode);
+
+    let occurrencesHtml = await this._occurrencesHelper.getOccurrencesHtml(strongsEntry);
 
     let extendedStrongsInfo = `
       <div class='bold word-study-title'>${this.getShortInfo(strongsEntry, lemma)}</div>
-      <p class='dictionary-content word-study-links'>${findAllLink} | ${this.getBlueletterLink(strongsEntry)}</p>
+      <p class='dictionary-content word-study-links'>${this.getBlueletterLink(strongsEntry)}</p>
+      ${morphologyHtml}
       ${extraDictContent}
+      ${vinesContent}
       <div class='dictionary-section'>
         <div class='bold word-study-title' style='margin-bottom: 1em'>Strong's
         ${moduleInfoButton}
@@ -458,9 +458,36 @@ class WordStudyPanel {
         </div>
         <div class='strongs-definition dictionary-content'>${strongsEntry.definition}</div>
       </div>
+      ${occurrencesHtml}
       ${relatedStrongsContent}`;
 
     return extendedStrongsInfo;
+  }
+
+  getMorphologyHtml(morphCode) {
+    if (!morphCode) {
+      return '';
+    }
+
+    var code, parsed;
+
+    if (morphCode.startsWith('robinson:')) {
+      code = morphCode.slice('robinson:'.length);
+      parsed = this._robinsonMorphologyParser.parse(code);
+    } else if (morphCode.startsWith('packard:')) {
+      code = morphCode.slice('packard:'.length);
+      parsed = this._packardMorphologyParser.parse(code);
+    } else if (morphCode.startsWith('oshm:')) {
+      code = morphCode.slice('oshm:'.length);
+      parsed = this._oshmMorphologyParser.parse(code);
+    } else {
+      return '';
+    }
+
+    return `
+      <hr/>
+      <div class='bold word-study-title' style='margin-bottom: 0.5em'>${i18n.t('word-study-panel.morphology')} (${code})</div>
+      <div class='dictionary-content'>${parsed.readable}</div>`;
   }
 
   async getRelatedStrongsContent(strongsReferences) {
@@ -530,47 +557,10 @@ class WordStudyPanel {
     }
   }
 
-  async findAllOccurrences(strongsKey, bibleTranslationId) {
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
-
-    if (!showSearchResultsInPopup) {
-      app_controller.tab_controller.saveTabScrollPosition();
-
-      // Add a new tab. Set the default bible translation to the given one to ensure that the translation in the
-      // newly opened tab matches the one in the current tab
-      app_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
-    }
-
-    // Set search options
-    var currentTab = app_controller.tab_controller.getTab();
-    currentTab.setSearchOptions('strongsNumber', false);
-
-    // Set the search key and populate the search menu
-    app_controller.tab_controller.setTabSearch(strongsKey);
-    app_controller.module_search_controller.populateSearchMenu();
-
-    if (!showSearchResultsInPopup) {
-      // Prepare for the next text to be loaded
-      await app_controller.text_controller.prepareForNewText(true, true);
-    }
-
-    // Prevent the on-tab-selected event from canceling our search
-    app_controller.module_search_controller.skipNextSearchCancellation = true;
-
-    // Perform the Strong's search
-    await app_controller.module_search_controller.startSearch(/* event */      null,
-                                                             /* tabIndex */   undefined,
-                                                             /* searchTerm */ strongsKey);
-
-    // Run the on-tab-selected actions at the end, because we added a tab
-    const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
-    await eventController.publishAsync('on-tab-selected', tabIndex);
-  }
-
   async getAllExtraDictModules(lang='GREEK') {
     var dictModules = await ipcNsi.getAllLocalModules('DICT');
     var filteredDictModules = [];
-    var excludeList = [ 'StrongsGreek', 'StrongsHebrew' ];
+    var excludeList = [ 'StrongsGreek', 'StrongsHebrew', 'Vines' ];
 
     dictModules.forEach((module) => {
       var hasStrongsKeys = false;

@@ -108,6 +108,31 @@ module.exports.init = function() {
 
     }, CONNECTION_MONITORING_CYCLE_MS);
   }
+
+  eventController.subscribe('on-locale-changed', () => {
+    if (!dbSyncInitDone) {
+      return;
+    }
+
+    var newButtons = {};
+    newButtons[i18n.t("general.save")] = {
+      id: 'save-db-sync-config-button',
+      text: i18n.t("general.save"),
+      click: async () => {
+        handleDropboxConfigurationSave();
+      }
+    };
+    newButtons[i18n.t("general.cancel")] = {
+      id: 'cancel-db-sync-config-button',
+      text: i18n.t("general.cancel"),
+      click: () => {
+        $('#db-sync-box').dialog("close");
+      }
+    };
+
+    $('#db-sync-box').dialog('option', 'title', i18n.t("dropbox.setup-dropbox"));
+    $('#db-sync-box').dialog('option', 'buttons', newButtons);
+  });
 };
 
 module.exports.showDbSyncConfigDialog = async function() {
@@ -130,8 +155,9 @@ module.exports.showSyncResultMessage = async function() {
   }
 
   let lastDropboxSyncTime = '--';
-  if (await ipcSettings.has(DROPBOX_LAST_SYNC_TIME_KEY)) {
-    lastDropboxSyncTime = new Date(await ipcSettings.get(DROPBOX_LAST_SYNC_TIME_KEY));
+  const rawDropboxSyncTime = await ipcSettings.get(DROPBOX_LAST_SYNC_TIME_KEY, null);
+  if (rawDropboxSyncTime !== null) {
+    lastDropboxSyncTime = new Date(rawDropboxSyncTime);
     lastDropboxSyncTime = lastDropboxSyncTime.toLocaleDateString() + ' / ' + lastDropboxSyncTime.toLocaleTimeString();
   }
 

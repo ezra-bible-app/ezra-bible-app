@@ -86,6 +86,11 @@ class IpcSettingsHandler {
       return config.has(settingsKey);
     });
 
+    this._ipcMain.add('settings_getAll', (configName) => {
+      var config = this.getConfig(configName);
+      return config.store;
+    });
+
     this._ipcMain.add('settings_delete', (configName, settingsKey) => {
       var config = this.getConfig(configName);
       return config.delete(settingsKey);

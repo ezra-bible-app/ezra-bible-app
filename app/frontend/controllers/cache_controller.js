@@ -41,7 +41,7 @@ module.exports.getCachedItem = async function (key, defaultValue=false, shouldCh
 };
 
 module.exports.hasCachedItem = async function(key) {
-  return await ipcSettings.has(key, CACHE_NAME);
+  return (await ipcSettings.get(key, null, CACHE_NAME)) !== null;
 };
 
 module.exports.setCachedItem = async function (key, value) {

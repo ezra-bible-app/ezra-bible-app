@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const WordStudyPanel = require('../components/tool_panel/word_study_panel.js');
+const WordStudyPanel = require('../components/tool_panel/word_study_panel/word_study_panel.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('./verse_list_controller.js');
 const VerseBox = require('../ui_models/verse_box.js');
@@ -39,7 +39,7 @@ class WordStudyController {
   constructor() {
     this._isDictionaryOpen = false;
     this._currentStrongsIds = null;
-    this._currentStrongsElement = null;
+    this._currentWordElement = null;
     /**@type {HTMLElement} */
     this._currentVerseText = null;
     this.strongsBox = $('#strongs-box');
@@ -117,7 +117,6 @@ class WordStudyController {
           this.highlightStrongsFromSelection(this._lastSelection);
         }
       } else {
-        this.clearInfoBox();  
         this.hideStrongsBox(true);
         this.removeHighlight();
       }
@@ -149,8 +148,8 @@ class WordStudyController {
   }
 
   hideStrongsBox(removeHl=false) {
-    if (this._currentStrongsElement != null && removeHl) {
-      this._currentStrongsElement.removeClass('strongs-hl');
+    if (this._currentWordElement != null && removeHl) {
+      this._currentWordElement.removeClass('strongs-hl');
     }
 
     this.strongsBox.hide();
@@ -262,7 +261,7 @@ class WordStudyController {
 
   initStrongsSup(wElement) {
     if (!wElement.classList.contains('strongsInitDone')) {
-      let strongsIds = this.getStrongsIdsFromStrongsElement(wElement);
+      let strongsIds = this.getStrongsIdsFromWordElement(wElement);
       for (let i = strongsIds.length - 1; i >= 0; i--) {
         let strongsSup = document.createElement('sup');
         strongsSup.classList.add('strongs');
@@ -298,14 +297,14 @@ class WordStudyController {
 
   /**
    * 
-   * @param {HTMLElement} strongsElement element to extract Strongs Numbers from
+   * @param {HTMLElement} wordElement element to extract Strongs Numbers from
    * @returns {Array} an array of Strongs Ids or an empty array 
    */
-  getStrongsIdsFromStrongsElement(strongsElement) {
+  getStrongsIdsFromWordElement(wordElement) {
     let strongsIds = [];
 
-    if (strongsElement) {
-      strongsElement.classList.forEach(cls => {
+    if (wordElement) {
+      wordElement.classList.forEach(cls => {
         if (cls.startsWith('strong:')) {
           let strongsId = cls.slice(7);
 
@@ -338,7 +337,7 @@ class WordStudyController {
     return strongsKey in this.getJsStrongs();
   }
 
-  async showStrongsInfo(strongsIds, showStrongsBox=true) {
+  async showWordInfo(strongsIds, showStrongsBox=true, morphEntries=[]) {
     var normalizedStrongsIds = [];
 
     for (var i = 0; i < strongsIds.length; i++) {
@@ -389,13 +388,21 @@ class WordStudyController {
       }
 
       this.strongsBox.html(strongsShortInfo);
-      this._wordStudyPanel.update(firstStrongsEntry, additionalStrongsEntries, true);
+
+      var morphMap = {};
+      for (let i = 0; i < strongsIds.length; i++) {
+        if (morphEntries[i]) {
+          morphMap[strongsIds[i]] = morphEntries[i];
+        }
+      }
+
+      this._wordStudyPanel.update(firstStrongsEntry, additionalStrongsEntries, true, morphMap);
     } catch (e) {
       console.log(e);
     }
 
-    if (this._currentStrongsElement != null) {
-      this._currentStrongsElement.bind('mouseout', () => {
+    if (this._currentWordElement != null) {
+      this._currentWordElement.bind('mouseout', () => {
         if (!this.shiftKeyPressed) {
           this.hideStrongsBox();
         }
@@ -405,7 +412,7 @@ class WordStudyController {
         this.strongsBox.show().position({
           my: "bottom",
           at: "center top",
-          of: this._currentStrongsElement
+          of: this._currentWordElement
         });
       }
     }
@@ -429,33 +436,39 @@ class WordStudyController {
       return;
     }
 
-    await this._handleStrongsWord(event.currentTarget);
+    await this._handleWord(event.currentTarget);
   }
 
-  async _handleStrongsWord(strongsElement) {
+  async _handleWord(wordElement) {
     if (this.strongsAvailable) {
-      var strongsIds = this.getStrongsIdsFromStrongsElement(strongsElement);
+      var strongsIds = this.getStrongsIdsFromWordElement(wordElement);
+
+      var morphEntries = [];
+      var morphAttr = wordElement.getAttribute('morph');
+      if (morphAttr) {
+        morphEntries = morphAttr.split(' ');
+      }
       
-      if (this._currentStrongsElement != null && 
-          this._currentStrongsElement[0] == strongsElement) {
+      if (this._currentWordElement != null && 
+          this._currentWordElement[0] == wordElement) {
         return;
       }
 
       this._currentStrongsIds = strongsIds;
 
-      if (this._currentStrongsElement != null) {
-        this._currentStrongsElement.removeClass('strongs-hl');
+      if (this._currentWordElement != null) {
+        this._currentWordElement.removeClass('strongs-hl');
       }
         
-      this._currentStrongsElement = $(strongsElement);
+      this._currentWordElement = $(wordElement);
 
       if (strongsIds.length > 0) {
-        this._currentStrongsElement.addClass('strongs-hl');    
+        this._currentWordElement.addClass('strongs-hl');    
         this.strongsBox.css({
-          'fontSize': this._currentStrongsElement.css('fontSize')
+          'fontSize': this._currentWordElement.css('fontSize')
         });
 
-        await this.showStrongsInfo(strongsIds);
+        await this.showWordInfo(strongsIds, true, morphEntries);
       }
     }
   }

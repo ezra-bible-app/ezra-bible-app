@@ -27,13 +27,14 @@ const i18nController = require('./controllers/i18n_controller.js');
 const dbSyncController = require('./controllers/db_sync_controller.js');
 const eventController = require('./controllers/event_controller.js');
 const cacheController = require('./controllers/cache_controller.js');
+const verseListController = require('./controllers/verse_list_controller.js');
 const { showDialog } = require('./helpers/ezra_helper.js');
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
 
-const { html, waitUntilIdle, getPlatform } = require('./helpers/ezra_helper.js');
+const { html, waitForRenderedFrame, getPlatform } = require('./helpers/ezra_helper.js');
 
 /**
  * The Startup class has the purpose to start up the application.
@@ -89,6 +90,18 @@ class Startup {
         await ipcNsi.installModule('CrossWire', 'ASV');
       }
     }
+  }
+
+  async recordStartupMilestone(milestoneName) {
+    if (!this._platformHelper.isElectron()) {
+      return;
+    }
+
+    const { ipcRenderer } = require('electron');
+    await ipcRenderer.invoke('recordStartupMilestone', {
+      name: milestoneName,
+      timestampMs: Date.now()
+    });
   }
 
   loadWebComponents() {
@@ -328,7 +341,8 @@ class Startup {
     console.time("application-startup");
 
     // Wait for the UI to render
-    await waitUntilIdle();
+    await waitForRenderedFrame();
+    await this.recordStartupMilestone('t1FirstUiFrameRendered');
 
     var isDev = await this._platformHelper.isDebug();
 
@@ -359,6 +373,10 @@ class Startup {
 
     console.log("Initializing IPC clients ...");
     await this.initIpcClients();
+
+    console.log("Preloading settings ...");
+    await ipcSettings.preloadAll();
+    await ipcSettings.preloadAll('html-cache');
 
     console.log("Initializing i18n ...");
 
@@ -422,26 +440,31 @@ class Startup {
     await app_controller.optionsMenu.init();
     theme_controller.initNightMode();
 
-    // Wait for the UI to render
-    await waitUntilIdle();
-
-    console.log("Loading settings ...");
-    uiHelper.updateLoadingSubtitle("cordova.loading-settings");
-    if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
-      await app_controller.loadSettings();
-    }
-
-    uiHelper.updateLoadingSubtitle("cordova.waiting-app-ready");
-
-    // Wait for the UI to render, before we hide the loading indicator
-    await waitUntilIdle();
     loadingIndicator.hide();
     $('#loading-subtitle').hide();
+
+    //uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
+
+    if (await cacheController.hasCachedItem('tabConfiguration')) {
+      if (platformHelper.isMobile()) {
+        $('[id="bible-select-title-line"]').css('visibility', 'hidden');
+      }
+
+      verseListController.hideHelpText();
+      verseListController.showVerseListLoadingIndicator();
+      uiHelper.showTextLoadingIndicator();
+    }
 
     // Show main content
     document.getElementById('main-content').style.display = 'block';
 
-    await waitUntilIdle();
+    await waitForRenderedFrame();
+
+    console.log("Loading settings ...");
+    if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
+
+      await app_controller.loadSettings();
+    }
 
     // Restore the scroll position of the first tab.
     app_controller.tab_controller.restoreScrollPosition(0);
@@ -449,14 +472,13 @@ class Startup {
 
     dbSyncController.init();
 
+    // Wait for the first fully settled and correctly-scrolled frame before recording T2.
+    await waitForRenderedFrame();
+    await this.recordStartupMilestone('t2FirstMeaningfulContentVisible');
+
     setTimeout(() => {
       dbSyncController.showSyncResultMessage();
     }, 3000);
-
-    if (this._platformHelper.isElectron()) {
-      const { ipcRenderer } = require('electron');
-      ipcRenderer.invoke("startupCompleted");
-    }
 
     console.timeEnd("application-startup");
 
@@ -470,7 +492,7 @@ class Startup {
     }
 
     // Confirm privacy options at first startup
-    const firstStartDone = await ipcSettings.has('firstStartDone');
+    const firstStartDone = await ipcSettings.get('firstStartDone', false);
     if (!this._platformHelper.isTest() && this._platformHelper.isSupportedPlatform() && !firstStartDone) {
       await this.confirmPrivacyOptions();
       await ipcSettings.set('firstStartDone', true);
@@ -515,6 +537,14 @@ class Startup {
     this.showDatabaseErrorsIfAny(initDbResult);
 
     await eventController.publishAsync('on-startup-completed');
+
+    if (this._platformHelper.isElectron()) {
+      const { ipcRenderer } = require('electron');
+      await ipcRenderer.invoke('startupCompleted', {
+        timestampMs: Date.now()
+      });
+    }
+
     app_controller.startupCompleted = true;
   }
 

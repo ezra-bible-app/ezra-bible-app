@@ -51,7 +51,7 @@
     "module-type-commentary_singular": "Bibelkommentar",
     "module-type-commentary_singular-dative": "einem Bibelkommentar",
     "header": "Konfiguriere {{module_type, title-case}}",
-    "intro-text": "Ezra Bible App installiert <b>{{module_type, accusative}}</b> und benutzt dabei Ihre Internetverbindung. {{module_type, capitalize}} werden von der <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> vertrieben und werden von <a class='external' href='http://www.crosswire.org/sword'>SWORD</a> Modularchiven heruntergeladen.",
+    "intro-text": "Ezra Bible App installiert <b>{{module_type, accusative}}</b> und benutzt dabei Ihre Internetverbindung. {{module_type, capitalize}} werden von der <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> for further explanations. vertrieben und werden von <a class='external' href='http://www.crosswire.org/sword'>SWORD</a> for further explanations. Modularchiven heruntergeladen.",
     "internet-usage-note": "<b>WICHTIGER HINWEIS</b><br/>Wenn Sie sich in einem Land befinden wo Christen verfolgt werden<br/>seien Sie sich bewusst, dass Ihr Internet Provider <br/><b>den Zugriff auf christliche Materialien erkennen kann</b>!",
     "add-modules": "{{module_type, accusative}} hinzufügen",
     "remove-modules": "{{module_type, accusative}} entfernen",
@@ -61,14 +61,15 @@
     "repository_plural": "Modularchive",
     "installation": "Installation",
     "removal": "Entfernen",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Modularchivdaten wurden zuletzt am {{date}} aktualisiert.",
       "update-now": "Jetzt aktualisieren",
       "updating-repository-data": "Aktualisiere Modularchivdaten! Das dauert ein paar Sekunden ...",
       "update-failed": "Aktualisierung fehlgeschlagen",
-      "update-repository-data-failed": "Aktualisieren der Modularchivdaten fehlgeschlagen. Sind Sie offline?"
+      "update-repository-data-failed": "Aktualisieren der Modularchivdaten fehlgeschlagen. Sind Sie offline?",
+      "update-repository-data-partially-failed": "Einige Modularchive konnten nicht aktualisiert werden."
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Bitte wählen Sie mindestens eine der folgenden Sprachen.",
       "total-modules-language": "Neben der Sprache wird die in den SWORD Modularchiven verfügbare Anzahl von {{module_type}} angezeigt.",
       "loading-languages": "Lade Sprachen ...",
@@ -85,16 +86,16 @@
       "what-is-repository": "Ein Modularchiv ist ein Speicherplatz im Internet, der einen Satz von {{module_type, dative}} enthält.",
       "loading-repositories": "Lade Modularchive ...",
       "repo-recommended": "Dieses Modularchiv ist für den Anfang gut geeignet",
-      "more-repo-information-needed": "Sie benötigen weitere Informationen zu diesen Modularchiven?<br/>Werfen Sie einen Blick auf das <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (Englisch)."
+      "more-repo-information-needed": "Sie benötigen weitere Informationen zu diesen Modularchiven?<br/>Werfen Sie einen Blick auf das <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations. (Englisch)."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Bitte wählen Sie {{module_type}} zur Installation.",
       "module-display-preferences": "Filtereinstellungen:",
       "all-modules": "Alle {{module_type, accusative}}",
       "regular-dicts": "Reguläre Wörterbücher",
       "module-with": "{{module_type, capitalize}} mit {{feature_type}}",
       "module-already-installed": "{{module_type, singular}} ist bereits installiert",
-      "show-module-info":"Informationen zeigen",
+      "show-module-info": "Informationen zeigen",
       "show-detailed-module-info": "Klicken Sie auf das Informationssymbol um mehr Informationen zu {{module_type, singular-dative}} anzuzeigen.",
       "duplicate-module-title": "Modul bereits ausgewählt",
       "duplicate-module-message": "Das Modul {{moduleId}} ist bereits aus dem Modularchiv {{repository}} ausgewählt. Bitte deselektieren Sie es zuerst, wenn Sie es aus einem anderen Modularchiv installieren möchten.",
@@ -107,7 +108,7 @@
       "downloading": "Lade",
       "part-of-total": "von"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Wählen Sie {{module_type, accusative}} die Sie entfernen wollen.",
       "disable-remove-note": "{{module_type, singular}} ist nicht im Benutzerverzeichnis installiert oder unbedingt nötig für die Grundfunktionalität von Ezra Bible App.",
       "removing-modules": "Entferne {{module_type, accusative}}",
@@ -169,6 +170,7 @@
     "back": "Zurück",
     "save": "Speichern",
     "cancel": "Abbrechen",
+    "retry": "Wiederholen",
     "rename": "Umbenennen",
     "loading": "Lade",
     "update": "Aktualisieren",
@@ -205,6 +207,7 @@
     "configure-translations": "Übersetzungen konfigurieren",
     "configure-dicts": "Wörterbücher konfigurieren",
     "configure-commentaries": "Bibelkommentare konfigurieren",
+    "configure-custom-repositories": "Benutzerdefinierte Modularchive konfigurieren",
     "context": "Kontext",
     "general-options": "Allgemeine Optionen",
     "check-new-releases": "Neue Releases abfragen",
@@ -226,12 +229,30 @@
     "tabs": "Tabs",
     "module-not-installed": "Das Modul '{{module_name}}' ist nicht installiert."
   },
+  "custom-repositories": {
+    "dialog-title": "Benutzerdefinierte Modularchive",
+    "description": "Benutzerdefinierte Modularchive ermöglichen Ihnen, zusätzliche SWORD Modulquellen hinzuzufügen, die standardmäßig nicht enthalten sind. Die genaue Einrichtung benutzerdefinierter Modularchive wird hier nicht erklärt. Weitere Informationen finden Sie im <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>CrossWire Entwickler-Wiki</a>.",
+    "list-headline": "Liste der benutzerdefinierten Modularchive",
+    "add-repository": "Benutzerdefiniertes Modularchiv hinzufügen",
+    "no-custom-repos": "Es sind noch keine benutzerdefinierten Modularchive konfiguriert.",
+    "protocol": "Protokoll",
+    "name": "Name",
+    "host": "Server",
+    "path": "Verzeichnispfad",
+    "add": "Modularchiv hinzufügen",
+    "remove": "Entfernen",
+    "error-duplicate-name": "Ein Modularchiv mit diesem Namen existiert bereits.",
+    "error-duplicate-url-path": "Ein Modularchiv mit dieser URL/Pfad-Kombination existiert bereits.",
+    "error-invalid-config": "Verbindung zum Modularchiv fehlgeschlagen. Bitte überprüfen Sie Ihre Einstellungen.",
+    "error-empty-fields": "Bitte füllen Sie alle Pflichtfelder aus (Name, Server, Pfad).",
+    "adding-repository": "Modularchiv wird hinzugefügt ..."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Datenschutzoptionen bestätigen",
     "data-privacy-options": "Datenschutzoptionen",
     "please-confirm-options": "Bitte bestätigen Sie die folgenden Datenschutzoptionen. Diese Optionen benötigen Internetzugriff. Sie können im Optionsmenü später Änderungen vornehmen.",
-    "check-new-releases-hint": "Ezra Bible App kann bei jedem Start die Verfügbarkeit neuer Releases abfragen. Das beinhaltet eine kurze Interaktion mit <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, wo neue Releases veröffentlicht werden.",
-    "send-crash-reports-hint-part1": "Ezra Bible App kann automatisch Fehlerberichte an die Fehlerberichtsplattform <a class='external' href='https://sentry.io'>Sentry.io</a> senden wenn ein Fehler detektiert wird.",
+    "check-new-releases-hint": "Ezra Bible App kann bei jedem Start die Verfügbarkeit neuer Releases abfragen. Das beinhaltet eine kurze Interaktion mit <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., wo neue Releases veröffentlicht werden.",
+    "send-crash-reports-hint-part1": "Ezra Bible App kann automatisch Fehlerberichte an die Fehlerberichtsplattform <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations. senden wenn ein Fehler detektiert wird.",
     "send-crash-reports-hint-part2": "Das hilft dem Entwicklungsteam, schneller auf diese Fehler aufmerksam zu werden und trägt daher zur Verbesserung von Ezra Bible App bei.",
     "send-crash-reports-hint-part3": "Beachten Sie, dass die Fehlerberichte ausschließlich technische Informationen beinhalten und nicht viel Internetbandbreite zur Übertragung benötigen."
   },
@@ -244,8 +265,7 @@
   "shortcuts": {
     "tab-title": "Tastenkürzel",
     "description": "Sie können die folgenden Tastenkürzel verwenden:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Schriftgröße",
       "current-tab-search-section-title": "Suche für aktuellen Tab",
       "miscellaneous-section-title": "Verschiedene",
@@ -264,9 +284,8 @@
       "decrease-current-font-size": "Schrift verkleinern",
       "reset-font-size-to-default": "Auf Standardschriftgröße zurücksetzen"
     },
-
     "shortcut": {
-      "in-tab-search":"Strg/Cmd + f",
+      "in-tab-search": "Strg/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -407,13 +426,13 @@
     "copy-selected-text-to-clipboard-success": "Ausgewählter Text in Zwischenablage kopiert!",
     "edit-note": "Notiz ändern",
     "delete-note": "Notiz löschen",
-    "transchange" : {
-      "added" : "Diese Worte wurden in der Übersetzung hinzugefügt",
-      "amplified" : "Diese Worte heben Informationen aus dem ursprünglichen Text hervor",
-      "changed" : "Diese Worte wurden in der Übersetzung geändert",
-      "deleted" : "Einige Worte aus dem ursprünglichen Text wurden nicht in die Übersetzung übernommen",
-      "implied" : "Diese Worte wurden hinzugefügt oder geändert, um implizierte Informationen aus dem ursprünglichen Text zu übersetzen",
-      "moved" : "Diese Worte waren im ursprünglichen Text an einer anderen Stelle",
+    "transchange": {
+      "added": "Diese Worte wurden in der Übersetzung hinzugefügt",
+      "amplified": "Diese Worte heben Informationen aus dem ursprünglichen Text hervor",
+      "changed": "Diese Worte wurden in der Übersetzung geändert",
+      "deleted": "Einige Worte aus dem ursprünglichen Text wurden nicht in die Übersetzung übernommen",
+      "implied": "Diese Worte wurden hinzugefügt oder geändert, um implizierte Informationen aus dem ursprünglichen Text zu übersetzen",
+      "moved": "Diese Worte waren im ursprünglichen Text an einer anderen Stelle",
       "tense-change": "Die grammatikalische Zeit dieser Worte wurde im Rahmen der Übersetzung geändert"
     },
     "empty-tab-title": "Leerer Tab"
@@ -428,13 +447,20 @@
     "help-instruction-part3": "Sobald Sie einen Vers ausgewählt haben, können Sie die Maus über einzelne Worte oder Texte bewegen, um hier Wörterbucheinträge anzuzeigen.",
     "help-instruction-part3-cordova": "Berühren und halten Sie individuelle Worte oder Satzteile einen Moment bis Sie hier Wörterbucheinträge sehen.",
     "help-instruction-part4-desktop": "Halten Sie die SHIFT Taste gedrückt, um die Mausfunktion für alle Verse zu aktivieren.",
-    "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's",
     "copy-to-clipboard": "Wortstudium in Zwischenablage kopieren",
     "copy-to-clipboard-success": "Wortstudium in Zwischenablage kopiert!",
     "copy-dict-entry-to-clipboard": "Wörterbucheintrag in Zwischenablage kopieren",
-    "copy-dict-entry-to-clipboard-success": "Wörterbucheintrag in Zwischenablage kopiert!"
+    "copy-dict-entry-to-clipboard-success": "Wörterbucheintrag in Zwischenablage kopiert!",
+    "morphology": "Morphologie",
+    "occurrences": "Vorkommen",
+    "index-not-available": "Der Strong's Index für {{translation}} wurde noch nicht erstellt.",
+    "generate-index": "Index erstellen",
+    "show-occurrence-statistics": "Vorkommensstatistik zeigen",
+    "show-all-occurrences": "Alle Vorkommen zeigen",
+    "vines-index-not-available": "Der Vine-Wörterbuchindex wurde noch nicht erstellt. Sobald er erstellt wurde, werden hier passende Einträge aus Vine's Expository Dictionary aufgelistet.",
+    "vines-not-installed": "Das Modul Vine's Expository Dictionary ist nicht installiert. Sie können es über den Modul-Assistenten aus dem Xiphos Modularchiv installieren."
   },
   "dictionary-panel": {
     "default-header": "<b>Wörterbuch</b>",
@@ -464,9 +490,8 @@
     "select-which-commentaries-to-display": "Wählen Sie aus, welche Bibelkommentare im Kommentarbereich angezeigt werden sollen:",
     "copy-commentary-to-clipboard": "Bibelkommentar in Zwischenablage kopieren",
     "copy-commentary-to-clipboard-success": "Bibelkommentar in Zwischenablage kopiert!",
-    "help-instruction": "Um Bibelkommentare zu zeigen wählen Sie einen Vers aus.<br><br> Dieser Bereich wird dann automatisch alle verfügbaren Bibelkommentare anzeigen.",
+    "help-instruction": "Um Bibelkommentarinhalte und Fußnoten anzuzeigen, wählen Sie einen Vers aus.<br><br> Dieser Bereich listet dann automatisch den ausgewählten Vers aus allen verfügbaren Bibelkommentaren auf. Außerdem werden Fußnoten aus dem ausgewählten Vers unterhalb des Kommentarinhalts angezeigt.",
     "help-instruction-no-commentaries": "Sie haben bisher keine Bibelkommentare installiert. Sie müssen mindestens einen Bibelkommentar installieren damit dieser Teil des Programms funktioniert.",
-    "help-instruction-no-kjv": "Die KJV Übersetzung wurde nocht nicht installiert. Die KJV Übersetzung wird benötigt um Bibelkommentare basierend auf englischer Verszählung korrekt anzuzeigen. Sie können das tun indem Sie:<ul><li>Die KJV aus dem CrossWire Modularchiv installieren.</li><li>Einen Bibelkommentar installieren (Die KJV wird dann automatisch installiert).</li></ul>",
     "no-commentaries-available-for-this-verse": "Es sind keine Bibelkommentare für diesen Vers verfügbar.",
     "copy-button": "Bibelkommentar kopieren",
     "footnotes": "Fußnoten"
@@ -497,9 +522,7 @@
     "init-i18n": "Initialisiere i18n",
     "init-sword": "Initialisiere SWORD",
     "init-database": "Initialisiere Datenbank",
-    "init-user-interface": "Initialisiere Benutzeroberfläche",
-    "loading-settings": "Lade Einstellungen",
-    "waiting-app-ready": "Schließe Ladevorgang ab"
+    "init-user-interface": "Initialisiere Benutzeroberfläche"
   },
   "dropbox": {
     "setup-dropbox": "Dropbox einrichten",
@@ -517,7 +540,7 @@
     "dropbox-link-status-not-linked": "Nicht verbunden",
     "dropbox-link-status-linked": "Verbunden",
     "dropbox-link-status-linking-failed": "Verbindung fehlgeschlagen!",
-    "database-sync": "Database sync (Startup/Shutdown)",
+    "database-sync": "Datenbanksynchronisation (Start/Beendigung)",
     "only-sync-on-wifi": "Nur bei WLAN Verbindung synchronisieren",
     "sync-after-changes": "Datenbank nach Änderungen synchronisieren",
     "use-custom-module-repo": "Verwende benutzerdefiniertes Modularchiv",
@@ -565,6 +588,13 @@
     "modules-skipped": "{{count}} Modul(e) übersprungen (bereits installiert)",
     "modules-failed": "{{count}} Modul(e) konnten nicht installiert werden",
     "install-summary": "Installationsübersicht",
-    "dropbox-not-linked": "Dropbox-Konto ist nicht verknüpft. Bitte richten Sie zuerst Dropbox ein."
+    "dropbox-not-linked": "Dropbox-Konto ist nicht verknüpft. Bitte richten Sie zuerst Dropbox ein.",
+    "module-header": "Module",
+    "status-header": "Status",
+    "processing": "Verarbeite ...",
+    "row-installed": "✓ Installiert",
+    "row-failed": "✗ Fehlgeschlagen: {{error}}",
+    "unknown-error": "Unbekannter Fehler",
+    "installation-failed": "Installation fehlgeschlagen"
   }
 }

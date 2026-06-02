@@ -156,10 +156,7 @@ class SelectOption extends HTMLSelectElement {
    * @return {Promise}
    */
   get persisted() {
-    return (async() => {
-      var hasSetting = await ipcSettings.has(this._settingsKey);
-      return hasSetting;
-    })();
+    return ipcSettings.get(this._settingsKey, null).then(v => v !== null);
   }
 }
 

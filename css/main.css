@@ -637,6 +637,14 @@ a.chapter-nav:hover {
   flex-basis: 100%;
 }
 
+.verse-text .primary-variant, .commentary-content .primary-variant {
+  display: inline-block;
+}
+
+.verse-text .secondary-variant, .commentary-content .secondary-variant {
+  display: none;
+}
+
 .verse-list-with-second-translation .second-bible-text {
   display: block;
 }
@@ -853,6 +861,7 @@ main.content {
   background: none;
   background-color: var(--background-color);
   color: var(--text-color);
+  clear: both;
 }
 
 .darkmode--activated .ui-widget-content {
@@ -1412,6 +1421,7 @@ li.book-unavailable a:focus,
 #show-translation-settings-button,
 #show-dict-settings-button,
 #show-commentary-settings-button,
+#show-custom-repos-button,
 #show-typeface-settings-button,
 #setup-db-sync-button,
 #show-module-update-button,

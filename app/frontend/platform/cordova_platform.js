@@ -325,7 +325,12 @@ class CordovaPlatform {
     await ipcGeneral.initPersistentIpc(androidVersion);
 
     uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
-    let initDbResult = await ipcGeneral.initDatabase(androidVersion, navigator.connection.type);
+
+    // navigator.connection is provided by cordova-plugin-network-information
+    // and it is used to determine the network type (wifi, cellular, none)
+    const connectionType = navigator.connection ? navigator.connection.type : 'unknown';
+
+    let initDbResult = await ipcGeneral.initDatabase(androidVersion, connectionType);
 
     await startup.initApplication(initDbResult);
   }

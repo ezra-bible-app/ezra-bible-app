@@ -122,6 +122,11 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getAllLocalModuleIds(moduleType='BIBLE') {
+    var returnValue = this._ipcRenderer.call('nsi_getAllLocalModuleIds', moduleType);
+    return returnValue;
+  }
+
   async getAllLanguageModuleCount(selectedRepos, languageCodeArray, moduleType='BIBLE') {
     var returnValue = this._ipcRenderer.call('nsi_getAllLanguageModuleCount', selectedRepos, languageCodeArray, moduleType);
     return returnValue;
@@ -355,6 +360,21 @@ class IpcNsi {
   async validateCustomModuleRepo(customModuleRepo) {
     var timeoutMs = 60000;
     var returnValue = this._ipcRenderer.callWithTimeout('nsi_validateCustomModuleRepo', timeoutMs, customModuleRepo);
+    return returnValue;
+  }
+
+  async getCustomRepositories() {
+    var returnValue = this._ipcRenderer.call('nsi_getCustomRepositories');
+    return returnValue;
+  }
+
+  async addCustomRepository(protocol, name, host, repoPath) {
+    var returnValue = this._ipcRenderer.call('nsi_addCustomRepository', protocol, name, host, repoPath);
+    return returnValue;
+  }
+
+  async removeCustomRepository(name) {
+    var returnValue = this._ipcRenderer.call('nsi_removeCustomRepository', name);
     return returnValue;
   }
 }

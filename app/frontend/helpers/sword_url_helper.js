@@ -99,7 +99,7 @@ module.exports.isSwordUrl = function(href) {
  *        for handling scripture references. If provided, Bible references will be
  *        shown in the reference box of the calling panel.
  */
-module.exports.handleSwordUrl = async function(href, referenceBoxHelper) {
+module.exports.handleSwordUrl = async function(href, referenceBoxHelper, sourceElement=null) {
   let parsed = parseSwordUrl(href);
 
   if (parsed == null) {
@@ -127,7 +127,7 @@ module.exports.handleSwordUrl = async function(href, referenceBoxHelper) {
   let hasStrongs = moduleInfo.hasHebrewStrongsKeys || moduleInfo.hasGreekStrongsKeys;
 
   if (hasStrongs) {
-    await handleStrongsReference(moduleName, key);
+    await handleStrongsReference(moduleName, key, sourceElement);
   } else if (swordModuleHelper.isDictionaryModule(moduleInfo)) {
     await handleDictionaryReference(moduleName, key);
   } else if (swordModuleHelper.isCommentaryModule(moduleInfo)) {
@@ -147,7 +147,7 @@ module.exports.handleSwordUrl = async function(href, referenceBoxHelper) {
  * @param {string} moduleName - The Strongs module name
  * @param {string} key - The raw key from the URL
  */
-async function handleStrongsReference(moduleName, key) {
+async function handleStrongsReference(moduleName, key, sourceElement=null) {
   let strongsNumber = key.replace(/^0+/, ''); // Remove leading zeros
   let isGreek = moduleName.indexOf('Greek') != -1;
   let prefix = isGreek ? 'G' : 'H';
@@ -161,7 +161,16 @@ async function handleStrongsReference(moduleName, key) {
   let strongsKey = prefix + strongsNumber;
 
   let wordStudyPanel = app_controller.word_study_controller._wordStudyPanel;
-  await wordStudyPanel.updateWithKey(strongsKey, true);
+
+  // If the link was clicked from within the word study panel, use stacking
+  // so the user can navigate back to the previous content via breadcrumbs.
+  let isFromWordStudyPanel = sourceElement != null && sourceElement.closest('#word-study-panel') != null;
+
+  if (isFromWordStudyPanel) {
+    await wordStudyPanel.openStrongsReference(strongsKey);
+  } else {
+    await wordStudyPanel.updateWithKey(strongsKey, true);
+  }
 
   switchToPanel('word-study-panel');
 }
@@ -279,8 +288,9 @@ module.exports.initSwordUrlLinks = function(container, referenceBoxHelper) {
         event.preventDefault();
         event.stopPropagation();
 
-        let linkHref = event.target.closest('a').getAttribute('href');
-        module.exports.handleSwordUrl(linkHref, referenceBoxHelper);
+        let clickedElement = event.target.closest('a');
+        let linkHref = clickedElement.getAttribute('href');
+        module.exports.handleSwordUrl(linkHref, referenceBoxHelper, clickedElement);
       });
     }
   });

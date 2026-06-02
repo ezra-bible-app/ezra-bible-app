@@ -45,7 +45,49 @@ module.exports.init = function() {
       toggleFullScreen();
     });
   }
+
+  initPanelFullscreen();
 };
+
+function exitPanelFullscreen() {
+  if (!document.body.classList.contains('tool-panel-fullscreen')) {
+    return;
+  }
+
+  document.body.classList.remove('tool-panel-fullscreen');
+
+  document.querySelectorAll('.panel-fullscreen-button').forEach((button) => {
+    button.setAttribute('title', i18n.t('menu.fullscreen'));
+    button.querySelector('i').classList.add('fa-expand');
+    button.querySelector('i').classList.remove('fa-compress');
+  });
+}
+
+function initPanelFullscreen() {
+  $(document).on('click', '.panel-fullscreen-button', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const isFullscreen = document.body.classList.toggle('tool-panel-fullscreen');
+
+    document.querySelectorAll('.panel-fullscreen-button').forEach((button) => {
+      button.setAttribute('title', isFullscreen ? i18n.t('menu.exit-fullscreen') : i18n.t('menu.fullscreen'));
+      button.querySelector('i').classList.toggle('fa-expand', !isFullscreen);
+      button.querySelector('i').classList.toggle('fa-compress', isFullscreen);
+    });
+  });
+
+  eventController.subscribe('on-tab-added', () => {
+    exitPanelFullscreen();
+  });
+
+  eventController.subscribe('on-panel-switched', () => {
+    var toolPanel = document.getElementById('tool-panel');
+    if (toolPanel && toolPanel.classList.contains('hidden')) {
+      exitPanelFullscreen();
+    }
+  });
+}
 
 function toggleFullScreen() {
   var platform = getPlatform();

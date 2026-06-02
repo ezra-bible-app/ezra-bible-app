@@ -54,14 +54,17 @@ module.exports.initResizable = async function initResizable() {
 };
 
 async function loadSettings() {
-  const toolPanelWidthAvailable = await ipcSettings.has('toolPanelWidth');
-  if (toolPanelWidthAvailable) {
-    panelWidth = await ipcSettings.get('toolPanelWidth');
+  const [toolPanelWidth, toolPanelHeight] = await Promise.all([
+    ipcSettings.get('toolPanelWidth', null),
+    ipcSettings.get('toolPanelHeight', null)
+  ]);
+
+  if (toolPanelWidth !== null) {
+    panelWidth = toolPanelWidth;
   }
 
-  const toolPanelHeightAvailable = await ipcSettings.has('toolPanelHeight');
-  if (toolPanelHeightAvailable) {
-    panelHeight = await ipcSettings.get('toolPanelHeight');
+  if (toolPanelHeight !== null) {
+    panelHeight = toolPanelHeight;
   }
 }
 

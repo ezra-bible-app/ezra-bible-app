@@ -186,6 +186,8 @@ See `TECH.md` for complete technology stack details.
 - Locale files are in `locales/<language-code>/`
 - Add new languages by copying `locales/en/` and updating `locales/locales.json`
 - Use i18next keys for all user-facing strings
+- Do not perform translations other than the original English locale file. Translation is a manual task.
+- When adding new keys, ensure they are added to all locale files (even if the value is the same as English)
 
 ### Working with IPC
 - Backend IPC handlers: `app/backend/ipc/`

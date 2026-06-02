@@ -85,6 +85,16 @@
     grid-row: 7;
   }
 
+  .apocryphal-books {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    border-left: none;
+    border-bottom: none;
+    border-top: 1px solid lightgray;
+    margin-top: 0.2em;
+    padding-top: 0.8em;
+  }
+
   .book-list-column li {
     padding: 0;
     margin: 0;
@@ -112,6 +122,57 @@
     margin-top: 0.2em;
     padding-top: 0.8em;
     padding-left: unset;
+  }
+
+  /* Custom repo list: two-line layout per repo entry */
+  #custom-repo-list tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    grid-template-rows: auto auto;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0.2em 0;
+  }
+
+  #custom-repo-list td {
+    display: block;
+    box-sizing: border-box;
+  }
+
+  #custom-repo-list td.custom-repo-name {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  #custom-repo-list td.custom-repo-protocol {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  #custom-repo-list td.custom-repo-host {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #custom-repo-list td.custom-repo-path {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  #custom-repo-list td.custom-repo-remove {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+}
+
+/* CENTER content inside book selection menu on tablets in portrait mode */
+@media screen and (max-aspect-ratio: 13/10) and (min-width: 451px) and (max-width: 950px) {
+  #book-selection-menu-book-list {
+    justify-content: center;
+  }
+
+  .book-list-column li {
+    text-align: center;
   }
 }
 
@@ -857,10 +918,6 @@ Librem 5/Pinephone etc.
     flex-direction: column;
   }
 
-  #open-verselist-in-new-tab-button {
-    display: none !important;
-  }
-
   .fullscreen #app-container .verse-reference-content {
     text-decoration: unset !important;
     cursor: unset !important;
@@ -946,6 +1003,22 @@ Librem 5/Pinephone etc.
 @media screen and (min-aspect-ratio: 13/10) and (max-height: 450px) {
   #app-container {
     height: 98vh !important;
+  }
+
+  #book-selection-menu {
+    top: 0 !important;
+    left: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+    overflow-y: scroll;
+  }
+
+  .book-list-column li {
+    line-height: 1.6em !important;
+  }
+
+  #bookMenuBackButton {
+    height: 6em;
   }
 
   #tag-selection-menu {

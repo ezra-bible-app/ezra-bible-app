@@ -53,7 +53,7 @@
     "module-type-commentary_instrumental": "комментариями",
     "module-type-commentary_singular": "комментарий",
     "header": "Управление {{module_type, instrumental}}",
-    "intro-text": "Ezra Bible App устанавливает <b>{{module_type, accusative}}</b> используя ваше интернет-соединение. {{module_type, capitalize}} распространяются <a class='external' href='http://www.crosswire.org'>Библейским обществом CrossWire</a> и будут загруженны из репозиториев <a class='external' href='http://www.crosswire.org/sword'>проекта SWORD</a>.",
+    "intro-text": "Ezra Bible App устанавливает <b>{{module_type, accusative}}</b> используя ваше интернет-соединение. {{module_type, capitalize}} распространяются <a class='external' href='http://www.crosswire.org'>Библейским обществом CrossWire</a> for further explanations. и будут загруженны из репозиториев <a class='external' href='http://www.crosswire.org/sword'>проекта SWORD</a> for further explanations..",
     "internet-usage-note": "<b>ВНИМАНИЕ!</b><br/>Если вы находитесь в стране, где преследуют Христиан,<br/>имейте ввиду, что ваш интернет-провайдер способен определить, что <b>вы ищите христианские ресурсы</b>!",
     "add-modules": "Добавить {{module_type, accusative}}",
     "remove-modules": "Удалить {{module_type, accusative}}",
@@ -63,14 +63,15 @@
     "repository_plural": "Репозитории",
     "installation": "Установка",
     "removal": "Удаление",
-    "update-data": { 
+    "update-data": {
       "repo-data-last-updated": "Последнее обновление данных репозиториев {{date}}.",
       "update-now": "Обновить",
       "updating-repository-data": "Обновление данных репозиториев! Это займет несколько секунд ...",
       "update-failed": "Обновление не удалось",
-      "update-repository-data-failed": "Не удалось обновить данные репозитория! Проверьте интернет подключение."
+      "update-repository-data-failed": "Не удалось обновить данные репозитория! Проверьте интернет подключение.",
+      "update-repository-data-partially-failed": "Не удалось обновить некоторые репозитории."
     },
-    "step-languages": {  
+    "step-languages": {
       "select-language": "Пожалуйста, выберите хотя бы один из следующих языков.",
       "total-modules-language": "В скобках указанно количество {{module_type, genitive}} доступных из всех репозиториев SWORD.",
       "loading-languages": "Загрузка языков ...",
@@ -87,16 +88,16 @@
       "what-is-repository": "Репозиторий - это интернет-хранилище, которое содержит определенные {{module_type, accusative}}",
       "loading-repositories": "Загрузка репозиториев ...",
       "repo-recommended": "Рекомендованный репозиторий",
-      "more-repo-information-needed": "Дополнительная информация о репозиториях: <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
+      "more-repo-information-needed": "Дополнительная информация о репозиториях: <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> for further explanations.."
     },
-    "step-modules": {  
+    "step-modules": {
       "select-module": "Пожалуйста, выберите {{module_type, accusative}}, которые вы хотите установить.",
       "module-display-preferences": "Настройки фильтра:",
       "all-modules": "Все {{module_type, accusative}}",
       "regular-dicts": "Стандартные словари",
       "module-with": "{{module_type, capitalize}} с {{feature_type, instrumental}}",
       "module-already-installed": "Этот {{module_type, singular}} уже установлен!",
-      "show-module-info":"Показать подробности",
+      "show-module-info": "Показать подробности",
       "show-detailed-module-info": "Нажмите на иконке информации для отображения подробностей о {{module_type, singular-instrumental}}.",
       "duplicate-module-title": "Модуль уже выбран",
       "duplicate-module-message": "Модуль {{moduleId}} уже выбран из репозитория {{repository}}. Пожалуйста, сначала снимите выделение, если хотите установить его из другого репозитория.",
@@ -109,7 +110,7 @@
       "downloading": "Загрузка",
       "part-of-total": "из"
     },
-    "remove": {  
+    "remove": {
       "select-module-to-be-removed": "Выберите {{module_type, accusative}}, которые вы хотите удалить.",
       "disable-remove-note": "Этот {{module_type, singular}} не установленный в пользовательском каталоге или необходим для работы приложения.",
       "removing-modules": "Удаление выбранных {{module_type, genitive}}",
@@ -175,6 +176,7 @@
     "back": "Вернуться",
     "save": "Сохранить",
     "cancel": "Отменить",
+    "retry": "Повторить",
     "rename": "Переименовать",
     "loading": "Загрузка",
     "update": "Обновить",
@@ -211,6 +213,7 @@
     "configure-translations": "Управлять переводами",
     "configure-dicts": "Управлять словарями",
     "configure-commentaries": "Управлять комментариями",
+    "configure-custom-repositories": "Настроить пользовательские репозитории",
     "context": "Контекст",
     "general-options": "Общие настройки",
     "check-new-releases": "Проверять наличие обновлений",
@@ -232,12 +235,30 @@
     "tabs": "Вкладки",
     "module-not-installed": "Модуль '{{module_name}}' не установлен."
   },
+  "custom-repositories": {
+    "dialog-title": "Пользовательские репозитории",
+    "description": "Пользовательские репозитории позволяют добавлять дополнительные источники модулей SWORD, которые не включены по умолчанию. Дополнительные сведения о настройке пользовательских репозиториев см. в <a class='external' href='https://wiki.crosswire.org/Creating_and_Maintaining_a_Module_Repository'>вики для разработчиков CrossWire</a>.",
+    "list-headline": "Список пользовательских репозиториев",
+    "add-repository": "Добавить пользовательский репозиторий",
+    "no-custom-repos": "Пользовательские репозитории пока не настроены.",
+    "protocol": "Протокол",
+    "name": "Название",
+    "host": "Хост",
+    "path": "Путь к каталогу",
+    "add": "Добавить репозиторий",
+    "remove": "Удалить",
+    "error-duplicate-name": "Репозиторий с таким названием уже существует.",
+    "error-duplicate-url-path": "Репозиторий с таким сочетанием URL и пути уже существует.",
+    "error-invalid-config": "Не удалось подключиться к репозиторию. Проверьте настройки.",
+    "error-empty-fields": "Пожалуйста, заполните все обязательные поля (Название, Хост, Путь).",
+    "adding-repository": "Добавление репозитория ..."
+  },
   "data-privacy": {
     "confirm-privacy-options": "Подтвердить настройки конфиденциальности данных",
     "data-privacy-options": "Настройки конфиденциальности данных",
     "please-confirm-options": "Пожалуйста, подтвердите следующие опции касающиеся конфиденциальности данных. Доступ к интернету необходим если эти опции выбранны. Вы можете изменить эти настройки позже.",
-    "check-new-releases-hint": "Ezra Bible App может проверять наличие новых обновлений при каждом запуске. Для этого необходим кратковременное взаимодействие с вебсайтом <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a>, где будут опубликованны новые релизы.",
-    "send-crash-reports-hint-part1": "Ezra Bible App может отсылать отчеты о возникших ошибках автоматически на платформу сбора отчетов об ошибках <a class='external' href='https://sentry.io'>Sentry.io</a>.",
+    "check-new-releases-hint": "Ezra Bible App может проверять наличие новых обновлений при каждом запуске. Для этого необходим кратковременное взаимодействие с вебсайтом <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>GitHub</a> for further explanations., где будут опубликованны новые релизы.",
+    "send-crash-reports-hint-part1": "Ezra Bible App может отсылать отчеты о возникших ошибках автоматически на платформу сбора отчетов об ошибках <a class='external' href='https://sentry.io'>Sentry.io</a> for further explanations..",
     "send-crash-reports-hint-part2": "Это поможет комманде разработчиков узнать о возникающих ошибках намного скорее, таким образом делая вклад в улучшение Ezra Bible App.",
     "send-crash-reports-hint-part3": "Приймите во внимание, что отчеты об ошибках содержат только техническую информацию и не требуют значительной пропускной способности данных."
   },
@@ -250,8 +271,7 @@
   "shortcuts": {
     "tab-title": "Комбинации клавиш",
     "description": "Доступны следующие комбинации клавиш:",
-
-    "summary" : {
+    "summary": {
       "font-section-title": "Текст Библии",
       "current-tab-search-section-title": "Поиск по текущей вкладке",
       "miscellaneous-section-title": "Другое",
@@ -270,9 +290,8 @@
       "decrease-current-font-size": "Уменьшить размер текста",
       "reset-font-size-to-default": "Сбросить размер текста"
     },
-
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "in-tab-search": "Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
@@ -415,13 +434,13 @@
     "copy-selected-text-to-clipboard-success": "Выбранный текст скопирован в буфер обмена!",
     "edit-note": "Редактировать заметку",
     "delete-note": "Удалить заметку",
-    "transchange" : {
-      "added" : "Эти слова добавлены в переводе",
-      "amplified" : "Эти слова подчеркивают информацию из текста источника",
-      "changed" : "Эти слова были изменены в переводе",
-      "deleted" : "Некоторые слова из текста источника не включены в перевод",
-      "implied" : "Эти слова были добавлены или изменены для перевода информации подразумевающейся в тексте источника",
-      "moved" : "Эти слова были в другом месте в тексте источника",
+    "transchange": {
+      "added": "Эти слова добавлены в переводе",
+      "amplified": "Эти слова подчеркивают информацию из текста источника",
+      "changed": "Эти слова были изменены в переводе",
+      "deleted": "Некоторые слова из текста источника не включены в перевод",
+      "implied": "Эти слова были добавлены или изменены для перевода информации подразумевающейся в тексте источника",
+      "moved": "Эти слова были в другом месте в тексте источника",
       "tense-change": "Граматический оборот этих слов был изменен для возможности перевода"
     },
     "empty-tab-title": "Пустая вкладка"
@@ -436,13 +455,20 @@
     "help-instruction-part3": "После выбора стиха вы можете наводиться мышкой на отдельные слова и фразы чтобы увидеть статьи из словаря в этом окне.",
     "help-instruction-part3-cordova": "Удерживайте касание на отдельных словах или фразах пока не увидите соответсвующую статью из словаря.",
     "help-instruction-part4-desktop": "Удерживайте клавишу SHIFT для статей по наведению мышки для всех стихов.",
-    "find-all-occurrences": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга",
     "copy-to-clipboard": "Скопировать изучение слов в буфер обмена",
     "copy-to-clipboard-success": "Изучение слов скопировано в буфер обмена!",
     "copy-dict-entry-to-clipboard": "Скопировать статью словаря в буфер обмена",
-    "copy-dict-entry-to-clipboard-success": "Статья словаря скопирована в буфер обмена!"
+    "copy-dict-entry-to-clipboard-success": "Статья словаря скопирована в буфер обмена!",
+    "morphology": "Морфология",
+    "occurrences": "Вхождения",
+    "index-not-available": "Индекс вхождений Стронга для {{translation}} еще не создан.",
+    "generate-index": "Создать индекс",
+    "show-occurrence-statistics": "Показать статистику вхождений",
+    "show-all-occurrences": "Показать все вхождения",
+    "vines-index-not-available": "Индекс словаря Вайна еще не создан. После его создания здесь будут перечислены соответствующие статьи из Vine's Expository Dictionary.",
+    "vines-not-installed": "Модуль Vine's Expository Dictionary не установлен. Вы можете установить его из репозитория Xiphos через помощник модулей."
   },
   "dictionary-panel": {
     "default-header": "<b>Словарь</b>",
@@ -472,9 +498,8 @@
     "select-which-commentaries-to-display": "Выберите, какие комментарии отображать в панели комментариев:",
     "copy-commentary-to-clipboard": "Скопировать комментарий в буфер обмена",
     "copy-commentary-to-clipboard-success": "Комментарий скопирован в буфер обмена!",
-    "help-instruction": "Чтобы увидеть комментарии, выберите стих.<br><br> Эта область автоматически отобразит все имеющиеся комментарии к выбранному стиху.",
+    "help-instruction": "Чтобы показать содержание комментариев и сноски, выберите стих.<br><br> Эта область автоматически покажет выбранный стих из всех доступных комментариев. Также сноски для выбранного стиха будут перечислены под содержанием комментария.",
     "help-instruction-no-commentaries": "Комментарии не были установленны. Вам необходимо установить как минимум один комментарий.",
-    "help-instruction-no-kjv": "Перевод Библии KJV не установлен. Этот перевод нужен для коректного отображения комментариев основанных на англоязычном разделе на стихи. Это будет исправленно:<ul><li>При установке перевода KJV из репозитория CrossWire</li><li>При установке комментария (в этом случае перевод KJV будет установлен автоматически)</li></ul>",
     "no-commentaries-available-for-this-verse": "Комментарии для этого стиха отсутствуют.",
     "copy-button": "Скопировать комментарий",
     "footnotes": "Сноски"
@@ -505,9 +530,7 @@
     "init-i18n": "Инициализация локализации",
     "init-sword": "Инициализация SWORD",
     "init-database": "Инициализация базы данных",
-    "init-user-interface": "Инициализация интерфейса",
-    "loading-settings": "Загрузка настроек",
-    "waiting-app-ready": "Ожидание готовности приложения"
+    "init-user-interface": "Инициализация интерфейса"
   },
   "dropbox": {
     "setup-dropbox": "Настройки Dropbox",
@@ -573,6 +596,13 @@
     "modules-skipped": "{{count}} модулей пропущено (уже установлены)",
     "modules-failed": "{{count}} модулей не удалось установить",
     "install-summary": "Итоги установки",
-    "dropbox-not-linked": "Аккаунт Dropbox не связан. Сначала настройте Dropbox."
+    "dropbox-not-linked": "Аккаунт Dropbox не связан. Сначала настройте Dropbox.",
+    "module-header": "Модуль",
+    "status-header": "Статус",
+    "processing": "Обработка...",
+    "row-installed": "✓ Установлен",
+    "row-failed": "✗ Ошибка: {{error}}",
+    "unknown-error": "Неизвестная ошибка",
+    "installation-failed": "Установка не удалась"
   }
 }

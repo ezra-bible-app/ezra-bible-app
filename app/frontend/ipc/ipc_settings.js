@@ -21,9 +21,24 @@ const IpcRenderer = require('./ipc_renderer.js');
 class IpcSettings {
   constructor() {
     this._ipcRenderer = new IpcRenderer();
+    this._cache = {};
+  }
+
+  async preloadAll(configName='config') {
+    if (platformHelper.isTest()) {
+      return;
+    }
+
+    const allSettings = await this._ipcRenderer.call('settings_getAll', configName);
+    if (allSettings !== null && allSettings !== undefined) {
+      this._cache[configName] = allSettings;
+    }
   }
 
   async set(settingsKey, settingsValue, configName='config') {
+    if (this._cache[configName] !== undefined) {
+      this._cache[configName][settingsKey] = settingsValue;
+    }
     return await this._ipcRenderer.call('settings_set', configName, settingsKey, settingsValue);
   }
 
@@ -32,14 +47,25 @@ class IpcSettings {
       return defaultValue;
     }
 
+    if (this._cache[configName] !== undefined) {
+      const cachedValue = this._cache[configName][settingsKey];
+      return cachedValue !== undefined ? cachedValue : defaultValue;
+    }
+
     return await this._ipcRenderer.call('settings_get', configName, settingsKey, defaultValue);
   }
 
   async has(settingsKey, configName='config') {
+    if (this._cache[configName] !== undefined) {
+      return Object.prototype.hasOwnProperty.call(this._cache[configName], settingsKey);
+    }
     return await this._ipcRenderer.call('settings_has', configName, settingsKey);
   }
 
   async delete(settingsKey, configName='config') {
+    if (this._cache[configName] !== undefined) {
+      delete this._cache[configName][settingsKey];
+    }
     return await this._ipcRenderer.call('settings_delete', configName, settingsKey);
   }
 

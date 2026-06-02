@@ -854,7 +854,9 @@ class TextController {
       await eventController.publishAsync('on-verse-list-init', tabIndex);
     }
 
-    verseListController.hideVerseListLoadingIndicator();
+    if (!app_controller.tab_controller.startupLoadingInProgress) {
+      verseListController.hideVerseListLoadingIndicator();
+    }
     verseListController.hideSearchProgressBar();
     var initialRendering = true;
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
@@ -945,6 +947,10 @@ class TextController {
     }
 
     target.html(htmlVerseList);
+
+    if (!append && app_controller.tab_controller.startupLoadingInProgress) {
+      target.hide();
+    }
 
     if (referenceVerseHtml != null) {
       let verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
@@ -1038,7 +1044,9 @@ class TextController {
         this._explicitChapterNavigation = false;
       }
 
-      uiHelper.hideTextLoadingIndicator();
+      if (!app_controller.tab_controller.startupLoadingInProgress) {
+        uiHelper.hideTextLoadingIndicator();
+      }
     }
   }
 

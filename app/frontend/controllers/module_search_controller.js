@@ -503,7 +503,7 @@ class ModuleSearchController {
             return;
           }
 
-          app_controller.word_study_controller.showStrongsInfo(this.currentSearchTerm, false /* do not show strongs box */);
+          app_controller.word_study_controller.showWordInfo(this.currentSearchTerm, false /* do not show strongs box */);
         }
 
         app_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);

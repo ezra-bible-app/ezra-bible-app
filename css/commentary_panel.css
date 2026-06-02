@@ -38,9 +38,6 @@
 }
 
 #commentary-panel-settings-button {
-  float: right;
-  margin-right: 0.5em;
-  margin-top: -2.2em;
   padding: 0.3em 0.5em;
   cursor: pointer;
 }
@@ -157,6 +154,14 @@
 
 .footnote-entry {
   margin-bottom: 0.5em;
+}
+
+.footnotes-translation-label {
+  font-weight: bold;
+  margin-top: 0.8em;
+  margin-bottom: 0.3em;
+  font-size: 85%;
+  letter-spacing: 0.05em;
 }
 
 .footnote-number {
