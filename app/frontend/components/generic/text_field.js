@@ -49,6 +49,13 @@ const template = html`
     height: var(--input-height);
   }
 
+  /* On smartphones, use a narrower input. */
+  @media screen and (max-width: 450px) {
+    .text-field input {
+      width: 55%;
+    }
+  }
+
   #delete-button {
     position: relative;
     right: 25px;
