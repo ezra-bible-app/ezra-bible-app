@@ -55,7 +55,8 @@ class DictionaryPanel {
     });
 
     this._referenceBoxHelper = new ReferenceBoxHelper(this.getPanel(), this.getReferenceBox());
-  this.initDictionaryImageDialog();
+
+    this.initDictionaryImageDialog();
 
     document.getElementById('dictionary-panel-info-button').addEventListener('click', () => {
       const selectedModuleCode = this.getSelectElement().value;
@@ -118,6 +119,7 @@ class DictionaryPanel {
     }
 
     let dialogOptions = uiHelper.getDialogOptions(700, 600, false, null, false, true);
+
     dialogOptions.autoOpen = false;
     dialogOptions.dialogClass = 'ezra-dialog dictionary-image-dialog';
     dialogOptions.title = '';
@@ -128,6 +130,7 @@ class DictionaryPanel {
       of: window,
       collision: 'none'
     };
+
     dialogOptions.open = () => {
       const dialogWidget = $('#dictionary-image-dialog').dialog('widget');
       const viewportWidth = $(window).width();
@@ -140,6 +143,7 @@ class DictionaryPanel {
       dialogWidget.css('box-sizing', 'border-box');
       dialogWidget.outerWidth(viewportWidth);
     };
+
     dialogOptions.close = () => {
       this.clearDictionaryImageDialog();
     };
