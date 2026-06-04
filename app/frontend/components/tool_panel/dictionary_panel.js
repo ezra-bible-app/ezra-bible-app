@@ -32,6 +32,7 @@ class DictionaryPanel {
     this._initDone = false;
     this._currentKey = null;
     this._filterTimeout = null;
+    this._dictionaryImageDialogInitialized = false;
 
     eventController.subscribe('on-dictionary-panel-switched', (isOpen) => {
       if (isOpen && !this._initDone) {
@@ -44,6 +45,7 @@ class DictionaryPanel {
         }, 50);
       } else {
         this.getKeyContainer().style.display = 'none';
+        this.closeDictionaryImageDialog();
       }
     });
 
@@ -53,6 +55,7 @@ class DictionaryPanel {
     });
 
     this._referenceBoxHelper = new ReferenceBoxHelper(this.getPanel(), this.getReferenceBox());
+  this.initDictionaryImageDialog();
 
     document.getElementById('dictionary-panel-info-button').addEventListener('click', () => {
       const selectedModuleCode = this.getSelectElement().value;
@@ -93,6 +96,144 @@ class DictionaryPanel {
 
   getReferenceBox() {
     return document.getElementById('dictionary-panel-reference-box');
+  }
+
+  getDictionaryImageDialog() {
+    return document.getElementById('dictionary-image-dialog');
+  }
+
+  getDictionaryImageElement() {
+    return document.getElementById('dictionary-image-dialog-image');
+  }
+
+  initDictionaryImageDialog() {
+    if (this._dictionaryImageDialogInitialized) {
+      return;
+    }
+
+    let imageDialog = this.getDictionaryImageDialog();
+
+    if (imageDialog == null) {
+      return;
+    }
+
+    let dialogOptions = uiHelper.getDialogOptions(700, 600, false, null, false, true);
+    dialogOptions.autoOpen = false;
+    dialogOptions.dialogClass = 'ezra-dialog dictionary-image-dialog';
+    dialogOptions.title = '';
+    dialogOptions.closeOnEscape = true;
+    dialogOptions.position = {
+      my: 'left top',
+      at: 'left top',
+      of: window,
+      collision: 'none'
+    };
+    dialogOptions.open = () => {
+      const dialogWidget = $('#dictionary-image-dialog').dialog('widget');
+      const viewportWidth = $(window).width();
+      const currentLeft = parseInt(dialogWidget.css('left'), 10);
+
+      if (isNaN(currentLeft) || currentLeft < 0) {
+        dialogWidget.css('left', '0px');
+      }
+
+      dialogWidget.css('box-sizing', 'border-box');
+      dialogWidget.outerWidth(viewportWidth);
+    };
+    dialogOptions.close = () => {
+      this.clearDictionaryImageDialog();
+    };
+
+    $('#dictionary-image-dialog').dialog(dialogOptions);
+    uiHelper.fixDialogCloseIconOnCordova('dictionary-image-dialog');
+    this._dictionaryImageDialogInitialized = true;
+  }
+
+  clearDictionaryImageDialog() {
+    let imageElement = this.getDictionaryImageElement();
+
+    if (imageElement != null) {
+      imageElement.setAttribute('src', '');
+      imageElement.setAttribute('alt', '');
+    }
+  }
+
+  closeDictionaryImageDialog() {
+    let imageDialog = this.getDictionaryImageDialog();
+
+    if (imageDialog != null && imageDialog.classList.contains('ui-dialog-content')) {
+      let $dialog = $('#dictionary-image-dialog');
+
+      if ($dialog.dialog('isOpen')) {
+        $dialog.dialog('close');
+      }
+    }
+  }
+
+  initDictionaryImageClickHandlers() {
+    let dictEntry = this.getContentContainer().querySelector('.dict-entry');
+
+    if (dictEntry == null) {
+      return;
+    }
+
+    let imageElements = dictEntry.querySelectorAll('img');
+
+    imageElements.forEach((imageElement) => {
+      const EVENT_CLASS = 'event-init-done-image-click';
+
+      imageElement.style.cursor = 'pointer';
+
+      if (!imageElement.classList.contains(EVENT_CLASS)) {
+        imageElement.classList.add(EVENT_CLASS);
+        imageElement.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          this.openImageFullscreen(event.currentTarget);
+        });
+      }
+    });
+  }
+
+  openImageFullscreen(imageElement) {
+    if (imageElement == null) {
+      return;
+    }
+
+    let src = imageElement.currentSrc;
+
+    if (src == null || src == '') {
+      src = imageElement.getAttribute('src');
+    }
+
+    if (src == null || src == '') {
+      return;
+    }
+
+    this.initDictionaryImageDialog();
+
+    if (!this._dictionaryImageDialogInitialized) {
+      return;
+    }
+
+    let dialogImage = this.getDictionaryImageElement();
+
+    if (dialogImage == null) {
+      return;
+    }
+
+    let alt = imageElement.getAttribute('alt');
+
+    dialogImage.setAttribute('src', src);
+    dialogImage.setAttribute('alt', alt != null ? alt : '');
+
+    let dialogTitle = '';
+    if (this._currentKey != null) {
+      dialogTitle = this._currentKey.innerText.trim();
+    }
+    $('#dictionary-image-dialog').dialog('option', 'title', dialogTitle);
+    $('#dictionary-image-dialog').dialog('open');
+    uiHelper.fixDialogCloseIconOnCordova('dictionary-image-dialog');
   }
 
   async init() {
@@ -337,6 +478,7 @@ class DictionaryPanel {
     this._referenceBoxHelper.hideReferenceBox();
 
     this.initReferences();
+    this.initDictionaryImageClickHandlers();
 
     this.getContentContainer().querySelector('.close-icon').addEventListener('click', (event) => {
       event.preventDefault();
@@ -645,6 +787,8 @@ class DictionaryPanel {
   }
 
   closeDictEntry() {
+    this.closeDictionaryImageDialog();
+
     if (this._currentKey != null) {
       this._currentKey.classList.remove('selected');
       this.getPanel().classList.remove('dict-entry-shown');
