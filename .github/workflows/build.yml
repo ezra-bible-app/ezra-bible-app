@@ -63,10 +63,6 @@ jobs:
             APPLE_ID_PW: ${{ secrets.APPLE_ID_PW }}
             APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           run: npm run notarize-mac-x64
-        - name: Log DMG build architecture
-          run: |
-            echo "Runner architecture: $(uname -m)"
-            echo "Node architecture: $(node -p 'process.arch')"
         - name: Create DMG
           run: npm run dmg-mac-x64
         - name: Rename DMG
@@ -98,10 +94,6 @@ jobs:
             APPLE_ID_PW: ${{ secrets.APPLE_ID_PW }}
             APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           run: npm run notarize-mac-arm64
-        - name: Log DMG build architecture
-          run: |
-            echo "Runner architecture: $(uname -m)"
-            echo "Node architecture: $(node -p 'process.arch')"
         - name: Create DMG
           run: npm run dmg-mac-arm64
         - name: Rename DMG
