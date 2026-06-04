@@ -52,6 +52,7 @@ jobs:
         - uses: actions/setup-node@v4
           with:
             node-version: '22.12.0'
+            architecture: 'arm64'
         - name: Build
           run: npm run build-mac-x64
         - name: Sign
@@ -82,6 +83,7 @@ jobs:
         - uses: actions/setup-node@v4
           with:
             node-version: '22.12.0'
+            architecture: 'arm64'
         - name: Build
           run: npm run build-mac-arm64
         - name: Sign
@@ -264,21 +266,6 @@ jobs:
             name: ezra-bible-app_fedora37_latest
             path: ezra-bible-app_latest.rpm
 
-    build-centos8:
-        name: Build CentOS 8 package
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v4
-        - name: Build
-          uses: ./.github/actions/build_centos8
-          env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        - name: Upload rpm file
-          uses: actions/upload-artifact@v4.6.2
-          with:
-            name: ezra-bible-app_centos8_latest
-            path: ezra-bible-app_latest.rpm
-
     build-centos9:
         name: Build CentOS 9 package
         runs-on: ubuntu-latest
@@ -331,7 +318,7 @@ jobs:
       needs: [ build-win32, build-mac-x64, build-mac-arm64, build-ubuntu-2004, build-ubuntu-2204,
                build-ubuntu-2404, build-bullseye, build-bookworm,
                build-fedora33, build-fedora35, build-fedora37,
-               build-centos8, build-centos9, build-opensuse-leap-15-5,
+               build-centos9, build-opensuse-leap-15-5,
                build-opensuse-leap-15-6]
 
       steps:
@@ -407,12 +394,6 @@ jobs:
           name: ezra-bible-app_fedora37_latest
           path: ezra-bible-app_fedora37_latest
 
-      - name: Download centos8 package
-        uses: actions/download-artifact@v4.1.8
-        with:
-          name: ezra-bible-app_centos8_latest
-          path: ezra-bible-app_centos8_latest
-
       - name: Download centos9 package
         uses: actions/download-artifact@v4.1.8
         with:
@@ -447,7 +428,6 @@ jobs:
           mv ezra-bible-app_debian11_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian11-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_debian12_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian12-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_debian13_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian13-${GITHUB_REF##*/}.deb
-          mv ezra-bible-app_centos8_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_centos8-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_centos9_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_centos9-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_opensuse_leap_15.5_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap_15.5-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_opensuse_leap_15.6_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap_15.6-${GITHUB_REF##*/}.rpm
