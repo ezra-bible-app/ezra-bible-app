@@ -13,7 +13,6 @@ cp -a ezra-project ezra-project-linux-mint18
 cp -a ezra-project ezra-project-buster
 cp -a ezra-project ezra-project-fedora29
 cp -a ezra-project ezra-project-fedora31
-cp -a ezra-project ezra-project-centos8
 cp -a ezra-project ezra-project-opensuse-leap
 
 echo ""
@@ -45,12 +44,6 @@ echo "******** Building for Fedora 31 ******** "
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-fedora31 fedora31.ezra:1.0 /tmp/ezra-packages/ezra-project-fedora31/build_scripts/build.sh
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-fedora31 fedora31.ezra:1.0 npm run rpm_fedora29
 mv /tmp/ezra-packages/ezra-project-fedora31/release/packages/*.rpm ezra-project_fedora31_${VERSION}.x86_64.rpm
-
-echo ""
-echo "******** Building for CentOS 8 ******** "
-docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-centos8 centos8.ezra:1.0 /tmp/ezra-packages/ezra-project-centos8/build_scripts/build.sh
-docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-centos8 centos8.ezra:1.0 npm run rpm_centos
-mv /tmp/ezra-packages/ezra-project-centos8/release/packages/*.rpm ezra-project_centos8_${VERSION}.x86_64.rpm
 
 echo ""
 echo "******** Building for OpenSuse Leap ******** "
