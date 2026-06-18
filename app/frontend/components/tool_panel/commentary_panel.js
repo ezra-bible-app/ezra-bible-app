@@ -192,12 +192,21 @@ class CommentaryPanel {
   }
 
   showLoadingIndicator() {
-    let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
-    loadingIndicator.querySelector('.loader').style.display = 'block';
-    loadingIndicator.style.display = 'block';
+    if (this._loadingIndicatorTimeout != null) { return; }
+    this._loadingIndicatorTimeout = setTimeout(() => {
+      this._loadingIndicatorTimeout = null;
+      this.getBoxContent().innerHTML = '';
+      let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
+      loadingIndicator.querySelector('.loader').style.display = 'block';
+      loadingIndicator.style.display = 'block';
+    }, 300);
   }
-  
+
   hideLoadingIndicator() {
+    if (this._loadingIndicatorTimeout != null) {
+      clearTimeout(this._loadingIndicatorTimeout);
+      this._loadingIndicatorTimeout = null;
+    }
     let loadingIndicator = document.getElementById('commentary-panel-loading-indicator');
     loadingIndicator.style.display = 'none';
   }
@@ -272,9 +281,9 @@ class CommentaryPanel {
 
     panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
 
-    if (platformHelper.isCordova()) {
+    const autoTranslationEnabled = await ipcSettings.get('enableAutoTranslation', false);
+    if (platformHelper.isCordova() || autoTranslationEnabled) {
 
-      this.getBoxContent().innerHTML = '';
       this.showLoadingIndicator();
       this.performDelayedContentRefresh(selectedVerseBoxes, commentaryPreconditionsFulfilled);
 
@@ -287,9 +296,7 @@ class CommentaryPanel {
   async performContentRefresh(selectedVerseBoxes=undefined, commentaryPreconditionsFulfilled=true) {
     const commentaryContent = await this.getCommentaryContent(selectedVerseBoxes, commentaryPreconditionsFulfilled);
 
-    if (platformHelper.isCordova()) {
-      this.hideLoadingIndicator();
-    }
+    this.hideLoadingIndicator();
 
     this.renderContentInPanel(commentaryContent);
     this.attachContentEventListeners();

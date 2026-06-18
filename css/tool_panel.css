@@ -282,6 +282,23 @@ body.tool-panel-fullscreen .fullscreen-button {
   cursor: pointer;
 }
 
+.panel-header-loading-indicator {
+  float: right;
+  margin-top: 0.55em;
+  margin-right: 0.5em;
+}
+
+.panel-header-loading-indicator .loader {
+  float: none !important;
+  width: 30px;
+}
+
+.panel-header-loading-indicator .loader > div {
+  width: 7px;
+  height: 7px;
+  background-color: currentColor;
+}
+
 .panel-wrapper {
   clear: both;
   height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
