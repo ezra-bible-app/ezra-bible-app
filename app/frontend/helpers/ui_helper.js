@@ -126,13 +126,50 @@ class UiHelper {
     if (!platformHelper.isCordova()) {
       return;
     }
-    
-    var text = i18nController.getStringForStartup(i18nKey, fallbackText);
-    if (text === fallbackText && window.i18n !== undefined && typeof window.i18n.t === 'function') {
-      text = window.i18n.t(i18nKey);
+
+    let text = null;
+
+    // Prefer the live i18next translation whenever it is fully initialized.
+    // This gives the correct localized text even on the very first run, when
+    // the localStorage-backed startup cache is still empty.
+    if (window.i18n !== undefined &&
+        typeof window.i18n.t === 'function' &&
+        window.i18n.isInitialized) {
+      const translated = window.i18n.t(i18nKey);
+      if (translated && translated !== i18nKey) {
+        text = translated;
+      }
     }
 
-    document.querySelector('#loading-subtitle').textContent = text !== i18nKey ? text : fallbackText;
+    // Fall back to the cached translation persisted from a previous run.
+    if (text == null) {
+      const cached = i18nController.getStringForStartup(i18nKey, null);
+      if (cached) {
+        text = cached;
+      }
+    }
+
+    // Final fallback: the English literal passed by the caller.
+    if (text == null) {
+      text = fallbackText;
+    }
+
+    this._currentLoadingSubtitleKey = i18nKey;
+    this._currentLoadingSubtitleFallback = fallbackText;
+
+    document.querySelector('#loading-subtitle').textContent = text;
+  }
+
+  /**
+   * Re-applies the most recently requested loading subtitle. Call this after
+   * i18next has finished initializing so that any subtitle previously rendered
+   * with the English fallback gets replaced with the localized text.
+   */
+  refreshLoadingSubtitle() {
+    if (this._currentLoadingSubtitleKey != null) {
+      this.updateLoadingSubtitle(this._currentLoadingSubtitleKey,
+                                 this._currentLoadingSubtitleFallback || "");
+    }
   }
 
   getCurrentTextLoadingIndicator(tabIndex=undefined) {

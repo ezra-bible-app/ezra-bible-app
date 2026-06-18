@@ -240,6 +240,23 @@ h2:nth-of-type(1) {
   flex-wrap: wrap;
 }
 
+/* Disable all verse-list-menu buttons until startup is completed.
+   The 'startup-in-progress' class is set on <body> initially and removed
+   after the on-startup-completed event has been fully processed.
+   Note: the bible-select uses the legacy Filament Group jQuery UI SelectMenu
+   plugin, which renders an <a class="ui-selectmenu"> button (not the modern
+   .ui-selectmenu-button). Both class names are listed for compatibility. */
+body.startup-in-progress .verse-list-menu .fg-button,
+body.startup-in-progress #verse-list-tabs .fg-button,
+body.startup-in-progress .fullscreen-button,
+body.startup-in-progress .bible-select-block .ui-selectmenu,
+body.startup-in-progress .bible-select-block .ui-selectmenu-button,
+body.startup-in-progress .bible-select-block .bible-select {
+  pointer-events: none !important;
+  opacity: 0.5;
+  cursor: default;
+}
+
 .fullscreen #app-container .verse-list-menu {
   display: none !important;
 }

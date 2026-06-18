@@ -135,7 +135,18 @@ class AppController {
     moduleUpdateController.init();
     transChangeTitles.init();
     clipboardController.init();
-    
+
+    // Initialize the book selection menu here (rather than via the
+    // on-startup-completed event) so that the menu is rendered from cache and
+    // the verse-list menu is unlocked without having to wait for SWORD/DB
+    // initialization, which on Cordova may run deferred via on-startup-completed
+    // subscribers.
+    try {
+      await this.book_selection_menu.init();
+    } catch (e) {
+      console.warn('BookSelectionMenu.init() failed during app_controller.init():', e);
+    }
+
     if (platformHelper.isMobile()) {
       this.mobile_tab_controller.init();
     }
@@ -216,9 +227,12 @@ class AppController {
       const lastUsedTagGroupId = await ipcSettings.get('lastUsedTagGroupId', null);
       if (lastUsedTagGroupId !== null) {
         tag_assignment_panel.currentTagGroupId = lastUsedTagGroupId;
-        const tagGroupList = document.getElementById('tag-panel-tag-group-list');
-        const tagGroup = await tagGroupList._tagGroupManager.getItemById(tag_assignment_panel.currentTagGroupId);
-        await eventController.publishAsync('on-tag-group-selected', tagGroup);
+
+        if (window.dbInitialized) {
+          const tagGroupList = document.getElementById('tag-panel-tag-group-list');
+          const tagGroup = await tagGroupList._tagGroupManager.getItemById(tag_assignment_panel.currentTagGroupId);
+          await eventController.publishAsync('on-tag-group-selected', tagGroup);
+        }
       }
 
       await this.book_selection_menu.updateAvailableBooks();
@@ -241,7 +255,13 @@ class AppController {
 
     let bibleTranslations = await ipcNsi.getAllLocalModuleIds('BIBLE');
     if (bibleTranslations != null && bibleTranslations.length > 0) {
-      bookSelectButton.classList.remove('ui-state-disabled');
+      // Only enable the book selection button once the BookSelectionMenu has finished
+      // its asynchronous initialization. Otherwise a click could open an empty/uninitialized menu.
+      if (this.book_selection_menu != null && this.book_selection_menu.init_completed) {
+        bookSelectButton.classList.remove('ui-state-disabled');
+      } else {
+        bookSelectButton.classList.add('ui-state-disabled');
+      }
       moduleSearchButton.classList.remove('ui-state-disabled');
     } else {
       bookSelectButton.classList.add('ui-state-disabled');

@@ -32,9 +32,10 @@ class BookSelectionMenu {
     this.recentPassagesKey = 'recentPassages';
     this.chapterMenuOpenedFromBookMenu = false;
 
-    eventController.subscribe('on-startup-completed', async () => {
-      await this.init();
-    });
+    // NOTE: init() is invoked explicitly from startup.initApplication (before the
+    // on-startup-completed event is published) so that the book menu is usable
+    // from cache without having to wait for SWORD/DB initialization, which on
+    // Cordova may run deferred via on-startup-completed subscribers.
   }
 
   getBookSelectionMenuList() {
@@ -118,6 +119,29 @@ class BookSelectionMenu {
     this.subscribeForEvents();
     await this.renderRecentPassages(); // Render recent passages on initialization
     this.init_completed = true;
+
+    // Now that initialization is complete, enable the book selection button
+    // (it was kept disabled during startup to prevent clicks before the menu is ready).
+    await this.enableBookSelectButtonIfTranslationsAvailable();
+
+    // Unblock the rest of the verse-list menu and hide the text loading indicator.
+    // We intentionally wait for the BookSelectionMenu to be initialized (rather
+    // than only for SWORD) so that the menu is fully functional before the user
+    // can interact with it. We do NOT wait for the database initialization to
+    // complete here.
+    document.body.classList.remove('startup-in-progress');
+    uiHelper.hideTextLoadingIndicator();
+  }
+
+  async enableBookSelectButtonIfTranslationsAvailable() {
+    try {
+      const bibleTranslations = await ipcNsi.getAllLocalModuleIds('BIBLE');
+      if (bibleTranslations != null && bibleTranslations.length > 0) {
+        $('.book-select-button').removeClass('ui-state-disabled');
+      }
+    } catch (e) {
+      console.warn("Could not enable book selection button after init:", e);
+    }
   }
 
   initLinks() {
@@ -226,6 +250,9 @@ class BookSelectionMenu {
 
       if (currentBibleTranslationId != null) {
         const books = await ipcNsi.getBookList(currentBibleTranslationId);
+        if (books == null) {
+          return;
+        }
         let bookLinks = document.getElementById('book-selection-menu-book-list').querySelectorAll('li');
 
         for (let i = 0; i < bookLinks.length; i++) {
@@ -286,7 +313,7 @@ class BookSelectionMenu {
     }
 
     var books = await ipcNsi.getBookList(this.currentBibleTranslationId);
-    if (!books.includes(bookCode)) {
+    if (books == null || !books.includes(bookCode)) {
       return;
     }
 

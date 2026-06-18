@@ -19,6 +19,7 @@
 const IpcRenderer = require('./ipc_renderer.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const HierarchicalObjectCache = require('./hierarchical_object_cache.js');
+const LocalModuleSnapshotHelper = require('../helpers/local_module_snapshot_helper.js');
 
 class IpcNsi {
   constructor() {
@@ -32,6 +33,19 @@ class IpcNsi {
     this._bookListCache = new HierarchicalObjectCache();
     this._bookHeaderCache = new HierarchicalObjectCache();
     this._moduleBookStatusCache = new HierarchicalObjectCache();
+    this._localModuleSnapshotHelper = new LocalModuleSnapshotHelper(this._ipcRenderer, this._isCordova);
+  }
+
+  initLocalModuleSnapshotRefresh() {
+    this._localModuleSnapshotHelper.initRefresh();
+  }
+
+  invalidateLocalModuleSnapshot() {
+    this._localModuleSnapshotHelper.invalidate();
+  }
+
+  async refreshLocalModuleSnapshot() {
+    return await this._localModuleSnapshotHelper.refresh();
   }
 
   async repositoryConfigExisting() {
@@ -113,8 +127,21 @@ class IpcNsi {
   }
 
   async getAllLocalModules(moduleType='BIBLE') {
-    var returnValue = this._ipcRenderer.call('nsi_getAllLocalModules', moduleType);
-    return returnValue;
+    const cachedModules = this._localModuleSnapshotHelper.getCachedLocalModules(moduleType);
+
+    if (cachedModules !== undefined) {
+      return cachedModules;
+    }
+
+    if (this._isCordova && !window.swordInitialized) {
+      // Don't cache the empty result so subsequent calls can retry once SWORD is ready.
+      return [];
+    }
+
+    const returnValue = await this._ipcRenderer.call('nsi_getAllLocalModules', moduleType);
+    const modules = Array.isArray(returnValue) ? returnValue : [];
+    this._localModuleSnapshotHelper.cacheLocalModules(moduleType, modules);
+    return modules;
   }
 
   getAllLocalModulesSync(moduleType='BIBLE') {
@@ -123,8 +150,21 @@ class IpcNsi {
   }
 
   async getAllLocalModuleIds(moduleType='BIBLE') {
-    var returnValue = this._ipcRenderer.call('nsi_getAllLocalModuleIds', moduleType);
-    return returnValue;
+    const cachedModuleIds = this._localModuleSnapshotHelper.getCachedLocalModuleIds(moduleType);
+
+    if (cachedModuleIds !== undefined) {
+      return cachedModuleIds;
+    }
+
+    if (this._isCordova && !window.swordInitialized) {
+      // Don't cache the empty result so subsequent calls can retry once SWORD is ready.
+      return [];
+    }
+
+    const returnValue = await this._ipcRenderer.call('nsi_getAllLocalModuleIds', moduleType);
+    const moduleIds = Array.isArray(returnValue) ? returnValue : [];
+    this._localModuleSnapshotHelper.cacheLocalModuleIds(moduleType, moduleIds);
+    return moduleIds;
   }
 
   async getAllLanguageModuleCount(selectedRepos, languageCodeArray, moduleType='BIBLE') {
@@ -188,6 +228,9 @@ class IpcNsi {
   }
 
   async getChapterText(moduleCode, bookCode, chapter) {
+    if (this._isCordova && !window.swordInitialized) {
+      return null;
+    }
     var returnValue = this._ipcRenderer.call('nsi_getChapterText', moduleCode, bookCode, chapter);
     return returnValue;
   }
@@ -210,30 +253,45 @@ class IpcNsi {
 
   async getBookList(moduleCode) {
     return await this._bookListCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getBookList', moduleCode);
     }, moduleCode);
   }
 
   async getBookChapterCount(moduleCode, bookCode) {
     return await this._bookChapterCountCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getBookChapterCount', moduleCode, bookCode);
     }, moduleCode, bookCode);
   }
 
   async getChapterVerseCount(moduleCode, bookCode, chapter) {
     return await this._chapterVerseCountCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getChapterVerseCount', moduleCode, bookCode, chapter);
     }, moduleCode, bookCode, chapter);
   }
 
   async getBookVerseCount(moduleCode, bookCode) {
     return await this._bookVerseCountCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getBookVerseCount', moduleCode, bookCode);
     }, moduleCode, bookCode);
   }
 
   async getAllChapterVerseCounts(moduleCode, bookCode) {
     return await this._allChapterVerseCountCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getAllChapterVerseCounts', moduleCode, bookCode);
     }, moduleCode, bookCode);
   }
@@ -269,12 +327,22 @@ class IpcNsi {
   }
 
   async moduleHasApocryphalBooks(moduleCode) {
-    var returnValue = this._ipcRenderer.call('nsi_moduleHasApocryphalBooks', moduleCode);
+    const cachedHasApocrypha = this._localModuleSnapshotHelper.getCachedModuleApocrypha(moduleCode);
+
+    if (cachedHasApocrypha !== undefined) {
+      return cachedHasApocrypha;
+    }
+
+    const returnValue = await this._ipcRenderer.call('nsi_moduleHasApocryphalBooks', moduleCode);
+    this._localModuleSnapshotHelper.cacheModuleApocrypha(moduleCode, returnValue);
     return returnValue;
   }
 
   async getModuleBookStatus(bookCode) {
     return await this._moduleBookStatusCache.fetch(async () => {
+      if (this._isCordova && !window.swordInitialized) {
+        return null;
+      }
       return await this._ipcRenderer.call('nsi_getModuleBookStatus', bookCode);
     }, bookCode);
   }
@@ -318,7 +386,12 @@ class IpcNsi {
   }
 
   async strongsAvailable() {
-    var returnValue = this._ipcRenderer.call('nsi_strongsAvailable');
+    if (this._localModuleSnapshotHelper.hasCachedStrongsAvailable()) {
+      return this._localModuleSnapshotHelper.getCachedStrongsAvailable();
+    }
+
+    const returnValue = await this._ipcRenderer.call('nsi_strongsAvailable');
+    this._localModuleSnapshotHelper.cacheStrongsAvailable(returnValue);
     return returnValue;
   }
 
@@ -328,6 +401,11 @@ class IpcNsi {
   }
 
   async getLocalModule(moduleCode) {
+    const cachedModule = this._localModuleSnapshotHelper.getCachedLocalModuleByCode(moduleCode);
+    if (cachedModule !== undefined) {
+      return cachedModule;
+    }
+
     var module = this._ipcRenderer.call('nsi_getLocalModule', moduleCode);
     return module;
   }

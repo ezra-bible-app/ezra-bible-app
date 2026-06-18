@@ -84,7 +84,13 @@ module.exports.isCacheOutdated = async function () {
 
   tabConfigTimestamp = new Date(tabConfigTimestamp);
 
-  var dbUpdateTimestamp = new Date(await ipcDb.getLastMetaRecordUpdate());
+  const lastMetaRecordUpdate = await ipcDb.getLastMetaRecordUpdate();
+
+  if (lastMetaRecordUpdate == null) {
+    return false;
+  }
+
+  var dbUpdateTimestamp = new Date(lastMetaRecordUpdate);
 
   if (dbUpdateTimestamp != null && dbUpdateTimestamp.getTime() > tabConfigTimestamp.getTime()) {
     return true;

@@ -187,17 +187,21 @@ class Startup {
   }
 
   async initIpcClients() {
-    if (window.ipcGeneral === undefined) {
+    if (window.ipcGeneral == null) {
       window.ipcGeneral = new IpcGeneral();
     }
 
-    if (window.ipcI18n === undefined) {
+    if (window.ipcI18n == null) {
       window.ipcI18n = new IpcI18n();
     }
 
     window.ipcNsi = new IpcNsi();
+    window.ipcNsi.initLocalModuleSnapshotRefresh();
     window.ipcDb = new IpcDb();
-    window.ipcSettings = new IpcSettings();
+
+    if (window.ipcSettings == null) {
+      window.ipcSettings = new IpcSettings();
+    }
   }
 
   async initControllers() {
@@ -398,6 +402,10 @@ class Startup {
       await i18nController.initLocale();
     }
 
+    // Now that i18next is fully initialized, re-render the most recently set loading
+    // subtitle. This replaces any English fallback text that was shown before i18n was ready.
+    uiHelper.refreshLoadingSubtitle();
+
     console.log("Loading HTML fragments");
     this.loadHTML();
 
@@ -470,17 +478,26 @@ class Startup {
     app_controller.tab_controller.restoreScrollPosition(0);
     // FIXME: Also highlight the last navigation element in the navigation pane and scroll to it
 
-    dbSyncController.init();
-
     // Wait for the first fully settled and correctly-scrolled frame before recording T2.
     await waitForRenderedFrame();
     await this.recordStartupMilestone('t2FirstMeaningfulContentVisible');
 
+    console.timeEnd("application-startup");
+
+    try {
+      await eventController.publishAsync('on-startup-completed');
+      app_controller.startupCompleted = true;
+
+    } finally {
+      // Re-enable all menu buttons now that startup is fully completed.
+      document.body.classList.remove('startup-in-progress');
+    }
+
+    dbSyncController.init();
+
     setTimeout(() => {
       dbSyncController.showSyncResultMessage();
     }, 3000);
-
-    console.timeEnd("application-startup");
 
     // Save some meta data about versions used
     cacheController.saveLastUsedVersion();
@@ -515,28 +532,9 @@ class Startup {
       newReleaseChecker.check();
     }
 
-    const isDropboxAccessUpgradeNeeded = await ipcDb.isDropboxAccessUpgradeNeeded();
-
-    if (isDropboxAccessUpgradeNeeded) {
-      // The Dropbox access level has changed from full access to app folder access in version 1.15.
-      // Here we inform the user about this change.
-
-      const message = i18n.t('dropbox.access-method-message-part1') +
-                      i18n.t('dropbox.access-method-message-part2') +
-                      i18n.t('dropbox.access-method-message-part3') +
-                      i18n.t('dropbox.access-method-message-part4') +
-                      i18n.t('dropbox.access-method-message-part5') +
-                      `<ul>
-                        <li>${i18n.t('dropbox.access-method-message-part6')}</li>
-                        <li>${i18n.t('dropbox.access-method-message-part7')}</li>
-                      </ul>`;
-
-      await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
-    }
+    await this.showDropboxAccessUpgradeDialogIfNeeded();
 
     this.showDatabaseErrorsIfAny(initDbResult);
-
-    await eventController.publishAsync('on-startup-completed');
 
     if (this._platformHelper.isElectron()) {
       const { ipcRenderer } = require('electron');
@@ -544,8 +542,6 @@ class Startup {
         timestampMs: Date.now()
       });
     }
-
-    app_controller.startupCompleted = true;
   }
 
   showDatabaseErrorsIfAny(initDbResult) {
@@ -604,6 +600,28 @@ class Startup {
     if (loadingSubtitleElement) {
       loadingSubtitleElement.textContent = i18nController.getStringForStartup("cordova.starting-app", "Starting app");
     }
+  }
+
+  async showDropboxAccessUpgradeDialogIfNeeded() {
+    const isDropboxAccessUpgradeNeeded = await ipcDb.isDropboxAccessUpgradeNeeded();
+
+    if (!isDropboxAccessUpgradeNeeded) {
+      return;
+    }
+
+    // The Dropbox access level has changed from full access to app folder access in version 1.15.
+    // Here we inform the user about this change.
+    const message = i18n.t('dropbox.access-method-message-part1') +
+                    i18n.t('dropbox.access-method-message-part2') +
+                    i18n.t('dropbox.access-method-message-part3') +
+                    i18n.t('dropbox.access-method-message-part4') +
+                    i18n.t('dropbox.access-method-message-part5') +
+                    `<ul>
+                      <li>${i18n.t('dropbox.access-method-message-part6')}</li>
+                      <li>${i18n.t('dropbox.access-method-message-part7')}</li>
+                    </ul>`;
+
+    await showDialog(i18n.t('dropbox.access-method-change'), message, 600, 450);
   }
 }
 

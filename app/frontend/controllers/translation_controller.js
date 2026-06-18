@@ -133,6 +133,12 @@ class TranslationController {
       $('.book-select-button').removeClass('ui-state-disabled');
       $('.module-search-button').removeClass('ui-state-disabled');
 
+      // Keep the book selection button disabled until the BookSelectionMenu has finished
+      // initializing. Otherwise a click could open an empty/uninitialized menu.
+      if (app_controller.book_selection_menu == null || !app_controller.book_selection_menu.init_completed) {
+        $('.book-select-button').addClass('ui-state-disabled');
+      }
+
       var currentBook = null;
       var currentTagIdList = "";
       var currentSearchTerm = null;

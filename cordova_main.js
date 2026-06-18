@@ -56,6 +56,12 @@ class Main {
     return true;
   }
 
+  initSword() {
+    console.log("Initializing SWORD!");
+    global.ipc.initSword();
+    return true;
+  }
+
   async initDatabase(androidVersion=undefined, connectionType=undefined) {
     console.log("Initializing database!");
     console.log(`Connection type: ${connectionType}`);

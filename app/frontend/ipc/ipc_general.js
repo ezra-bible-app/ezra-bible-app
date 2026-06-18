@@ -33,6 +33,14 @@ class IpcGeneral {
     return result;
   }
 
+  async initSword() {
+    var timeoutMs = 15000;
+    console.time('initSword');
+    var result = await this._ipcRenderer.callWithTimeout('general_initSword', timeoutMs);
+    console.timeEnd('initSword');
+    return result;
+  }
+
   async initDatabase(androidVersion=undefined, connectionType=undefined) {
     var timeoutMs = 15000;
     console.time('initDatabase');
