@@ -173,6 +173,9 @@ class TabController {
         if (this.loadingCompleted) {
           // If tabs are already loaded, just repopulate them with fresh data
           await this.populateFromMetaTabs(true);
+          
+          // Show verse list after database refresh completes
+          $('.verse-list').show();
         } else {
           // Initial loading during startup
           await this.loadTabConfiguration(true);
