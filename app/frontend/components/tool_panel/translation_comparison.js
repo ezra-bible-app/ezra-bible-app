@@ -61,7 +61,7 @@ class TranslationComparison {
     var targetTranslationVerse = verses[0];
     var verseHtml = "";
 
-    if (targetTranslationVerse != null && targetTranslationVerse.content != "" && targetTranslationVerse.chapter == chapter) {
+    if (targetTranslationVerse != null && targetTranslationVerse.content != "" /* && targetTranslationVerse.chapter == chapter */) {
       verseHtml += `<tr class='verse-content-tr' verse-bible-book-short='${bibleBookShortTitle}'>`;
 
       var moduleReferenceSeparator = await i18nHelper.getReferenceSeparator(targetTranslationId);
