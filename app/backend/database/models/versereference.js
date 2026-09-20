@@ -358,10 +358,12 @@ module.exports = (sequelize, DataTypes) => {
     ];
 
     var offset_table_nehemiah = [
-      { 'start'  : '9:38',
+      // This offset turned out to not be correct.
+      // Therefore, it is commented out for now.
+      /*{ 'start'  : '9:38',
         'end'    : '13:31',
         'offset' : -1 // TODO
-      }
+      }*/
     ];
 
     var offset_table_psalms = [
