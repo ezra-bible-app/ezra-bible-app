@@ -601,7 +601,8 @@ class TextController {
                                      render_function,
                                      render_type='html',
                                      renderVerseMetaInfo=true) {
-    if (selected_tags == '') {
+
+    if (selected_tags == '' || selected_tags == null) {
       return;
     }
 
