@@ -39,8 +39,8 @@ class TranslationController {
     eventController.subscribe('on-bible-text-loaded', async (context) => {
       if (app_controller.isStartupCompleted()) {
         const currentVerseListMenu = app_controller.getCurrentVerseListMenu(context.tabIndex);
-        const bibleSelect1 = currentVerseListMenu.find('#bible-select1');
-        const bibleSelect2 = currentVerseListMenu.find('#bible-select2');
+        const bibleSelect1 = currentVerseListMenu.find('.bible-select1');
+        const bibleSelect2 = currentVerseListMenu.find('.bible-select2');
 
         await this.toggleTranslationsBasedOnCurrentBook(bibleSelect1, context.tabIndex, true);
         await this.toggleTranslationsBasedOnCurrentBook(bibleSelect2, context.tabIndex, true);
@@ -204,8 +204,8 @@ class TranslationController {
     const isInitialized = tabElement.classList.contains('translations-menu-initialized');
 
     const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    const bibleSelect1 = currentVerseListMenu.find('#bible-select1');
-    const bibleSelect2 = currentVerseListMenu.find('#bible-select2');
+    const bibleSelect1 = currentVerseListMenu.find('.bible-select1');
+    const bibleSelect2 = currentVerseListMenu.find('.bible-select2');
     const parallelBibleButton = currentVerseListMenu[0].querySelector('.parallel-bible-button');
 
     // Check if the translations menu for this tab has already been initialized
