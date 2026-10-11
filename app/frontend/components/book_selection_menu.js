@@ -491,6 +491,11 @@ class BookSelectionMenu {
     const recentPassagesContainer = document.querySelector('.recently-opened-passages ul');
     const recentPassagesSection = document.querySelector('.recently-opened-passages');
 
+    if (recentPassagesSection == null || recentPassagesContainer == null) {
+      console.warn('Could not render recent passages: section markup is unavailable.');
+      return;
+    }
+
     if (!recentPassages) {
       return;
     }
