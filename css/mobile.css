@@ -298,7 +298,7 @@ Librem 5/Pinephone etc.
   }
 
   .Android .ui-dialog-content {
-    height: 90vh !important;
+    height: 80vh !important;
   }
 
   #tag-group-assignment-section, #edit-tag-dialog tag-group-assignment-list {
