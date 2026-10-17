@@ -100,6 +100,11 @@ body {
   background-color: var(--background-color);
   /* Do not use vertical overscroll animations */
   overscroll-behavior-y: none;
+  touch-action:none;
+}
+
+body > div {
+  touch-action: none;
 }
 
 .darkmode-layer {
