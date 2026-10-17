@@ -812,13 +812,18 @@ a.chapter-nav:hover {
     "panel-buttons tool-panel detail-panel";
 }
 
-.Android:not(.keyboard-shown) #app-container {
+.Android #app-container {
   padding: 0.5em;
 }
 
 .Android:not(.fullscreen) #app-container {
   /* Necessary since Android 15/16 */
   padding-bottom: 5em;
+}
+
+.Android.keyboard-shown #app-container {
+  /* Necessary since Android 15/16 */
+  padding-bottom: 0.5em;
 }
 
 .webview-older #app-container {
