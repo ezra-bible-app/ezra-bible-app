@@ -979,6 +979,8 @@ main.content {
   width: 41em;
   max-height: 38em;
   overflow-y: scroll;
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 .options-group {
