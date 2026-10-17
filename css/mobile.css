@@ -890,6 +890,10 @@ Librem 5/Pinephone etc.
     height: 100vh !important;
   }
 
+  .Android .ui-dialog {
+    height: 92vh !important;
+  }
+
   #new-standard-tag-dialog, #edit-tag-dialog {
     padding-top: 1em !important;
     padding-bottom: 1em !important;
