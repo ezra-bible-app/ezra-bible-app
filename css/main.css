@@ -712,6 +712,8 @@ a.chapter-nav:hover {
   user-select: none;
   font-size: 1em;
   overflow-x: hidden;
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 .OSX .ui-dialog .ui-dialog-titlebar-close {
@@ -810,7 +812,7 @@ a.chapter-nav:hover {
     "panel-buttons tool-panel detail-panel";
 }
 
-.Android #app-container {
+.Android:not(.keyboard-shown) #app-container {
   padding: 0.5em;
 
   /* Necessary since Android 15/16 */
