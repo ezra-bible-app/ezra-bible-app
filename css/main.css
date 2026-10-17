@@ -810,6 +810,13 @@ a.chapter-nav:hover {
     "panel-buttons tool-panel detail-panel";
 }
 
+.Android #app-container {
+  padding: 0.5em;
+
+  /* Necessary since Android 15/16 */
+  padding-bottom: 5em;
+}
+
 .webview-older #app-container {
   grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
 }
@@ -836,9 +843,7 @@ a.chapter-nav:hover {
 }
 
 .fullscreen #app-container {
-  padding: 0.2em;
-  padding-left: 0.4em;
-  padding-right: 0.5em;
+  padding: 0.5em;
 }
 
 panel-buttons {
@@ -1133,8 +1138,8 @@ main.content {
 
 .fullscreen-button {
   position: fixed;
-  top: 0.5em;
-  right: 1.2em;
+  top: 1em;
+  right: 2em;
   width: auto;
   height: auto;
   padding: 0.3em 0.4em;

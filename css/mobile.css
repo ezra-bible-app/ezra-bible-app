@@ -181,13 +181,12 @@ Necessary styles for smaller screen devices,
 Librem 5/Pinephone etc.
 */
 @media screen and (max-width: 600px) {
-  #app-container {
-    padding: 0.5em !important;
-    padding-bottom: 5em !important;
+  body:not(.Android) #app-container {
+    padding: 0.5em;
+    padding-bottom: 1em;
   }
 
   .fullscreen #app-container {
-    padding: 0.5em !important;
     padding-bottom: 1em !important;
   }
 
@@ -1008,6 +1007,11 @@ Librem 5/Pinephone etc.
 @media screen and (min-aspect-ratio: 13/10) and (max-height: 450px) {
   #app-container {
     height: 98vh !important;
+  }
+
+  .Android:not(.fullscreen) #app-container {
+    padding-bottom: 3em !important;
+    padding-right: 1em !important;
   }
 
   #book-selection-menu {
