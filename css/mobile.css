@@ -62,6 +62,7 @@
     padding: 0;
     height: 100% !important;
     overflow-y: auto;
+    overscroll-behavior-y: none; /* Prevent overscroll bounce on mobile */
   }
 
   .book-list-column {
