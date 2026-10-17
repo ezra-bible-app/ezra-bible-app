@@ -267,6 +267,8 @@ h2:nth-of-type(1) {
   border-bottom-right-radius: var(--border-radius);
   user-select: none;
   padding-bottom: 1em;
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 .verse-list-frame.no-chapter-nav {
@@ -583,6 +585,8 @@ a.chapter-nav:hover {
   margin-bottom: 0.5em;
   overflow-y: scroll;
   display: none;
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 #info-popup {
@@ -1031,6 +1035,8 @@ main.content {
   min-height: 20em;
   max-height: 38.3em;
   overflow-y: auto;
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 .select-chapter #book-selection-menu-chapter-list {
@@ -1687,6 +1693,8 @@ li.book-unavailable a:focus,
   border-bottom: var(--area-border);
   height: 400px;
   overflow-y: scroll;
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 #tag-selection-taglist-overlay {
@@ -2085,6 +2093,8 @@ tr.compare-translation-row:nth-child(odd) {
 .info-tabs {
   height: calc(100% - 5em);
   overflow-y: scroll;
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 .info-tab-section-title {

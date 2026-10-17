@@ -51,6 +51,8 @@ const template = html`
   border: 1px solid var(--border-color);
   height: 100%;
   overflow-y: scroll;
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 #tag-group-list-content.rounded-bottom-corners {

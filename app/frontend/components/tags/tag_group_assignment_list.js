@@ -51,6 +51,8 @@ const template = html`
   height: 100%;
   overflow-y: scroll;
   background-color: var(--background-color);
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 .assignment-tag-group {
