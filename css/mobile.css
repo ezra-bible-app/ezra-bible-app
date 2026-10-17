@@ -183,6 +183,11 @@ Librem 5/Pinephone etc.
 @media screen and (max-width: 600px) {
   #app-container {
     padding: 0.5em !important;
+    padding-bottom: 5em !important;
+  }
+
+  .fullscreen #app-container {
+    padding: 0.5em !important;
     padding-bottom: 1em !important;
   }
 
