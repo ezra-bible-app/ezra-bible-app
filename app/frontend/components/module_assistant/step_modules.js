@@ -59,7 +59,9 @@ const template = html`
     position: relative;
     z-index: 10;
     color: #696969;
-    width: 100%;
+    width: 100%; 
+    /* Do not use vertical overscroll animations */
+    overscroll-behavior-y: none;
   }
   .darkmode--activated #module-info, .darkmode--activated #module-info p {
     color: #929292;
