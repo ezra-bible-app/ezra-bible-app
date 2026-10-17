@@ -814,7 +814,9 @@ a.chapter-nav:hover {
 
 .Android:not(.keyboard-shown) #app-container {
   padding: 0.5em;
+}
 
+.Android:not(.fullscreen) #app-container {
   /* Necessary since Android 15/16 */
   padding-bottom: 5em;
 }
