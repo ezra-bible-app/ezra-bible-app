@@ -82,6 +82,8 @@ module.exports.init = function() {
 
   } else if (platformHelper.isCordova()) {
 
+    window.handleOpenURL = handleRedirect;
+
     // eslint-disable-next-line no-undef
     nodejs.channel.on('dropbox-synced', () => {
       module.exports.showSyncResultMessage();
