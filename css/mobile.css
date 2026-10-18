@@ -188,7 +188,7 @@ Librem 5/Pinephone etc.
   }
 
   .fullscreen #app-container {
-    padding-bottom: 1em !important;
+    padding-bottom: 3.5em !important;
   }
 
   .book-intro img,
@@ -223,7 +223,7 @@ Librem 5/Pinephone etc.
   }
 
   .fullscreen-button {
-    right: 1.1em;
+    right: 0.5em;
     padding: 0.3em 0.4em;
     font-size: 1.25em;
   }
