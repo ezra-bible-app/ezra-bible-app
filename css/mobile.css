@@ -223,7 +223,8 @@ Librem 5/Pinephone etc.
   }
 
   .fullscreen-button {
-    right: 0.5em;
+    top: 0.7em;
+    right: 1em;
     padding: 0.3em 0.4em;
     font-size: 1.25em;
   }
