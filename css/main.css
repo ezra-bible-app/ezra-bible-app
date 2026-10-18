@@ -1169,8 +1169,9 @@ main.content {
 }
 
 .fullscreen-button {
-  position: fixed;
-  right: 2em;
+  position: absolute;
+  top: 1em;
+  right: 1.5em;
   width: auto;
   height: auto;
   padding: 0.3em 0.4em;
