@@ -28,7 +28,6 @@ const Dropbox = require('dropbox');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
 const eventController = require('./event_controller.js');
-const { html } = require('../helpers/ezra_helper.js');
 
 const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
 const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
@@ -69,6 +68,8 @@ module.exports.isInitDone = function() {
   return dbSyncInitDone;
 };
 
+window.handleOpenURL = handleRedirect;
+
 module.exports.init = function() {
   if (platformHelper.isElectron()) {
 
@@ -81,8 +82,6 @@ module.exports.init = function() {
     });
 
   } else if (platformHelper.isCordova()) {
-
-    window.handleOpenURL = handleRedirect;
 
     // eslint-disable-next-line no-undef
     nodejs.channel.on('dropbox-synced', () => {
@@ -646,11 +645,19 @@ function getRedirectUri() {
 }
 
 function handleRedirect(url) {
+  console.log('[Dropbox auth] Handling redirect with url:', url);
+
   const REDIRECT_URI = getRedirectUri();
+  const hasAuthCode = hasRedirectedFromAuth(url);
 
-  if (hasRedirectedFromAuth(url)) {
-    dbxAuth.setCodeVerifier(window.sessionStorage.getItem('codeVerifier'));
+  console.log('[Dropbox auth] Redirect received; authorization code present:', hasAuthCode);
 
+  if (hasAuthCode) {
+    const codeVerifier = window.sessionStorage.getItem('codeVerifier');
+    console.log('[Dropbox auth] PKCE code verifier present:', !!codeVerifier);
+    dbxAuth.setCodeVerifier(codeVerifier);
+
+    console.log('[Dropbox auth] Exchanging authorization code for tokens');
     dbxAuth.getAccessTokenFromCode(REDIRECT_URI, getCodeFromUrl(url))
       .then(async (response) => {
         dbSyncDropboxToken = response.result.access_token;
@@ -664,11 +671,12 @@ function handleRedirect(url) {
         await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
         await ipcSettings.set(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, dbSyncDropboxRefreshToken);
         await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
+        console.log('[Dropbox auth] Token exchange succeeded and configuration was saved');
 
       }).catch((error) => {
         dbSyncDropboxLinkStatus = 'FAILED';
         updateDropboxLinkStatusLabel();
-        console.error(error);
+        console.error('[Dropbox auth] Token exchange or configuration save failed:', error);
       });
   }
 }
