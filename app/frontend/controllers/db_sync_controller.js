@@ -56,6 +56,7 @@ let dbSyncUseCustomModuleRepo = false;
 let dbSyncCustomModuleRepo = null;
 let dbSyncFirstSyncDone = false;
 let lastConnectionType = undefined;
+let dropboxAuthRedirectHandled = false;
 
 let resetDropboxConfiguration = false;
 let lastValidatedRepoPath = null;
@@ -645,19 +646,18 @@ function getRedirectUri() {
 }
 
 function handleRedirect(url) {
-  console.log('[Dropbox auth] Handling redirect with url:', url);
-
   const REDIRECT_URI = getRedirectUri();
   const hasAuthCode = hasRedirectedFromAuth(url);
 
-  console.log('[Dropbox auth] Redirect received; authorization code present:', hasAuthCode);
-
   if (hasAuthCode) {
+    if (dropboxAuthRedirectHandled) {
+      return;
+    }
+
+    dropboxAuthRedirectHandled = true;
     const codeVerifier = window.sessionStorage.getItem('codeVerifier');
-    console.log('[Dropbox auth] PKCE code verifier present:', !!codeVerifier);
     dbxAuth.setCodeVerifier(codeVerifier);
 
-    console.log('[Dropbox auth] Exchanging authorization code for tokens');
     dbxAuth.getAccessTokenFromCode(REDIRECT_URI, getCodeFromUrl(url))
       .then(async (response) => {
         dbSyncDropboxToken = response.result.access_token;
@@ -671,7 +671,6 @@ function handleRedirect(url) {
         await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
         await ipcSettings.set(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, dbSyncDropboxRefreshToken);
         await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
-        console.log('[Dropbox auth] Token exchange succeeded and configuration was saved');
 
       }).catch((error) => {
         dbSyncDropboxLinkStatus = 'FAILED';
@@ -693,6 +692,7 @@ async function setupDropboxAuthentication() {
       // Relevant as part of a PKCE authentication flow (setting the Proof Key for Code Exchange)
       window.sessionStorage.setItem("codeVerifier", dbxAuth.codeVerifier);
 
+      dropboxAuthRedirectHandled = false;
       // Open the Dropbox authentication url in the system web browser.
       // The next step after this will be a redirect which will be handled by handleRedirect().
       uiHelper.openLinkInBrowser(authUrl);
