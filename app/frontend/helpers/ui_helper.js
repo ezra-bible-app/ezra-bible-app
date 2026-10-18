@@ -186,19 +186,23 @@ class UiHelper {
     let modal = false;
 
     if (platformHelper.isMobile() || platformHelper.isCordova() || fullscreen) {
+      const safeAreaTop = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--safe-area-top')
+      ) || 0;
+
       width = $(window).width();
-      height = $(window).height() - 85;
+      height = $(window).height() - 85 - safeAreaTop;
 
       if (platformHelper.isCordova()) {
         // eslint-disable-next-line no-undef
         if (Keyboard.isVisible) {
-          height = $(window).height();
+          height = $(window).height() - safeAreaTop;
         }
       }
 
       draggable = false;
       modal = true;
-      position = [0, 0];
+      position = [0, safeAreaTop];
     }
 
     if (platformHelper.isCordova()) {
