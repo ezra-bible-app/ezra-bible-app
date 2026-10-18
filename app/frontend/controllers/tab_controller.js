@@ -654,6 +654,11 @@ class TabController {
   }
 
   restoreScrollPosition(tabIndex=undefined) {
+
+    if (platformHelper.isAndroid()) {
+      return; // Functionality disabled for now on Android, because it is buggy on latest Android builds for Android 15/16
+    }
+
     var metaTab = this.getTab(tabIndex);
 
     if (metaTab != null) {

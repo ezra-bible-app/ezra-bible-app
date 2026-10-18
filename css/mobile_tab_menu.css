@@ -18,8 +18,6 @@
 
 .mobile-tab-menu {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background-color: var(--background-color);
@@ -32,6 +30,7 @@
   transform: translateY(100%);
   transition: transform 0.3s ease-in-out;
   visibility: hidden;
+  overscroll-behavior-y: none; /* Prevent overscroll bounce on mobile */
 }
 
 .mobile-tab-menu.visible {
@@ -45,6 +44,7 @@
   align-items: center;
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
+  padding-right: 1em;
   border-bottom: 1px solid var(--border-color);
   user-select: none;
 }

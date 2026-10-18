@@ -58,6 +58,8 @@ const template = html`
   overflow-y: auto;
   background: var(--widget-bg-color);
   padding: 1.5em;
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 </style>

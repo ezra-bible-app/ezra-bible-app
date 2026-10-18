@@ -69,6 +69,11 @@
     height: calc(100vh - 5.5em) !important;
   }
 
+  body.tool-panel-fullscreen.Android #tool-panel,
+  body.tool-panel-fullscreen.fullscreen.Android #app-container #tool-panel {
+    height: calc(100vh - 10.5em) !important;
+  }
+
   body.tool-panel-fullscreen main.content,
   body.tool-panel-fullscreen detail-panel {
     overflow: hidden;

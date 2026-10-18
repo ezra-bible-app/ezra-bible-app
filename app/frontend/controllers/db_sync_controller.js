@@ -28,7 +28,6 @@ const Dropbox = require('dropbox');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
 const eventController = require('./event_controller.js');
-const { html } = require('../helpers/ezra_helper.js');
 
 const DROPBOX_CLIENT_ID = '6m7e5ri5udcbkp3';
 const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
@@ -57,6 +56,7 @@ let dbSyncUseCustomModuleRepo = false;
 let dbSyncCustomModuleRepo = null;
 let dbSyncFirstSyncDone = false;
 let lastConnectionType = undefined;
+let dropboxAuthRedirectHandled = false;
 
 let resetDropboxConfiguration = false;
 let lastValidatedRepoPath = null;
@@ -68,6 +68,8 @@ let dbxAuth = getDropboxAuth();
 module.exports.isInitDone = function() {
   return dbSyncInitDone;
 };
+
+window.handleOpenURL = handleRedirect;
 
 module.exports.init = function() {
   if (platformHelper.isElectron()) {
@@ -645,9 +647,16 @@ function getRedirectUri() {
 
 function handleRedirect(url) {
   const REDIRECT_URI = getRedirectUri();
+  const hasAuthCode = hasRedirectedFromAuth(url);
 
-  if (hasRedirectedFromAuth(url)) {
-    dbxAuth.setCodeVerifier(window.sessionStorage.getItem('codeVerifier'));
+  if (hasAuthCode) {
+    if (dropboxAuthRedirectHandled) {
+      return;
+    }
+
+    dropboxAuthRedirectHandled = true;
+    const codeVerifier = window.sessionStorage.getItem('codeVerifier');
+    dbxAuth.setCodeVerifier(codeVerifier);
 
     dbxAuth.getAccessTokenFromCode(REDIRECT_URI, getCodeFromUrl(url))
       .then(async (response) => {
@@ -666,7 +675,7 @@ function handleRedirect(url) {
       }).catch((error) => {
         dbSyncDropboxLinkStatus = 'FAILED';
         updateDropboxLinkStatusLabel();
-        console.error(error);
+        console.error('[Dropbox auth] Token exchange or configuration save failed:', error);
       });
   }
 }
@@ -683,6 +692,7 @@ async function setupDropboxAuthentication() {
       // Relevant as part of a PKCE authentication flow (setting the Proof Key for Code Exchange)
       window.sessionStorage.setItem("codeVerifier", dbxAuth.codeVerifier);
 
+      dropboxAuthRedirectHandled = false;
       // Open the Dropbox authentication url in the system web browser.
       // The next step after this will be a redirect which will be handled by handleRedirect().
       uiHelper.openLinkInBrowser(authUrl);

@@ -33,6 +33,8 @@ const template = html`
   border-radius: 4px;
   overflow-y: scroll;
   height: 80%;
+  /* Do not use vertical overscroll animations */
+  overscroll-behavior-y: none;
 }
 
 .tag-item {
