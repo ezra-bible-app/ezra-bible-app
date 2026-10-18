@@ -44,6 +44,12 @@
   --button-color: #777;
   --button-color-dark: #aaa;
   --disabled-button-color: #bbbbbb;
+
+  /* Use the plugin fallbacks for Android if env() incorrectly returns 0px */
+  --safe-area-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --safe-area-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --safe-area-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
+  --safe-area-right: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
 }
 
 :root body.darkmode--activated {
@@ -87,7 +93,6 @@
   display: none;
 }
 
-html,
 body {
   margin: 0;
   font: caption;
@@ -101,6 +106,11 @@ body {
   /* Do not use vertical overscroll animations */
   overscroll-behavior-y: none;
   touch-action:none;
+
+  padding-top: var(--safe-area-top);
+  padding-bottom: var(--safe-area-bottom);
+  padding-left: var(--safe-area-left);
+  padding-right: var(--safe-area-right);
 }
 
 body > div {
@@ -1160,7 +1170,6 @@ main.content {
 
 .fullscreen-button {
   position: fixed;
-  top: 1em;
   right: 2em;
   width: auto;
   height: auto;
