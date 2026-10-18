@@ -56,6 +56,8 @@ class TagListRenderer {
    * @returns {Promise<void>}
    */
   async renderTags(tagList, tagStatistics, isBook=false) {
+    if (!Array.isArray(tagList)) return;
+
     const globalTagsBoxEl = document.getElementById('tags-content-global');
     
     // Store the full tag list and statistics for lazy loading
