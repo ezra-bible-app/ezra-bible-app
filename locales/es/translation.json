@@ -28,6 +28,7 @@
     "whole-bible": "Toda la Biblia",
     "ot": "Antiguo Testamento",
     "nt": "Nuevo Testamento",
+    "current-book": "Current Book",
     "word-boundaries": "Usar límites de palabras",
     "extended-verse-boundaries": "Extenderse fuera del límite del verso (dos versos)"
   },
