@@ -305,6 +305,8 @@ class ModuleSearchController {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
+      this.updateCurrentBookSearchScope(tabIndex);
+
       var searchType = currentTab.getSearchOptions()['searchType'];
       var searchScope = currentTab.getSearchOptions()['searchScope'];
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
@@ -312,12 +314,30 @@ class ModuleSearchController {
       var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
       var searchTerm = currentTab.getSearchTerm();
 
+      if (currentTab.getTextType() != 'book' && searchScope == 'CURRENT_BOOK') {
+        searchScope = 'BIBLE';
+      }
+
       $('#search-type').val(searchType);
       $('#search-scope').val(searchScope);
       $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
       $('#search-word-boundaries').prop("checked", useWordBoundaries);
       $('#search-extended-verse-boundaries').prop("checked", useExtendedVerseBoundaries);
       $('#module-search-input').val(searchTerm);
+    }
+  }
+
+  updateCurrentBookSearchScope(tabIndex=undefined) {
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const searchScopeField = document.getElementById('module-search-menu').querySelector('#search-scope');
+    const currentBookOption = searchScopeField.querySelector('option[value="CURRENT_BOOK"]');
+    const isBookTab = currentTab != null && currentTab.getTextType() == 'book';
+
+    currentBookOption.hidden = !isBookTab;
+    currentBookOption.disabled = !isBookTab;
+
+    if (!isBookTab && searchScopeField.value == 'CURRENT_BOOK') {
+      searchScopeField.value = 'BIBLE';
     }
   }
 
@@ -333,6 +353,7 @@ class ModuleSearchController {
       app_controller.handleBodyClick();
     } else {
       app_controller.hideAllMenus();
+      this.updateCurrentBookSearchScope();
 
       moduleSearchButton.addClass('ui-state-active');
 
@@ -463,15 +484,25 @@ class ModuleSearchController {
       this.disableOtherFunctionsDuringSearch();
 
       const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+      let searchScopeBookCode = null;
 
       if (tabIndex === undefined) {
         var tab = app_controller.tab_controller.getTab();
+        let searchScope = this.getSearchScope();
+
+        if (tab.getTextType() != 'book' && searchScope == 'CURRENT_BOOK') {
+          searchScope = 'BIBLE';
+        }
+
+        if (tab.getTextType() == 'book' && searchScope == 'CURRENT_BOOK') {
+          searchScopeBookCode = tab.getBook();
+        }
 
         tab.setSearchOptions(this.getSearchType(),
-                            this.getSearchScope(),
-                            this.isCaseSensitive(),
-                            this.useWordBoundaries(),
-                            this.useExtendedVerseBoundaries());
+                             searchScope,
+                             this.isCaseSensitive(),
+                             this.useWordBoundaries(),
+                             this.useExtendedVerseBoundaries());
         
         if (!showSearchResultsInPopup) {
           tab.setTextType('search_results');
@@ -485,12 +516,20 @@ class ModuleSearchController {
       var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
       if (currentTab != null) {
+        if (tabIndex !== undefined &&
+            currentTab.getTextType() == 'book' &&
+            currentTab.getSearchOptions()['searchScope'] == 'CURRENT_BOOK') {
+          searchScopeBookCode = currentTab.getBook();
+        }
+
         var currentBibleTranslationId = currentTab.getBibleTranslationId();
         var searchType = currentTab.getSearchOptions()['searchType'];
 
         var searchScope = currentTab.getSearchOptions()['searchScope'];
         if (searchScope == null) {
           searchScope = "BIBLE";
+        } else if (searchScope == 'CURRENT_BOOK') {
+          searchScope = searchScopeBookCode != null ? searchScopeBookCode : 'BIBLE';
         }
 
         const isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];

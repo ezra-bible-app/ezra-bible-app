@@ -28,6 +28,7 @@
     "whole-bible": "Вся Библия",
     "ot": "Старый Завет",
     "nt": "Новый Завет",
+    "current-book": "Current Book",
     "word-boundaries": "Использовать границы слов",
     "extended-verse-boundaries": "Расширенные границы стиха (два стиха)"
   },
