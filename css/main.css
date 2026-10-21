@@ -970,6 +970,10 @@ main.content {
   height: 2.5em;
 }
 
+.current-book-search-scope-book {
+  font-weight: bold;
+}
+
 .search-checkbox-container {
   display: flex;
   flex-direction: column;

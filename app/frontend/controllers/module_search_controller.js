@@ -357,7 +357,7 @@ class ModuleSearchController {
 
     if (searchScope != 'CURRENT_BOOK' || currentTab == null) {
       currentBookScopeContainer.style.display = 'none';
-      currentBookScopeField.value = '';
+      currentBookScopeField.textContent = '';
       return;
     }
 
@@ -365,7 +365,7 @@ class ModuleSearchController {
       currentTab.setSearchScopeBook(currentTab.getBook(), currentTab.getBookTitle());
     }
 
-    currentBookScopeField.value = currentTab.getSearchScopeBookTitle() || '';
+    currentBookScopeField.textContent = currentTab.getSearchScopeBookTitle() || '';
     currentBookScopeContainer.style.display = 'block';
   }
 
