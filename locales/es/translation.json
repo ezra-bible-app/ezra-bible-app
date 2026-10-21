@@ -29,6 +29,7 @@
     "ot": "Antiguo Testamento",
     "nt": "Nuevo Testamento",
     "current-book": "Current Book",
+    "current-book-name": "Book",
     "word-boundaries": "Usar límites de palabras",
     "extended-verse-boundaries": "Extenderse fuera del límite del verso (dos versos)"
   },

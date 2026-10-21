@@ -29,6 +29,7 @@
     "ot": "Velho Testamento",
     "nt": "Novo Testamento",
     "current-book": "Current Book",
+    "current-book-name": "Book",
     "word-boundaries": "Usar limites de palavra",
     "extended-verse-boundaries": "Limites do versículo estendido (dois versículos)"
   },
