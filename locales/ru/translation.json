@@ -29,6 +29,7 @@
     "ot": "Старый Завет",
     "nt": "Новый Завет",
     "current-book": "Current Book",
+    "current-book-name": "Book",
     "word-boundaries": "Использовать границы слов",
     "extended-verse-boundaries": "Расширенные границы стиха (два стиха)"
   },

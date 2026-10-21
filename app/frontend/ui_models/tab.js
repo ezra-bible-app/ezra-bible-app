@@ -33,6 +33,8 @@ class Tab {
     this.searchTerm = null;
     this.searchResults = null;
     this.searchOptions = {};
+    this.searchScopeBookCode = null;
+    this.searchScopeBookTitle = null;
     this.searchCancelled = false;
     this.xrefs = null;
     this.referenceVerseElementId = null;
@@ -200,6 +202,19 @@ class Tab {
 
   getSearchOptions() {
     return this.searchOptions;
+  }
+
+  setSearchScopeBook(bookCode, bookTitle) {
+    this.searchScopeBookCode = bookCode;
+    this.searchScopeBookTitle = bookTitle;
+  }
+
+  getSearchScopeBookCode() {
+    return this.searchScopeBookCode;
+  }
+
+  getSearchScopeBookTitle() {
+    return this.searchScopeBookTitle;
   }
 
   setSearchCancelled(searchCancelled) {

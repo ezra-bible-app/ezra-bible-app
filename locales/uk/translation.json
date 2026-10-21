@@ -29,6 +29,7 @@
     "ot": "Старий Завіт",
     "nt": "Новий Завіт",
     "current-book": "Current Book",
+    "current-book-name": "Book",
     "word-boundaries": "Використовувати межі слів",
     "extended-verse-boundaries": "Розширити межі вірша (два вірші)"
   },
