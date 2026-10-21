@@ -29,6 +29,7 @@
     "ot": "Starý Zákon",
     "nt": "Nový Zákon",
     "current-book": "Current Book",
+    "current-book-name": "Book",
     "word-boundaries": "Použi hranice slov",
     "extended-verse-boundaries": "Rozšírené hranice veršov (dva verše)"
   },

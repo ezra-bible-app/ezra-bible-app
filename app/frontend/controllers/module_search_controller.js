@@ -127,6 +127,7 @@ class ModuleSearchController {
 
     var searchScopeField = document.getElementById('module-search-menu').querySelector('#search-scope');
     $(searchScopeField).on("change", () => {
+      this.updateCurrentBookSearchScopeDisplay();
       this.validateSearchTerm();
     });
 
@@ -305,8 +306,6 @@ class ModuleSearchController {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
-      this.updateCurrentBookSearchScope(tabIndex);
-
       var searchType = currentTab.getSearchOptions()['searchType'];
       var searchScope = currentTab.getSearchOptions()['searchScope'];
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
@@ -314,16 +313,20 @@ class ModuleSearchController {
       var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
       var searchTerm = currentTab.getSearchTerm();
 
-      if (currentTab.getTextType() != 'book' && searchScope == 'CURRENT_BOOK') {
+      if (searchScope == 'CURRENT_BOOK' &&
+          currentTab.getTextType() != 'book' &&
+          currentTab.getSearchScopeBookCode() == null) {
         searchScope = 'BIBLE';
       }
 
+      this.updateCurrentBookSearchScope(tabIndex);
       $('#search-type').val(searchType);
       $('#search-scope').val(searchScope);
       $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
       $('#search-word-boundaries').prop("checked", useWordBoundaries);
       $('#search-extended-verse-boundaries').prop("checked", useExtendedVerseBoundaries);
       $('#module-search-input').val(searchTerm);
+      this.updateCurrentBookSearchScopeDisplay(tabIndex);
     }
   }
 
@@ -332,13 +335,38 @@ class ModuleSearchController {
     const searchScopeField = document.getElementById('module-search-menu').querySelector('#search-scope');
     const currentBookOption = searchScopeField.querySelector('option[value="CURRENT_BOOK"]');
     const isBookTab = currentTab != null && currentTab.getTextType() == 'book';
+    const isCurrentBookSearch = currentTab != null &&
+      currentTab.getTextType() == 'search_results' &&
+      currentTab.getSearchOptions()['searchScope'] == 'CURRENT_BOOK' &&
+      currentTab.getSearchScopeBookCode() != null;
+    const isCurrentBookAvailable = isBookTab || isCurrentBookSearch;
 
-    currentBookOption.hidden = !isBookTab;
-    currentBookOption.disabled = !isBookTab;
+    currentBookOption.hidden = !isCurrentBookAvailable;
+    currentBookOption.disabled = !isCurrentBookAvailable;
 
-    if (!isBookTab && searchScopeField.value == 'CURRENT_BOOK') {
+    if (!isCurrentBookAvailable && searchScopeField.value == 'CURRENT_BOOK') {
       searchScopeField.value = 'BIBLE';
     }
+  }
+
+  updateCurrentBookSearchScopeDisplay(tabIndex=undefined) {
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const searchScope = this.getSearchScope();
+    const currentBookScopeContainer = document.getElementById('current-book-search-scope-container');
+    const currentBookScopeField = document.getElementById('current-book-search-scope');
+
+    if (searchScope != 'CURRENT_BOOK' || currentTab == null) {
+      currentBookScopeContainer.style.display = 'none';
+      currentBookScopeField.value = '';
+      return;
+    }
+
+    if (currentTab.getTextType() == 'book') {
+      currentTab.setSearchScopeBook(currentTab.getBook(), currentTab.getBookTitle());
+    }
+
+    currentBookScopeField.value = currentTab.getSearchScopeBookTitle() || '';
+    currentBookScopeContainer.style.display = 'block';
   }
 
   handleSearchMenuClick(event) {
@@ -354,6 +382,7 @@ class ModuleSearchController {
     } else {
       app_controller.hideAllMenus();
       this.updateCurrentBookSearchScope();
+      this.updateCurrentBookSearchScopeDisplay();
 
       moduleSearchButton.addClass('ui-state-active');
 
@@ -484,7 +513,6 @@ class ModuleSearchController {
       this.disableOtherFunctionsDuringSearch();
 
       const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
-      let searchScopeBookCode = null;
 
       if (tabIndex === undefined) {
         var tab = app_controller.tab_controller.getTab();
@@ -495,7 +523,7 @@ class ModuleSearchController {
         }
 
         if (tab.getTextType() == 'book' && searchScope == 'CURRENT_BOOK') {
-          searchScopeBookCode = tab.getBook();
+          tab.setSearchScopeBook(tab.getBook(), tab.getBookTitle());
         }
 
         tab.setSearchOptions(this.getSearchType(),
@@ -519,7 +547,7 @@ class ModuleSearchController {
         if (tabIndex !== undefined &&
             currentTab.getTextType() == 'book' &&
             currentTab.getSearchOptions()['searchScope'] == 'CURRENT_BOOK') {
-          searchScopeBookCode = currentTab.getBook();
+          currentTab.setSearchScopeBook(currentTab.getBook(), currentTab.getBookTitle());
         }
 
         var currentBibleTranslationId = currentTab.getBibleTranslationId();
@@ -528,8 +556,10 @@ class ModuleSearchController {
         var searchScope = currentTab.getSearchOptions()['searchScope'];
         if (searchScope == null) {
           searchScope = "BIBLE";
-        } else if (searchScope == 'CURRENT_BOOK') {
-          searchScope = searchScopeBookCode != null ? searchScopeBookCode : 'BIBLE';
+        }
+        const isCurrentBookScope = searchScope == 'CURRENT_BOOK';
+        if (isCurrentBookScope) {
+          searchScope = currentTab.getSearchScopeBookCode();
         }
 
         const isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
@@ -597,6 +627,10 @@ class ModuleSearchController {
         }
 
         try {
+          if (isCurrentBookScope && searchScope == null) {
+            throw new Error('Current Book search scope is missing its book code');
+          }
+
           if (window.Sentry != null) {
             Sentry.addBreadcrumb({category: "app",
                                   message: `Performing module search in ${currentBibleTranslationId}`,
