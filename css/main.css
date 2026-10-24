@@ -764,7 +764,7 @@ a.chapter-nav:hover {
   cursor: pointer;
 }
 
-#open-verselist-in-new-tab-button {
+#open-verselist-in-new-tab-button, #open-search-results-in-new-tab-button {
   height: 2.2em;
 }
 
