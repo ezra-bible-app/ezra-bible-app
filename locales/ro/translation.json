@@ -31,7 +31,10 @@
     "current-book": "Current Book",
     "current-book-name": "Book",
     "word-boundaries": "Folosește limitele de cuvinte",
-    "extended-verse-boundaries": "Limite extinse pentru verset (Două versete)"
+    "extended-verse-boundaries": "Limite extinse pentru verset (Două versete)",
+    "open-in-popup": "Open in popup",
+    "open-in-current-tab": "Open in current tab",
+    "open-in-new-tab": "Open in new tab"
   },
   "module-assistant": {
     "module-type-bible": "traduceri biblice",

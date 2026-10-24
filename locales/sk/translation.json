@@ -31,7 +31,10 @@
     "current-book": "Current Book",
     "current-book-name": "Book",
     "word-boundaries": "Použi hranice slov",
-    "extended-verse-boundaries": "Rozšírené hranice veršov (dva verše)"
+    "extended-verse-boundaries": "Rozšírené hranice veršov (dva verše)",
+    "open-in-popup": "Open in popup",
+    "open-in-current-tab": "Open in current tab",
+    "open-in-new-tab": "Open in new tab"
   },
   "module-assistant": {
     "module-type-bible": "preklady Biblie",

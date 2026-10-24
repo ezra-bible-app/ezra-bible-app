@@ -761,7 +761,7 @@ Librem 5/Pinephone etc.
     width: 100%;
   }
 
-  #search-type, #search-scope {
+  #search-type, #search-scope, #search-results-display-mode {
     width: 100%;
     margin-bottom: 0.3em;
   }

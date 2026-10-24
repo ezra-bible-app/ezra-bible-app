@@ -91,7 +91,9 @@ module.exports.getCurrentVerseListHeader = function(tabIndex=undefined) {
 };
 
 module.exports.getCurrentSearchProgressBar = function(tabIndex=undefined) {
-  const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+  const currentTab = app_controller.tab_controller.getTab(tabIndex);
+  const showSearchResultsInPopup = currentTab != null &&
+    currentTab.getSearchResultsDisplayMode() == 'popup';
   var parentElement = null;
   
   if (showSearchResultsInPopup) {
@@ -105,7 +107,9 @@ module.exports.getCurrentSearchProgressBar = function(tabIndex=undefined) {
 };
 
 module.exports.getCurrentSearchCancelButtonContainer = function(tabIndex=undefined) {
-  const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+  const currentTab = app_controller.tab_controller.getTab(tabIndex);
+  const showSearchResultsInPopup = currentTab != null &&
+    currentTab.getSearchResultsDisplayMode() == 'popup';
   var parentElement = null;
 
   if (showSearchResultsInPopup) {

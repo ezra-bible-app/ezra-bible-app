@@ -8,11 +8,17 @@
     <option value="strongsNumber" i18n="search-menu.strongs"></option>
   </select>
 
-  <select id="search-scope">
+  <select id="search-scope" style="margin-right: 1em; margin-bottom: 1em;">
       <option value="BIBLE" i18n="search-menu.whole-bible"></option>
       <option value="OT" i18n="search-menu.ot"></option>
       <option value="NT" i18n="search-menu.nt"></option>
       <option value="CURRENT_BOOK" i18n="search-menu.current-book" hidden disabled></option>
+  </select>
+
+  <select id="search-results-display-mode">
+    <option value="popup" i18n="search-menu.open-in-popup"></option>
+    <option value="current-tab" i18n="search-menu.open-in-current-tab" selected></option>
+    <option value="new-tab" i18n="search-menu.open-in-new-tab"></option>
   </select>
   <div id="current-book-search-scope-container" style="display: none; margin-top: 0.8em;">
     <span i18n="search-menu.current-book-name"></span>:
