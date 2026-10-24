@@ -953,16 +953,12 @@ class TabController {
 
   setTabSearch(searchTerm, index = undefined) {
     this.getTab(index).setSearchTerm(searchTerm);
-    
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
 
-    if (!showSearchResultsInPopup) {
-      var currentTranslationId = this.getTab(index).getBibleTranslationId();
+    var currentTranslationId = this.getTab(index).getBibleTranslationId();
 
-      if (searchTerm != undefined && searchTerm != null) {
-        var searchTabTitle = this.getSearchTabTitle(searchTerm);
-        this.setTabTitle(searchTabTitle, currentTranslationId, index);
-      }
+    if (searchTerm != undefined && searchTerm != null) {
+      var searchTabTitle = this.getSearchTabTitle(searchTerm);
+      this.setTabTitle(searchTabTitle, currentTranslationId, index);
     }
   }
 
