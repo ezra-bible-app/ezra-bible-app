@@ -718,7 +718,7 @@ class ModuleSearchController {
 
         try {
           if (isCurrentBookScope && searchScope == null) {
-            throw new Error('Current Book search scope is missing its book code');
+            throw new Error('Current book search scope is missing its book code');
           }
 
           if (window.Sentry != null) {
