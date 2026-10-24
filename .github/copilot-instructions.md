@@ -230,4 +230,4 @@ See `TECH.md` for complete technology stack details.
 - Database file can be synced with Dropbox
 - The app is licensed under GPL-2.0+
 - See `CONTRIBUTING.md` for pull request guidelines
-- Join discussions at https://github.com/ezra-bible-app/ezra-bible-app/discussions
+- Do not run the browserify command. It is only needed for the Cordova build process.
