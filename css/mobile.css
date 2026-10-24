@@ -173,6 +173,7 @@
   }
 
   #book-selection-menu-chapter-list {
+    max-height: unset !important;
     justify-content: center;
   }
 
