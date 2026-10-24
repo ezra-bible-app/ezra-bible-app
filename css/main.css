@@ -1055,13 +1055,10 @@ main.content {
   padding-left: 0.5em;
   padding-right: 0.5em;
   min-height: 20em;
+  max-height: 38.3em;
   overflow-y: auto;
   /* Do not use vertical overscroll animations */
   overscroll-behavior-y: none;
-}
-
-body:not(.Cordova) #book-selection-menu-chapter-list {
-  max-height: 38.3em;
 }
 
 .select-chapter #book-selection-menu-chapter-list {
