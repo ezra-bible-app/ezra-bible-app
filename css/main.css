@@ -702,6 +702,8 @@ a.chapter-nav:hover {
 #search-type option,
 #search-scope,
 #search-scope option,
+#search-results-display-mode,
+#search-results-display-mode option,
 .ui-dialog #db-sync-box,
 .ui-dialog #new-release-info-box,
 .ui-widget:not(.ezra-dialog),
@@ -962,7 +964,7 @@ main.content {
   margin-bottom: 1em;
 }
 
-#search-type, #search-scope {
+#search-type, #search-scope, #search-results-display-mode {
   width: 100%;
   padding: 0.5em;
   border: 1px solid var(--border-color);
@@ -1739,7 +1741,8 @@ li.book-unavailable a:focus,
 .tab-search-input,
 .tab-search-type,
 #search-type,
-#search-scope {
+#search-scope,
+#search-results-display-mode {
   border: 1px solid lightgray;
   border-radius: 4px;
 }

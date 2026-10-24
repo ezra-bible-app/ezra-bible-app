@@ -129,22 +129,24 @@ class TextController {
       resetView = false;
     }
 
-    if (resetView && (tabIndex == 0 || tabIndex == undefined)) {
-      if (tabIndex === undefined) {
-        if (app_controller.verse_selection != null) {
-          app_controller.verse_selection.clearVerseSelection();
-        }
+    const isPrimaryTab = tabIndex == 0 || tabIndex == undefined;
+
+    if (resetView && isPrimaryTab) {
+      if (tabIndex === undefined && app_controller.verse_selection != null) {
+        app_controller.verse_selection.clearVerseSelection();
       }
 
       if (currentTab.hasTextTypeChanged()) {
         app_controller.navigation_pane.resetNavigationPane(tabIndex, true);
       }
-
       verseListController.resetVerseListView();
+      verseListController.resetVerseListView();
+    }
+
+    if (resetView && (isPrimaryTab || isSearch)) {
       let loadingMessage = "";
 
       if (isSearch) {
-        const currentTab = app_controller.tab_controller.getTab(tabIndex);
         const searchTerm = currentTab.getSearchTerm();
         loadingMessage = i18n.t("bible-browser.searching-for") + " <i>" + searchTerm + "</i>";
       } else {
@@ -152,7 +154,7 @@ class TextController {
       }
 
       verseListController.showVerseListLoadingIndicator(tabIndex, loadingMessage, !isSearch /* Only show loader visualization if we are not searching */);
-      uiHelper.showTextLoadingIndicator();
+      uiHelper.showTextLoadingIndicator(tabIndex);
     }
 
     var temporary_help = verseListController.getCurrentVerseListFrame(tabIndex).find('.temporary-help, .help-text');
@@ -183,7 +185,11 @@ class TextController {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var buttons = currentVerseListMenu.find('.fg-button');
 
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked && !renderInTab;
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const showSearchResultsInPopup = textType == 'search_results' &&
+      currentTab.getSearchResultsDisplayMode() == 'popup' &&
+      !renderInTab &&
+      !currentTab.getSearchResultsInTab();
     if (!showSearchResultsInPopup) {
       buttons.removeClass('focused-button');
     }
@@ -875,10 +881,13 @@ class TextController {
     }
 
     if (!initialRendering) {
-      const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+      const currentTab = app_controller.tab_controller.getTab(tabIndex);
+      const showSearchResultsInPopup = currentTab.getSearchResultsDisplayMode() == 'popup' &&
+        !renderInTab &&
+        !currentTab.getSearchResultsInTab();
 
       if (listType != 'search_results' || listType == 'search_results' && !showSearchResultsInPopup) {
-        app_controller.tab_controller.getTab().setTextType(listType);
+        currentTab.setTextType(listType);
       }
     }
 
@@ -1031,7 +1040,10 @@ class TextController {
 
       await waitUntilIdle();
 
-      const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+      const currentTab = app_controller.tab_controller.getTab(tabIndex);
+      const showSearchResultsInPopup = currentTab.getSearchResultsDisplayMode() == 'popup' &&
+        !renderInTab &&
+        !currentTab.getSearchResultsInTab();
 
       if (listType != 'search_results' ||
           listType == 'search_results' && (!showSearchResultsInPopup || renderInTab)) {

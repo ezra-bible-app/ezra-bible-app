@@ -31,7 +31,10 @@
     "current-book": "Current Book",
     "current-book-name": "Book",
     "word-boundaries": "Woordgrenzen gebruiken",
-    "extended-verse-boundaries": "Uitgebreide versgrenzen (Twee verzen)"
+    "extended-verse-boundaries": "Uitgebreide versgrenzen (Twee verzen)",
+    "open-in-popup": "Open in popup",
+    "open-in-current-tab": "Open in current tab",
+    "open-in-new-tab": "Open in new tab"
   },
   "module-assistant": {
     "module-type-bible": "bijbelvertalingen",

@@ -60,7 +60,9 @@ class NavigationPane {
     });
 
     eventController.subscribe('on-module-search-started', (tabIndex) => {
-      const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+      const currentTab = app_controller.tab_controller.getTab(tabIndex);
+      const showSearchResultsInPopup = currentTab != null &&
+        currentTab.getSearchResultsDisplayMode() == 'popup';
 
       if (!showSearchResultsInPopup) {
         this.resetNavigationPane(tabIndex);
@@ -724,4 +726,3 @@ class NavigationPane {
 }
 
 module.exports = NavigationPane;
-
