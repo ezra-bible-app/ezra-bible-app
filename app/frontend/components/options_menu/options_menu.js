@@ -97,7 +97,6 @@ class OptionsMenu {
     });
 
     var openVerseListsInNewTabByDefault = false;
-    var showSearchResultsInPopupByDefault = false;
     var bookChapterNavDefault = true;
     var userDataIndicatorDefault = true;
     var selectChapterBeforeLoadingDefault = false;
@@ -108,7 +107,6 @@ class OptionsMenu {
 
     if (this.platformHelper.isMobile()) {
       openVerseListsInNewTabByDefault = true;
-      showSearchResultsInPopupByDefault = false;
       bookChapterNavDefault = false;
       userDataIndicatorDefault = false;
       selectChapterBeforeLoadingDefault = true;
@@ -126,7 +124,6 @@ class OptionsMenu {
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
     this._verseListNewTabOption = this.initConfigOption('openVerseListsInNewTabOption', () => {}, openVerseListsInNewTabByDefault);
-    this._showSearchResultsInPopupOption = this.initConfigOption('showSearchResultsInPopupOption', () => {}, showSearchResultsInPopupByDefault);
     this._userDataIndicatorOption = this.initConfigOption('showUserDataIndicatorOption', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, userDataIndicatorDefault);
     this._tagsOption = this.initConfigOption('showTagsOption', () => { this.showOrHideVerseTagsBasedOnOption(); });
     this._tagGroupFilterOption = this.initConfigOption('useTagGroupFilterOption', () => { this.applyTagGroupFilterBasedOnOption(); });
