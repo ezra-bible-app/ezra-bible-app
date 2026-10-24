@@ -59,6 +59,7 @@
   }
 
   #book-selection-menu-book-list, #book-selection-menu-chapter-list {
+    margin-top: var(--safe-area-top) !important;
     padding: 0;
     height: 92% !important;
     overflow-y: auto;
