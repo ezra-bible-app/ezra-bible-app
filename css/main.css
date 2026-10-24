@@ -926,6 +926,7 @@ main.content {
 #module-search-menu {
   padding: 1.2em;
   width: 30em;
+  text-align: center;
 }
 
 .search-input-container {
