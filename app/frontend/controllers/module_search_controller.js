@@ -340,6 +340,10 @@ class ModuleSearchController {
       var searchTerm = currentTab.getSearchTerm();
       var searchResultsDisplayMode = currentTab.getSearchResultsDisplayMode();
 
+      if (searchScope == null && currentTab.getTextType() == 'book') {
+        searchScope = 'CURRENT_BOOK';
+      }
+
       if (searchScope == 'CURRENT_BOOK' &&
           currentTab.getTextType() != 'book' &&
           currentTab.getSearchScopeBookCode() == null) {
