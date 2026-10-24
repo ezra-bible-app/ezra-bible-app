@@ -43,3 +43,10 @@ Then('there are {int} search results', {timeout: 10 * 1000}, async function (sea
   var verseBoxes = await verseListTabs.$$('.verse-box');
   assert(verseBoxes.length == searchResultCount, `The number of verses (${verseBoxes.length}) does not match the expectation for the number of search results (${searchResultCount})`);
 });
+
+Then('the search scope is {string}', async function (searchScope) {
+  var searchScopeField = await spectronHelper.getWebClient().$('#search-scope');
+  var actualSearchScope = await searchScopeField.getValue();
+
+  assert(actualSearchScope == searchScope, `The search scope "${actualSearchScope}" does not match the expectation "${searchScope}"`);
+});
