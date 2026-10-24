@@ -34,12 +34,6 @@ const template = html`
   margin-right: 0.3em;
 }
 
-@media screen and (max-width: 450px), (max-height: 450px) {
-  /* Hide the open chapter in new tab button on mobile screens, because there are no tabs on those devices */
-  .open-in-new-tab-button {
-    display: none;
-  }
-}
 </style>
 
 <div class="copy-button fg-button ui-state-default ui-corner-all">
