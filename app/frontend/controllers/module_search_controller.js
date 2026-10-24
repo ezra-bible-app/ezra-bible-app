@@ -303,18 +303,20 @@ class ModuleSearchController {
   }
 
   resetSearch(tabIndex=undefined) {
+    var tab = app_controller.tab_controller.getTab(tabIndex);
     $('#module-search-input').val('');
     $('#search-type')[0].value = "phrase";
-    $('#search-scope')[0].value = "BIBLE";
+    $('#search-scope')[0].value = tab != null && tab.getTextType() == 'book' ? 'CURRENT_BOOK' : 'BIBLE';
     $('#search-is-case-sensitive').prop("checked", false);
     $('#search-word-boundaries').prop("checked", false);
     $('#search-extended-verse-boundaries').prop("checked", false);
+    this.updateCurrentBookSearchScope(tabIndex);
+    this.updateCurrentBookSearchScopeDisplay(tabIndex);
     this.clearModuleSearchHeader(tabIndex);
     this.hideModuleSearchHeader(tabIndex);
     app_controller.verse_statistics_chart.resetChart(tabIndex);
     this.currentSearchCancelled = false;
 
-    var tab = app_controller.tab_controller.getTab(tabIndex);
     if (tab != null) {
       tab.setSearchCancelled(false);
     }
