@@ -659,8 +659,6 @@ class ModuleSearchController {
           app_controller.word_study_controller.showWordInfo(this.currentSearchTerm, false /* do not show strongs box */);
         }
 
-        app_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
-
         if (!showSearchResultsInPopup) {
           // Set book, tagIdList and xrefs to null, since we just switched to search content
           currentTab.setBook(null, null, null);
@@ -675,6 +673,9 @@ class ModuleSearchController {
             currentTab.setTextType('search_results');
           }
           currentTab.setSearchCancelled(false);
+          app_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
+        } else {
+          currentTab.setSearchTerm(this.currentSearchTerm);
         }
 
         this.hideSearchMenu();
