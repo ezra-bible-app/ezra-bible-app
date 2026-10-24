@@ -32,6 +32,7 @@ class Tab {
     this.taggedVersesTitle = null;
     this.searchTerm = null;
     this.searchResults = null;
+    this.searchResultsInTab = false;
     this.searchOptions = {};
     this.searchScopeBookCode = null;
     this.searchScopeBookTitle = null;
@@ -186,10 +187,19 @@ class Tab {
 
   setSearchResults(searchResults) {
     this.searchResults = searchResults;
+    this.searchResultsInTab = false;
   }
 
   getSearchResults() {
     return this.searchResults;
+  }
+
+  setSearchResultsInTab(searchResultsInTab) {
+    this.searchResultsInTab = searchResultsInTab;
+  }
+
+  getSearchResultsInTab() {
+    return this.searchResultsInTab;
   }
 
   setSearchOptions(searchType, searchScope, caseSensitive, wordBoundaries, extendedVerseBoundaries) {
