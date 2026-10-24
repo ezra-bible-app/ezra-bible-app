@@ -294,7 +294,10 @@ class VerseContextMenu extends HTMLElement {
           const verseTextContainer = verseElement.querySelector('.verse-text-container');
 
           if (verseTextContainer) {
-            verseElement.scrollIntoView();
+            if (platformHelper.isElectron()) {
+              verseElement.scrollIntoView();
+            }
+
             await app_controller.verse_selection.setVerseAsSelection(verseTextContainer);
           }
         }
