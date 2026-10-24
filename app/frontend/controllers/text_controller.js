@@ -170,7 +170,8 @@ class TextController {
                           instantLoad=true,
                           tabIndex=undefined,
                           searchResultBookId=-1,
-                          target=undefined) {
+                          target=undefined,
+                          renderInTab=false) {
 
     this.textUpdateInProgress = true;
     var textType = app_controller.tab_controller.getTab(tabIndex).getTextType();
@@ -182,7 +183,7 @@ class TextController {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var buttons = currentVerseListMenu.find('.fg-button');
 
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked && !renderInTab;
     if (!showSearchResultsInPopup) {
       buttons.removeClass('focused-button');
     }
@@ -265,7 +266,7 @@ class TextController {
           tabId,
           searchResults,
           async (htmlVerseList) => {
-            await this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, searchResultBookId <= 0, /* isCache */ false, target);
+            await this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, searchResultBookId <= 0, /* isCache */ false, target, false, false, renderInTab);
           },
           searchResultBookId
         );
@@ -849,7 +850,8 @@ class TextController {
                         isCache=false, 
                         target=undefined, 
                         append=false, 
-                        hasNotes=false) {
+                        hasNotes=false,
+                        renderInTab=false) {
     
     if (!append) {
       await eventController.publishAsync('on-verse-list-init', tabIndex);
@@ -982,7 +984,7 @@ class TextController {
     if (listType == 'search_results') {
       const currentTab = app_controller.tab_controller.getTab(tabIndex);
       const currentSearchTerm = currentTab.getSearchTerm();
-      app_controller.module_search_controller.highlightSearchResults(currentSearchTerm, tabIndex);
+      app_controller.module_search_controller.highlightSearchResults(currentSearchTerm, tabIndex, renderInTab);
     }
 
     if (renderChart && (listType == 'search_results' || listType == 'tagged_verses' || listType == 'xrefs')) {
@@ -1032,7 +1034,7 @@ class TextController {
       const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
 
       if (listType != 'search_results' ||
-          listType == 'search_results' && !showSearchResultsInPopup) {
+          listType == 'search_results' && (!showSearchResultsInPopup || renderInTab)) {
 
         const navigationContext = {
           tabIndex: tabIndex,
