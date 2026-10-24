@@ -26,23 +26,23 @@ jobs:
           run: sudo apt update && sudo apt install -y libcurl4-gnutls-dev xvfb subversion
         
         - name: Install node dependencies and build native modules
-          run: npm install
+          run: node_modules/.bin/npm install
         
         - name: Install electron v17.1.0 for compatibility with Spectron
-          run: npm install electron@17.1.0
+          run: node_modules/.bin/npm install electron@17.1.0
 
         - name: Install spectron
-          run: npm install spectron@19.0.0
+          run: node_modules/.bin/npm install spectron@19.0.0
 
         - name: Compile templates
-          run: npm run compile-pug 
+          run: node_modules/.bin/npm run compile-pug 
 
         - name: Run startup profiling scenario
           uses: nick-fields/retry@v2
           with:
             timeout_minutes: 3
             max_attempts: 3
-            command: npm run headless-test-startup-profile
+            command: node_modules/.bin/npm run headless-test-startup-profile
 
         - name: Print startup IPC profile
           if: always()
@@ -61,7 +61,7 @@ jobs:
           with:
             timeout_minutes: 5
             max_attempts: 3
-            command: npm run headless-test
+            command: node_modules/.bin/npm run headless-test
 
         - name: Archive screenshot (in case of an error)
           uses: actions/upload-artifact@v4.4.0
