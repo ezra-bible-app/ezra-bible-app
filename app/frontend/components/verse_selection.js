@@ -19,6 +19,7 @@
 const VerseBox = require("../ui_models/verse_box.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
+const longPressController = require('../controllers/longpress_controller.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
@@ -40,6 +41,7 @@ class VerseSelection {
     this.verseReferenceHelper = null;
     this.previousSelectionIndex = -1;
     this.verseBoxHelper = new VerseBoxHelper();
+    this.longPressUnsubscribeByVerseList = new WeakMap();
 
     eventController.subscribe('on-locale-changed', async () => {
       let currentTab = app_controller.tab_controller.getTab();
@@ -94,6 +96,12 @@ class VerseSelection {
   }
 
   initSelectable(verseList) {
+    const verseListElement = verseList[0];
+    const previousLongPressUnsubscribe = this.longPressUnsubscribeByVerseList.get(verseListElement);
+    if (previousLongPressUnsubscribe) {
+      previousLongPressUnsubscribe();
+    }
+
     if (verseList.hasClass('ui-selectable')) {
       verseList.selectable('destroy');
     }
@@ -163,6 +171,44 @@ class VerseSelection {
         // Not needed anymore!
       }
     });
+
+    const longPressUnsubscribe = longPressController.subscribe(
+      verseListElement,
+      (target) => {
+        const verseTextContainer = target.closest('.verse-text-container');
+        if (verseTextContainer != null) {
+          this.toggleVerseSelection(verseTextContainer, verseList);
+        }
+      },
+      (event) => {
+        const target = event.target;
+        const verseTextContainer = target.closest('.verse-text-container');
+        const cancelledTarget = target.closest(
+          '.verse-reference-content, .sword-xref-marker, .verse-notes, .tag-box, .tag, .load-book-results, .select-all-verses-button, tag-distribution-matrix'
+        );
+
+        return verseTextContainer != null &&
+          cancelledTarget == null &&
+          verseListElement.contains(verseTextContainer);
+      }
+    );
+    this.longPressUnsubscribeByVerseList.set(verseListElement, longPressUnsubscribe);
+  }
+
+  async toggleVerseSelection(verseTextContainer, verseList) {
+    if (verseTextContainer.classList.contains('ui-selected')) {
+      verseTextContainer.classList.remove('ui-selected');
+      verseTextContainer.classList.remove('ui-state-highlight');
+    } else {
+      verseTextContainer.classList.add('ui-selectee');
+      verseTextContainer.classList.add('ui-selected');
+    }
+
+    this.previousSelectionIndex = $(verseTextContainer.tagName, verseList[0]).index(verseTextContainer);
+    this.updateSelected(verseList);
+    this.previousVerseCount = this.selectedVerseBoxElements.length;
+    await this.updateViewsAfterVerseSelection();
+    await this.publishVersesSelected();
   }
 
   getFirstSelectedVerseBox() {
