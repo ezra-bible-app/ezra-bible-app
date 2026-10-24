@@ -44,7 +44,8 @@ class VerseStatisticsChart {
   getSearchContainer(tabIndex=undefined) {
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
     const searchResultsInTab = currentTab != null && currentTab.getSearchResultsInTab();
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked &&
+    const showSearchResultsInPopup = currentTab != null &&
+      currentTab.getSearchResultsDisplayMode() == 'popup' &&
       !searchResultsInTab;
     let parentElement = null;
 

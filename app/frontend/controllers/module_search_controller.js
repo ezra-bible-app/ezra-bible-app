@@ -152,6 +152,11 @@ class ModuleSearchController {
       this.validateSearchTerm();
     });
 
+    var searchResultsDisplayModeField = document.getElementById('module-search-menu').querySelector('#search-results-display-mode');
+    $(searchResultsDisplayModeField).on('change', () => {
+      this.validateSearchTerm();
+    });
+
     const verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     const searchResultsBox = $('#search-results-box');
     const cancelSearchButtonContainer1 = verseListFrame.find('.cancel-module-search-button-container');
@@ -187,7 +192,7 @@ class ModuleSearchController {
     }
 
     const tab = app_controller.tab_controller.getTab(tabIndex);
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+    const showSearchResultsInPopup = tab != null && tab.getSearchResultsDisplayMode() == 'popup';
 
     if (tab != null && !showSearchResultsInPopup) {
       tab.setSearchCancelled(true);
@@ -333,6 +338,7 @@ class ModuleSearchController {
       var useWordBoundaries = currentTab.getSearchOptions()['wordBoundaries'];
       var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
       var searchTerm = currentTab.getSearchTerm();
+      var searchResultsDisplayMode = currentTab.getSearchResultsDisplayMode();
 
       if (searchScope == 'CURRENT_BOOK' &&
           currentTab.getTextType() != 'book' &&
@@ -346,6 +352,7 @@ class ModuleSearchController {
       $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
       $('#search-word-boundaries').prop("checked", useWordBoundaries);
       $('#search-extended-verse-boundaries').prop("checked", useExtendedVerseBoundaries);
+      $('#search-results-display-mode').val(searchResultsDisplayMode);
       $('#module-search-input').val(searchTerm);
       this.updateCurrentBookSearchScopeDisplay(tabIndex);
     }
@@ -453,7 +460,11 @@ class ModuleSearchController {
   }
 
   getModuleSearchHeader(tabIndex=undefined, renderInTab=false) {
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked && !renderInTab;
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const showSearchResultsInPopup = currentTab != null &&
+      currentTab.getSearchResultsDisplayMode() == 'popup' &&
+      !renderInTab &&
+      !currentTab.getSearchResultsInTab();
     let verseListHeader = null;
 
     if (showSearchResultsInPopup) {
@@ -526,19 +537,68 @@ class ModuleSearchController {
         return;
       }
 
+      this.currentSearchCancelled = false;
+      let sourceTab = app_controller.tab_controller.getTab();
+      let searchDisplayMode = tabIndex === undefined ?
+        ($('#search-results-display-mode').val() || 'current-tab') :
+        sourceTab.getSearchResultsDisplayMode();
+      const searchOptions = {
+        searchType: this.getSearchType(),
+        searchScope: this.getSearchScope(),
+        caseSensitive: this.isCaseSensitive(),
+        wordBoundaries: this.useWordBoundaries(),
+        extendedVerseBoundaries: this.useExtendedVerseBoundaries()
+      };
+
+      if (searchOptions.searchScope == 'CURRENT_BOOK' && sourceTab.getTextType() != 'book' &&
+          sourceTab.getSearchScopeBookCode() == null) {
+        searchOptions.searchScope = 'BIBLE';
+      }
+
       this.currentSearchTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+
+      if (tabIndex === undefined && searchDisplayMode == 'new-tab') {
+        if (searchOptions.searchScope == 'CURRENT_BOOK' && sourceTab.getTextType() == 'book') {
+          sourceTab.setSearchScopeBook(sourceTab.getBook(), sourceTab.getBookTitle());
+        }
+
+        const newTab = await app_controller.tab_controller.addTab(undefined, false, sourceTab.getBibleTranslationId());
+        if (newTab == null) {
+          this.isSearchInProgress = false;
+          return;
+        }
+
+        tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+        await app_controller.translation_controller.initTranslationsMenu(-1, tabIndex);
+        newTab.setTextType('search_results');
+        newTab.setSearchResultsDisplayMode('current-tab');
+        newTab.setSearchOptions(searchOptions.searchType,
+                                searchOptions.searchScope,
+                                searchOptions.caseSensitive,
+                                searchOptions.wordBoundaries,
+                                searchOptions.extendedVerseBoundaries);
+        newTab.setSearchScopeBook(sourceTab.getSearchScopeBookCode(), sourceTab.getSearchScopeBookTitle());
+        newTab.setSearchCancelled(false);
+        app_controller.tab_controller.setTabTitle(
+          app_controller.tab_controller.getSearchTabTitle(this.currentSearchTerm),
+          sourceTab.getBibleTranslationId(),
+          tabIndex
+        );
+      }
 
       // Do not allow another concurrent search, disable the search menu button
       $('.module-search-button').addClass('ui-state-disabled');
 
       this.disableOtherFunctionsDuringSearch();
 
-      const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked;
+      this.currentSearchTabIndex = tabIndex === undefined ?
+        app_controller.tab_controller.getSelectedTabIndex() : tabIndex;
+      const showSearchResultsInPopup = searchDisplayMode == 'popup';
       $('#open-search-results-in-new-tab-button').hide();
 
       if (tabIndex === undefined) {
         var tab = app_controller.tab_controller.getTab();
-        let searchScope = this.getSearchScope();
+        let searchScope = searchOptions.searchScope;
 
         if (tab.getTextType() != 'book' && searchScope == 'CURRENT_BOOK') {
           searchScope = 'BIBLE';
@@ -548,16 +608,12 @@ class ModuleSearchController {
           tab.setSearchScopeBook(tab.getBook(), tab.getBookTitle());
         }
 
-        tab.setSearchOptions(this.getSearchType(),
+        tab.setSearchOptions(searchOptions.searchType,
                              searchScope,
-                             this.isCaseSensitive(),
-                             this.useWordBoundaries(),
-                             this.useExtendedVerseBoundaries());
-        
-        if (!showSearchResultsInPopup) {
-          tab.setTextType('search_results');
-          tab.setSearchCancelled(false);
-        }
+                             searchOptions.caseSensitive,
+                             searchOptions.wordBoundaries,
+                             searchOptions.extendedVerseBoundaries);
+        tab.setSearchResultsDisplayMode(searchDisplayMode);
       }
 
       await eventController.publishAsync('on-module-search-started', tabIndex);
@@ -606,6 +662,13 @@ class ModuleSearchController {
           currentTab.setXrefs(null);
           currentTab.setReferenceVerseElementId(null);
           app_controller.tag_selection_menu.resetTagMenu();
+        }
+
+        if (!showSearchResultsInPopup) {
+          if (currentTab.getTextType() != 'search_results') {
+            currentTab.setTextType('search_results');
+          }
+          currentTab.setSearchCancelled(false);
         }
 
         this.hideSearchMenu();
@@ -705,7 +768,11 @@ class ModuleSearchController {
   }
 
   highlightSearchResults(searchTerm, tabIndex=undefined, renderInTab=false) {
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked && !renderInTab;
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const showSearchResultsInPopup = currentTab != null &&
+      currentTab.getSearchResultsDisplayMode() == 'popup' &&
+      !renderInTab &&
+      !currentTab.getSearchResultsInTab();
     var currentVerseList = null;
 
     if (showSearchResultsInPopup) {
@@ -740,7 +807,7 @@ class ModuleSearchController {
 
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
     renderInTab = renderInTab || currentTab.getSearchResultsInTab();
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked && !renderInTab;
+    const showSearchResultsInPopup = currentTab.getSearchResultsDisplayMode() == 'popup' && !renderInTab;
 
     const currentTabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
     const currentSearchTerm = currentTab.getSearchTerm();
@@ -817,7 +884,7 @@ class ModuleSearchController {
 
     moduleSearchHeader.show();
 
-    if (!renderInTab && app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked &&
+    if (showSearchResultsInPopup &&
         currentSearchResults != null && currentSearchResults.length > 0) {
       $('#open-search-results-in-new-tab-button').show();
     }
@@ -851,6 +918,7 @@ class ModuleSearchController {
       }
 
       const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      await app_controller.translation_controller.initTranslationsMenu(-1, tabIndex);
       newTab.setTextType('search_results');
       newTab.setSearchTerm(searchTerm);
       newTab.setSearchResults(searchResults);
@@ -910,7 +978,7 @@ class ModuleSearchController {
 
   loadBookResults(bookId) {
     const currentTab = app_controller.tab_controller.getTab();
-    const showSearchResultsInPopup = app_controller.optionsMenu._showSearchResultsInPopupOption.isChecked &&
+    const showSearchResultsInPopup = currentTab.getSearchResultsDisplayMode() == 'popup' &&
       !currentTab.getSearchResultsInTab();
     const currentTabId = app_controller.tab_controller.getSelectedTabId();
     let parentElement = null;

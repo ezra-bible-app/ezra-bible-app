@@ -33,6 +33,7 @@ class Tab {
     this.searchTerm = null;
     this.searchResults = null;
     this.searchResultsInTab = false;
+    this.searchResultsDisplayMode = 'current-tab';
     this.searchOptions = {};
     this.searchScopeBookCode = null;
     this.searchScopeBookTitle = null;
@@ -200,6 +201,14 @@ class Tab {
 
   getSearchResultsInTab() {
     return this.searchResultsInTab;
+  }
+
+  setSearchResultsDisplayMode(displayMode) {
+    this.searchResultsDisplayMode = displayMode;
+  }
+
+  getSearchResultsDisplayMode() {
+    return this.searchResultsDisplayMode || 'current-tab';
   }
 
   setSearchOptions(searchType, searchScope, caseSensitive, wordBoundaries, extendedVerseBoundaries) {

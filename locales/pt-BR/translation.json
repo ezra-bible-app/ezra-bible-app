@@ -31,7 +31,10 @@
     "current-book": "Current Book",
     "current-book-name": "Book",
     "word-boundaries": "Usar limites de palavra",
-    "extended-verse-boundaries": "Limites do versículo estendido (dois versículos)"
+    "extended-verse-boundaries": "Limites do versículo estendido (dois versículos)",
+    "open-in-popup": "Open in popup",
+    "open-in-current-tab": "Open in current tab",
+    "open-in-new-tab": "Open in new tab"
   },
   "module-assistant": {
     "module-type-bible": "Traduções Bíblicas",
