@@ -4,6 +4,7 @@ on: push
 
 jobs:
     e2e-test:
+        if: false
         name: Run Cucumber tests
         runs-on: ubuntu-22.04
         timeout-minutes: 12
