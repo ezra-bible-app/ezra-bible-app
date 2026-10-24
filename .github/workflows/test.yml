@@ -20,7 +20,7 @@ jobs:
             node-version: '14.21.3' 
 
         - name: Pin npm to a Node 14-compatible version
-          run: npm install -g npm@6.14.18
+          run: npm install npm@6.14.18
 
         - name: Install apt dependencies
           run: sudo apt update && sudo apt install -y libcurl4-gnutls-dev xvfb subversion
