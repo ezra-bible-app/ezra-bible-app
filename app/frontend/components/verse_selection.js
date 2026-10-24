@@ -177,7 +177,7 @@ class VerseSelection {
       (target) => {
         const verseTextContainer = target.closest('.verse-text-container');
         if (verseTextContainer != null) {
-          this.toggleVerseSelection(verseTextContainer, verseList);
+          this.addVerseToSelection(verseTextContainer, verseList);
         }
       },
       (event) => {
@@ -189,20 +189,16 @@ class VerseSelection {
 
         return verseTextContainer != null &&
           cancelledTarget == null &&
+          !verseTextContainer.classList.contains('ui-selected') &&
           verseListElement.contains(verseTextContainer);
       }
     );
     this.longPressUnsubscribeByVerseList.set(verseListElement, longPressUnsubscribe);
   }
 
-  async toggleVerseSelection(verseTextContainer, verseList) {
-    if (verseTextContainer.classList.contains('ui-selected')) {
-      verseTextContainer.classList.remove('ui-selected');
-      verseTextContainer.classList.remove('ui-state-highlight');
-    } else {
-      verseTextContainer.classList.add('ui-selectee');
-      verseTextContainer.classList.add('ui-selected');
-    }
+  async addVerseToSelection(verseTextContainer, verseList) {
+    verseTextContainer.classList.add('ui-selectee');
+    verseTextContainer.classList.add('ui-selected');
 
     this.previousSelectionIndex = $(verseTextContainer.tagName, verseList[0]).index(verseTextContainer);
     this.updateSelected(verseList);
