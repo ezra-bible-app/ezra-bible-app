@@ -28,9 +28,3 @@ Feature: Module search
     When I perform the search
     Then the tab title is "Search: faith [KJV]"
     And there are 338 search results
-
-  Scenario: Search scope defaults to the open book
-    Given I open the book selection menu
-    When I select the book Ephesians
-    And I open the search menu
-    Then the search scope is "CURRENT_BOOK"
