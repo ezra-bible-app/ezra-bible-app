@@ -172,6 +172,10 @@
     justify-content: center;
   }
 
+  #book-selection-menu-chapter-list {
+    justify-content: center;
+  }
+
   .book-list-column li {
     text-align: center;
   }
