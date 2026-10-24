@@ -18,6 +18,8 @@
 
 const TabSearch = require('../components/tab_search/tab_search.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const PlatformHelper = require('../../lib/platform_helper.js');
+const platformHelper = new PlatformHelper();
 
 class Tab {
   constructor(defaultBibleTranslationId, interactive=true) {
@@ -33,7 +35,8 @@ class Tab {
     this.searchTerm = null;
     this.searchResults = null;
     this.searchResultsInTab = false;
-    this.searchResultsDisplayMode = 'current-tab';
+    this.searchResultsDisplayMode = platformHelper.isCordova() ? 'popup' :
+      (platformHelper.isElectron() ? 'new-tab' : 'current-tab');
     this.searchOptions = {};
     this.searchScopeBookCode = null;
     this.searchScopeBookTitle = null;
