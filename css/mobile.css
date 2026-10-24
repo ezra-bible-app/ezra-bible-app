@@ -176,6 +176,20 @@
     justify-content: center;
   }
 
+  #book-selection-menu-nav-content {
+    margin-top: 1em;
+  }
+
+  #book-selection-menu-chapter-list h2 {
+    margin-top: 1em;
+    text-align: center;
+  }
+
+  #book-selection-menu-chapter-list #chapter-list-chapters {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .book-list-column li {
     text-align: center;
   }
