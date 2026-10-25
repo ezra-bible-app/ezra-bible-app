@@ -12,6 +12,7 @@ strongs_todo.txt
 .DS_Store
 complexity_metrics.html
 /test_*.*
+/test_screenshots
 /doc
 /dist
 chromedriverlog.txt
