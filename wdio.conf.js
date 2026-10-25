@@ -46,7 +46,16 @@ exports.config = {
     // of the config file unless it's absolute.
     //
     specs: [
-        './features/**/*.feature'
+        [
+            './features/001_module_installation.feature',
+            './features/002_module_removal.feature',
+            './features/003_bible_browsing.feature',
+            './features/004_verse_tagging.feature',
+            './features/005_module_search.feature',
+            './features/006_notes.feature',
+            './features/007_tag_groups.feature',
+            './features/008_locale_change.feature'
+        ]
     ],
     // Patterns to exclude.
     exclude: [
@@ -77,6 +86,7 @@ exports.config = {
     capabilities: [{
         // capabilities for local browser web tests
         browserName: 'electron',
+        maxInstances: 1,
         'wdio:electronServiceOptions': {
             appEntryPoint: path.join(__dirname, './main.js'),
         },
@@ -222,14 +232,23 @@ exports.config = {
         const serviceOptions = capability['wdio:electronServiceOptions'] || {};
         const featurePath = specs.join(' ');
         const appArgs = [];
+        const isStartupProfile = featurePath.includes('000_startup_profiling.feature');
+        const includesModuleInstallation = featurePath.includes('001_module_installation.feature');
+        const includesModuleRemoval = featurePath.includes('002_module_removal.feature');
 
-        if (featurePath.includes('002_module_removal.feature')) {
+        if (includesModuleRemoval && !includesModuleInstallation) {
             appArgs.push('--install-asv');
-        } else if (!featurePath.includes('000_startup_profiling.feature')) {
+        }
+
+        if (!isStartupProfile && !includesModuleInstallation && !includesModuleRemoval) {
             appArgs.push('--install-kjv');
         }
 
-        process.env.EZRA_STARTUP_PROFILING = featurePath.includes('000_startup_profiling.feature') ? 'true' : 'false';
+        if (includesModuleInstallation && includesModuleRemoval) {
+            appArgs.push('--install-kjv');
+        }
+
+        process.env.EZRA_STARTUP_PROFILING = isStartupProfile ? 'true' : 'false';
         capability['wdio:electronServiceOptions'] = { ...serviceOptions, appArgs };
     },
     /**
