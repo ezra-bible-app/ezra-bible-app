@@ -275,6 +275,14 @@ exports.config = {
      */
     // beforeCommand: function (commandName, args) {
     // },
+    afterStep: async function (step, scenario, result) {
+        if (result && result.passed === false) {
+            const screenshotDir = path.join(__dirname, 'test_screenshots');
+            fs.ensureDirSync(screenshotDir);
+            const name = scenario.name.replace(/[^a-zA-Z0-9]+/g, '_');
+            await browser.saveScreenshot(path.join(screenshotDir, `${name}.png`));
+        }
+    },
     /**
      * Hook that gets executed before the suite starts
      * @param {object} suite suite details
