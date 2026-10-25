@@ -23,11 +23,37 @@ const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
 async function clickCheckbox(checkboxCodeAttr, parentSelector='#module-settings-assistant-add') {
-  var parent = await spectronHelper.getWebClient().$(parentSelector);
-  var checkbox = await parent.$(`[code="${checkboxCodeAttr}"]`);
-  await spectronHelper.getWebClient().waitUntil(async () => { return await checkbox.isExisting(); }, { timeout: 40000 });
-  // click in the shadow
-  await spectronHelper.getWebClient().execute((p, c) => document.querySelector(`${p} [code="${c}"]`).shadowRoot.querySelector('#label').click(), parentSelector, checkboxCodeAttr);
+  const client = spectronHelper.getWebClient();
+  const selector = `${parentSelector} assistant-checkbox[code="${checkboxCodeAttr}"]`;
+  let checkbox;
+
+  await client.waitUntil(async () => {
+    const matches = await client.$$(selector);
+    for (const match of matches) {
+      if (await match.isDisplayed()) {
+        checkbox = match;
+        return true;
+      }
+    }
+    return false;
+  }, {
+    timeout: 40000,
+    timeoutMsg: `No visible assistant checkbox found for ${checkboxCodeAttr}.`
+  });
+
+  const isChecked = await checkbox.getAttribute('checked') !== null;
+  if (!isChecked) {
+    await client.execute((element) => {
+      element.shadowRoot.querySelector('#checkbox').click();
+    }, checkbox);
+  }
+
+  await client.waitUntil(async () => {
+    return client.execute((element) => element.hasAttribute('checked'), checkbox);
+  }, {
+    timeout: 5000,
+    timeoutMsg: `The ${checkboxCodeAttr} assistant checkbox did not become checked.`
+  });
 }
 
 async function getNavLinks(moduleSettingsDialogId='#module-settings-assistant-add') {
@@ -38,9 +64,20 @@ async function getNavLinks(moduleSettingsDialogId='#module-settings-assistant-ad
 }
 
 async function clickNext(moduleSettingsDialogId='#module-settings-assistant-add') {
-  var navLinks = await getNavLinks(moduleSettingsDialogId);
-  var nextButton = navLinks[1];
+  const client = spectronHelper.getWebClient();
+  const moduleSettingsAssistant = await client.$(moduleSettingsDialogId);
+  const currentStep = await moduleSettingsAssistant.$('.content > .body.current');
+  const currentStepId = await currentStep.getAttribute('id');
+  const nextButton = await moduleSettingsAssistant.$('.actions a[href="#next"]');
+  await nextButton.waitForDisplayed({ timeout: 5000 });
   await nextButton.click();
+  await client.waitUntil(async () => {
+    const activeStep = await moduleSettingsAssistant.$('.content > .body.current');
+    return (await activeStep.getAttribute('id')) !== currentStepId;
+  }, {
+    timeout: 5000,
+    timeoutMsg: 'The module assistant did not advance; the current step may be missing a required selection.'
+  });
 }
 
 Given('I open the module installation assistant', {timeout: 40 * 1000}, async function () {
