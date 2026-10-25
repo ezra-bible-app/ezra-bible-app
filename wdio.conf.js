@@ -260,6 +260,13 @@ exports.config = {
      */
     // before: function (capabilities, specs) {
     // },
+    after: async function () {
+        if (browser.electron && typeof browser.electron.execute === 'function') {
+            await browser.electron.execute((electron) => {
+                electron.app.quit();
+            });
+        }
+    },
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {string} commandName hook command name
