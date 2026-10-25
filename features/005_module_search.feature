@@ -25,6 +25,8 @@ Feature: Module search
   Scenario: Basic search
     Given I open the search menu
     And I enter the term "faith"
+    And I select the search scope "BIBLE"
+    And I select the search results display mode "current-tab"
     When I perform the search
     Then the tab title is "Search: faith [KJV]"
     And there are 338 search results

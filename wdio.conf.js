@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const os = require('os');
+const { execFileSync } = require('child_process');
 
 process.env.EZRA_TESTING = 'true';
 
@@ -213,7 +214,15 @@ exports.config = {
     // onPrepare: function (config, capabilities) {
     // },
     onPrepare: function () {
-        fs.removeSync(getTestUserDataDir());
+        const userDataDir = getTestUserDataDir();
+        fs.removeSync(userDataDir);
+
+        if (electronAppArgs.includes('--install-kjv')) {
+            // Pre-seed KJV to avoid the slow repository installation
+            const swordDir = path.join(userDataDir, '.sword');
+            fs.ensureDirSync(swordDir);
+            execFileSync('tar', ['-xzf', path.join(__dirname, 'features', 'resources', 'kjv.tar.gz'), '-C', swordDir]);
+        }
     },
     /**
      * Gets executed before a worker process is spawned and can be used to initialize specific service

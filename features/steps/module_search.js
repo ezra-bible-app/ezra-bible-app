@@ -28,6 +28,16 @@ Given('I enter the term {string}', async function (searchTerm) {
   await moduleSearchInput.addValue(searchTerm);
 });
 
+Given('I select the search scope {string}', async function (scope) {
+  const select = await spectronHelper.getWebClient().$('#module-search-menu #search-scope');
+  await select.selectByAttribute('value', scope);
+});
+
+Given('I select the search results display mode {string}', async function (mode) {
+  const select = await spectronHelper.getWebClient().$('#module-search-menu #search-results-display-mode');
+  await select.selectByAttribute('value', mode);
+});
+
 When('I perform the search', {timeout: 50 * 1000}, async function () {
   const client = spectronHelper.getWebClient();
   var moduleSearchMenu = await client.$('#module-search-menu');
