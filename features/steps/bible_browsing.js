@@ -22,16 +22,30 @@ const spectronHelper = require('../helpers/spectron_helper.js');
 const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
-Given('I open the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async function (buttonSelector) {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
-  var menuButton = await verseListTabs.$(buttonSelector);
-  
-  await uiHelper.buttonIsEnabled(menuButton, 1000);
-  if (await uiHelper.buttonIsActive(menuButton)) {
-    return;
-  }
+Given('I open the {first_tab_menu} menu/dialog', {timeout: 15 * 1000}, async function (buttonSelector) {
+  const client = spectronHelper.getWebClient();
+  const verseListTabs = await client.$('#verse-list-tabs-1');
+  const menuButton = await verseListTabs.$(buttonSelector);
+
+  await client.execute(() => app_controller.hideAllMenus());
+  await client.waitUntil(async () => {
+    const classList = (await menuButton.getAttribute('class')).split(' ');
+    return classList.includes('ui-state-default') && !classList.includes('ui-state-disabled');
+  }, {
+    timeout: 10000,
+    timeoutMsg: `The menu button ${buttonSelector} did not become enabled.`
+  });
+
   await menuButton.click();
-  await spectronHelper.sleep(500);
+  await client.waitUntil(async () => uiHelper.buttonIsActive(menuButton), {
+    timeout: 5000,
+    timeoutMsg: `The menu button ${buttonSelector} did not become active after clicking.`
+  });
+
+  if (buttonSelector === '.book-select-button') {
+    const bookMenu = await client.$('#book-selection-menu');
+    await bookMenu.waitForDisplayed({ timeout: 5000 });
+  }
 });
 
 Given('I set the book loading option to {string}', async function (bookLoadingMode) {
