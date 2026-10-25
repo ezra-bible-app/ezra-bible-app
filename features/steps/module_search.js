@@ -29,17 +29,28 @@ Given('I enter the term {string}', async function (searchTerm) {
 });
 
 When('I perform the search', {timeout: 50 * 1000}, async function () {
-  var moduleSearchMenu = await spectronHelper.getWebClient().$('#module-search-menu');
+  const client = spectronHelper.getWebClient();
+  var moduleSearchMenu = await client.$('#module-search-menu');
   var startSearchButton = await moduleSearchMenu.$('#start-module-search-button');
 
   await startSearchButton.click();
-  await uiHelper.waitUntilGlobalLoaderIsHidden(50000);
-  await spectronHelper.sleep(3000);
+  await client.waitUntil(async () => {
+    return client.execute(() => {
+      const tab = app_controller.tab_controller.getTab();
+      const results = tab && tab.getSearchResults();
+      return Array.isArray(results) && results.length > 0;
+    });
+  }, {
+    timeout: 50000,
+    timeoutMsg: 'The module search did not return any results before timing out.'
+  });
 });
 
 Then('there are {int} search results', {timeout: 10 * 1000}, async function (searchResultCount) {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
-
-  var verseBoxes = await verseListTabs.$$('.verse-box');
-  assert(verseBoxes.length == searchResultCount, `The number of verses (${verseBoxes.length}) does not match the expectation for the number of search results (${searchResultCount})`);
+  const actualResultCount = await spectronHelper.getWebClient().execute(() => {
+    const tab = app_controller.tab_controller.getTab();
+    const results = tab && tab.getSearchResults();
+    return Array.isArray(results) ? results.length : 0;
+  });
+  assert(actualResultCount == searchResultCount, `The number of search results (${actualResultCount}) does not match the expectation (${searchResultCount})`);
 });

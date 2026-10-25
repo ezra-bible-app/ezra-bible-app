@@ -60,6 +60,12 @@ Feature: Adding, viewing and editing notes
   Scenario: Cancel verse note editing
     Given I have the notes hidden
     And I have the indicators displayed
+    And I click on note indicator for the verse "Ephesians 1:2"
+    And I enter markdown text
+    ```
+    **Grace and peace** greeting
+    ```
+    And I click note "Save" button
     And the note assigned to "Ephesians 1:2" in the database starts with text "**Grace and peace"
     And the note assigned to "Ephesians 1:2" has "strong" text "Grace and peace"
     And I click on "Ephesians 1:2" note

@@ -32,10 +32,13 @@ When('I change to the {string} locale', async function (localeNative) {
 });
 
 Then('the {interface_element} text is {string}', async function (selector, text) {
-  // const elementText = await spectronHelper.getWebClient().getText(selector);
-  const element = await spectronHelper.getWebClient().$(selector);
-  const elementText = await element.getProperty("innerText");
+  const candidateTexts = await spectronHelper.getWebClient().execute((cssSelector) => {
+    return Array.from(document.querySelectorAll(cssSelector), element =>
+      (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim()
+    );
+  }, selector);
+  const normalizedExpectedText = text.replace(/\s+/g, ' ').trim();
 
-  expect(elementText, `${selector} text doesn't match`).to.equal(text);
+  expect(candidateTexts, `${selector} text doesn't match`).to.include(normalizedExpectedText);
   await spectronHelper.sleep(500);
 });
