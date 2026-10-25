@@ -50,3 +50,11 @@ jobs:
             timeout_minutes: 10
             max_attempts: 3
             command: xvfb-run -a npm run wdio
+
+        - name: Archive screenshots (in case of an error)
+          uses: actions/upload-artifact@v4.4.0
+          if: failure()
+          with:
+            name: test-screenshots
+            path: ./test_screenshots
+            if-no-files-found: ignore
