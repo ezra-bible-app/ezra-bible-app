@@ -30,3 +30,15 @@ Feature: Module search
     When I perform the search
     Then the tab title is "Search: faith [KJV]"
     And there are 338 search results
+
+  Scenario: Search within the current book
+    Given I open the book selection menu
+    And I select the book Ephesians
+    And I open the search menu
+    And I enter the term "faith"
+    And I select the search scope "CURRENT_BOOK"
+    And I select the search results display mode "current-tab"
+    When I perform the search
+    Then the tab title is "Search: faith [KJV]"
+    And there are 10 search results
+    And all search results are from the book Ephesians

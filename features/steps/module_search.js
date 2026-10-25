@@ -20,6 +20,7 @@ const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { assert } = require("chai");
 const appHelper = require('../helpers/app_helper.js');
 const uiHelper = require("../helpers/ui_helper.js");
+const nsiHelper = require('../helpers/nsi_helper.js');
 
 Given('I enter the term {string}', async function (searchTerm) {
   var moduleSearchMenu = await appHelper.getWebClient().$('#module-search-menu');
@@ -63,4 +64,14 @@ Then('there are {int} search results', {timeout: 10 * 1000}, async function (sea
     return Array.isArray(results) ? results.length : 0;
   });
   assert(actualResultCount == searchResultCount, `The number of search results (${actualResultCount}) does not match the expectation (${searchResultCount})`);
+});
+
+Then('all search results are from the book {bible_book}', async function (bookName) {
+  const resultBooks = await appHelper.getWebClient().execute(() => {
+    const tab = app_controller.tab_controller.getTab();
+    const results = tab && tab.getSearchResults();
+    return Array.isArray(results) ? [...new Set(results.map(result => result.bibleBookShortTitle))] : [];
+  });
+  const expectedBook = await nsiHelper.getBookShortTitle(bookName);
+  assert.deepEqual(resultBooks, [expectedBook], `Search results include books other than ${bookName}: ${resultBooks.join(', ')}`);
 });
