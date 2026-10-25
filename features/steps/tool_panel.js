@@ -17,15 +17,15 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { Given, When, Then } = require('@wdio/cucumber-framework');
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 
 When('I open the {tool_panel_type} panel', async function (toolPanelButtonSelector) {
-  const panelButtons = await spectronHelper.getWebClient().$('#app-container panel-buttons');
+  const panelButtons = await appHelper.getWebClient().$('#app-container panel-buttons');
   const button = await panelButtons.$(toolPanelButtonSelector);
   const classes = (await button.getAttribute('class'));
 
   if (!classes || classes.split(' ').includes('active')) {
     await button.click();
-    await spectronHelper.sleep();
+    await appHelper.sleep();
   }
 });

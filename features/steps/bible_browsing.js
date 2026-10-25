@@ -18,12 +18,12 @@
 
 const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { assert } = require("chai");
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
 Given('I open the {first_tab_menu} menu/dialog', {timeout: 15 * 1000}, async function (buttonSelector) {
-  const client = spectronHelper.getWebClient();
+  const client = appHelper.getWebClient();
   const verseListTabs = await client.$('#verse-list-tabs-1');
   const matchingButtons = await verseListTabs.$$(buttonSelector);
   let menuButton;
@@ -85,7 +85,7 @@ Given('I set the book loading option to {string}', async function (bookLoadingMo
 });
 
 Then('I close the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async function (buttonSelector) {
-  const client = spectronHelper.getWebClient();
+  const client = appHelper.getWebClient();
   const verseListTabs = await client.$('#verse-list-tabs-1');
   const matchingButtons = await verseListTabs.$$(buttonSelector);
 
@@ -102,13 +102,13 @@ Then('I close the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async fun
 });
 
 When('I select the book {bible_book}', {timeout: 20 * 1000}, async function (bookName) {
-  var bookLink = await spectronHelper.getWebClient().$(`a[book-name="${bookName}"]`);
+  var bookLink = await appHelper.getWebClient().$(`a[book-name="${bookName}"]`);
   await bookLink.click();
   await uiHelper.waitUntilGlobalLoaderIsHidden();
 });
 
 Then('the tab title is {string}', async function (string) {
-  const client = spectronHelper.getWebClient();
+  const client = appHelper.getWebClient();
   const verseListTabs = await client.$('#verse-list-tabs');
   const uiTabsNav = await verseListTabs.$('.ui-tabs-nav');
   const selectedTabIndex = await client.execute(() => app_controller.tab_controller.getSelectedTabIndex());
@@ -119,7 +119,7 @@ Then('the tab title is {string}', async function (string) {
 });
 
 Then('the book of Ephesians is opened in the current tab', async function () {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
 
   var verseBoxes = await verseListTabs.$$('.verse-box');
   assert(verseBoxes.length == 155, `The number of verses does not match the expectation for Ephesians (155): ${verseBoxes.length}`);
@@ -146,7 +146,7 @@ Then('{bible_book} chapter {int} is opened in the current tab', async function (
   const bookShortTitle = await nsiHelper.getBookShortTitle(bible_book);
   const expectedBookChapterVerseCount = await nsiHelper.getBookChapterVerseCount("KJV", bookShortTitle, chapter);
 
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var verseBoxes = await verseListTabs.$$('.verse-box');
   assert(verseBoxes.length == expectedBookChapterVerseCount,
     `The number of verses does not match the expectation for Ephesians chapter ${chapter} (${expectedBookChapterVerseCount}): ${verseBoxes.length}`);
@@ -161,7 +161,7 @@ Then('{bible_book} chapter {int} is opened in the current tab', async function (
 });
 
 When('I click on chapter {int}', async function (chapter) {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var navigationPane = await verseListTabs.$('.navigation-pane');
   var allChapterLinks = await navigationPane.$$('.chapter-link');
   var selectedChapterLink = allChapterLinks[chapter - 1];
@@ -178,10 +178,10 @@ Given('I select the verse {string}', async function (selectedVerse) {
   var verseReferenceHelper = await nsiHelper.getVerseReferenceHelper();
   var absoluteVerseNumber = await verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', this.selectedBookId, verseReferenceString);
 
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   this.selectedVerseBox = await verseListTabs.$('.verse-nr-' + absoluteVerseNumber);
   this.selectedVerseText = await this.selectedVerseBox.$('.first-bible-text');
 
   await this.selectedVerseText.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 });

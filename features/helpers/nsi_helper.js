@@ -2,13 +2,13 @@ const NodeSwordInterface = require('node-sword-interface');
 const VerseReferenceHelper = require('../../app/frontend/helpers/verse_reference_helper.js');
 
 require('../../app/backend/database/models/biblebook.js');
-const spectronHelper = require('./spectron_helper.js');
+const appHelper = require('./app_helper.js');
 
 var nsi = null;
 
 async function getNSI(refresh = false) {
   if (nsi == null || refresh) {
-    var userDataDir = await spectronHelper.getUserDataDir();
+    var userDataDir = await appHelper.getUserDataDir();
     nsi = new NodeSwordInterface(userDataDir);
   }
 
@@ -51,7 +51,7 @@ module.exports.getChapterLastVerseContent = async function(moduleCode, bookCode,
 }
 
 module.exports.getLocalModule = async function(moduleCode, moduleType='BIBLE') {
-  var allLocalModules = await spectronHelper.getWebClient().execute((type) => {
+  var allLocalModules = await appHelper.getWebClient().execute((type) => {
     return window.ipcNsi.getAllLocalModulesSync(type);
   }, moduleType);
 

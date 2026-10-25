@@ -18,12 +18,12 @@
 
 const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { assert, expect } = require("chai");
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
 async function clickCheckbox(checkboxCodeAttr, parentSelector='#module-settings-assistant-add') {
-  const client = spectronHelper.getWebClient();
+  const client = appHelper.getWebClient();
   const selector = `${parentSelector} assistant-checkbox[code="${checkboxCodeAttr}"]`;
   let checkbox;
 
@@ -57,14 +57,14 @@ async function clickCheckbox(checkboxCodeAttr, parentSelector='#module-settings-
 }
 
 async function getNavLinks(moduleSettingsDialogId='#module-settings-assistant-add') {
-  var moduleSettingsAssistantAdd = await spectronHelper.getWebClient().$(moduleSettingsDialogId);
+  var moduleSettingsAssistantAdd = await appHelper.getWebClient().$(moduleSettingsDialogId);
   var actionsDiv = await moduleSettingsAssistantAdd.$('.actions');
   var navLinks = await actionsDiv.$$('a');
   return navLinks;
 }
 
 async function clickNext(moduleSettingsDialogId='#module-settings-assistant-add') {
-  const client = spectronHelper.getWebClient();
+  const client = appHelper.getWebClient();
   const moduleSettingsAssistant = await client.$(moduleSettingsDialogId);
   const currentStep = await moduleSettingsAssistant.$('.content > .body.current');
   const currentStepId = await currentStep.getAttribute('id');
@@ -81,29 +81,29 @@ async function clickNext(moduleSettingsDialogId='#module-settings-assistant-add'
 }
 
 Given('I open the module installation assistant', {timeout: 40 * 1000}, async function () {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var displayOptionsButton = await verseListTabs.$('.display-options-button');
-  var translationSettingsButton = await spectronHelper.getWebClient().$('#show-translation-settings-button');
+  var translationSettingsButton = await appHelper.getWebClient().$('#show-translation-settings-button');
 
   await displayOptionsButton.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
   await translationSettingsButton.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 });
 
 Given('I choose to add translations', async function () {
-  var addModulesButton = await spectronHelper.getWebClient().$('#add-modules-button');
+  var addModulesButton = await appHelper.getWebClient().$('#add-modules-button');
   await addModulesButton.click();
 });
 
 Given('I choose to remove translations', async function () {
-  var removeModulesButton = await spectronHelper.getWebClient().$('#remove-modules-button');
+  var removeModulesButton = await appHelper.getWebClient().$('#remove-modules-button');
   await removeModulesButton.click();
 });
 
 Given('the repository update date matches today', {timeout: 40 * 1000}, async function () {
-  var updateInfo = await spectronHelper.getWebClient().$('update-repositories .update-info');
-  await spectronHelper.getWebClient().waitUntil(async () => { return await updateInfo.getText() !== ""; }, { timeout: 40000 });
+  var updateInfo = await appHelper.getWebClient().$('update-repositories .update-info');
+  await appHelper.getWebClient().waitUntil(async () => { return await updateInfo.getText() !== ""; }, { timeout: 40000 });
 
   const today = (new Date()).toLocaleDateString('en');
   expect(await updateInfo.getText(), "Date doesn't match today's date").to.equal(`Repository data was last updated on ${today}.`);
@@ -135,7 +135,7 @@ async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settin
   var finishButton = navLinks[2];
   var finishButtonLi = await finishButton.$('xpath:..');
 
-  await spectronHelper.getWebClient().waitUntil(async () => {
+  await appHelper.getWebClient().waitUntil(async () => {
     var finishbuttonLiClass = await finishButtonLi.getAttribute('class');
     return finishbuttonLiClass != 'disabled';
   }, { timeout: 120000 });
@@ -172,7 +172,7 @@ Then('the ASV is no longer available as a local module', async function () {
 Then('the ASV is selected as the current translation', async function () {
   var asvModule = await nsiHelper.getLocalModule('ASV');
 
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var bibleSelectBlock = await verseListTabs.$('.bible-select-block');
   var selectMenuStatus = await bibleSelectBlock.$('.ui-selectmenu-status');
   var selectMenuStatusText = await selectMenuStatus.getText();
@@ -181,7 +181,7 @@ Then('the ASV is selected as the current translation', async function () {
 });
 
 Then('the relevant buttons in the menu are enabled', async function() {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var bookSelectButton = await verseListTabs.$('.book-select-button');
   var moduleSearchButton = await verseListTabs.$('.module-search-button');
   var appInfoButton = await verseListTabs.$('.app-info-button');

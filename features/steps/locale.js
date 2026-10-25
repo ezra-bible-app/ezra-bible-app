@@ -17,22 +17,22 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { Given, When, Then } = require('@wdio/cucumber-framework');
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 const { expect } = require("chai");
 
 When('I change to the {string} locale', async function (localeNative) {
-  const dropdownButton = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu');
+  const dropdownButton = await appHelper.getWebClient().$('.locale-switch-container .ui-selectmenu');
   await dropdownButton.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 
-  const dropdownList = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu-menu-dropdown');
+  const dropdownList = await appHelper.getWebClient().$('.locale-switch-container .ui-selectmenu-menu-dropdown');
   const firstLocaleOption = await dropdownList.$(`xpath:./li/a[contains(text(), '${localeNative}')]`);
   await firstLocaleOption.click();
-  await spectronHelper.sleep(500);
+  await appHelper.sleep(500);
 });
 
 Then('the {interface_element} text is {string}', async function (selector, text) {
-  const candidateTexts = await spectronHelper.getWebClient().execute((cssSelector) => {
+  const candidateTexts = await appHelper.getWebClient().execute((cssSelector) => {
     return Array.from(document.querySelectorAll(cssSelector), element =>
       (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim()
     );
@@ -40,5 +40,5 @@ Then('the {interface_element} text is {string}', async function (selector, text)
   const normalizedExpectedText = text.replace(/\s+/g, ' ').trim();
 
   expect(candidateTexts, `${selector} text doesn't match`).to.include(normalizedExpectedText);
-  await spectronHelper.sleep(500);
+  await appHelper.sleep(500);
 });

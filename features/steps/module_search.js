@@ -18,28 +18,28 @@
 
 const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { assert } = require("chai");
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 const uiHelper = require("../helpers/ui_helper.js");
 
 Given('I enter the term {string}', async function (searchTerm) {
-  var moduleSearchMenu = await spectronHelper.getWebClient().$('#module-search-menu');
+  var moduleSearchMenu = await appHelper.getWebClient().$('#module-search-menu');
   var moduleSearchInput = await moduleSearchMenu.$('#module-search-input');
 
   await moduleSearchInput.addValue(searchTerm);
 });
 
 Given('I select the search scope {string}', async function (scope) {
-  const select = await spectronHelper.getWebClient().$('#module-search-menu #search-scope');
+  const select = await appHelper.getWebClient().$('#module-search-menu #search-scope');
   await select.selectByAttribute('value', scope);
 });
 
 Given('I select the search results display mode {string}', async function (mode) {
-  const select = await spectronHelper.getWebClient().$('#module-search-menu #search-results-display-mode');
+  const select = await appHelper.getWebClient().$('#module-search-menu #search-results-display-mode');
   await select.selectByAttribute('value', mode);
 });
 
 When('I perform the search', {timeout: 50 * 1000}, async function () {
-  const client = spectronHelper.getWebClient();
+  const client = appHelper.getWebClient();
   var moduleSearchMenu = await client.$('#module-search-menu');
   var startSearchButton = await moduleSearchMenu.$('#start-module-search-button');
 
@@ -57,7 +57,7 @@ When('I perform the search', {timeout: 50 * 1000}, async function () {
 });
 
 Then('there are {int} search results', {timeout: 10 * 1000}, async function (searchResultCount) {
-  const actualResultCount = await spectronHelper.getWebClient().execute(() => {
+  const actualResultCount = await appHelper.getWebClient().execute(() => {
     const tab = app_controller.tab_controller.getTab();
     const results = tab && tab.getSearchResults();
     return Array.isArray(results) ? results.length : 0;

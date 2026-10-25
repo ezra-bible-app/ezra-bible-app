@@ -18,7 +18,7 @@
 
 const { Before, After } = require('@wdio/cucumber-framework');
 
-const spectronHelper = require("../helpers/spectron_helper.js");
+const appHelper = require("../helpers/app_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 const dbHelper = require('../helpers/db_helper.js');
 
@@ -32,10 +32,10 @@ Before({ timeout: 80000 }, async function () {
 });
 
 After("@reset-book-loading-mode-after-scenario", async function() {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var menuButton = await verseListTabs.$('.display-options-button');
   await menuButton.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 
   await uiHelper.setBookLoadingOption("Open books completely");
 });
@@ -47,9 +47,9 @@ After("@remove-last-tag-after-scenario", async function() {
 
   var tagDeleteButton = await this.currentTag.$('.delete-button'); 
   await tagDeleteButton.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 
-  var deleteTagConfirmationDialog = await spectronHelper.getWebClient().$('#delete-tag-confirmation-dialog');
+  var deleteTagConfirmationDialog = await appHelper.getWebClient().$('#delete-tag-confirmation-dialog');
   var deleteTagConfirmationDialogContainer = await deleteTagConfirmationDialog.$('xpath:..');
   var deleteTagConfirmationButtons = await deleteTagConfirmationDialogContainer.$$('button');
 
@@ -57,11 +57,11 @@ After("@remove-last-tag-after-scenario", async function() {
   var confirmationButton = deleteTagConfirmationButtons[1];
 
   await confirmationButton.click();
-  await spectronHelper.sleep(1000);
+  await appHelper.sleep(1000);
 });
 
 After("@cleanup-after-scenario", async function() {
-  await spectronHelper.getWebClient().execute(() => {
+  await appHelper.getWebClient().execute(() => {
     $('.ui-dialog-content').dialog('close');
   });
 
@@ -77,20 +77,20 @@ After("@cleanup-after-scenario", async function() {
     await models.TagGroup.destroyTagGroup(tagGroups[i].id);
   }
 
-  await spectronHelper.sleep(500);
+  await appHelper.sleep(500);
 
-  await spectronHelper.getWebClient().execute(async () => {
+  await appHelper.getWebClient().execute(async () => {
     await tag_assignment_panel.updateTagsView(true);
     
     const eventController = require('./app/frontend/controllers/event_controller.js');
     await eventController.publishAsync('on-tag-group-renamed');
   });
 
-  await spectronHelper.getWebClient().execute(() => {
+  await appHelper.getWebClient().execute(() => {
     document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#tag-group-list-link').click();
   });
 
-  await spectronHelper.sleep(500);
+  await appHelper.sleep(500);
 
   await uiHelper.selectTagGroup('All tags');
 });

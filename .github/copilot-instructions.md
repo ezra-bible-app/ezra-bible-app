@@ -163,7 +163,7 @@ The project includes automated testing frameworks, but manual verification is pr
 - **Jest**: Unit testing
 - **Cucumber.js**: Behavior-driven development (BDD)
 - **Chai**: Assertion library
-- **Spectron**: Electron testing
+- **WebdriverIO** with **WDIO Electron Service**: Electron end-to-end testing
 
 See `TECH.md` for complete technology stack details.
 

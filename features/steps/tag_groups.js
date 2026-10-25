@@ -18,12 +18,12 @@
 
 const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { assert } = require("chai");
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 const dbHelper = require("../helpers/db_helper.js");
 const uiHelper = require('../helpers/ui_helper.js');
 
 Given('I go to the list of tag groups', async function () {
-  await spectronHelper.getWebClient().execute(() => {
+  await appHelper.getWebClient().execute(() => {
     document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#tag-group-list-link').click();
   });
 
@@ -32,19 +32,19 @@ Given('I go to the list of tag groups', async function () {
 });
 
 When('I create a tag group {string}', async function (tagGroupTitle) {
-  await spectronHelper.getWebClient().execute(() => {
+  await appHelper.getWebClient().execute(() => {
     document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#add-tag-group-button').click();
   });
 
-  var newTagGroupTitleInput = await spectronHelper.getWebClient().$('#tag-group-title-value');
+  var newTagGroupTitleInput = await appHelper.getWebClient().$('#tag-group-title-value');
   await newTagGroupTitleInput.setValue(tagGroupTitle);
 
-  await spectronHelper.getWebClient().keys('Enter');
-  await spectronHelper.sleep(500);
+  await appHelper.getWebClient().keys('Enter');
+  await appHelper.sleep(500);
 });
 
 Then('the tag group {string} is listed in the tag group list', async function (tagGroupTitle) {
-  let tagGroupListed = await spectronHelper.getWebClient().execute((tagGroupTitle, tagGroupListSelector, tagGroupSelector) => {
+  let tagGroupListed = await appHelper.getWebClient().execute((tagGroupTitle, tagGroupListSelector, tagGroupSelector) => {
     var tagGroups = document.querySelector(tagGroupListSelector).shadowRoot.querySelectorAll(tagGroupSelector);
 
     let hasTagGroup = (expectedTitle) => {
@@ -69,7 +69,7 @@ Then('the tag group {string} is listed in the tag group list', async function (t
 });
 
 When('I go the tag group list of the tag selection menu', async function () {
-  await spectronHelper.getWebClient().execute(() => {
+  await appHelper.getWebClient().execute(() => {
     let tagListMenu = document.querySelector('#tag-selection-menu').querySelector('tag-list-menu');
     tagListMenu.shadowRoot.querySelector('#tag-group-list-link').click();
   });
@@ -83,7 +83,7 @@ When('I open the tag group {string}', async function (tagGroupTitle) {
 });
 
 When('I open the edit dialog of the tag {string}', async function (tagTitle) {
-  let tagsList = await spectronHelper.getWebClient().$('#tags-content-global');
+  let tagsList = await appHelper.getWebClient().$('#tags-content-global');
   let allTags = await tagsList.$$('.checkbox-tag');
 
   for (let i = 0; i < allTags.length; i++) {
@@ -113,13 +113,13 @@ Then('the tag group {string} is existing in the database', async function (tagGr
 });
 
 Given('I choose to add existing tags to the current tag group', async function () {
-  let addExistingTagsLink = await spectronHelper.getWebClient().$('#add-existing-tags-to-tag-group-link');
+  let addExistingTagsLink = await appHelper.getWebClient().$('#add-existing-tags-to-tag-group-link');
   await addExistingTagsLink.click();
-  await spectronHelper.sleep(500);
+  await appHelper.sleep(500);
 });
 
 Given('I select the tag {string} to be added to the current tag group', async function (tagTitle) {
-  let addTagsToTagGroupList = await spectronHelper.getWebClient().$('#add-tags-to-group-tag-list');
+  let addTagsToTagGroupList = await appHelper.getWebClient().$('#add-tags-to-group-tag-list');
   let tagItems = await addTagsToTagGroupList.$$('.tag-item');
 
   for (let i = 0; i < tagItems.length; i++) {
@@ -128,16 +128,16 @@ Given('I select the tag {string} to be added to the current tag group', async fu
 
     if (linkText == tagTitle) {
       await link.click();
-      await spectronHelper.sleep(500);
+      await appHelper.sleep(500);
       break;
     }
   }
 });
 
 When('I add the selected tags to the group', async function () {
-  let addTagsToGroupButton = await spectronHelper.getWebClient().$('#add-tags-to-group-button');
+  let addTagsToGroupButton = await appHelper.getWebClient().$('#add-tags-to-group-button');
   await addTagsToGroupButton.click();
-  await spectronHelper.sleep(2000);
+  await appHelper.sleep(2000);
 });
 
 Then('the following tags are assigned to the tag group {string}', async function (tagGroup, dataTable) {
@@ -170,7 +170,7 @@ Then('the following tags are assigned to the tag group {string}', async function
 });
 
 Then('{int} verses are shown with tags in the Bible browser', async function(expectedTaggedVerseCount) {
-  let taggedVerseCount = await spectronHelper.getWebClient().execute(() => {
+  let taggedVerseCount = await appHelper.getWebClient().execute(() => {
     let verseListTabs = document.querySelector('#verse-list-tabs-1');
     let verseBoxes = verseListTabs.querySelectorAll('.verse-box');
     let taggedVerseCount = 0;
@@ -194,7 +194,7 @@ Then('{int} verses are shown with tags in the Bible browser', async function(exp
 });
 
 When('I delete the tag group {string}', async function (tagGroupTitle) {
-  let tagGroupFound = await spectronHelper.getWebClient().execute(async (tagGroupTitle) => {
+  let tagGroupFound = await appHelper.getWebClient().execute(async (tagGroupTitle) => {
     let tagGroupList = document.querySelector('#tag-panel-tag-group-list').shadowRoot.querySelector('#tag-group-list-content');
     let allTagGroups = tagGroupList.querySelectorAll('.tag-group');
     let tagGroupFound = false;
@@ -220,7 +220,7 @@ When('I delete the tag group {string}', async function (tagGroupTitle) {
   }, tagGroupTitle);
 
   assert(tagGroupFound == true, `The tag group ${tagGroupTitle} could not be found in the list!`);
-  await spectronHelper.sleep(500);
+  await appHelper.sleep(500);
 });
 
 Then('there are {int} tag groups in the database', async function (tagGroupCount) {
@@ -232,7 +232,7 @@ Then('there are {int} tag groups in the database', async function (tagGroupCount
 });
 
 When('I rename the tag group {string} to {string}', async function (tagGroupTitle, newTagGroupTitle) {
-  let tagGroupFound = await spectronHelper.getWebClient().execute(async (tagGroupTitle) => {
+  let tagGroupFound = await appHelper.getWebClient().execute(async (tagGroupTitle) => {
     let tagGroupList = document.querySelector('#tag-panel-tag-group-list').shadowRoot.querySelector('#tag-group-list-content');
     let allTagGroups = tagGroupList.querySelectorAll('.tag-group');
     let tagGroupFound = false;
@@ -252,11 +252,11 @@ When('I rename the tag group {string} to {string}', async function (tagGroupTitl
   }, tagGroupTitle);
 
   assert(tagGroupFound == true, `The tag group ${tagGroupTitle} could not be found in the list!`);
-  await spectronHelper.sleep(200);
+  await appHelper.sleep(200);
 
-  let titleInput = await spectronHelper.getWebClient().$('#rename-tag-group-title-input');
+  let titleInput = await appHelper.getWebClient().$('#rename-tag-group-title-input');
   await titleInput.setValue(newTagGroupTitle);
 
-  let tagGroupRenameConfirmButton = await spectronHelper.getWebClient().$('#edit-tag-group-save-button');
+  let tagGroupRenameConfirmButton = await appHelper.getWebClient().$('#edit-tag-group-save-button');
   await tagGroupRenameConfirmButton.click();
 });

@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const spectronHelper = require('./spectron_helper.js');
+const appHelper = require('./app_helper.js');
 const nsiHelper = require('./nsi_helper.js');
 
 async function buttonHasClass(button, className) {
@@ -25,7 +25,7 @@ async function buttonHasClass(button, className) {
 }
 
 async function waitUntilButtonHasClass(button, className, timeoutMs = 100) {
-  await spectronHelper.getWebClient().waitUntil(async () => 
+  await appHelper.getWebClient().waitUntil(async () => 
     buttonHasClass(button, className)
   , { timeout: timeoutMs });
 }
@@ -43,38 +43,38 @@ module.exports.buttonIsActive = async function(button) {
 };
 
 module.exports.getVerseBox = async function(verseReference) {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var { absoluteVerseNumber } = await nsiHelper.splitVerseReference(verseReference);
   return await verseListTabs.$(`.verse-nr-${absoluteVerseNumber}`);
 };
 
 module.exports.waitUntilGlobalLoaderIsHidden = async function(timeoutMs = 20000) {
-  var verseListMenu = await spectronHelper.getWebClient().$('.verse-list-menu');
+  var verseListMenu = await appHelper.getWebClient().$('.verse-list-menu');
   var loader = await verseListMenu.$('#desktop-loader');
 
-  await spectronHelper.getWebClient().waitUntil(async () => { // Wait until loader is hidden
+  await appHelper.getWebClient().waitUntil(async () => { // Wait until loader is hidden
     var loaderDisplay = await loader.getCSSProperty('display');
-    await spectronHelper.sleep();
+    await appHelper.sleep();
 
     return loaderDisplay.value == "none";
   }, { timeout: timeoutMs, timeoutMsg: `The loader has not disappeared after waiting ${timeoutMs}ms.` });
 };
 
 module.exports.setBookLoadingOption = async function(selectedOptionText) {
-  const dropdownButton = await spectronHelper.getWebClient().$('#bookLoadingModeOption-button');
+  const dropdownButton = await appHelper.getWebClient().$('#bookLoadingModeOption-button');
   await dropdownButton.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 
-  const dropdownList = await spectronHelper.getWebClient().$('#bookLoadingModeOption-menu');
+  const dropdownList = await appHelper.getWebClient().$('#bookLoadingModeOption-menu');
   const selectedOption = await dropdownList.$(`xpath:./li/a[contains(text(), '${selectedOptionText}')]`);
   await selectedOption.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 };
 
 module.exports.selectTagGroup = async function(tagGroupTitle) {
   this.currentTagGroupListSelector = '#tag-panel-tag-group-list';
 
-  await spectronHelper.getWebClient().execute((expectedTitle, tagGroupListSelector) => {
+  await appHelper.getWebClient().execute((expectedTitle, tagGroupListSelector) => {
     var tagGroups = document.querySelector(tagGroupListSelector).shadowRoot.querySelectorAll('.tag-group');
 
     tagGroups.forEach((tagGroup) => {

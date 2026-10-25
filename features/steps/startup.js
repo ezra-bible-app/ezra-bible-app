@@ -20,7 +20,7 @@ const fs = require('fs');
 const path = require('path');
 const { Then } = require('@wdio/cucumber-framework');
 const { assert } = require('chai');
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 const nsiHelper = require('../helpers/nsi_helper.js');
 
 function parseProfile(reportContent) {
@@ -42,7 +42,7 @@ function parseProfile(reportContent) {
 }
 
 Then('the startup loading indicator is hidden', async function () {
-  const displayValue = await spectronHelper.getWebClient().execute(() => {
+  const displayValue = await appHelper.getWebClient().execute(() => {
     return window.getComputedStyle(document.getElementById('startup-loading-indicator')).display;
   });
 
@@ -56,7 +56,7 @@ Then('the KJV is not available as a local module', async function () {
 });
 
 Then('the startup profile contains ordered milestone timestamps', async function () {
-  const userDataDir = await spectronHelper.getUserDataDir();
+  const userDataDir = await appHelper.getUserDataDir();
   const startupProfilePath = path.join(userDataDir, 'startup-ipc-profile.txt');
 
   assert.isTrue(fs.existsSync(startupProfilePath), 'The startup profile should have been written.');
