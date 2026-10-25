@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { assert } = require("chai");
 const spectronHelper = require('../helpers/spectron_helper.js');
 const nsiHelper = require("../helpers/nsi_helper.js");

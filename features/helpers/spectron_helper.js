@@ -17,60 +17,9 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const path = require('path');
-const Application = require('spectron').Application;
-const chaiAsPromised = require('chai-as-promised');
-const chai = require('chai');
-const fs = require('fs-extra');
 const os = require('os');
 
-/** @type {Application | null} */
-var app = null;
-
-function startupProfilingEnabled() {
-  return ['1', 'true', 'yes'].includes(String(process.env.EZRA_STARTUP_PROFILING || '').toLowerCase());
-}
-
-function initializeSpectron(additionalArgs = []) {
-  let xvfbMaybePath = path.join(__dirname, "../../node_modules", ".bin", "xvfb-maybe");
-  let electronPath = path.join(__dirname, "../../node_modules", ".bin", "electron");
-  const appPath = path.join(__dirname, "../../");
-  if (process.platform === "win32") {
-    electronPath += ".cmd";
-  }
-
-  var args = [electronPath, appPath];
-  args.push(...additionalArgs);
-
-  return new Application({
-    path: xvfbMaybePath,
-    args: args,
-    env: {
-      ELECTRON_ENABLE_LOGGING: true,
-      ELECTRON_ENABLE_STACK_DUMPING: true,
-      NODE_ENV: "development",
-      EZRA_TESTING: true,
-      EZRA_STARTUP_PROFILING: startupProfilingEnabled() ? 'true' : 'false'
-    },
-    startTimeout: 20000,
-    chromeDriverLogPath: './chromedriverlog.txt',
-    webdriverOptions: ({
-      deprecationWarnings : false
-    })
-  });
-}
-
-module.exports.initApp = function(additionalArgs = [], force = false) {
-  if (app == null || force) {
-    chai.should();
-    chai.use(chaiAsPromised);
-    app = initializeSpectron(additionalArgs);
-  }
-  
-  return app;
-};
-
-module.exports.getApp = () => app;
-module.exports.getWebClient = () => app.client; // https://webdriver.io/docs/api
+module.exports.getWebClient = () => browser;
 
 module.exports.sleep = function(time = 200) {
   return new Promise(resolve => {
@@ -82,31 +31,17 @@ module.exports.sleep = function(time = 200) {
 
 module.exports.getUserDataDir = async function(appDataPath=null) {
   if (!appDataPath) {
-    var electronApp = app.electron.remote.app;
-    appDataPath = await electronApp.getPath('appData');
+    if (process.platform === 'win32') {
+      appDataPath = process.env.APPDATA;
+    } else if (process.platform === 'darwin') {
+      appDataPath = path.join(os.homedir(), 'Library', 'Application Support');
+    } else {
+      appDataPath = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config');
+    }
   }
 
   var pjson = require('../../package.json');
-  var userDataDir = path.join(appDataPath, pjson.name + '-test');
+  var appName = process.platform === 'win32' ? pjson.productName : pjson.name;
+  var userDataDir = path.join(appDataPath, appName + '-test');
   return userDataDir;
-};
-
-module.exports.deleteUserDataDir = async function() {
-  var appDataPath = null;
-
-  if (os.type() == 'Linux') {
-    appDataPath = process.env.HOME + '/.config';
-  } else if (os.type() == 'Darwin') {
-    appDataPath = process.env.HOME + '/Library/Application Support';
-  } else {
-    throw "Unsupported OS for testing";
-  }
-
-  const userDataDir = await this.getUserDataDir(appDataPath);
-
-  try {
-    fs.removeSync(userDataDir);
-  } catch (e) {
-    console.log(`Could not delete user data dir ${userDataDir}!`);
-  }
 };

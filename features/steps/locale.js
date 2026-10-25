@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then } = require('@wdio/cucumber-framework');
 const spectronHelper = require('../helpers/spectron_helper.js');
 const { expect } = require("chai");
 
@@ -26,7 +26,7 @@ When('I change to the {string} locale', async function (localeNative) {
   await spectronHelper.sleep();
 
   const dropdownList = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu-menu-dropdown');
-  const firstLocaleOption = await dropdownList.$(`./li/a[contains(text(), '${localeNative}')]`);
+  const firstLocaleOption = await dropdownList.$(`xpath:./li/a[contains(text(), '${localeNative}')]`);
   await firstLocaleOption.click();
   await spectronHelper.sleep(500);
 });

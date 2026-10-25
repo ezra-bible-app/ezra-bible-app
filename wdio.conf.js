@@ -1,4 +1,27 @@
 const path = require('path');
+const fs = require('fs-extra');
+const os = require('os');
+
+process.env.EZRA_TESTING = 'true';
+
+function getTestUserDataDir() {
+    const packageJson = require('./package.json');
+    let appDataPath;
+    let appName;
+
+    if (process.platform === 'win32') {
+        appDataPath = process.env.APPDATA;
+        appName = `${packageJson.productName}-test`;
+    } else if (process.platform === 'darwin') {
+        appDataPath = path.join(os.homedir(), 'Library', 'Application Support');
+        appName = `${packageJson.name}-test`;
+    } else {
+        appDataPath = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config');
+        appName = `${packageJson.name}-test`;
+    }
+
+    return path.join(appDataPath, appName);
+}
 
 exports.config = {
     //
@@ -23,7 +46,7 @@ exports.config = {
     // of the config file unless it's absolute.
     //
     specs: [
-        './test/specs/**/*.js'
+        './features/**/*.feature'
     ],
     // Patterns to exclude.
     exclude: [
@@ -45,7 +68,7 @@ exports.config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 10,
+    maxInstances: 1,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -142,7 +165,7 @@ exports.config = {
     // Options to be passed to Cucumber.
     // See the full list at https://webdriver.io/docs/cucumber-reporter
     cucumberOpts: {
-        require: ['./features/steps', './features/support', './features/helpers'],   // <string[]> (file/dir) require files before executing features
+        require: ['./features/steps/**/*.js', './features/support/**/*.js'],
         strict: true,
         dryRun: false,
         timeout: 60000
@@ -163,6 +186,9 @@ exports.config = {
      */
     // onPrepare: function (config, capabilities) {
     // },
+    onPrepare: function () {
+        fs.removeSync(getTestUserDataDir());
+    },
     /**
      * Gets executed before a worker process is spawned and can be used to initialize specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -191,8 +217,21 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      * @param {string} cid worker id (e.g. 0-0)
      */
-    // beforeSession: function (config, capabilities, specs, cid) {
-    // },
+    beforeSession: function (config, capabilities, specs) {
+        const capability = Array.isArray(capabilities) ? capabilities[0] : capabilities;
+        const serviceOptions = capability['wdio:electronServiceOptions'] || {};
+        const featurePath = specs.join(' ');
+        const appArgs = [];
+
+        if (featurePath.includes('002_module_removal.feature')) {
+            appArgs.push('--install-asv');
+        } else if (!featurePath.includes('000_startup_profiling.feature')) {
+            appArgs.push('--install-kjv');
+        }
+
+        process.env.EZRA_STARTUP_PROFILING = featurePath.includes('000_startup_profiling.feature') ? 'true' : 'false';
+        capability['wdio:electronServiceOptions'] = { ...serviceOptions, appArgs };
+    },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.

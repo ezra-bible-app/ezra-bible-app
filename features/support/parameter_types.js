@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { defineParameterType } = require("cucumber");
+const { defineParameterType } = require('@wdio/cucumber-framework');
 
 defineParameterType({
   name: 'bible_book',

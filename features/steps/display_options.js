@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given } = require("cucumber");
+const { Given } = require('@wdio/cucumber-framework');
 const spectronHelper = require('../helpers/spectron_helper.js');
 
 Given('I have the {display_option} {state}', { timeout: 40 * 1000 }, async function (displayOptionSelector, state) {

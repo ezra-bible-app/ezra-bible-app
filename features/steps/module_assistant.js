@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { assert, expect } = require("chai");
 const spectronHelper = require('../helpers/spectron_helper.js');
 const nsiHelper = require("../helpers/nsi_helper.js");
@@ -27,7 +27,7 @@ async function clickCheckbox(checkboxCodeAttr, parentSelector='#module-settings-
   var checkbox = await parent.$(`[code="${checkboxCodeAttr}"]`);
   await spectronHelper.getWebClient().waitUntil(async () => { return await checkbox.isExisting(); }, { timeout: 40000 });
   // click in the shadow
-  spectronHelper.getWebClient().execute((p, c) => document.querySelector(`${p} [code="${c}"]`).shadowRoot.querySelector('#label').click(), parentSelector, checkboxCodeAttr);
+  await spectronHelper.getWebClient().execute((p, c) => document.querySelector(`${p} [code="${c}"]`).shadowRoot.querySelector('#label').click(), parentSelector, checkboxCodeAttr);
 }
 
 async function getNavLinks(moduleSettingsDialogId='#module-settings-assistant-add') {
@@ -96,7 +96,7 @@ async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settin
 
   var navLinks = await getNavLinks(moduleSettingsDialogId);
   var finishButton = navLinks[2];
-  var finishButtonLi = await finishButton.$('..');
+  var finishButtonLi = await finishButton.$('xpath:..');
 
   await spectronHelper.getWebClient().waitUntil(async () => {
     var finishbuttonLiClass = await finishButtonLi.getAttribute('class');
@@ -140,7 +140,7 @@ Then('the ASV is selected as the current translation', async function () {
   var selectMenuStatus = await bibleSelectBlock.$('.ui-selectmenu-status');
   var selectMenuStatusText = await selectMenuStatus.getText();
 
-  await selectMenuStatusText.should.equal(asvModule.description);
+  expect(selectMenuStatusText).to.equal(asvModule.description);
 });
 
 Then('the relevant buttons in the menu are enabled', async function() {

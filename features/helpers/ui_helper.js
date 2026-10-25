@@ -66,7 +66,7 @@ module.exports.setBookLoadingOption = async function(selectedOptionText) {
   await spectronHelper.sleep();
 
   const dropdownList = await spectronHelper.getWebClient().$('#bookLoadingModeOption-menu');
-  const selectedOption = await dropdownList.$(`./li/a[contains(text(), '${selectedOptionText}')]`);
+  const selectedOption = await dropdownList.$(`xpath:./li/a[contains(text(), '${selectedOptionText}')]`);
   await selectedOption.click();
   await spectronHelper.sleep();
 };

@@ -18,7 +18,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { Then } = require('cucumber');
+const { Then } = require('@wdio/cucumber-framework');
 const { assert } = require('chai');
 const spectronHelper = require('../helpers/spectron_helper.js');
 const nsiHelper = require('../helpers/nsi_helper.js');
