@@ -4,6 +4,21 @@ const os = require('os');
 
 process.env.EZRA_TESTING = 'true';
 
+const startupProfileFeature = './features/000_startup_profiling.feature';
+const removalFeature = './features/002_module_removal.feature';
+const installationFeature = './features/001_module_installation.feature';
+const requestedSpecs = process.argv.filter(argument => argument.startsWith('./features/'));
+const isStartupProfileRun = requestedSpecs.includes(startupProfileFeature);
+const isStandaloneRemovalRun = requestedSpecs.includes(removalFeature) &&
+    !requestedSpecs.includes(installationFeature);
+const electronAppArgs = isStartupProfileRun
+    ? []
+    : isStandaloneRemovalRun
+        ? ['--install-kjv', '--install-asv']
+        : ['--install-kjv'];
+
+process.env.EZRA_STARTUP_PROFILING = isStartupProfileRun ? 'true' : 'false';
+
 function getTestUserDataDir() {
     const packageJson = require('./package.json');
     let appDataPath;
@@ -89,6 +104,7 @@ exports.config = {
         maxInstances: 1,
         'wdio:electronServiceOptions': {
             appEntryPoint: path.join(__dirname, './main.js'),
+            appArgs: electronAppArgs,
         },
     }],
 
@@ -227,30 +243,6 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      * @param {string} cid worker id (e.g. 0-0)
      */
-    beforeSession: function (config, capabilities, specs) {
-        const capability = Array.isArray(capabilities) ? capabilities[0] : capabilities;
-        const serviceOptions = capability['wdio:electronServiceOptions'] || {};
-        const featurePath = specs.join(' ');
-        const appArgs = [];
-        const isStartupProfile = featurePath.includes('000_startup_profiling.feature');
-        const includesModuleInstallation = featurePath.includes('001_module_installation.feature');
-        const includesModuleRemoval = featurePath.includes('002_module_removal.feature');
-
-        if (includesModuleRemoval && !includesModuleInstallation) {
-            appArgs.push('--install-asv');
-        }
-
-        if (!isStartupProfile && !includesModuleInstallation && !includesModuleRemoval) {
-            appArgs.push('--install-kjv');
-        }
-
-        if (includesModuleInstallation && includesModuleRemoval) {
-            appArgs.push('--install-kjv');
-        }
-
-        process.env.EZRA_STARTUP_PROFILING = isStartupProfile ? 'true' : 'false';
-        capability['wdio:electronServiceOptions'] = { ...serviceOptions, appArgs };
-    },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.
