@@ -62,30 +62,30 @@ class Startup {
 
   async initTest() {
     if (app.commandLine.hasSwitch('install-kjv')) {
-      let repoConfigExisting = await ipcNsi.repositoryConfigExisting();
-
-      if (!repoConfigExisting) {
-        $('#loading-subtitle').text("Updating repository config");
-        await ipcNsi.updateRepositoryConfig();
-      }
-
       var kjvModule = await ipcNsi.getLocalModule('KJV');
       if (kjvModule == null) {
+        let repoConfigExisting = await ipcNsi.repositoryConfigExisting();
+
+        if (!repoConfigExisting) {
+          $('#loading-subtitle').text("Updating repository config");
+          await ipcNsi.updateRepositoryConfig();
+        }
+
         $('#loading-subtitle').text("Installing KJV");
         await ipcNsi.installModule('CrossWire', 'KJV');
       }
     }
 
     if (app.commandLine.hasSwitch('install-asv')) {
-      let repoConfigExisting = await ipcNsi.repositoryConfigExisting();
-
-      if (!repoConfigExisting) {
-        $('#loading-subtitle').text("Updating repository config");
-        await ipcNsi.updateRepositoryConfig();
-      }
-
       var asvModule = await ipcNsi.getLocalModule('ASV');
       if (asvModule == null) {
+        let repoConfigExisting = await ipcNsi.repositoryConfigExisting();
+
+        if (!repoConfigExisting) {
+          $('#loading-subtitle').text("Updating repository config");
+          await ipcNsi.updateRepositoryConfig();
+        }
+
         $('#loading-subtitle').text("Installing ASV");
         await ipcNsi.installModule('CrossWire', 'ASV');
       }

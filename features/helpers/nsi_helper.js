@@ -2,13 +2,13 @@ const NodeSwordInterface = require('node-sword-interface');
 const VerseReferenceHelper = require('../../app/frontend/helpers/verse_reference_helper.js');
 
 require('../../app/backend/database/models/biblebook.js');
-const spectronHelper = require('./spectron_helper.js');
+const appHelper = require('./app_helper.js');
 
 var nsi = null;
 
 async function getNSI(refresh = false) {
   if (nsi == null || refresh) {
-    var userDataDir = await spectronHelper.getUserDataDir();
+    var userDataDir = await appHelper.getUserDataDir();
     nsi = new NodeSwordInterface(userDataDir);
   }
 
@@ -51,17 +51,15 @@ module.exports.getChapterLastVerseContent = async function(moduleCode, bookCode,
 }
 
 module.exports.getLocalModule = async function(moduleCode, moduleType='BIBLE') {
-  var app = spectronHelper.getApp();
+  var allLocalModules = await appHelper.getWebClient().execute((type) => {
+    return window.ipcNsi.getAllLocalModulesSync(type);
+  }, moduleType);
 
-  if (app) {
-    var allLocalModules = await app.webContents.executeJavaScript(`ipcNsi.getAllLocalModulesSync('${moduleType}')`);
+  for (var i = 0; i < allLocalModules.length; i++) {
+    var currentModule = allLocalModules[i];
 
-    for (var i = 0; i < allLocalModules.length; i++) {
-      var currentModule = allLocalModules[i];
-
-      if (currentModule.name == moduleCode) {
-        return currentModule;
-      }
+    if (currentModule.name == moduleCode) {
+      return currentModule;
     }
   }
 

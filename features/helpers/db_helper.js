@@ -18,13 +18,13 @@
 
 const { expect } = require("chai");
 const nsiHelper = require("./nsi_helper.js");
-const spectronHelper = require("./spectron_helper.js");
+const appHelper = require("./app_helper.js");
 
 var models;
 
 module.exports.initDatabase = async function() {
   if (!global.models) {
-    var userDataDir = await spectronHelper.getUserDataDir();
+    var userDataDir = await appHelper.getUserDataDir();
     models = require('../../app/backend/database/models')(userDataDir);
     global.models = models;
   }

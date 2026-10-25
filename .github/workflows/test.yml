@@ -4,46 +4,33 @@ on: push
 
 jobs:
     e2e-test:
-        if: false
-        name: Run Cucumber tests
+        name: Run WebdriverIO tests
         runs-on: ubuntu-22.04
-        timeout-minutes: 12
+        timeout-minutes: 20
         env:
           JOBS: MAX
-          # 👇 FIX 1: Forces the old compiler in Node 14 to accept the new node-addon-api C++17 code
-          CXXFLAGS: "-std=c++17" 
 
         steps:
         - uses: actions/checkout@v4
         - uses: actions/setup-node@v4
           with:
-            # 👇 FIX 2: Revert to Node 14 so Electron 17 / Spectron stop crashing on launch
-            node-version: '14.21.3' 
-
-        - name: Pin npm to a Node 14-compatible version
-          run: npm install npm@9.6.7
+            node-version-file: .nvmrc
 
         - name: Install apt dependencies
           run: sudo apt update && sudo apt install -y libcurl4-gnutls-dev xvfb subversion
         
         - name: Install node dependencies and build native modules
-          run: node_modules/.bin/npm install
-        
-        - name: Install electron v17.1.0 for compatibility with Spectron
-          run: node_modules/.bin/npm install electron@17.1.0
-
-        - name: Install spectron
-          run: node_modules/.bin/npm install spectron@19.0.0
+          run: npm install
 
         - name: Compile templates
-          run: node_modules/.bin/npm run compile-pug 
+          run: npm run compile-pug
 
         - name: Run startup profiling scenario
           uses: nick-fields/retry@v2
           with:
-            timeout_minutes: 3
+            timeout_minutes: 5
             max_attempts: 3
-            command: node_modules/.bin/npm run headless-test-startup-profile
+            command: xvfb-run -a npm run wdio:startup-profile
 
         - name: Print startup IPC profile
           if: always()
@@ -60,13 +47,14 @@ jobs:
         - name: Run test
           uses: nick-fields/retry@v2
           with:
-            timeout_minutes: 5
+            timeout_minutes: 10
             max_attempts: 3
-            command: node_modules/.bin/npm run headless-test
+            command: xvfb-run -a npm run wdio
 
-        - name: Archive screenshot (in case of an error)
+        - name: Archive screenshots (in case of an error)
           uses: actions/upload-artifact@v4.4.0
           if: failure()
           with:
-            name: screenshot.png
-            path: ./test_screenshot.png
+            name: test-screenshots
+            path: ./test_screenshots
+            if-no-files-found: ignore

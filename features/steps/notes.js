@@ -16,9 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { expect } = require("chai");
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 const dbHelper = require("../helpers/db_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
@@ -33,39 +33,41 @@ Given('I click on {string} note', async function (verseReference) {
   }
 
   await this.noteBox.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 });
 
 Given('I click on note indicator for the verse {string}', async function (verseReference) {
   var verseBox = await uiHelper.getVerseBox(verseReference);
   var noteIndicator = await verseBox.$('.notes-info');
-  noteIndicator.click();
-  await spectronHelper.sleep();
+  await noteIndicator.click();
+  await appHelper.sleep();
 
   this.noteBox = await verseBox.$('.verse-notes');
 });
 
 Given('I enter markdown text', async function (docString) {
-  await spectronHelper.getApp().webContents.executeJavaScript("app_controller.notes_controller.currentEditor.getDoc().setValue(`" + docString + "`)");
+  await appHelper.getWebClient().execute((text) => {
+    window.app_controller.notes_controller.currentEditor.getDoc().setValue(text);
+  }, docString);
 });
 
 When('I click note {string} button', async function (buttonClass) {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var statusBar = await verseListTabs.$('.verse-notes .verse-notes-text.edited ~ .verse-notes-status-bar');
   var button = await statusBar.$(`a[class^="${buttonClass.toLowerCase()}"]`);
 
   await button.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 });
 
 When('I click outside of the note editor', async function () {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var noteTextBox = await verseListTabs.$('.verse-notes .verse-notes-text.edited');
-  var verseContent = await noteTextBox.$('../..');
+  var verseContent = await noteTextBox.$('xpath:../..');
   var verseText = await verseContent.$('.first-bible-text');
 
   await verseText.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 });
 
 Then('the note assigned to {string} in the database starts with text {string}', async function (verseReference, startText) {
@@ -82,8 +84,8 @@ Then('the note assigned to {string} has {string} text {string}', async function 
 
   if(!(await verseNotesText.isDisplayed())) {
     var noteIndicator = await verseBox.$('.notes-info');
-    noteIndicator.click();
-    await spectronHelper.sleep();  
+    await noteIndicator.click();
+    await appHelper.sleep();  
   }
 
   var element = await verseNotesText.$(tag);

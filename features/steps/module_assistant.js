@@ -16,57 +16,94 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { assert, expect } = require("chai");
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
 async function clickCheckbox(checkboxCodeAttr, parentSelector='#module-settings-assistant-add') {
-  var parent = await spectronHelper.getWebClient().$(parentSelector);
-  var checkbox = await parent.$(`[code="${checkboxCodeAttr}"]`);
-  await spectronHelper.getWebClient().waitUntil(async () => { return await checkbox.isExisting(); }, { timeout: 40000 });
-  // click in the shadow
-  spectronHelper.getWebClient().execute((p, c) => document.querySelector(`${p} [code="${c}"]`).shadowRoot.querySelector('#label').click(), parentSelector, checkboxCodeAttr);
+  const client = appHelper.getWebClient();
+  const selector = `${parentSelector} assistant-checkbox[code="${checkboxCodeAttr}"]`;
+  let checkbox;
+
+  await client.waitUntil(async () => {
+    const matches = await client.$$(selector);
+    for (const match of matches) {
+      if (await match.isDisplayed()) {
+        checkbox = match;
+        return true;
+      }
+    }
+    return false;
+  }, {
+    timeout: 40000,
+    timeoutMsg: `No visible assistant checkbox found for ${checkboxCodeAttr}.`
+  });
+
+  const isChecked = await checkbox.getAttribute('checked') !== null;
+  if (!isChecked) {
+    await client.execute((element) => {
+      element.shadowRoot.querySelector('#checkbox').click();
+    }, checkbox);
+  }
+
+  await client.waitUntil(async () => {
+    return client.execute((element) => element.hasAttribute('checked'), checkbox);
+  }, {
+    timeout: 5000,
+    timeoutMsg: `The ${checkboxCodeAttr} assistant checkbox did not become checked.`
+  });
 }
 
 async function getNavLinks(moduleSettingsDialogId='#module-settings-assistant-add') {
-  var moduleSettingsAssistantAdd = await spectronHelper.getWebClient().$(moduleSettingsDialogId);
+  var moduleSettingsAssistantAdd = await appHelper.getWebClient().$(moduleSettingsDialogId);
   var actionsDiv = await moduleSettingsAssistantAdd.$('.actions');
   var navLinks = await actionsDiv.$$('a');
   return navLinks;
 }
 
 async function clickNext(moduleSettingsDialogId='#module-settings-assistant-add') {
-  var navLinks = await getNavLinks(moduleSettingsDialogId);
-  var nextButton = navLinks[1];
+  const client = appHelper.getWebClient();
+  const moduleSettingsAssistant = await client.$(moduleSettingsDialogId);
+  const currentStep = await moduleSettingsAssistant.$('.content > .body.current');
+  const currentStepId = await currentStep.getAttribute('id');
+  const nextButton = await moduleSettingsAssistant.$('.actions a[href="#next"]');
+  await nextButton.waitForDisplayed({ timeout: 5000 });
   await nextButton.click();
+  await client.waitUntil(async () => {
+    const activeStep = await moduleSettingsAssistant.$('.content > .body.current');
+    return (await activeStep.getAttribute('id')) !== currentStepId;
+  }, {
+    timeout: 5000,
+    timeoutMsg: 'The module assistant did not advance; the current step may be missing a required selection.'
+  });
 }
 
 Given('I open the module installation assistant', {timeout: 40 * 1000}, async function () {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var displayOptionsButton = await verseListTabs.$('.display-options-button');
-  var translationSettingsButton = await spectronHelper.getWebClient().$('#show-translation-settings-button');
+  var translationSettingsButton = await appHelper.getWebClient().$('#show-translation-settings-button');
 
   await displayOptionsButton.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
   await translationSettingsButton.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 });
 
 Given('I choose to add translations', async function () {
-  var addModulesButton = await spectronHelper.getWebClient().$('#add-modules-button');
+  var addModulesButton = await appHelper.getWebClient().$('#add-modules-button');
   await addModulesButton.click();
 });
 
 Given('I choose to remove translations', async function () {
-  var removeModulesButton = await spectronHelper.getWebClient().$('#remove-modules-button');
+  var removeModulesButton = await appHelper.getWebClient().$('#remove-modules-button');
   await removeModulesButton.click();
 });
 
 Given('the repository update date matches today', {timeout: 40 * 1000}, async function () {
-  var updateInfo = await spectronHelper.getWebClient().$('update-repositories .update-info');
-  await spectronHelper.getWebClient().waitUntil(async () => { return await updateInfo.getText() !== ""; }, { timeout: 40000 });
+  var updateInfo = await appHelper.getWebClient().$('update-repositories .update-info');
+  await appHelper.getWebClient().waitUntil(async () => { return await updateInfo.getText() !== ""; }, { timeout: 40000 });
 
   const today = (new Date()).toLocaleDateString('en');
   expect(await updateInfo.getText(), "Date doesn't match today's date").to.equal(`Repository data was last updated on ${today}.`);
@@ -96,9 +133,9 @@ async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settin
 
   var navLinks = await getNavLinks(moduleSettingsDialogId);
   var finishButton = navLinks[2];
-  var finishButtonLi = await finishButton.$('..');
+  var finishButtonLi = await finishButton.$('xpath:..');
 
-  await spectronHelper.getWebClient().waitUntil(async () => {
+  await appHelper.getWebClient().waitUntil(async () => {
     var finishbuttonLiClass = await finishButtonLi.getAttribute('class');
     return finishbuttonLiClass != 'disabled';
   }, { timeout: 120000 });
@@ -135,16 +172,16 @@ Then('the ASV is no longer available as a local module', async function () {
 Then('the ASV is selected as the current translation', async function () {
   var asvModule = await nsiHelper.getLocalModule('ASV');
 
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var bibleSelectBlock = await verseListTabs.$('.bible-select-block');
   var selectMenuStatus = await bibleSelectBlock.$('.ui-selectmenu-status');
   var selectMenuStatusText = await selectMenuStatus.getText();
 
-  await selectMenuStatusText.should.equal(asvModule.description);
+  expect(selectMenuStatusText).to.equal(asvModule.description);
 });
 
 Then('the relevant buttons in the menu are enabled', async function() {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var bookSelectButton = await verseListTabs.$('.book-select-button');
   var moduleSearchButton = await verseListTabs.$('.module-search-button');
   var appInfoButton = await verseListTabs.$('.app-info-button');

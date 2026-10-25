@@ -26,7 +26,8 @@ Furthermore, the following components are used (among others):
 To test Ezra Bible App, the following frameworks are used:
 * [Cucumber.js](https://github.com/cucumber/cucumber-js)
 * [Chai](https://www.chaijs.com/)
-* [Spectron](https://github.com/electron-userland/spectron)
+* [WebdriverIO](https://webdriver.io) as the test runner for the end-to-end tests
+* [WDIO Electron Service](https://webdriver.io/docs/wdio-electron-service) for launching and controlling the Electron app
 * [Jest](https://jestjs.io)
 
 To package Ezra Bible App, the following components are used:

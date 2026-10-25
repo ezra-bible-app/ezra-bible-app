@@ -16,21 +16,21 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given } = require("cucumber");
-const spectronHelper = require('../helpers/spectron_helper.js');
+const { Given } = require('@wdio/cucumber-framework');
+const appHelper = require('../helpers/app_helper.js');
 
 Given('I have the {display_option} {state}', { timeout: 40 * 1000 }, async function (displayOptionSelector, state) {
-  const configOption = await spectronHelper.getWebClient().$(displayOptionSelector);
+  const configOption = await appHelper.getWebClient().$(displayOptionSelector);
   const checkbox = await configOption.$('.toggle-config-option-switch');
   const checked = await checkbox.getAttribute('checked');
 
   if (state && !checked || !state && checked) {
-    const verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+    const verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
     const displayOptionsButton = await verseListTabs.$('.display-options-button');
 
     await displayOptionsButton.click();
-    await spectronHelper.sleep(500);
+    await appHelper.sleep(500);
     await checkbox.click();
-    await spectronHelper.sleep(500);
+    await appHelper.sleep(500);
   }
 });
