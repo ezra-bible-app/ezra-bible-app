@@ -16,25 +16,25 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { assert } = require("chai");
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 const dbHelper = require("../helpers/db_helper.js");
 
 Given('I create the tag {string}', async function (tagName) {
-  await spectronHelper.getWebClient().execute(() => {
+  await appHelper.getWebClient().execute(() => {
     document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#new-standard-tag-button').click();
   });
 
-  var newTagTitleInput = await spectronHelper.getWebClient().$('#new-standard-tag-title-input');
+  var newTagTitleInput = await appHelper.getWebClient().$('#new-standard-tag-title-input');
   await newTagTitleInput.setValue(tagName);
 
-  await spectronHelper.getWebClient().keys('Enter');
-  await spectronHelper.sleep(500);
+  await appHelper.getWebClient().keys('Enter');
+  await appHelper.sleep(500);
 });
 
 When('I assign the tag {string} to the current verse selection', async function (tagName) {
-  var tagsList = await spectronHelper.getWebClient().$('#tags-content-global');
+  var tagsList = await appHelper.getWebClient().$('#tags-content-global');
   var allTags = await tagsList.$$('.checkbox-tag');
   var tagFound = false;
 
@@ -83,13 +83,13 @@ Then('the tag {string} is visible in the bible browser at the selected verse', a
 });
 
 Given('I open the add tag dialog', async function () {
-  await spectronHelper.getWebClient().execute(() => {
+  await appHelper.getWebClient().execute(() => {
     document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#new-standard-tag-button').click();
   });
 });
 
 Then('the tag {string} is listed in the tag list', async function (tagTitle) {
-  var tagsList = await spectronHelper.getWebClient().$('#tags-content-global');
+  var tagsList = await appHelper.getWebClient().$('#tags-content-global');
   var allTags = await tagsList.$$('.checkbox-tag');
   var tagFound = false;
 

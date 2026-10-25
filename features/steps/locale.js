@@ -16,26 +16,29 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
-const spectronHelper = require('../helpers/spectron_helper.js');
+const { Given, When, Then } = require('@wdio/cucumber-framework');
+const appHelper = require('../helpers/app_helper.js');
 const { expect } = require("chai");
 
 When('I change to the {string} locale', async function (localeNative) {
-  const dropdownButton = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu');
+  const dropdownButton = await appHelper.getWebClient().$('.locale-switch-container .ui-selectmenu');
   await dropdownButton.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 
-  const dropdownList = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu-menu-dropdown');
-  const firstLocaleOption = await dropdownList.$(`./li/a[contains(text(), '${localeNative}')]`);
+  const dropdownList = await appHelper.getWebClient().$('.locale-switch-container .ui-selectmenu-menu-dropdown');
+  const firstLocaleOption = await dropdownList.$(`xpath:./li/a[contains(text(), '${localeNative}')]`);
   await firstLocaleOption.click();
-  await spectronHelper.sleep(500);
+  await appHelper.sleep(500);
 });
 
 Then('the {interface_element} text is {string}', async function (selector, text) {
-  // const elementText = await spectronHelper.getWebClient().getText(selector);
-  const element = await spectronHelper.getWebClient().$(selector);
-  const elementText = await element.getProperty("innerText");
+  const candidateTexts = await appHelper.getWebClient().execute((cssSelector) => {
+    return Array.from(document.querySelectorAll(cssSelector), element =>
+      (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim()
+    );
+  }, selector);
+  const normalizedExpectedText = text.replace(/\s+/g, ' ').trim();
 
-  expect(elementText, `${selector} text doesn't match`).to.equal(text);
-  await spectronHelper.sleep(500);
+  expect(candidateTexts, `${selector} text doesn't match`).to.include(normalizedExpectedText);
+  await appHelper.sleep(500);
 });

@@ -16,22 +16,68 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then } = require('@wdio/cucumber-framework');
 const { assert } = require("chai");
-const spectronHelper = require('../helpers/spectron_helper.js');
+const appHelper = require('../helpers/app_helper.js');
 const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
-Given('I open the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async function (buttonSelector) {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
-  var menuButton = await verseListTabs.$(buttonSelector);
-  
-  await uiHelper.buttonIsEnabled(menuButton, 1000);
-  if (await uiHelper.buttonIsActive(menuButton)) {
-    return;
+Given('I open the {first_tab_menu} menu/dialog', {timeout: 15 * 1000}, async function (buttonSelector) {
+  const client = appHelper.getWebClient();
+  const verseListTabs = await client.$('#verse-list-tabs-1');
+  const matchingButtons = await verseListTabs.$$(buttonSelector);
+  let menuButton;
+
+  for (const candidate of matchingButtons) {
+    if (await candidate.isDisplayed()) {
+      const classList = (await candidate.getAttribute('class')).split(' ');
+      if (classList.includes('ui-state-default') && !classList.includes('ui-state-disabled')) {
+        menuButton = candidate;
+        break;
+      }
+    }
   }
+
+  if (!menuButton && matchingButtons.length === 1) {
+    menuButton = matchingButtons[0];
+  }
+
+  if (!menuButton) {
+    throw new Error(`No visible enabled menu button found for ${buttonSelector}.`);
+  }
+
+  await uiHelper.waitUntilGlobalLoaderIsHidden();
+  await client.execute(() => app_controller.hideAllMenus());
+
+  if (buttonSelector === '.book-select-button') {
+    const bookMenu = await client.$('#book-selection-menu');
+
+    // Retry the click, since on slow CI runners it can get lost or toggle the menu closed again.
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      if (await bookMenu.isDisplayed()) {
+        return;
+      }
+
+      await menuButton.click();
+
+      try {
+        await bookMenu.waitForDisplayed({ timeout: 5000 });
+        return;
+      } catch (e) {
+        if (attempt == 3) {
+          throw e;
+        }
+        await client.execute(() => app_controller.hideAllMenus());
+      }
+    }
+  }
+
   await menuButton.click();
-  await spectronHelper.sleep(500);
+
+  await client.waitUntil(async () => uiHelper.buttonIsActive(menuButton), {
+    timeout: 5000,
+    timeoutMsg: `The menu button ${buttonSelector} did not become active after clicking.`
+  });
 });
 
 Given('I set the book loading option to {string}', async function (bookLoadingMode) {
@@ -39,32 +85,41 @@ Given('I set the book loading option to {string}', async function (bookLoadingMo
 });
 
 Then('I close the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async function (buttonSelector) {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
-  var menuButton = await verseListTabs.$(buttonSelector);
-  
-  if (await uiHelper.buttonIsActive(menuButton)) {
-    await menuButton.click();
-    await spectronHelper.sleep(500);
+  const client = appHelper.getWebClient();
+  const verseListTabs = await client.$('#verse-list-tabs-1');
+  const matchingButtons = await verseListTabs.$$(buttonSelector);
+
+  for (const menuButton of matchingButtons) {
+    if (await menuButton.isDisplayed() && await uiHelper.buttonIsActive(menuButton)) {
+      await menuButton.click();
+      await client.waitUntil(async () => !(await uiHelper.buttonIsActive(menuButton)), {
+        timeout: 5000,
+        timeoutMsg: `The menu button ${buttonSelector} did not close after clicking.`
+      });
+      break;
+    }
   }
 });
 
 When('I select the book {bible_book}', {timeout: 20 * 1000}, async function (bookName) {
-  var bookLink = await spectronHelper.getWebClient().$(`a[book-name="${bookName}"]`);
+  var bookLink = await appHelper.getWebClient().$(`a[book-name="${bookName}"]`);
   await bookLink.click();
   await uiHelper.waitUntilGlobalLoaderIsHidden();
 });
 
 Then('the tab title is {string}', async function (string) {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs');
-  var uiTabsNav = await verseListTabs.$('.ui-tabs-nav');
-  var firstLink = await uiTabsNav.$('a');
-  var firstLinkText = await firstLink.getText();
+  const client = appHelper.getWebClient();
+  const verseListTabs = await client.$('#verse-list-tabs');
+  const uiTabsNav = await verseListTabs.$('.ui-tabs-nav');
+  const selectedTabIndex = await client.execute(() => app_controller.tab_controller.getSelectedTabIndex());
+  const tabLinks = await uiTabsNav.$$('li a');
+  const activeTabTitle = await tabLinks[selectedTabIndex].getText();
 
-  assert(firstLinkText == string, `The tab title "${firstLinkText}" does not match the expectation "${string}"!`);
+  assert(activeTabTitle == string, `The tab title "${activeTabTitle}" does not match the expectation "${string}"!`);
 });
 
 Then('the book of Ephesians is opened in the current tab', async function () {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
 
   var verseBoxes = await verseListTabs.$$('.verse-box');
   assert(verseBoxes.length == 155, `The number of verses does not match the expectation for Ephesians (155): ${verseBoxes.length}`);
@@ -91,7 +146,7 @@ Then('{bible_book} chapter {int} is opened in the current tab', async function (
   const bookShortTitle = await nsiHelper.getBookShortTitle(bible_book);
   const expectedBookChapterVerseCount = await nsiHelper.getBookChapterVerseCount("KJV", bookShortTitle, chapter);
 
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var verseBoxes = await verseListTabs.$$('.verse-box');
   assert(verseBoxes.length == expectedBookChapterVerseCount,
     `The number of verses does not match the expectation for Ephesians chapter ${chapter} (${expectedBookChapterVerseCount}): ${verseBoxes.length}`);
@@ -106,7 +161,7 @@ Then('{bible_book} chapter {int} is opened in the current tab', async function (
 });
 
 When('I click on chapter {int}', async function (chapter) {
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   var navigationPane = await verseListTabs.$('.navigation-pane');
   var allChapterLinks = await navigationPane.$$('.chapter-link');
   var selectedChapterLink = allChapterLinks[chapter - 1];
@@ -123,10 +178,10 @@ Given('I select the verse {string}', async function (selectedVerse) {
   var verseReferenceHelper = await nsiHelper.getVerseReferenceHelper();
   var absoluteVerseNumber = await verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', this.selectedBookId, verseReferenceString);
 
-  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseListTabs = await appHelper.getWebClient().$('#verse-list-tabs-1');
   this.selectedVerseBox = await verseListTabs.$('.verse-nr-' + absoluteVerseNumber);
   this.selectedVerseText = await this.selectedVerseBox.$('.first-bible-text');
 
   await this.selectedVerseText.click();
-  await spectronHelper.sleep();
+  await appHelper.sleep();
 });
