@@ -46,14 +46,33 @@ Given('I open the {first_tab_menu} menu/dialog', {timeout: 15 * 1000}, async fun
     throw new Error(`No visible enabled menu button found for ${buttonSelector}.`);
   }
 
+  await uiHelper.waitUntilGlobalLoaderIsHidden();
   await client.execute(() => app_controller.hideAllMenus());
-  await menuButton.click();
 
   if (buttonSelector === '.book-select-button') {
     const bookMenu = await client.$('#book-selection-menu');
-    await bookMenu.waitForDisplayed({ timeout: 5000 });
-    return;
+
+    // Retry the click, since on slow CI runners it can get lost or toggle the menu closed again.
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      if (await bookMenu.isDisplayed()) {
+        return;
+      }
+
+      await menuButton.click();
+
+      try {
+        await bookMenu.waitForDisplayed({ timeout: 5000 });
+        return;
+      } catch (e) {
+        if (attempt == 3) {
+          throw e;
+        }
+        await client.execute(() => app_controller.hideAllMenus());
+      }
+    }
   }
+
+  await menuButton.click();
 
   await client.waitUntil(async () => uiHelper.buttonIsActive(menuButton), {
     timeout: 5000,
