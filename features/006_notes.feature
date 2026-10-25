@@ -61,6 +61,7 @@ Feature: Adding, viewing and editing notes
     Given I have the notes hidden
     And I have the indicators displayed
     And I click on note indicator for the verse "Ephesians 1:2"
+    And I click on "Ephesians 1:2" note
     And I enter markdown text
     ```
     **Grace and peace** greeting

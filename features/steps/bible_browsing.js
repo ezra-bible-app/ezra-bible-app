@@ -48,15 +48,17 @@ Given('I open the {first_tab_menu} menu/dialog', {timeout: 15 * 1000}, async fun
 
   await client.execute(() => app_controller.hideAllMenus());
   await menuButton.click();
-  await client.waitUntil(async () => uiHelper.buttonIsActive(menuButton), {
-    timeout: 5000,
-    timeoutMsg: `The menu button ${buttonSelector} did not become active after clicking.`
-  });
 
   if (buttonSelector === '.book-select-button') {
     const bookMenu = await client.$('#book-selection-menu');
     await bookMenu.waitForDisplayed({ timeout: 5000 });
+    return;
   }
+
+  await client.waitUntil(async () => uiHelper.buttonIsActive(menuButton), {
+    timeout: 5000,
+    timeoutMsg: `The menu button ${buttonSelector} did not become active after clicking.`
+  });
 });
 
 Given('I set the book loading option to {string}', async function (bookLoadingMode) {
