@@ -211,7 +211,6 @@ function initMainWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       preload: preloadScript,
-      enableRemoteModule: true,
       defaultEncoding: "UTF-8"
     },
     icon: path.join(__dirname, `icons/${platformHelper.isWin() ? 'ezra.ico' : 'ezra.png'}`),
