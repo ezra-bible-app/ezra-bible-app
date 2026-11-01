@@ -561,9 +561,9 @@ class IpcDbHandler {
       return allTags;
     });
 
-    this._ipcMain.add('db_getBookVerseTags', async (bibleBookId, versification) => {
+    this._ipcMain.add('db_getBookVerseTags', async (bibleBookId, versification, startVerseNr=-1, endVerseNr=-1) => {
       var bibleBook = await global.models.BibleBook.findByPk(bibleBookId);
-      var sequelizeVerseTags = await bibleBook.getVerseTags();
+      var sequelizeVerseTags = await bibleBook.getVerseTags(versification, startVerseNr, endVerseNr);
       var verseTags = this.makeSequelizeResultsSerializable(sequelizeVerseTags);
       var groupedVerseTags = global.models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
       return groupedVerseTags;

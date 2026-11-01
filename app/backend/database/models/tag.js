@@ -188,19 +188,21 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Tag.getTagCount = async function(bibleBookId=0) {
-    var bibleBookQuery = '';
+    var query;
+    var replacements = {};
 
     if (bibleBookId != 0) {
-      bibleBookQuery = `
-        LEFT JOIN VerseTags vt ON vt.tagId = t.id
-        LEFT JOIN VerseReferences vr ON vt.verseReferenceId = vr.id
-        WHERE vr.bibleBookId = ${bibleBookId}
-      `;
+      query = `SELECT COUNT(DISTINCT vt.tagId) AS tagCount
+               FROM VerseTags vt
+               INNER JOIN VerseReferences vr ON vt.verseReferenceId = vr.id
+               WHERE vr.bibleBookId = :bibleBookId`;
+      replacements.bibleBookId = bibleBookId;
+    } else {
+      query = 'SELECT COUNT(*) AS tagCount FROM Tags';
     }
 
-    var query = `SELECT t.id FROM Tags t ${bibleBookQuery}`;
-    var records = await sequelize.query(query, { model: global.models.Tag });
-    return records.length;
+    const result = await sequelize.query(query, { replacements: replacements, type: sequelize.QueryTypes.SELECT });
+    return result[0].tagCount;
   };
 
   return Tag;
