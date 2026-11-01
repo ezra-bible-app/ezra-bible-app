@@ -371,7 +371,20 @@ class TextController {
       verses2 = await ipcNsi.getBookText(secondBibleTranslationId, bookShortTitle, startVerseNumber2, numberOfVerses);
     }
 
-    var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
+    // Only load the tags for the verses that are actually rendered (the range is taken from the loaded verses)
+    let verseTagsStartNr = -1;
+    let verseTagsEndNr = -1;
+
+    if (numberOfVerses > 0 && verses1.length > 0) {
+      const verseNumbers = verses1.map((v) => v.absoluteVerseNr).filter((nr) => Number.isInteger(nr));
+
+      if (verseNumbers.length == verses1.length) {
+        verseTagsStartNr = Math.min(...verseNumbers);
+        verseTagsEndNr = Math.max(...verseNumbers);
+      }
+    }
+
+    var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification, verseTagsStartNr, verseTagsEndNr);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
     var bookIntroduction = null;
     var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentBibleTranslationId, bookShortTitle, false);

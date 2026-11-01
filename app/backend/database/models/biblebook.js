@@ -304,15 +304,24 @@ module.exports = (sequelize, DataTypes) => {
     BibleBook.hasMany(models.VerseReference);
   };
 
-  BibleBook.prototype.getVerseTags = function() {
+  BibleBook.prototype.getVerseTags = function(versification=undefined, startVerseNr=-1, endVerseNr=-1) {
     var query = "SELECT t.title AS tagTitle, b.shortTitle AS bibleBookId, vt.*, " +
                 " vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb, vr.chapter, vr.verseNr" + 
                 " FROM VerseTags vt " +
                 " INNER JOIN VerseReferences vr ON vt.verseReferenceId = vr.id" +
                 " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
                 " INNER JOIN Tags t ON t.id = vt.tagId" +
-                " WHERE vr.bibleBookId=" + this.id +
-                " ORDER BY t.title ASC";
+                " WHERE vr.bibleBookId=" + this.id;
+
+    startVerseNr = parseInt(startVerseNr);
+    endVerseNr = parseInt(endVerseNr);
+
+    if (startVerseNr > 0 && endVerseNr >= startVerseNr) {
+      const verseNrColumn = (versification == 'eng' ? 'vr.absoluteVerseNrEng' : 'vr.absoluteVerseNrHeb');
+      query += " AND " + verseNrColumn + " BETWEEN " + startVerseNr + " AND " + endVerseNr;
+    }
+
+    query += " ORDER BY t.title ASC";
 
     return sequelize.query(query, { model: global.models.VerseTag });
   };

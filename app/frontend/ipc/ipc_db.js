@@ -145,8 +145,8 @@ class IpcDb {
     return this._cachedTagList;
   }
 
-  async getBookVerseTags(bibleBookId, versification) {
-    return await this._ipcRenderer.call('db_getBookVerseTags', bibleBookId, versification);
+  async getBookVerseTags(bibleBookId, versification, startVerseNr=-1, endVerseNr=-1) {
+    return await this._ipcRenderer.call('db_getBookVerseTags', bibleBookId, versification, startVerseNr, endVerseNr);
   }
 
   async getVerseTagsByVerseReferenceIds(verseReferenceIds, versification) {
