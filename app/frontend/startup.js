@@ -104,6 +104,18 @@ class Startup {
     });
   }
 
+  async saveMobileOSVersion() {
+    if (!this._platformHelper.isCordovaFrontend()) {
+      return;
+    }
+
+    if (this._platformHelper.isAndroid()) {
+      await ipcSettings.set('lastUsedAndroidVersion', getPlatform().getOSVersion());
+    } else if (this._platformHelper.isIOS()) {
+      await ipcSettings.set('lastUsedIOSVersion', getPlatform().getOSVersion());
+    }
+  }
+
   loadWebComponents() {
     if (this._platformHelper.isIOS()) {
       // Add Polyfill for custom elements on iOS Safari
@@ -487,11 +499,7 @@ class Startup {
     // Save some meta data about versions used
     cacheController.saveLastUsedVersion();
 
-    if (platformHelper.isAndroid()) {
-      ipcSettings.set('lastUsedAndroidVersion', getPlatform().getOSVersion());
-    } else if (platformHelper.isIOS()) {
-      ipcSettings.set('lastUsedIOSVersion', getPlatform().getOSVersion());
-    }
+    await this.saveMobileOSVersion();
 
     // Confirm privacy options at first startup
     const firstStartDone = await ipcSettings.get('firstStartDone', false);
