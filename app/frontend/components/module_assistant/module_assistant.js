@@ -49,7 +49,7 @@ const template = html`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding-right: 0;
+  padding-right: 0.5em;
 }
 #module-settings-assistant section.scrollable {
   border-radius: 5px;
