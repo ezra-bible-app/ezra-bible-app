@@ -366,7 +366,7 @@ Librem 5/Pinephone etc.
 /* Short smartphone */
 @media screen and (max-width: 450px) and (max-height: 740px) {
   body:not(.keyboard-shown) .ui-dialog-content {
-    height: 79vh !important;
+    height: 78vh !important;
   }
 
   body:not(.keyboard-shown).fullscreen .ui-dialog-content {
@@ -911,7 +911,7 @@ Librem 5/Pinephone etc.
   }
 
   .Android .ui-dialog {
-    height: 92vh !important;
+    height: 94vh !important;
   }
 
   #new-standard-tag-dialog, #edit-tag-dialog {
