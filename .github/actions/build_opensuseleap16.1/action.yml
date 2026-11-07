@@ -1,0 +1,5 @@
+name: 'build-opensuse-leap-16-1'
+description: 'Build Ezra Bible App for openSUSE Leap 16.1'
+runs:
+    using: 'docker'
+    image: 'docker://toklein/ezra-opensuse-leap-16.1:latest'
