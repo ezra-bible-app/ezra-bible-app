@@ -1,0 +1,5 @@
+name: 'build-ubuntu-2604'
+description: 'Build Ezra Bible App for Ubuntu 26.04'
+runs:
+    using: 'docker'
+    image: 'docker://toklein/ezra-ubuntu-2604:latest'
