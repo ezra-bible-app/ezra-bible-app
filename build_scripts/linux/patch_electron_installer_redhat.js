@@ -1,5 +1,18 @@
 'use strict';
 
+/**
+ * Fix electron-installer-redhat's RPM install command for Fedora CI builds.
+ *
+ * The installer stages application files under BUILD/usr, but its generated
+ * spec uses the relative path usr/* during rpmbuild's %install phase. Modern
+ * rpmbuild runs that phase from a package-specific build directory, where that
+ * relative path does not exist. Point the spec at the staging directory under
+ * %{_topdir} instead. The Fedora workflow runs this after installing the
+ * pinned installer and before creating the RPM.
+ *
+ * Fail if the upstream template no longer has the expected command so an
+ * installer update cannot silently skip this workaround.
+ */
 const fs = require('fs');
 const path = require('path');
 
