@@ -51,6 +51,7 @@
     "rpm_fedora": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora.json",
     "rpm_fedora35": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora35.json",
     "rpm_fedora37": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora37.json",
+    "rpm_fedora45": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora45.json",
     "rpm_opensuse_leap": "node release/electron-installer-redhat/src/cli.js --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_opensuse_leap.json",
     "build-linux": "./build_scripts/linux/build.sh",
     "build-mac-x64": "./build_scripts/macos/build_mac.sh x64",

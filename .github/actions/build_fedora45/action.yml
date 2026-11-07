@@ -1,0 +1,5 @@
+name: 'build-fedora-45'
+description: 'Build Ezra Bible App for Fedora 45'
+runs:
+    using: 'docker'
+    image: 'docker://toklein/ezra-fedora45:latest'
