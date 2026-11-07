@@ -25,5 +25,5 @@ fi
 
 npm run prune-node-modules
 npm run purge-build-artifacts
-npm install electron-installer-dmg --save-dev
+npm install electron-installer-dmg appdmg --save-dev
 npm run package-mac-$ARCH
