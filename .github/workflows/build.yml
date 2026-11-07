@@ -179,32 +179,6 @@ jobs:
             name: ezra-bible-app_debian13_latest
             path: ezra-bible-app_latest.deb
 
-    build-fedora33:
-        name: Build Fedora 33 package
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v4
-        - name: Build
-          uses: ./.github/actions/build_fedora33
-          env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        # rpmbuild runs %install from a package-specific build directory, while
-        # electron-installer-redhat stages the app under %{_topdir}/BUILD/usr.
-        - name: Fix permissions
-          run: sudo chown -R 1001:1001 $GITHUB_WORKSPACE
-        - name: Create package
-          run: |
-            npm install electron-installer-redhat@3.4.0
-            node build_scripts/linux/patch_electron_installer_redhat.js
-            npm run rpm_fedora
-        - name: Rename package
-          run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
-        - name: Upload rpm file
-          uses: actions/upload-artifact@v4.6.2
-          with:
-            name: ezra-bible-app_fedora33_latest
-            path: ezra-bible-app_latest.rpm
-
     build-fedora35:
         name: Build Fedora 35 package
         runs-on: ubuntu-latest
@@ -310,7 +284,7 @@ jobs:
       runs-on: ubuntu-latest
       needs: [ build-win32, build-mac-x64, build-mac-arm64, build-ubuntu-2004, build-ubuntu-2204,
                build-ubuntu-2404, build-bookworm,
-               build-fedora33, build-fedora35, build-fedora37, build-fedora45,
+               build-fedora35, build-fedora37, build-fedora45,
                build-centos9, build-opensuse-leap-16-1]
 
       steps:
@@ -362,12 +336,6 @@ jobs:
           name: ezra-bible-app_debian13_latest
           path: ezra-bible-app_debian13_latest
       
-      - name: Download fedora33 package
-        uses: actions/download-artifact@v4.1.8
-        with:
-          name: ezra-bible-app_fedora33_latest
-          path: ezra-bible-app_fedora33_latest
-
       - name: Download fedora35 package
         uses: actions/download-artifact@v4.1.8
         with:
@@ -415,7 +383,6 @@ jobs:
           mv ezra-bible-app_debian13_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian13-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_centos9_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_centos9-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_opensuse_leap_16.1_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap_16.1-${GITHUB_REF##*/}.rpm
-          mv ezra-bible-app_fedora33_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora33-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora35_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora35-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora37_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora37-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora45_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora45-${GITHUB_REF##*/}.rpm
