@@ -203,13 +203,15 @@ jobs:
           uses: ./.github/actions/build_fedora33
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        # Create package and rename package are separate steps for Fedora 33,
-        # because for some reason electron-installer-redhat is not properly
-        # working on Fedora 33!
+        # rpmbuild runs %install from a package-specific build directory, while
+        # electron-installer-redhat stages the app under %{_topdir}/BUILD/usr.
         - name: Fix permissions
           run: sudo chown -R 1001:1001 $GITHUB_WORKSPACE
         - name: Create package
-          run: npm install electron-installer-redhat@3.4.0 && npm run rpm_fedora
+          run: |
+            npm install electron-installer-redhat@3.4.0
+            node build_scripts/linux/patch_electron_installer_redhat.js
+            npm run rpm_fedora
         - name: Rename package
           run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
         - name: Upload rpm file
@@ -227,13 +229,15 @@ jobs:
           uses: ./.github/actions/build_fedora35
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        # Create package and rename package are separate steps for Fedora 35,
-        # because for some reason electron-installer-redhat is not properly
-        # working on Fedora 35!
+        # rpmbuild runs %install from a package-specific build directory, while
+        # electron-installer-redhat stages the app under %{_topdir}/BUILD/usr.
         - name: Fix permissions
           run: sudo chown -R 1001:1001 $GITHUB_WORKSPACE
         - name: Create package
-          run: npm install electron-installer-redhat@3.4.0 && npm run rpm_fedora35
+          run: |
+            npm install electron-installer-redhat@3.4.0
+            node build_scripts/linux/patch_electron_installer_redhat.js
+            npm run rpm_fedora35
         - name: Rename package
           run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
         - name: Upload rpm file
@@ -251,13 +255,15 @@ jobs:
           uses: ./.github/actions/build_fedora37
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        # Create package and rename package are separate steps for Fedora 35,
-        # because for some reason electron-installer-redhat is not properly
-        # working on Fedora 35!
+        # rpmbuild runs %install from a package-specific build directory, while
+        # electron-installer-redhat stages the app under %{_topdir}/BUILD/usr.
         - name: Fix permissions
           run: sudo chown -R 1001:1001 $GITHUB_WORKSPACE
         - name: Create package
-          run: npm install electron-installer-redhat@3.4.0 && npm run rpm_fedora37
+          run: |
+            npm install electron-installer-redhat@3.4.0
+            node build_scripts/linux/patch_electron_installer_redhat.js
+            npm run rpm_fedora37
         - name: Rename package
           run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
         - name: Upload rpm file
